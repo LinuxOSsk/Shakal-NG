@@ -1,0 +1,51 @@
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Miroslav Bendík, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-08-07 21:03+0200\n"
+"PO-Revision-Date: 2011-08-07 21:05+0200\n"
+"Last-Translator: Miroslav Bendík\n"
+"Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
+"X-Generator: Lokalize 1.2\n"
+
+#: accounts/admin.py:11
+msgid "profile"
+msgstr "profil"
+
+#: accounts/admin.py:12
+msgid "profiles"
+msgstr "profily"
+
+#: accounts/models.py:7
+msgid "User"
+msgstr "Užívateľ"
+
+#: accounts/models.py:9
+msgid "Password reset date"
+msgstr "Čas obnovenia hesla"
+
+#: accounts/models.py:11
+msgid "Signature"
+msgstr "Podpis"
+
+#: accounts/models.py:13
+msgid "Distribution"
+msgstr "Distribúcia"
+
+#: accounts/models.py:15
+msgid "Informations"
+msgstr "Informácie"
+
+#: accounts/models.py:17
+msgid "Birth year"
+msgstr "Rok narodenia"
+

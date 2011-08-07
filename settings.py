@@ -1,4 +1,7 @@
 # Django settings for shakal project.
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
@@ -108,11 +111,12 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
+    #'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
+    'shakal.accounts',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -125,9 +129,16 @@ INSTALLED_APPS = (
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': lambda r: not DEBUG
+        }
+    },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
+            'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         }
     },
