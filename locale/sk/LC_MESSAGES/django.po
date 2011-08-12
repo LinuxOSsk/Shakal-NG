@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-07 21:03+0200\n"
-"PO-Revision-Date: 2011-08-07 21:05+0200\n"
+"POT-Creation-Date: 2011-08-12 20:22+0200\n"
+"PO-Revision-Date: 2011-08-12 20:23+0200\n"
 "Last-Translator: Miroslav Bendík\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
 "Language: \n"
@@ -17,35 +17,80 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
 "X-Generator: Lokalize 1.2\n"
 
-#: accounts/admin.py:11
+#: account/admin.py:11
 msgid "profile"
 msgstr "profil"
 
-#: accounts/admin.py:12
+#: account/admin.py:12
 msgid "profiles"
 msgstr "profily"
 
-#: accounts/models.py:7
-msgid "User"
-msgstr "Užívateľ"
+#: account/models.py:12
+msgid "user"
+msgstr "užívateľ"
 
-#: accounts/models.py:9
-msgid "Password reset date"
-msgstr "Čas obnovenia hesla"
+#: account/models.py:13
+msgid "password reset date"
+msgstr "čas obnovenia hesla"
 
-#: accounts/models.py:11
-msgid "Signature"
-msgstr "Podpis"
+#: account/models.py:14
+msgid "signature"
+msgstr "podpis"
 
-#: accounts/models.py:13
-msgid "Distribution"
-msgstr "Distribúcia"
+#: account/models.py:15
+msgid "distribution"
+msgstr "distribúcia"
 
-#: accounts/models.py:15
-msgid "Informations"
-msgstr "Informácie"
+#: account/models.py:16
+msgid "informations"
+msgstr "informácie"
 
-#: accounts/models.py:17
-msgid "Birth year"
-msgstr "Rok narodenia"
+#: account/models.py:17
+msgid "birth year"
+msgstr "rok narodenia"
+
+#: article/models.py:6
+msgid "name"
+msgstr "názov"
+
+#: article/models.py:7 article/models.py:18
+msgid "slug"
+msgstr "url adresa"
+
+#: article/models.py:13 article/models.py:21
+msgid "category"
+msgstr "kategória"
+
+#: article/models.py:14
+msgid "categories"
+msgstr "kategórie"
+
+#: article/models.py:17
+msgid "title"
+msgstr "titulok"
+
+#: article/models.py:19
+msgid "author"
+msgstr "autor"
+
+#: article/models.py:20
+msgid "publication date"
+msgstr "dátum publikácie"
+
+#: article/models.py:22
+msgid "published"
+msgstr "publikované"
+
+#: article/models.py:23
+#, fuzzy
+msgid "anotation"
+msgstr "informácie"
+
+#: article/models.py:24 article/models.py:30
+msgid "article"
+msgstr "článok"
+
+#: article/models.py:31
+msgid "articles"
+msgstr "články"
 

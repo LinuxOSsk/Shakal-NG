@@ -1,3 +1,5 @@
+import os
+
 # Django settings for shakal project.
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -105,6 +107,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(os.path.dirname(__file__), 'templates'),
 )
 
 INSTALLED_APPS = (
@@ -116,7 +119,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    'shakal.accounts',
+    'shakal.account',
+    'shakal.article',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -130,15 +134,15 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.CallbackFilter',
-            'callback': lambda r: not DEBUG
-        }
+        # 'require_debug_false': {
+        #     '()': 'django.utils.log.CallbackFilter',
+        #     'callback': lambda r: not DEBUG
+        # }
     },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
-            'filters': ['require_debug_false'],
+            # 'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         }
     },
@@ -150,3 +154,5 @@ LOGGING = {
         },
     }
 }
+
+AUTH_PROFILE_MODULE = 'account.UserProfile'
