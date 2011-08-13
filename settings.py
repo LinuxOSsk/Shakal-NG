@@ -73,6 +73,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    ('templates', os.path.join(os.path.join(os.path.dirname(__file__), 'templates'), 'static')),
 )
 
 # List of finder classes that know how to find static files in
@@ -88,10 +89,21 @@ SECRET_KEY = 'w@$j#cu+l!+^i6(1y6y()j0jqxwcc__04mp%k6(8)xrpi1^=52'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
+    'shakal.template_dynamicloader.loader_filesystem.Loader',
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
 )
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.contrib.auth.context_processors.auth',
+    'django.contrib.messages.context_processors.messages',
+)
+
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -99,7 +111,10 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'template_dynamicloader.middleware.RequestMiddleware',
 )
+
+#SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
 ROOT_URLCONF = 'shakal.urls'
 
@@ -119,8 +134,10 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
+    'django.contrib.webdesign',
     'shakal.account',
     'shakal.article',
+    'shakal.template_dynamicloader',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )

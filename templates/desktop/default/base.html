@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">{% load template_dynamicloader %}{% template_set_static_path templates/desktop/default %}
+{% load webdesign %}
+<html xmlns="http://www.w3.org/1999/xhtml"  lang="{{ LANGUAGE_CODE|default:"en-us" }}" xml:lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="{% template_static_path base.css %}" />
+	<title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+<div id="container">
+	<div id="top">
+		{% block top %}<h1>Shakal</h1>{% endblock %}
+	</div><!-- end #header -->
+	<div id="left">
+		{% block left %}{% lorem %}{% endblock %}
+	</div><!-- end #left -->
+	<div id="content">
+		{% block main %}{% endblock %}
+	</div><!-- end #content -->
+	<div id="footer">
+		{% block footer %}Shakal CMS{% endblock %}
+	</div><!-- end #footer -->
+</div><!-- end #container -->
+</body>
+</html>

@@ -1,0 +1,49 @@
+body {
+	background-color: white;
+}
+
+#container
+{
+	margin: 10px;
+	color: #444;
+	border: 1px solid gray;
+}
+
+#top
+{
+	padding: 1em;
+	background-color: #ddd;
+	border-bottom: 1px solid gray;
+}
+
+#top h1
+{
+	padding: 0;
+	margin: 0;
+}
+
+#left
+{
+	float: left;
+	width: 160px;
+	margin: 0;
+	padding: 1em;
+}
+
+#content
+{
+	margin-left: 200px;
+	border-left: 1px solid gray;
+	padding: 1em;
+}
+
+#footer
+{
+	clear: both;
+	margin: 0;
+	padding: .5em;
+	color: #333;
+	background-color: #eee;
+	border-top: 1px solid gray;
+}
+
