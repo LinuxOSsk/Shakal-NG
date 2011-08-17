@@ -1,0 +1,7 @@
+{% for article in articles %}
+<div class="article_summary">
+	<h2><a href="{% url article_detail slug=article.slug %}">{{ article.title }}</a></h2>
+	<p class="article_anotation">{{ article.anotation }}</p>
+	<div class="article_info">{{ article.pubtime }} | {{ article.author__username }} | {{ article.category }}</div>
+</div>
+{% endfor %}

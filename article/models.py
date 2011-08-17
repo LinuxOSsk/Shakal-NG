@@ -13,6 +13,10 @@ class Category(models.Model):
 		verbose_name = _('category')
 		verbose_name_plural = _('categories')
 
+class ArticleManager(models.Manager):
+	def get_query_set(self):
+		return super(ArticleManager, self).get_query_set().select_related('author', 'category')
+
 class Article(models.Model):
 	title = models.CharField(_('title'), max_length = 250)
 	slug = models.SlugField(_('slug'))
@@ -24,6 +28,8 @@ class Article(models.Model):
 	published = models.BooleanField(_('published'))
 	anotation = models.TextField(_('anotation'))
 	article = models.TextField(_('article'))
+
+	objects = ArticleManager()
 
 	def __unicode__(self):
 		return unicode(self.title)

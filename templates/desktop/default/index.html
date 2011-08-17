@@ -1,4 +1,8 @@
 {% extends "base.html" %}
 {% load url from future %}
 {% load webdesign %}
-{% block main %}<h2><a href="{% url "admin:index" %}">Hello moto</a></h2>{% lorem 10 p random %}{% endblock %}
+{% block main %}
+{% load article_tags %}
+{% newest_articles 5 %}
+<h2><a href="{% url "admin:index" %}">Hello moto</a></h2>{% lorem 10 p random %}
+{% endblock %}

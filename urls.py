@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
+from article.views import ArticleDetailView
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -14,4 +15,5 @@ urlpatterns = patterns('',
 
 	url(r'^$', 'shakal.views.home', name='home'),
 	url(r'^admin/', include(admin.site.urls), name='admin'),
+	url(r'^article/(?P<slug>\S+)/', ArticleDetailView.as_view(), name='article_detail'),
 )

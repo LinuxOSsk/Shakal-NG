@@ -1,5 +1,6 @@
 from django import template
 from django.template.base import Node
+from shakal.template_dynamicloader.settings import TEMPLATE_STATIC_PATH
 register = template.Library()
 
 class TemplateStaticPathNode(Node):
@@ -8,7 +9,7 @@ class TemplateStaticPathNode(Node):
 
 	def render(self, context):
 		try:
-			return context.get('STATIC_URL', '/') + context['template_dynamic_loader'] + '/' + self.path
+			return context.get('STATIC_URL', '/') + TEMPLATE_STATIC_PATH + '/' + context['template_static_path'] + '/' + self.path
 		except KeyError:
 			return ''
 
@@ -26,8 +27,7 @@ class TemplateSetStaticPathNode(Node):
 		self.path = path
 
 	def render(self, context):
-		#context.set('template_dynamicloader_path', path)
-		context['template_dynamic_loader'] = self.path;
+		context['template_static_path'] = self.path;
 		return ''
 
 

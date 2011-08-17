@@ -26,8 +26,7 @@ class Loader(BaseLoader):
 			template_name = request.session['template_name']
 			defaultTemplate = False
 		except KeyError:
-			template_device = TEMPLATE_DEFAULT_NAME;
-		print(request.session.keys())
+			template_name = TEMPLATE_DEFAULT_NAME;
 
 		if not defaultTemplate:
 			for template_dir in template_dirs:

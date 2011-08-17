@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block main %}
+	<h1>{{ article.title }}</h1>
+	<p>{{ article.anotation }}</p>
+	{{ article.article|safe }}
+{% endblock %}
