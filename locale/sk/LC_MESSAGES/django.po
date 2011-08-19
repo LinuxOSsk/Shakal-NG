@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-12 20:22+0200\n"
-"PO-Revision-Date: 2011-08-12 20:23+0200\n"
+"POT-Creation-Date: 2011-08-19 22:06+0200\n"
+"PO-Revision-Date: 2011-08-19 22:06+0200\n"
 "Last-Translator: Miroslav Bendík\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
 "Language: \n"
@@ -49,48 +49,51 @@ msgstr "informácie"
 msgid "birth year"
 msgstr "rok narodenia"
 
-#: article/models.py:6
+#: article/models.py:7
 msgid "name"
 msgstr "názov"
 
-#: article/models.py:7 article/models.py:18
+#: article/models.py:8 article/models.py:23
 msgid "slug"
 msgstr "url adresa"
 
-#: article/models.py:13 article/models.py:21
+#: article/models.py:14 article/models.py:28
 msgid "category"
 msgstr "kategória"
 
-#: article/models.py:14
+#: article/models.py:15
 msgid "categories"
 msgstr "kategórie"
 
-#: article/models.py:17
+#: article/models.py:22
 msgid "title"
 msgstr "titulok"
 
-#: article/models.py:19
+#: article/models.py:25
 msgid "author"
 msgstr "autor"
 
-#: article/models.py:20
+#: article/models.py:26
 msgid "publication date"
 msgstr "dátum publikácie"
 
-#: article/models.py:22
+#: article/models.py:29
 msgid "published"
 msgstr "publikované"
 
-#: article/models.py:23
-#, fuzzy
+#: article/models.py:30
 msgid "anotation"
-msgstr "informácie"
+msgstr "anotácia"
 
-#: article/models.py:24 article/models.py:30
+#: article/models.py:31 article/models.py:43
 msgid "article"
 msgstr "článok"
 
-#: article/models.py:31
+#: article/models.py:44
 msgid "articles"
 msgstr "články"
+
+#: templates/desktop/default/article/list.html:6
+msgid "Unknown"
+msgstr "Neznámy"
 

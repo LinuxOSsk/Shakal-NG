@@ -18,3 +18,13 @@ class UserProfile(models.Model):
 
 	def __unicode__(self):
 		return unicode(self.user)
+
+class UserProxy(User):
+	class Meta:
+		proxy = True
+
+	def __unicode__(self):
+		fullName = self.get_full_name()
+		if fullName and len(fullName):
+			return fullName;
+		return self.username

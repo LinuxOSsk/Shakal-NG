@@ -1,6 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.db.models import permalink
 from django.utils.translation import ugettext_lazy as _
+from shakal.account.models import UserProxy
 
 class Category(models.Model):
 	name = models.CharField(_('name'), max_length = 50)
@@ -20,7 +21,7 @@ class ArticleManager(models.Manager):
 class Article(models.Model):
 	title = models.CharField(_('title'), max_length = 250)
 	slug = models.SlugField(_('slug'))
-	author = models.ForeignKey(User, null = True, blank = True)
+	author = models.ForeignKey(UserProxy, null = True, blank = True)
 	author.verbose_name = _('author')
 	pubtime = models.DateTimeField(_('publication date'))
 	category = models.ForeignKey(Category, null = True, blank = True)
@@ -33,6 +34,10 @@ class Article(models.Model):
 
 	def __unicode__(self):
 		return unicode(self.title)
+
+	@permalink
+	def get_absolute_url(self):
+		return ('article_detail', None, { 'slug': self.slug })
 
 	class Meta():
 		verbose_name = _('article')
