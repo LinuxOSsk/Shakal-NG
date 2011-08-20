@@ -17,6 +17,9 @@ class Category(models.Model):
 class ArticleManager(models.Manager):
 	def get_query_set(self):
 		return super(ArticleManager, self).get_query_set().select_related('author', 'category')
+class ArticlePublishedManager(ArticleManager):
+	def get_query_set(self):
+		return super(ArticlePublishedManager, self).get_query_set().filter(published = True)
 
 class Article(models.Model):
 	title = models.CharField(_('title'), max_length = 250)
@@ -31,6 +34,7 @@ class Article(models.Model):
 	article = models.TextField(_('article'))
 
 	objects = ArticleManager()
+	published_articles = ArticlePublishedManager()
 
 	def __unicode__(self):
 		return unicode(self.title)

@@ -100,6 +100,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     'django.core.context_processors.media',
     'django.core.context_processors.static',
+    'django.core.context_processors.request',
     'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
     'shakal.template_dynamicloader.context_processors.templatepath',
@@ -114,6 +115,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'template_dynamicloader.middleware.RequestMiddleware',
+    'paginator.middleware.PaginatorMiddleware',
 )
 
 #SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
@@ -140,6 +142,7 @@ INSTALLED_APPS = (
     'shakal.account',
     'shakal.article',
     'shakal.template_dynamicloader',
+    'shakal.paginator',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
