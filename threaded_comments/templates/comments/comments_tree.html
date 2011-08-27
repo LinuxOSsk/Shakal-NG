@@ -1,0 +1,12 @@
+{% load i18n mptt_tags %}
+<div class="comments_tree">
+{% for comment, tree in comments|tree_info %}
+	{% if tree.new_level %}<div class="comment comment_{{ comment.level }}">{% endif %}
+	<div class="comment_item">
+		{{ comment.title }} | {{ comment.name }}
+		{{ comment.comment|safe }}
+		<a href="{% url reply-comment comment.pk %}">{% trans "Reply" %}</a>
+	</div>
+{% for level in tree.closed_levels %}</div>{% endfor %}
+{% endfor %}
+</div>

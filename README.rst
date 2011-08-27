@@ -27,25 +27,25 @@ do samostatného súboru (napr. settings_local.py). Ten sa následne zapíše do
 výpise je ukážka settings_local.py.
 
 ::
-from settings import *
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'shakal',
-    }
-}
+   from settings import *
 
-MIDDLEWARE_CLASSES += (
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-)
+   DATABASES = {
+       'default': {
+           'ENGINE': 'django.db.backends.sqlite3',
+           'NAME': 'shakal',
+       }
+   }
 
-INSTALLED_APPS += (
-    'debug_toolbar',
-)
+   MIDDLEWARE_CLASSES += (
+       'debug_toolbar.middleware.DebugToolbarMiddleware',
+   )
 
-INTERNAL_IPS = ('127.0.0.1',)
-::
+   INSTALLED_APPS += (
+       'debug_toolbar',
+   )
+
+   INTERNAL_IPS = ('127.0.0.1',)
 
 Server je možné spustiť ako python manage.py runserver --settings
 settings_local.

@@ -4,4 +4,8 @@
 	<h1>{{ article.title }}</h1>
 	<p>{{ article.anotation }}</p>
 	{{ article.article|safe }}
+	{% load comments %}
+	{% load threaded_comments_tags %}
+	{% render_threaded_comments_toplevel article %}
+	{# render_comment_form for article #}
 {% endblock %}

@@ -47,3 +47,11 @@ body {
 	border-top: 1px solid gray;
 }
 
+.comment {
+	margin: 5px 0px 5px 0px;
+}
+
+.comment .comment {
+	margin-left: 15px;
+}
+

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Preview your comment" %}{% endblock %}
+{% block main %}
+<div class="comment_item">
+	{{ comment.title }} | {{ comment.name }}
+	{{ comment.comment|safe }}
+</div>
+{% include "comments/form.html" %}
+{% endblock %}

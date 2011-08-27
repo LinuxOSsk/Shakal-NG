@@ -133,16 +133,19 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    #'django.contrib.sites',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     'django.contrib.webdesign',
+    'django.contrib.comments',
     'shakal.account',
     'shakal.article',
-    'shakal.template_dynamicloader',
     'shakal.paginator',
+    'shakal.template_dynamicloader',
+    'mptt',
+    'shakal.threaded_comments',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -178,3 +181,4 @@ LOGGING = {
 }
 
 AUTH_PROFILE_MODULE = 'account.UserProfile'
+COMMENTS_APP = 'shakal.threaded_comments'
