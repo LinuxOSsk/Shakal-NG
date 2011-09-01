@@ -144,8 +144,8 @@ INSTALLED_APPS = (
     'shakal.article',
     'shakal.paginator',
     'shakal.template_dynamicloader',
-    'mptt',
     'shakal.threaded_comments',
+    'mptt',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )

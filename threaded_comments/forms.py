@@ -38,6 +38,15 @@ class ThreadedCommentForm(CommentForm):
 		comment.parent = parent_comment
 		return comment
 
+	def get_comment_dict(self):
+		return {
+			'title'   : self.data.get('title'),
+			'name'    : self.data.get('name'),
+			'email'   : self.data.get('email'),
+			'url'     : self.data.get('url'),
+			'comment' : self.data.get('comment'),
+		}
+
 	def generate_security_data(self):
 		timestamp = int(time.time())
 		security_dict =   {
@@ -53,5 +62,11 @@ class ThreadedCommentForm(CommentForm):
 		data = super(ThreadedCommentForm, self).get_comment_create_data()
 		data['title'] = self.cleaned_data['title']
 		data['url'] = ''
+		return data
+
+	def clean_comment(self):
+		data = self.cleaned_data['comment']
+		raise forms.ValidationError("You have forgotten about Fred!")
+		data = "XXXXXXXXX"
 		return data
 
