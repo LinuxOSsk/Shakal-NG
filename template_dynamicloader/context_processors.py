@@ -1,5 +1,5 @@
 from django.conf import settings
-from template_dynamicloader.settings import TEMPLATE_DEFAULT_NAME, TEMPLATE_DEFAULT_DEVICE
+from template_dynamicloader.settings import TEMPLATE_DEFAULT_SKIN, TEMPLATE_DEFAULT_DEVICE
 
 def templatepath(request):
 	try:
@@ -8,8 +8,8 @@ def templatepath(request):
 		template_device = TEMPLATE_DEFAULT_DEVICE;
 
 	try:
-		template_name = request.session['template_name']
+		template_skin = request.session['template_skin']
 	except KeyError:
-		template_name = TEMPLATE_DEFAULT_NAME;
+		template_skin = TEMPLATE_DEFAULT_SKIN;
 
-	return {"template_static_path": template_device + '/' + template_name}
+	return {"template_static_path": template_device + '/' + template_skin}

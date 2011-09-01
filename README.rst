@@ -7,8 +7,53 @@ Autor:
 
 Závislosti
 ----------
-django-mptt - Podpora modifikovaných DFS do django
-https://github.com/django-mptt/django-mptt/
+Povinné:
+   - django-mptt - Podpora modifikovaných DFS do django
+      https://github.com/django-mptt/django-mptt/
+
+Voliteľné:
+   - django-template-preprocessor - Minimalizácia a optimalizácia šablón
+      https://github.com/citylive/django-template-preprocessor
+
+Použitie django-template-preprocessor
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Django template preprocessor umožňuje minimalizovať veľkosť šablón a
+optimalizovať ich načítavanie, takže web, ktorý používa takúto optimalizáciu
+bude podstatne rýchlejší. Ukážkové nastavenie preprocesoru vyzerá nasledovne:
+
+::
+
+    TEMPLATE_CACHE_DIR = '/tmp/templates/cache/'
+    MEDIA_CACHE_DIR = MEDIA_ROOT + 'cache/'
+    MEDIA_CACHE_URL = MEDIA_URL + 'cache/'
+    TEMPLATE_LOADERS = TEMPLATE_LOADERS[1:]
+    # Wrap template loaders
+    if DEBUG:
+        TEMPLATE_LOADERS = (
+            'shakal.template_dynamicloader.loader_filesystem.Loader',
+            #('template_preprocessor.template.loaders.ValidatorLoader',
+            ('template_preprocessor.template.loaders.RuntimeProcessedLoader',
+                TEMPLATE_LOADERS
+            ),
+        )
+    else:
+        TEMPLATE_LOADERS = (
+            'shakal.template_dynamicloader.loader_filesystem.Loader',
+            ('template_preprocessor.template.loaders.PreprocessedLoader',
+                TEMPLATE_LOADERS
+            ),
+        )
+
+
+    # Applications
+    INSTALLED_APPS += ('template_preprocessor',)
+
+    TEMPLATE_PREPROCESSOR_OPTIONS = {
+        # Default settings
+        '*': ('html', 'whitespace-compression', ),
+        # Override for specific applications
+        ('django.contrib.admin', 'django.contrib.admindocs', 'debug_toolbar'): ('no-html',),
+    }
 
 Odporúčané závislosti pre vývoj
 -------------------------------
@@ -49,4 +94,7 @@ výpise je ukážka settings_local.py.
 
 Server je možné spustiť ako python manage.py runserver --settings
 settings_local.
+
+
+
 

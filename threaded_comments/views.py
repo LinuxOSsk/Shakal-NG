@@ -97,11 +97,7 @@ def post_comment(request, next = None, using = None):
 		]
 		return render_to_response(
 			template_list, {
-				"comment" : {
-					'comment': form.data.get("comment", ""),
-					"title" : form.data.get("title", ""),
-					"name" : form.data.get("name", ""),
-				},
+				"comment" : form.get_comment_dict(),
 				"form" : form,
 				"next": next,
 			},
