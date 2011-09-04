@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.comments.forms import CommentForm
 from django.utils.translation import ugettext_lazy as _
+from html_editor.parser import HtmlParser
 from models import ThreadedComment
 import time
 
@@ -39,12 +40,14 @@ class ThreadedCommentForm(CommentForm):
 		return comment
 
 	def get_comment_dict(self):
+		parser = HtmlParser()
+		parser.parse(self.data.get('comment'))
 		return {
 			'title'   : self.data.get('title'),
 			'name'    : self.data.get('name'),
 			'email'   : self.data.get('email'),
 			'url'     : self.data.get('url'),
-			'comment' : self.data.get('comment'),
+			'comment' : parser.get_output(),
 		}
 
 	def generate_security_data(self):
@@ -66,7 +69,8 @@ class ThreadedCommentForm(CommentForm):
 
 	def clean_comment(self):
 		data = self.cleaned_data['comment']
-		raise forms.ValidationError("You have forgotten about Fred!")
-		data = "XXXXXXXXX"
+		parser = HtmlParser()
+		parser.parse(data)
+		data = parser.get_output()
 		return data
 

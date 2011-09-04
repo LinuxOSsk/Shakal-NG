@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-19 22:06+0200\n"
+"POT-Creation-Date: 2011-09-01 20:16+0200\n"
 "PO-Revision-Date: 2011-08-19 22:06+0200\n"
 "Last-Translator: Miroslav Bendík\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -53,11 +53,11 @@ msgstr "rok narodenia"
 msgid "name"
 msgstr "názov"
 
-#: article/models.py:8 article/models.py:23
+#: article/models.py:8 article/models.py:26
 msgid "slug"
 msgstr "url adresa"
 
-#: article/models.py:14 article/models.py:28
+#: article/models.py:14 article/models.py:31
 msgid "category"
 msgstr "kategória"
 
@@ -65,35 +65,75 @@ msgstr "kategória"
 msgid "categories"
 msgstr "kategórie"
 
-#: article/models.py:22
+#: article/models.py:25
 msgid "title"
 msgstr "titulok"
 
-#: article/models.py:25
+#: article/models.py:28
 msgid "author"
 msgstr "autor"
 
-#: article/models.py:26
+#: article/models.py:29
 msgid "publication date"
 msgstr "dátum publikácie"
 
-#: article/models.py:29
+#: article/models.py:32
 msgid "published"
 msgstr "publikované"
 
-#: article/models.py:30
+#: article/models.py:33
 msgid "anotation"
 msgstr "anotácia"
 
-#: article/models.py:31 article/models.py:43
+#: article/models.py:34 article/models.py:47
 msgid "article"
 msgstr "článok"
 
-#: article/models.py:44
+#: article/models.py:48
 msgid "articles"
 msgstr "články"
 
-#: templates/desktop/default/article/list.html:6
+#: paginator/templates/paginator/paginator.html:7
+msgid "Previous"
+msgstr ""
+
+#: paginator/templates/paginator/paginator.html:25
+msgid "Next"
+msgstr ""
+
+#: templates/desktop/default/article/list.html:8
 msgid "Unknown"
 msgstr "Neznámy"
 
+#: templates/desktop/default/comments/preview.html:4
+#: threaded_comments/templates/comments/preview.html:4
+msgid "Preview your comment"
+msgstr ""
+
+#: threaded_comments/admin.py:11
+msgid "Content"
+msgstr ""
+
+#: threaded_comments/admin.py:14
+msgid "Metadata"
+msgstr ""
+
+#: threaded_comments/forms.py:11
+msgid "Email address"
+msgstr ""
+
+#: threaded_comments/templates/comments/comments_toplevel.html:8
+msgid "Post a new comment"
+msgstr ""
+
+#: threaded_comments/templates/comments/comments_tree.html:8
+msgid "Reply"
+msgstr ""
+
+#: threaded_comments/templates/comments/form.html:17
+msgid "Post"
+msgstr ""
+
+#: threaded_comments/templates/comments/form.html:18
+msgid "Preview"
+msgstr ""
