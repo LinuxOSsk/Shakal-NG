@@ -1,57 +1,75 @@
 body {
 	background-color: white;
-}
-
-#container
-{
-	margin: 10px;
-	color: #444;
-	border: 1px solid gray;
-}
-
-#top
-{
-	padding: 1em;
-	background-color: #ddd;
-	border-bottom: 1px solid gray;
-}
-
-#top h1
-{
+	color: black;
+	margin: 0;
 	padding: 0;
+	min-width: 600px;
+}
+
+img {
 	margin: 0;
+	padding: 0;
+	border: none;
 }
 
-#left
-{
-	float: left;
-	width: 160px;
-	margin: 0;
-	padding: 1em;
-}
-
-#content
-{
-	margin-left: 200px;
-	border-left: 1px solid gray;
-	padding: 1em;
-}
-
-#footer
-{
+#top {
 	clear: both;
-	margin: 0;
-	padding: .5em;
-	color: #333;
-	background-color: #eee;
-	border-top: 1px solid gray;
+	float: left;
+	width: 100%;
+	height: 80px;
+	background: #626a7c url('images/top_bg.png') repeat-x left top;
 }
 
-.comment {
-	margin: 5px 0px 5px 0px;
+#top_logo {
+	margin-top: 1px;
+	height: 50px;
 }
 
-.comment .comment {
-	margin-left: 15px;
+#top_breadcrumb {
+	margin-top: 1px;
+	height: 28px;
 }
 
+#colmask {
+	position: relative;
+	clear: both;
+	float: left;
+	width: 100%;
+	overflow: hidden;
+	background: #ffffff url('images/main_bg.png') repeat-x left top;
+}
+
+#colinner {
+	float: left;
+	width: 100%;
+	position: relative;
+}
+
+#main, #left {
+	float: left;
+	position: relative;
+	padding: 0 0 1em 0;
+	overflow: hidden;
+}
+
+#colinner {
+	right: 70%;
+	background: #dbdde1 url('images/left_bg.png') repeat-x left top;
+}
+
+#main {
+	width: 66%;
+	left: 102%;
+}
+
+#left {
+	width: 26%;
+	left: 6%;
+}
+
+#footer {
+	clear: both;
+	float: left;
+	width: 100%;
+	border-top: 1px solid #000;
+}
