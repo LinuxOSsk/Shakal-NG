@@ -15,6 +15,12 @@ Voliteľné:
    - django-template-preprocessor - Minimalizácia a optimalizácia šablón
       https://github.com/citylive/django-template-preprocessor
 
+Vhodné je pri vývoji využiť virtualenvwrapper, aby bolo možné jednoducho
+inštalovať závislosti.
+
+Závislosti sa dajú nainštalovať príkazom:
+pip install -r requirements.txt
+
 Použitie django-template-preprocessor
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Django template preprocessor umožňuje minimalizovať veľkosť šablón a
