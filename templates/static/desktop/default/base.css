@@ -73,3 +73,35 @@ img {
 	width: 100%;
 	border-top: 1px solid #000;
 }
+
+.comment_thread {
+	list-style: none;
+	padding: 0px;
+}
+
+.comments {
+	border-top: 2px solid #b8c0d0;
+}
+
+.comment {
+	border-bottom: 1px solid #b8c0d0;
+}
+
+.comment .comment {
+	background: white;
+	margin-left: 20px;
+	border-top: 1px solid #b8c0d0;
+	border-bottom: none;
+	border-left: none;
+	border-right: none;
+}
+
+.comment .reply {
+	position: relative;
+}
+
+.comment .reply a {
+	text-align: right;
+	display: block;
+}
+

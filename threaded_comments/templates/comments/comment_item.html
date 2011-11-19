@@ -1,0 +1,9 @@
+{% load i18n %}
+<div class="heder">
+	<div class="comment_title"><strong>{{ comment.title }}</strong></div>
+	<span class="user_name">{{ comment.name }}</span> | <span class="submit_date">{% if comment.submit_date %}{{ comment.submit_date }}{% else %}{% trans "Now" %}{% endif %}</span>
+</div>
+<div class="comment_cont">
+{{ comment.comment|safe }}
+</div>
+{% if comment.pk %}<div class="reply"><a href="{% url reply-comment comment.pk %}" class="reply">{% trans "Reply" %}</a></div>{% endif %}
