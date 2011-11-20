@@ -9,17 +9,32 @@
 	{% block extrastyle %}{% endblock %}{% block extraheaders %}{% endblock %}
 </head>
 <body>
-<div id="top">
-	{# block top #}<!--<h1><a href="{% url home %}">Shakal</a></h1>-->{# endblock #}
-	{% block top %}
-	<div id="top_logo"><a href="{% url home %}"><img src="{% template_static_path images/linuxos_logo.png %}" alt="LinuxOS" style="width: 180px; height: 50px;" /></a></div>
-	<div id="top_breadcrumb"></div>
-	{% endblock %}
-</div><!-- #top -->
-<div id="colmask"><div id="colinner">
-	<div id="main">{% block main %}{% endblock %}</div><!-- #main -->
-	<div id="left">{% block left %}{% lorem %}{% endblock %}</div><!-- #left -->
-</div><!-- #colinner --></div><!-- #colmask -->
+	<div id="top_container">
+		<div id="top">
+			{% block top %}
+			<div id="top_logo"><a href="{% url home %}">&nbsp;</a></div>
+			<ul id="top_breadcrumb">
+				<li><a href="#">Home</a></li>
+				<li>Fórum</li>
+			</ul>
+			{% endblock %}
+		</div>
+	</div><!-- #top -->
+	<div id="colmask">
+		<div id="colinner">
+			<div id="colmain"><div id="main">{% block main %}{% endblock %}</div></div><!-- #colmain -->
+			<div id="colleft">
+				<div id="left">
+					{% block left %}
+					<h2>Podsekcie</h2>
+					<p>{% lorem %}</p>
+					<h2>Správy</h2>
+					<p>{% lorem %}</p>
+					{% endblock %}
+				</div>
+			</div><!-- #colleft -->
+		</div><!-- #colinner -->
+	</div><!-- #colmask -->
 <div id="footer">
 	{% block footer %}Shakal CMS{% endblock %}
 </div><!-- end #footer -->
