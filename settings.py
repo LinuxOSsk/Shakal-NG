@@ -142,6 +142,7 @@ INSTALLED_APPS = (
     'django.contrib.comments',
     'shakal.account',
     'shakal.article',
+    'shakal.breadcrumbs',
     'shakal.paginator',
     'shakal.template_dynamicloader',
     'shakal.threaded_comments',

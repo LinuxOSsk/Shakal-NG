@@ -93,7 +93,7 @@ img {
 	background: url('images/backgrounds.png') no-repeat left 0px;
 }
 
-#top_breadcrumb {
+#top .breadcrumb {
 	height: 29px;
 	width: 300px;
 	margin: 0px;
@@ -101,7 +101,7 @@ img {
 }
 
 
-#top_breadcrumb li {
+#top .breadcrumb li {
 	height: 29px; line-height: 29px;
 	list-style: none; display: block;
 	float: left; position: relative;
@@ -113,33 +113,33 @@ img {
 	font-weight: bold;
 }
 
-#top_breadcrumb li a {
+#top .breadcrumb li a {
 	text-decoration: none;
 	color: white;
 	font-weight: normal;
 }
 
-#top_breadcrumb li:after {
+#top .breadcrumb li:after {
 	width: 20px; height: 29px; right: -19px; top: 0px;
 	display: block; position: absolute; content: "";
 	background: url('images/backgrounds.png') repeat-x left -194px;
 }
 
-#top_breadcrumb li:before {
+#top .breadcrumb li:before {
 	width: 20px; height: 29px; left: -20px; top: 0px;
 	display: block; position: absolute; content: "";
 	background: url('images/backgrounds.png') repeat-x right -194px;
 }
 
-#top_breadcrumb li:hover {
+#top .breadcrumb li:hover {
 	background: url('images/backgrounds.png') repeat-x left -165px;
 }
 
-#top_breadcrumb li:hover:after {
+#top .breadcrumb li:hover:after {
 	background: url('images/backgrounds.png') repeat-x left -223px;
 }
 
-#top_breadcrumb li:hover:before {
+#top .breadcrumb li:hover:before {
 	background: url('images/backgrounds.png') repeat-x right -223px;
 }
 
