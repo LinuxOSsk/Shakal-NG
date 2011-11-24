@@ -5,7 +5,7 @@ from shakal.account.models import UserProxy
 
 class Category(models.Model):
 	name = models.CharField(_('name'), max_length = 50)
-	slug = models.SlugField(_('slug'))
+	slug = models.SlugField(_('slug'), unique = True)
 
 	def __unicode__(self):
 		return unicode(self.name)
@@ -23,7 +23,7 @@ class ArticlePublishedManager(ArticleManager):
 
 class Article(models.Model):
 	title = models.CharField(_('title'), max_length = 250)
-	slug = models.SlugField(_('slug'))
+	slug = models.SlugField(_('slug'), unique = True)
 	author = models.ForeignKey(UserProxy, null = True, blank = True)
 	author.verbose_name = _('author')
 	pubtime = models.DateTimeField(_('publication date'))
