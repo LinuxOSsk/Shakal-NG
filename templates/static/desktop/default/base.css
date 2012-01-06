@@ -57,13 +57,26 @@ p {
 
 }
 
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display:block;
+}
+
+a {
+	color: #4c4e5a;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
 img {
 	margin: 0;
 	padding: 0;
 	border: none;
 }
 
-#top_container {
+header {
 	clear: both;
 	float: left;
 	width: 100%;
@@ -158,7 +171,7 @@ img {
 	position: relative;
 }
 
-#colmain, #colleft {
+#colmain, #left {
 	float: left;
 	position: relative;
 	overflow: hidden;
@@ -178,15 +191,15 @@ img {
 #main {
 }
 
-#colleft {
+#left {
 	width: 30%;
 }
 
-#left, #main {
+#left aside, #main {
 	padding: 4px 20px;
 }
 
-#left h2 {
+aside h2 {
 	font-weight: normal;
 	text-shadow: #ffffff 0px 1px 0px;
 	border-bottom: solid 1px #d8d9dc;
@@ -195,7 +208,7 @@ img {
 	margin-bottom: 5px;
 }
 
-#left h2:after {
+aside h2:after {
 	content: '';
 	display: block;
 	border-bottom: solid 1px #a5a6a9;
@@ -203,11 +216,11 @@ img {
 	margin-left: -5px;
 }
 
-#left p {
+aside p {
 	text-align: justify;
 }
 
-#footer {
+footer {
 	clear: both;
 	float: left;
 	width: 100%;

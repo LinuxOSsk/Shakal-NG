@@ -4,7 +4,7 @@
 	<h2><a href="{% url article_detail slug=article.slug %}">{{ article.title }}</a></h2>
 	<p class="article_anotation">{{ article.anotation }}</p>
 	<div class="article_info">
-		{{ article.pubtime }} |
+		<time datetime="{{ article.pubtime|date:"cO" }}">{{ article.pubtime }}</time> |
 		{% if article.author %}{{ article.author }}{% else %}{% trans "Unknown" %}{% endif %} |
 		{% if article.category %}<a href="{% url article_category slug=article.category.slug %}">{{ article.category }}</a>{% endif %}</div>
 </div>

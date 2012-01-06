@@ -1,11 +1,13 @@
-<ul class="breadcrumb">
-	{% for breadcrumb in breadcrumbs %}
-	<li{% if breadcrumb.class %} class="{{ breadcrumb.class }}"{% endif %}>
-		{% if breadcrumb.url %}
-			<a href="{{ breadcrumb.url }}">{{ breadcrumb.contents }}</a>
-		{% else %}
-			{{ breadcrumb.contents }}
-		{% endif %}
-	</li>
-	{% endfor %}
-</ul>
+<nav>
+	<ul class="breadcrumb">
+		{% for breadcrumb in breadcrumbs %}
+		<li{% if breadcrumb.class %} class="{{ breadcrumb.class }}"{% endif %}>
+			{% if breadcrumb.url %}
+				<a href="{{ breadcrumb.url }}">{{ breadcrumb.contents }}</a>
+			{% else %}
+				{{ breadcrumb.contents }}
+			{% endif %}
+		</li>
+		{% endfor %}
+	</ul>
+</nav>
