@@ -143,6 +143,7 @@ INSTALLED_APPS = (
     'shakal.account',
     'shakal.article',
     'shakal.breadcrumbs',
+    'shakal.imgcompress',
     'shakal.paginator',
     'shakal.template_dynamicloader',
     'shakal.threaded_comments',
