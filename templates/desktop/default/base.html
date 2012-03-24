@@ -4,39 +4,32 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="{% template_static_path base.css %}" />
-<!--[if lt IE 9]>
-<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
 	<title>{% block title %}{% endblock %}</title>
 	{% block extrastyle %}{% endblock %}{% block extraheaders %}{% endblock %}
 </head>
 <body>
-	<header>
-		<div id="top">
-			{% block top %}
-			<div id="top_logo"><a href="{% url home %}">&nbsp;</a></div>
+	<header id="top_header">
+		<div class="hdrleft">
+			<a id="linuxos_logo" href="{% url home %}">LinuxOS</a>
+		</div>
+		<div class="hdrmain">
 			{% breadcrumb url="home" class="home" %}Home{% endbreadcrumb %}
 			{% render_breadcrumbs %}
-			{% endblock %}
 		</div>
 	</header>
-	<div id="colmask">
-		<div id="colinner">
-			<div id="colmain"><div id="main">{% block main %}{% endblock %}</div></div><!-- #colmain -->
-			<div id="left">
-				<aside>
+	<div class="colmask">
+		<div class="colinner">
+			<div class="colmain">
+				{% block main %}{% endblock %}
+			</div>
+			<aside class="colleft">
 					{% block left %}
-					<h2>Podsekcie</h2>
-					<p>{% lorem %}</p>
-					<h2>Správy</h2>
-					<p>{% lorem %}</p>
 					{% endblock %}
-				</aside>
-			</div><!-- #left -->
-		</div><!-- #colinner -->
-	</div><!-- #colmask -->
-<footer>
-	{% block footer %}Shakal CMS{% endblock %}
-</footer><!-- end #footer -->
+			</aside>
+		</div>
+	</div>
 </body>
 </html>

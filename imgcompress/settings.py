@@ -15,6 +15,11 @@ backgrounds = {
 			'mode': 'no-repeat', 'width': 8, 'height': 36
 		},
 		{
+			'name': 'breadcrumb_home',
+			'src': 'templates/static/desktop/default/images/export/breadcrumb_home.png',
+			'mode': 'no-repeat', 'width': 43, 'height': 30
+		},
+		{
 			'name': 'breadcrumb_passive',
 			'src': 'templates/static/desktop/default/images/export/breadcrumb_passive.png',
 			'mode': 'no-repeat', 'width': 320, 'height': 31
@@ -23,6 +28,11 @@ backgrounds = {
 			'name': 'breadcrumb_active',
 			'src': 'templates/static/desktop/default/images/export/breadcrumb_active.png',
 			'mode': 'no-repeat', 'width': 320, 'height': 31
+		},
+		{
+			'name': 'header_bg',
+			'src': 'templates/static/desktop/default/images/export/header_bg.png',
+			'mode': 'repeat-x', 'width': 8, 'height': 80
 		},
 		{
 			'name': 'breadcrumb_bg',

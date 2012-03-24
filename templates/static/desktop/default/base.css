@@ -3,12 +3,29 @@ body {
 	color: black;
 	margin: 0;
 	padding: 0;
-	min-width: 600px;
+	min-width: 800px;
 	font-family: sans-serif;
 }
 
+/* === Nastavenia základných prvkov === */
+
+article a, section a, p a {
+	color: #1d5886;
+	text-decoration: none;
+	border-bottom: 1px solid #c6c8e8;
+}
+
+article a:hover, section a:hover, p a:hover {
+	color: #0c3875;
+	border-bottom: 1px solid #1d5886;
+}
+
+header, nav {
+	display: block;
+}
+
 h1 {
-	font-size: 2.0em;
+	font-size:2.5em;
 	margin: 16px 0px;
 }
 
@@ -18,7 +35,7 @@ h2 {
 }
 
 h3 {
-	font-size: 1.2em;
+	font-size: 1.25em;
 	margin: 10px 0px;
 }
 
@@ -53,6 +70,141 @@ h5, h6 {
 	color: black;
 }
 
+/* === Hlavička === */
+#linuxos_logo {
+	width: 240px;
+	height: 80px;
+	background: url('images/backgrounds.png') repeat-x 0px 0px;
+	display: block;
+	text-align: center;
+	margin: 0px auto;
+	overflow: hidden;
+	text-indent: -9999px;
+}
+
+.hdrleft {
+	width: 32%;
+	float: left;
+}
+
+.hdrmain {
+	width: 68%;
+	float: right;
+}
+
+.hdrleft, .hdrmain {
+	height: 80px;
+}
+
+#top_header {
+	height: 80px;
+	background: url('images/backgrounds.png') repeat-x 0px -142px;
+}
+
+/* Breadcrumbs */
+#site_breadcrumbs {
+	height: 36px;
+	bottom: 0px;
+	margin-left: -8px;
+	padding-left: 5px;
+	background: url('images/backgrounds.png') no-repeat -240px 0px;
+	margin-top: 44px;
+}
+
+#site_breadcrumbs ul {
+	padding: 0;
+	margin: 0;
+	height: 36px;
+	background: url('images/backgrounds.png') repeat-x 0px -222px;
+}
+
+#site_breadcrumbs li {
+	list-style: none;
+	display: block;
+	float: left;
+	height: 31px;
+	line-height: 31px;
+	margin-top: 5px;
+	background: url('images/backgrounds.png') no-repeat right -80px;
+	padding-right: 5px;
+}
+
+#site_breadcrumbs li:hover {
+	background: url('images/backgrounds.png') no-repeat right -111px;
+}
+
+#site_breadcrumbs li span {
+	display: block;
+	padding-left: 25px;
+	background: url('images/backgrounds.png') no-repeat left -80px;
+	position: relative;
+	right: 16px;
+	height: 31px;
+}
+
+#site_breadcrumbs li span a {
+	text-shadow: -1px -1px 0px #cedfeb, 1px 1px 0px #fcfdfe;
+	text-decoration: none;
+	font-weight: bold;
+	color: #2a628d;
+	font-size: 0.875em;
+	display: block;
+	height: 31px;
+}
+
+#site_breadcrumbs li:hover span {
+	background: url('images/backgrounds.png') no-repeat left -111px;
+}
+
+#site_breadcrumbs li.home {
+	width: 68px;
+	border-left: 1px solid #c5dcec;
+}
+
+#site_breadcrumbs li.home span {
+	background: none;
+}
+
+#site_breadcrumbs li.home span a {
+	display: block;
+	overflow: hidden;
+	text-indent: -9999px;
+	background: url('images/backgrounds.png') no-repeat -248px 0px;
+}
+
+/* === Layout === */
+.colmask {
+	position: relative;
+	clear: both;
+	float: left;
+	width: 100%;
+	overflow: hidden;
+}
+
+.colinner {
+	float: left;
+	width: 100%;
+	position: relative;
+	right: 68%;
+}
+
+.colmain, .colleft {
+	float: left;
+	position: relative;
+	overflow: hidden;
+}
+
+.colmain {
+	width: 68%;
+	left: 100%;
+}
+
+.colleft {
+	width: 32%;
+}
+
+/*
+
 p {
 
 }
@@ -61,14 +213,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 	display:block;
 }
 
-a {
-	color: #4c4e5a;
-	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: underline;
-}
 
 img {
 	margin: 0;
@@ -82,7 +226,6 @@ header {
 	width: 100%;
 	height: 80px;
 	overflow: visible;
-	/*background: #626a7c;*/
 }
 
 #top {
@@ -257,4 +400,4 @@ footer {
 	text-align: right;
 	display: block;
 }
-
+*/

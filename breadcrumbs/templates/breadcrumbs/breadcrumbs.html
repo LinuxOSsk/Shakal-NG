@@ -1,9 +1,9 @@
-<nav>
+<nav id="site_breadcrumbs">
 	<ul class="breadcrumb">
 		{% for breadcrumb in breadcrumbs %}
 		<li{% if breadcrumb.class %} class="{{ breadcrumb.class }}"{% endif %}>
 			{% if breadcrumb.url %}
-				<a href="{{ breadcrumb.url }}">{{ breadcrumb.contents }}</a>
+				<span><a href="{{ breadcrumb.url }}">{{ breadcrumb.contents }}</a></span>
 			{% else %}
 				{{ breadcrumb.contents }}
 			{% endif %}
