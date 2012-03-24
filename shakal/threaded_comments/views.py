@@ -10,8 +10,8 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 from django.contrib.comments.views.utils import next_redirect, confirmation_view
 from django.contrib.comments import signals
-from threaded_comments.models import ThreadedComment
-from threaded_comments import get_form
+from shakal.threaded_comments.models import ThreadedComment
+from shakal.threaded_comments import get_form
 
 class CommentPostBadRequest(http.HttpResponseBadRequest):
 	def __init__(self, why):

@@ -3,8 +3,8 @@
 from django.conf import settings
 from django.template import TemplateDoesNotExist, loader
 from django.template.loader import BaseLoader
-from template_dynamicloader.settings import TEMPLATE_DEFAULT_SKIN, TEMPLATE_DEFAULT_DEVICE
-from template_dynamicloader.middleware import get_request
+from shakal.template_dynamicloader.settings import TEMPLATE_DEFAULT_SKIN, TEMPLATE_DEFAULT_DEVICE
+from shakal.template_dynamicloader.middleware import get_request
 import os
 
 class Loader(BaseLoader):

@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from PIL import Image
 from copy import deepcopy
-from imgcompress import settings as imgcompress_settings
-from pprint import pprint
+from shakal.imgcompress import settings as imgcompress_settings
 import termcolor
 import os
 

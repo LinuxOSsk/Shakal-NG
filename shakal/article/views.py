@@ -2,7 +2,7 @@ from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
-from article.models import Article, Category
+from shakal.article.models import Article, Category
 
 class ArticleDetailView(DetailView):
 	model = Article

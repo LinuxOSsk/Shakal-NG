@@ -5,7 +5,7 @@ from django.template.base import Node
 from django import template
 from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_unicode
-import threaded_comments
+from shakal import threaded_comments
 
 register = template.Library()
 
@@ -18,15 +18,15 @@ class ThreadedCommentsBaseNode(BaseCommentNode):
 	def get_root_node(self, context):
 		if self.root_node is None:
 			ctype, object_pk = self.get_target_ctype_pk(context)
-			self.root_node = self.comment_model.objects.get_root_comment(ctype, object_pk)
+			self.root_node = self.comments_model.objects.get_root_comment(ctype, object_pk)
 		return self.root_node
 
 	def get_comments_query_set(self, context):
 		ctype, object_pk = self.get_target_ctype_pk(context)
 		if not object_pk:
-			return self.comment_model.comment_objects.none()
+			return self.comments_model.comment_objects.none()
 
-		querySet = self.comment_model.comment_objects.filter(
+		querySet = self.comments_model.comment_objects.filter(
 			content_type = ctype,
 			object_pk = smart_unicode(object_pk),
 			site__pk = settings.SITE_ID
@@ -39,7 +39,7 @@ class ThreadedCommentsBaseNode(BaseCommentNode):
 		ctype, object_pk = self.get_target_ctype_pk(context)
 		querySet = self.get_comments_query_set(context)
 		if not querySet.has_root_item():
-			rootNode = self.comment_model.objects.get_root_comment(ctype, smart_unicode(object_pk))
+			rootNode = self.comments_model.objects.get_root_comment(ctype, smart_unicode(object_pk))
 			querySet.set_root_item(rootNode)
 		return querySet
 

@@ -9,7 +9,7 @@ class UserProfileManager(models.Manager):
 
 class UserProfile(models.Model):
 	objects = UserProfileManager()
-	user = models.OneToOneField(User, name = _('user'))
+	user = models.OneToOneField(User)
 	pass_reset = models.DateTimeField(_('password reset date'), null = True, blank = True)
 	signature = models.CharField(_('signature'), max_length = 100, null = True, blank = True)
 	distribution = models.CharField(_('distribution'), max_length = 30, null = True, blank = True)

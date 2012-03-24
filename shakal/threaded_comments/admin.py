@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.comments.admin import CommentsAdmin
 from django.utils.translation import ugettext_lazy as _, ungettext
-from threaded_comments.models import ThreadedComment
+from shakal.threaded_comments.models import ThreadedComment
 
 class ThreadedCommentsAdmin(CommentsAdmin):
 	fieldsets = (

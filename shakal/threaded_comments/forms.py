@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.comments.forms import CommentForm
 from django.utils.translation import ugettext_lazy as _
-from html_editor.parser import HtmlParser
+from shakal.html_editor.parser import HtmlParser
 from models import ThreadedComment
 import time
 

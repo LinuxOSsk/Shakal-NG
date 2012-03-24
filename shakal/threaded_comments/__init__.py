@@ -1,5 +1,5 @@
-from threaded_comments.models import ThreadedComment
-from threaded_comments.forms import ThreadedCommentForm
+from shakal.threaded_comments.models import ThreadedComment
+from shakal.threaded_comments.forms import ThreadedCommentForm
 from django.core import urlresolvers
 
 def get_model():
