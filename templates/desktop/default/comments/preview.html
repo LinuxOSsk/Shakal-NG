@@ -1,6 +1,8 @@
 {% extends "desktop/default/base.html" %}
 {% load i18n %}
 
+{% block extraheaders %}{{ form.media }}{% endblock %}
+
 {% block title %}{% trans "Preview your comment" %}{% endblock %}
 {% block main %}
 <div class="comment">

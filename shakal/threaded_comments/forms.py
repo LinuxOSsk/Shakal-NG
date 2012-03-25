@@ -1,7 +1,8 @@
 from django import forms
-from django.contrib.comments.forms import CommentForm
+from django.contrib.comments.forms import CommentForm, COMMENT_MAX_LENGTH
 from django.utils.translation import ugettext_lazy as _
 from shakal.html_editor.parser import HtmlParser
+from shakal.html_editor.widgets import HtmlEditor
 from models import ThreadedComment
 import time
 
@@ -10,6 +11,7 @@ class ThreadedCommentForm(CommentForm):
 	url = forms.URLField(widget = forms.HiddenInput, required = False)
 	parent_pk = forms.IntegerField(widget = forms.HiddenInput, required = False)
 	email = forms.EmailField(widget = forms.HiddenInput, label=_("Email address"), required=False)
+	comment = forms.CharField(label = _("Comment"), widget = HtmlEditor, max_length = COMMENT_MAX_LENGTH)
 
 	def __init__(self, target_object, parent_comment=None, data=None, initial=None):
 		self.parent_comment = parent_comment
