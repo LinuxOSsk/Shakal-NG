@@ -1,9 +1,24 @@
 <script type="text/javascript" charset="utf-8">
+	/*
+	WYMeditor.editor.prototype.orig_update = WYMeditor.editor.prototype.update;
+	WYMeditor.editor.prototype.update = function () {
+		this.orig_update();
+	}
+	WYMeditor.editor.prototype.old_html = WYMeditor.editor.prototype.html;
+	WYMeditor.editor.prototype.html = function(html) {
+		WYMeditor.editor.prototype.html = WYMeditor.editor.prototype.old_html;
+		delete WYMeditor.editor.prototype.old_html;
+		var upd_fun = WYMeditor.editor.prototype.update;
+		WYMeditor.editor.prototype.update = function() {};
+		this.html(html);
+		WYMeditor.editor.prototype.update = upd_fun;
+	};
+	*/
 	jQuery('#id_{{ name }}').wymeditor({
 		skin: 'shakal',
 		lang: '{{ lang }}',
 		statusHtml: '',
-		updateSelector: 'form',
+		updateSelector: jQuery('#id_{{ name }}').parents('form:first'),
 		updateEvent: 'submit',
 		postInit: function(wym) {
 			//wym.table();
