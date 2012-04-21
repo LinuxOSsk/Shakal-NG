@@ -1,7 +1,7 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import permalink
 from django.utils.translation import ugettext_lazy as _
-from shakal.account.models import UserProxy
 
 class Category(models.Model):
 	name = models.CharField(_('name'), max_length = 50)
@@ -24,7 +24,7 @@ class ArticlePublishedManager(ArticleManager):
 class Article(models.Model):
 	title = models.CharField(_('title'), max_length = 250)
 	slug = models.SlugField(_('slug'), unique = True)
-	author = models.ForeignKey(UserProxy, null = True, blank = True)
+	author = models.ForeignKey(User, null = True, blank = True)
 	author.verbose_name = _('author')
 	pubtime = models.DateTimeField(_('publication date'))
 	category = models.ForeignKey(Category, null = True, blank = True)
