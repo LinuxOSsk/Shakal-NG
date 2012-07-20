@@ -1,6 +1,0 @@
-from django.conf import settings
-
-PAGINATOR_INSIDE_COUNT = getattr(settings, 'PAGINATOR_INSIDE_COUNT', 10)
-PAGINATOR_OUTSIDE_COUNT = getattr(settings, 'PAGINATOR_OUTSIDE_COUNT', 2)
-PAGINATOR_RAISES_404 = getattr(settings, 'PAGINATOR_RAISES_404', True)
-PAGINATOR_ITEMS_PER_PAGE = getattr(settings, 'PAGINATOR_ITEMS_PER_PAGE', 10)

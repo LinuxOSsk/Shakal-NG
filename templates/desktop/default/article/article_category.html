@@ -1,7 +1,0 @@
-{% extends "desktop/default/base.html" %}
-{% block main %}
-{% load paginator_tags %}
-{% autopaginate articles page items_per_page 10 url "article_category_page" slug=category.slug %}
-{% include "desktop/default/article/list.html" %}
-{% paginator %}
-{% endblock %}
