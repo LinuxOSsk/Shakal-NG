@@ -95,6 +95,7 @@ INSTALLED_APPS = (
 	'django.contrib.admin',
 	'django.contrib.comments',
 	'django_tools',
+	'accounts',
 	'shakal.linuxos',
 	'shakal.template_dynamicloader',
 )
@@ -122,3 +123,5 @@ LOGGING = {
 		},
 	}
 }
+
+AUTH_PROFILE_MODULE = 'accounts.Account'
