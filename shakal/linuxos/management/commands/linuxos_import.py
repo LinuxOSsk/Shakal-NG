@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from accounts.models import UserProfile
 from datetime import datetime
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 from django.db import connections
+from django.template.defaultfilters import slugify
+from shakal.accounts.models import UserProfile
+from shakal.article.models import Category as ArticleCategory
 import sys
 
 class Command(BaseCommand):
@@ -29,6 +31,7 @@ class Command(BaseCommand):
 	def handle(self, *args, **kwargs):
 		self.cursor = connections["linuxos"].cursor()
 		self.import_users()
+		self.import_articles()
 
 	def import_users(self):
 		cols = [
@@ -93,3 +96,24 @@ class Command(BaseCommand):
 			for attribute in user_profile:
 				setattr(user_profile_object, attribute, user_profile[attribute])
 			user_profile_object.save()
+
+	def import_articles(self):
+		self.import_article_categories()
+
+	def import_article_categories(self):
+		cols = [
+			'id',
+			'nazov',
+			'ikona',
+		]
+		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM clanky_kategorie')
+		for category_row in self.cursor:
+			category_dict = self.decode_cols_to_dict(cols, category_row)
+			category = {
+				'pk': category_dict['id'],
+				'name': category_dict['nazov'],
+				'icon': category_dict['ikona'],
+				'slug': slugify(category_dict['nazov']),
+			}
+			category_object = ArticleCategory(**category)
+			category_object.save()
