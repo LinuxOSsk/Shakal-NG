@@ -29,16 +29,16 @@
 				</li>
 				{% endif %}
 				<li>
-					<a href="{# url 'accounts:logout' #}">{% trans 'Log out' %}</a>
+					<a href="{% url 'accounts:auth_logout' %}">{% trans 'Log out' %}</a>
 				</li>
 			</ul>
 		{% else %}
 			<ul id="userlinks">
 				<li>
-					<a href="{# url 'accounts:login' #}?next={% url 'home' %}">{% trans "Log in" %}</a>
+					<a href="{% url 'accounts:auth_login' %}?next={% url 'home' %}">{% trans "Log in" %}</a>
 				</li>
 				<li>
-					<a href="{# url 'accounts:register' #}">{% trans 'Register' %}</a>
+					<a href="{% url 'accounts:registration_register' %}">{% trans 'Register' %}</a>
 				</li>
 			</ul>
 		{% endif %}
