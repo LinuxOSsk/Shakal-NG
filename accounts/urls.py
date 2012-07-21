@@ -1,10 +1,18 @@
 # -*- coding: utf-8 -*-
 
 from django.conf.urls import patterns, include, url
-from django.contrib.comments.urls import urlpatterns as original_urls
 
-urlpatterns = patterns('',
-	url(r'^', include('registration.backends.default.urls')),
-)
+class Pattenrs(object):
+	def __init__(self):
+		self.app_name = 'accounts'
+		self.name = 'accounts'
 
-urlpatterns += original_urls
+	@property
+	def urls(self):
+		urlpatterns = patterns('',
+			url(r'^', include('registration.backends.default.urls')),
+		)
+		return (urlpatterns, self.app_name, self.name)
+
+
+urlpatterns = Pattenrs().urls
