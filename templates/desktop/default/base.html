@@ -18,7 +18,7 @@
 		{% if user.is_authenticated %}
 			<ul id="userlinks">
 				<li class="profile">
-					<a href="{# url 'accounts:profile' #}">
+					<a href="{# url 'profile' #}">
 						{% trans "Profile" %}
 						(<span class="username">{% firstof user.first_name user.username %}</span>)
 					</a>
@@ -29,16 +29,16 @@
 				</li>
 				{% endif %}
 				<li>
-					<a href="{% url 'accounts:auth_logout' %}">{% trans 'Log out' %}</a>
+					<a href="{% url 'auth_logout' %}">{% trans 'Log out' %}</a>
 				</li>
 			</ul>
 		{% else %}
 			<ul id="userlinks">
 				<li>
-					<a href="{% url 'accounts:auth_login' %}?next={% url 'home' %}">{% trans "Log in" %}</a>
+					<a href="{% url 'auth_login' %}?next={% url 'home' %}">{% trans "Log in" %}</a>
 				</li>
 				<li>
-					<a href="{% url 'accounts:registration_register' %}">{% trans 'Register' %}</a>
+					<a href="{% url 'registration_register' %}">{% trans 'Register' %}</a>
 				</li>
 			</ul>
 		{% endif %}

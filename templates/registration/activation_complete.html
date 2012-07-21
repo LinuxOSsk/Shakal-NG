@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% load i18n %}{% load url from future %}
+
+{% block title %}{% trans "Activation" %}{% endblock %}
+
+{% block main %}
+{% trans "Your account is now active!" %}
+<a href="{% url 'auth_login' %}?next={% url 'home' %}">{% trans "Log in" %}</a>
+{% endblock %}

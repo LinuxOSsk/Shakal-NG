@@ -1,0 +1,21 @@
+{% extends "base.html" %}{% load i18n %}{% load url from future %}
+
+{% block title %}{% trans "Log in" %}{% endblock %}
+
+{% block main %}
+{% if error_message %}
+<p class="message error">{{ error_message }}</p>
+{% endif %}
+
+<form action="{% url 'auth_login' %}" method="post" id="login-form">{% csrf_token %}
+	<h1>{% trans "Log in" %}</h1>
+	<fieldset class="login">
+		{{ form.as_p }}
+		<p class="submit-row">
+			<input type="submit" title="{% trans "Log in" %}" value="{% trans "Log in" %}" />
+		</p>
+		<input type="hidden" name="next" value="{{ next }}" />
+	</fieldset>
+</form>
+
+{% endblock %}

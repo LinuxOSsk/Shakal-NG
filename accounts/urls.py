@@ -12,7 +12,7 @@ class Pattenrs(object):
 		urlpatterns = patterns('',
 			url(r'^', include('registration.backends.default.urls')),
 		)
-		return (urlpatterns, self.app_name, self.name)
+		return urlpatterns
 
 
 urlpatterns = Pattenrs().urls
