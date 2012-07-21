@@ -96,6 +96,7 @@ class Command(BaseCommand):
 			for attribute in user_profile:
 				setattr(user_profile_object, attribute, user_profile[attribute])
 			user_profile_object.save()
+		connections['default'].cursor().execute('SELECT setval(\'auth_user_id_seq\', (SELECT MAX(id) FROM auth_user));')
 
 	def import_articles(self):
 		self.import_article_categories()
@@ -117,3 +118,4 @@ class Command(BaseCommand):
 			}
 			category_object = ArticleCategory(**category)
 			category_object.save()
+		connections['default'].cursor().execute('SELECT setval(\'article_category_id_seq\', (SELECT MAX(id) FROM article_category));')
