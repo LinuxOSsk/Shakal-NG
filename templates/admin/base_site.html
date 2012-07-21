@@ -1,0 +1,15 @@
+{% extends "admin/base.html" %}
+{% load i18n %}{% load url from future %}
+
+{% block title %}{{ title }} | {% trans 'Shakal admin' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'Welcome to Shakal admin interface' %}</h1>
+{% endblock %}
+
+{% block extrastyle %}
+	{{ block.super }}
+	<style type="text/css">
+		.ml {margin:0 10px 10px;display:block;float:left}
+	</style>
+{% endblock %}
