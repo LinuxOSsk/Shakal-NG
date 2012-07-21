@@ -97,6 +97,7 @@ INSTALLED_APPS = (
 	'django_tools',
 	'accounts',
 	'registration',
+	'shakal.article',
 	'shakal.linuxos',
 	'shakal.template_dynamicloader',
 )
