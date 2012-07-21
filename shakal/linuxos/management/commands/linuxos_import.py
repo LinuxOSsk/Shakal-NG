@@ -58,8 +58,8 @@ class Command(BaseCommand):
 			user_dict = self.decode_cols_to_dict(cols, user)
 			base_user = {
 				'pk': user_dict['id'],
-				'username': user_dict['nick'],
-				'email': user_dict['email'],
+				'username': user_dict['nick'][:30],
+				'email': user_dict['email'][:75],
 				'password': user_dict['heslo'],
 				'is_active': False,
 				'last_login': self.first_datetime_if_null(user_dict['lastlogin']),
