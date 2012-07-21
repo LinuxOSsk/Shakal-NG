@@ -51,6 +51,7 @@ STATICFILES_FINDERS = (
 SECRET_KEY = 'c)vwu21d)0!pi67*_@xyv3qp!*74w50!7795t*!d9rfdu(%8g$'
 
 TEMPLATE_LOADERS = (
+	'shakal.template_dynamicloader.loader_filesystem.Loader',
 	'django.template.loaders.filesystem.Loader',
 	'django.template.loaders.app_directories.Loader',
 	#'django.template.loaders.eggs.Loader',
@@ -73,6 +74,7 @@ MIDDLEWARE_CLASSES = (
 	'django.middleware.csrf.CsrfViewMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
+	'django_tools.middlewares.ThreadLocal.ThreadLocalMiddleware', # required for template_dynamicloader
 )
 
 ROOT_URLCONF = 'shakal.urls'
@@ -92,7 +94,9 @@ INSTALLED_APPS = (
 	'django.contrib.staticfiles',
 	'django.contrib.admin',
 	'django.contrib.comments',
+	'django_tools',
 	'shakal.linuxos',
+	'shakal.template_dynamicloader',
 )
 
 LOGGING = {
