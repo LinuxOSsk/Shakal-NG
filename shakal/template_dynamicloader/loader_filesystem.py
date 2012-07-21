@@ -41,7 +41,6 @@ class Loader(BaseLoader):
 
 	def direct_load_template(self, template_name, template_dirs, load_type):
 		visitors_template = self.get_visitors_template(template_name)
-		print(visitors_template)
 		for template_loader in self.other_template_loaders:
 			try:
 				return getattr(template_loader, load_type)(visitors_template, template_dirs)
