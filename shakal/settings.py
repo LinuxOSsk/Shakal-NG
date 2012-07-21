@@ -96,6 +96,7 @@ INSTALLED_APPS = (
 	'django.contrib.comments',
 	'django_tools',
 	'accounts',
+	'registration',
 	'shakal.linuxos',
 	'shakal.template_dynamicloader',
 )
@@ -125,3 +126,5 @@ LOGGING = {
 }
 
 AUTH_PROFILE_MODULE = 'accounts.Account'
+
+ACCOUNT_ACTIVATION_DAYS = 7
