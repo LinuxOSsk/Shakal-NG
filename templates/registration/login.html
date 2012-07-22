@@ -8,12 +8,12 @@
 {% endif %}
 
 <form action="{% url 'auth_login' %}" method="post" id="login-form">{% csrf_token %}
-	<h1>{% trans "Log in" %}</h1>
 	<fieldset class="login">
+		<h2>{% trans "Log in" %}</h2>
 		{{ form.as_p }}
-		<p class="submit-row">
+		<div class="submit-row">
 			<input type="submit" title="{% trans "Log in" %}" value="{% trans "Log in" %}" />
-		</p>
+		</div>
 		<input type="hidden" name="next" value="{{ next }}" />
 	</fieldset>
 </form>

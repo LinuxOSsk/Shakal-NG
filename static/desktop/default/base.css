@@ -70,6 +70,25 @@ h5, h6 {
 	color: black;
 }
 
+fieldset {
+	padding: 0 5px;
+	margin: 0;
+	border: #e8e8e8 1px solid;
+	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+fieldset h2 {
+	display: block;
+	line-height: 37px;
+	height: 37px;
+	padding: 0 1em;
+	margin: 0 -5px;
+	background: url(images/block_header_bg.png) repeat-x;
+	font-size: 1.5em;
+	color: white;
+	text-shadow: 1px 1px 0px #418cc0;
+}
+
 /* === UI prvky === */
 
 .button.flat {
@@ -145,6 +164,12 @@ h5, h6 {
 	background: #d5eeff;
 }
 
+/* === Layout === */
+
+#colmain {
+	padding: 2em;
+}
+
 /* === Hlavička === */
 
 #linuxos_logo {
@@ -198,3 +223,4 @@ h5, h6 {
 #user_panel:hover #userlinks {
 	display: block;
 }
+
