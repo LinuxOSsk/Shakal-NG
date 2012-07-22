@@ -1,0 +1,30 @@
+{% if form.non_field_errors %}
+	<p class="errornote">
+		{% for error in form.non_field_errors %}
+			{{ error }}
+		{% endfor %}
+	</p>
+{% endif %}
+
+<div id="filterm">
+	{% for hidden in form.hidden_fields %}
+		{{ hidden }}
+	{% endfor %}
+	{% for field in form.visible_fields %}
+		<div class="form-row{% if field.errors %} errors{% endif %}">
+			{{ field.errors }}
+			<label for="{{ field.auto_id }}" class="field_label{% if field.field.required %} required{% endif %}">
+				{{ field.label|safe }}:
+			</label> {{ field }}
+			{% if field.help_text %}<p class="help">{{ field.field.help_text|safe }}</p>{% endif %}
+		</div>
+	{% endfor %}
+	{% if form.nested %}
+		{% for subform in form.nested %}
+			<div class="form-row">
+				<label>{{ subform.label }}:</label>
+				{% include "includes/form_set_loop.html" with formset=subform %}
+			</div>
+		{% endfor %}
+	{% endif %}
+</div>

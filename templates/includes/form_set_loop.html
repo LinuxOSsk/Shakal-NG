@@ -1,0 +1,46 @@
+{{ formset.non_form_errors }}
+{{ formset.management_form }}
+
+<table class="formset">
+	{% for form in formset.forms %}
+		{% if form.non_field_errors %}
+		<tr class="errornote">
+			<td colspan="{{ form.visible_fields|length }}">
+			{% for error in form.non_field_errors %}
+				{{ error }}
+			{% endfor %}
+			</td>
+		</tr>
+		{% endif %}
+		{% if forloop.first %}
+			<thead>
+				<tr>
+					{% for field in form.visible_fields %}
+					<th>
+						{{ field.label|capfirst }}
+						{% if field.help_text %}<p class="help">{{ field.field.help_text|safe }}</p>{% endif %}
+					</th>
+					{% endfor %}
+				</tr>
+			</thead>
+		{% endif %}
+		<tr class="{% cycle row1,row2 %}">
+		{% for field in form %}
+			<td>
+				{% if forloop.first %}
+					{% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+				{% endif %}
+				{% ifnotequal field form.DELETE %}
+					{{ field.errors }}
+					{{ field }}
+				{% endifnotequal %}
+			</td>
+		{% endfor %}
+		{% if form.can_delete %}
+			<td>
+				{{ form.DELETE }}
+			</td>
+		{% endif %}
+		</tr>
+	{% endfor %}
+</table>
