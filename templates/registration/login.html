@@ -10,7 +10,7 @@
 <form action="{% url 'auth_login' %}" method="post" id="login-form">{% csrf_token %}
 	<fieldset class="login">
 		<h2>{% trans "Log in" %}</h2>
-		{{ form.as_p }}
+		{% include 'includes/form_loop.html' with form=form %}
 		<div class="submit-row">
 			<input type="submit" title="{% trans "Log in" %}" value="{% trans "Log in" %}" />
 		</div>

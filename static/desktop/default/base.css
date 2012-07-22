@@ -91,6 +91,7 @@ fieldset h2 {
 
 /* === UI prvky === */
 
+/* Tlačidlo */
 .button.flat {
 	line-height: 38px;
 }
@@ -131,6 +132,7 @@ fieldset h2 {
 	display: block;
 }
 
+/* Dropdown zoznam */
 .dropdown.menu {
 	background: white;
 	position: relative;
@@ -162,6 +164,25 @@ fieldset h2 {
 
 .dropdown.menu li:hover {
 	background: #d5eeff;
+}
+
+/* Formulár */
+.form-row {
+	padding: .5em .7em;
+	border-bottom: 1px solid #eee;
+}
+
+.form-row label {
+	display: block;
+	padding: 0 10px 0 0;
+	float: left;
+	width: 10em;
+	color: #555;
+}
+
+.form-row label.required {
+	color: black;
+	font-weight: bold;
 }
 
 /* === Layout === */
@@ -222,5 +243,10 @@ fieldset h2 {
 
 #user_panel:hover #userlinks {
 	display: block;
+}
+
+#login-form {
+	width: 30em;
+	margin: 2em auto 0 auto;
 }
 
