@@ -193,7 +193,7 @@ button:active:hover span, .button.flat:active:hover span {
 
 /* Formulár */
 .form-row {
-	padding: .5em .7em;
+	padding: .7em .7em;
 	border-bottom: 1px solid #eee;
 }
 
@@ -208,6 +208,16 @@ button:active:hover span, .button.flat:active:hover span {
 .form-row label.required {
 	color: black;
 	font-weight: bold;
+}
+
+.submit-row {
+	height: 41px;
+	background: url('images/submit_row_bg.png') repeat-x;
+	margin: 0 -5px;
+}
+
+.submit-row .positive {
+	float: right;
 }
 
 /* === Layout === */

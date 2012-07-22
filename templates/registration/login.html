@@ -12,7 +12,9 @@
 		<h2>{% trans "Log in" %}</h2>
 		{% include 'includes/form_loop.html' with form=form %}
 		<div class="submit-row">
-			<button type="submit" title="{% trans "Log in" %}"><span>{% trans "Log in" %}</span></button>
+			<div class="positive">
+				<button type="submit" title="{% trans "Log in" %}"><span>{% trans "Log in" %}</span></button>
+			</div>
 		</div>
 		<input type="hidden" name="next" value="{{ next }}" />
 	</fieldset>
