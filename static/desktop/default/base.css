@@ -1,0 +1,103 @@
+body {
+	background-color: white;
+	color: black;
+	margin: 0;
+	padding: 0;
+	min-width: 800px;
+	font-family: sans-serif;
+}
+
+/* === Nastavenia základných prvkov === */
+
+article a, section a, p a {
+	color: #1d5886;
+	text-decoration: none;
+	border-bottom: 1px solid #c6c8e8;
+}
+
+article a:hover, section a:hover, p a:hover {
+	color: #0c3875;
+	border-bottom: 1px solid #1d5886;
+}
+
+header, nav {
+	display: block;
+}
+
+h1 {
+	font-size:2.5em;
+	margin: 16px 0px;
+}
+
+h2 {
+	font-size: 1.5em;
+	margin: 16px 0px;
+}
+
+h3 {
+	font-size: 1.25em;
+	margin: 10px 0px;
+}
+
+h4 {
+	font-size: 1em;
+	margin: 5px 0px;
+}
+
+h5 {
+	font-size: 0.85em;
+	margin: 4px 0px;
+}
+
+h6 {
+	font-size: 0.66em;
+	margin: 3px 0px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: bold;
+}
+
+h1, h2 {
+	color: #4c4e5a;
+}
+
+h3, h4 {
+	color: #5d6370;
+}
+
+h5, h6 {
+	color: black;
+}
+
+/* === Hlavička === */
+
+#linuxos_logo {
+	width: 240px;
+	height: 80px;
+	background: url('images/logo.png') no-repeat;
+	display: block;
+	text-align: center;
+	margin: 0px auto;
+	overflow: hidden;
+	text-indent: -9999px;
+}
+
+.hdrleft {
+	width: 32%;
+	float: left;
+}
+
+.hdrmain {
+	width: 68%;
+	float: right;
+}
+
+.hdrleft, .hdrmain {
+	height: 80px;
+}
+
+#top_header {
+	height: 80px;
+	background: url('images/header_bg.png') repeat-x;
+}
