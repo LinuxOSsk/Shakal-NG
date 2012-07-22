@@ -195,14 +195,20 @@ button:active:hover span, .button.flat:active:hover span {
 .form-row {
 	padding: .7em .7em;
 	border-bottom: 1px solid #eee;
+	overflow: hidden;
 }
 
 .form-row label {
 	display: block;
-	padding: 0 10px 0 0;
+	padding: 5px 10px 0 0;
 	float: left;
 	width: 10em;
 	color: #555;
+}
+
+.form-row input {
+	vertical-align: middle;
+	width: 15em;
 }
 
 .form-row label.required {
@@ -218,6 +224,12 @@ button:active:hover span, .button.flat:active:hover span {
 
 .submit-row .positive {
 	float: right;
+}
+
+input {
+	background: #fff url('images/input_bg.png') repeat-x;
+	border: 1px solid #e6e4e4;
+	padding: 3px 6px;
 }
 
 /* === Layout === */
@@ -283,4 +295,3 @@ button:active:hover span, .button.flat:active:hover span {
 	width: 30em;
 	margin: 2em auto 0 auto;
 }
-
