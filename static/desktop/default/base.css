@@ -70,6 +70,39 @@ h5, h6 {
 	color: black;
 }
 
+/* === UI prvky === */
+.button.flat {
+	/*background: url('images/button_flat.png') no-repeat;*/
+	line-height: 30px;
+}
+
+
+.button.flat span:before {
+	content: ".";
+	width: 10px;
+	background: url('images/button_flat.png') no-repeat;
+	float: left;
+	margin-left: -10px;
+	text-indent: -9999px;
+	overflow: hidden;
+}
+
+.button.flat span {
+	background: url('images/button_flat.png') no-repeat top right;
+	display: block;
+	float: left;
+	padding-right: 10px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #1d5886;
+	text-shadow: 0px 1px 0px white;
+}
+
+.button.flat a {
+	color: #1d5886;
+	text-decoration: none;
+}
+
 /* === Hlavička === */
 
 #linuxos_logo {
@@ -101,3 +134,11 @@ h5, h6 {
 	height: 80px;
 	background: url('images/header_bg.png') repeat-x;
 }
+
+/* Prihlásenie */
+
+#user_panel {
+	float: right;
+	margin: 10px 10px 0 0;
+}
+
