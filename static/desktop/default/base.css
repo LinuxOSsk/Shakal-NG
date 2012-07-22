@@ -116,6 +116,18 @@ h5, h6 {
 	display: none;
 }
 
+.dropdown.menu:before {
+	content: ".";
+	text-indent: -9999px;
+	overflow: hidden;
+	width: 13px;
+	height: 7px;
+	background: url('images/corner_arrow_up.png') no-repeat;
+	position: absolute;
+	top: -7px;
+	right: 10px;
+}
+
 .dropdown.menu li {
 	list-style: none;
 	padding: 0px 10px;
@@ -171,18 +183,11 @@ h5, h6 {
 	float: right;
 }
 
-#user_panel:hover #userlinks {
-	display: block;
+.hdrmain .button.flat span a {
+	padding-left: 15px;
+	background: url('images/profile_icon_14.png') no-repeat center left;
 }
 
-.dropdown.menu:before {
-	content: ".";
-	text-indent: -9999px;
-	overflow: hidden;
-	width: 13px;
-	height: 7px;
-	background: url('images/corner_arrow_up.png') no-repeat;
-	position: absolute;
-	top: -7px;
-	right: 10px;
+#user_panel:hover #userlinks {
+	display: block;
 }
