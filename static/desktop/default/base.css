@@ -295,3 +295,61 @@ input {
 	width: 30em;
 	margin: 2em auto 0 auto;
 }
+
+/* === Systémové správy === */
+
+.errorlist {
+	background: #fcc;
+	border: 1px solid #faa;
+	border-radius: 3px;
+	padding: 2px 3px;
+	margin: 1px;
+}
+
+.errorlist li {
+	list-style: none;
+}
+
+.error {
+	color: red;
+}
+
+.error.passive {
+	font-size: 130%;
+	font-weight: bold;
+}
+
+ul.messages {
+	padding: 0px;
+	margin: 10px;
+	color: black;
+}
+
+ul.messages li {
+	display: block;
+	padding: 5px;
+	margin: 0px;
+	list-style: none;
+	border-radius: 3px;
+}
+
+ul.messages li.info {
+	background: #eefaff;
+	border: 1px solid #cdf;
+}
+
+ul.messages li.success {
+	background: #efe;
+	border: 1px solid #afa;
+}
+
+ul.messages li.warning {
+	background: #ffffe0;
+	border: 1px solid #ff4;
+}
+
+ul.messages li.error {
+	background: #fcc;
+	border: 1px solid #faa;
+}
+
