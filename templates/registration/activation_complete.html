@@ -3,6 +3,6 @@
 {% block title %}{% trans "Activation" %}{% endblock %}
 
 {% block main %}
-{% trans "Your account is now active!" %}
+<h1>{% trans "Your account is now active!" %}</h1>
 <a href="{% url 'auth_login' %}?next={% url 'home' %}">{% trans "Log in" %}</a>
 {% endblock %}
