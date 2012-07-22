@@ -25,7 +25,7 @@ header, nav {
 }
 
 h1 {
-	font-size:2.5em;
+	font-size: 2em;
 	margin: 16px 0px;
 }
 
@@ -73,35 +73,42 @@ h5, h6 {
 /* === UI prvky === */
 
 .button.flat {
-	/*background: url('images/button_flat.png') no-repeat;*/
-	line-height: 30px;
+	line-height: 38px;
 }
 
 .button.flat span:before {
 	content: ".";
-	width: 10px;
-	background: url('images/button_flat.png') no-repeat;
+	width: 15px;
+	background: url('images/button_flat.png') no-repeat top left;
 	float: left;
-	margin-left: -10px;
+	margin-left: -15px;
 	text-indent: -9999px;
 	overflow: hidden;
+}
+
+.button.flat:hover span:before {
+	background: url('images/button_flat.png') no-repeat left -38px !important;
 }
 
 .button.flat span {
 	background: url('images/button_flat.png') no-repeat top right;
 	display: block;
 	float: left;
-	padding-right: 10px;
+	padding-right: 15px;
 	font-size: 14px;
 	font-weight: bold;
 	color: #1d5886;
 	text-shadow: 0px 1px 0px white;
 }
 
+.button.flat:hover span {
+	background: url('images/button_flat.png') no-repeat right -38px !important;
+}
+
 .button.flat a {
 	color: #1d5886;
 	text-decoration: none;
-	line-height: 30px;
+	line-height: 38px;
 	display: block;
 }
 
@@ -110,7 +117,7 @@ h5, h6 {
 	position: relative;
 	right: 0px;
 	padding: 3px 0px;
-	margin: 36px 1px 0 0;
+	margin: 38px 1px 0 0;
 	border-radius: 3px;
 	box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.8);
 	display: none;

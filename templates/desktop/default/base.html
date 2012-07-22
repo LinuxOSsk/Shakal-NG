@@ -31,6 +31,9 @@
 						<li>
 							<a href="{% url 'auth_logout' %}">{% trans 'Log out' %}</a>
 						</li>
+						<li>
+							<a href="{% url 'auth_password_change' %}">{% trans "Change password" %}</a>
+						</li>
 					</ul>
 				{% else %}
 					<span class="login"><a href="{% url 'auth_login' %}?next={% url 'home' %}">{% trans "Log in" %}</a></span>
@@ -39,7 +42,10 @@
 							<a href="{% url 'auth_login' %}?next={% url 'home' %}">{% trans "Log in" %}</a>
 						</li>
 						<li>
-							<a href="{% url 'registration_register' %}">{% trans 'Register' %}</a>
+							<a href="{% url 'registration_register' %}">{% trans 'Sign up' %}</a>
+						</li>
+						<li>
+							<a href="{% url 'auth_password_reset' %}">{% trans "Password reset" %}</a>
 						</li>
 					</ul>
 				{% endif %}
