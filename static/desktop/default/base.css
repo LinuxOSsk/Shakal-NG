@@ -92,11 +92,20 @@ fieldset h2 {
 /* === UI prvky === */
 
 /* Tlačidlo */
-.button.flat {
+button, .button.flat {
 	line-height: 38px;
+	border: none;
+	padding: 0px 0px 0px 15px;
+	margin: 0;
+	background: none;
+	cursor: pointer;
 }
 
-.button.flat span:before {
+button:focus {
+	outline: none;
+}
+
+button span:before, .button.flat span:before {
 	content: ".";
 	width: 15px;
 	background: url('images/button_flat.png') no-repeat top left;
@@ -106,11 +115,19 @@ fieldset h2 {
 	overflow: hidden;
 }
 
-.button.flat:hover span:before {
+button:hover span:before, .button.flat:hover span:before {
 	background: url('images/button_flat.png') no-repeat left -38px !important;
 }
 
-.button.flat span {
+button:focus span:before, .button.flat:active span:before, button:active span:before, .button.flat:focus span:before {
+	background: url('images/button_flat.png') no-repeat left -76px !important;
+}
+
+button:active:hover span:before, .button.flat:active:hover span:before {
+	background: url('images/button_flat.png') no-repeat left -76px !important;
+}
+
+button span, .button.flat span {
 	background: url('images/button_flat.png') no-repeat top right;
 	display: block;
 	float: left;
@@ -121,8 +138,16 @@ fieldset h2 {
 	text-shadow: 0px 1px 0px white;
 }
 
-.button.flat:hover span {
+button:hover span, .button.flat:hover span {
 	background: url('images/button_flat.png') no-repeat right -38px !important;
+}
+
+button:active span, .button.flat:active span, button:focus span, .button.flat:focus span {
+	background: url('images/button_flat.png') no-repeat right -76px !important;
+}
+
+button:active:hover span, .button.flat:active:hover span {
+	background: url('images/button_flat.png') no-repeat right -76px !important;
 }
 
 .button.flat a {
@@ -228,7 +253,6 @@ fieldset h2 {
 #user_panel {
 	float: right;
 	margin: 10px 10px 0 0;
-	padding: 0px 0px 0px 10px;
 	position: relative;
 }
 
