@@ -55,6 +55,15 @@
 	<div id="colmask">
 		<div id="colinner">
 			<div id="colmain">
+				{% block messages %}
+					{% if messages %}
+						<ul class="messages">
+							{% for message in messages %}
+								<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				{% endblock %}
 				{% block main %}{% endblock %}
 			</div>
 			<aside id="colleft">

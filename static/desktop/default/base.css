@@ -167,6 +167,7 @@ button:active:hover span, .button.flat:active:hover span {
 	border-radius: 3px;
 	box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.8);
 	display: none;
+	z-index: 1;
 }
 
 .dropdown.menu:before {
@@ -321,8 +322,10 @@ input {
 
 ul.messages {
 	padding: 0px;
-	margin: 10px;
+	margin: 0 -1em 0 -1em;
 	color: black;
+	position: relative;
+	top: -1em;
 }
 
 ul.messages li {
