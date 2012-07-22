@@ -16,40 +16,32 @@
 			<a id="linuxos_logo" href="{% url 'home' %}">LinuxOS</a>
 		</div>
 		<div class="hdrmain">
-<!--
-		{% if user.is_authenticated %}
-			<ul id="userlinks">
-				<li class="profile">
-					<a href="{# url 'profile' #}">
-						{% trans "Profile" %}
-						(<span class="username">{% firstof user.first_name user.username %}</span>)
-					</a>
-				</li>
-				{% if user.is_superuser %}
-				<li>
-					<a href="{% url 'admin:index' %}">{% trans 'CMS' %}</a>
-				</li>
-				{% endif %}
-				<li>
-					<a href="{% url 'auth_logout' %}">{% trans 'Log out' %}</a>
-				</li>
-			</ul>
-		{% else %}
-			<ul id="userlinks">
-				<li>
-					<a href="{% url 'auth_login' %}?next={% url 'home' %}">{% trans "Log in" %}</a>
-				</li>
-				<li>
-					<a href="{% url 'registration_register' %}">{% trans 'Register' %}</a>
-				</li>
-			</ul>
-		{% endif %}
--->
 			<div id="user_panel"class="button flat{% if user.is_authenticated %} authenticated{% endif %}">
 				{% if user.is_authenticated %}
 					<span class="username"><a href="#">{% firstof user.first_name user.username %}</a></span>
+					<ul id="userlinks" class="dropdown menu">
+						<li>
+							<a href="{# url 'profile' #}">{% trans "Profile" %}</a>
+						</li>
+						{% if user.is_superuser %}
+						<li>
+							<a href="{% url 'admin:index' %}">{% trans 'Site administration' %}</a>
+						</li>
+						{% endif %}
+						<li>
+							<a href="{% url 'auth_logout' %}">{% trans 'Log out' %}</a>
+						</li>
+					</ul>
 				{% else %}
 					<span class="login"><a href="{% url 'auth_login' %}?next={% url 'home' %}">{% trans "Log in" %}</a></span>
+					<ul id="userlinks" class="dropdown menu">
+						<li>
+							<a href="{% url 'auth_login' %}?next={% url 'home' %}">{% trans "Log in" %}</a>
+						</li>
+						<li>
+							<a href="{% url 'registration_register' %}">{% trans 'Register' %}</a>
+						</li>
+					</ul>
 				{% endif %}
 			</div>
 		</div>
