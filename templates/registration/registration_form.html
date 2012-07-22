@@ -3,10 +3,15 @@
 {% block title %}{% trans "Registration" %}{% endblock %}
 
 {% block main %}
+<h1>{% trans "Sign up" %}</h1>
 <form action="{% url 'registration_register' %}" method="post" id="registration-form">{% csrf_token %}
-	{{ form.as_p }}
-	<p class="submit-row">
-		<input type="submit" title="{% trans "Submit" %}" value="{% trans "Submit" %}" />
-	</p>
+	<fieldset>
+		{% include 'includes/form_loop.html' with form=form %}
+		<div class="submit-row">
+			<div class="positive">
+				<button type="submit" title="{% trans "Submit" %}"><span>{% trans "Submit" %}</span></button>
+			</div>
+		</div>
+	</fieldset>
 </form>
 {% endblock %}
