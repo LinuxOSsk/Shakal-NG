@@ -1,10 +1,15 @@
-{% extends "base.html" %}{% load i18n %}
+{% extends "base.html" %}{% load i18n %}{% load url from future %}
 
 {% block title %}{% trans 'User profile' %}{% endblock %}
 
 {% block main %}
 
 <h1>{% trans 'User profile' %}</h1>
+{% if is_my_profile %}
+<ul class="object-tools">
+	<li><a href="#">{% trans 'Edit my profile' %}</a></li>
+</ul>
+{% endif %}
 
 <table>
 	{% for user_property in user_table %}

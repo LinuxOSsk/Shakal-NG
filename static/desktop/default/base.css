@@ -92,20 +92,21 @@ fieldset h2 {
 /* === UI prvky === */
 
 /* Tlačidlo */
-button, .button.flat {
+button, .button.flat, .object-tools li {
 	line-height: 38px;
 	border: none;
 	padding: 0px 0px 0px 15px;
 	margin: 0;
 	background: none;
 	cursor: pointer;
+	list-style: none;
 }
 
 button:focus {
 	outline: none;
 }
 
-button span:before, .button.flat span:before {
+button span:before, .button.flat span:before, .object-tools a:before {
 	content: ".";
 	width: 15px;
 	background: url('images/button_flat.png') no-repeat top left;
@@ -127,7 +128,7 @@ button:active:hover span:before, .button.flat:active:hover span:before {
 	background: url('images/button_flat.png') no-repeat left -76px !important;
 }
 
-button span, .button.flat span {
+button span, .button.flat span, .object-tools a {
 	background: url('images/button_flat.png') no-repeat top right;
 	display: block;
 	float: left;
@@ -136,6 +137,7 @@ button span, .button.flat span {
 	font-weight: bold;
 	color: #1d5886;
 	text-shadow: 0px 1px 0px white;
+	text-decoration: none;
 }
 
 button:hover span, .button.flat:hover span {
@@ -155,6 +157,11 @@ button:active:hover span, .button.flat:active:hover span {
 	text-decoration: none;
 	line-height: 38px;
 	display: block;
+}
+
+.object-tools {
+	float: right;
+	margin-top: -3.5em;
 }
 
 /* Dropdown zoznam */
@@ -279,11 +286,11 @@ input[type="text"], input[type="password"] {
 	position: relative;
 }
 
-.hdrmain .button.flat span {
+.button.flat span {
 	float: right;
 }
 
-.hdrmain .button.flat span a {
+.button.flat span a {
 	padding-left: 15px;
 	background: url('images/profile_icon_14.png') no-repeat center left;
 }

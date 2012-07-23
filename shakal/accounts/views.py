@@ -28,7 +28,8 @@ def profile(request, pk):
 		email = user.email.replace('@', ' ' + ugettext('ROLLMOP') + ' ').replace('.', ' ' + ugettext('DOT') + ' ')
 		user_table = user_table + ({ 'name': _('e-mail'), 'value': email}, )
 	context = {
-		'user_table': user_table
+		'user_table': user_table,
+		'is_my_profile': request.user == user,
 	}
 	return TemplateResponse(request, "registration/profile.html", RequestContext(request, context))
 
