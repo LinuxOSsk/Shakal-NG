@@ -2,7 +2,7 @@
 
 {% block title %}{% trans "Registration" %}{% endblock %}
 
-{% block main %}
+{% block content %}
 <h1>{% trans "Sign up" %}</h1>
 <form action="{% url 'registration_register' %}" method="post" id="registration-form">{% csrf_token %}
 	<fieldset>
