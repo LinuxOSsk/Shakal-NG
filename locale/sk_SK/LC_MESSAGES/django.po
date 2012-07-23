@@ -1,0 +1,261 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-07-23 18:05+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
+"X-Language: sk_SK\n"
+"X-Source-Language: C\n"
+
+msgid "profile"
+msgstr "profil"
+
+msgid "profiles"
+msgstr "profily"
+
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr ""
+"Zvolená e-mailová adresa je už používaná. Zadajte prosím inú e-mailovú "
+"adresu."
+
+msgid "Remember me"
+msgstr "Zapamätať ma"
+
+msgid "Username"
+msgstr "Používateľské meno"
+
+msgid "Required. Length 3 - 30 characters."
+msgstr "Povinné. Dĺžka 3 - 30 znakov."
+
+msgid "This value must contain spaces oly in the middle."
+msgstr "Táto hodnota môže obsahovať medzery len v strede."
+
+msgid "Current password"
+msgstr "Súčasné heslo"
+
+msgid "First name"
+msgstr "Krstné meno"
+
+msgid "Last name"
+msgstr "Priezvisko"
+
+msgid "Please enter the correct password."
+msgstr "Zadajte prosím správne heslo."
+
+msgid "display mail"
+msgstr "zobrazovať email"
+
+msgid "linux distribution"
+msgstr "linuxová distribúcia"
+
+msgid "informations"
+msgstr "informácie"
+
+msgid "year of birth"
+msgstr "rok narodenia"
+
+msgid "user name"
+msgstr "používateľské meno"
+
+msgid "first name"
+msgstr "krsné meno"
+
+msgid "last name"
+msgstr "priezvisko"
+
+msgid "signature"
+msgstr "podpis"
+
+msgid "info"
+msgstr "info"
+
+msgid "ROLLMOP"
+msgstr "UDENÁ RYBA"
+
+msgid "DOT"
+msgstr "BODKA"
+
+msgid "e-mail"
+msgstr "e-mail"
+
+msgid "name"
+msgstr "meno"
+
+msgid "icon"
+msgstr "ikona"
+
+msgid "category"
+msgstr "kategória"
+
+msgid "categories"
+msgstr "kategórie"
+
+msgid "Shakal admin"
+msgstr "Shakal administrácia"
+
+msgid "Welcome to Shakal admin interface"
+msgstr "Vitajte v administrátorskom rozhraní Shakal CMS"
+
+msgid "Profile"
+msgstr "Profil"
+
+msgid "Site administration"
+msgstr "Správa stránky"
+
+msgid "Log out"
+msgstr "Odhlásiť"
+
+msgid "Change password"
+msgstr "Zmeniť heslo"
+
+msgid "Log in"
+msgstr "Prihlásiť"
+
+msgid "Sign up"
+msgstr "Registrovať"
+
+msgid "Password reset"
+msgstr "Obnovenie hesla"
+
+msgid "Activation"
+msgstr "Aktivácia"
+
+#, python-format
+msgid "Activation with key %(activation_key)s failed."
+msgstr "Aktivácia s kľúčom %(activation_key)s bola neúspešná."
+
+msgid "Your account is now active!"
+msgstr "Váš účet je aktívny!"
+
+msgid "Your activation key"
+msgstr "Váš aktivačný kľúč"
+
+msgid "Please use this link to activate your account"
+msgstr "Použite prosím nasledujúci odkaz pre aktiváciu Vášho účtu"
+
+msgid "After activation you can login to the site"
+msgstr "Po aktivácii sa môžte prihlásiť na stránku"
+
+msgid "Activate your account"
+msgstr "Aktivujte si účet"
+
+msgid "Log in to"
+msgstr "Prihlásiť sa na"
+
+msgid "Logged out"
+msgstr "Odhlásený"
+
+msgid "Thanks for spending some quality time with the Web site today."
+msgstr "Ďakujeme za čas strávený na našich stránkach."
+
+msgid "Password change successful"
+msgstr "Zmena hesla úspešná"
+
+msgid "Your password was changed."
+msgstr "Vaše heslo bolo zmenené."
+
+msgid "Password change"
+msgstr "Zmena hesla"
+
+msgid ""
+"Please enter your old password, for security's sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr ""
+"Z bezpečnostných dôvodov zadajte staré heslo a potom nové heslo dvakrát, aby "
+"sme mohli overiť, že ste ho zadali správne."
+
+msgid "Change my password"
+msgstr "Zmeniť moje heslo"
+
+msgid "Password reset complete"
+msgstr "Obnovenie hesla ukončené"
+
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr "Vaše heslo bolo nastavené. Môžete pokračovať a prihlásiť sa."
+
+msgid "Enter new password"
+msgstr "Zadajte nové heslo"
+
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+"Zadajte nové heslo dvakrát, aby sme mohli overiť, že ste ho zadali správne."
+
+msgid "Submit"
+msgstr "Odoslať"
+
+msgid "Password reset unsuccessful"
+msgstr "Obnova hesla sa nepodarila"
+
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a new password reset."
+msgstr ""
+"Odkaz na obnovenie hesla je neplatný, pretože už bol pravdepodobne raz "
+"použitý. Prosím, požiadajte znovu o obnovu hesla."
+
+msgid "Password reset successful"
+msgstr "Obnovenie hesla úspešné"
+
+msgid ""
+"We've e-mailed you instructions for setting your password to the e-mail "
+"address you submitted. You should be receiving it shortly."
+msgstr ""
+"Na uvedenú e-mailovú adresu sme vám poslali návod na obnovenie hesla. Mali "
+"by ste ho zakrátko dostať."
+
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll e-mail "
+"instructions for setting a new one."
+msgstr ""
+"Zabudli ste heslo? Zadajte svoju e-mail adresu a my Vám pošleme inštrukcie "
+"pre nastavenie nového."
+
+msgid "E-mail address:"
+msgstr "E-mailová adresa:"
+
+msgid "Reset my password"
+msgstr "Obnova môjho hesla"
+
+msgid "User profile"
+msgstr "Používateľský profil"
+
+msgid "Edit my profile"
+msgstr "Upraviť môj profil"
+
+msgid "Edit user profile"
+msgstr "Upraviť používateľský profil"
+
+msgid "Back to profile"
+msgstr "Späť na profil"
+
+msgid "Save"
+msgstr "Uložiť"
+
+msgid "Registration complete"
+msgstr "Registrácia dokončená"
+
+msgid "Registration complete!"
+msgstr "Registrácia dokončená!"
+
+msgid "Registration"
+msgstr "Registrácia"
+
+msgid "Create account"
+msgstr "Vytvoriť účet"

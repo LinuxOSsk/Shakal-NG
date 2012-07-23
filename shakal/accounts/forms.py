@@ -28,7 +28,7 @@ class LessRestrictiveUserEditFormMixin:
 			max_length = 30,
 			min_length = 3,
 			regex = r'^([^\s]+[ ]?)*[^\s]$',
-			help_text = _('Required. 30 characters or fewer.'),
+			help_text = _('Required. Length 3 - 30 characters.'),
 			error_message = _('This value must contain spaces oly in the middle.'))
 
 
