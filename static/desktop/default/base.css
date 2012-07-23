@@ -245,6 +245,10 @@ button:active:hover span, .button.flat:active:hover span {
 	float: right;
 }
 
+.submit-row .negative {
+	float: left;
+}
+
 input[type="text"], input[type="password"], textarea {
 	background: #fff url('images/input_bg.png') repeat-x;
 	border: 1px solid #e6e4e4;
@@ -301,7 +305,7 @@ input[type="text"], input[type="password"], textarea {
 	float: right;
 }
 
-.button.flat span a {
+.button.flat span.username a {
 	padding-left: 15px;
 	background: url('images/profile_icon_14.png') no-repeat center left;
 }

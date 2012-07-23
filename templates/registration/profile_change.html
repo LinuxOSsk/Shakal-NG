@@ -12,6 +12,9 @@
 	<fieldset>
 		{% include 'includes/form_loop.html' with form=form %}
 		<div class="submit-row">
+			<div class="negative">
+				<div class="button flat"><span><a href="{% url 'auth_my_profile' %}">{% trans "Back to profile" %}</a></span></div>
+			</div>
 			<div class="positive">
 				<button type="submit" title="{% trans "Save" %}"><span>{% trans "Save" %}</span></button>
 			</div>
