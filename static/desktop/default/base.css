@@ -161,7 +161,7 @@ button:active:hover span, .button.flat:active:hover span {
 
 .object-tools {
 	float: right;
-	margin-top: -3.5em;
+	margin-top: -4em;
 }
 
 /* Dropdown zoznam */
@@ -222,6 +222,12 @@ button:active:hover span, .button.flat:active:hover span {
 .form-row label.required {
 	color: black;
 	font-weight: bold;
+}
+
+.form-row p.help {
+	padding-left: 12em;
+	font-size: 0.875em;
+	color: #888;
 }
 
 .submit-row {
