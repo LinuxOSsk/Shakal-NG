@@ -57,3 +57,11 @@ class ProfileEditForm(ModelForm):
 				'last_name': user.last_name,
 			}
 		super(ProfileEditForm, self).__init__(*args, **kwargs)
+
+	def save(self, commit = True):
+		user_profile = super(ProfileEditForm, self).save(commit)
+		user = user_profile.user
+		user.first_name = self.cleaned_data['first_name']
+		user.last_name = self.cleaned_data['last_name']
+		if commit:
+			user.save()
