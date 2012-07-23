@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
+from shakal.accounts.forms import LessRestrictiveUserChangeForm, LessRestrictiveUserCreationForm
 from shakal.accounts.models import UserProfile
 
 class UserProfileInline(admin.StackedInline):
@@ -14,6 +15,8 @@ class UserProfileInline(admin.StackedInline):
 
 class UserAdmin(AuthUserAdmin):
 	inlines = [UserProfileInline]
+	form = LessRestrictiveUserChangeForm
+	add_form = LessRestrictiveUserCreationForm
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
