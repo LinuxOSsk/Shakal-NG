@@ -73,8 +73,14 @@ MIDDLEWARE_CLASSES = (
 	'django.middleware.locale.LocaleMiddleware',
 	'django.middleware.csrf.CsrfViewMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'auth_remember.middleware.AuthRememberMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django_tools.middlewares.ThreadLocal.ThreadLocalMiddleware', # required for template_dynamicloader
+)
+
+AUTHENTICATION_BACKENDS = (
+	'django.contrib.auth.backends.ModelBackend',
+	'auth_remember.backend.AuthRememberBackend',
 )
 
 ROOT_URLCONF = 'shakal.urls'
@@ -95,6 +101,7 @@ INSTALLED_APPS = (
 	'django.contrib.admin',
 	'django.contrib.comments',
 	'django_tools',
+	'auth_remember',
 	'registration',
 	'shakal.accounts',
 	'shakal.article',

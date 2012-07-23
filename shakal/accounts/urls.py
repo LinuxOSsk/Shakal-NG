@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from django.conf.urls import patterns, include, url
-from forms import RegistrationFormUniqueEmail
+from forms import RegistrationFormUniqueEmail, AuthenticationRememberForm
+from shakal.accounts import views as shakal_views
 
 class Pattenrs(object):
 	def __init__(self):
@@ -14,7 +15,8 @@ class Pattenrs(object):
 	@property
 	def urls(self):
 		urlpatterns = patterns('',
-			url(r'^register/$', 'registration.views.register', self.register_context, name='registration_register'),
+			url(r'^register/$', 'registration.views.register', self.register_context, name = 'registration_register'),
+			url(r'^login/$', shakal_views.login, {'template_name' : 'registration/login.html', 'authentication_form': AuthenticationRememberForm}, name = 'auth_login'),
 			url(r'^', include('registration.backends.default.urls')),
 		)
 		return urlpatterns
