@@ -89,6 +89,11 @@ fieldset h2 {
 	text-shadow: 1px 1px 0px #418cc0;
 }
 
+textarea {
+	width: 30em;
+	height: 10em;
+}
+
 /* === UI prvky === */
 
 /* Tlačidlo */
@@ -240,7 +245,7 @@ button:active:hover span, .button.flat:active:hover span {
 	float: right;
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="password"], textarea {
 	background: #fff url('images/input_bg.png') repeat-x;
 	border: 1px solid #e6e4e4;
 	padding: 3px 6px;
