@@ -5,9 +5,14 @@ body {
 	padding: 0;
 	min-width: 800px;
 	font-family: sans-serif;
+	height: 100%;
 }
 
 /* === Nastavenia základných prvkov === */
+
+header, nav {
+	display: block;
+}
 
 article a, section a, p a {
 	color: #1d5886;
@@ -18,10 +23,6 @@ article a, section a, p a {
 article a:hover, section a:hover, p a:hover {
 	color: #0c3875;
 	border-bottom: 1px solid #1d5886;
-}
-
-header, nav {
-	display: block;
 }
 
 h1 {
@@ -257,8 +258,41 @@ input[type="text"], input[type="password"], textarea {
 
 /* === Layout === */
 
+#colmask {
+	position: relative;
+	clear: both;
+	float: left;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+#colinner {
+	float: left;
+	width: 100%;
+	position: relative;
+	right: 68%;
+	background: #e0ebff;
+	border-right: solid 1px #c4d1e3;
+}
+
+#colmain, #colleft {
+	float: left;
+	position: relative;
+	overflow: hidden;
+}
+
 #colmain {
-	padding: 2em;
+	width: 68%;
+	left: 100%;
+}
+
+#colleft {
+	width: 32%;
+}
+
+#site_content {
+	padding: 1.5em;
 }
 
 /* === Hlavička === */

@@ -11,44 +11,46 @@
 	{% block extrastyle %}{% endblock %}{% block extraheaders %}{% endblock %}
 </head>
 <body>
-	<header id="top_header">
-		<div class="hdrleft">
-			<a id="linuxos_logo" href="{% url 'home' %}">LinuxOS</a>
-		</div>
-		<div class="hdrmain">
-			<div id="user_panel"class="button flat{% if user.is_authenticated %} authenticated{% endif %}">
-				{% if user.is_authenticated %}
-					<span class="username"><a href="#">{% firstof user.get_full_name user.username %}</a></span>
-					<ul id="userlinks" class="dropdown menu">
-						<li>
-							<a href="{% url 'auth_profile' request.user.id %}">{% trans "Profile" %}</a>
-						</li>
-						{% if user.is_superuser %}
-						<li>
-							<a href="{% url 'admin:index' %}">{% trans 'Site administration' %}</a>
-						</li>
-						{% endif %}
-						<li>
-							<a href="{% url 'auth_logout' %}">{% trans 'Log out' %}</a>
-						</li>
-						<li>
-							<a href="{% url 'auth_password_change' %}">{% trans "Change password" %}</a>
-						</li>
-					</ul>
-				{% else %}
-					<span class="login"><a href="{% url 'auth_login' %}?next={% url 'home' %}">{% trans "Log in" %}</a></span>
-					<ul id="userlinks" class="dropdown menu">
-						<li>
-							<a href="{% url 'auth_login' %}?next={% url 'home' %}">{% trans "Log in" %}</a>
-						</li>
-						<li>
-							<a href="{% url 'registration_register' %}">{% trans 'Sign up' %}</a>
-						</li>
-						<li>
-							<a href="{% url 'auth_password_reset' %}">{% trans "Password reset" %}</a>
-						</li>
-					</ul>
-				{% endif %}
+	<header>
+		<div id="top_header">
+			<div class="hdrleft">
+				<a id="linuxos_logo" href="{% url 'home' %}">LinuxOS</a>
+			</div>
+			<div class="hdrmain">
+				<div id="user_panel"class="button flat{% if user.is_authenticated %} authenticated{% endif %}">
+					{% if user.is_authenticated %}
+						<span class="username"><a href="#">{% firstof user.get_full_name user.username %}</a></span>
+						<ul id="userlinks" class="dropdown menu">
+							<li>
+								<a href="{% url 'auth_profile' request.user.id %}">{% trans "Profile" %}</a>
+							</li>
+							{% if user.is_superuser %}
+							<li>
+								<a href="{% url 'admin:index' %}">{% trans 'Site administration' %}</a>
+							</li>
+							{% endif %}
+							<li>
+								<a href="{% url 'auth_logout' %}">{% trans 'Log out' %}</a>
+							</li>
+							<li>
+								<a href="{% url 'auth_password_change' %}">{% trans "Change password" %}</a>
+							</li>
+						</ul>
+					{% else %}
+						<span class="login"><a href="{% url 'auth_login' %}?next={% url 'home' %}">{% trans "Log in" %}</a></span>
+						<ul id="userlinks" class="dropdown menu">
+							<li>
+								<a href="{% url 'auth_login' %}?next={% url 'home' %}">{% trans "Log in" %}</a>
+							</li>
+							<li>
+								<a href="{% url 'registration_register' %}">{% trans 'Sign up' %}</a>
+							</li>
+							<li>
+								<a href="{% url 'auth_password_reset' %}">{% trans "Password reset" %}</a>
+							</li>
+						</ul>
+					{% endif %}
+				</div>
 			</div>
 		</div>
 	</header>
@@ -64,7 +66,9 @@
 						</ul>
 					{% endif %}
 				{% endblock %}
-				{% block content %}{% endblock %}
+				<div id="site_content">
+					{% block content %}{% endblock %}
+				</div>
 			</div>
 			<aside id="colleft">
 					{% block left %}
