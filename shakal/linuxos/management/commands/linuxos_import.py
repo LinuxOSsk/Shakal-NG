@@ -38,6 +38,7 @@ class Command(BaseCommand):
 			'id',
 			'jabber',
 			'url',
+			'signatura',
 			'nick',
 			'heslo',
 			'email',
@@ -86,6 +87,7 @@ class Command(BaseCommand):
 			user_profile = {
 				'jabber': self.empty_if_null(user_dict['jabber']),
 				'url': self.empty_if_null(user_dict['url']),
+				'signature': self.empty_if_null(user_dict['signature']),
 				'display_mail': self.empty_if_null(user_dict['zobrazit_mail']),
 				'distribution': self.empty_if_null(user_dict['more_info']),
 				'info': self.empty_if_null(user_dict['info']),

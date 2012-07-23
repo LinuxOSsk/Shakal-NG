@@ -133,6 +133,6 @@ LOGGING = {
 	}
 }
 
-AUTH_PROFILE_MODULE = 'shakal.accounts.Account'
+AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
 ACCOUNT_ACTIVATION_DAYS = 7
