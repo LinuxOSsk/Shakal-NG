@@ -7,7 +7,7 @@
 <h1>{% trans 'User profile' %}</h1>
 {% if is_my_profile %}
 <ul class="object-tools">
-	<li><a href="#">{% trans 'Edit my profile' %}</a></li>
+	<li><a href="{% url 'auth_my_profile_edit' %}">{% trans 'Edit my profile' %}</a></li>
 </ul>
 {% endif %}
 

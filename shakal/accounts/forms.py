@@ -3,8 +3,9 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
-from django.forms import ValidationError, BooleanField, RegexField
+from django.forms import ValidationError, BooleanField, CharField, RegexField, ModelForm
 from django.utils.translation import ugettext_lazy as _
+from models import UserProfile
 from registration.forms import RegistrationForm
 
 
@@ -37,3 +38,22 @@ class LessRestrictiveUserCreationForm(UserCreationForm, LessRestrictiveUserEditF
 
 class LessRestrictiveUserChangeForm(UserChangeForm, LessRestrictiveUserEditFormMixin):
 	username = LessRestrictiveUserEditFormMixin.get_username_field()
+
+
+class ProfileEditForm(ModelForm):
+	first_name = CharField(max_length = 30, required = False)
+	last_name = CharField(max_length = 30, required = False)
+
+	class Meta:
+		model = UserProfile
+		exclude = ('user', )
+		fields = ('first_name', 'last_name', 'jabber', 'url', 'signature', 'display_mail', 'distribution', 'info', 'year', )
+
+	def __init__(self, *args, **kwargs):
+		if 'instance' in kwargs:
+			user = kwargs['instance'].user
+			kwargs['initial'] = {
+				'first_name': user.first_name,
+				'last_name': user.last_name,
+			}
+		super(ProfileEditForm, self).__init__(*args, **kwargs)

@@ -15,7 +15,9 @@ class Pattenrs(object):
 	@property
 	def urls(self):
 		urlpatterns = patterns('',
-			url(r'^(?P<pk>[0-9]+)/', shakal_views.profile, name = 'auth_profile'),
+			url(r'^(?P<pk>[0-9]+)/$', shakal_views.profile, name = 'auth_profile'),
+			url(r'^me/$', shakal_views.my_profile, name = 'auth_my_profile'),
+			url(r'^me/edit/$', shakal_views.my_profile_edit, name = 'auth_my_profile_edit'),
 			url(r'^register/$', 'registration.views.register', self.register_context, name = 'registration_register'),
 			url(r'^login/$', shakal_views.login, {'template_name' : 'registration/login.html', 'authentication_form': AuthenticationRememberForm}, name = 'auth_login'),
 			url(r'^', include('registration.backends.default.urls')),
