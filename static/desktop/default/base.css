@@ -207,7 +207,7 @@ button:active:hover span, .button.flat:active:hover span {
 	color: #555;
 }
 
-.form-row input {
+.form-row input[type="text"], .form-row input[type="password"] {
 	vertical-align: middle;
 	width: 15em;
 }
@@ -227,7 +227,7 @@ button:active:hover span, .button.flat:active:hover span {
 	float: right;
 }
 
-input {
+input[type="text"], input[type="password"] {
 	background: #fff url('images/input_bg.png') repeat-x;
 	border: 1px solid #e6e4e4;
 	padding: 3px 6px;
@@ -299,12 +299,12 @@ input {
 
 /* === Systémové správy === */
 
-.errorlist {
+.errorlist, .errornote {
 	background: #fcc;
 	border: 1px solid #faa;
 	border-radius: 3px;
 	padding: 2px 3px;
-	margin: 1px;
+	margin: 3px;
 }
 
 .errorlist li {
