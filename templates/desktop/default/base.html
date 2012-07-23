@@ -21,7 +21,7 @@
 					<span class="username"><a href="#">{% firstof user.first_name user.username %}</a></span>
 					<ul id="userlinks" class="dropdown menu">
 						<li>
-							<a href="{# url 'profile' #}">{% trans "Profile" %}</a>
+							<a href="{% url 'auth_profile' request.user.id %}">{% trans "Profile" %}</a>
 						</li>
 						{% if user.is_superuser %}
 						<li>

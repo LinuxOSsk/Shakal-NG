@@ -6,7 +6,6 @@ from django.contrib.auth.views import login as login_view
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.template.response import TemplateResponse
-from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _, ugettext
 from django.utils.safestring import mark_safe
 
