@@ -105,6 +105,7 @@ INSTALLED_APPS = (
 	'auth_remember',
 	'breadcrumbs',
 	'registration',
+	'paginator',
 	'shakal.accounts',
 	'shakal.article',
 	'shakal.linuxos',

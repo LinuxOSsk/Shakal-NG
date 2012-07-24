@@ -22,6 +22,7 @@ def article_list(request, category = None, page = 1):
 
 	context = {
 		'articles': articles.all(),
-		'category': category_object
+		'category': category_object,
+		'pagenum': page,
 	}
 	return TemplateResponse(request, "article/article_list.html", RequestContext(request, context))

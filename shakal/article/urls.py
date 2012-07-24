@@ -12,8 +12,10 @@ class Patterns(object):
 	def urls(self):
 		urlpatterns = patterns('',
 			url(r'^$', article_views.article_list, name = 'article-list'),
+			url(r'^(?P<page>\d+)/$', article_views.article_list, name = 'article-list-page'),
 			url(r'^(?P<slug>[-\w]+)/$', article_views.article_detail_by_slug, name = "detail-by-slug"),
 			url(r'^kategoria/(?P<category>[-\w]+)/$', article_views.article_list, name = 'list-category'),
+			url(r'^kategoria/(?P<category>[-\w]+)/(?P<page>\d+)/$', article_views.article_list, name = 'list-category-page'),
 		)
 		return (urlpatterns, self.app_name, self.name)
 
