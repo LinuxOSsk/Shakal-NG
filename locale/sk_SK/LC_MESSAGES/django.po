@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-24 15:20+0200\n"
+"POT-Creation-Date: 2012-07-24 18:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,6 +25,9 @@ msgstr "^administracia/"
 
 msgid "^accounts/"
 msgstr "^profil/"
+
+msgid "^article/"
+msgstr "^clanok/"
 
 msgid "profile"
 msgstr "profil"
@@ -147,6 +150,9 @@ msgstr "autor"
 msgid "authors name"
 msgstr "meno autora"
 
+msgid "publication time"
+msgstr "čas publikácie"
+
 msgid "published"
 msgstr "publikovaný"
 
@@ -170,6 +176,9 @@ msgstr "Shakal administrácia"
 
 msgid "Welcome to Shakal admin interface"
 msgstr "Vitajte v administrátorskom rozhraní Shakal CMS"
+
+msgid "Articles"
+msgstr "Články"
 
 msgid "Profile"
 msgstr "Profil"

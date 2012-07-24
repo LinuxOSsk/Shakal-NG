@@ -1,0 +1,30 @@
+{% extends "article/article_base.html" %}{% load breadcrumbs_tags i18n %}{% load url from future %}
+
+{% block breadcrumbs %}
+{% breadcrumb %}{{ article.title|truncatechars:50 }}{% endbreadcrumb %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+<article>
+<h1>{{ article.title }}</h1>
+
+<div class="info top">
+	{{ article.time|date:"SHORT_DATETIME_FORMAT" }} |
+	{{ article.category }} |
+	{% if article.author %}
+	<a href="{% url 'auth_profile' article.author.pk %}">
+			{% firstof article.author.get_full_name article.author.username %}
+		</a>
+	{% else %}
+		{{ article.authors_name }}
+	{% endif %}
+</div>
+
+<div class="annotation">{{ article.annotation|safe }}</div>
+
+<div class="content">
+{{ article.content }}
+</div>
+</article>
+{% endblock %}
