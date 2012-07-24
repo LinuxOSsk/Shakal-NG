@@ -3,6 +3,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from datetime import datetime
 
 class Category(models.Model):
@@ -40,6 +41,15 @@ class Article(models.Model):
 	top = models.BooleanField(verbose_name = _('top article'))
 	image = models.ImageField(verbose_name = _('image'), upload_to = '/article/thumbnails', blank = True, null = True)
 	display_count = models.IntegerField(verbose_name = _('display count'), default = 0)
+
+	def clean(self):
+		slug_num = None
+		try:
+			slug_num = int(self.slug)
+		except:
+			pass
+		if slug_num is not None:
+			raise ValidationError(_('Numeric slug values are not allowed'))
 
 	def __unicode__(self):
 		return self.title
