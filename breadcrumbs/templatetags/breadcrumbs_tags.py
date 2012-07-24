@@ -40,5 +40,6 @@ def breadcrumb(parser, token):
 @register.inclusion_tag('breadcrumbs/breadcrumbs.html', takes_context = True)
 def render_breadcrumbs(context):
 	breadcrumbs = context.get('breadcrumbs', [])
+	breadcrumbs.reverse()
 	return {'breadcrumbs': breadcrumbs}
 
