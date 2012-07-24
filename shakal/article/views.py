@@ -11,3 +11,11 @@ def article_detail_by_slug(request, slug):
 		'article': article,
 	}
 	return TemplateResponse(request, "article/article_detail.html", RequestContext(request, context))
+
+
+def article_list(request):
+	articles = Article.articles.all()
+	context = {
+		'articles': articles,
+	}
+	return TemplateResponse(request, "article/article_list.html", RequestContext(request, context))

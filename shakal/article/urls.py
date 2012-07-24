@@ -11,6 +11,7 @@ class Patterns(object):
 	@property
 	def urls(self):
 		urlpatterns = patterns('',
+			url(r'^$', article_views.article_list, name = 'article-list'),
 			url(r'^(?P<slug>[-\w]+)/$', article_views.article_detail_by_slug, name = "detail-by-slug")
 		)
 		return (urlpatterns, self.app_name, self.name)

@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% load l10n %}{% load url from future %}
+{% extends "base.html" %}{% load url from future %}
 
 {% block title %}LinuxOS.sk - slovenský linuxový portál{% endblock %}
 
@@ -6,24 +6,10 @@
 <div class="module">
 	<h2>Články</h2>
 	{% for article in articles %}
-	<div class="module-row{% if forloop.last %} last{% endif %}">
-		<h3><a href="{% url 'article:detail-by-slug' slug=article.slug %}">{{ article.title}}</a></h3>
-		<div class="info top">
-			{{ article.time|date:"SHORT_DATETIME_FORMAT" }} |
-			{{ article.category }} |
-			{% if article.author %}
-			<a href="{% url 'auth_profile' article.author.pk %}">
-					{% firstof article.author.get_full_name article.author.username %}
-				</a>
-			{% else %}
-				{{ article.authors_name }}
-			{% endif %}
-		</div>
-		<div class="perex">{{ article.perex|safe }}</div>
-		<div class="info bottom">
-			<span class="stat">Prečítané: {{ article.display_count }}x</span>
-		</div>
-	</div>
+		{% include 'article/block_list_item.html' %}
 	{% endfor %}
+	<div class="module-links bottom">
+		<a href="{% url 'article:article-list' %}">Zobraziť všetky články</a>
+	</div>
 </div>
 {% endblock %}

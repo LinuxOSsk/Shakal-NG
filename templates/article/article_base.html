@@ -1,6 +1,6 @@
 {% extends "base.html" %}{% load breadcrumbs_tags i18n %}
 
 {% block breadcrumbs %}
-{% breadcrumb %}{% trans "Articles" %}{% endbreadcrumb %}
+{% breadcrumb url="article:article-list" %}{% trans "Articles" %}{% endbreadcrumb %}
 {{ block.super }}
 {% endblock %}

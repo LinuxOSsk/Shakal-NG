@@ -1,0 +1,10 @@
+{% extends "article/article_base.html" %}{% load breadcrumbs_tags i18n %}{% load url from future %}
+
+{% block content %}
+<h1>Články</h1>
+<div class="module">
+	{% for article in articles %}
+		{% include 'article/block_list_item.html' %}
+	{% endfor %}
+</div>
+{% endblock %}

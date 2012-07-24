@@ -1,0 +1,19 @@
+{% load l10n %}{% load url from future %}
+	<div class="module-row{% if forloop.last %} last{% endif %}">
+		<h3><a href="{% url 'article:detail-by-slug' slug=article.slug %}">{{ article.title}}</a></h3>
+		<div class="info top">
+			{{ article.time|date:"SHORT_DATETIME_FORMAT" }} |
+			{{ article.category }} |
+			{% if article.author %}
+			<a href="{% url 'auth_profile' article.author.pk %}">
+					{% firstof article.author.get_full_name article.author.username %}
+				</a>
+			{% else %}
+				{{ article.authors_name }}
+			{% endif %}
+		</div>
+		<div class="perex">{{ article.perex|safe }}</div>
+		<div class="info bottom">
+			<span class="stat">Prečítané: {{ article.display_count }}x</span>
+		</div>
+	</div>
