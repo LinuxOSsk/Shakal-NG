@@ -15,7 +15,9 @@ class BreadcrumbNode(template.Node):
 		contents = self.nodelist.render(context)
 		params = process_template_params(self.bits, context)
 
-		url = reverse(params.get('url', False))
+		url = params.get('url', False)
+		if url:
+			url = reverse(url)
 		cls = params.get('class', False)
 
 		breadcrumb_context = {
