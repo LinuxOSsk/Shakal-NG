@@ -7,7 +7,7 @@ from datetime import datetime
 
 class Category(models.Model):
 	name = models.CharField(max_length = 255, verbose_name = _('name'))
-	slug = models.CharField(max_length = 255)
+	slug = models.SlugField()
 	icon = models.CharField(max_length = 255, verbose_name = _('icon'))
 
 	def __unicode__(self):
@@ -28,7 +28,7 @@ class Article(models.Model):
 	articles = ArticleListManager()
 
 	title = models.CharField(max_length = 255, verbose_name = _('title'))
-	slug = models.CharField(max_length = 255)
+	slug = models.SlugField(unique = True)
 	category = models.ForeignKey(Category, on_delete = models.PROTECT, verbose_name = _('category'))
 	perex = models.TextField(verbose_name = _('perex'), help_text = _('Text on title page.'))
 	annotation = models.TextField(verbose_name = _('annotation'), help_text = _('Text before article body.'))
