@@ -1,5 +1,12 @@
 {% extends "article/article_base.html" %}{% load breadcrumbs_tags i18n %}{% load url from future %}
 
+{% block breadcrumbs %}
+{% if category %}
+{% breadcrumb %}{{ category }}{% endbreadcrumb %}
+{% endif %}
+{{ block.super }}
+{% endblock %}
+
 {% block content %}
 <h1>Články</h1>
 <div class="module">

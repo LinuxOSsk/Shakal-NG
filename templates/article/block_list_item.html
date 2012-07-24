@@ -3,7 +3,7 @@
 		<h3><a href="{% url 'article:detail-by-slug' slug=article.slug %}">{{ article.title}}</a></h3>
 		<div class="info top">
 			{{ article.time|date:"SHORT_DATETIME_FORMAT" }} |
-			{{ article.category }} |
+			<a href="{% url 'article:list-category' category=article.category.slug %}">{{ article.category }}</a> |
 			{% if article.author %}
 			<a href="{% url 'auth_profile' article.author.pk %}">
 					{% firstof article.author.get_full_name article.author.username %}
