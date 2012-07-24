@@ -5,12 +5,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth.signals import user_logged_in
 from django.contrib.auth.views import login as login_view
 from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.template.response import TemplateResponse
-from django.utils.translation import ugettext_lazy as _, ugettext
 from django.utils.safestring import mark_safe
-from django.views.generic import UpdateView
+from django.utils.translation import ugettext_lazy as _, ugettext
+from django.views.generic import RedirectView, UpdateView
 from forms import ProfileEditForm
 from models import UserProfile
 
@@ -62,6 +63,9 @@ class ProfileEditView(UpdateView):
 
 	def get_success_url(self):
 		return reverse('auth_my_profile')
+
+
+user_zone = login_required(RedirectView.as_view(url = reverse_lazy('auth_my_profile')))
 
 
 def remember_user_handle(sender, request, user, **kwargs):

@@ -15,6 +15,7 @@ class Pattenrs(object):
 	@property
 	def urls(self):
 		urlpatterns = patterns('',
+			url(r'^$', shakal_views.user_zone, name = 'auth_user_zone'),
 			url(r'^(?P<pk>[0-9]+)/$', shakal_views.profile, name = 'auth_profile'),
 			url(r'^me/$', shakal_views.my_profile, name = 'auth_my_profile'),
 			url(r'^me/edit/$', shakal_views.my_profile_edit, name = 'auth_my_profile_edit'),
