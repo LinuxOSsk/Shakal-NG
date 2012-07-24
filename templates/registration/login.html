@@ -1,6 +1,7 @@
-{% extends "base.html" %}{% load i18n %}{% load url from future %}
+{% extends "registration/user_base.html" %}{% load i18n breadcrumbs_tags %}{% load url from future %}
 
 {% block title %}{% trans "Log in" %}{% endblock %}
+{% block breadcrumbs %}{% breadcrumb %}{% trans "Log in" %}{% endbreadcrumb %}{{ block.super }}{% endblock %}
 
 {% block content %}
 {% if error_message %}

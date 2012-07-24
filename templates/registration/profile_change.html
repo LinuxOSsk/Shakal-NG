@@ -1,6 +1,11 @@
-{% extends "base.html" %}{% load i18n %}{% load url from future %}
+{% extends "registration/user_base.html" %}{% load i18n breadcrumbs_tags %}{% load url from future %}
 
 {% block title %}{% trans 'Edit user profile' %}{% endblock %}
+{% block breadcrumbs %}
+	{% breadcrumb %}{% trans 'Edit' %}{% endbreadcrumb %}
+	{% breadcrumb %}{% firstof user.get_full_name user.username %}{% endbreadcrumb %}
+	{{ block.super }}
+{% endblock %}
 
 {% block content %}
 <h1>{% trans 'Edit user profile' %}</h1>

@@ -1,6 +1,7 @@
-{% extends "base.html" %}{% load i18n %}{% load url from future %}
+{% extends "registration/user_base.html" %}{% load i18n breadcrumbs_tags %}{% load url from future %}
 
 {% block title %}{% trans "Activation" %}{% endblock %}
+{% block breadcrumbs %}{% breadcrumb %}{% trans "Activation" %}{% endbreadcrumb %}{{ block.super }}{% endblock %}
 
 {% block content %}
 <h1>{% trans "Your account is now active!" %}</h1>

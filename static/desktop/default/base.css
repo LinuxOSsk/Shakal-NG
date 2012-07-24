@@ -392,16 +392,17 @@ input[type="text"], input[type="password"], textarea {
 	position: relative;
 	right: 17px;
 	height: 31px;
+	font-weight: bold;
+	font-size: 0.875em;
+	text-shadow: 0px -1px 0px #cedfeb, 0px 1px 0px #fcfdfe;
+	color: #1d5682;
 }
 
 #site_breadcrumbs li span a {
-	text-shadow: 0px -1px 0px #cedfeb, 0px 1px 0px #fcfdfe;
 	text-decoration: none;
-	font-weight: bold;
-	color: #2a628d;
-	font-size: 0.875em;
 	display: block;
 	height: 31px;
+	color: #1d5682;
 }
 
 #site_breadcrumbs li:hover span {

@@ -1,6 +1,7 @@
-{% extends "base.html" %}{% load i18n %}{% load url from future %}
+{% extends "registration/user_base.html" %}{% load i18n breadcrumbs_tags %}{% load url from future %}
 
 {% block title %}{% trans "Registration complete" %}{% endblock %}
+{% block breadcrumbs %}{% breadcrumb %}{% trans 'Registration complete' %}{% endbreadcrumb %}{{ block.super }}{% endblock %}
 
 {% block content %}
 	<h1>{% trans "Registration complete!" %}</h1>
