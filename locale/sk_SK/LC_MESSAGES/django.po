@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-24 12:41+0200\n"
+"POT-Creation-Date: 2012-07-24 15:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,12 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "X-Language: sk_SK\n"
 "X-Source-Language: C\n"
+
+msgid "^admin/"
+msgstr "^administracia/"
+
+msgid "^accounts/"
+msgstr "^profil/"
 
 msgid "profile"
 msgstr "profil"
@@ -68,6 +74,18 @@ msgstr "informácie"
 
 msgid "year of birth"
 msgstr "rok narodenia"
+
+msgid "^me/$"
+msgstr "^ja/$"
+
+msgid "^me/edit/$"
+msgstr "^ja/upravit/$"
+
+msgid "^register/$"
+msgstr "^registrovat/$"
+
+msgid "^login/$"
+msgstr "^prihlasit/$"
 
 msgid "user name"
 msgstr "používateľské meno"
