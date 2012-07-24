@@ -1,4 +1,4 @@
-{% load i18n staticfiles %}{% load url from future %}<?xml version="1.0" encoding="UTF-8" ?>
+{% load i18n staticfiles breadcrumbs_tags %}{% load url from future %}<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"  lang="{{ LANGUAGE_CODE|default:"en-us" }}" xml:lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
@@ -51,6 +51,10 @@
 						</ul>
 					{% endif %}
 				</div>
+				{% block breadcrumbs %}
+					{% breadcrumb class='home' url='home' %}Home{% endbreadcrumb %}
+					{% render_breadcrumbs %}
+				{% endblock %}
 			</div>
 		</div>
 	</header>

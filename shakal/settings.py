@@ -103,6 +103,7 @@ INSTALLED_APPS = (
 	'django.contrib.comments',
 	'django_tools',
 	'auth_remember',
+	'breadcrumbs',
 	'registration',
 	'shakal.accounts',
 	'shakal.article',
