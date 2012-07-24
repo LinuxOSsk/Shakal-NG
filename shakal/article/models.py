@@ -35,7 +35,7 @@ class Article(models.Model):
 	content = models.TextField(verbose_name = _('content'))
 	author = models.ForeignKey(User, on_delete = models.SET_NULL, blank = True, null = True, verbose_name = _('author'))
 	authors_name = models.CharField(max_length = 255, verbose_name = _('authors name'))
-	time = models.DateTimeField()
+	time = models.DateTimeField(verbose_name = _('publication time'))
 	published = models.BooleanField(verbose_name = _('published'))
 	top = models.BooleanField(verbose_name = _('top article'))
 	image = models.ImageField(verbose_name = _('image'), upload_to = '/article/thumbnails', blank = True, null = True)
