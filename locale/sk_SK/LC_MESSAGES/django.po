@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-23 18:05+0200\n"
+"POT-Creation-Date: 2012-07-24 11:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -242,6 +242,9 @@ msgstr "Upraviť môj profil"
 msgid "Edit user profile"
 msgstr "Upraviť používateľský profil"
 
+msgid "Edit"
+msgstr "Upraviť"
+
 msgid "Back to profile"
 msgstr "Späť na profil"
 
@@ -259,3 +262,6 @@ msgstr "Registrácia"
 
 msgid "Create account"
 msgstr "Vytvoriť účet"
+
+msgid "User zone"
+msgstr "Používateľská zóna"
