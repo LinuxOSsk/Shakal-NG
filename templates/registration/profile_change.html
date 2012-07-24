@@ -3,7 +3,7 @@
 {% block title %}{% trans 'Edit user profile' %}{% endblock %}
 {% block breadcrumbs %}
 	{% breadcrumb %}{% trans 'Edit' %}{% endbreadcrumb %}
-	{% breadcrumb %}{% firstof user.get_full_name user.username %}{% endbreadcrumb %}
+	{% breadcrumb url="auth_profile" pk=user.pk %}{% firstof user.get_full_name user.username %}{% endbreadcrumb %}
 	{{ block.super }}
 {% endblock %}
 
