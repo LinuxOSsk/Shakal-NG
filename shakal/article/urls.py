@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.conf.urls import patterns, url
-from django.views.generic import DetailView
-from shakal.article.models import Article
+import views as article_views
 
 class Patterns(object):
 	def __init__(self):
@@ -12,7 +11,7 @@ class Patterns(object):
 	@property
 	def urls(self):
 		urlpatterns = patterns('',
-			url(r'^(?P<slug>[-\w]+)/$', DetailView.as_view(model = Article), name = "detail")
+			url(r'^(?P<slug>[-\w]+)/$', article_views.article_detail_by_slug, name = "detail-by-slug")
 		)
 		return (urlpatterns, self.app_name, self.name)
 

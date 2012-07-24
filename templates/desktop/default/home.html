@@ -7,7 +7,7 @@
 	<h2>Články</h2>
 	{% for article in articles %}
 	<div class="module-row{% if forloop.last %} last{% endif %}">
-		<h3><a href="{% url 'article:detail' slug=article.slug %}">{{ article.title}}</a></h3>
+		<h3><a href="{% url 'article:detail-by-slug' slug=article.slug %}">{{ article.title}}</a></h3>
 		<div class="info top">
 			{{ article.time|date:"SHORT_DATETIME_FORMAT" }} |
 			{{ article.category }} |
