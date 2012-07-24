@@ -3,3 +3,4 @@ MySQL-python
 django-tools
 django-registration
 django-auth-remember
+pil

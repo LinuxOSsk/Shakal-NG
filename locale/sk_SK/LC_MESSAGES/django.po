@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-24 11:31+0200\n"
+"POT-Creation-Date: 2012-07-24 12:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -104,6 +104,48 @@ msgstr "kategória"
 
 msgid "categories"
 msgstr "kategórie"
+
+msgid "title"
+msgstr "titulok"
+
+msgid "perex"
+msgstr "perex"
+
+msgid "Text on title page."
+msgstr "Text na úvodnej stránke."
+
+msgid "annotation"
+msgstr "anotácia"
+
+msgid "Text before article body."
+msgstr "Text pred samotným článom."
+
+msgid "content"
+msgstr "obsah"
+
+msgid "author"
+msgstr "autor"
+
+msgid "authors name"
+msgstr "meno autora"
+
+msgid "published"
+msgstr "publikovaný"
+
+msgid "top article"
+msgstr "hodnotný článok"
+
+msgid "image"
+msgstr "obrázok"
+
+msgid "display count"
+msgstr "počet zobrazení"
+
+msgid "article"
+msgstr "článok"
+
+msgid "articles"
+msgstr "články"
 
 msgid "Shakal admin"
 msgstr "Shakal administrácia"
