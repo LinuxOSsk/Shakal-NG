@@ -3,6 +3,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
+from datetime import datetime
 
 class Category(models.Model):
 	name = models.CharField(max_length = 255, verbose_name = _('name'))
@@ -17,7 +18,15 @@ class Category(models.Model):
 		verbose_name_plural = _('categories')
 
 
+class ArticleListManager(models.Manager):
+	def get_query_set(self):
+		return super(ArticleListManager, self).get_query_set().select_related('author', 'category').defer('content').filter(time__lte = datetime.now(), published = True).order_by('-pk')
+
+
 class Article(models.Model):
+	objects = models.Manager()
+	articles = ArticleListManager()
+
 	title = models.CharField(max_length = 255, verbose_name = _('title'))
 	slug = models.CharField(max_length = 255)
 	category = models.ForeignKey(Category, on_delete = models.PROTECT, verbose_name = _('category'))
