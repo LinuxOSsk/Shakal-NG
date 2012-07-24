@@ -353,6 +353,78 @@ input[type="text"], input[type="password"], textarea {
 	margin: 2em auto 0 auto;
 }
 
+/* Breadcrumbs */
+#site_breadcrumbs {
+	height: 36px;
+	bottom: 0px;
+	margin-left: -3px;
+	padding-left: 5px;
+	background: url('images/breadcrumb_bg.png') no-repeat;
+	margin-top: 44px;
+}
+
+#site_breadcrumbs ul {
+	padding: 0;
+	margin: 0;
+	height: 36px;
+	background: url('images/breadcrumb_panel_bg.png') repeat-x;
+}
+
+#site_breadcrumbs li {
+	list-style: none;
+	display: block;
+	float: left;
+	height: 31px;
+	line-height: 31px;
+	margin-top: 5px;
+	background: url('images/breadcrumb.png') no-repeat right top;
+	padding-right: 5px;
+}
+
+#site_breadcrumbs li:hover {
+	background: url('images/breadcrumb.png') no-repeat right bottom;
+}
+
+#site_breadcrumbs li span {
+	display: block;
+	padding-left: 25px;
+	background: url('images/breadcrumb.png') no-repeat left top;
+	position: relative;
+	right: 17px;
+	height: 31px;
+}
+
+#site_breadcrumbs li span a {
+	text-shadow: 0px -1px 0px #cedfeb, 0px 1px 0px #fcfdfe;
+	text-decoration: none;
+	font-weight: bold;
+	color: #2a628d;
+	font-size: 0.875em;
+	display: block;
+	height: 31px;
+}
+
+#site_breadcrumbs li:hover span {
+	background: url('images/breadcrumb.png') no-repeat left bottom;
+}
+
+#site_breadcrumbs li.home {
+	width: 58px;
+	border-left: 1px solid #c5dcec;
+}
+
+#site_breadcrumbs li.home span {
+	background: none;
+}
+
+#site_breadcrumbs li.home span a {
+	display: block;
+	overflow: hidden;
+	text-indent: -9999px;
+	background: url('images/breadcrumb_home.png') no-repeat center center;
+}
+
+
 /* === Systémové správy === */
 
 .errorlist, .errornote {
