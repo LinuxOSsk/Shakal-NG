@@ -1,7 +1,7 @@
-{% extends "article/article_base.html" %}{% load breadcrumbs_tags i18n %}{% load url from future %}
+{% extends "article/article_base.html" %}{% load breadcrumbs_tags i18n article %}{% load url from future %}
 
 {% block breadcrumbs %}
-{% breadcrumb %}{{ article.title|truncatechars:50 }}{% endbreadcrumb %}
+{% breadcrumb %}{{ article.title|truncatechars:80 }}{% endbreadcrumb %}
 {{ block.super }}
 {% endblock %}
 
@@ -21,10 +21,8 @@
 	{% endif %}
 </div>
 
-<div class="annotation">{{ article.annotation|safe }}</div>
-
 <div class="content">
-{{ article.content|safe }}
+{{ article|content }}
 </div>
 </article>
 {% endblock %}
