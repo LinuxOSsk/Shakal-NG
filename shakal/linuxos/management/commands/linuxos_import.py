@@ -6,7 +6,7 @@ from django.core.management.base import BaseCommand
 from django.db import connections
 from django.template.defaultfilters import slugify
 from shakal.accounts.models import UserProfile
-from shakal.article.models import Category as ArticleCategory
+from shakal.article.models import Article, Category as ArticleCategory
 import sys
 
 class Command(BaseCommand):
@@ -16,21 +16,21 @@ class Command(BaseCommand):
 	def decode_cols_to_dict(self, names, values):
 		return dict(zip(names, values))
 
-	def empty_if_null(slef, value):
+	def empty_if_null(self, value):
+		return self.get_default_if_null(value, '')
+
+	def first_datetime_if_null(self, dt):
+		return self.get_default_if_null(dt, datetime(1970, 1, 1))
+
+	def get_default_if_null(self, value, default):
 		if value is None:
-			return ""
+			return default
 		else:
 			return value
 
-	def first_datetime_if_null(self, dt):
-		if dt is None:
-			return datetime(1970, 1, 1)
-		else:
-			return dt
-
 	def handle(self, *args, **kwargs):
 		self.cursor = connections["linuxos"].cursor()
-		self.import_users()
+		#self.import_users()
 		self.import_articles()
 
 	def import_users(self):
@@ -102,6 +102,7 @@ class Command(BaseCommand):
 
 	def import_articles(self):
 		self.import_article_categories()
+		self.import_article_contents()
 
 	def import_article_categories(self):
 		cols = [
@@ -121,3 +122,48 @@ class Command(BaseCommand):
 			category_object = ArticleCategory(**category)
 			category_object.save()
 		connections['default'].cursor().execute('SELECT setval(\'article_category_id_seq\', (SELECT MAX(id) FROM article_category));')
+
+	def import_article_contents(self):
+		cols = [
+			'id',
+			'kategoria',
+			'nazov',
+			'titulok',
+			'anotacia',
+			'clanok',
+			'uid',
+			'username',
+			'time',
+			'published',
+			'mesiaca',
+			'file',
+			'zobrazeni'
+		]
+		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM clanky')
+		articles = []
+		unique_slugs = {}
+		for clanok_row in self.cursor:
+			clanok_dict = self.decode_cols_to_dict(cols, clanok_row)
+			slug = slugify(clanok_dict['nazov'])[:45]
+			if slug in unique_slugs:
+				unique_slugs[slug] += 1
+				slug = slug + '-' + str(unique_slugs[slug])
+			unique_slugs[slug] = 1
+			clanok = {
+				'pk': clanok_dict['id'],
+				'title': clanok_dict['nazov'],
+				'slug': slug,
+				'category_id': 1 if clanok_dict['kategoria'] == 0 else clanok_dict['kategoria'],
+				'perex': clanok_dict['titulok'],
+				'annotation': clanok_dict['anotacia'],
+				'content': clanok_dict['clanok'],
+				'author_id': clanok_dict['uid'],
+				'authors_name': clanok_dict['username'],
+				'time': self.first_datetime_if_null(clanok_dict['time']),
+				'published': True if clanok_dict['published'] == 'yes' else False,
+				'top': True if clanok_dict['mesiaca'] == 'yes' else False,
+				'image': clanok_dict['file'],
+				'display_count': clanok_dict['zobrazeni'],
+			}
+			articles.append(Article(**clanok))
+		Article.objects.bulk_create(articles)
