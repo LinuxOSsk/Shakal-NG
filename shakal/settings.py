@@ -39,6 +39,8 @@ MEDIA_URL = ''
 STATIC_ROOT = ''
 STATIC_URL = '/static/'
 
+LOGIN_URL = '/profil/prihlasit/'
+
 STATICFILES_DIRS = (
 	('templates', os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'templates', 'static'))),
 	os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'static')),
