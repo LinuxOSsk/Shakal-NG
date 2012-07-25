@@ -30,7 +30,7 @@ class Command(BaseCommand):
 
 	def handle(self, *args, **kwargs):
 		self.cursor = connections["linuxos"].cursor()
-		#self.import_users()
+		self.import_users()
 		self.import_articles()
 
 	def import_users(self):
