@@ -4,6 +4,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from autoimagefield.fields import AutoImageField
 from datetime import datetime
 
 class Category(models.Model):
@@ -39,7 +40,7 @@ class Article(models.Model):
 	time = models.DateTimeField(verbose_name = _('publication time'))
 	published = models.BooleanField(verbose_name = _('published'))
 	top = models.BooleanField(verbose_name = _('top article'))
-	image = models.ImageField(verbose_name = _('image'), upload_to = '/article/thumbnails', blank = True, null = True)
+	image = AutoImageField(verbose_name = _('image'), upload_to = 'article/thumbnails', size = (512, 512), thumbnail = {'standard': (100, 100)}, blank = True, null = True)
 	display_count = models.IntegerField(verbose_name = _('display count'), default = 0)
 
 	def clean(self):

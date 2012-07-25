@@ -33,8 +33,8 @@ USE_L10N = True
 LOCALE_PATHS = (os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'locale')), )
 USE_TZ = True
 
-MEDIA_ROOT = ''
-MEDIA_URL = ''
+MEDIA_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'media'))
+MEDIA_URL = '/media/'
 
 STATIC_ROOT = ''
 STATIC_URL = '/static/'
@@ -106,6 +106,7 @@ INSTALLED_APPS = (
 	'django.contrib.comments',
 	'django_tools',
 	'auth_remember',
+	'autoimagefield',
 	'breadcrumbs',
 	'registration',
 	'paginator',
