@@ -17,5 +17,9 @@ class ArticleAdmin(admin.ModelAdmin):
 	list_filter = ('published', 'top', 'category', )
 	ordering = ('-id', )
 
+	def queryset(self, request):
+		qs = super(ArticleAdmin, self).queryset(request)
+		return qs.select_related('author')
+
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Article, ArticleAdmin)
