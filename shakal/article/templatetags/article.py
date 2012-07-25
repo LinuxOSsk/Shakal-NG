@@ -7,5 +7,6 @@ register = template.Library()
 
 @register.filter
 def content(article):
-	content = article.content.replace('<<ANOTACIA>>', '<div class="annotation">' + article.annotation + '</div>')
+	content = article.content
+	content = content.replace('<<ANOTACIA>>', '<div class="annotation">' + article.annotation + '</div>')
 	return mark_safe(content)

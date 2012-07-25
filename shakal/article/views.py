@@ -6,7 +6,7 @@ from django.template import RequestContext
 from models import Article, Category
 
 def article_detail_by_slug(request, slug):
-	article = get_object_or_404(Article, slug = slug)
+	article = get_object_or_404(Article.objects.select_related('author', 'category'), slug = slug)
 	context = {
 		'article': article,
 	}
