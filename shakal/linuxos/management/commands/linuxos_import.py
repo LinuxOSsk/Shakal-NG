@@ -167,3 +167,4 @@ class Command(BaseCommand):
 			}
 			articles.append(Article(**clanok))
 		Article.objects.bulk_create(articles)
+		connections['default'].cursor().execute('SELECT setval(\'article_article_id_seq\', (SELECT MAX(id) FROM article_article));')
