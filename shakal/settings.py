@@ -24,6 +24,7 @@ DATABASES = {
 
 TIME_ZONE = 'Europe/Bratislava'
 LANGUAGE_CODE = 'sk'
+LANGUAGES = (('sk', 'Slovak'),)
 
 SITE_ID = 1
 
