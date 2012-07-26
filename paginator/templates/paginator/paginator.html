@@ -1,10 +1,9 @@
-{% load i18n %}
 {% if paginated %}
 {% load paginator_tags %}
 <div class="paginator">
 	<span class="prev">
 		{% if previous %}<a href="{% pager_url previous %}">{% endif %}
-			{% trans "Previous" %}
+			&lt;
 		{% if previous %}</a>{% endif %}
 	</span>
 	{% for page in pages %}
@@ -22,7 +21,7 @@
 	{% endfor %}
 	<span class="next">
 		{% if next %}<a href="{% pager_url next %}">{% endif %}
-			{% trans "Next" %}
+			&gt;
 		{% if next %}</a>{% endif %}
 	</span>
 </div>
