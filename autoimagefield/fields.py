@@ -51,7 +51,7 @@ class AutoImageField(ImageField):
 	def __init__(self, size = None, thumbnail = None, *args, **kwargs):
 		self.size = size
 		self.thumbnail = {}
-		if self.thumbnail:
+		if thumbnail:
 			self.thumbnail = thumbnail
 		super(AutoImageField, self).__init__(*args, **kwargs)
 
