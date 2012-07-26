@@ -31,7 +31,7 @@ SITE_ID = 1
 USE_I18N = True
 USE_L10N = True
 LOCALE_PATHS = (os.path.abspath(os.path.join(os.path.dirname(__file__), 'locale')), )
-USE_TZ = True
+USE_TZ = False
 
 MEDIA_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'media'))
 MEDIA_URL = '/media/'
