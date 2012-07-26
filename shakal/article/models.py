@@ -22,7 +22,7 @@ class Category(models.Model):
 
 class ArticleListManager(models.Manager):
 	def get_query_set(self):
-		return super(ArticleListManager, self).get_query_set().select_related('author', 'category').defer('content').filter(time__lte = datetime.now(), published = True).order_by('-pk')
+		return super(ArticleListManager, self).get_query_set().select_related('author', 'category').filter(time__lte = datetime.now(), published = True).order_by('-pk')
 
 
 class Article(models.Model):

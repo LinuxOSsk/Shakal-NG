@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
@@ -14,3 +15,8 @@ urlpatterns = patterns('',
 	url(_(r'^accounts/'), include(accounts_urls.urlpatterns)),
 	url(_(r'^article/'), include(article_urls.urlpatterns)),
 )
+
+if settings.DEBUG:
+	urlpatterns += patterns('',
+		(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT})
+	)
