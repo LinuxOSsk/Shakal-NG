@@ -21,7 +21,7 @@ class ThumbnailField(object):
 		if os.path.exists(dest_filename):
 			return
 
-		source_filename = self.field.storage.path(unicode(self.field))
+		source_filename = self.field.storage.path(str(self.field))
 		if not os.path.exists(source_filename):
 			return
 
@@ -181,12 +181,15 @@ class AutoImageField(ImageField):
 		# Nastavenie prázdnych polí pre náhľady
 		field = getattr(instance, self.name)
 		storage = field.storage
-		filename = unicode(field)
+		filename = str(field)
 		# Preskakovanie prázdneho poľa
 		if not filename:
 			return
 		# Kontrola zdrojového súboru
-		if not os.path.exists(storage.path(filename)):
+		try:
+			if not os.path.exists(storage.path(filename)):
+				return
+		except:
 			return
 		# Nastavenie jednotlivých náhľadov
 		for label, size in self.thumbnail.iteritems():
