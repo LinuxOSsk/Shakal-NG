@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 from django.db import connections
 from django.template.defaultfilters import slugify
 from shakal.accounts.models import UserProfile
 from shakal.article.models import Article, Category as ArticleCategory
+import os
 import sys
+import urllib
 
 class Command(BaseCommand):
 	args = ''
@@ -30,7 +33,7 @@ class Command(BaseCommand):
 
 	def handle(self, *args, **kwargs):
 		self.cursor = connections["linuxos"].cursor()
-		self.import_users()
+		#self.import_users()
 		self.import_articles()
 
 	def import_users(self):
@@ -55,6 +58,7 @@ class Command(BaseCommand):
 		count = self.cursor.fetchall()[0][0]
 		counter = 0
 		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM users')
+		sys.stdout.write("Importing users\n")
 		for user in self.cursor:
 			counter += 1
 			sys.stdout.write("{0} / {1}\r".format(counter, count))
@@ -103,6 +107,7 @@ class Command(BaseCommand):
 	def import_articles(self):
 		self.import_article_categories()
 		self.import_article_contents()
+		self.import_article_images()
 
 	def import_article_categories(self):
 		cols = [
@@ -168,3 +173,28 @@ class Command(BaseCommand):
 			articles.append(Article(**clanok))
 		Article.objects.bulk_create(articles)
 		connections['default'].cursor().execute('SELECT setval(\'article_article_id_seq\', (SELECT MAX(id) FROM article_article));')
+
+	def import_article_images(self):
+		articles = Article.objects.exclude(image = '')[:]
+		sys.stdout.write("Downloading articles\n")
+		counter = 0;
+		for article in articles:
+			counter += 1;
+			sys.stdout.write("{0} / {1}\r".format(counter, len(articles)))
+			sys.stdout.flush()
+			image_file = str(article.image)
+			if image_file[0] == '/':
+				image_file = 'http://www.linuxos.sk' + image_file
+
+			extension = os.path.splitext(image_file)[1]
+			localpath = os.path.join('article', 'thumbnails', '{0:02x}'.format(article.pk % 256), str(article.pk), 'image_' + str(article.pk) + extension)
+			dest = os.path.join(settings.MEDIA_ROOT, localpath)
+			dest_dir = os.path.dirname(dest)
+			if not os.path.exists(dest_dir):
+				os.makedirs(dest_dir)
+			try:
+				urllib.urlretrieve(image_file, dest)
+				article.image = localpath
+				article.save()
+			except IOError:
+				pass
