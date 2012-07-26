@@ -30,7 +30,6 @@ class ThumbnailField(object):
 		AutoImageField.resize_image(dest_filename, self.thumbnail_size)
 
 	def _get_path(self):
-		#self._initialize_file()
 		return self.field.storage.path(self.filename)
 	path = property(_get_path)
 
@@ -40,7 +39,6 @@ class ThumbnailField(object):
 	url = property(_get_url)
 
 	def _get_size(self):
-		#self._initialize_file()
 		return self.field.storage.size(self.filename)
 	size = property(_get_size)
 
@@ -186,19 +184,34 @@ class AutoImageField(ImageField):
 		if not filename:
 			return
 		# Kontrola zdrojového súboru
-		try:
-			if not os.path.exists(storage.path(filename)):
-				return
-		except:
+		if not os.path.exists(storage.path(filename)):
 			return
 		# Nastavenie jednotlivých náhľadov
 		for label, size in self.thumbnail.iteritems():
 			thumbnail_file = self.__get_thumbnail_filename(filename, label)
 			setattr(field, u'thumbnail_' + label, ThumbnailField(field, thumbnail_file, size))
 
+	def __catch_rename_image(self, instance, **kwargs):
+		try:
+			return self.__rename_image(instance, **kwargs)
+		except:
+			pass
+
+	def __catch_add_thumbnails(self, instance, force = False, **kwargs):
+		try:
+			return self.__add_thumbnails(instance, force, **kwargs)
+		except:
+			pass
+
+	def __catch_delete_image(self, instance, **kwargs):
+		try:
+			return self.__delete_image(instance, **kwargs)
+		except:
+			pass
+
 	def contribute_to_class(self, cls, name):
-		signals.post_save.connect(self.__rename_image, sender = cls)
+		signals.post_save.connect(self.__catch_rename_image, sender = cls)
 		signals.post_init.connect(self.__add_old_instance, sender = cls)
-		signals.post_init.connect(self.__add_thumbnails, sender = cls)
-		signals.post_delete.connect(self.__delete_image, sender = cls)
+		signals.post_init.connect(self.__catch_add_thumbnails, sender = cls)
+		signals.post_delete.connect(self.__catch_delete_image, sender = cls)
 		super(AutoImageField, self).contribute_to_class(cls, name)
