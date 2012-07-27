@@ -19,6 +19,7 @@ class Section(models.Model):
 
 
 class Topic(models.Model):
+	section = models.ForeignKey(Section)
 	title = models.CharField(max_length = 100, verbose_name = _('title'))
 	text = models.TextField()
 	time = models.DateTimeField()
