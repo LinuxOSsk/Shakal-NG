@@ -1,5 +1,7 @@
 {% extends "article/article_base.html" %}{% load breadcrumbs_tags paginator_tags i18n %}{% load url from future %}
 
+{% block title %}{% if category %}{{ category }}{% else %}Články{% endif %}{% endblock %}
+
 {% block breadcrumbs %}
 {% if category %}
 {% breadcrumb %}{{ category }}{% endbreadcrumb %}
@@ -8,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-<h1>Články</h1>
+<h1>{% if category %}{{ category }}{% else %}Články{% endif %}</h1>
 <div class="module">
 	{% autopaginate articles pagenum items_per_page=10 %}
 	{% for article in articles %}

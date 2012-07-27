@@ -1,5 +1,7 @@
 {% extends "article/article_base.html" %}{% load breadcrumbs_tags i18n article %}{% load url from future %}
 
+{% block title %}{{ article.title }}{% endblock %}
+
 {% block breadcrumbs %}
 {% breadcrumb %}{{ article.title|truncatechars:80 }}{% endbreadcrumb %}
 {{ block.super }}
