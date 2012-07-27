@@ -12,6 +12,13 @@
 				{{ article.authors_name }}
 			{% endif %}
 		</div>
+		{% if thumbnail %}
+			{% if article.image.thumbnail_standard.url %}
+				<div class="article thumbnail">
+					<img src="{{ article.image.thumbnail_standard.url }}" alt="{{ article.title }}" />
+				</div>
+			{% endif %}
+		{% endif %}
 		<div class="perex">{{ article.perex|safe }}</div>
 		<div class="info bottom">
 			<span class="stat">Prečítané: {% firstof article.display_count '0' %}x</span>

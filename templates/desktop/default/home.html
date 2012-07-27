@@ -5,12 +5,9 @@
 {% block content %}
 <div class="module">
 	<h2>Články</h2>
-	{% if top_article.image.thumbnail_standard.url %}
-		<img src="{{ top_article.image.thumbnail_standard.url }}" alt="{{ top_article.title }}" />
-	{% endif %}
-	{% include 'article/block_list_item.html' with article=top_article %}
+	{% include 'article/block_list_item.html' with article=top_article thumbnail=1 %}
 	{% for article in articles %}
-		{% include 'article/block_list_item.html' %}
+		{% include 'article/block_list_item.html' with thumbnail=0 %}
 	{% endfor %}
 	<div class="module-links bottom">
 		<a href="{% url 'article:article-list' %}">Zobraziť všetky články</a>
