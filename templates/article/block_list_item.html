@@ -6,7 +6,7 @@
 			<a href="{% url 'article:list-category' category=article.category.slug %}">{{ article.category }}</a> |
 			{% if article.author %}
 			<a href="{% url 'auth_profile' article.author.pk %}">
-					{% firstof article.author.get_full_name article.author.username %}
+				{% firstof article.author.get_full_name article.author.username %}
 				</a>
 			{% else %}
 				{{ article.authors_name }}
@@ -14,6 +14,6 @@
 		</div>
 		<div class="perex">{{ article.perex|safe }}</div>
 		<div class="info bottom">
-			<span class="stat">Prečítané: {{ article.display_count }}x</span>
+			<span class="stat">Prečítané: {% firstof article.display_count '0' %}x</span>
 		</div>
 	</div>
