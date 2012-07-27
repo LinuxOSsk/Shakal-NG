@@ -2,6 +2,7 @@
 
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.signals import post_save
@@ -46,6 +47,13 @@ class Article(models.Model):
 	top = models.BooleanField(verbose_name = _('top article'))
 	image = AutoImageField(verbose_name = _('image'), upload_to = 'article/thumbnails', size = (512, 512), thumbnail = {'standard': (100, 100)}, blank = True, null = True)
 	hitcount = generic.GenericRelation(HitCount)
+
+	def hit(self):
+		article_type = ContentType.objects.get(app_label = 'article', model = 'article')
+		hit_count = HitCount.objects.get_or_create(content_type = article_type, object_id = self.pk)[0]
+		hit_count.hits += 1
+		hit_count.save()
+	hit.alters_data = True
 
 	def clean(self):
 		slug_num = None
