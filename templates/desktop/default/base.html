@@ -19,10 +19,10 @@
 			<div class="hdrmain">
 				<div id="user_panel"class="button flat{% if user.is_authenticated %} authenticated{% endif %}">
 					{% if user.is_authenticated %}
-						<span class="username"><a href="{% url 'auth_profile' request.user.id %}">{% firstof user.get_full_name user.username %}</a></span>
+						<span class="username"><a href="{{ request.user.get_absolute_url }}">{% firstof user.get_full_name user.username %}</a></span>
 						<ul id="userlinks" class="dropdown menu">
 							<li>
-								<a href="{% url 'auth_profile' request.user.pk %}">{% trans "Profile" %}</a>
+								<a href="{{ request.user.get_absolute_url }}">{% trans "Profile" %}</a>
 							</li>
 							{% if user.is_superuser %}
 							<li>

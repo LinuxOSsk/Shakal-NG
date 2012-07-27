@@ -1,11 +1,11 @@
 {% load l10n %}{% load url from future %}
 	<div class="module-row{% if forloop.last %} last{% endif %}">
-		<h3><a href="{% url 'article:detail-by-slug' slug=article.slug %}">{{ article.title}}</a></h3>
+		<h3><a href="{{ article.get_absolute_url }}">{{ article.title}}</a></h3>
 		<div class="info top">
 			{{ article.time|date:"SHORT_DATETIME_FORMAT" }} |
 			<a href="{% url 'article:list-category' category=article.category.slug %}">{{ article.category }}</a> |
 			{% if article.author %}
-			<a href="{% url 'auth_profile' article.author.pk %}">
+			<a href="{{ article.author.get_absolute_url }}">
 				{% firstof article.author.get_full_name article.author.username %}
 				</a>
 			{% else %}
