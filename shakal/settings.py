@@ -113,6 +113,7 @@ INSTALLED_APPS = (
 	'paginator',
 	'shakal.accounts',
 	'shakal.article',
+	'shakal.forum',
 	'shakal.linuxos',
 	'shakal.template_dynamicloader',
 )
