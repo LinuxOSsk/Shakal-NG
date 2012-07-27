@@ -5,6 +5,7 @@ from django.contrib.contenttypes import generic
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.signals import post_save
+from django.db.models import permalink
 from django.utils.translation import ugettext_lazy as _
 from autoimagefield.fields import AutoImageField
 from datetime import datetime
@@ -54,6 +55,10 @@ class Article(models.Model):
 			pass
 		if slug_num is not None:
 			raise ValidationError(_('Numeric slug values are not allowed'))
+
+	@permalink
+	def get_absolute_url(self):
+		return ('article:detail-by-slug', None, {'slug': self.slug})
 
 	def __unicode__(self):
 		return self.title
