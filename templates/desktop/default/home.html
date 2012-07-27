@@ -5,7 +5,9 @@
 {% block content %}
 <div class="module">
 	<h2>Články</h2>
-	{% include 'article/block_list_item.html' with article=top_article thumbnail=1 %}
+	<div class="article top">
+		{% include 'article/block_list_item.html' with article=top_article thumbnail=1 %}
+	</div>
 	{% for article in articles %}
 		{% include 'article/block_list_item.html' with thumbnail=0 %}
 	{% endfor %}
