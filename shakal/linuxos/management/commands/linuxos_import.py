@@ -8,6 +8,7 @@ from django.db import connections
 from django.template.defaultfilters import slugify
 from shakal.accounts.models import UserProfile
 from shakal.article.models import Article, Category as ArticleCategory
+from hitcount.models import HitCount
 import os
 import sys
 import urllib
@@ -33,7 +34,7 @@ class Command(BaseCommand):
 
 	def handle(self, *args, **kwargs):
 		self.cursor = connections["linuxos"].cursor()
-		#self.import_users()
+		self.import_users()
 		self.import_articles()
 
 	def import_users(self):
@@ -107,6 +108,7 @@ class Command(BaseCommand):
 	def import_articles(self):
 		self.import_article_categories()
 		self.import_article_contents()
+		self.import_article_hitcount()
 		self.import_article_images()
 
 	def import_article_categories(self):
@@ -142,7 +144,6 @@ class Command(BaseCommand):
 			'published',
 			'mesiaca',
 			'file',
-			'zobrazeni'
 		]
 		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM clanky')
 		articles = []
@@ -168,11 +169,26 @@ class Command(BaseCommand):
 				'published': True if clanok_dict['published'] == 'yes' else False,
 				'top': True if clanok_dict['mesiaca'] == 'yes' else False,
 				'image': clanok_dict['file'],
-				'display_count': clanok_dict['zobrazeni'],
 			}
 			articles.append(Article(**clanok))
 		Article.objects.bulk_create(articles)
 		connections['default'].cursor().execute('SELECT setval(\'article_article_id_seq\', (SELECT MAX(id) FROM article_article));')
+
+	def import_article_hitcount(self):
+		cols = [
+			'id',
+			'zobrazeni',
+		]
+		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM clanky')
+		hitcount_map = {}
+		for article in self.cursor:
+			article_dict = self.decode_cols_to_dict(cols, article)
+			hitcount_map[article_dict['id']] = article_dict['zobrazeni']
+
+		hitcount = []
+		for article in Article.objects.all():
+			hitcount.append(HitCount(content_object = article, hits = hitcount_map.get(article.pk, 0)))
+		HitCount.objects.bulk_create(hitcount)
 
 	def import_article_images(self):
 		articles = Article.objects.exclude(image = '')[:]
