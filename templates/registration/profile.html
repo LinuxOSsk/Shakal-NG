@@ -5,12 +5,12 @@
 
 {% block content %}
 
-<h1>{% trans 'User profile' %}</h1>
 {% if is_my_profile %}
 <ul class="object-tools">
 	<li><a href="{% url 'auth_my_profile_edit' %}">{% trans 'Edit my profile' %}</a></li>
 </ul>
 {% endif %}
+<h1>{% trans 'User profile' %}</h1>
 
 <table>
 	{% for user_property in user_table %}

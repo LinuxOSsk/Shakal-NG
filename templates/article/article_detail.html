@@ -6,13 +6,12 @@
 {% endblock %}
 
 {% block content %}
-<article>
-<h1>{{ article.title }}</h1>
 {% if user.is_staff and perms.article.can_change %}
 <ul class="object-tools">
 	<li><a href="{% url 'admin:article_article_change' article.pk %}">{% trans 'Edit article' %}</a></li>
 </ul>
 {% endif %}
+<h1>{{ article.title }}</h1>
 
 <div class="info top">
 	{{ article.time|date:"SHORT_DATETIME_FORMAT" }} |
@@ -29,5 +28,4 @@
 <div class="content">
 {{ article|content }}
 </div>
-</article>
 {% endblock %}

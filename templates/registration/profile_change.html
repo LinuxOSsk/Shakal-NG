@@ -8,10 +8,10 @@
 {% endblock %}
 
 {% block content %}
-<h1>{% trans 'Edit user profile' %}</h1>
 <ul class="object-tools">
 	<li><a href="{% url 'auth_password_change' %}">{% trans 'Change password' %}</a></li>
 </ul>
+<h1>{% trans 'Edit user profile' %}</h1>
 
 <form action="{% url 'auth_my_profile_edit' %}" method="post" id="edit-user-profile-form">{% csrf_token %}
 	<fieldset>
