@@ -337,6 +337,40 @@ a.next:after {
 	content: "\00BB";
 }
 
+/* === Stránkovač === */
+.paginator {
+	color: #aaa;
+}
+
+.paginator span {
+	padding: 2px 0px;
+	border: #eee solid 1px;
+}
+
+.paginator span a {
+	padding: 2px 3px;
+	text-decoration: none;
+}
+
+.paginator span.current {
+	border-color: #1d5886;
+}
+
+.paginator span.current a {
+	background: #eaf1f6;
+}
+
+#site_content .paginator span a:hover {
+	border-radius: 0px;
+	border: none;
+	color: white;
+	background: #1d5886;
+}
+
+.paginator span.skip {
+	border: none;
+}
+
 /* === Hlavička === */
 
 #linuxos_logo {
