@@ -1,0 +1,9 @@
+{% extends "error.html" %}{% load i18n %}
+{% block title %}{% trans "Page not found" %}{% endblock %}
+{% block pagetitle %}{% trans "Page not found" %}{% endblock %}
+{% block errorcode %}404{% endblock %}
+{% block body %}
+<p>
+{% trans "Sorry, but the requested page could not be found." %}
+</p>
+{% endblock %}

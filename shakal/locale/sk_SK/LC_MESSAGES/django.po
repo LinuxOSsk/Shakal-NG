@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-27 15:06+0200\n"
+"POT-Creation-Date: 2012-07-27 17:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -198,6 +198,12 @@ msgstr "Články"
 msgid "Edit article"
 msgstr "Upraviť článok"
 
+msgid "Page not found"
+msgstr "Stránka nebola nájdená"
+
+msgid "Sorry, but the requested page could not be found."
+msgstr "Ospravedlňujeme sa, ale požadovaná stránka nebola nájdená."
+
 msgid "Profile"
 msgstr "Profil"
 
@@ -218,6 +224,9 @@ msgstr "Registrovať"
 
 msgid "Password reset"
 msgstr "Obnovenie hesla"
+
+msgid "Page unavailable"
+msgstr "Stránka nedostupn"
 
 msgid "Activation"
 msgstr "Aktivácia"
