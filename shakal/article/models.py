@@ -14,8 +14,12 @@ from hitcount.models import HitCount
 
 class Category(models.Model):
 	name = models.CharField(max_length = 255, verbose_name = _('name'))
-	slug = models.SlugField()
+	slug = models.SlugField(unique = True)
 	icon = models.CharField(max_length = 255, verbose_name = _('icon'))
+
+	@permalink
+	def get_absolute_url(self):
+		return ('article:list-category', None, {'category': self.slug})
 
 	def __unicode__(self):
 		return self.name

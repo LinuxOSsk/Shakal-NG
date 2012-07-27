@@ -3,7 +3,7 @@
 from django.db.models import Q
 from django.template import RequestContext
 from django.template.response import TemplateResponse
-from article.models import Article
+from article.models import Article, Category as ArticleCategory
 
 def home(request):
 	try:
@@ -15,6 +15,7 @@ def home(request):
 
 	context = {
 		'top_article': top_article,
-		'articles': articles[:5]
+		'articles': articles[:5],
+		'article_categories': ArticleCategory.objects.all(),
 	}
 	return TemplateResponse(request, "home.html", RequestContext(request, context))
