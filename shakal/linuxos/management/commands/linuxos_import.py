@@ -8,6 +8,7 @@ from django.db import connections
 from django.template.defaultfilters import slugify
 from shakal.accounts.models import UserProfile
 from shakal.article.models import Article, Category as ArticleCategory
+from shakal.forum.models import Section as ForumSection
 from hitcount.models import HitCount
 import os
 import sys
@@ -32,10 +33,17 @@ class Command(BaseCommand):
 		else:
 			return value
 
+	def unescape(self, s):
+		s = s.replace("&lt;", "<")
+		s = s.replace("&gt;", ">")
+		s = s.replace("&amp;", "&")
+		return s
+
 	def handle(self, *args, **kwargs):
 		self.cursor = connections["linuxos"].cursor()
-		self.import_users()
-		self.import_articles()
+		#self.import_users()
+		#self.import_articles()
+		self.import_forum()
 
 	def import_users(self):
 		cols = [
@@ -214,3 +222,27 @@ class Command(BaseCommand):
 				article.save()
 			except IOError:
 				pass
+
+	def import_forum(self):
+		self.import_forum_sections()
+
+	def import_forum_sections(self):
+		cols = [
+			'id',
+			'nazov',
+			'popis'
+		]
+		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM forum_sekcie')
+		sys.stdout.write("Importing forum sections\n")
+		sys.stdout.flush()
+		for section_row in self.cursor:
+			section_dict = self.decode_cols_to_dict(cols, section_row)
+			section_dict['nazov'] = self.unescape(section_dict['nazov'])
+			section = {
+				'pk': section_dict['id'],
+				'name': section_dict['nazov'],
+				'slug': slugify(section_dict['nazov']),
+				'description': section_dict['popis'],
+			}
+			ForumSection(**section).save()
+		connections['default'].cursor().execute('SELECT setval(\'forum_section_id_seq\', (SELECT MAX(id) FROM forum_section));')
