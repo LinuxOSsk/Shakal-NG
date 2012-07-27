@@ -34,6 +34,9 @@ class Topic(models.Model):
 			return self.username
 	get_username.short_description = _('user name')
 
+	def __unicode__(self):
+		return self.title
+
 	class Meta:
 		verbose_name = _('topic')
 		verbose_name_plural = _('topics')
