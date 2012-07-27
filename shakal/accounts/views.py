@@ -36,7 +36,7 @@ def profile(request, pk):
 		user_table = user_table + ({ 'name': _('e-mail'), 'value': email}, )
 	context = {
 		'user_table': user_table,
-		'user': user,
+		'user_profile': user,
 		'is_my_profile': request.user == user,
 	}
 	return TemplateResponse(request, "registration/profile.html", RequestContext(request, context))
