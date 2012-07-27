@@ -98,6 +98,38 @@ textarea {
 	height: 10em;
 }
 
+/* === Tabuľka === */
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+tr:nth-child(odd) {
+	background-color: white;
+}
+
+tr:nth-child(even) {
+	background-color: #eff3f7;
+}
+
+th {
+	font-weight: bold;
+	text-align: center;
+}
+
+th, td {
+	padding: 2px 4px;
+}
+
+td.title, th.title {
+	text-align: left;
+}
+
+td.icons, th.icons, td.number, th.number, td.date, th.date {
+	text-align: center;
+}
+
 /* === UI prvky === */
 
 .info {
