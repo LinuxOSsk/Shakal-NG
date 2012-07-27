@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-26 09:24+0200\n"
+"POT-Creation-Date: 2012-07-27 10:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,12 +19,6 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "X-Language: sk_SK\n"
 "X-Source-Language: C\n"
-
-msgid "Previous"
-msgstr ""
-
-msgid "Next"
-msgstr ""
 
 msgid "^admin/"
 msgstr "^administracia/"
@@ -168,9 +162,6 @@ msgstr "hodnotný článok"
 msgid "image"
 msgstr "obrázok"
 
-msgid "display count"
-msgstr "počet zobrazení"
-
 msgid "Numeric slug values are not allowed"
 msgstr "Numerické hodnoty slugu nie sú povolené"
 
@@ -179,6 +170,15 @@ msgstr "článok"
 
 msgid "articles"
 msgstr "články"
+
+msgid "description"
+msgstr "popis"
+
+msgid "section"
+msgstr "sekcia"
+
+msgid "sections"
+msgstr "sekcie"
 
 msgid "Shakal admin"
 msgstr "Shakal administrácia"
