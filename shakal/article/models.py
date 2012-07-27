@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from django.db import models
-from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
+from django.contrib.contenttypes import generic
 from django.core.exceptions import ValidationError
+from django.db import models
+from django.db.models.signals import post_save
+from django.utils.translation import ugettext_lazy as _
 from autoimagefield.fields import AutoImageField
 from datetime import datetime
+from hitcount.models import HitCount
 
 class Category(models.Model):
 	name = models.CharField(max_length = 255, verbose_name = _('name'))
@@ -22,7 +25,7 @@ class Category(models.Model):
 
 class ArticleListManager(models.Manager):
 	def get_query_set(self):
-		return super(ArticleListManager, self).get_query_set().select_related('author', 'category').filter(time__lte = datetime.now(), published = True).order_by('-pk')
+		return super(ArticleListManager, self).get_query_set().select_related('author', 'category').filter(time__lte = datetime.now(), published = True).order_by('-pk').annotate(display_count = models.Sum('hitcount__hits'))
 
 
 class Article(models.Model):
@@ -41,7 +44,7 @@ class Article(models.Model):
 	published = models.BooleanField(verbose_name = _('published'))
 	top = models.BooleanField(verbose_name = _('top article'))
 	image = AutoImageField(verbose_name = _('image'), upload_to = 'article/thumbnails', size = (512, 512), thumbnail = {'standard': (100, 100)}, blank = True, null = True)
-	display_count = models.IntegerField(verbose_name = _('display count'), default = 0)
+	hitcount = generic.GenericRelation(HitCount)
 
 	def clean(self):
 		slug_num = None
@@ -58,3 +61,12 @@ class Article(models.Model):
 	class Meta:
 		verbose_name = _('article')
 		verbose_name_plural = _('articles')
+
+
+def create_article_hitcount(sender, **kwargs):
+	article = kwargs['instance']
+	if not article.hitcount.all():
+		hc = HitCount(content_object = article)
+		hc.save()
+
+post_save.connect(create_article_hitcount, sender = Article)

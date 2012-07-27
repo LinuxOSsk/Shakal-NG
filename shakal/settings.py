@@ -108,6 +108,7 @@ INSTALLED_APPS = (
 	'auth_remember',
 	'autoimagefield',
 	'breadcrumbs',
+	'hitcount',
 	'registration',
 	'paginator',
 	'shakal.accounts',

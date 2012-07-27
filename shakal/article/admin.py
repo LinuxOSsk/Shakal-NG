@@ -13,7 +13,6 @@ class ArticleAdmin(admin.ModelAdmin):
 	search_fields = ('title', 'slug', )
 	prepopulated_fields = {'slug': ('title', )}
 	raw_id_fields = ('author', )
-	exclude = ('display_count', )
 	list_filter = ('published', 'top', 'category', )
 	ordering = ('-id', )
 
