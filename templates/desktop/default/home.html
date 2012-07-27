@@ -19,4 +19,25 @@
 		<a href="{% url 'article:article-list' %}" class="next">Ďalšie</a>
 	</div>
 </div>
+
+<div class="module">
+	<h2>Diskusné fórum</h2>
+	<table>
+		<caption>Témy</caption>
+		<tr>
+			<th>Predmet</th>
+			<th>Stav</th>
+			<th>Reakcií</th>
+			<th>Posledná</th>
+		</tr>
+		{% for topic in forum %}
+		<tr>
+			<td><a href="{{ topic.get_absolute_url }}">{{ topic }}</a></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		{% endfor %}
+	</table>
+</div>
 {% endblock %}

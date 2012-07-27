@@ -4,6 +4,7 @@ from django.db.models import Q
 from django.template import RequestContext
 from django.template.response import TemplateResponse
 from article.models import Article, Category as ArticleCategory
+from forum.models import Topic as ForumTopic
 
 def home(request):
 	try:
@@ -17,5 +18,6 @@ def home(request):
 		'top_article': top_article,
 		'articles': articles[:5],
 		'article_categories': ArticleCategory.objects.all(),
+		'forum': ForumTopic.objects.all()[:20],
 	}
 	return TemplateResponse(request, "home.html", RequestContext(request, context))
