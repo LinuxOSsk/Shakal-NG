@@ -12,7 +12,7 @@
 		{% include 'article/block_list_item.html' with thumbnail=0 %}
 	{% endfor %}
 	<div class="module-links bottom">
-		<a href="{% url 'article:article-list' %}">Zobraziť všetky články</a>
+		<a href="{% url 'article:article-list' %}" class="next">Ďalšie</a>
 	</div>
 </div>
 {% endblock %}

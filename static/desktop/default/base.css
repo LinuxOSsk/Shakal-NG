@@ -217,14 +217,10 @@ button:active:hover span, .button.flat:active:hover span {
 }
 
 /* Formulár */
-.form-row, .module-row {
+.form-row {
 	padding: .7em .7em;
 	border-bottom: 1px solid #eee;
 	overflow: hidden;
-}
-
-.form-row.last, .module-row.last {
-	border-bottom: none;
 }
 
 .form-row label {
@@ -320,6 +316,25 @@ h1 a, h2 a, h3 a {
 	color: #0c3875;
 	background: rgba(215, 228, 239, 0.5);
 	border-radius: 3px;
+}
+
+.module-row {
+	padding: .7em .7em;
+	border-bottom: 1px solid #eee;
+	overflow: hidden;
+}
+
+.module-links, .paginator {
+	padding: .5em;
+	text-align: center;
+}
+
+a.prev:before {
+	content: "\00AB";
+}
+
+a.next:after {
+	content: "\00BB";
 }
 
 /* === Hlavička === */
