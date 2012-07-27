@@ -617,3 +617,18 @@ ul.messages li.error {
 	margin: 0 -5px 0 -5px;
 	background: #f2f6fc;
 }
+
+/* === Diskusia === */
+.forum caption {
+	color: #999;
+	font-weight: bold;
+	text-align: center;
+}
+
+.forum caption:before {
+	content: '::';
+}
+
+.forum caption:after {
+	content: '::';
+}

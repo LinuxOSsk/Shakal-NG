@@ -3,7 +3,7 @@
 {% block title %}LinuxOS.sk - slovenský linuxový portál{% endblock %}
 
 {% block content %}
-<div class="module">
+<div class="module article">
 	<h2>Články</h2>
 	<div class="article top">
 		{% include 'article/block_list_item.html' with article=top_article thumbnail=1 %}
@@ -20,19 +20,19 @@
 	</div>
 </div>
 
-<div class="module">
+<div class="module forum">
 	<h2>Diskusné fórum</h2>
 	<table>
 		<caption>Témy</caption>
 		<tr>
-			<th>Predmet</th>
+			<th class="title">Predmet</th>
 			<th>Stav</th>
 			<th>Reakcií</th>
 			<th>Posledná</th>
 		</tr>
 		{% for topic in forum %}
 		<tr>
-			<td><a href="{{ topic.get_absolute_url }}">{{ topic }}</a></td>
+			<td class="title"><a href="{{ topic.get_absolute_url }}">{{ topic }}</a></td>
 			<td></td>
 			<td></td>
 			<td></td>
