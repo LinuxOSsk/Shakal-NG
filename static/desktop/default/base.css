@@ -14,17 +14,6 @@ header, nav {
 	display: block;
 }
 
-article a, section a, p a {
-	color: #1d5886;
-	text-decoration: none;
-	border-bottom: 1px solid #c6c8e8;
-}
-
-article a:hover, section a:hover, p a:hover {
-	color: #0c3875;
-	border-bottom: 1px solid #1d5886;
-}
-
 h1 {
 	font-size: 2em;
 	margin: 16px 0px;
@@ -69,6 +58,16 @@ h3, h4 {
 
 h5, h6 {
 	color: black;
+}
+
+a {
+	color: #1d5886;
+	text-decoration: underline;
+}
+
+a:hover {
+	color: #0f2e46;
+	text-decoration: underline;
 }
 
 fieldset, .module {
@@ -148,6 +147,14 @@ button span, .button.flat span, .object-tools a {
 	color: #1d5886;
 	text-shadow: 0px 1px 0px white;
 	text-decoration: none;
+}
+
+#site_content button span, #site_content .button.flat span, #site_content .object-tools a:hover {
+	background: url('images/button_flat.png') no-repeat top right;
+}
+
+#site_content .button.flat span a {
+	background: none;
 }
 
 button:hover span, .button.flat:hover span {
@@ -299,8 +306,20 @@ input[type="text"], input[type="password"], textarea {
 	width: 32%;
 }
 
+/* === Obsah stránky */
+
 #site_content {
 	padding: 1.5em;
+}
+
+h1 a, h2 a, h3 a {
+	text-decoration: none;
+}
+
+#site_content a:hover {
+	color: #0c3875;
+	background: rgba(215, 228, 239, 0.5);
+	border-radius: 3px;
 }
 
 /* === Hlavička === */
