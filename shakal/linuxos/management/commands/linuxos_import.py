@@ -8,7 +8,7 @@ from django.db import connections
 from django.template.defaultfilters import slugify
 from shakal.accounts.models import UserProfile
 from shakal.article.models import Article, Category as ArticleCategory
-from shakal.forum.models import Section as ForumSection
+from shakal.forum.models import Section as ForumSection, Topic as ForumTopic
 from hitcount.models import HitCount
 import os
 import sys
@@ -41,8 +41,8 @@ class Command(BaseCommand):
 
 	def handle(self, *args, **kwargs):
 		self.cursor = connections["linuxos"].cursor()
-		#self.import_users()
-		#self.import_articles()
+		self.import_users()
+		self.import_articles()
 		self.import_forum()
 
 	def import_users(self):
@@ -225,6 +225,7 @@ class Command(BaseCommand):
 
 	def import_forum(self):
 		self.import_forum_sections()
+		self.import_forum_topics()
 
 	def import_forum_sections(self):
 		cols = [
@@ -246,3 +247,44 @@ class Command(BaseCommand):
 			}
 			ForumSection(**section).save()
 		connections['default'].cursor().execute('SELECT setval(\'forum_section_id_seq\', (SELECT MAX(id) FROM forum_section));')
+
+	def import_forum_topics(self):
+		users = set(map(lambda x: x['id'], User.objects.values('id')))
+		cols = [
+			'id',
+			'sekcia',
+			'username',
+			'predmet',
+			'text',
+			'userid',
+			'datetime'
+		]
+		self.cursor.execute('SELECT COUNT(*) FROM forum')
+		count = self.cursor.fetchall()[0][0]
+		counter = 0
+		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM forum')
+		sys.stdout.write("Importing forum\n")
+		sys.stdout.flush()
+		topics = []
+		for topic_row in self.cursor:
+			counter += 1
+			sys.stdout.write("{0} / {1}\r".format(counter, count))
+			sys.stdout.flush()
+			topic_dict = self.decode_cols_to_dict(cols, topic_row)
+			topic = {
+				'pk': topic_dict['id'],
+				'section_id': topic_dict['sekcia'],
+				'username': topic_dict['username'],
+				'title': topic_dict['predmet'],
+				'text': topic_dict['text'],
+				'time': topic_dict['datetime'],
+			}
+			if topic_dict['userid'] and topic_dict['userid'] in users:
+				topic['user_id'] = topic_dict['userid']
+			topics.append(ForumTopic(**topic))
+			if counter % 1000 == 0:
+				ForumTopic.objects.bulk_create(topics)
+				topics = []
+		ForumTopic.objects.bulk_create(topics)
+		topics = []
+		connections['default'].cursor().execute('SELECT setval(\'forum_topic_id_seq\', (SELECT MAX(id) FROM forum_topic));')
