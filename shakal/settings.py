@@ -144,3 +144,7 @@ LOGGING = {
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
 ACCOUNT_ACTIVATION_DAYS = 7
+
+ABSOLUTE_URL_OVERRIDES = {
+	'auth.user': lambda o: '/profil/{0}/'.format(o.pk)
+}
