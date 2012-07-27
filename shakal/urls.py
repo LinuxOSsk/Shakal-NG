@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from views import home
 from accounts import urls as accounts_urls
 from article import urls as article_urls
+from forum import urls as forum_urls
 
 admin.autodiscover()
 
@@ -14,6 +15,7 @@ urlpatterns = patterns('',
 	url(_(r'^admin/'), include(admin.site.urls)),
 	url(_(r'^accounts/'), include(accounts_urls.urlpatterns)),
 	url(_(r'^article/'), include(article_urls.urlpatterns)),
+	url(_(r'^forum/'), include(forum_urls.urlpatterns)),
 )
 
 if settings.DEBUG:

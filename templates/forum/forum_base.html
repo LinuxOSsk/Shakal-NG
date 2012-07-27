@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% load breadcrumbs_tags %}
+
+{% block breadcrumbs %}
+{% breadcrumb %}Fórum{% endbreadcrumb %}
+{{ block.super }}
+{% endblock %}

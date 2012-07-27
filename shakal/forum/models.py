@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
+from django.db.models import permalink
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
@@ -33,6 +34,10 @@ class Topic(models.Model):
 		else:
 			return self.username
 	get_username.short_description = _('user name')
+
+	@permalink
+	def get_absolute_url(self):
+		return ('forum:topic-detail', None, {'pk': self.pk})
 
 	def __unicode__(self):
 		return self.title
