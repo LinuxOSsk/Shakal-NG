@@ -1,8 +1,38 @@
-{% extends "forum/forum_base.html" %}{% load breadcrumbs_tags %}
+{% extends "forum/forum_base.html" %}{% load breadcrumbs_tags paginator_tags %}
+
+{% block title %}
+	{% if section %}
+		{{ section }}
+	{% else %}
+		Diskusné fórum
+	{% endif %}
+{% endblock %}
 
 {% block breadcrumbs %}
 	{% if section %}
 		{% breadcrumb %}{{ section|truncatechars:60 }}{% endbreadcrumb %}
 	{% endif %}
 	{{ block.super }}
+{% endblock %}
+
+{% block content %}
+
+<h1>{% if section %}{{ section }}{% else %}Diskusné fórum{% endif %}</h1>
+
+{% if section %}
+<p class="description">{{ section.description }}</p>
+{% endif %}
+
+<div class="module forum">
+	{% autopaginate forum pagenum items_per_page=50 %}
+	<div class="module-row">
+		{% include "forum/block_topics_table.html" with caption="Témy" %}
+	</div>
+	{% if section %}
+		{% paginator forum:section-page section=section.slug %}
+	{% else %}
+		{% paginator forum:overview-page %}
+	{% endif %}
+</div>
+
 {% endblock %}

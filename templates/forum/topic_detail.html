@@ -1,5 +1,7 @@
 {% extends "forum/forum_base.html" %}{% load breadcrumbs_tags %}
 
+{% block title %}{{ topic }}{% endblock %}
+
 {% block breadcrumbs %}
 {% breadcrumb %}{{ topic|truncatechars:60 }}{% endbreadcrumb %}
 {% breadcrumb url='forum:section' section=topic.section.slug %}{{ topic.section|truncatechars:60 }}{% endbreadcrumb %}

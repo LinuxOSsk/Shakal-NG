@@ -13,8 +13,9 @@ def overview(request, section = None, page = 1):
 		topics = topics.filter(section = section)
 
 	context = {
-		'topics': topics.all(),
-		'section': section
+		'forum': topics.all(),
+		'section': section,
+		'pagenum': page,
 	}
 	return TemplateResponse(request, "forum/topic_list.html", RequestContext(request, context))
 
