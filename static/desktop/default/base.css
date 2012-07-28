@@ -371,11 +371,11 @@ h1 a, h2 a, h3 a {
 }
 
 a.prev:before {
-	content: "\00AB";
+	content: "\00AB ";
 }
 
 a.next:after {
-	content: "\00BB";
+	content: " \00BB";
 }
 
 /* === Stránkovač === */
