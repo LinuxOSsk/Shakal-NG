@@ -1,4 +1,4 @@
-{% load i18n staticfiles breadcrumbs_tags %}{% load url from future %}<?xml version="1.0" encoding="UTF-8" ?>
+{% load i18n staticfiles breadcrumbs_tags news %}{% load url from future %}<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"  lang="{{ LANGUAGE_CODE|default:"en-us" }}" xml:lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
@@ -74,9 +74,17 @@
 					{% block content %}{% endblock %}
 				</div>
 			</div>
-			<aside id="colleft">
-					{% block left %}
-					{% endblock %}
+			<aside>
+				<div id="colleft">
+					<div id="aside_left">
+						{% block left %}
+							<div class="module news">
+								<h2>Správy</h2>
+								{% news_frontpage %}
+							</div>
+						{% endblock %}
+					</div>
+				</div>
 			</aside>
 		</div>
 	</div>

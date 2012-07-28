@@ -75,6 +75,7 @@ fieldset, .module {
 	margin: 0;
 	border: #e8e8e8 1px solid;
 	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+	background: white;
 }
 
 .module + .module, .module + form {
@@ -360,7 +361,7 @@ input[type="text"], input[type="password"], textarea {
 
 /* === Obsah stránky */
 
-#site_content {
+#site_content, #aside_left {
 	padding: 1.5em;
 }
 
@@ -692,4 +693,22 @@ ul.messages li.error {
 
 .preview .header, .preview .text {
 	padding: 0 1em .5em 1em;
+}
+
+/* === Správy === */
+
+.news h3 {
+	margin: 1px 0px;
+}
+
+.news .info {
+	font-size: 0.875em;
+}
+
+.news p {
+	margin: .2em 0;
+}
+
+.news .module-row {
+	padding: .5em .5em .3em .5em;
 }
