@@ -23,7 +23,13 @@
 <div class="module forum">
 	<h2>Diskusné fórum</h2>
 	<div class="module-row">
-		{% include "forum/block_topics_table.html" with caption="Témy" %}
+		{% include "forum/block_topics_table.html" with caption="Najnovšie komentáre" forum=forum_new %}
+	</div>
+	<div class="module-row">
+		{% include "forum/block_topics_table.html" with caption="Nediskutované témy" forum=forum_no_comments %}
+	</div>
+	<div class="module-row">
+		{% include "forum/block_topics_table.html" with caption="Najdiskutovanejšie témy" forum=forum_most_comments %}
 	</div>
 	<div class="module-links bottom">
 		<a href="{% url 'forum:overview' %}" class="next">Prezerať celé fórum</a>

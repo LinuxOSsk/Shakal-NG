@@ -18,6 +18,8 @@ def home(request):
 		'top_article': top_article,
 		'articles': articles[:5],
 		'article_categories': ArticleCategory.objects.all(),
-		'forum': ForumTopic.objects.all()[:20],
+		'forum_new': ForumTopic.objects.all()[:20],
+		'forum_no_comments': ForumTopic.objects.all()[:5],
+		'forum_most_comments': ForumTopic.objects.all()[:5],
 	}
 	return TemplateResponse(request, "home.html", RequestContext(request, context))
