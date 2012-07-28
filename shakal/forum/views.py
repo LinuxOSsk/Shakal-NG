@@ -16,6 +16,7 @@ def overview(request, section = None, page = 1):
 		'forum': topics.all(),
 		'section': section,
 		'pagenum': page,
+		'sections': Section.objects.all
 	}
 	return TemplateResponse(request, "forum/topic_list.html", RequestContext(request, context))
 
