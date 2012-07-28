@@ -292,6 +292,13 @@ button:active:hover span, .button.flat:active:hover span {
 	list-style: none;
 }
 
+.form-row p.radio-description {
+	font-size: 0.875em;
+	color: #888;
+	margin-top: 0;
+	padding-top: 0;
+}
+
 .submit-row {
 	height: 41px;
 	background: url('images/submit_row_bg.png') repeat-x;
