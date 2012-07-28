@@ -1,0 +1,19 @@
+{% extends "forum/forum_base.html" %}{% load breadcrumbs_tags %}{% load url from future %}
+
+{% block title %}Pridať tému{% endblock %}
+{% block breadcrumbs %}{% breadcrumb %}Pridať tému{% endbreadcrumb %}{% endblock %}
+
+{% block content %}
+<h1>Pridať tému</h1>
+
+<form action="{% url 'forum:create' %}" method="post" id="registration-form">{% csrf_token %}
+	<fieldset>
+		{% include 'includes/form_loop.html' with form=form %}
+		<div class="submit-row">
+			<div class="positive">
+				<button type="submit" title="Vytvoriť tému"><span>Vytvoriť tému</span></button>
+			</div>
+		</div>
+	</fieldset>
+</form>
+{% endblock %}

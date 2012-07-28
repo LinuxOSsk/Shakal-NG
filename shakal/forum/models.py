@@ -43,8 +43,8 @@ class Topic(models.Model):
 	section = models.ForeignKey(Section)
 	subject = models.CharField(max_length = 100, verbose_name = _('subject'))
 	text = models.TextField()
-	time = models.DateTimeField()
-	username = models.CharField(max_length = 50, verbose_name = _('user name'))
+	time = models.DateTimeField(auto_now_add = True)
+	username = models.CharField(max_length = 50, blank = False, verbose_name = _('user name'))
 	user = models.ForeignKey(User, blank = True, null = True)
 
 	def get_username(self):
