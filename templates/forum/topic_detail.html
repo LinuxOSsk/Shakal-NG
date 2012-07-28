@@ -1,4 +1,4 @@
-{% extends "forum/forum_base.html" %}{% load breadcrumbs_tags linuxos %}
+{% extends "forum/forum_base.html" %}{% load breadcrumbs_tags %}
 
 {% block title %}{{ topic }}{% endblock %}
 
@@ -11,33 +11,6 @@
 {% block content %}
 <h1>{{ topic }}</h1>
 
-<div class="discussion header topic">
-	<div class="title"><strong>Sekcia</strong>: <a href="{{ topic.section.get_absolute_url }}">{{ topic.section }}</a></div>
-	{% if topic.user %}
-		<span class="icon">
-		</span>
-	{% endif %}
-	<span class="user">
-		{% if topic.user %}
-			<a href="{{ topic.user.get_absolute_url }}">{% firstof topic.user.get_full_name topic.user.username %}</a>
-		{% else %}
-			{{ topic.username }}
-		{% endif %}
-		{% if topic.user %}
-			<span class="distribution"><strong>Distribúcia: </strong>{{ topic.user.get_profile.distribution }}</span>
-		{% endif %}
-	</span>
-	<span class="info">
-		{{ topic.time|humandatetime }}
-	</span>
-</div>
-<div class="text">
-	{{ topic.text|safe }}
-</div>
-{% if topic.user.signature %}
-	<div class="signature">
-		{{ topic.user.signature }}
-	</div>
-{% endif %}
+{% include "forum/topic_header.html" %}
 
 {% endblock %}

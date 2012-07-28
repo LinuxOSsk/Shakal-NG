@@ -77,8 +77,12 @@ fieldset, .module {
 	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
 }
 
-.module + .module {
+.module + .module, .module + form {
 	margin-top: 1.5em;
+}
+
+.module .clearpadding {
+	margin: 0 -5px;
 }
 
 fieldset h2, .module h2 {
@@ -684,4 +688,8 @@ ul.messages li.error {
 	width: 23px;
 	height: 34px;
 	padding: 3px 5px;
+}
+
+.preview .header, .preview .text {
+	padding: 0 1em .5em 1em;
 }
