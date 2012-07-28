@@ -275,7 +275,7 @@ class Command(BaseCommand):
 				'pk': topic_dict['id'],
 				'section_id': topic_dict['sekcia'],
 				'username': topic_dict['username'],
-				'title': topic_dict['predmet'],
+				'subject': topic_dict['predmet'],
 				'text': topic_dict['text'],
 				'time': topic_dict['datetime'],
 			}

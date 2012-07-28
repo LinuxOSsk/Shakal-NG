@@ -9,8 +9,8 @@ class SectionAdmin(admin.ModelAdmin):
 	prepopulated_fields = {'slug': ('name', )}
 
 class TopicAdmin(admin.ModelAdmin):
-	list_display = ('title', 'get_username', )
-	search_fields = ('title', 'get_username', )
+	list_display = ('subject', 'get_username', )
+	search_fields = ('subject', 'get_username', )
 	ordering = ('-id', )
 	raw_id_fields = ('user', )
 

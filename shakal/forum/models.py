@@ -41,7 +41,7 @@ class Topic(models.Model):
 	objects = TopicManager()
 
 	section = models.ForeignKey(Section)
-	title = models.CharField(max_length = 100, verbose_name = _('title'))
+	subject = models.CharField(max_length = 100, verbose_name = _('subject'))
 	text = models.TextField()
 	time = models.DateTimeField()
 	username = models.CharField(max_length = 50, verbose_name = _('user name'))
@@ -62,7 +62,7 @@ class Topic(models.Model):
 		return ('forum:topic-detail', None, {'pk': self.pk})
 
 	def __unicode__(self):
-		return self.title
+		return self.subject
 
 	class Meta:
 		verbose_name = _('topic')

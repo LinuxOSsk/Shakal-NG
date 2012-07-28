@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-27 17:49+0200\n"
+"POT-Creation-Date: 2012-07-28 12:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,6 +28,9 @@ msgstr "^profil/"
 
 msgid "^article/"
 msgstr "^clanok/"
+
+msgid "^forum/"
+msgstr "^forum/"
 
 msgid "profile"
 msgstr "profil"
@@ -179,6 +182,9 @@ msgstr "sekcia"
 
 msgid "sections"
 msgstr "sekcie"
+
+msgid "subject"
+msgstr "predmet"
 
 msgid "topic"
 msgstr "téma"
