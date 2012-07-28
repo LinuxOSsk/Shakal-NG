@@ -7,7 +7,8 @@ from datetime import datetime
 
 class News(models.Model):
 	subject = models.CharField(max_length = 255, verbose_name = _('subject'))
-	text = models.TextField(verbose_name = _('text'))
+	short_text = models.TextField(verbose_name = _('short text'))
+	long_text = models.TextField(verbose_name = _('long text'))
 	time = models.DateTimeField(default = datetime.now, verbose_name = _('time'))
 	author = models.ForeignKey(User, on_delete = models.SET_NULL, blank = True, null = True, verbose_name = _('user'))
 	authors_name = models.CharField(max_length = 255, verbose_name = _('authors name'))
@@ -16,3 +17,6 @@ class News(models.Model):
 	class Meta:
 		verbose_name = _('news item')
 		verbose_name_plural = _('news items')
+
+	def __unicode__(self):
+		return self.subject

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-28 18:39+0200\n"
+"POT-Creation-Date: 2012-07-28 19:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -174,11 +174,11 @@ msgstr "článok"
 msgid "articles"
 msgstr "články"
 
-msgid "description"
-msgstr "popis"
-
 msgid "section"
 msgstr "sekcia"
+
+msgid "description"
+msgstr "popis"
 
 msgid "sections"
 msgstr "sekcie"
@@ -200,6 +200,12 @@ msgstr "téma"
 
 msgid "topics"
 msgstr "témy"
+
+msgid "short text"
+msgstr "krátky text"
+
+msgid "long text"
+msgstr "dlhý text"
 
 msgid "approved"
 msgstr "schválené"
