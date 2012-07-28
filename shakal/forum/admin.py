@@ -10,6 +10,7 @@ class SectionAdmin(admin.ModelAdmin):
 
 class TopicAdmin(admin.ModelAdmin):
 	list_display = ('subject', 'get_username', )
+	list_filter = ('section', )
 	search_fields = ('subject', 'get_username', )
 	ordering = ('-id', )
 	raw_id_fields = ('user', )

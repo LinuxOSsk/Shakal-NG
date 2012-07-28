@@ -115,6 +115,7 @@ INSTALLED_APPS = (
 	'shakal.article',
 	'shakal.forum',
 	'shakal.linuxos',
+	'shakal.news',
 	'shakal.template_dynamicloader',
 )
 
