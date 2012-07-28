@@ -6,11 +6,7 @@
 		</span>
 	{% endif %}
 	<span class="user">
-		{% if topic.user %}
-			<a href="{{ topic.user.get_absolute_url }}">{% firstof topic.user.get_full_name topic.user.username %}</a>
-		{% else %}
-			{{ topic.username }}
-		{% endif %}
+		{% user_link topic.user topic.username %}
 		{% if topic.user %}
 			<span class="distribution"><strong>Distribúcia: </strong>{{ topic.user.get_profile.distribution }}</span>
 		{% endif %}

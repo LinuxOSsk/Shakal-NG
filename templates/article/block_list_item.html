@@ -1,13 +1,11 @@
-{% load l10n %}{% load url from future %}
+{% load l10n linuxos %}{% load url from future %}
 	<div class="module-row{% if forloop.last %} last{% endif %}">
 		<h3><a href="{{ article.get_absolute_url }}">{{ article.title}}</a></h3>
 		<div class="info top">
 			{{ article.time|date:"d.m.Y H:i" }} |
 			<a href="{% url 'article:list-category' category=article.category.slug %}">{{ article.category }}</a> |
 			{% if article.author %}
-			<a href="{{ article.author.get_absolute_url }}">
-				{% firstof article.author.get_full_name article.author.username %}
-				</a>
+				{% user_link article.author article.authors_name %}
 			{% else %}
 				{{ article.authors_name }}
 			{% endif %}
