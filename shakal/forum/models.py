@@ -1,14 +1,28 @@
 # -*- coding: utf-8 -*-
 
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import permalink
-from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
 class Section(models.Model):
 	name = models.CharField(max_length = 255, verbose_name = _('name'))
 	slug = models.SlugField(unique = True)
 	description = models.TextField(verbose_name = _('description'))
+
+	def clean(self):
+		slug_num = None
+		try:
+			slug_num = int(self.slug)
+		except:
+			pass
+		if slug_num is not None:
+			raise ValidationError(_('Numeric slug values are not allowed'))
+
+	@permalink
+	def get_absolute_url(self):
+		return ('forum:section', None, {'section': self.slug})
 
 	def __unicode__(self):
 		return self.name
@@ -18,7 +32,14 @@ class Section(models.Model):
 		verbose_name_plural = _('sections')
 
 
+class TopicManager(models.Manager):
+	def get_query_set(self):
+		return super(TopicManager, self).get_query_set().select_related('user', 'section')
+
+
 class Topic(models.Model):
+	objects = TopicManager()
+
 	section = models.ForeignKey(Section)
 	title = models.CharField(max_length = 100, verbose_name = _('title'))
 	text = models.TextField()

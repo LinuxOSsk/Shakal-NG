@@ -1,0 +1,8 @@
+{% extends "forum/forum_base.html" %}{% load breadcrumbs_tags %}
+
+{% block breadcrumbs %}
+	{% if section %}
+		{% breadcrumb %}{{ section|truncatechars:60 }}{% endbreadcrumb %}
+	{% endif %}
+	{{ block.super }}
+{% endblock %}

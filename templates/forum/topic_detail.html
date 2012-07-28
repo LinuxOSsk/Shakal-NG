@@ -1,10 +1,16 @@
 {% extends "forum/forum_base.html" %}{% load breadcrumbs_tags %}
 
+{% block breadcrumbs %}
+{% breadcrumb %}{{ topic|truncatechars:60 }}{% endbreadcrumb %}
+{% breadcrumb url='forum:section' section=topic.section.slug %}{{ topic.section|truncatechars:60 }}{% endbreadcrumb %}
+{{ block.super }}
+{% endblock %}
+
 {% block content %}
 <h1>{{ topic }}</h1>
 
 <div class="discussion header topic">
-	<div class="title"><strong>Sekcia</strong>: </div>
+	<div class="title"><strong>Sekcia</strong>: <a href="{{ topic.section.get_absolute_url }}">{{ topic.section }}</a></div>
 	<span class="user">
 		{% if topic.user %}
 			<a href="{{ topic.user.get_absolute_url }}">{% firstof topic.user.get_full_name topic.user.username %}</a>

@@ -11,7 +11,11 @@ class Patterns(object):
 	@property
 	def urls(self):
 		urlpatterns = patterns('',
-			url('^(?P<pk>\d+)/$', forum_views.topic_detail, name = 'topic-detail')
+			url('^$', forum_views.overview, name = 'overview'),
+			url('^strana/(?P<page>\d+)/$', forum_views.overview, name = 'overview-page'),
+			url('^(?P<pk>\d+)/$', forum_views.topic_detail, name = 'topic-detail'),
+			url('^(?P<section>[-\w]+)/$', forum_views.overview, name = 'section'),
+			url('^(?P<section>[-\w]+)/(?P<page>\d+)/$', forum_views.overview, name = 'section-page'),
 		)
 		return (urlpatterns, self.app_name, self.name)
 
