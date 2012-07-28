@@ -632,3 +632,40 @@ ul.messages li.error {
 .forum caption:after {
 	content: '::';
 }
+
+.discussion.header {
+	border-top: 1px solid #dbdfe3;
+	background: #e0ebff;
+	padding: 0.3em;
+	margin: 0 0 1em 0;
+}
+
+.discussion.header .title {
+	float: left;
+	clear: left;
+	padding-bottom: 10px;
+}
+
+.discussion.header .user {
+	float: right;
+	display: block;
+	text-align: right;
+}
+
+.discussion.header .distribution {
+	padding-top: 10px;
+	display: block;
+}
+
+.discussion.header .info {
+	display: block;
+	clear: left;
+}
+
+.discussion.header .icon {
+	display: block;
+	float: right;
+	width: 23px;
+	height: 34px;
+	padding: 3px 5px;
+}
