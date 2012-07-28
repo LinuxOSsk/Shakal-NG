@@ -1,4 +1,4 @@
-{% extends "forum/forum_base.html" %}{% load breadcrumbs_tags %}
+{% extends "forum/forum_base.html" %}{% load breadcrumbs_tags linuxos %}
 
 {% block title %}{{ topic }}{% endblock %}
 
@@ -28,7 +28,7 @@
 		{% endif %}
 	</span>
 	<span class="info">
-		{{ topic.time|date:"SHORT_DATETIME_FORMAT" }}
+		{{ topic.time|humandatetime }}
 	</span>
 </div>
 <div class="text">
