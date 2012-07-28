@@ -1,4 +1,4 @@
-{% extends "forum/forum_base.html" %}{% load breadcrumbs_tags paginator_tags %}
+{% extends "forum/forum_base.html" %}{% load breadcrumbs_tags paginator_tags %}{% load url from future %}
 
 {% block title %}
 	{% if section %}
@@ -17,6 +17,9 @@
 
 {% block content %}
 
+<ul class="object-tools">
+	<li><a href="{% url 'forum:create' %}">Pridať novú tému</a></li>
+</ul>
 <h1>{% if section %}{{ section }}{% else %}Diskusné fórum{% endif %}</h1>
 
 {% if section %}

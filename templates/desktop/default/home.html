@@ -32,6 +32,7 @@
 		{% include "forum/block_topics_table.html" with caption="Najdiskutovanejšie témy" forum=forum_most_comments %}
 	</div>
 	<div class="module-links bottom">
+		<a href="{% url 'forum:create' %}">Pridať novú tému</a> |
 		<a href="{% url 'forum:overview' %}" class="next">Prezerať celé fórum</a>
 	</div>
 </div>

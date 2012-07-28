@@ -3,8 +3,10 @@ from django import forms
 from django.forms import ChoiceField, ModelChoiceField
 from django.forms.models import ModelChoiceIterator
 from django.forms.widgets import RadioSelect, RadioFieldRenderer, RadioInput
+from django.template.defaultfilters import capfirst
 from django.utils.encoding import force_unicode
 from django.utils.html import escape
+from django.utils.translation import ugettext_lazy as _
 from models import Topic, Section
 
 
@@ -33,7 +35,7 @@ class SectionRenderer(RadioFieldRenderer):
 
 
 class TopicForm(forms.ModelForm):
-	section = SectionModelChoiceField(Section.objects.all(), empty_label=None, widget = RadioSelect(renderer = SectionRenderer))
+	section = SectionModelChoiceField(Section.objects.all(), empty_label=None, widget = RadioSelect(renderer = SectionRenderer), label = capfirst(_('section')))
 	def __init__(self, *args, **kwargs):
 		super(TopicForm, self).__init__(*args, **kwargs)
 
