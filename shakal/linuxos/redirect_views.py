@@ -10,3 +10,6 @@ def profile_redirect(request, pk):
 def article_redirect(request, pk):
 	article = get_object_or_404(Article, pk = pk)
 	return HttpResponsePermanentRedirect(reverse('article:detail-by-slug', kwargs = {'slug': article.slug}))
+
+def forum_topic_redirect(request, pk):
+	return HttpResponsePermanentRedirect(reverse('forum:topic-detail', kwargs = {'pk': pk}))
