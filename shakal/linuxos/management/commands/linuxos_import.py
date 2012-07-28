@@ -63,10 +63,10 @@ class Command(BaseCommand):
 			'rok',
 			'real_name',
 		]
-		self.cursor.execute('SELECT COUNT(*) FROM users')
+		self.cursor.execute('SELECT COUNT(*) FROM users WHERE prava > 0')
 		count = self.cursor.fetchall()[0][0]
 		counter = 0
-		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM users')
+		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM users WHERE prava > 0')
 		sys.stdout.write("Importing users\n")
 		for user in self.cursor:
 			counter += 1
