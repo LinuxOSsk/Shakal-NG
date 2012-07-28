@@ -1,0 +1,17 @@
+<table>
+	<caption>{{ caption }}</caption>
+	<tr>
+		<th class="title">Predmet</th>
+		<th>Stav</th>
+		<th>Reakcií</th>
+		<th>Posledná</th>
+	</tr>
+	{% for topic in forum %}
+	<tr>
+		<td class="title"><a href="{{ topic.get_absolute_url }}">{{ topic }}</a></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	{% endfor %}
+</table>

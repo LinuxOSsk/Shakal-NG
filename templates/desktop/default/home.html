@@ -22,22 +22,11 @@
 
 <div class="module forum">
 	<h2>Diskusné fórum</h2>
-	<table>
-		<caption>Témy</caption>
-		<tr>
-			<th class="title">Predmet</th>
-			<th>Stav</th>
-			<th>Reakcií</th>
-			<th>Posledná</th>
-		</tr>
-		{% for topic in forum %}
-		<tr>
-			<td class="title"><a href="{{ topic.get_absolute_url }}">{{ topic }}</a></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		{% endfor %}
-	</table>
+	<div class="module-row">
+		{% include "forum/block_topics_table.html" with caption="Témy" %}
+	</div>
+	<div class="module-links bottom">
+		<a href="{% url 'forum:overview' %}" class="next">Prezerať celé fórum</a>
+	</div>
 </div>
 {% endblock %}
