@@ -259,7 +259,7 @@ button:active:hover span, .button.flat:active:hover span {
 	overflow: hidden;
 }
 
-.form-row label {
+.form-row label.field_label {
 	display: block;
 	padding: 5px 10px 0 0;
 	float: left;
@@ -281,6 +281,15 @@ button:active:hover span, .button.flat:active:hover span {
 	padding-left: 12em;
 	font-size: 0.875em;
 	color: #888;
+}
+
+.form-row ul {
+	padding: 0;
+	margin: 0 0 0 11em;
+}
+
+.form-row ul li {
+	list-style: none;
 }
 
 .submit-row {
