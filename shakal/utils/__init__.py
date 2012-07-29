@@ -45,12 +45,15 @@ def unique_slugify(item, title_field, slug_field = 'slug', reserve_chars = 5):
 		slug_field_query = slug_field + '__startswith'
 		all_slugs = set(queryset.filter(**{slug_field_query: slug}).values_list(slug_field, flat = True))
 		max_val = 10**(reserve_chars - 1) - 1
+		setattr(item, slug_field, create_unique_slug(slug, all_slugs, max_val))
 
-		if not slug in all_slugs:
-			setattr(item, slug_field, slug)
-		else:
-			for suffix in xrange(2, max_val):
-				new_slug = slug + '-' + str(suffix)
-				if not new_slug in all_slugs:
-						setattr(item, slug_field, new_slug)
-						return
+
+def create_unique_slug(slug, all_slugs, max_val):
+	if not slug in all_slugs:
+		return slug
+	else:
+		for suffix in xrange(2, max_val):
+			new_slug = slug + '-' + str(suffix)
+			if not new_slug in all_slugs:
+				return new_slug
+	return slug
