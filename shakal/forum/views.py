@@ -7,7 +7,7 @@ from django.views.generic import CreateView
 from datetime import datetime
 from forms import TopicForm
 from models import Section, Topic
-from shakal.utils.generic import AddLoggedFormArgumentMixin
+from shakal.utils.generic import AddLoggedFormArgumentMixin, PreviewCreateView
 
 def overview(request, section = None, page = 1):
 	topics = Topic.objects
@@ -32,7 +32,7 @@ def topic_detail(request, pk):
 	return TemplateResponse(request, "forum/topic_detail.html", RequestContext(request, context))
 
 
-class TopicCreateView(AddLoggedFormArgumentMixin, CreateView):
+class TopicCreateView(AddLoggedFormArgumentMixin, PreviewCreateView):
 	model = Topic
 	template_name = 'forum/topic_create.html'
 	form_class = TopicForm
@@ -46,6 +46,4 @@ class TopicCreateView(AddLoggedFormArgumentMixin, CreateView):
 			else:
 				topic.username = self.request.user.username
 			topic.user = self.request.user
-		if not 'create' in self.request.POST:
-			return self.render_to_response(self.get_context_data(form = form, topic = topic, valid = True))
 		return super(TopicCreateView, self).form_valid(form)
