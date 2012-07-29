@@ -14,5 +14,6 @@ class SurveyAdmin(admin.ModelAdmin):
 	list_filter = ('approved', 'content_type', )
 	ordering = ('-id', )
 	inlines = [AnswerInline, ]
+	exclude = ('answer_count', )
 
 admin.site.register(Survey, SurveyAdmin)

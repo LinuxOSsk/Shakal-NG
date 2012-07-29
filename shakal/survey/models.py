@@ -12,6 +12,7 @@ class Survey(models.Model):
 	checkbox = models.BooleanField(default = False, verbose_name = _("more answers"))
 	approved = models.BooleanField(default = False, verbose_name = _("approved"))
 	active_from = models.DateTimeField(blank = True, null = True, verbose_name = _("active from"))
+	answer_count = models.PositiveIntegerField(default = 0)
 
 	content_type = models.ForeignKey(ContentType, limit_choices_to = {"model__in": ("article",)}, null = True, blank = True, verbose_name = _("content type"))
 	object_id = models.PositiveIntegerField(null = True, blank = True, verbose_name = _("object id"))
