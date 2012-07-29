@@ -1,4 +1,4 @@
-{% extends "news/news_base.html" %}{% load breadcrumbs_tags %}
+{% extends "news/news_base.html" %}{% load breadcrumbs_tags %}{% load url from future %}
 
 {% block breadcrumbs %}
 {% breadcrumb %}{{ news|truncatechars:80 }}{% endbreadcrumb %}
@@ -6,6 +6,11 @@
 {% endblock %}
 
 {% block content %}
+{% if user.is_staff and perms.news.can_change %}
+<ul class="object-tools">
+	<li><a href="{% url 'admin:news_news_change' news.pk %}">Upraviť správu</a></li>
+</ul>
+{% endif %}
 <h1>{{ news }}</h1>
 <p>
 {{ news.long_text|safe }}
