@@ -9,6 +9,8 @@ from django.template.defaultfilters import slugify
 from shakal.accounts.models import UserProfile
 from shakal.article.models import Article, Category as ArticleCategory
 from shakal.forum.models import Section as ForumSection, Topic as ForumTopic
+from shakal.news.models import News
+from shakal.utils import create_unique_slug
 from hitcount.models import HitCount
 import os
 import sys
@@ -44,6 +46,7 @@ class Command(BaseCommand):
 		self.import_users()
 		self.import_articles()
 		self.import_forum()
+		self.import_news()
 
 	def import_users(self):
 		cols = [
@@ -288,3 +291,57 @@ class Command(BaseCommand):
 		ForumTopic.objects.bulk_create(topics)
 		topics = []
 		connections['default'].cursor().execute('SELECT setval(\'forum_topic_id_seq\', (SELECT MAX(id) FROM forum_topic));')
+
+	def import_news(self):
+		users = dict(map(lambda x: (x['id'], (x['first_name'], x['last_name'], x['username'])), User.objects.values('id', 'first_name', 'last_name', 'username')))
+		all_slugs = set()
+		cols = [
+			'id',
+			'predmet',
+			'sprava',
+			'userid',
+			'time',
+			'schvalene'
+		]
+		self.cursor.execute('SELECT COUNT(*) FROM spravy')
+		count = self.cursor.fetchall()[0][0]
+		counter = 0
+		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM spravy')
+		sys.stdout.write("Importing news\n")
+		sys.stdout.flush()
+		news_objects = []
+		for news_row in self.cursor:
+			counter += 1
+			sys.stdout.write("{0} / {1}\r".format(counter, count))
+			sys.stdout.flush()
+			news_dict = self.decode_cols_to_dict(cols, news_row)
+
+			slug = str(news_dict['id'])
+			if news_dict['predmet']:
+				slug = create_unique_slug(slugify(news_dict['predmet'])[:45], all_slugs, 9999)
+				all_slugs.add(slug)
+
+			news = {
+				'pk': news_dict['id'],
+				'subject': news_dict['predmet'] if news_dict['predmet'] else '-',
+				'slug': slug,
+				'short_text': news_dict['sprava'],
+				'long_text': news_dict['sprava'],
+				'time': news_dict['time'],
+				'authors_name': '-',
+				'approved': bool(news_dict['schvalene']),
+			}
+			if news_dict['userid'] in users:
+				news['author_id'] = news_dict['userid']
+				user = users[news_dict['userid']]
+				if user[0] or user[1]:
+					news['authors_name'] = (user[0] + ' ' + user[1]).strip()
+				else:
+					news['authors_name'] = user[2]
+			news_objects.append(News(**news))
+			if counter % 1000 == 0:
+				News.objects.bulk_create(news_objects)
+				news_objects = []
+		News.objects.bulk_create(news_objects)
+		news_objects = []
+		connections['default'].cursor().execute('SELECT setval(\'news_news_id_seq\', (SELECT MAX(id) FROM news_news));')
