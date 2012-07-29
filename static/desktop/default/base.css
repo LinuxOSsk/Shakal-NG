@@ -78,6 +78,10 @@ fieldset, .module {
 	background: white;
 }
 
+#aside_left .module {
+	border: #c0cbef 1px solid;
+}
+
 .module + .module, .module + form {
 	margin-top: 1.5em;
 }
