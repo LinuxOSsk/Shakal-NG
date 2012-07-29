@@ -7,6 +7,7 @@ from django.views.generic import CreateView
 from datetime import datetime
 from forms import TopicForm
 from models import Section, Topic
+from shakal.utils.generic import AddLoggedFormArgumentMixin
 
 def overview(request, section = None, page = 1):
 	topics = Topic.objects
@@ -31,13 +32,10 @@ def topic_detail(request, pk):
 	return TemplateResponse(request, "forum/topic_detail.html", RequestContext(request, context))
 
 
-class TopicCreateView(CreateView):
+class TopicCreateView(AddLoggedFormArgumentMixin, CreateView):
 	model = Topic
 	template_name = 'forum/topic_create.html'
 	form_class = TopicForm
-
-	def get_form(self, form_class):
-		return form_class(logged = self.request.user.is_authenticated(), **self.get_form_kwargs())
 
 	def form_valid(self, form):
 		topic = form.save(commit = False)
