@@ -6,6 +6,13 @@
 {% block content %}
 <h1>Pridať správu </h1>
 
+{% if valid %}
+	<div class="module preview">
+		<h2>Náhľad</h2>
+		{% include "news/block_news_item.html" %}
+	</div>
+{% endif %}
+
 <form action="{% url 'news:create' %}" method="post" id="news-form">{% csrf_token %}
 	<fieldset>
 		{% include 'includes/form_loop.html' with form=form %}

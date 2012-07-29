@@ -81,6 +81,9 @@
 							<div class="module news">
 								<h2>Správy</h2>
 								{% news_frontpage %}
+								<div class="module-links bottom">
+									<a href="{% url 'news:create' %}">Pridať správu</a>
+								</div>
 							</div>
 						{% endblock %}
 					</div>

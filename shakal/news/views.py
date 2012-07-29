@@ -6,6 +6,7 @@ from django.template import RequestContext
 from forms import NewsForm
 from models import News
 from shakal.utils.generic import AddLoggedFormArgumentMixin, PreviewCreateView
+from shakal.utils import unique_slugify
 
 def news_detail_by_slug(request, slug):
 	news = get_object_or_404(News.objects.select_related('author'), slug = slug)
@@ -19,3 +20,16 @@ class NewsCreateView(AddLoggedFormArgumentMixin, PreviewCreateView):
 	model = News
 	template_name = 'news/news_create.html'
 	form_class = NewsForm
+
+	def form_valid(self, form):
+		news = form.save(commit = False)
+		unique_slugify(news, title_field = 'subject')
+		if self.request.user.is_authenticated():
+			if self.request.user.get_full_name():
+				news.authors_name = self.request.user.get_full_name()
+			else:
+				news.authors_name = self.request.user.username
+			news.author = self.request.user
+		if self.request.user.has_perm('news.can_change'):
+			news.approved = True;
+		return super(NewsCreateView, self).form_valid(form)
