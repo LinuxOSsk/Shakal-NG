@@ -36,6 +36,7 @@ class SectionRenderer(RadioFieldRenderer):
 
 class TopicForm(forms.ModelForm):
 	section = SectionModelChoiceField(Section.objects.all(), empty_label=None, widget = RadioSelect(renderer = SectionRenderer), label = capfirst(_('section')))
+
 	def __init__(self, *args, **kwargs):
 		logged = kwargs.pop('logged', False)
 		super(TopicForm, self).__init__(*args, **kwargs)
@@ -46,8 +47,3 @@ class TopicForm(forms.ModelForm):
 		model = Topic
 		exclude = ('user', 'time', )
 		fields = ('section', 'username', 'subject', 'text', )
-
-
-class TopicLoggedForm(TopicForm):
-	def __init__(self, *args, **kwargs):
-		super(TopicLoggedForm, self).__init__(logged = True, *args, **kwargs)

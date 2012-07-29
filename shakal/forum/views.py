@@ -5,7 +5,7 @@ from django.template.response import TemplateResponse
 from django.template import RequestContext
 from django.views.generic import CreateView
 from datetime import datetime
-from forms import TopicForm, TopicLoggedForm
+from forms import TopicForm
 from models import Section, Topic
 
 def overview(request, section = None, page = 1):
@@ -34,12 +34,10 @@ def topic_detail(request, pk):
 class TopicCreateView(CreateView):
 	model = Topic
 	template_name = 'forum/topic_create.html'
+	form_class = TopicForm
 
-	def get_form_class(self):
-		if self.request.user.is_authenticated():
-			return TopicLoggedForm
-		else:
-			return TopicForm
+	def get_form(self, form_class):
+		return form_class(logged = self.request.user.is_authenticated(), **self.get_form_kwargs())
 
 	def form_valid(self, form):
 		topic = form.save(commit = False)
