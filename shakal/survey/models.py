@@ -41,6 +41,12 @@ class Answer(models.Model):
 	answer = models.CharField(max_length = 255)
 	votes = models.PositiveIntegerField(default = 0)
 
+	def percent(self):
+		if self.survey.answer_count == 0:
+			return 0
+		else:
+			return 100.0 * self.votes / self.survey.answer_count
+
 	def __unicode__(self):
 		return self.answer
 

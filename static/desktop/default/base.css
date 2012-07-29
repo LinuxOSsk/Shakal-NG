@@ -716,3 +716,24 @@ ul.messages li.error {
 .news .module-row {
 	padding: .5em .5em .3em .5em;
 }
+
+/* === Anketa === */
+.progressbar {
+	border: solid 1px #e4e5e7;
+	border-radius: 3px;
+	background: url('images/progressbar.png') repeat-x 0px -1px;
+	height: 16px;
+	margin: .3em 0;
+}
+
+.progressbar .completed {
+	border: solid 1px #2f83bb;
+	border-radius: 3px;
+	overflow: hidden;
+	text-indent: -9999px;
+	background: url('images/progressbar.png') repeat-x 0px -19px;
+	height: 16px;
+	position: relative;
+	top: -1px;
+	left: -1px;
+}

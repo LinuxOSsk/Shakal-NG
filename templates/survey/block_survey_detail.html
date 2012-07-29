@@ -3,5 +3,10 @@
 {% for answer in survey.answers %}
 <div class="module-row">
 	{{ answer }}
+	<div class="progressbar">
+		<div class="completed" style="width: {{ answer.percent|floatformat:0 }}%">
+			{{ answer.percent|floatformat:0 }} %
+		</div>
+	</div>
 </div>
 {% endfor %}
