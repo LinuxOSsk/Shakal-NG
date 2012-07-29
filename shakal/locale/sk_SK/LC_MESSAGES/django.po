@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-29 15:01+0200\n"
+"POT-Creation-Date: 2012-07-29 18:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -218,6 +218,30 @@ msgstr "správa"
 
 msgid "news items"
 msgstr "správy"
+
+msgid "question"
+msgstr "otázka"
+
+msgid "more answers"
+msgstr "viacej odpovedí"
+
+msgid "content type"
+msgstr "typ obsahu"
+
+msgid "object id"
+msgstr "id objektu"
+
+msgid "Field object id is required"
+msgstr "Pole id objektu je povinné"
+
+msgid "Field content type is required"
+msgstr "Pole typ obsahu je povinné"
+
+msgid "survey"
+msgstr "anketa"
+
+msgid "surveys"
+msgstr "ankety"
 
 msgid "Shakal admin"
 msgstr "Shakal administrácia"
