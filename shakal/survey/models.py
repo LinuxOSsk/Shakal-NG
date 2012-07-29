@@ -28,3 +28,16 @@ class Survey(models.Model):
 	class Meta:
 		verbose_name = _('survey')
 		verbose_name_plural = _('surveys')
+
+
+class Answer(models.Model):
+	survey = models.ForeignKey(Survey)
+	answer = models.CharField(max_length = 255)
+	votes = models.PositiveIntegerField(default = 0)
+
+	def __unicode__(self):
+		return self.answer
+
+	class Meta:
+		verbose_name = _('answer')
+		verbose_name_plural = _('answers')
