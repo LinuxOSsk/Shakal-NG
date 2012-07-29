@@ -17,6 +17,10 @@ class Survey(models.Model):
 	object_id = models.PositiveIntegerField(null = True, blank = True, verbose_name = _("object id"))
 	content_object = generic.GenericForeignKey('content_type', 'object_id')
 
+	@property
+	def answers(self):
+		return self.answer_set.order_by('pk')
+
 	def clean(self):
 		if self.content_type and not self.object_id:
 			raise ValidationError(_('Field object id is required'))
