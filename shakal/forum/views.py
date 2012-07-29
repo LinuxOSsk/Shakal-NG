@@ -3,7 +3,6 @@
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 from django.template import RequestContext
-from django.views.generic import CreateView
 from datetime import datetime
 from forms import TopicForm
 from models import Section, Topic

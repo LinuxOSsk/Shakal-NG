@@ -1,0 +1,22 @@
+{% extends "news/news_base.html" %}{% load breadcrumbs_tags %}{% load url from future %}
+
+{% block title %}Pridať správu{% endblock %}
+{% block breadcrumbs %}{% breadcrumb %}Pridať správu{% endbreadcrumb %}{{ block.super }}{% endblock %}
+
+{% block content %}
+<h1>Pridať správu </h1>
+
+<form action="{% url 'news:create' %}" method="post" id="news-form">{% csrf_token %}
+	<fieldset>
+		{% include 'includes/form_loop.html' with form=form %}
+		<div class="submit-row">
+			<div class="positive">
+				<button type="submit" title="Náhľad"><span>Náhľad</span></button>
+				{% if valid %}
+				<button type="submit" title="Vytvoriť správu" name="create" value="1"><span>Vytvoriť správu</span></button>
+				{% endif %}
+			</div>
+		</div>
+	</fieldset>
+</form>
+{% endblock %}
