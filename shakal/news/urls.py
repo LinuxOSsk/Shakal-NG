@@ -13,6 +13,8 @@ class Patterns(object):
 		urlpatterns = patterns('',
 			url(r'^detail/(?P<slug>[-\w]+)/$', news_views.news_detail_by_slug, name = "detail-by-slug"),
 			url(r'^pridat/$', news_views.NewsCreateView.as_view(), name = 'create'),
+			url(r'^$', news_views.news_list, name = 'list'),
+			url(r'^zoznam/(?P<page>\d+)/', news_views.news_list, name = 'list-page'),
 		)
 		return (urlpatterns, self.app_name, self.name)
 

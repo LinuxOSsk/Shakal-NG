@@ -1,10 +1,13 @@
-{% extends "news/news_base.html" %}
+{% extends "news/news_base.html" %}{% load breadcrumbs_tags %}
+
+{% block breadcrumbs %}
+{% breadcrumb %}{{ news|truncatechars:80 }}{% endbreadcrumb %}
+{{ block.super }}
+{% endblock %}
 
 {% block content %}
 <h1>{{ news }}</h1>
-
 <p>
 {{ news.long_text|safe }}
 </p>
-
 {% endblock %}

@@ -1,6 +1,6 @@
 {% extends "base.html" %}{% load breadcrumbs_tags %}
 
 {% block breadcrumbs %}
-{% breadcrumb %}Správy{% endbreadcrumb %}
+{% breadcrumb url='news:list' %}Správy{% endbreadcrumb %}
 {{ block.super }}
 {% endblock %}

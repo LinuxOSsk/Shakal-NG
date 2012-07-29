@@ -6,7 +6,15 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime
 
+
+class NewsManager(models.Manager):
+	def get_query_set(self):
+		return super(NewsManager, self).get_query_set().select_related('author')
+
+
 class News(models.Model):
+	objects = NewsManager()
+
 	subject = models.CharField(max_length = 255, verbose_name = _('subject'))
 	slug = models.SlugField(unique = True)
 	short_text = models.TextField(verbose_name = _('short text'))

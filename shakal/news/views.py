@@ -33,3 +33,11 @@ class NewsCreateView(AddLoggedFormArgumentMixin, PreviewCreateView):
 		if self.request.user.has_perm('news.can_change'):
 			news.approved = True;
 		return super(NewsCreateView, self).form_valid(form)
+
+
+def news_list(request, page = 1):
+	context = {
+		'news': News.objects.order_by('-pk').all(),
+		'pagenum': page,
+	}
+	return TemplateResponse(request, "news/news_list.html", RequestContext(request, context))
