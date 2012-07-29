@@ -5,7 +5,7 @@
 {% block content %}
 <h1>Správy</h1>
 <div class="module">
-	{% autopaginate news pagenum items_per_page=15 %}
+	{% autopaginate news pagenum items_per_page=20 %}
 	{% for item in news %}
 		<div class="module-row">{% include "news/block_news_item.html" %}</div>
 	{% endfor %}
