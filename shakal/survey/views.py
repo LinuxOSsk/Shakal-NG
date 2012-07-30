@@ -10,19 +10,22 @@ from django.template import RequestContext
 from django.views.decorators.http import require_POST
 from datetime import datetime
 from forms import SurveyForm
-from models import Survey, Answer
+from models import Survey, Answer, check_can_vote, record_vote
 from shakal.utils import unique_slugify
 
 
 @require_POST
 def post(request, pk):
 	survey = get_object_or_404(Survey, pk = pk)
+
+	tag = 'survey'
+
 	if not survey.approved:
-		messages.error(request, 'Anketa nie je schválená.', extra_tags = 'survey')
+		messages.error(request, 'Anketa nie je schválená.', extra_tags = tag)
 		return HttpResponseRedirect(request.POST['next'])
 
 	if not 'answer' in request.POST:
-		messages.error(request, 'Vyberte prosím odpoveď.', extra_tags = 'survey')
+		messages.error(request, 'Vyberte prosím odpoveď.', extra_tags = tag)
 		return HttpResponseRedirect(request.POST['next'])
 
 	if not survey.checkbox:
@@ -31,8 +34,12 @@ def post(request, pk):
 	if survey.checkbox:
 		answers = [int(answer) for answer in request.POST.getlist('answer')]
 		if len(answers) == 0:
-			messages.error(request, 'Vyberte prosím odpoveď.', extra_tags = 'survey')
+			messages.error(request, 'Vyberte prosím odpoveď.', extra_tags = tag)
 			return HttpResponseRedirect(request.POST['next'])
+
+	if not check_can_vote(request, survey):
+		messages.error(request, 'Hlasovať je možné len raz.', extra_tags = tag)
+		return HttpResponseRedirect(request.POST['next'])
 
 	answer_objects = survey.answer_set.order_by('pk').values_list('pk', flat = True)
 	update_answer_objects = []
@@ -41,6 +48,8 @@ def post(request, pk):
 
 	Survey.objects.filter(pk = survey.pk).update(answer_count = F('answer_count') + 1)
 	survey.answer_set.filter(pk__in = update_answer_objects).update(votes = F('votes') + 1)
+
+	record_vote(request, survey)
 
 	messages.success(request, 'Hlas bol prijatý.', extra_tags = 'survey')
 	return HttpResponseRedirect(request.POST['next'])

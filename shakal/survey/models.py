@@ -77,3 +77,17 @@ class RecordUser(models.Model):
 
 	class Meta:
 		unique_together = ('survey', 'user', )
+
+
+def check_can_vote(request, survey):
+	if request.user.is_authenticated():
+		return not RecordUser.objects.filter(user = request.user, survey = survey).exists()
+	else:
+		return not RecordIp.objects.filter(ip = request.META['REMOTE_ADDR'], survey = survey).exists()
+
+
+def record_vote(request, survey):
+	if request.user.is_authenticated():
+		RecordUser(user = request.user, survey = survey).save()
+	else:
+		RecordIp(ip = request.META['REMOTE_ADDR'], survey = survey).save()
