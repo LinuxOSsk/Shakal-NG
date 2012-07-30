@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-29 19:02+0200\n"
+"POT-Creation-Date: 2012-07-30 16:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,6 +34,9 @@ msgstr "^forum/"
 
 msgid "^news/"
 msgstr "^spravy/"
+
+msgid "^survey/"
+msgstr "^anketa/"
 
 msgid "profile"
 msgstr "profil"
@@ -218,6 +221,12 @@ msgstr "správa"
 
 msgid "news items"
 msgstr "správy"
+
+msgid "Minimum 2 answers are required"
+msgstr "Sú požadované minimálne 2 odpovede"
+
+msgid "Answers"
+msgstr "Odpovede"
 
 msgid "question"
 msgstr "otázka"
