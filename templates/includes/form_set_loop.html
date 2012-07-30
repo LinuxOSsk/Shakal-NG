@@ -32,7 +32,7 @@
 				{% endif %}
 				{% ifnotequal field form.DELETE %}
 					{{ field.errors }}
-					{{ field }}
+					<div class="formset-field">{{ field }}</div>
 				{% endifnotequal %}
 			</td>
 		{% endfor %}

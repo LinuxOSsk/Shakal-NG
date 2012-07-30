@@ -26,7 +26,7 @@
 			<div class="form-row">
 				<div>
 					{% if subform.label %}
-						<label>{{ subform.label }}:</label>
+						<label class="formset_label">{{ subform.label }}:</label>
 					{% endif %}
 					{% include "includes/form_set_loop.html" with formset=subform %}
 				</div>

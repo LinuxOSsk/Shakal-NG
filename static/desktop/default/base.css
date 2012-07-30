@@ -268,7 +268,7 @@ button:active:hover span, .button.flat:active:hover span {
 	overflow: hidden;
 }
 
-.form-row label.field_label {
+.form-row label.field_label, .form-row label.formset_label {
 	display: block;
 	padding: 5px 10px 0 0;
 	float: left;
@@ -326,6 +326,15 @@ input[type="text"], input[type="password"], textarea {
 	background: #fff url('images/input_bg.png') repeat-x;
 	border: 1px solid #e6e4e4;
 	padding: 3px 6px;
+}
+
+.formset-field input[type="text"], .formset-field input[type="password"], .formset-field textarea {
+	padding: 3px 0;
+	width: 100%;
+}
+
+.formset-field {
+	padding: 0 3px;
 }
 
 /* === Layout === */
