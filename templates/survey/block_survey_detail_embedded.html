@@ -1,4 +1,4 @@
-{% for answer in survey.answers %}
+{% for answer in survey.answers %}{% load url from future %}
 <div class="module-row">
 	<label>
 		{% if input %}
@@ -17,6 +17,9 @@
 	</div>
 </div>
 {% endfor %}
-<div class="module-row">
+<div class="module-links bottom">
+	{% if next_link %}
+	<a class="next" href="{% url 'survey:list' %}">Ďalšie</a>
+	{% endif %}
 	<span class="info">Hlasov: {{ survey.answer_count }}</span>
 </div>

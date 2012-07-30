@@ -72,3 +72,11 @@ def survey_detail_by_slug(request, slug):
 		'survey': survey
 	}
 	return TemplateResponse(request, "survey/survey_detail.html", RequestContext(request, context))
+
+
+def survey_list(request, page = 1):
+	context = {
+		'surveys': Survey.objects.filter(approved = True, content_type = None, active_from__lte = datetime.now()).order_by('-pk').all(),
+		'pagenum': page,
+	}
+	return TemplateResponse(request, "survey/survey_list.html", RequestContext(request, context))

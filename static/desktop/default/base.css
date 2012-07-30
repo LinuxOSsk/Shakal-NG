@@ -398,6 +398,11 @@ h1 a, h2 a, h3 a {
 	overflow: hidden;
 }
 
+.module-row .module-row {
+	padding: .2em .2em;
+	border: none;
+}
+
 .module-links, .paginator {
 	padding: .5em;
 	text-align: center;
@@ -748,4 +753,25 @@ ul.messages li.error {
 	position: relative;
 	top: -1px;
 	left: -1px;
+}
+
+.module.survey .module-links a {
+	float: right;
+}
+
+.module.survey .module-links .info {
+	display: block;
+	text-align: left;
+}
+
+.module.survey.compact label {
+	display: block;
+	width: 30%;
+	float: left;
+	text-align: right;
+}
+
+.module.survey.compact .progressbar {
+	width: 69%;
+	float: right;
 }

@@ -2,7 +2,7 @@
 <h3><a href="{{ survey.get_absolute_url }}">{{ survey }}</a></h3>
 
 <form action="{% url 'survey:post' pk=survey.pk %}" method="post" id="survey-form">{% csrf_token %}
-{% include "survey/block_survey_detail_embedded.html" with input=1 %}
+{% include "survey/block_survey_detail_embedded.html" with input=1 next_link=1 %}
 <div class="submit-row">
 	<input type="hidden" name="next" value="{{ request.path }}" />
 	{% if request.user.is_authenticated %}
