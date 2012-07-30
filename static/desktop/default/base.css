@@ -755,15 +755,6 @@ ul.messages li.error {
 	left: -1px;
 }
 
-.module.survey .module-links a {
-	float: right;
-}
-
-.module.survey .module-links .info {
-	display: block;
-	text-align: left;
-}
-
 .module.survey.compact label {
 	display: block;
 	width: 30%;
@@ -774,4 +765,8 @@ ul.messages li.error {
 .module.survey.compact .progressbar {
 	width: 69%;
 	float: right;
+}
+
+.module.survey.compact .module-links.bottom {
+	margin-left: 30%;
 }

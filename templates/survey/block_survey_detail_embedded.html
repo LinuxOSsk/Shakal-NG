@@ -18,8 +18,8 @@
 </div>
 {% endfor %}
 <div class="module-links bottom">
-	{% if next_link %}
-	<a class="next" href="{% url 'survey:list' %}">Ďalšie</a>
-	{% endif %}
 	<span class="info">Hlasov: {{ survey.answer_count }}</span>
+	{% if next_link %}
+		| <a class="next" href="{% url 'survey:list' %}">Ďalšie</a>
+	{% endif %}
 </div>
