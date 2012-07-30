@@ -22,6 +22,14 @@
 <div class="module-row">
 	<span class="info">Hlasov: {{ survey.answer_count }}</span>
 </div>
-<input type="hidden" name="next" value="{{ request.path }}" />
-<button type="submit"><span>Odoslať</span></button>
+<div class="submit-row">
+	<input type="hidden" name="next" value="{{ request.path }}" />
+	<div class="negative">
+		<div class="button flat"><span><a href="#">Navrhnúť</a></span></div>
+	</div>
+	<div class="positive">
+		<button type="submit"><span>Hlasovať</span></button>
+	</div>
+</div>
+
 </form>
