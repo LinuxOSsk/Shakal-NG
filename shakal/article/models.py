@@ -55,7 +55,7 @@ class Article(models.Model):
 	surveys = generic.GenericRelation(Survey)
 	@property
 	def survey_set(self):
-		return self.surveys.order_by('pk').all()
+		return self.surveys.filter(approved = True).order_by('pk').all()
 
 	def hit(self):
 		article_type = ContentType.objects.get(app_label = 'article', model = 'article')
