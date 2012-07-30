@@ -33,6 +33,7 @@
 
 {% for survey in article.survey_set %}
 <div class="module survey">
+<h3>{{ survey }}</h3>
 <form action="{% url 'survey:post' pk=survey.pk %}" method="post" id="survey-form">{% csrf_token %}
 	{% render_messages messages survey.msg_id %}
 	{% include "survey/block_survey_detail_embedded.html" with input=1 %}
