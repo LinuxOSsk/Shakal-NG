@@ -76,7 +76,7 @@ def create(request):
 
 
 def survey_detail_by_slug(request, slug):
-	survey = get_object_or_404(Survey, slug = slug)
+	survey = get_object_or_404(Survey, slug = slug, content_type = None)
 	context = {
 		'survey': survey
 	}
