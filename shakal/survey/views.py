@@ -8,13 +8,19 @@ from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 from django.template import RequestContext
 from django.views.decorators.http import require_POST
+from datetime import datetime
 from forms import SurveyForm
 from models import Survey, Answer
 from shakal.utils import unique_slugify
 
+
 @require_POST
 def post(request, pk):
 	survey = get_object_or_404(Survey, pk = pk)
+	if not survey.approved:
+		messages.error(request, 'Anketa nie je schválená.', extra_tags = 'survey')
+		return HttpResponseRedirect(request.POST['next'])
+
 	if not 'answer' in request.POST:
 		messages.error(request, 'Vyberte prosím odpoveď.', extra_tags = 'survey')
 		return HttpResponseRedirect(request.POST['next'])
@@ -57,15 +63,12 @@ def create(request):
 	context = {
 		'form': form
 	}
-
 	return TemplateResponse(request, "survey/survey_create.html", RequestContext(request, context))
 
 
 def survey_detail_by_slug(request, slug):
 	survey = get_object_or_404(Survey, slug = slug)
-
 	context = {
 		'survey': survey
 	}
-
 	return TemplateResponse(request, "survey/survey_detail.html", RequestContext(request, context))
