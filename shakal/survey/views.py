@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.db.models import F
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -39,6 +40,7 @@ def post(request, pk):
 	return HttpResponseRedirect(request.POST['next'])
 
 
+@login_required
 def create(request):
 	if request.method == 'POST':
 		form = SurveyForm(request.POST)
