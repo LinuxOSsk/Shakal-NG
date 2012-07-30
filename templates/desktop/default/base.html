@@ -74,6 +74,7 @@
 						{% block left %}
 							<div class="module survey">
 								<h2>Anketa</h2>
+								{% render_messages messages 'survey' %}
 								{% survey_frontpage %}
 							</div>
 							<div class="module news">
