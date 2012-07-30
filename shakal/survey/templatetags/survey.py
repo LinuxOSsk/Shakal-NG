@@ -8,5 +8,8 @@ register = template.Library()
 
 @register.inclusion_tag('survey/block_survey_detail.html', takes_context = True)
 def survey_frontpage(context):
-	context.update({'survey': Survey.objects.filter(approved = True, content_type = None, active_from__lte = datetime.now()).order_by('-active_from')[0]})
+	survey = Survey.objects.filter(approved = True, content_type = None, active_from__lte = datetime.now()).order_by('-active_from')
+	if not survey:
+		return context
+	context.update({'survey': survey[0]})
 	return context
