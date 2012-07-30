@@ -3,6 +3,7 @@
 from datetime import datetime
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from django.core.management.base import BaseCommand
 from django.db import connections
 from django.template.defaultfilters import slugify
@@ -10,11 +11,14 @@ from shakal.accounts.models import UserProfile
 from shakal.article.models import Article, Category as ArticleCategory
 from shakal.forum.models import Section as ForumSection, Topic as ForumTopic
 from shakal.news.models import News
+from shakal.survey.models import Survey, Answer as SurveyAnswer
 from shakal.utils import create_unique_slug
 from hitcount.models import HitCount
+from collections import OrderedDict
 import os
 import sys
 import urllib
+from phpserialize import loads
 
 class Command(BaseCommand):
 	args = ''
@@ -47,6 +51,7 @@ class Command(BaseCommand):
 		self.import_articles()
 		self.import_forum()
 		self.import_news()
+		self.import_survey()
 
 	def import_users(self):
 		cols = [
@@ -345,3 +350,63 @@ class Command(BaseCommand):
 		News.objects.bulk_create(news_objects)
 		news_objects = []
 		connections['default'].cursor().execute('SELECT setval(\'news_news_id_seq\', (SELECT MAX(id) FROM news_news));')
+
+	def import_survey(self):
+		all_slugs = set()
+		cols = [
+			'id',
+			'enabled',
+			'checkbox',
+			'od',
+			'otazka',
+			'odpovede',
+			'hlasovanie',
+			'schvalena',
+			'article_id',
+		]
+		sys.stdout.write("Importing surveys\n")
+		sys.stdout.flush()
+		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM anketa')
+		surveys = []
+		for survey_row in self.cursor:
+			survey_dict = self.decode_cols_to_dict(cols, survey_row)
+
+			if survey_dict['article_id']:
+				slug = 'article-' + str(survey_dict['article_id'])
+				content_type = ContentType.objects.get_for_model(Article)
+				object_id = survey_dict['article_id']
+			else:
+				slug = create_unique_slug(slugify(survey_dict['otazka'][:45]), all_slugs, 9999)
+				content_type = None
+				object_id = None
+			all_slugs.add(slug)
+
+			survey = {
+				'pk': survey_dict['id'],
+				'question': survey_dict['otazka'],
+				'slug': slug,
+				'checkbox': bool(survey_dict['checkbox']),
+				'approved': bool(survey_dict['enabled']) and survey_dict['schvalena'] == 'yes',
+				'active_from': survey_dict['od'],
+				'answer_count': sum(int(x) if x else 0 for x in survey_dict['hlasovanie'].split('/')) if survey_dict['hlasovanie'] else 0,
+				'content_type': content_type,
+				'object_id': object_id,
+			}
+			surveys.append(Survey(**survey))
+		surveys = dict([(survey.pk, survey) for survey in Survey.objects.bulk_create(surveys)])
+
+		answers = []
+		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM anketa')
+		for survey_row in self.cursor:
+			survey_dict = self.decode_cols_to_dict(cols, survey_row)
+			survey_answers = loads(bytes(survey_dict['odpovede'].encode('utf-8')), array_hook=OrderedDict)
+			survey_answers = [unicode(a[1], encoding='utf-8') for a in survey_answers.iteritems()]
+			survey_votes = [int(x) if x else 0 for x in survey_dict['hlasovanie'].split('/')] if survey_dict['hlasovanie'] else []
+			while (len(survey_votes) < len(survey_answers)):
+				survey_votes.append(0)
+			items = zip(survey_answers, survey_votes)
+			for item in items:
+				answers.append(SurveyAnswer(survey = surveys[survey_dict['id']], answer = item[0], votes = item[1]))
+		SurveyAnswer.objects.bulk_create(answers)
+		connections['default'].cursor().execute('SELECT setval(\'survey_survey_id_seq\', (SELECT MAX(id) FROM survey_survey));')
+		connections['default'].cursor().execute('SELECT setval(\'survey_answer_id_seq\', (SELECT MAX(id) FROM survey_answer));')
