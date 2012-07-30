@@ -1,8 +1,17 @@
+{% load url from future %}
 <h3>{{ survey }}</h3>
 
+<form action="{% url 'survey:post' pk=survey.pk %}" method="post" id="survey-form">{% csrf_token %}
 {% for answer in survey.answers %}
 <div class="module-row">
-	{{ answer }}
+	<label>
+		{% if answer.checkbox %}
+			<input type="checkbox" name="answer[{{ forloop.counter0 }}]" value="1" />
+		{% else %}
+		{% endif %}
+			<input type="radio" name="answer" value="{{ forloop.counter0 }}" />
+		{{ answer }}
+	</label>
 	<div class="progressbar">
 		<div class="completed" style="width: {{ answer.percent|floatformat:0 }}%">
 			{{ answer.percent|floatformat:0 }} %
@@ -10,3 +19,6 @@
 	</div>
 </div>
 {% endfor %}
+<input type="hidden" name="next" value="{{ request.path }}" />
+<button type="submit"><span>Odoslať</span></button>
+</form>
