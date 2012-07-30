@@ -2,10 +2,14 @@
 
 from django.contrib import messages
 from django.db.models import F
-from django.views.decorators.http import require_POST
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from models import Survey
+from django.template.response import TemplateResponse
+from django.template import RequestContext
+from django.views.decorators.http import require_POST
+from forms import SurveyForm
+from models import Survey, Answer
+from shakal.utils import unique_slugify
 
 @require_POST
 def post(request, pk):
@@ -33,3 +37,23 @@ def post(request, pk):
 
 	messages.success(request, 'Hlas bol prijatý.', extra_tags = 'survey')
 	return HttpResponseRedirect(request.POST['next'])
+
+
+def create(request):
+	if request.method == 'POST':
+		form = SurveyForm(request.POST)
+		if form.is_valid():
+			survey = form.save(commit = False)
+			unique_slugify(survey, title_field = 'question')
+			survey.save()
+			answers = [Answer(survey = survey, answer = a['answer']) for a in form.cleaned_data['answers']]
+			Answer.objects.bulk_create(answers)
+			return HttpResponseRedirect(survey.get_absolute_url())
+	else:
+		form = SurveyForm()
+
+	context = {
+		'form': form
+	}
+
+	return TemplateResponse(request, "survey/survey_create.html", RequestContext(request, context))

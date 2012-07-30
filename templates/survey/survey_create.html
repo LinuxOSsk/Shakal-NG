@@ -1,0 +1,23 @@
+{% extends "survey/survey_base.html" %}{% load breadcrumbs_tags %}{% load url from future %}
+
+{% block breadcrumbs %}
+{% breadcrumb %}Navrhnúť{% endbreadcrumb %}
+{{ block.super }}
+{% endblock %}
+
+{% block title %}Navrhnúť anketu{% endblock %}
+
+{% block content %}
+<h1>Navrhnúť anketu</h1>
+
+<form action="{% url 'survey:create' %}" method="post" id="survey-form">{% csrf_token %}
+	<fieldset>
+		{% include 'includes/form_loop.html' with form=form %}
+		<div class="submit-row">
+			<div class="positive">
+				<button type="submit" title="Vytvoriť anketu" name="create" value="1"><span>Vytvoriť anketu</span></button>
+			</div>
+		</div>
+	</fieldset>
+</form>
+{% endblock %}

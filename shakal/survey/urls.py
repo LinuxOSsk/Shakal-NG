@@ -11,7 +11,8 @@ class Patterns(object):
 	@property
 	def urls(self):
 		urlpatterns = patterns('',
-			url(r'^post/(?P<pk>\d+)/$', survey_views.post, name = "post"),
+			url(r'^post/(?P<pk>\d+)/$', survey_views.post, name = 'post'),
+			url(r'^vytvorit/$', survey_views.create, name = 'create'),
 		)
 		return (urlpatterns, self.app_name, self.name)
 
