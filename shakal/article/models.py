@@ -11,6 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 from autoimagefield.fields import AutoImageField
 from datetime import datetime
 from hitcount.models import HitCount
+from shakal.survey.models import Survey
 
 class Category(models.Model):
 	name = models.CharField(max_length = 255, verbose_name = _('name'))
@@ -51,6 +52,10 @@ class Article(models.Model):
 	top = models.BooleanField(verbose_name = _('top article'))
 	image = AutoImageField(verbose_name = _('image'), upload_to = 'article/thumbnails', size = (512, 512), thumbnail = {'standard': (100, 100)}, blank = True, null = True)
 	hitcount = generic.GenericRelation(HitCount)
+	surveys = generic.GenericRelation(Survey)
+	@property
+	def survey_set(self):
+		return self.surveys.order_by('pk').all()
 
 	def hit(self):
 		article_type = ContentType.objects.get(app_label = 'article', model = 'article')

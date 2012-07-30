@@ -28,11 +28,16 @@ class Survey(models.Model):
 	def get_absolute_url(self):
 		return ('survey:detail-by-slug', None, {'slug': self.slug})
 
+	def msg_id(self):
+		return 'survey-' + str(self.pk)
+
 	def clean(self):
 		if self.content_type and not self.object_id:
 			raise ValidationError(_('Field object id is required'))
 		if self.object_id and not self.content_type:
 			raise ValidationError(_('Field content type is required'))
+		if self.content_type:
+			self.slug = self.content_type.model + '-' + str(self.object_id)
 
 	def __unicode__(self):
 		return self.question

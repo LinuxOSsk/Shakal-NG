@@ -1,4 +1,4 @@
-{% extends "article/article_base.html" %}{% load breadcrumbs_tags i18n article %}{% load url from future %}
+{% extends "article/article_base.html" %}{% load breadcrumbs_tags i18n linuxos article %}{% load url from future %}
 
 {% block title %}{{ article.title }}{% endblock %}
 
@@ -30,4 +30,20 @@
 <div class="content">
 {{ article|content }}
 </div>
+
+{% for survey in article.survey_set %}
+<div class="module survey">
+<form action="{% url 'survey:post' pk=survey.pk %}" method="post" id="survey-form">{% csrf_token %}
+	{% render_messages messages survey.msg_id %}
+	{% include "survey/block_survey_detail_embedded.html" with input=1 %}
+	<input type="hidden" name="msg_id" value="{{ survey.msg_id }}" />
+	<input type="hidden" name="next" value="{{ request.path }}" />
+	<div class="submit-row">
+		<div class="positive">
+			<button type="submit"><span>Hlasovať</span></button>
+		</div>
+	</div>
+</form>
+</div>
+{% endfor %}
 {% endblock %}

@@ -18,7 +18,7 @@ from shakal.utils import unique_slugify
 def post(request, pk):
 	survey = get_object_or_404(Survey, pk = pk)
 
-	tag = 'survey'
+	tag = request.POST.get('msg_id', 'survey')
 
 	if not survey.approved:
 		messages.error(request, 'Anketa nie je schválená.', extra_tags = tag)

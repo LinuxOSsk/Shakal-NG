@@ -82,7 +82,7 @@ fieldset, .module {
 	border: #c0cbef 1px solid;
 }
 
-.module + .module, .module + form {
+.module + .module, .content + .module, .module + form {
 	margin-top: 1.5em;
 }
 
