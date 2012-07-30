@@ -64,7 +64,7 @@ class Answer(models.Model):
 class RecordIp(models.Model):
 	survey = models.ForeignKey(Survey)
 	ip = models.GenericIPAddressField()
-	date = models.DateTimeField()
+	date = models.DateTimeField(auto_now_add = True)
 
 	class Meta:
 		unique_together = ('survey', 'ip', )
@@ -73,7 +73,7 @@ class RecordIp(models.Model):
 class RecordUser(models.Model):
 	survey = models.ForeignKey(Survey)
 	user = models.ForeignKey(User)
-	date = models.DateTimeField()
+	date = models.DateTimeField(auto_now_add = True)
 
 	class Meta:
 		unique_together = ('survey', 'user', )
