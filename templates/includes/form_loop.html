@@ -25,7 +25,9 @@
 		{% for subform in form.nested %}
 			<div class="form-row">
 				<div>
-					<label>{{ subform.label }}:</label>
+					{% if subform.label %}
+						<label>{{ subform.label }}:</label>
+					{% endif %}
 					{% include "includes/form_set_loop.html" with formset=subform %}
 				</div>
 			</div>

@@ -12,7 +12,7 @@
 			</td>
 		</tr>
 		{% endif %}
-		{% if forloop.first %}
+		{% if forloop.first and not formset.hide_table_labels %}
 			<thead>
 				<tr>
 					{% for field in form.visible_fields %}
