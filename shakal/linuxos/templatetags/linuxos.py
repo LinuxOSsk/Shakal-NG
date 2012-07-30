@@ -50,7 +50,7 @@ class MessagesNode(template.Node):
 			messages = self.__filter_contains_tags(messages, tags)
 		search_templates = []
 		if tags:
-			search_templates.append('messages/messages_' + tags.implode('_') + '.html')
+			search_templates.append('messages/messages_' + '_'.join(tags) + '.html')
 		search_templates.append('messages/messages.html')
 		return render_to_string(search_templates, {'messages': messages})
 
