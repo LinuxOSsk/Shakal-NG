@@ -1,6 +1,6 @@
 {% extends "base.html" %}{% load breadcrumbs_tags %}
 
 {% block breadcrumbs %}
-{% breadcrumb %}Anketa{% endbreadcrumb %}
+{% breadcrumb url='survey:list' %}Anketa{% endbreadcrumb %}
 {{ block.super }}
 {% endblock %}
