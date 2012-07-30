@@ -59,3 +59,13 @@ def create(request):
 	}
 
 	return TemplateResponse(request, "survey/survey_create.html", RequestContext(request, context))
+
+
+def survey_detail_by_slug(request, slug):
+	survey = get_object_or_404(Survey, slug = slug)
+
+	context = {
+		'survey': survey
+	}
+
+	return TemplateResponse(request, "survey/survey_detail.html", RequestContext(request, context))

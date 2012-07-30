@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
+from django.db.models import permalink
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
@@ -22,6 +23,10 @@ class Survey(models.Model):
 	@property
 	def answers(self):
 		return self.answer_set.order_by('pk')
+
+	@permalink
+	def get_absolute_url(self):
+		return ('survey:detail-by-slug', None, {'slug': self.slug})
 
 	def clean(self):
 		if self.content_type and not self.object_id:

@@ -1,0 +1,22 @@
+{% for answer in survey.answers %}
+<div class="module-row">
+	<label>
+		{% if input %}
+			{% if survey.checkbox %}
+				<input type="checkbox" name="answer" value="{{ forloop.counter0 }}" />
+			{% else %}
+				<input type="radio" name="answer" value="{{ forloop.counter0 }}" />
+			{% endif %}
+		{% endif %}
+		{{ answer }}
+	</label>
+	<div class="progressbar">
+		<div class="completed" style="width: {{ answer.percent|floatformat:0 }}%">
+			{{ answer.percent|floatformat:0 }} %
+		</div>
+	</div>
+</div>
+{% endfor %}
+<div class="module-row">
+	<span class="info">Hlasov: {{ survey.answer_count }}</span>
+</div>

@@ -1,0 +1,17 @@
+{% extends "survey/survey_base.html" %}{% load breadcrumbs_tags %}
+
+{% block breadcrumbs %}
+{% breadcrumb %}{{ survey }}{% endbreadcrumb %}
+{{ block.super }}
+{% endblock %}
+
+{% block title %}{{ survey }}{% endblock %}
+
+{% block content %}
+<h1>{{ survey }}</h1>
+
+<div class="module">
+{% include "survey/block_survey_detail_embedded.html" %}
+</div>
+
+{% endblock %}

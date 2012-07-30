@@ -13,6 +13,7 @@ class Patterns(object):
 		urlpatterns = patterns('',
 			url(r'^post/(?P<pk>\d+)/$', survey_views.post, name = 'post'),
 			url(r'^vytvorit/$', survey_views.create, name = 'create'),
+			url(r'^detail/(?P<slug>[-\w]+)/$', survey_views.survey_detail_by_slug, name = "detail-by-slug"),
 		)
 		return (urlpatterns, self.app_name, self.name)
 
