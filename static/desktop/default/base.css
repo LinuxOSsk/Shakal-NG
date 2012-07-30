@@ -378,6 +378,10 @@ input[type="text"], input[type="password"], textarea {
 	padding: 1.5em;
 }
 
+#aside_left .module {
+	font-size: 85%;
+}
+
 h1 a, h2 a, h3 a {
 	text-decoration: none;
 }
