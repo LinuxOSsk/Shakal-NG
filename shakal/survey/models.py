@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
+from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.core.exceptions import ValidationError
@@ -53,3 +54,21 @@ class Answer(models.Model):
 	class Meta:
 		verbose_name = _('answer')
 		verbose_name_plural = _('answers')
+
+
+class RecordIp(models.Model):
+	survey = models.ForeignKey(Survey)
+	ip = models.GenericIPAddressField()
+	date = models.DateTimeField()
+
+	class Meta:
+		unique_together = ('survey', 'ip', )
+
+
+class RecordUser(models.Model):
+	survey = models.ForeignKey(Survey)
+	user = models.ForeignKey(User)
+	date = models.DateTimeField()
+
+	class Meta:
+		unique_together = ('survey', 'user', )
