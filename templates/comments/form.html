@@ -1,0 +1,14 @@
+{% load comments i18n %}
+<form action="{% comment_form_target %}" method="post" id="comment-form">{% csrf_token %}
+	<fieldset>
+		{% include 'includes/form_loop.html' with form=form %}
+		<div class="submit-row">
+			<div class="positive">
+				<button type="submit" title="Náhľad"><span>Náhľad</span></button>
+				{% if valid %}
+				<button type="submit" title="Vytvoriť správu" name="create" value="1"><span>Vytvoriť správu</span></button>
+				{% endif %}
+			</div>
+		</div>
+	</fieldset>
+</form>
