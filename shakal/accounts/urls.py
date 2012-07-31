@@ -18,7 +18,7 @@ class Pattenrs(object):
 		urlpatterns = patterns('',
 			url(r'^', include('registration.backends.default.urls')),
 			url(r'^$', accounts_views.user_zone, name = 'auth_user_zone'),
-			url(r'^(?P<pk>[0-9]+)/$', accounts_views.profile, name = 'auth_profile'),
+			url(r'^(?P<pk>\d+)/$', accounts_views.profile, name = 'auth_profile'),
 			url(_(r'^me/$'), accounts_views.my_profile, name = 'auth_my_profile'),
 			url(_(r'^me/edit/$'), accounts_views.my_profile_edit, name = 'auth_my_profile_edit'),
 			url(_(r'^register/$'), 'registration.views.register', self.register_context, name = 'registration_register'),
