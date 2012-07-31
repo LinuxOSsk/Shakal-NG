@@ -11,7 +11,7 @@
 		{{ hidden }}
 	{% endfor %}
 	{% for field in form.visible_fields %}
-		<div class="form-row{% if field.errors %} errors{% endif %}">
+		<div class="form-row{% if field.errors %} errors{% endif %}"{% ifequal field.name "honeypot" %} style="display: none"{% endifequal %}>
 			<div>
 				{{ field.errors }}
 				<label for="{{ field.auto_id }}" class="field_label{% if field.field.required %} required{% endif %}">
