@@ -12,8 +12,8 @@ from models import ThreadedComment
 
 class ThreadedCommentForm(CommentForm):
 	subject = forms.CharField(label = _("Subject"), max_length = 100)
-	url = forms.URLField(label = _("URL"), widget = forms.HiddenInput, required = False)
-	parent_pk = forms.IntegerField(label = _("Parent PK"), widget = forms.HiddenInput, required = False)
+	url = forms.URLField(widget = forms.HiddenInput, required = False)
+	parent_pk = forms.IntegerField(widget = forms.HiddenInput, required = False)
 	comment = forms.CharField(label = _("Comment"), max_length = COMMENT_MAX_LENGTH, widget = forms.Textarea)
 
 	def __init__(self, *args, **kwargs):
@@ -66,15 +66,15 @@ class ThreadedCommentForm(CommentForm):
 	def get_comment_create_data(self):
 		return {
 			'content_type': ContentType.objects.get_for_model(self.target_object),
-			'object_pk': self.target_object._get_pk_val(),
-			'user_name': self.cleaned_data["name"],
-			'user_url': self.cleaned_data["url"],
-			'comment': self.cleaned_data["comment"],
-			'submit_date': timezone.now(),
-			'site_id': settings.SITE_ID,
-			'is_public': True,
-			'is_removed': False,
-			'subject': self.cleaned_data['subject'],
+			'object_pk':    self.target_object._get_pk_val(),
+			'user_name':    self.cleaned_data["name"],
+			'user_url':     self.cleaned_data["url"],
+			'comment':      self.cleaned_data["comment"],
+			'submit_date':  timezone.now(),
+			'site_id':      settings.SITE_ID,
+			'is_public':    True,
+			'is_removed':   False,
+			'subject':      self.cleaned_data['subject'],
 		}
 
 	def clean_comment(self):
