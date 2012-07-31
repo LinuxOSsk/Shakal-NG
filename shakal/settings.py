@@ -118,6 +118,7 @@ INSTALLED_APPS = (
 	'shakal.news',
 	'shakal.survey',
 	'shakal.template_dynamicloader',
+	'shakal.threaded_comments',
 )
 
 LOGGING = {

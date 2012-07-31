@@ -5,3 +5,4 @@ django-registration
 django-auth-remember
 pil
 phpserialize
+django-mptt
