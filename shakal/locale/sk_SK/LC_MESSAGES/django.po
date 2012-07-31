@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-30 16:23+0200\n"
+"POT-Creation-Date: 2012-07-31 20:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,6 +28,9 @@ msgstr "^profil/"
 
 msgid "^article/"
 msgstr "^clanok/"
+
+msgid "^comments/"
+msgstr "^komentare/"
 
 msgid "^forum/"
 msgstr "^forum/"
@@ -260,6 +263,18 @@ msgstr "odpoveď"
 
 msgid "answers"
 msgstr "odpovede"
+
+msgid "Content"
+msgstr "Obsah"
+
+msgid "Metadata"
+msgstr "Metadáta"
+
+msgid "Subject"
+msgstr "Predmet"
+
+msgid "Comment"
+msgstr "Komentár"
 
 msgid "Shakal admin"
 msgstr "Shakal administrácia"
