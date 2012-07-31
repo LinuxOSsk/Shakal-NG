@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
+from django.conf import settings
 from django.contrib.comments.forms import CommentForm, COMMENT_MAX_LENGTH
+from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 from time import time
 from models import ThreadedComment
 
 
 class ThreadedCommentForm(CommentForm):
-	subject = forms.CharField(label = _("Subject"), max_length = COMMENT_MAX_LENGTH)
+	subject = forms.CharField(label = _("Subject"), max_length = 100)
 	url = forms.URLField(label = _("URL"), widget = forms.HiddenInput, required = False)
 	parent_pk = forms.IntegerField(label = _("Parent PK"), widget = forms.HiddenInput, required = False)
 	comment = forms.CharField(label = _("Comment"), max_length = COMMENT_MAX_LENGTH, widget = forms.Textarea)
@@ -61,10 +64,18 @@ class ThreadedCommentForm(CommentForm):
 		return security_dict
 
 	def get_comment_create_data(self):
-		data = super(ThreadedCommentForm, self).get_comment_create_data()
-		data['subject'] = self.cleaned_data['subject']
-		data['url'] = ''
-		return data
+		return {
+			'content_type': ContentType.objects.get_for_model(self.target_object),
+			'object_pk': self.target_object._get_pk_val(),
+			'user_name': self.cleaned_data["name"],
+			'user_url': self.cleaned_data["url"],
+			'comment': self.cleaned_data["comment"],
+			'submit_date': timezone.now(),
+			'site_id': settings.SITE_ID,
+			'is_public': True,
+			'is_removed': False,
+			'subject': self.cleaned_data['subject'],
+		}
 
 	def clean_comment(self):
 		data = self.cleaned_data['comment']

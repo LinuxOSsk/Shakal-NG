@@ -70,13 +70,14 @@ def get_threaded_comments_list(parser, token):
 	return ThreadedCommentsListNode.handle_token(parser, token)
 
 
-@register.simple_tag
-def render_threaded_comments_toplevel(target):
+@register.simple_tag(takes_context = True)
+def render_threaded_comments_toplevel(context, target):
 	model_class = target.__class__
 	templates = [
 		"comments/{0}_{1}_comments_toplevel.html".format(*str(model_class._meta).split('.')),
 		"comments/{0}_comments_toplevel.html".format(model_class._meta.app_label),
 		"comments/comments_toplevel.html".format(model_class._meta.app_label),
 	]
-	return mark_safe(render_to_string(templates, {"target": target}))
+	context.update({"target": target})
+	return mark_safe(render_to_string(templates, context))
 
