@@ -109,6 +109,7 @@ INSTALLED_APPS = (
 	'autoimagefield',
 	'breadcrumbs',
 	'hitcount',
+	'mptt',
 	'registration',
 	'paginator',
 	'shakal.accounts',
