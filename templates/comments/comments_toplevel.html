@@ -1,0 +1,8 @@
+{% load threaded_comments %}{% load url from future %}
+{% get_threaded_comments_list for target as comments %}
+<div class="module">
+	{% if comments %}
+		{% include "comments/comments_tree.html" %}
+	{% endif %}
+	<a class="reply" href="{% url 'comments-reply-comment' comments.get_root_item.pk %}">Pridať komentár</a>
+</div>

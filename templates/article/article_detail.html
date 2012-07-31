@@ -1,4 +1,4 @@
-{% extends "article/article_base.html" %}{% load breadcrumbs_tags i18n linuxos article %}{% load url from future %}
+{% extends "article/article_base.html" %}{% load breadcrumbs_tags i18n linuxos article threaded_comments %}{% load url from future %}
 
 {% block title %}{{ article.title }}{% endblock %}
 
@@ -47,4 +47,7 @@
 </form>
 </div>
 {% endfor %}
+
+{% render_threaded_comments_toplevel article %}
+
 {% endblock %}

@@ -16,7 +16,7 @@ class HideRootQuerySet(models.query.QuerySet):
 		self.__cache = None
 
 	def has_root_item(self):
-		return self.get_root_item(self) is not None
+		return self.get_root_item() is not None
 
 	def get_root_item(self):
 		self.__load_cache_and_root_item()
@@ -29,7 +29,7 @@ class HideRootQuerySet(models.query.QuerySet):
 				yield item
 
 	def __load_cache_and_root_item(self):
-		if self.__cache is None:
+		if self.__cache is not None:
 			return
 		self.__cache = []
 		for item in super(HideRootQuerySet, self).iterator():
@@ -64,6 +64,9 @@ class ThreadedCommentManager(CommentManager):
 			}
 		)
 		return root_comment
+
+	def get_query_set(self):
+		return self.__qs_class(self.model)
 
 
 class ThreadedComment(Comment):

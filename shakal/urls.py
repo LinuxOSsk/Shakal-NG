@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from views import home
 from accounts import urls as accounts_urls
 from article import urls as article_urls
+from threaded_comments import urls as comments_urls
 from forum import urls as forum_urls
 from news import urls as news_urls
 from survey import urls as survey_urls
@@ -17,6 +18,7 @@ urlpatterns = patterns('',
 	url(_(r'^admin/'), include(admin.site.urls)),
 	url(_(r'^accounts/'), include(accounts_urls.urlpatterns)),
 	url(_(r'^article/'), include(article_urls.urlpatterns)),
+	url(_(r'^comments/'), include(comments_urls.urlpatterns)),
 	url(_(r'^forum/'), include(forum_urls.urlpatterns)),
 	url(_(r'^news/'), include(news_urls.urlpatterns)),
 	url(_(r'^survey/'), include(survey_urls.urlpatterns)),
