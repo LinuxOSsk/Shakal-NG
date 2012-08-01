@@ -750,12 +750,13 @@ ul.messages li.error {
 }
 
 .comments_tree ul.comment_thread {
-	margin: .5em 0 0 1em;
+	margin: 0 0 0 1em;
 	padding: 0;
 }
 
 .comments_tree ul.comment_thread.thread_1 {
 	margin-left: 0;
+	margin-top: .5em;
 }
 
 .comments_tree li {
@@ -763,6 +764,10 @@ ul.messages li.error {
 	padding: 0;
 	margin: 0;
 	border-top: 1px solid #dbdfe3;
+}
+
+.comments_tree .links {
+	margin-bottom: .5em;
 }
 
 .signature {

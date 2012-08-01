@@ -20,4 +20,4 @@
 		{{ comment.user.get_profile.signature|safe }}
 	</div>
 {% endif %}
-{% if comment.pk %}<div class="reply"><a href="{% url 'comments-reply-comment' comment.pk %}" class="reply">Odpovedať</a></div>{% endif %}
+{% if comment.pk %}<div class="links"><a href="{% url 'comments-reply-comment' comment.pk %}" class="reply">Odpovedať</a></div>{% endif %}
