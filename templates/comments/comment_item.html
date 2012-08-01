@@ -1,6 +1,6 @@
 {% load linuxos %}{% load url from future %}
 <div class="discussion header entry">
-	<div class="title">{{ comment.subject }}</div>
+	<div class="title"><a id="link_{{ comment.pk }}"></a>{{ comment.subject }}</div>
 	<span class="icon"></span>
 	<span class="user">
 		{% user_link comment.user comment.user_name %}
@@ -9,7 +9,7 @@
 		{% endif %}
 	</span>
 	<span class="info">
-		{{ comment.submit_date|humandatetime }}
+		{{ comment.submit_date|humandatetime }} | <a href="#link_{{ comment.pk }}">Link</a>
 	</span>
 </div>
 <div class="text">
