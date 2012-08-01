@@ -1,9 +1,23 @@
-{% load url from future %}
-<div class="heder">
-	<div class="comment_title"><strong>{{ comment.title }}</strong></div>
-	<span class="user_name">{{ comment.name }}</span> | <span class="submit_date">{% if comment.submit_date %}{{ comment.submit_date }}{% else %}Teraz{% endif %}</span>
+{% load linuxos %}{% load url from future %}
+<div class="discussion header entry">
+	<div class="title">{{ comment.subject }}</div>
+	<span class="icon"></span>
+	<span class="user">
+		{% user_link comment.user comment.user_name %}
+		{% if comment.user %}
+			<span class="distribution"><strong>Distribúcia: </strong>{{ comment.user.get_profile.distribution }}</span>
+		{% endif %}
+	</span>
+	<span class="info">
+		{{ comment.submit_date|humandatetime }}
+	</span>
 </div>
-<div class="comment_cont">
+<div class="text">
 {{ comment.comment|safe }}
 </div>
+{% if comment.user.get_profile.signature %}
+	<div class="signature">
+		{{ comment.user.get_profile.signature|safe }}
+	</div>
+{% endif %}
 {% if comment.pk %}<div class="reply"><a href="{% url 'comments-reply-comment' comment.pk %}" class="reply">Odpovedať</a></div>{% endif %}

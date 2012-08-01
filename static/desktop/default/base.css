@@ -712,8 +712,27 @@ ul.messages li.error {
 	padding: 3px 5px;
 }
 
+.discussion.header.entry .title {
+	font-weight: bold;
+}
+
 .preview .header, .preview .text {
 	padding: 0 1em .5em 1em;
+}
+
+.comments_tree ul.comment_thread {
+	margin: .5em 0 0 1em;
+	padding: 0;
+}
+
+.comments_tree ul.comment_thread.thread_1 {
+	margin-left: 0;
+}
+
+.comments_tree li {
+	list-style: none;
+	padding: 0;
+	margin: 0;
 }
 
 /* === Správy === */
@@ -770,3 +789,4 @@ ul.messages li.error {
 .module.survey.compact .module-links.bottom {
 	margin-left: 30%;
 }
+
