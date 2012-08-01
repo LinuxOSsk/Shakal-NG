@@ -12,7 +12,7 @@ from shakal.threaded_comments import get_form
 def reply_comment(request, parent):
 	parent_comment = ThreadedComment.objects.get(pk = parent)
 	content_object = parent_comment.content_object
-	form = get_form()(content_object, parent_comment = parent_comment)
+	form = get_form()(content_object, logged = request.user.is_authenticated(), parent_comment = parent_comment)
 
 	model_meta = content_object.__class__._meta
 	template_list = [
@@ -43,7 +43,7 @@ def post_comment(request):
 	target = model._default_manager.get(pk = data['object_pk'])
 	parent = ThreadedComment.objects.get(pk = data['parent_pk'])
 
-	form = get_form()(target, parent_comment = parent, data = data)
+	form = get_form()(target, logged = request.user.is_authenticated(), parent_comment = parent, data = data)
 	if form.security_errors():
 		return http.HttpResponseBadRequest()
 

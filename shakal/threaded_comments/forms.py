@@ -16,10 +16,11 @@ class ThreadedCommentForm(CommentForm):
 	comment = forms.CharField(label = _("Comment"), max_length = COMMENT_MAX_LENGTH, widget = forms.Textarea)
 
 	def __init__(self, *args, **kwargs):
+		print(kwargs)
 		self.__parent_comment = kwargs.pop('parent_comment', None)
+		logged = kwargs.pop('logged', False)
 		super(ThreadedCommentForm, self).__init__(*args, **kwargs)
-		del self.fields['url']
-		self.fields.keyOrder = [
+		key_order = [
 			'subject',
 			'name',
 			'comment',
@@ -30,6 +31,11 @@ class ThreadedCommentForm(CommentForm):
 			'security_hash',
 			'parent_pk'
 		]
+		del self.fields['url']
+		if logged:
+			del self.fields['name']
+			del key_order[1]
+		self.fields.keyOrder = key_order
 
 	def get_comment_model(self):
 		return ThreadedComment
