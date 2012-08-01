@@ -736,6 +736,16 @@ ul.messages li.error {
 	border-left-color: #e0ebff;
 }
 
+.discussion.header.entry.me {
+	border-left-color: #1d5886;
+	background: #cbe2fe;
+}
+
+.discussion.header.entry.new {
+	border-left-color: #ffee55;
+	background-color: #fffae0;
+}
+
 .discussion.header.entry {
 	border-left: 10px solid #e0ebff;
 	border-top: none;
