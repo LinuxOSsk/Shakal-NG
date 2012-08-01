@@ -54,7 +54,10 @@ def post_comment(request):
 			"comments/preview.html",
 		]
 		valid = not form.errors
-		return TemplateResponse(request, template_list, {'form': form, 'next': data['next'], 'comment': form.get_comment_dict(), 'valid': valid })
+		comment = form.get_comment_dict()
+		if request.user.is_authenticated():
+			comment['user'] = request.user
+		return TemplateResponse(request, template_list, {'form': form, 'next': data['next'], 'comment': comment, 'valid': valid })
 
 	comment = form.get_comment_object()
 	comment.ip_address = request.META.get("REMOTE_ADDR", None)

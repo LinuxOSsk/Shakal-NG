@@ -9,7 +9,7 @@
 		{% endif %}
 	</span>
 	<span class="info">
-		{{ comment.submit_date|humandatetime }} | <a href="#link_{{ comment.pk }}">Link</a>
+		{% if comment.submit_date %}{{ comment.submit_date|humandatetime }}{% else %}Teraz{% endif %}{% if comment.pk %} | <a href="#link_{{ comment.pk }}">Link</a>{% endif %}
 	</span>
 </div>
 <div class="content">

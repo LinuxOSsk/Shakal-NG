@@ -1,5 +1,13 @@
 {% extends "comments/comments_base.html" %}
 {% block content %}
-<h1>Náhľad</h1>
+<h1>Pridať komentár</h1>
+
+<div class="module preview">
+	<h2>Náhľad</h2>
+	<div class="clearpadding">
+		{% include "comments/comment_item.html" %}
+	</div>
+</div>
+
 {% include "comments/form.html" %}
 {% endblock %}

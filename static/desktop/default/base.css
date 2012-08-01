@@ -778,7 +778,7 @@ ul.messages li.error {
 	font-weight: bold;
 }
 
-.preview .header, .preview .text {
+.preview .header, .preview .text, .preview .signature {
 	padding: 0 1em .5em 1em;
 }
 

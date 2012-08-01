@@ -50,11 +50,11 @@ class ThreadedCommentForm(CommentForm):
 
 	def get_comment_dict(self):
 		return {
-			'subject' : self.data.get('subject'),
-			'name'    : self.data.get('name'),
-			'email'   : self.data.get('email'),
-			'url'     : self.data.get('url'),
-			'comment' : self.data.get('comment'),
+			'subject'   : self.data.get('subject'),
+			'user_name' : self.data.get('name'),
+			'email'     : self.data.get('email'),
+			'url'       : self.data.get('url'),
+			'comment'   : self.data.get('comment'),
 		}
 
 	def generate_security_data(self):
