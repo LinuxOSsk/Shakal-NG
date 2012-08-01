@@ -12,17 +12,16 @@ from models import ThreadedComment
 
 class ThreadedCommentForm(CommentForm):
 	subject = forms.CharField(label = _("Subject"), max_length = 100)
-	url = forms.URLField(widget = forms.HiddenInput, required = False)
 	parent_pk = forms.IntegerField(widget = forms.HiddenInput, required = False)
 	comment = forms.CharField(label = _("Comment"), max_length = COMMENT_MAX_LENGTH, widget = forms.Textarea)
 
 	def __init__(self, *args, **kwargs):
 		self.__parent_comment = kwargs.pop('parent_comment', None)
 		super(ThreadedCommentForm, self).__init__(*args, **kwargs)
+		del self.fields['url']
 		self.fields.keyOrder = [
 			'subject',
 			'name',
-			'url',
 			'comment',
 			'honeypot',
 			'content_type',
@@ -67,8 +66,8 @@ class ThreadedCommentForm(CommentForm):
 		return {
 			'content_type': ContentType.objects.get_for_model(self.target_object),
 			'object_pk':    self.target_object._get_pk_val(),
-			'user_name':    self.cleaned_data["name"],
-			'user_url':     self.cleaned_data["url"],
+			'user_name':    self.cleaned_data.get("name", ""),
+			'user_url':     "",
 			'comment':      self.cleaned_data["comment"],
 			'submit_date':  timezone.now(),
 			'site_id':      settings.SITE_ID,
