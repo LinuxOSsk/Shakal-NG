@@ -712,6 +712,35 @@ ul.messages li.error {
 	padding: 3px 5px;
 }
 
+.thread_1 .discussion.header.entry {
+	border-left-color: #2e82bc;
+}
+
+.thread_2 .discussion.header.entry {
+	border-left-color: #3d9de1;
+}
+
+.thread_3 .discussion.header.entry {
+	border-left-color: #8bcafb;
+}
+
+.thread_4 .discussion.header.entry {
+	border-left-color: #add7fc;
+}
+
+.thread_5 .discussion.header.entry {
+	border-left-color: #cbe2fe;
+}
+
+.thread_6 .discussion.header.entry {
+	border-left-color: #e0ebff;
+}
+
+.discussion.header.entry {
+	border-left: 10px solid #e0ebff;
+	border-top: none;
+}
+
 .discussion.header.entry .title {
 	font-weight: bold;
 }
@@ -733,6 +762,7 @@ ul.messages li.error {
 	list-style: none;
 	padding: 0;
 	margin: 0;
+	border-top: 1px solid #dbdfe3;
 }
 
 .signature {
