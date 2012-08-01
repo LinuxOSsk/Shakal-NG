@@ -18,8 +18,8 @@
 <div class="text">
 	{{ topic.text|safe }}
 </div>
-{% if topic.user.signature %}
+{% if topic.user.get_profile.signature %}
 	<div class="signature">
-		{{ topic.user.signature }}
+		{{ topic.user.get_profile.signature|safe }}
 	</div>
 {% endif %}
