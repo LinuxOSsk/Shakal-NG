@@ -22,7 +22,9 @@ class Survey(models.Model):
 
 	@property
 	def answers(self):
-		return self.answer_set.order_by('pk')
+		if not hasattr(self, '_answer_set_cache'):
+			setattr(self, '_answer_set_cache', self.answer_set.select_related('survey__answer_count').order_by('pk')[:])
+		return self._answer_set_cache
 
 	@permalink
 	def get_absolute_url(self):
