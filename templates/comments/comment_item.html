@@ -12,12 +12,14 @@
 		{{ comment.submit_date|humandatetime }} | <a href="#link_{{ comment.pk }}">Link</a>
 	</span>
 </div>
-<div class="text">
-{{ comment.comment|safe }}
-</div>
-{% if comment.user.get_profile.signature %}
-	<div class="signature">
-		{{ comment.user.get_profile.signature|safe }}
+<div class="content">
+	<div class="text">
+	{{ comment.comment|safe }}
 	</div>
-{% endif %}
-{% if comment.pk %}<div class="links"><a href="{% url 'comments-reply-comment' comment.pk %}" class="reply">Odpovedať</a></div>{% endif %}
+	{% if comment.user.get_profile.signature %}
+		<div class="signature">
+			{{ comment.user.get_profile.signature|safe }}
+		</div>
+	{% endif %}
+	{% if comment.pk %}<div class="links"><a href="{% url 'comments-reply-comment' comment.pk %}" class="reply">Odpovedať</a></div>{% endif %}
+</div>
