@@ -111,7 +111,10 @@ def update_comments_header(sender, **kwargs):
 		root = instance
 	else:
 		root = ThreadedComment.objects.get(content_type = instance.content_type, object_pk = instance.object_pk, parent = None)
-	statistics = ThreadedComment.objects.filter(content_type = root.content_type, object_pk = root.object_pk).exclude(pk = root.pk).aggregate(Count('pk'), Max('submit_date'))
+	statistics = ThreadedComment.objects
+	statistics = statistics.filter(content_type = root.content_type, object_pk = root.object_pk, is_public = True, is_removed = False)
+	statistics = statistics.exclude(pk = root.pk)
+	statistics = statistics.aggregate(Count('pk'), Max('submit_date'))
 
 	header, created = RootHeader.objects.get_or_create(content_type = root.content_type, object_id = root.object_pk)
 	header.is_locked = root.is_locked
