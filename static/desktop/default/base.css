@@ -677,7 +677,7 @@ ul.messages li.error {
 
 .discussion.header {
 	border-top: 1px solid #dbdfe3;
-	background: #e0ebff;
+	background: #eff3f7;
 	padding: 0.3em;
 	margin: 0 0 1em 0;
 }
@@ -733,12 +733,12 @@ ul.messages li.error {
 }
 
 .thread_6 .discussion.header.entry {
-	border-left-color: #e0ebff;
+	border-left-color: #eff3f7;
 }
 
 .discussion.header.entry.me {
 	border-left-color: #1d5886;
-	background: #cbe2fe;
+	background: #e0ebff;
 }
 
 .discussion.header.entry.new {
