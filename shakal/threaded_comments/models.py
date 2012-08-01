@@ -98,11 +98,11 @@ class RootHeader(models.Model):
 	is_locked = models.BooleanField(default = False)
 	is_resolved = models.BooleanField(default = False)
 	content_type = models.ForeignKey(ContentType)
-	object_pk = models.PositiveIntegerField()
-	content_object = generic.GenericForeignKey('content_type', 'object_pk')
+	object_id = models.PositiveIntegerField()
+	content_object = generic.GenericForeignKey('content_type', 'object_id')
 
 	class Meta:
-		unique_together = (('content_type', 'object_pk'),)
+		unique_together = (('content_type', 'object_id'),)
 
 
 def update_comments_header(sender, **kwargs):
@@ -113,7 +113,7 @@ def update_comments_header(sender, **kwargs):
 		root = ThreadedComment.objects.get(content_type = instance.content_type, object_pk = instance.object_pk, parent = None)
 	statistics = ThreadedComment.objects.filter(content_type = root.content_type, object_pk = root.object_pk).exclude(pk = root.pk).aggregate(Count('pk'), Max('submit_date'))
 
-	header, created = RootHeader.objects.get_or_create(content_type = root.content_type, object_pk = root.object_pk)
+	header, created = RootHeader.objects.get_or_create(content_type = root.content_type, object_id = root.object_pk)
 	header.is_locked = root.is_locked
 	header.last_comment = statistics['submit_date__max']
 	header.comment_count = statistics['pk__count']

@@ -1,4 +1,4 @@
-{% load l10n linuxos %}{% load url from future %}
+{% load i18n l10n linuxos %}{% load url from future %}
 	<div class="module-row{% if forloop.last %} last{% endif %}">
 		<h3><a href="{{ article.get_absolute_url }}">{{ article.title}}</a></h3>
 		<div class="info top">
@@ -19,6 +19,13 @@
 		{% endif %}
 		<div class="perex">{{ article.perex|safe }}</div>
 		<div class="info bottom">
-			<span class="stat">Prečítané: {% firstof article.display_count '0' %}x</span>
+			<span class="stat">Prečítané: {% firstof article.display_count '0' %}x</span> |
+			<span class="comments">
+				{% if article.comment_count %}
+					{% blocktrans count counter=article.comment_count %}{{ counter }} comment{% plural %}{{ counter }} commens{% endblocktrans %}, {% trans "last" %}: {{ article.last_comment|date:"d.m.Y H:i" }}
+				{% else %}
+					{% trans "No comments" %}
+				{% endif %}
+			</span>
 		</div>
 	</div>

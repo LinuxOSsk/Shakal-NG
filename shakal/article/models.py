@@ -12,6 +12,7 @@ from autoimagefield.fields import AutoImageField
 from datetime import datetime
 from hitcount.models import HitCount
 from shakal.survey.models import Survey
+from shakal.threaded_comments.models import RootHeader
 
 class Category(models.Model):
 	name = models.CharField(max_length = 255, verbose_name = _('name'))
@@ -32,7 +33,14 @@ class Category(models.Model):
 
 class ArticleListManager(models.Manager):
 	def get_query_set(self):
-		return super(ArticleListManager, self).get_query_set().select_related('author', 'category').filter(time__lte = datetime.now(), published = True).order_by('-pk').annotate(display_count = models.Sum('hitcount__hits'))
+		queryset = super(ArticleListManager, self).get_query_set()
+		queryset = queryset.select_related('author', 'category')
+		queryset = queryset.filter(time__lte = datetime.now(), published = True)
+		queryset = queryset.order_by('-pk')
+		queryset = queryset.annotate(display_count = models.Max('hitcount__hits'))
+		queryset = queryset.annotate(last_comment = models.Max('comments_header__last_comment'))
+		queryset = queryset.annotate(comment_count = models.Max('comments_header__comment_count'))
+		return queryset
 
 
 class Article(models.Model):
@@ -53,6 +61,7 @@ class Article(models.Model):
 	image = AutoImageField(verbose_name = _('image'), upload_to = 'article/thumbnails', size = (512, 512), thumbnail = {'standard': (100, 100)}, blank = True, null = True)
 	hitcount = generic.GenericRelation(HitCount)
 	surveys = generic.GenericRelation(Survey)
+	comments_header = generic.GenericRelation(RootHeader)
 	@property
 	def survey_set(self):
 		return self.surveys.filter(approved = True).order_by('pk').all()

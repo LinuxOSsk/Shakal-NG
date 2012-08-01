@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-31 20:26+0200\n"
+"POT-Creation-Date: 2012-08-01 20:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -287,6 +287,19 @@ msgstr "Články"
 
 msgid "Edit article"
 msgstr "Upraviť článok"
+
+#, python-format
+msgid "%(counter)s comment"
+msgid_plural "%(counter)s commens"
+msgstr[0] "%(counter)s komentár"
+msgstr[1] "%(counter)s komentáre"
+msgstr[2] "%(counter)s komentárov"
+
+msgid "last"
+msgstr "posledný"
+
+msgid "No comments"
+msgstr "Žiadne komentáre"
 
 msgid "Page not found"
 msgstr "Stránka nebola nájdená"
