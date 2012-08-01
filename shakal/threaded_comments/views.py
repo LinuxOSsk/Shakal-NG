@@ -5,6 +5,7 @@ from django.contrib.comments.views.utils import next_redirect
 from django.db import models
 from django.template.response import TemplateResponse
 from django.views.decorators.http import require_POST
+from django.utils.encoding import force_unicode
 from shakal.threaded_comments.models import ThreadedComment
 from shakal.threaded_comments import get_form
 
@@ -12,7 +13,15 @@ from shakal.threaded_comments import get_form
 def reply_comment(request, parent):
 	parent_comment = ThreadedComment.objects.get(pk = parent)
 	content_object = parent_comment.content_object
-	form = get_form()(content_object, logged = request.user.is_authenticated(), parent_comment = parent_comment)
+
+	if parent_comment.parent_id:
+		new_subject = parent_comment.subject
+		if not new_subject.startswith(force_unicode('RE: ')):
+			new_subject = force_unicode('RE: ') + new_subject
+	else:
+		new_subject = force_unicode('RE: ') + force_unicode(content_object)
+
+	form = get_form()(content_object, logged = request.user.is_authenticated(), parent_comment = parent_comment, initial = {'subject': new_subject})
 
 	model_meta = content_object.__class__._meta
 	template_list = [
