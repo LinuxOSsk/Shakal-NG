@@ -16,7 +16,6 @@ class ThreadedCommentForm(CommentForm):
 	comment = forms.CharField(label = _("Comment"), max_length = COMMENT_MAX_LENGTH, widget = forms.Textarea)
 
 	def __init__(self, *args, **kwargs):
-		print(kwargs)
 		self.__parent_comment = kwargs.pop('parent_comment', None)
 		logged = kwargs.pop('logged', False)
 		super(ThreadedCommentForm, self).__init__(*args, **kwargs)
