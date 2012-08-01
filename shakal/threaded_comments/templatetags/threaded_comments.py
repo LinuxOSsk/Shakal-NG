@@ -3,6 +3,7 @@
 from django import template
 from django.conf import settings
 from django.contrib.comments.templatetags.comments import BaseCommentNode
+from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from shakal import threaded_comments
@@ -30,8 +31,8 @@ class ThreadedCommentsBaseNode(BaseCommentNode):
 		queryset = self.comments_model.comment_objects.filter(
 			content_type = ctype,
 			object_pk = object_pk,
-			site__pk = settings.SITE_ID
-		)
+			site__pk = settings.SITE_ID,
+		).filter(Q(parent = None) | Q(is_public = True, is_removed = False))
 		queryset = queryset.order_by('lft')
 		return queryset
 
