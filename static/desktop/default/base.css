@@ -735,6 +735,13 @@ ul.messages li.error {
 	margin: 0;
 }
 
+.signature {
+	color: #616b7a;
+	font-size: 85%;
+	font-style: italic;
+	margin-top: .5em;
+}
+
 /* === Správy === */
 
 .news h3 {
