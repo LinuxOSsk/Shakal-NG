@@ -2,10 +2,12 @@
 {% block content %}
 <h1>Pridať komentár</h1>
 
+{% if parent %}
 <h2>Príspevok, na ktorý odpovedáte</h2>
 <div class="module preview">
 	<div class="clearpadding">{% include "comments/comment_item.html" with comment=parent readonly=1 %}</div>
 </div>
+{% endif %}
 
 <h2>Náhľad</h2>
 <div class="module preview">

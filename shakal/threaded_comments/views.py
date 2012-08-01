@@ -21,7 +21,7 @@ def reply_comment(request, parent):
 		"comments/new_form.html",
 	]
 	next = request.GET.get('next', content_object.get_absolute_url())
-	return TemplateResponse(request, template_list, {'form': form, 'next': next, 'parent': parent_comment })
+	return TemplateResponse(request, template_list, {'form': form, 'next': next, 'parent': parent_comment if parent_comment.parent_id else False })
 
 
 @require_POST
@@ -57,7 +57,7 @@ def post_comment(request):
 		comment = form.get_comment_dict()
 		if request.user.is_authenticated():
 			comment['user'] = request.user
-		return TemplateResponse(request, template_list, {'form': form, 'next': data['next'], 'comment': comment, 'valid': valid, 'parent': parent })
+		return TemplateResponse(request, template_list, {'form': form, 'next': data['next'], 'comment': comment, 'valid': valid, 'parent': parent if parent.parent_id else False })
 
 	comment = form.get_comment_object()
 	comment.ip_address = request.META.get("REMOTE_ADDR", None)
