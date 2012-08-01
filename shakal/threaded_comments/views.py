@@ -66,7 +66,9 @@ def post_comment(request):
 
 	comment.save()
 
-	return next_redirect(data, data['next'], 'done-comment', c=comment._get_pk_val())
+	data['next'] = data['next'] + '#link_' + str(comment.pk)
+
+	return next_redirect(data, data['next'], 'done-comment')
 
 
 def done_comment(request):
