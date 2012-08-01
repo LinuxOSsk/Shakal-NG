@@ -6,7 +6,7 @@ from django.core.validators import MaxLengthValidator, MinValueValidator, MaxVal
 from django.utils.translation import ugettext_lazy as _
 
 class UserProfile(models.Model):
-	user = models.OneToOneField(User)
+	user = models.OneToOneField(User, related_name = 'profile')
 	jabber = models.CharField(max_length = 127, blank = True)
 	url = models.CharField(max_length = 255, blank = True)
 	signature = models.CharField(max_length = 255, blank = True)

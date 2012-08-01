@@ -32,8 +32,7 @@ class ThreadedCommentsBaseNode(BaseCommentNode):
 			object_pk = object_pk,
 			site__pk = settings.SITE_ID
 		)
-		queryset = queryset.order_by('lft').select_related('user')
-		print(type(self.comments_model.comment_objects))
+		queryset = queryset.order_by('lft')
 		return queryset
 
 	def get_query_set(self, context):

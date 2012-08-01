@@ -38,7 +38,13 @@ class HideRootQuerySet(models.query.QuerySet):
 			self.__cache.append(item)
 
 	def __is_root(self, item):
-		return item.parent is None
+		return item.parent_id is None
+
+
+class CommentManager(CommentManager):
+	def get_query_set(self):
+		return (super(CommentManager, self).get_query_set().select_related('user__profile__pk'))
+Comment.add_to_class('objects', CommentManager())
 
 
 class ThreadedCommentManager(CommentManager):
@@ -66,7 +72,8 @@ class ThreadedCommentManager(CommentManager):
 		return root_comment
 
 	def get_query_set(self):
-		return self.__qs_class(self.model)
+		queryset = self.__qs_class(self.model).select_related('user__profile')
+		return queryset
 
 
 class ThreadedComment(Comment):
