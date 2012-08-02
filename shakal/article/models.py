@@ -126,3 +126,10 @@ def create_article_hitcount(sender, **kwargs):
 		hc.save()
 
 post_save.connect(create_article_hitcount, sender = Article)
+
+
+def article_model():
+	if connections['default'].vendor == 'postgresql':
+		return ArticleView
+	else:
+		return Article
