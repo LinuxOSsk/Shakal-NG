@@ -4,6 +4,7 @@ from datetime import datetime
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.comments.models import Comment
 from django.core.management.base import BaseCommand
 from django.db import connections
 from django.template.defaultfilters import slugify
@@ -24,6 +25,16 @@ from phpserialize import loads
 class Command(BaseCommand):
 	args = ''
 	help = 'Import data from LinuxOS'
+
+	def __init__(self, *args, **kwargs):
+		super(Command, self).__init__(*args, **kwargs)
+		self.content_types = {
+			'forum': ContentType.objects.get(app_label = 'forum', model = 'topic').pk,
+			'clanky': ContentType.objects.get(app_label = 'article', model = 'article').pk,
+			'spravy': ContentType.objects.get(app_label = 'news', model = 'news').pk,
+			'anketa': ContentType.objects.get(app_label = 'survey', model = 'survey').pk,
+		}
+
 
 	def decode_cols_to_dict(self, names, values):
 		return dict(zip(names, values))
@@ -419,15 +430,11 @@ class Command(BaseCommand):
 		sys.stdout.write("Headers ...\n")
 		sys.stdout.flush()
 		self.import_discussion_headers()
+		sys.stdout.write("Contents ...\n")
+		sys.stdout.flush()
+		self.import_discussion_comments()
 
 	def import_discussion_headers(self):
-		content_types = {
-			'forum': ContentType.objects.get(app_label = 'forum', model = 'topic').pk,
-			'clanky': ContentType.objects.get(app_label = 'article', model = 'article').pk,
-			'spravy': ContentType.objects.get(app_label = 'news', model = 'news').pk,
-			'anketa': ContentType.objects.get(app_label = 'survey', model = 'survey').pk,
-		}
-
 		cols = [
 			'diskusia_id',
 			'kategoria',
@@ -451,16 +458,16 @@ class Command(BaseCommand):
 			if header_dict['kategoria'] == 'eshop':
 				continue
 
-			if (content_types[header_dict['kategoria']], header_dict['diskusia_id']) in unique_check:
+			if (self.content_types[header_dict['kategoria']], header_dict['diskusia_id']) in unique_check:
 				continue
-			unique_check.add((content_types[header_dict['kategoria']], header_dict['diskusia_id']))
+			unique_check.add((self.content_types[header_dict['kategoria']], header_dict['diskusia_id']))
 
 			header = {
 				'last_comment': header_dict['last_time'],
 				'comment_count': self.get_default_if_null(header_dict['reakcii'], 0),
 				'is_locked': bool(header_dict['zamknute']),
 				'is_resolved': bool(header_dict['vyriesene']),
-				'content_type_id': content_types[header_dict['kategoria']],
+				'content_type_id': self.content_types[header_dict['kategoria']],
 				'object_id': header_dict['diskusia_id'],
 			}
 			root_header_objects.append(ThreadedRootHeader(**header))
@@ -470,3 +477,60 @@ class Command(BaseCommand):
 		ThreadedRootHeader.objects.bulk_create(root_header_objects)
 		root_header_objects = []
 		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', (SELECT MAX(id) FROM threaded_comments_rootheader));')
+
+	def decode_username_for_comment(self, comment_row):
+		if (comment_row['first_name'] + ' ' + comment_row['last_name']).strip():
+			comment_row['fullname'] = (comment_row['first_name'] + ' ' + comment_row['last_name']).strip()
+		else:
+			comment_row['fullname'] = comment_row['username']
+
+		del comment_row['first_name']
+		del comment_row['last_name']
+		del comment_row['username']
+		return comment_row
+
+	def import_discussion_comments(self):
+		users = map(self.decode_username_for_comment, User.objects.values('id', 'email', 'first_name', 'last_name', 'username'))
+		cols = [
+			'parent',
+			'username',
+			'userid',
+			'predmet',
+			'text',
+			'time',
+			'locked',
+		]
+		query = 'SELECT ' + (', '.join(['diskusia.' + col for col in cols])) + ', diskusia_header.diskusia_id FROM diskusia INNER JOIN diskusia_header ON (diskusia.diskusiaid = diskusia_header.id) WHERE diskusia_id = {0}'
+		cols.append('diskusia_id')
+		headers = ThreadedRootHeader.objects.values_list('id', 'content_type_id', 'object_id', 'is_locked')
+		counter = 0
+		for id, content_type_id, object_pk, is_locked in headers:
+			counter += 1
+			sys.stdout.write("{0} / {1}\r".format(counter, len(headers)))
+			sys.stdout.flush()
+			self.cursor.execute(query.format(object_pk))
+			comment_objects = [Comment(
+				comment = '-',
+				user_name = '-',
+				submit_date = datetime.now(),
+				site_id = settings.SITE_ID,
+				content_type_id = content_type_id,
+				object_pk = object_pk
+			)]
+			comment_rows = list(self.cursor)
+			for comment_row in comment_rows:
+				comment_dict = self.decode_cols_to_dict(cols, comment_row)
+				comment = {
+					'comment': comment_dict['text'],
+					'user_name': comment_dict['username'],
+					'submit_date': comment_dict['time'],
+					'site_id': settings.SITE_ID,
+					'is_public': True,
+					'is_removed': False,
+					'content_type_id': content_type_id,
+					'object_pk': object_pk
+				}
+				if comment_dict['userid'] and comment_dict['userid'] in users:
+					comment['user_id'] = comment_dict['userid']
+				comment_objects.append(Comment(**comment))
+			django_comments = Comment.objects.bulk_create(comment_objects)
