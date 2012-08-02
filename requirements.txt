@@ -6,3 +6,4 @@ django-auth-remember
 pil
 phpserialize
 django-mptt
+django-generic-aggregation
