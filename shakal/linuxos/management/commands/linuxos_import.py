@@ -12,6 +12,7 @@ from shakal.article.models import Article, Category as ArticleCategory
 from shakal.forum.models import Section as ForumSection, Topic as ForumTopic
 from shakal.news.models import News
 from shakal.survey.models import Survey, Answer as SurveyAnswer
+from shakal.threaded_comments.models import ThreadedComment, RootHeader as ThreadedRootHeader
 from shakal.utils import create_unique_slug
 from hitcount.models import HitCount
 from collections import OrderedDict
@@ -52,6 +53,7 @@ class Command(BaseCommand):
 		self.import_forum()
 		self.import_news()
 		self.import_survey()
+		self.import_discussion()
 
 	def import_users(self):
 		cols = [
@@ -410,3 +412,61 @@ class Command(BaseCommand):
 		SurveyAnswer.objects.bulk_create(answers)
 		connections['default'].cursor().execute('SELECT setval(\'survey_survey_id_seq\', (SELECT MAX(id) FROM survey_survey));')
 		connections['default'].cursor().execute('SELECT setval(\'survey_answer_id_seq\', (SELECT MAX(id) FROM survey_answer));')
+
+	def import_discussion(self):
+		sys.stdout.write("Importing discussion\n")
+		sys.stdout.flush()
+		sys.stdout.write("Headers ...\n")
+		sys.stdout.flush()
+		self.import_discussion_headers()
+
+	def import_discussion_headers(self):
+		content_types = {
+			'forum': ContentType.objects.get(app_label = 'forum', model = 'topic').pk,
+			'clanky': ContentType.objects.get(app_label = 'article', model = 'article').pk,
+			'spravy': ContentType.objects.get(app_label = 'news', model = 'news').pk,
+			'anketa': ContentType.objects.get(app_label = 'survey', model = 'survey').pk,
+		}
+
+		cols = [
+			'diskusia_id',
+			'kategoria',
+			'last_time',
+			'reakcii',
+			'zamknute',
+			'vyriesene',
+		]
+		self.cursor.execute('SELECT COUNT(*) FROM diskusia_header')
+		count = self.cursor.fetchall()[0][0]
+		counter = 0
+		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM diskusia_header')
+		root_header_objects = []
+		unique_check = set()
+		for header_row in self.cursor:
+			counter += 1
+			sys.stdout.write("{0} / {1}\r".format(counter, count))
+			sys.stdout.flush()
+
+			header_dict = self.decode_cols_to_dict(cols, header_row)
+			if header_dict['kategoria'] == 'eshop':
+				continue
+
+			if (content_types[header_dict['kategoria']], header_dict['diskusia_id']) in unique_check:
+				continue
+			unique_check.add((content_types[header_dict['kategoria']], header_dict['diskusia_id']))
+
+			header = {
+				'last_comment': header_dict['last_time'],
+				'comment_count': self.get_default_if_null(header_dict['reakcii'], 0),
+				'is_locked': bool(header_dict['zamknute']),
+				'is_resolved': bool(header_dict['vyriesene']),
+				'content_type_id': content_types[header_dict['kategoria']],
+				'object_id': header_dict['diskusia_id'],
+			}
+			root_header_objects.append(ThreadedRootHeader(**header))
+			if counter % 1000 == 0:
+				ThreadedRootHeader.objects.bulk_create(root_header_objects)
+				root_header_objects = []
+		ThreadedRootHeader.objects.bulk_create(root_header_objects)
+		root_header_objects = []
+		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', (SELECT MAX(id) FROM threaded_comments_rootheader));')
