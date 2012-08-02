@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
-from django.db import models
+from django.db import connections, models
 from django.db.models.signals import post_save
 from django.db.models import permalink
 from django.utils.translation import ugettext_lazy as _
@@ -39,16 +39,19 @@ class ArticleListManager(models.Manager):
 		queryset = queryset.select_related('author', 'category')
 		queryset = queryset.filter(time__lte = datetime.now(), published = True)
 		queryset = queryset.order_by('-pk')
+		return queryset
+
+
+class ArticleListAggregateManager(ArticleListManager):
+	def get_query_set(self):
+		queryset = super(ArticleListAggregateManager, self).get_query_set()
 		queryset = generic_annotate(queryset, HitCount.objects.all(), models.Max('hitcount__hits'), alias = 'display_count')
 		queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__last_comment'), alias = 'last_comment')
 		queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__comment_count'), alias = 'comment_count')
 		return queryset
 
 
-class Article(models.Model):
-	objects = models.Manager()
-	articles = ArticleListManager()
-
+class ArticleAbstract(models.Model):
 	title = models.CharField(max_length = 255, verbose_name = _('title'))
 	slug = models.SlugField(unique = True)
 	category = models.ForeignKey(Category, on_delete = models.PROTECT, verbose_name = _('category'))
@@ -92,8 +95,28 @@ class Article(models.Model):
 		return self.title
 
 	class Meta:
+		abstract = True
+
+
+class Article(ArticleAbstract):
+	objects = models.Manager()
+	articles = ArticleListAggregateManager()
+
+	class Meta:
 		verbose_name = _('article')
 		verbose_name_plural = _('articles')
+
+
+class ArticleView(ArticleAbstract):
+	objects = models.Manager()
+	articles = ArticleListManager()
+
+	display_count = models.PositiveIntegerField()
+	comment_count = models.PositiveIntegerField()
+	last_comment = models.DateTimeField()
+
+	class Meta:
+		managed = False
 
 
 def create_article_hitcount(sender, **kwargs):
