@@ -9,10 +9,12 @@
 </div>
 {% endif %}
 
+{% if valid %}
 <h2>Náhľad</h2>
 <div class="module preview">
 	<div class="clearpadding">{% include "comments/comment_item.html" %}</div>
 </div>
+{% endif %}
 
 {% include "comments/form.html" %}
 {% endblock %}
