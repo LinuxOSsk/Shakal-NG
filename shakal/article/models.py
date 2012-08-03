@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
-from django.db import connections, models
+from django.db import connection, models
 from django.db.models.signals import post_save
 from django.db.models import permalink
 from django.utils.translation import ugettext_lazy as _
@@ -129,7 +129,7 @@ post_save.connect(create_article_hitcount, sender = Article)
 
 
 def article_model():
-	if connections['default'].vendor == 'postgresql':
+	if connection.vendor == 'postgresql':
 		return ArticleView
 	else:
 		return Article
