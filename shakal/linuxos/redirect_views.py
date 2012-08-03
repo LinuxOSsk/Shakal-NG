@@ -16,6 +16,9 @@ def article_redirect(request, pk):
 def forum_topic_redirect(request, pk):
 	return HttpResponsePermanentRedirect(reverse('forum:topic-detail', kwargs = {'pk': pk}))
 
+def forum_topic_old_redirect(request):
+	return HttpResponsePermanentRedirect(reverse('forum:topic-detail', kwargs = {'pk': request.GET['forumid']}))
+
 def news_redirect(request, pk):
 	news = get_object_or_404(News, pk = pk)
 	return HttpResponsePermanentRedirect(reverse('news:detail-by-slug', kwargs = {'slug': news.slug}))
