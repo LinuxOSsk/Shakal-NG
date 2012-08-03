@@ -79,7 +79,6 @@ class Command(BaseCommand):
 			'zobrazit_mail',
 			'prava',
 			'lastlogin',
-			'signatura',
 			'more_info',
 			'info',
 			'rok',
@@ -90,6 +89,8 @@ class Command(BaseCommand):
 		counter = 0
 		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM users WHERE prava > 0')
 		sys.stdout.write("Importing users\n")
+		user_objects = []
+		user_profile_objects = []
 		for user in self.cursor:
 			counter += 1
 			sys.stdout.write("{0} / {1}\r".format(counter, count))
@@ -118,21 +119,21 @@ class Command(BaseCommand):
 						base_user['is_superuser'] = True
 			user_object = User(**base_user)
 			user_object.set_password(base_user['password'])
-			user_object.save()
+			user_objects.append(user_object)
 			user_profile = {
 				'jabber': self.empty_if_null(user_dict['jabber']),
 				'url': self.empty_if_null(user_dict['url']),
-				'signature': self.empty_if_null(user_dict['signature']),
+				'signature': self.empty_if_null(user_dict['signatura']),
 				'display_mail': self.empty_if_null(user_dict['zobrazit_mail']),
 				'distribution': self.empty_if_null(user_dict['more_info']),
 				'info': self.empty_if_null(user_dict['info']),
 				'year': user_dict['rok'],
 				'user_id': user_dict['id'],
 			}
-			user_profile_object = UserProfile.objects.get(user_id = user_object.pk)
-			for attribute in user_profile:
-				setattr(user_profile_object, attribute, user_profile[attribute])
-			user_profile_object.save()
+			user_profile_object = UserProfile(**user_profile)
+			user_profile_objects.append(user_profile_object)
+		User.objects.bulk_create(user_objects)
+		UserProfile.objects.bulk_create(user_profile_objects)
 		connections['default'].cursor().execute('SELECT setval(\'auth_user_id_seq\', (SELECT MAX(id) FROM auth_user));')
 
 	def import_articles(self):
