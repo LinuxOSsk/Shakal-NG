@@ -1,4 +1,4 @@
-{% extends "forum/forum_base.html" %}{% load breadcrumbs_tags %}
+{% extends "forum/forum_base.html" %}{% load breadcrumbs_tags threaded_comments %}
 
 {% block title %}{{ topic }}{% endblock %}
 
@@ -12,5 +12,7 @@
 <h1>{{ topic }}</h1>
 
 {% include "forum/topic_header.html" %}
+
+{% render_threaded_comments_toplevel topic %}
 
 {% endblock %}

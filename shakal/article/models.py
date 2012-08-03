@@ -72,7 +72,7 @@ class ArticleAbstract(models.Model):
 		return self.surveys.filter(approved = True).order_by('pk').all()
 
 	def hit(self):
-		article_type = ContentType.objects.get(app_label = 'article', model = 'article')
+		article_type = ContentType.objects.get_for_model(self.__class__)
 		hit_count = HitCount.objects.get_or_create(content_type = article_type, object_id = self.pk)[0]
 		hit_count.hits += 1
 		hit_count.save()

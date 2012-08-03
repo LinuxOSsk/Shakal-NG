@@ -6,14 +6,14 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.comments.models import Comment
 from django.core.management.base import BaseCommand
-from django.db import connections
+from django.db import connections, transaction, connection
 from django.template.defaultfilters import slugify
 from shakal.accounts.models import UserProfile
-from shakal.article.models import Article, Category as ArticleCategory
+from shakal.article.models import Article, ArticleView, Category as ArticleCategory
 from shakal.forum.models import Section as ForumSection, Topic as ForumTopic
 from shakal.news.models import News
 from shakal.survey.models import Survey, Answer as SurveyAnswer
-from shakal.threaded_comments.models import ThreadedComment, RootHeader as ThreadedRootHeader
+from shakal.threaded_comments.models import RootHeader as ThreadedRootHeader
 from shakal.utils import create_unique_slug
 from hitcount.models import HitCount
 from collections import OrderedDict
@@ -30,10 +30,11 @@ class Command(BaseCommand):
 		super(Command, self).__init__(*args, **kwargs)
 		self.content_types = {
 			'forum': ContentType.objects.get(app_label = 'forum', model = 'topic').pk,
-			'clanky': ContentType.objects.get(app_label = 'article', model = 'article').pk,
+			'clanky': ContentType.objects.get(app_label = 'article', model = 'articleview').pk,
 			'spravy': ContentType.objects.get(app_label = 'news', model = 'news').pk,
 			'anketa': ContentType.objects.get(app_label = 'survey', model = 'survey').pk,
 		}
+		self.inverted_content_types = dict([(v, k) for (k, v) in self.content_types.iteritems()])
 
 
 	def decode_cols_to_dict(self, names, values):
@@ -215,7 +216,7 @@ class Command(BaseCommand):
 			hitcount_map[article_dict['id']] = article_dict['zobrazeni']
 
 		hitcount = []
-		for article in Article.objects.all():
+		for article in ArticleView.objects.all():
 			hitcount.append(HitCount(content_object = article, hits = hitcount_map.get(article.pk, 0)))
 		HitCount.objects.bulk_create(hitcount)
 
@@ -386,7 +387,7 @@ class Command(BaseCommand):
 
 			if survey_dict['article_id']:
 				slug = 'article-' + str(survey_dict['article_id'])
-				content_type = ContentType.objects.get_for_model(Article)
+				content_type = ContentType.objects.get_for_model(ArticleView)
 				object_id = survey_dict['article_id']
 			else:
 				slug = create_unique_slug(slugify(survey_dict['otazka'][:45]), all_slugs, 9999)
@@ -490,8 +491,14 @@ class Command(BaseCommand):
 		return comment_row
 
 	def import_discussion_comments(self):
-		users = map(self.decode_username_for_comment, User.objects.values('id', 'email', 'first_name', 'last_name', 'username'))
+		connections['default'].cursor().execute('DELETE FROM threaded_comments_threadedcomment')
+		connections['default'].cursor().execute('DELETE FROM django_comments')
+		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', 1);')
+		connections['default'].cursor().execute('SELECT setval(\'django_comments_id_seq\', 1);')
+
+		users = set(map(lambda x: x['id'], User.objects.values('id')))
 		cols = [
+			'id',
 			'parent',
 			'username',
 			'userid',
@@ -500,26 +507,31 @@ class Command(BaseCommand):
 			'time',
 			'locked',
 		]
-		query = 'SELECT ' + (', '.join(['diskusia.' + col for col in cols])) + ', diskusia_header.diskusia_id FROM diskusia INNER JOIN diskusia_header ON (diskusia.diskusiaid = diskusia_header.id) WHERE diskusia_id = {0}'
+		select_query = 'SELECT ' + (', '.join(['diskusia.' + col for col in cols])) + ', diskusia_header.diskusia_id FROM diskusia INNER JOIN diskusia_header ON (diskusia.diskusiaid = diskusia_header.id) WHERE diskusia_id = {0} AND kategoria = "{1}" ORDER BY diskusia.id'
 		cols.append('diskusia_id')
 		headers = ThreadedRootHeader.objects.values_list('id', 'content_type_id', 'object_id', 'is_locked')
 		counter = 0
+		comment_counter = 0
 		for id, content_type_id, object_pk, is_locked in headers:
 			counter += 1
+			comment_counter += 1
 			sys.stdout.write("{0} / {1}\r".format(counter, len(headers)))
 			sys.stdout.flush()
-			self.cursor.execute(query.format(object_pk))
+			self.cursor.execute(select_query.format(object_pk, self.inverted_content_types[content_type_id]))
 			comment_objects = [Comment(
 				comment = '-',
 				user_name = '-',
 				submit_date = datetime.now(),
 				site_id = settings.SITE_ID,
 				content_type_id = content_type_id,
-				object_pk = object_pk
+				object_pk = object_pk,
+				pk = comment_counter
 			)]
-			comment_rows = list(self.cursor)
-			for comment_row in comment_rows:
-				comment_dict = self.decode_cols_to_dict(cols, comment_row)
+			root_comment_id = comment_counter
+			comment_rows = [self.decode_cols_to_dict(cols, r) for r in list(self.cursor)]
+			for comment_dict in comment_rows:
+				comment_counter += 1
+				comment_dict['pk'] = comment_counter
 				comment = {
 					'comment': comment_dict['text'],
 					'user_name': comment_dict['username'],
@@ -528,9 +540,73 @@ class Command(BaseCommand):
 					'is_public': True,
 					'is_removed': False,
 					'content_type_id': content_type_id,
-					'object_pk': object_pk
+					'object_pk': object_pk,
+					'pk': comment_counter
 				}
 				if comment_dict['userid'] and comment_dict['userid'] in users:
 					comment['user_id'] = comment_dict['userid']
 				comment_objects.append(Comment(**comment))
-			django_comments = Comment.objects.bulk_create(comment_objects)
+
+			Comment.objects.bulk_create(comment_objects)
+			pk_map = dict((d['id'], d['pk']) for d in comment_rows)
+			comment_tree = {}
+			for comment_dict in comment_rows:
+				comment_dict['tree_id'] = counter
+				comment_dict['level'] = 0
+				comment_dict['lft'] = 0
+				comment_dict['rght'] = 0
+				comment_dict['is_locked'] = is_locked or (True if comment_dict['locked'] == 'yes' else False)
+				comment_dict['subject'] = comment_dict['predmet']
+				comment_dict['comment_ptr_id'] = comment_dict['pk']
+				try:
+					comment_dict['parent_id'] = pk_map[comment_dict['parent']]
+				except KeyError:
+					comment_dict['parent_id'] = root_comment_id
+
+				del comment_dict['id']
+				del comment_dict['parent']
+				del comment_dict['diskusia_id']
+				del comment_dict['predmet']
+				del comment_dict['text']
+				del comment_dict['time']
+				del comment_dict['userid']
+				del comment_dict['username']
+				del comment_dict['pk']
+				if not comment_dict['parent_id'] in comment_tree:
+					comment_tree[comment_dict['parent_id']] = []
+				comment_tree[comment_dict['parent_id']].append(comment_dict)
+			comment_tree[0] = [
+				{
+					'comment_ptr_id': root_comment_id,
+					'level': 0,
+					'lft': 0,
+					'rght': 0,
+					'parent_id': None,
+					'tree_id': counter,
+					'is_locked': is_locked,
+					'subject': '-',
+				}
+			]
+			comment_rows.insert(0, comment_tree[0][0])
+			self.lr_counter = 0
+			self.depth = -1
+			self.make_tree_structure(comment_tree, 0)
+			query = 'INSERT INTO threaded_comments_threadedcomment (comment_ptr_id, subject, parent_id, is_locked, lft, rght, tree_id, level) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
+			query_params = tuple((c['comment_ptr_id'], c['subject'], c['parent_id'], c['is_locked'], c['lft'], c['rght'], c['tree_id'], c['level']) for c in comment_rows)
+			connection.cursor().executemany(query, query_params)
+			transaction.commit()
+		connections['default'].cursor().execute('SELECT setval(\'django_comments_id_seq\', (SELECT MAX(id) FROM django_comments));')
+		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', (SELECT MAX(id) FROM threaded_comments_rootheader));')
+
+	def make_tree_structure(self, tree_items, root):
+		items = tree_items[root]
+		self.depth += 1
+		for item in items:
+			self.lr_counter += 1
+			item['lft'] = self.lr_counter
+			item['level'] = self.depth
+			if item['comment_ptr_id'] in tree_items:
+				self.make_tree_structure(tree_items, item['comment_ptr_id'])
+			self.lr_counter += 1
+			item['rght'] = self.lr_counter
+		self.depth -= 1

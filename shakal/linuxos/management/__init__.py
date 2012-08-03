@@ -35,7 +35,7 @@ def install_views(sender, **kwargs):
 				{'comment_count': 'comment_count', 'last_comment': 'last_comment'},
 				{'display_count': 'hits'}
 			],
-			ContentType.objects.get(app_label = 'article', model = 'article').pk
+			ContentType.objects.get(app_label = 'article', model = 'articleview').pk
 		)
 
 
