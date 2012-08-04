@@ -9,7 +9,7 @@ from django.core.management.base import BaseCommand
 from django.db import connections, transaction, connection
 from django.template.defaultfilters import slugify
 from shakal.accounts.models import UserProfile
-from shakal.article.models import Article, ArticleView, Category as ArticleCategory
+from shakal.article.models import Article, Category as ArticleCategory
 from shakal.forum.models import Section as ForumSection, Topic as ForumTopic
 from shakal.news.models import News
 from shakal.survey.models import Survey, Answer as SurveyAnswer
@@ -217,7 +217,7 @@ class Command(BaseCommand):
 			hitcount_map[article_dict['id']] = article_dict['zobrazeni']
 
 		hitcount = []
-		for article in ArticleView.objects.all():
+		for article in Article.objects.all():
 			hitcount.append(HitCount(content_object = article, hits = hitcount_map.get(article.pk, 0)))
 		HitCount.objects.bulk_create(hitcount)
 
@@ -388,7 +388,7 @@ class Command(BaseCommand):
 
 			if survey_dict['article_id']:
 				slug = 'article-' + str(survey_dict['article_id'])
-				content_type = ContentType.objects.get_for_model(ArticleView)
+				content_type = ContentType.objects.get_for_model(Article)
 				object_id = survey_dict['article_id']
 			else:
 				slug = create_unique_slug(slugify(survey_dict['otazka'][:45]), all_slugs, 9999)

@@ -5,6 +5,7 @@ from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.db import connection, models
+from django.db.models.query import QuerySet
 from django.db.models.signals import post_save
 from django.db.models import permalink
 from django.utils.translation import ugettext_lazy as _
@@ -34,24 +35,24 @@ class Category(models.Model):
 
 class ArticleListManager(models.Manager):
 	def get_query_set(self):
-		queryset = super(ArticleListManager, self).get_query_set()
-		queryset = queryset.select_related()
+		if connection.vendor == 'postgresql':
+			queryset = QuerySet(ArticleView, using = self._db)
+			queryset = queryset.extra(select = {'last_comment': 'last_comment', 'comment_count': 'comment_count', 'display_count': 'display_count'})
+		else:
+			queryset = QuerySet(Article, using = self._db)
+			queryset = generic_annotate(queryset, HitCount, models.Max('hitcount__hits'), alias = 'display_count')
+			queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__last_comment'), alias = 'last_comment')
+			queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__comment_count'), alias = 'comment_count')
 		queryset = queryset.select_related('author', 'category')
 		queryset = queryset.filter(time__lte = datetime.now(), published = True)
 		queryset = queryset.order_by('-pk')
 		return queryset
 
 
-class ArticleListAggregateManager(ArticleListManager):
-	def get_query_set(self):
-		queryset = super(ArticleListAggregateManager, self).get_query_set()
-		queryset = generic_annotate(queryset, HitCount.objects.all(), models.Max('hitcount__hits'), alias = 'display_count')
-		queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__last_comment'), alias = 'last_comment')
-		queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__comment_count'), alias = 'comment_count')
-		return queryset
-
-
 class ArticleAbstract(models.Model):
+	objects = models.Manager()
+	articles = ArticleListManager()
+
 	title = models.CharField(max_length = 255, verbose_name = _('title'))
 	slug = models.SlugField(unique = True)
 	category = models.ForeignKey(Category, on_delete = models.PROTECT, verbose_name = _('category'))
@@ -64,7 +65,7 @@ class ArticleAbstract(models.Model):
 	published = models.BooleanField(verbose_name = _('published'))
 	top = models.BooleanField(verbose_name = _('top article'))
 	image = AutoImageField(verbose_name = _('image'), upload_to = 'article/thumbnails', size = (512, 512), thumbnail = {'standard': (100, 100)}, blank = True, null = True)
-	hitcount = generic.GenericRelation(HitCount, content_type_field = 'content_type_id', object_id_field = 'object_id')
+	hitcount = generic.GenericRelation(HitCount)
 	surveys = generic.GenericRelation(Survey)
 	comments_header = generic.GenericRelation(RootHeader)
 	@property
@@ -99,22 +100,12 @@ class ArticleAbstract(models.Model):
 
 
 class Article(ArticleAbstract):
-	objects = models.Manager()
-	articles = ArticleListAggregateManager()
-
 	class Meta:
 		verbose_name = _('article')
 		verbose_name_plural = _('articles')
 
 
 class ArticleView(ArticleAbstract):
-	objects = models.Manager()
-	articles = ArticleListManager()
-
-	display_count = models.PositiveIntegerField()
-	comment_count = models.PositiveIntegerField()
-	last_comment = models.DateTimeField()
-
 	class Meta:
 		managed = False
 
@@ -126,10 +117,3 @@ def create_article_hitcount(sender, **kwargs):
 		hc.save()
 
 post_save.connect(create_article_hitcount, sender = Article)
-
-
-def article_model():
-	if connection.vendor == 'postgresql':
-		return ArticleView
-	else:
-		return Article
