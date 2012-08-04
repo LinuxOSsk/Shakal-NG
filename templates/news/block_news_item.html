@@ -1,7 +1,16 @@
-{% load linuxos %}
+{% load linuxos i18n %}
 <h3><a href="{{ item.get_absolute_url }}">{{ item }}</a></h3>
 <div class="info">
 	<span class="time">{{ item.time|humandatetime }}</span> |
 	<span class="user">{% user_link item.author item.authors_name %}</span>
 </div>
 <p>{{ item.short_text|safe }}</p>
+<div class="info bottom">
+	<span class="comments">
+		{% if item.comment_count %}
+			<a href="{{ item.get_absolute_url }}#comments">{% blocktrans count counter=item.comment_count %}{{ counter }} comment{% plural %}{{ counter }} commens{% endblocktrans %}</a>
+		{% else %}
+			<a href="{{ item.get_absolute_url }}#comments">{% trans "No comments" %}</a>
+		{% endif %}
+	</span>
+</div>
