@@ -9,7 +9,7 @@ register = template.Library()
 
 
 @register.filter
-def humandatetime(value):
+def humandatetime(value, default = ''):
 	try:
 		today = date.today()
 		if value.year != today.year:
@@ -22,7 +22,7 @@ def humandatetime(value):
 			else:
 				return value.strftime("%d.%m | %H:%M")
 	except Exception:
-		return ""
+		return default
 
 
 @register.simple_tag
