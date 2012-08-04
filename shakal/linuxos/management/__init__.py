@@ -26,18 +26,22 @@ def install_view(connection, source_table, join_tables, extra_columns, content_t
 
 def install_views(sender, **kwargs):
 	connection = connections[kwargs['db']]
-	join_tables = ['threaded_comments_rootheader', 'hitcount_hitcount']
-	extra_columns = [
-		{'comment_count': 'comment_count', 'last_comment': 'last_comment'},
-		{'display_count': 'hits'}
-	]
+	join_tables = ['threaded_comments_rootheader']
+	extra_columns = [{'comment_count': 'comment_count', 'last_comment': 'last_comment'}]
+	join_tables_hitcount = join_tables + ['hitcount_hitcount']
+	extra_columns_hitcount = extra_columns + [{'display_count': 'hits'}]
 	if connection.vendor == 'postgresql':
-		install_view(
-			connection,
+		install_view(connection,
 			'article_article',
+			join_tables_hitcount,
+			extra_columns_hitcount,
+			ContentType.objects.get(app_label = 'article', model = 'articleview').pk
+		)
+		install_view(connection,
+			'forum_topic',
 			join_tables,
 			extra_columns,
-			ContentType.objects.get(app_label = 'article', model = 'articleview').pk
+			ContentType.objects.get(app_label = 'forum', model = 'topicview').pk
 		)
 
 
