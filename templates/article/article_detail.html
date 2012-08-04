@@ -47,7 +47,6 @@
 </form>
 </div>
 {% endfor %}
-
-{% render_threaded_comments_toplevel article %}
-
 {% endblock %}
+
+{% block discussion %}{% render_threaded_comments_toplevel article %}{% endblock %}

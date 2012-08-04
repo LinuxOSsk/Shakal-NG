@@ -10,9 +10,7 @@
 
 {% block content %}
 <h1>{{ topic }}</h1>
-
 {% include "forum/topic_header.html" %}
-
-{% render_threaded_comments_toplevel topic %}
-
 {% endblock %}
+
+{% block discussion %}{% render_threaded_comments_toplevel topic %}{% endblock %}
