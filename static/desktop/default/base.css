@@ -798,6 +798,7 @@ ul.messages li.error {
 .comments_tree ul.comment_thread {
 	margin: 0 0 0 1em;
 	padding: 0;
+	clear: both;
 }
 
 .comments_tree ul.comment_thread.thread_1 {
@@ -821,7 +822,11 @@ ul.messages li.error {
 }
 
 .comments_tree .links {
-	margin-bottom: .5em;
+	height: 38px;
+}
+
+.clear {
+	clear: both;
 }
 
 .signature {
@@ -829,6 +834,8 @@ ul.messages li.error {
 	font-size: 85%;
 	font-style: italic;
 	margin-top: .5em;
+	float: left;
+	clear: left;
 }
 
 /* === Správy === */
