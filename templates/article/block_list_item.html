@@ -22,9 +22,9 @@
 			<span class="stat">Prečítané: {% firstof article.display_count '0' %}x</span> |
 			<span class="comments">
 				{% if article.comment_count %}
-					{% blocktrans count counter=article.comment_count %}{{ counter }} comment{% plural %}{{ counter }} commens{% endblocktrans %}, {% trans "last" %}: {{ article.last_comment|date:"d.m.Y H:i" }}
+					<a href="{{ article.get_absolute_url }}#comments">{% blocktrans count counter=article.comment_count %}{{ counter }} comment{% plural %}{{ counter }} commens{% endblocktrans %}</a>, {% trans "last" %}: {{ article.last_comment|date:"d.m.Y H:i" }}
 				{% else %}
-					{% trans "No comments" %}
+					<a href="{{ article.get_absolute_url }}#comments">{% trans "No comments" %}</a>
 				{% endif %}
 			</span>
 		</div>

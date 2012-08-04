@@ -1,6 +1,7 @@
 {% load threaded_comments %}{% load url from future %}
 {% get_threaded_comments_list for target as comments %}
 <div class="module">
+	<a id="comments"></a>
 	{% if comments %}
 		{% include "comments/comments_tree.html" %}
 	{% endif %}
