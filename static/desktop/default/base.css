@@ -70,6 +70,19 @@ a:hover {
 	text-decoration: underline;
 }
 
+ul {
+	margin: 0;
+	padding: 0 0 0 2em;
+}
+
+li {
+	list-style: square;
+}
+
+li > ul > li {
+	list-style: circle;
+}
+
 fieldset, .module {
 	padding: 0 5px;
 	margin: 0;
@@ -800,7 +813,7 @@ ul.messages li.error {
 	padding: .5em;
 }
 
-.comments_tree li {
+.comments_tree li.comment {
 	list-style: none;
 	padding: 0;
 	margin: 0;
