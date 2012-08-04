@@ -30,7 +30,7 @@ class Command(BaseCommand):
 		super(Command, self).__init__(*args, **kwargs)
 		self.content_types = {
 			'forum': ContentType.objects.get(app_label = 'forum', model = 'topic').pk,
-			'clanky': ContentType.objects.get(app_label = 'article', model = 'articleview').pk,
+			'clanky': ContentType.objects.get(app_label = 'article', model = 'article').pk,
 			'spravy': ContentType.objects.get(app_label = 'news', model = 'news').pk,
 			'anketa': ContentType.objects.get(app_label = 'survey', model = 'survey').pk,
 		}

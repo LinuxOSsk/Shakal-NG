@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from copy import deepcopy
 from django.contrib.contenttypes.models import ContentType
 from django.db import connections
 from django.db.models.signals import post_syncdb
@@ -9,7 +10,7 @@ from shakal.threaded_comments import models
 def install_view(connection, source_table, join_tables, extra_columns, content_type_id):
 	query = 'CREATE OR REPLACE VIEW ' + source_table + 'view AS SELECT '
 	final_columns = [source_table + '.*']
-	tables = zip(join_tables, extra_columns)
+	tables = zip(deepcopy(join_tables), deepcopy(extra_columns))
 	for table in tables:
 		columns = table[1]
 		for alias in columns:
@@ -35,13 +36,13 @@ def install_views(sender, **kwargs):
 			'article_article',
 			join_tables_hitcount,
 			extra_columns_hitcount,
-			ContentType.objects.get(app_label = 'article', model = 'articleview').pk
+			ContentType.objects.get(app_label = 'article', model = 'article').pk
 		)
 		install_view(connection,
 			'forum_topic',
 			join_tables,
 			extra_columns,
-			ContentType.objects.get(app_label = 'forum', model = 'topicview').pk
+			ContentType.objects.get(app_label = 'forum', model = 'topic').pk
 		)
 
 
