@@ -7,4 +7,4 @@ register = template.Library()
 
 @register.inclusion_tag('news/block_news_list.html')
 def news_frontpage():
-	return {'news': News.objects.filter(approved = True).order_by('-pk')[:10] }
+	return {'news': News.news.filter(approved = True).order_by('-pk')[:10] }

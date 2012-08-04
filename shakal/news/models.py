@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from django.db import models
+from django.db import connection, models
 from django.db.models import permalink
+from django.db.models.query import QuerySet
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime
+from generic_aggregation import generic_annotate
 
 
 class NewsManager(models.Manager):
@@ -12,8 +14,22 @@ class NewsManager(models.Manager):
 		return super(NewsManager, self).get_query_set().select_related('author')
 
 
-class News(models.Model):
+class NewsListManager(models.Manager):
+	def get_query_set(self):
+		if connection.vendor == 'postgresql':
+			queryset = QuerySet(NewsView, using = self._db)
+			queryset = queryset.extra(select = {'last_comment': 'last_comment', 'comment_count': 'comment_count'})
+		else:
+			queryset = QuerySet(News, using = self._db)
+			queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__last_comment'), alias = 'last_comment')
+			queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__comment_count'), alias = 'comment_count')
+		queryset = queryset.select_related('author')
+		return queryset
+
+
+class NewsAbstract(models.Model):
 	objects = NewsManager()
+	news = NewsListManager()
 
 	subject = models.CharField(max_length = 255, verbose_name = _('subject'))
 	slug = models.SlugField(unique = True)
@@ -25,8 +41,7 @@ class News(models.Model):
 	approved = models.BooleanField(default = False, verbose_name = _('approved'))
 
 	class Meta:
-		verbose_name = _('news item')
-		verbose_name_plural = _('news items')
+		abstract = True
 
 	@permalink
 	def get_absolute_url(self):
@@ -34,3 +49,14 @@ class News(models.Model):
 
 	def __unicode__(self):
 		return self.subject
+
+
+class News(NewsAbstract):
+	class Meta:
+		verbose_name = _('news item')
+		verbose_name_plural = _('news items')
+
+
+class NewsView(NewsAbstract):
+	class Meta:
+		managed = False
