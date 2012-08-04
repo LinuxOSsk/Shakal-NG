@@ -12,7 +12,7 @@
 		<td class="title"><a href="{{ topic.get_absolute_url }}">{{ topic }}</a></td>
 		<td></td>
 		<td>{{ topic.comment_count }}</td>
-		<td>{{ topic.last_comment|humandatetime }}</td>
+		<td>{{ topic.last_comment|humandatetime:"Žiadna reakcia" }}</td>
 	</tr>
 	{% endfor %}
 </table>
