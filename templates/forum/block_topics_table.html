@@ -1,3 +1,4 @@
+{% load linuxos %}
 <table>
 	<caption>{{ caption }}</caption>
 	<tr>
@@ -10,8 +11,8 @@
 	<tr>
 		<td class="title"><a href="{{ topic.get_absolute_url }}">{{ topic }}</a></td>
 		<td></td>
-		<td></td>
-		<td></td>
+		<td>{{ topic.comment_count }}</td>
+		<td>{{ topic.last_comment|humandatetime }}</td>
 	</tr>
 	{% endfor %}
 </table>
