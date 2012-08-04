@@ -18,8 +18,8 @@ def home(request):
 		'top_article': top_article,
 		'articles': articles[:5],
 		'article_categories': ArticleCategory.objects.all(),
-		'forum_new': ForumTopic.objects.order_by('-pk').all()[:20],
-		'forum_no_comments': ForumTopic.objects.order_by('-pk').all()[:5],
-		'forum_most_comments': ForumTopic.objects.order_by('-pk').all()[:5],
+		'forum_new': ForumTopic.topics.order_by('-pk').all()[:20],
+		'forum_no_comments': ForumTopic.topics.order_by('-pk').all()[:5],
+		'forum_most_comments': ForumTopic.topics.order_by('-pk').all()[:5],
 	}
 	return TemplateResponse(request, "home.html", RequestContext(request, context))
