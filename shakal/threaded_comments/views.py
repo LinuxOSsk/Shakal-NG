@@ -25,9 +25,9 @@ def reply_comment(request, parent):
 
 	model_meta = content_object.__class__._meta
 	template_list = [
-		"comments/{0}_{1}_new_form.html".format(*tuple(str(model_meta).split('.'))),
-		"comments/{0}_new_form.html".format(model_meta.app_label),
-		"comments/new_form.html",
+		"comments/{0}_{1}_preview.html".format(*tuple(str(model_meta).split('.'))),
+		"comments/{0}_preview.html".format(model_meta.app_label),
+		"comments/preview.html",
 	]
 	next = request.GET.get('next', content_object.get_absolute_url())
 	return TemplateResponse(request, template_list, {'form': form, 'next': next, 'parent': parent_comment if parent_comment.parent_id else False })
