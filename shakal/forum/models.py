@@ -53,6 +53,9 @@ class TopicListManager(models.Manager):
 		queryset = queryset.select_related('user', 'section')
 		return queryset
 
+	def newest_comments(self):
+		return self.get_query_set().order_by('-last_comment', '-pk')
+
 
 class TopicAbstract(models.Model):
 	objects = TopicManager()
