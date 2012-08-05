@@ -7,6 +7,7 @@ from django.db import connection, models
 from django.db.models import permalink
 from django.db.models.query import QuerySet
 from django.utils.translation import ugettext_lazy as _
+from datetime import datetime
 from generic_aggregation import generic_annotate
 from shakal.threaded_comments.models import RootHeader
 
@@ -64,7 +65,7 @@ class TopicAbstract(models.Model):
 	section = models.ForeignKey(Section, verbose_name = _('section'))
 	subject = models.CharField(max_length = 100, verbose_name = _('subject'))
 	text = models.TextField(verbose_name = _('text'))
-	time = models.DateTimeField(auto_now_add = True, verbose_name = _('time'))
+	time = models.DateTimeField(default = datetime.now, verbose_name = _('time'))
 	username = models.CharField(max_length = 50, blank = False, verbose_name = _('user name'))
 	user = models.ForeignKey(User, blank = True, null = True, verbose_name = _('user'))
 	comments_header = generic.GenericRelation(RootHeader)
