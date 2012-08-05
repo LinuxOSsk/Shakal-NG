@@ -31,6 +31,10 @@ class SurveyAbstract(models.Model):
 	def get_absolute_url(self):
 		return ('survey:detail-by-slug', None, {'slug': self.slug})
 
+	@permalink
+	def get_list_url(self):
+		return ('survey:list', None, None)
+
 	def msg_id(self):
 		return 'survey-' + str(self.pk)
 

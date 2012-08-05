@@ -81,6 +81,10 @@ class TopicAbstract(models.Model):
 	def get_absolute_url(self):
 		return ('forum:topic-detail', None, {'pk': self.pk})
 
+	@permalink
+	def get_list_url(self):
+		return ('forum:overview', None, None)
+
 	def __unicode__(self):
 		return self.subject
 

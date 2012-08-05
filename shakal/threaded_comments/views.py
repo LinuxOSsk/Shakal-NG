@@ -18,6 +18,13 @@ def get_module_name(content_object):
 		return capfirst(content_object.__class__._meta.verbose_name_plural)
 
 
+def get_module_url(content_object):
+	if hasattr(content_object, 'get_list_url'):
+		return content_object.get_list_url()
+	else:
+		return False
+
+
 def reply_comment(request, parent):
 	parent_comment = ThreadedComment.objects.get(pk = parent)
 	content_object = parent_comment.content_object
@@ -43,7 +50,8 @@ def reply_comment(request, parent):
 		'next': next,
 		'parent': parent_comment if parent_comment.parent_id else False,
 		'content_object': content_object,
-		'module_name': get_module_name(content_object)
+		'module_name': get_module_name(content_object),
+		'module_url': get_module_url(content_object),
 	}
 	return TemplateResponse(request, template_list, context)
 
@@ -89,7 +97,8 @@ def post_comment(request):
 			'valid': valid,
 			'parent': parent if parent.parent_id else False,
 			'content_object': content_object,
-			'module_name': get_module_name(content_object)
+			'module_name': get_module_name(content_object),
+			'module_url': get_module_url(content_object),
 		}
 		return TemplateResponse(request, template_list, context)
 

@@ -92,6 +92,10 @@ class ArticleAbstract(models.Model):
 	def get_absolute_url(self):
 		return ('article:detail-by-slug', None, {'slug': self.slug})
 
+	@permalink
+	def get_list_url(self):
+		return ('article:article-list', None, None)
+
 	def __unicode__(self):
 		return self.title
 

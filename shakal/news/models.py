@@ -50,6 +50,10 @@ class NewsAbstract(models.Model):
 	def get_absolute_url(self):
 		return ('news:detail-by-slug', None, {'slug': self.slug})
 
+	@permalink
+	def get_list_url(self):
+		return ('news:list', None, None)
+
 	def __unicode__(self):
 		return self.subject
 
