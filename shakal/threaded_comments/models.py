@@ -119,6 +119,10 @@ def update_comments_header(sender, **kwargs):
 	header, created = RootHeader.objects.get_or_create(content_type = root.content_type, object_id = root.object_pk)
 	header.is_locked = root.is_locked
 	header.last_comment = statistics['submit_date__max']
+	if header.last_comment is None:
+		content_object = root.content_object
+		if hasattr(content_object, 'time'):
+			header.last_comment = content_object.time
 	header.comment_count = statistics['pk__count']
 	header.save()
 
