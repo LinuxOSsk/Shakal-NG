@@ -65,6 +65,7 @@ class TopicAbstract(models.Model):
 	username = models.CharField(max_length = 50, blank = False, verbose_name = _('user name'))
 	user = models.ForeignKey(User, blank = True, null = True, verbose_name = _('user'))
 	comments_header = generic.GenericRelation(RootHeader)
+	breadcrumb_label = _('forum')
 
 	def get_username(self):
 		if self.user:

@@ -11,6 +11,13 @@ from shakal.threaded_comments.models import ThreadedComment
 from shakal.threaded_comments import get_form
 
 
+def get_module_name(content_object):
+	if hasattr(content_object, 'breadcrumb_label'):
+		return capfirst(content_object.breadcrumb_label)
+	else:
+		return capfirst(content_object.__class__._meta.verbose_name_plural)
+
+
 def reply_comment(request, parent):
 	parent_comment = ThreadedComment.objects.get(pk = parent)
 	content_object = parent_comment.content_object
@@ -36,7 +43,7 @@ def reply_comment(request, parent):
 		'next': next,
 		'parent': parent_comment if parent_comment.parent_id else False,
 		'content_object': content_object,
-		'module_name': capfirst(model_meta.verbose_name_plural)
+		'module_name': get_module_name(content_object)
 	}
 	return TemplateResponse(request, template_list, context)
 
@@ -60,7 +67,6 @@ def post_comment(request):
 	target = model._default_manager.get(pk = data['object_pk'])
 	parent = ThreadedComment.objects.get(pk = data['parent_pk'])
 	content_object = parent.content_object
-	model_meta = content_object.__class__._meta
 
 	form = get_form()(target, logged = request.user.is_authenticated(), parent_comment = parent, data = data)
 	if form.security_errors():
@@ -83,7 +89,7 @@ def post_comment(request):
 			'valid': valid,
 			'parent': parent if parent.parent_id else False,
 			'content_object': content_object,
-			'module_name': capfirst(model_meta.verbose_name_plural)
+			'module_name': get_module_name(content_object)
 		}
 		return TemplateResponse(request, template_list, context)
 
