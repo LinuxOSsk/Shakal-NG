@@ -1,4 +1,4 @@
-{% extends "survey/survey_base.html" %}{% load breadcrumbs_tags %}
+{% extends "survey/survey_base.html" %}{% load breadcrumbs_tags threaded_comments %}
 
 {% block breadcrumbs %}
 {% breadcrumb %}{{ survey }}{% endbreadcrumb %}
@@ -15,3 +15,5 @@
 </div>
 
 {% endblock %}
+
+{% block discussion %}{% render_threaded_comments_toplevel survey %}{% endblock %}

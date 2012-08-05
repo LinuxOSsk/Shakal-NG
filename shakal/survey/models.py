@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
 
-from django.db import models
-from django.db.models import permalink
 from django.contrib.auth.models import User
-from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
+from django.db import connection, models
+from django.db.models import permalink
+from django.db.models.query import QuerySet
 from django.utils.translation import ugettext_lazy as _
+from generic_aggregation import generic_annotate
+from shakal.threaded_comments.models import RootHeader
 
-class Survey(models.Model):
+class SurveyAbstract(models.Model):
 	question = models.TextField(verbose_name = _("question"))
 	slug = models.SlugField(unique = True)
 	checkbox = models.BooleanField(default = False, verbose_name = _("more answers"))
@@ -22,9 +25,7 @@ class Survey(models.Model):
 
 	@property
 	def answers(self):
-		if not hasattr(self, '_answer_set_cache'):
-			setattr(self, '_answer_set_cache', self.answer_set.select_related('survey__answer_count').order_by('pk')[:])
-		return self._answer_set_cache
+		return Answer.objects.filter(survey = self.pk).select_related('survey__answer_count').order_by('pk')
 
 	@permalink
 	def get_absolute_url(self):
@@ -45,8 +46,33 @@ class Survey(models.Model):
 		return self.question
 
 	class Meta:
+		abstract = True
+
+
+class SurveyListManager(models.Manager):
+	def get_query_set(self):
+		if connection.vendor == 'postgresql':
+			queryset = QuerySet(SurveyView, using = self._db)
+			queryset = queryset.extra(select = {'last_comment': 'last_comment', 'comment_count': 'comment_count'})
+		else:
+			queryset = QuerySet(Survey, using = self._db)
+			queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__last_comment'), alias = 'last_comment')
+			queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__comment_count'), alias = 'comment_count')
+		return queryset
+
+
+class Survey(SurveyAbstract):
+	objects = models.Manager()
+	surveys = SurveyListManager()
+
+	class Meta:
 		verbose_name = _('survey')
 		verbose_name_plural = _('surveys')
+
+
+class SurveyView(SurveyAbstract):
+	class Meta:
+		managed = False
 
 
 class Answer(models.Model):

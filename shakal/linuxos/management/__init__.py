@@ -50,6 +50,12 @@ def install_views(sender, **kwargs):
 			extra_columns,
 			ContentType.objects.get(app_label = 'news', model = 'news').pk
 		)
+		install_view(connection,
+			'survey_survey',
+			join_tables,
+			extra_columns,
+			ContentType.objects.get(app_label = 'survey', model = 'survey').pk
+		)
 
 
 post_syncdb.connect(install_views, sender = models)
