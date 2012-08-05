@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from django.contrib.contenttypes import generic
 from django.db import connection, models
 from django.db.models import permalink
 from django.db.models.query import QuerySet
@@ -7,6 +8,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime
 from generic_aggregation import generic_annotate
+from shakal.threaded_comments.models import RootHeader
 
 
 class NewsManager(models.Manager):
@@ -39,6 +41,7 @@ class NewsAbstract(models.Model):
 	author = models.ForeignKey(User, on_delete = models.SET_NULL, blank = True, null = True, verbose_name = _('user'))
 	authors_name = models.CharField(max_length = 255, verbose_name = _('authors name'))
 	approved = models.BooleanField(default = False, verbose_name = _('approved'))
+	comments_header = generic.GenericRelation(RootHeader)
 
 	class Meta:
 		abstract = True
