@@ -18,9 +18,11 @@ class BreadcrumbNode(template.Node):
 		reverse_args = process_template_args(self.optional, context)
 		reverse_kwargs = process_template_kwargs(self.optional, context)
 
-		url = params.get('url', False)
-		if url:
-			url = reverse(url, args = reverse_args, kwargs = reverse_kwargs)
+		url = params.get('absolute_url', False)
+		if not url:
+			url = params.get('url', False)
+			if url:
+				url = reverse(url, args = reverse_args, kwargs = reverse_kwargs)
 		class_name = params.get('class', False)
 
 		breadcrumb_context = {
