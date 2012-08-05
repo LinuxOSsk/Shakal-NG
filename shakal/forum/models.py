@@ -7,7 +7,7 @@ from django.db import connection, models
 from django.db.models import permalink
 from django.db.models.query import QuerySet
 from django.utils.translation import ugettext_lazy as _
-from datetime import datetime
+from datetime import datetime, timedelta
 from generic_aggregation import generic_annotate
 from shakal.threaded_comments.models import RootHeader
 
@@ -56,6 +56,9 @@ class TopicListManager(models.Manager):
 
 	def newest_comments(self):
 		return self.get_query_set().order_by('-last_comment')
+
+	def no_comments(self):
+		return self.get_query_set().extra(where = ['comment_count = %s', 'last_comment > %s'], params = [0, datetime.now() - timedelta(60)])
 
 
 class TopicAbstract(models.Model):
