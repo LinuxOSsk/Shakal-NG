@@ -7,7 +7,7 @@ from django.db.models.signals import post_syncdb
 from shakal.threaded_comments import models
 
 
-def install_view(connection, source_table, join_tables, extra_columns, content_type_id):
+def install_view(connection, source_table, join_tables, extra_columns, content_type_id, reverse = False):
 	query = 'CREATE OR REPLACE VIEW ' + source_table + 'view AS SELECT '
 	final_columns = [source_table + '.*']
 	tables = zip(deepcopy(join_tables), deepcopy(extra_columns))
@@ -17,9 +17,16 @@ def install_view(connection, source_table, join_tables, extra_columns, content_t
 			columns[alias] = table[0] + '.' + columns[alias]
 		final_columns += map(lambda t: t[1] + ' AS ' + t[0], columns.items())
 	query += ', '.join(final_columns)
-	query += ' FROM ' + source_table
+	if reverse:
+		query += ' FROM ' + join_tables[0]
+	else:
+		query += ' FROM ' + source_table
 	for table in join_tables:
-		query += ' LEFT OUTER JOIN ' + table + ' ON ('
+		if reverse:
+			query += ' INNER JOIN ' + source_table + ' ON ('
+			reverse = False
+		else:
+			query += ' LEFT OUTER JOIN ' + table + ' ON ('
 		query += source_table + '.id = ' + table + '.object_id AND '
 		query += table + '.content_type_id = ' + str(content_type_id) + ')'
 	connection.cursor().execute(query)
@@ -42,7 +49,8 @@ def install_views(sender, **kwargs):
 			'forum_topic',
 			join_tables,
 			extra_columns,
-			ContentType.objects.get(app_label = 'forum', model = 'topic').pk
+			ContentType.objects.get(app_label = 'forum', model = 'topic').pk,
+			reverse = True
 		)
 		install_view(connection,
 			'news_news',
