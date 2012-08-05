@@ -484,6 +484,7 @@ class Command(BaseCommand):
 					FROM forum_topic\
 					LEFT OUTER JOIN threaded_comments_rootheader ON (threaded_comments_rootheader.content_type_id = '+str(self.content_types['forum'])+' AND threaded_comments_rootheader.object_id = forum_topic.id)\
 					WHERE object_id IS NULL;')
+		connections['default'].cursor().execute('UPDATE threaded_comments_rootheader SET last_comment = (SELECT time FROM forum_topic WHERE id = object_id) WHERE last_comment IS NULL AND content_type_id = '+str(self.content_types['forum'])+';')
 		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', (SELECT MAX(id) FROM threaded_comments_rootheader));')
 
 	def decode_username_for_comment(self, comment_row):
