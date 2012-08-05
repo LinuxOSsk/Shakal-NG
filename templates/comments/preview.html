@@ -1,4 +1,12 @@
-{% extends "comments/comments_base.html" %}
+{% extends "base.html" %}{% load breadcrumbs_tags %}
+
+{% block breadcrumbs %}
+{% breadcrumb %}Diskusia{% endbreadcrumb %}
+{% breadcrumb %}{{ content_object }}{% endbreadcrumb %}
+{% breadcrumb %}{{ module_name }}{% endbreadcrumb %}
+{{ block.super }}
+{% endblock %}
+
 {% block content %}
 <h1>Pridať komentár</h1>
 

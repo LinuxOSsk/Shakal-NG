@@ -3,6 +3,7 @@
 from django import http
 from django.contrib.comments.views.utils import next_redirect
 from django.db import models
+from django.template.defaultfilters import capfirst
 from django.template.response import TemplateResponse
 from django.views.decorators.http import require_POST
 from django.utils.encoding import force_unicode
@@ -30,7 +31,14 @@ def reply_comment(request, parent):
 		"comments/preview.html",
 	]
 	next = request.GET.get('next', content_object.get_absolute_url())
-	return TemplateResponse(request, template_list, {'form': form, 'next': next, 'parent': parent_comment if parent_comment.parent_id else False })
+	context = {
+		'form': form,
+		'next': next,
+		'parent': parent_comment if parent_comment.parent_id else False,
+		'content_object': content_object,
+		'module_name': capfirst(model_meta.verbose_name_plural)
+	}
+	return TemplateResponse(request, template_list, context)
 
 
 @require_POST
@@ -51,6 +59,8 @@ def post_comment(request):
 	model = models.get_model(*data['content_type'].split(".", 1))
 	target = model._default_manager.get(pk = data['object_pk'])
 	parent = ThreadedComment.objects.get(pk = data['parent_pk'])
+	content_object = parent.content_object
+	model_meta = content_object.__class__._meta
 
 	form = get_form()(target, logged = request.user.is_authenticated(), parent_comment = parent, data = data)
 	if form.security_errors():
@@ -66,7 +76,16 @@ def post_comment(request):
 		comment = form.get_comment_dict()
 		if request.user.is_authenticated():
 			comment['user'] = request.user
-		return TemplateResponse(request, template_list, {'form': form, 'next': data['next'], 'comment': comment, 'valid': valid, 'parent': parent if parent.parent_id else False })
+		context = {
+			'form': form,
+			'next': data['next'],
+			'comment': comment,
+			'valid': valid,
+			'parent': parent if parent.parent_id else False,
+			'content_object': content_object,
+			'module_name': capfirst(model_meta.verbose_name_plural)
+		}
+		return TemplateResponse(request, template_list, context)
 
 	comment = form.get_comment_object()
 	comment.ip_address = request.META.get("REMOTE_ADDR", None)
