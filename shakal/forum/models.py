@@ -60,6 +60,9 @@ class TopicListManager(models.Manager):
 	def no_comments(self):
 		return self.get_query_set().extra(where = ['comment_count = %s', 'last_comment > %s'], params = [0, datetime.now() - timedelta(60)])
 
+	def most_commented(self):
+		return self.get_query_set().extra(where = ['last_comment > %s'], params = [datetime.now() - timedelta(30)], order_by = ['-comment_count'])
+
 
 class TopicAbstract(models.Model):
 	objects = TopicManager()
