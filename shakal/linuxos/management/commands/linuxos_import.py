@@ -480,9 +480,9 @@ class Command(BaseCommand):
 		root_header_objects = []
 		connections['default'].cursor().execute('\
 			INSERT INTO threaded_comments_rootheader (last_comment, comment_count, is_locked, is_resolved, content_type_id, object_id)\
-				SELECT DISTINCT forum_topic.time, 0, FALSE, FALSE, '+self.content_types['forum']+', forum_topic.id\
+				SELECT DISTINCT forum_topic.time, 0, FALSE, FALSE, '+str(self.content_types['forum'])+', forum_topic.id\
 					FROM forum_topic\
-					LEFT OUTER JOIN threaded_comments_rootheader ON (threaded_comments_rootheader.content_type_id = '+self.content_types['forum']+' AND threaded_comments_rootheader.object_id = forum_topic.id)\
+					LEFT OUTER JOIN threaded_comments_rootheader ON (threaded_comments_rootheader.content_type_id = '+str(self.content_types['forum'])+' AND threaded_comments_rootheader.object_id = forum_topic.id)\
 					WHERE object_id IS NULL;')
 		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', (SELECT MAX(id) FROM threaded_comments_rootheader));')
 
