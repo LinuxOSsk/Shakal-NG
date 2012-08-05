@@ -55,7 +55,7 @@ class TopicListManager(models.Manager):
 		return queryset
 
 	def newest_comments(self):
-		return self.get_query_set().order_by('-last_comment', '-pk')
+		return self.get_query_set().order_by('-last_comment')
 
 
 class TopicAbstract(models.Model):
