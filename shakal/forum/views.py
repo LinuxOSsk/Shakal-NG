@@ -9,7 +9,7 @@ from models import Section, Topic
 from shakal.utils.generic import AddLoggedFormArgumentMixin, PreviewCreateView
 
 def overview(request, section = None, page = 1):
-	topics = Topic.topics.newest_comments()
+	topics = Topic.topics.newest_topics()
 	if section is not None:
 		section = get_object_or_404(Section, slug = section)
 		topics = topics.filter(section = section)
