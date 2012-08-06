@@ -1,4 +1,4 @@
-{% load linuxos %}
+{% load linuxos %}{% load url from future %}
 <table>
 	<caption>{{ caption }}</caption>
 	<tr>
@@ -9,7 +9,7 @@
 	</tr>
 	{% for topic in forum %}
 	<tr>
-		<td class="title"><a href="{{ topic.get_absolute_url }}">{{ topic }}</a></td>
+		<td class="title"><a href="{% url 'forum:topic-detail' topic.id %}">{{ topic.subject }}</a></td>
 		<td></td>
 		<td>{{ topic.comment_count }}</td>
 		<td>{{ topic.last_comment|humandatetime:"Žiadna reakcia" }}</td>

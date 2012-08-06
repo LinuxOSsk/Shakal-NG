@@ -15,7 +15,7 @@ def overview(request, section = None, page = 1):
 		topics = topics.filter(section = section)
 
 	context = {
-		'forum': topics.order_by('-pk').all(),
+		'forum': topics.order_by('-pk').values(),
 		'section': section,
 		'pagenum': page,
 		'sections': Section.objects.all()
