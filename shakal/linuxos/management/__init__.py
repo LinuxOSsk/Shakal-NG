@@ -8,7 +8,7 @@ from shakal.threaded_comments import models
 
 
 def install_view(connection, source_table, join_tables, extra_columns, content_type_id, reverse = False):
-	query = 'CREATE OR REPLACE VIEW ' + source_table + 'view AS SELECT '
+	query = 'CREATE OR REPLACE VIEW ' + source_table + ('reverse' if reverse else '') + 'view AS SELECT '
 	final_columns = [source_table + '.*']
 	tables = zip(deepcopy(join_tables), deepcopy(extra_columns))
 	for table in tables:
@@ -51,6 +51,12 @@ def install_views(sender, **kwargs):
 			extra_columns,
 			ContentType.objects.get(app_label = 'forum', model = 'topic').pk,
 			reverse = True
+		)
+		install_view(connection,
+			'forum_topic',
+			join_tables,
+			extra_columns,
+			ContentType.objects.get(app_label = 'forum', model = 'topic').pk,
 		)
 		install_view(connection,
 			'news_news',

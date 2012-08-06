@@ -9,13 +9,13 @@ from models import Section, Topic
 from shakal.utils.generic import AddLoggedFormArgumentMixin, PreviewCreateView
 
 def overview(request, section = None, page = 1):
-	topics = Topic.topics
+	topics = Topic.topics.newest_comments()
 	if section is not None:
 		section = get_object_or_404(Section, slug = section)
 		topics = topics.filter(section = section)
 
 	context = {
-		'forum': topics.order_by('-pk').values(),
+		'forum': topics.all(),
 		'section': section,
 		'pagenum': page,
 		'sections': Section.objects.all()

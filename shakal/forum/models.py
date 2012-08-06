@@ -45,13 +45,12 @@ class TopicManager(models.Manager):
 class TopicListManager(models.Manager):
 	def get_query_set(self):
 		if connection.vendor == 'postgresql':
-			queryset = QuerySet(TopicView, using = self._db)
+			queryset = QuerySet(TopicReverseView, using = self._db)
 			queryset = queryset.extra(select = {'last_comment': 'last_comment', 'comment_count': 'comment_count'})
 		else:
 			queryset = QuerySet(Topic, using = self._db)
 			queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__last_comment'), alias = 'last_comment')
 			queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__comment_count'), alias = 'comment_count')
-		queryset = queryset.select_related('user', 'section')
 		return queryset
 
 	def newest_comments(self):
@@ -109,5 +108,10 @@ class Topic(TopicAbstract):
 
 
 class TopicView(TopicAbstract):
+	class Meta:
+		managed = False
+
+
+class TopicReverseView(TopicAbstract):
 	class Meta:
 		managed = False
