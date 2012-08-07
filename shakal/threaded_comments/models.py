@@ -7,6 +7,7 @@ from django.db import models
 from django.db.models import Count, Max
 from django.db.models.signals import post_save
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.contrib.comments.models import Comment
 from django.contrib.comments.managers import CommentManager
 from django.contrib.contenttypes.models import ContentType
@@ -127,3 +128,14 @@ def update_comments_header(sender, **kwargs):
 	header.save()
 
 post_save.connect(update_comments_header, sender = ThreadedComment)
+
+
+class ViewTime(models.Model):
+	user = models.ForeignKey(User)
+	content_type = models.ForeignKey(ContentType)
+	object_id = models.PositiveIntegerField()
+	content_object = generic.GenericForeignKey('content_type', 'object_id')
+	time = models.DateTimeField()
+
+	class Meta:
+		unique_together = (('user', 'content_type', 'object_id'),)
