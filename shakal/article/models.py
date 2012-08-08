@@ -5,7 +5,6 @@ from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.db import connection, models
-from django.db.models.query import QuerySet
 from django.db.models.signals import post_save
 from django.db.models import permalink
 from django.utils.translation import ugettext_lazy as _
@@ -14,7 +13,7 @@ from datetime import datetime
 from generic_aggregation import generic_annotate
 from hitcount.models import HitCount
 from shakal.survey.models import Survey
-from shakal.threaded_comments.models import RootHeader
+from shakal.threaded_comments.models import CommentCountManager, RootHeader
 
 class Category(models.Model):
 	name = models.CharField(max_length = 255, verbose_name = _('name'))
@@ -33,15 +32,9 @@ class Category(models.Model):
 		verbose_name_plural = _('categories')
 
 
-class ArticleListManager(models.Manager):
+class ArticleListManager(CommentCountManager):
 	def get_query_set(self):
-		if connection.vendor == 'postgresql':
-			queryset = QuerySet(ArticleView, using = self._db)
-			queryset = queryset.extra(select = {'last_comment': 'last_comment', 'comment_count': 'comment_count'})
-		else:
-			queryset = QuerySet(Article, using = self._db)
-			queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__last_comment'), alias = 'last_comment')
-			queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__comment_count'), alias = 'comment_count')
+		queryset = super(ArticleListManager, self).get_query_set(ArticleView, Article)
 
 		if connection.vendor == 'postgresql':
 			queryset = queryset.extra(select = {'display_count': 'display_count'})

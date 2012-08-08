@@ -3,8 +3,9 @@
 import datetime
 import mptt
 
-from django.db import models
+from django.db import connection, models
 from django.db.models import Count, Max
+from django.db.models.query import QuerySet
 from django.db.models.signals import post_save
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -12,6 +13,7 @@ from django.contrib.comments.models import Comment
 from django.contrib.comments.managers import CommentManager
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
+from generic_aggregation import generic_annotate
 
 
 class HideRootQuerySet(models.query.QuerySet):
@@ -139,3 +141,15 @@ class ViewTime(models.Model):
 
 	class Meta:
 		unique_together = (('user', 'content_type', 'object_id'),)
+
+
+class CommentCountManager(models.Manager):
+	def get_query_set(self, view, original_table):
+		if connection.vendor == 'postgresql':
+			queryset = QuerySet(view, using = self._db)
+			queryset = queryset.extra(select = {'last_comment': 'last_comment', 'comment_count': 'comment_count'})
+		else:
+			queryset = QuerySet(original_table, using = self._db)
+			queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__last_comment'), alias = 'last_comment')
+			queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__comment_count'), alias = 'comment_count')
+		return queryset

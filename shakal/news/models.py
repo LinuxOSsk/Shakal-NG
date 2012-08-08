@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib.contenttypes import generic
-from django.db import connection, models
+from django.db import models
 from django.db.models import permalink
-from django.db.models.query import QuerySet
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime
-from generic_aggregation import generic_annotate
-from shakal.threaded_comments.models import RootHeader
+from shakal.threaded_comments.models import CommentCountManager, RootHeader
 
 
 class NewsManager(models.Manager):
@@ -16,17 +14,9 @@ class NewsManager(models.Manager):
 		return super(NewsManager, self).get_query_set().select_related('author')
 
 
-class NewsListManager(models.Manager):
+class NewsListManager(CommentCountManager):
 	def get_query_set(self):
-		if connection.vendor == 'postgresql':
-			queryset = QuerySet(NewsView, using = self._db)
-			queryset = queryset.extra(select = {'last_comment': 'last_comment', 'comment_count': 'comment_count'})
-		else:
-			queryset = QuerySet(News, using = self._db)
-			queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__last_comment'), alias = 'last_comment')
-			queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__comment_count'), alias = 'comment_count')
-		queryset = queryset.select_related('author')
-		return queryset
+		return super(NewsListManager, self).get_query_set(NewsView, News)
 
 
 class NewsAbstract(models.Model):
