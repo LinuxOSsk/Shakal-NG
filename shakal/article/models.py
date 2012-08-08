@@ -37,12 +37,16 @@ class ArticleListManager(models.Manager):
 	def get_query_set(self):
 		if connection.vendor == 'postgresql':
 			queryset = QuerySet(ArticleView, using = self._db)
-			queryset = queryset.extra(select = {'last_comment': 'last_comment', 'comment_count': 'comment_count', 'display_count': 'display_count'})
+			queryset = queryset.extra(select = {'last_comment': 'last_comment', 'comment_count': 'comment_count'})
 		else:
 			queryset = QuerySet(Article, using = self._db)
-			queryset = generic_annotate(queryset, HitCount, models.Max('hitcount__hits'), alias = 'display_count')
 			queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__last_comment'), alias = 'last_comment')
 			queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__comment_count'), alias = 'comment_count')
+
+		if connection.vendor == 'postgresql':
+			queryset = queryset.extra(select = {'display_count': 'display_count'})
+		else:
+			queryset = generic_annotate(queryset, HitCount, models.Max('hitcount__hits'), alias = 'display_count')
 		queryset = queryset.select_related('author', 'category')
 		queryset = queryset.filter(time__lte = datetime.now(), published = True)
 		queryset = queryset.order_by('-pk')
