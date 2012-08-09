@@ -16,7 +16,7 @@ class NewsManager(models.Manager):
 
 class NewsListManager(CommentCountManager):
 	def get_query_set(self):
-		return super(NewsListManager, self).get_query_set(NewsView, News)
+		return super(NewsListManager, self).get_query_set(NewsView)
 
 
 class NewsAbstract(models.Model):

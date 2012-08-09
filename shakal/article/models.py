@@ -34,7 +34,7 @@ class Category(models.Model):
 
 class ArticleListManager(CommentCountManager):
 	def get_query_set(self):
-		queryset = super(ArticleListManager, self).get_query_set(ArticleView, Article)
+		queryset = super(ArticleListManager, self).get_query_set(ArticleView)
 
 		if connection.vendor == 'postgresql':
 			queryset = queryset.extra(select = {'display_count': 'display_count'})

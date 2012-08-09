@@ -53,7 +53,7 @@ class SurveyAbstract(models.Model):
 
 class SurveyListManager(CommentCountManager):
 	def get_query_set(self):
-		return super(SurveyListManager, self).get_query_set(SurveyView, Survey)
+		return super(SurveyListManager, self).get_query_set(SurveyView)
 
 
 class Survey(SurveyAbstract):

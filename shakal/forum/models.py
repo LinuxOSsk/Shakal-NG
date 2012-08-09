@@ -42,7 +42,7 @@ class TopicManager(models.Manager):
 
 class TopicListManager(CommentCountManager):
 	def get_query_set(self, view = None):
-		return super(TopicListManager, self).get_query_set(view if view else TopicReverseView, Topic)
+		return super(TopicListManager, self).get_query_set(view if view else TopicReverseView)
 
 	def newest_topics(self):
 		return self.get_query_set(TopicView).order_by('-pk')

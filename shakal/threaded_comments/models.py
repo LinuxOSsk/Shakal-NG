@@ -147,12 +147,12 @@ class NewCommentQuerySet(QuerySet):
 
 
 class CommentCountManager(models.Manager):
-	def get_query_set(self, view, original_table):
+	def get_query_set(self, view):
 		if connection.vendor == 'postgresql':
 			queryset = NewCommentQuerySet(view, using = self._db)
 			queryset = queryset.extra(select = {'last_comment': 'last_comment', 'comment_count': 'comment_count'})
 		else:
-			queryset = NewCommentQuerySet(original_table, using = self._db)
+			queryset = NewCommentQuerySet(self.model, using = self._db)
 			queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__last_comment'), alias = 'last_comment')
 			queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__comment_count'), alias = 'comment_count')
 		return queryset
