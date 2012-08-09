@@ -132,10 +132,11 @@ def update_comments_header(sender, **kwargs):
 post_save.connect(update_comments_header, sender = ThreadedComment)
 
 
-class ViewTime(models.Model):
+class UserDiscussionAttribute(models.Model):
 	user = models.ForeignKey(User)
 	discussion = models.ForeignKey(RootHeader)
-	time = models.DateTimeField()
+	time = models.DateTimeField(null = True, blank = True)
+	watch = models.BooleanField(default = False)
 
 	class Meta:
 		unique_together = (('user', 'discussion'),)
