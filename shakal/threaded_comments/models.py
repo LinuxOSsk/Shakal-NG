@@ -134,13 +134,11 @@ post_save.connect(update_comments_header, sender = ThreadedComment)
 
 class ViewTime(models.Model):
 	user = models.ForeignKey(User)
-	content_type = models.ForeignKey(ContentType)
-	object_id = models.PositiveIntegerField()
-	content_object = generic.GenericForeignKey('content_type', 'object_id')
+	discussion = models.ForeignKey(RootHeader)
 	time = models.DateTimeField()
 
 	class Meta:
-		unique_together = (('user', 'content_type', 'object_id'),)
+		unique_together = (('user', 'discussion'),)
 
 
 class NewCommentQuerySet(QuerySet):
