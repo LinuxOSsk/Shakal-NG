@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from django.db.models.query import RawQuerySet
 from django.db.models import sql
 
 class RawLimitQuerySet(object):
 
-	def __init__(self, raw_query, count_query, model = None, params = [], translations = None, using = None):
+	def __init__(self, raw_query, count_query, model_definition = None, params = [], translations = None, using = None):
 		self.raw_query = raw_query
 		self.count_query = count_query
-		self.model = model
+		self.model = model_definition
 		self.params = params
 		self.translations = translations
 		self.db = using
@@ -45,5 +44,27 @@ class RawLimitQuerySet(object):
 			if k.start is not None:
 				query += ' OFFSET %s'
 				params.append(k.start)
-		queryset = RawQuerySet(query, model = self.model, params = params, translations = self.translations, using = self.db)
-		self._cache = list(queryset)
+		queryset = sql.RawQuery(sql = query, using = self.db, params = params)
+		self._cache = []
+		for item in queryset:
+			column = 0
+			model_args = {}
+			model = self.model[0]
+			fields = self.model[1:]
+			for field in fields:
+				if field is None:
+					continue
+				if isinstance(field, list):
+					submodel_args = {}
+					submodel = field[0]
+					submodel_field = field[1]
+					subfields = field[2:]
+					for subfield in subfields:
+						submodel_args[subfield] = item[column]
+						column += 1
+					model_args[submodel_field] = submodel(**submodel_args)
+				else:
+					model_args[field] = item[column]
+				column += 1
+			instance = model(**model_args)
+			self._cache.append(instance)
