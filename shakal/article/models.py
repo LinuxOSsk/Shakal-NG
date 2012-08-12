@@ -35,8 +35,7 @@ class Category(models.Model):
 class ArticleListManager(CommentCountManager):
 	def get_query_set(self):
 		table = Article._meta.db_table
-		c_table = Category._meta.db_table
-		u_table = User._meta.db_table
+		join_tables = []
 		model_definition = [Article]
 		query = 'SELECT '
 		columns = []
@@ -48,6 +47,8 @@ class ArticleListManager(CommentCountManager):
 				col_names = [f.name for f in model._meta.fields]
 				columns += ['"'+model._meta.db_table+'"."'+c+'"' for c in col_names]
 				model_definition.append([model, field.name] + col_names)
+				join_type = 'LEFT OUTER' if field.null else 'INNER'
+				join_tables.append(' '+join_type+' JOIN "'+model._meta.db_table+'" ON ("'+table+'"."'+field.column+'" = "'+model._meta.db_table+'"."id")')
 			else:
 				columns.append('"' + table + '"."' + field.column + '"')
 				model_definition.append(field.column)
@@ -59,13 +60,10 @@ class ArticleListManager(CommentCountManager):
 
 		query += ', '.join(columns)
 		query += ' FROM "' + table + '"'
-		query += ' INNER JOIN "' + c_table + '"';
-		query += ' ON ("'+table+'"."category_id" = "'+c_table+'"."id")'
-		query += ' LEFT JOIN "' + u_table + '"';
-		query += ' ON ("'+table+'"."author_id" = "'+u_table+'"."id")'
-		query += ' LEFT JOIN "' + RootHeader._meta.db_table + '"';
+		query += ''.join(join_tables)
+		query += ' LEFT OUTER JOIN "' + RootHeader._meta.db_table + '"';
 		query += ' ON ("'+table+'"."id" = "'+RootHeader._meta.db_table+'"."object_id" AND "'+RootHeader._meta.db_table+'"."content_type_id" = '+str(ContentType.objects.get_for_model(Article).id)+')'
-		query += ' LEFT JOIN "' + HitCount._meta.db_table + '"';
+		query += ' LEFT OUTER JOIN "' + HitCount._meta.db_table + '"';
 		query += ' ON ("'+table+'"."id" = "'+HitCount._meta.db_table+'"."object_id" AND "'+HitCount._meta.db_table+'"."content_type_id" = '+str(ContentType.objects.get_for_model(Article).id)+')'
 		query += ' WHERE "'+table+'"."time" < %s AND "'+table+'"."published" = %s'
 		query += ' ORDER BY "'+table+'"."id" DESC'
