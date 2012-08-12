@@ -76,11 +76,11 @@
 							<div class="module survey">
 								<h2>Anketa</h2>
 								{% render_messages messages 'survey' %}
-								{% survey_frontpage %}
+								{# survey_frontpage #}
 							</div>
 							<div class="module news">
 								<h2>Správy</h2>
-								{% news_frontpage %}
+								{# news_frontpage #}
 								<div class="module-links bottom">
 									<a href="{% url 'news:create' %}">Pridať správu</a> |
 									<a href="{% url 'news:list' %}" class="next">Ďalšie</a>

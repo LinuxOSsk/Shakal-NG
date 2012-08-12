@@ -19,7 +19,7 @@ def article_list(request, category = None, page = 1):
 	category_object = None
 	if category is not None:
 		category_object = get_object_or_404(Category, slug = category)
-		articles = articles.filter(category = category_object)
+		#articles = articles.filter(category = category_object)
 
 	context = {
 		'articles': articles.all(),

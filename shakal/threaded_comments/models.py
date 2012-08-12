@@ -14,6 +14,7 @@ from django.contrib.comments.managers import CommentManager
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from generic_aggregation import generic_annotate
+from shakal.utils.query import RawLimitQuerySet
 
 
 class HideRootQuerySet(models.query.QuerySet):
@@ -142,18 +143,13 @@ class UserDiscussionAttribute(models.Model):
 		unique_together = (('user', 'discussion'),)
 
 
-class NewCommentQuerySet(QuerySet):
-	def select_new_for_user(self, user):
-		return self
+class NewCommentQuerySet(RawLimitQuerySet):
+	pass
 
 
 class CommentCountManager(models.Manager):
-	def get_query_set(self, view):
-		if connection.vendor == 'postgresql':
-			queryset = NewCommentQuerySet(view, using = self._db)
-			queryset = queryset.extra(select = {'last_comment': 'last_comment', 'comment_count': 'comment_count'})
-		else:
-			queryset = NewCommentQuerySet(self.model, using = self._db)
-			queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__last_comment'), alias = 'last_comment')
-			queryset = generic_annotate(queryset, RootHeader, models.Max('comments_header__comment_count'), alias = 'comment_count')
+	def get_query_set(self, query, count_query = None, model_definition = None, params = []):
+		if count_query is None:
+			count_query = 'SELECT COUNT(*) FROM (' + query + ') AS count'
+		queryset = NewCommentQuerySet(query, count_query, model_definition = model_definition, using = 'default', params = params)
 		return queryset

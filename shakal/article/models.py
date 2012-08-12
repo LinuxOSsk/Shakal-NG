@@ -34,15 +34,47 @@ class Category(models.Model):
 
 class ArticleListManager(CommentCountManager):
 	def get_query_set(self):
-		queryset = super(ArticleListManager, self).get_query_set(ArticleView)
+		table = Article._meta.db_table
+		c_table = Category._meta.db_table
+		u_table = User._meta.db_table
+		model_definition = [Article]
+		query = 'SELECT '
+		columns = []
+		for field in Article._meta.fields:
+			if field.name in ('content', 'category', 'author'):
+				continue
+			else:
+				columns.append('"' + table + '"."' + field.column + '"')
+				model_definition.append(field.column)
 
-		if connection.vendor == 'postgresql':
-			queryset = queryset.extra(select = {'display_count': 'display_count'})
-		else:
-			queryset = generic_annotate(queryset, HitCount, models.Max('hitcount__hits'), alias = 'display_count')
-		queryset = queryset.select_related('author', 'category')
-		queryset = queryset.filter(time__lte = datetime.now(), published = True)
-		queryset = queryset.order_by('-pk')
+		col_names = ['id', 'name', 'slug', 'icon']
+		columns += ['"'+c_table+'"."'+c+'"' for c in col_names]
+		model_definition.append([Category, 'category'] + col_names)
+
+		col_names = ['id', 'username', 'first_name', 'last_name', 'email', 'password', 'is_staff', 'is_active', 'is_superuser', 'last_login', 'date_joined']
+		columns += ['"'+u_table+'"."'+c+'"' for c in col_names]
+		model_definition.append([User, 'author'] + col_names)
+
+		columns += ['"'+RootHeader._meta.db_table+'"."comment_count"', '"'+RootHeader._meta.db_table+'"."last_comment"']
+		model_definition += ['comment_count', 'last_comment']
+		columns += ['"'+HitCount._meta.db_table+'"."hits"']
+		model_definition += ['display_count']
+
+		query += ', '.join(columns)
+		query += ' FROM "' + table + '"'
+		query += ' INNER JOIN "' + c_table + '"';
+		query += ' ON ("'+table+'"."category_id" = "'+c_table+'"."id")'
+		query += ' LEFT JOIN "' + u_table + '"';
+		query += ' ON ("'+table+'"."author_id" = "'+u_table+'"."id")'
+		query += ' LEFT JOIN "' + RootHeader._meta.db_table + '"';
+		query += ' ON ("'+table+'"."id" = "'+RootHeader._meta.db_table+'"."object_id" AND "'+RootHeader._meta.db_table+'"."content_type_id" = '+str(ContentType.objects.get_for_model(Article).id)+')'
+		query += ' LEFT JOIN "' + HitCount._meta.db_table + '"';
+		query += ' ON ("'+table+'"."id" = "'+HitCount._meta.db_table+'"."object_id" AND "'+HitCount._meta.db_table+'"."content_type_id" = '+str(ContentType.objects.get_for_model(Article).id)+')'
+		query += ' WHERE "'+table+'"."time" < %s AND "'+table+'"."published" = %s'
+		query += ' ORDER BY "'+table+'"."id" DESC'
+
+		params = [datetime.now(), True]
+		queryset = super(ArticleListManager, self).get_query_set(query, model_definition = model_definition, params = params)
 		return queryset
 
 
