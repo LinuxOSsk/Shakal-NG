@@ -47,11 +47,11 @@ class ArticleListManager(CommentCountManager):
 				columns.append('"' + table + '"."' + field.column + '"')
 				model_definition.append(field.column)
 
-		col_names = ['id', 'name', 'slug', 'icon']
+		col_names = [f.name for f in Category._meta.fields]
 		columns += ['"'+c_table+'"."'+c+'"' for c in col_names]
 		model_definition.append([Category, 'category'] + col_names)
 
-		col_names = ['id', 'username', 'first_name', 'last_name', 'email', 'password', 'is_staff', 'is_active', 'is_superuser', 'last_login', 'date_joined']
+		col_names = [f.name for f in User._meta.fields]
 		columns += ['"'+u_table+'"."'+c+'"' for c in col_names]
 		model_definition.append([User, 'author'] + col_names)
 
