@@ -41,19 +41,16 @@ class ArticleListManager(CommentCountManager):
 		query = 'SELECT '
 		columns = []
 		for field in Article._meta.fields:
-			if field.name in ('content', 'category', 'author'):
+			if field.name == 'content':
 				continue
+			elif isinstance(field, models.ForeignKey):
+				model = field.related.parent_model
+				col_names = [f.name for f in model._meta.fields]
+				columns += ['"'+model._meta.db_table+'"."'+c+'"' for c in col_names]
+				model_definition.append([model, field.name] + col_names)
 			else:
 				columns.append('"' + table + '"."' + field.column + '"')
 				model_definition.append(field.column)
-
-		col_names = [f.name for f in Category._meta.fields]
-		columns += ['"'+c_table+'"."'+c+'"' for c in col_names]
-		model_definition.append([Category, 'category'] + col_names)
-
-		col_names = [f.name for f in User._meta.fields]
-		columns += ['"'+u_table+'"."'+c+'"' for c in col_names]
-		model_definition.append([User, 'author'] + col_names)
 
 		columns += ['"'+RootHeader._meta.db_table+'"."comment_count"', '"'+RootHeader._meta.db_table+'"."last_comment"']
 		model_definition += ['comment_count', 'last_comment']
