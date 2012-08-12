@@ -7,7 +7,7 @@ class RawLimitQuerySet(object):
 	def __init__(self, raw_query, count_query, model_definition = None, params = [], translations = None, using = None):
 		self.raw_query = raw_query
 		self.count_query = count_query
-		self.model = model_definition
+		self.model_definition = model_definition
 		self.params = params
 		self.translations = translations
 		self.db = using
@@ -19,6 +19,9 @@ class RawLimitQuerySet(object):
 			query = sql.RawQuery(sql = self.count_query, using = self.db, params = self.params)
 			self._count_cache = list(query)[0][0]
 		return self._count_cache
+
+	def count(self):
+		return len(self)
 
 	def __getitem__(self, k):
 		if not isinstance(k, (slice, int, long)):
@@ -49,8 +52,8 @@ class RawLimitQuerySet(object):
 		for item in queryset:
 			column = 0
 			model_args = {}
-			model = self.model[0]
-			fields = self.model[1:]
+			model = self.model_definition[0]
+			fields = self.model_definition[1:]
 			for field in fields:
 				if field is None:
 					continue
@@ -63,6 +66,7 @@ class RawLimitQuerySet(object):
 						submodel_args[subfield] = item[column]
 						column += 1
 					model_args[submodel_field] = submodel(**submodel_args)
+					continue
 				else:
 					model_args[field] = item[column]
 				column += 1
