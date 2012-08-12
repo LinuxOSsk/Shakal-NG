@@ -70,5 +70,15 @@ class RawLimitQuerySet(object):
 				else:
 					model_args[field] = item[column]
 				column += 1
-			instance = model(**model_args)
+			extra_fields = {}
+			model_fields = {}
+			model_field_names = set(model._meta.get_all_field_names())
+			for name, value in model_args.iteritems():
+				if name in model_field_names:
+					model_fields[name] = value
+				else:
+					extra_fields[name] = value
+			instance = model(**model_fields)
+			for name, value in extra_fields.iteritems():
+				setattr(instance, name, value)
 			self._cache.append(instance)
