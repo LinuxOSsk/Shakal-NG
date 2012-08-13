@@ -148,6 +148,39 @@ class NewCommentQuerySet(RawLimitQuerySet):
 
 
 class CommentCountManager(models.Manager):
+	def _generate_query(self, base_model, extra_columns = [], extra_model_definitions = []):
+		table = base_model._meta.db_table
+		join_tables = []
+		model_definition = [base_model]
+		query = 'SELECT '
+		columns = []
+		for field in base_model._meta.fields:
+			if field.name == 'content':
+				continue
+			elif isinstance(field, models.ForeignKey):
+				model = field.related.parent_model
+				col_names = [f.name for f in model._meta.fields]
+				columns += ['"'+model._meta.db_table+'"."'+c+'"' for c in col_names]
+				model_definition.append([model, field.name] + col_names)
+				join_type = 'LEFT OUTER' if field.null else 'INNER'
+				join_tables.append(' '+join_type+' JOIN "'+model._meta.db_table+'" ON ("'+table+'"."'+field.column+'" = "'+model._meta.db_table+'"."id")')
+			else:
+				columns.append('"' + table + '"."' + field.column + '"')
+				model_definition.append(field.column)
+
+		columns += ['"'+RootHeader._meta.db_table+'"."comment_count"', '"'+RootHeader._meta.db_table+'"."last_comment"']
+		model_definition += ['comment_count', 'last_comment']
+		columns += extra_columns
+		model_definition += extra_model_definitions
+
+		query += ', '.join(columns)
+		query += ' FROM "' + table + '"'
+		query += ''.join(join_tables)
+		query += ' LEFT OUTER JOIN "' + RootHeader._meta.db_table + '"';
+		query += ' ON ("'+table+'"."id" = "'+RootHeader._meta.db_table+'"."object_id" AND "'+RootHeader._meta.db_table+'"."content_type_id" = '+str(ContentType.objects.get_for_model(base_model).id)+')'
+		return (model_definition, query)
+
+
 	def get_query_set(self, query, count_query = None, model_definition = None, params = []):
 		if count_query is None:
 			count_query = 'SELECT COUNT(*) FROM (' + query + ') AS count'

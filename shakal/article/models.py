@@ -35,34 +35,7 @@ class Category(models.Model):
 class ArticleListManager(CommentCountManager):
 	def get_query_set(self):
 		table = Article._meta.db_table
-		join_tables = []
-		model_definition = [Article]
-		query = 'SELECT '
-		columns = []
-		for field in Article._meta.fields:
-			if field.name == 'content':
-				continue
-			elif isinstance(field, models.ForeignKey):
-				model = field.related.parent_model
-				col_names = [f.name for f in model._meta.fields]
-				columns += ['"'+model._meta.db_table+'"."'+c+'"' for c in col_names]
-				model_definition.append([model, field.name] + col_names)
-				join_type = 'LEFT OUTER' if field.null else 'INNER'
-				join_tables.append(' '+join_type+' JOIN "'+model._meta.db_table+'" ON ("'+table+'"."'+field.column+'" = "'+model._meta.db_table+'"."id")')
-			else:
-				columns.append('"' + table + '"."' + field.column + '"')
-				model_definition.append(field.column)
-
-		columns += ['"'+RootHeader._meta.db_table+'"."comment_count"', '"'+RootHeader._meta.db_table+'"."last_comment"']
-		model_definition += ['comment_count', 'last_comment']
-		columns += ['"'+HitCount._meta.db_table+'"."hits"']
-		model_definition += ['display_count']
-
-		query += ', '.join(columns)
-		query += ' FROM "' + table + '"'
-		query += ''.join(join_tables)
-		query += ' LEFT OUTER JOIN "' + RootHeader._meta.db_table + '"';
-		query += ' ON ("'+table+'"."id" = "'+RootHeader._meta.db_table+'"."object_id" AND "'+RootHeader._meta.db_table+'"."content_type_id" = '+str(ContentType.objects.get_for_model(Article).id)+')'
+		model_definition, query = self._generate_query(Article, ['"'+HitCount._meta.db_table+'"."hits"'], ['display_count'])
 		query += ' LEFT OUTER JOIN "' + HitCount._meta.db_table + '"';
 		query += ' ON ("'+table+'"."id" = "'+HitCount._meta.db_table+'"."object_id" AND "'+HitCount._meta.db_table+'"."content_type_id" = '+str(ContentType.objects.get_for_model(Article).id)+')'
 		query += ' WHERE "'+table+'"."time" < %s AND "'+table+'"."published" = %s'
