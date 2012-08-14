@@ -46,9 +46,21 @@ class ArticleListManager(CommentCountManager):
 		queryset = super(ArticleListManager, self).get_query_set(query, model_definition = model_definition, params = params)
 		return queryset
 
-	def filter(self, category):
+	def filter(self, category = None, top = None):
 		table = Article._meta.db_table
-		return self._generate_query_set(' AND "'+table+'"."category_id" = %s', [category.pk])
+		where = '';
+		params = []
+		if category is not None:
+			where += ' AND "'+table+'"."category_id" = %s'
+			params.append(category.pk)
+		if top is not None:
+			where += ' AND "'+table+'"."top" = %s'
+			params.append(top)
+		return self._generate_query_set(where, params)
+
+	def exclude(self, pk):
+		table = Article._meta.db_table
+		return self._generate_query_set(' AND "'+table+'"."id" != %s', [pk])
 
 	def get_query_set(self):
 		return self._generate_query_set()
