@@ -15,14 +15,14 @@ def article_detail_by_slug(request, slug):
 
 
 def article_list(request, category = None, page = 1):
-	articles = Article.articles
+	articles = Article.articles.all()
 	category_object = None
 	if category is not None:
 		category_object = get_object_or_404(Category, slug = category)
-		#articles = articles.filter(category = category_object)
+		articles = Article.articles.filter(category = category_object)
 
 	context = {
-		'articles': articles.all(),
+		'articles': articles,
 		'category': category_object,
 		'pagenum': page,
 	}

@@ -33,17 +33,25 @@ class Category(models.Model):
 
 
 class ArticleListManager(CommentCountManager):
-	def get_query_set(self):
+	def _generate_query_set(self, extra_filter = '', extra_params = []):
 		table = Article._meta.db_table
 		model_definition, query = self._generate_query(Article, ['"'+HitCount._meta.db_table+'"."hits"'], ['display_count'])
 		query += ' LEFT OUTER JOIN "' + HitCount._meta.db_table + '"';
 		query += ' ON ("'+table+'"."id" = "'+HitCount._meta.db_table+'"."object_id" AND "'+HitCount._meta.db_table+'"."content_type_id" = '+str(ContentType.objects.get_for_model(Article).id)+')'
 		query += ' WHERE "'+table+'"."time" < %s AND "'+table+'"."published" = %s'
+		query += extra_filter
 		query += ' ORDER BY "'+table+'"."id" DESC'
 
-		params = [datetime.now(), True]
+		params = [datetime.now(), True] + extra_params
 		queryset = super(ArticleListManager, self).get_query_set(query, model_definition = model_definition, params = params)
 		return queryset
+
+	def filter(self, category):
+		table = Article._meta.db_table
+		return self._generate_query_set(' AND "'+table+'"."category_id" = %s', [category.pk])
+
+	def get_query_set(self):
+		return self._generate_query_set()
 
 
 class ArticleAbstract(models.Model):
