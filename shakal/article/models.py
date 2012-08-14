@@ -114,11 +114,6 @@ class Article(ArticleAbstract):
 		verbose_name_plural = _('articles')
 
 
-class ArticleView(ArticleAbstract):
-	class Meta:
-		managed = False
-
-
 def create_article_hitcount(sender, **kwargs):
 	article = kwargs['instance']
 	if not article.hitcount.all():
