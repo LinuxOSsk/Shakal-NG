@@ -27,12 +27,15 @@ class RawLimitQuerySet(object):
 		if not isinstance(k, (slice, int, long)):
 			raise ValueError
 		self._initialize_cache(k)
-		self._last_k = k
-		return self._cache[k]
+		if isinstance(self._last_k, slice):
+			return self._cache
+		else:
+			return self._cache[k]
 
 	def _initialize_cache(self, k):
 		if self._last_k is None or (isinstance(self._last_k, slice) and self._last_k != k):
 			self._load_cache(k)
+			self._last_k = k
 
 	def _load_cache(self, k):
 		query = self.raw_query
