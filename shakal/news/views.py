@@ -37,7 +37,7 @@ class NewsCreateView(AddLoggedFormArgumentMixin, PreviewCreateView):
 
 def news_list(request, page = 1):
 	context = {
-		'news': News.objects.order_by('-pk').all(),
+		'news': News.news.all(),
 		'pagenum': page,
 	}
 	return TemplateResponse(request, "news/news_list.html", RequestContext(request, context))

@@ -16,10 +16,15 @@ class NewsManager(models.Manager):
 
 class NewsListManager(CommentCountManager):
 	def get_query_set(self):
-		return super(NewsListManager, self).get_query_set(NewsView)
+		table = News._meta.db_table
+		model_definition, query = self._generate_query(News)
+		query += ' WHERE "'+table+'"."approved" = %s'
+		query += ' ORDER BY "'+table+'"."id" DESC'
+		params = [True]
+		return super(NewsListManager, self).get_query_set(query, model_definition = model_definition, params = params)
 
 
-class NewsAbstract(models.Model):
+class News(models.Model):
 	objects = NewsManager()
 	news = NewsListManager()
 
@@ -34,7 +39,8 @@ class NewsAbstract(models.Model):
 	comments_header = generic.GenericRelation(RootHeader)
 
 	class Meta:
-		abstract = True
+		verbose_name = _('news item')
+		verbose_name_plural = _('news items')
 
 	@permalink
 	def get_absolute_url(self):
@@ -46,14 +52,3 @@ class NewsAbstract(models.Model):
 
 	def __unicode__(self):
 		return self.subject
-
-
-class News(NewsAbstract):
-	class Meta:
-		verbose_name = _('news item')
-		verbose_name_plural = _('news items')
-
-
-class NewsView(NewsAbstract):
-	class Meta:
-		managed = False
