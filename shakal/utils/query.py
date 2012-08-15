@@ -23,6 +23,9 @@ class RawLimitQuerySet(object):
 	def count(self):
 		return len(self)
 
+	def get_raw_query(self):
+		return self.raw_query
+
 	def __getitem__(self, k):
 		if not isinstance(k, (slice, int, long)):
 			raise ValueError
@@ -38,7 +41,7 @@ class RawLimitQuerySet(object):
 			self._last_k = k
 
 	def _load_cache(self, k):
-		query = self.raw_query
+		query = self.get_raw_query()
 		params = self.params[:]
 		if isinstance(k, slice):
 			if k.stop is not None:

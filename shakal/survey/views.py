@@ -85,7 +85,7 @@ def survey_detail_by_slug(request, slug):
 
 def survey_list(request, page = 1):
 	context = {
-		'surveys': Survey.surveys.all(),
+		'surveys': Survey.surveys.all().new_comments_for_user(request.user),
 		'pagenum': page,
 	}
 	return TemplateResponse(request, "survey/survey_list.html", RequestContext(request, context))

@@ -144,7 +144,13 @@ class UserDiscussionAttribute(models.Model):
 
 
 class NewCommentQuerySet(RawLimitQuerySet):
-	pass
+	def __init__(self, *args, **kwargs):
+		super(NewCommentQuerySet, self).__init__(*args, **kwargs)
+		self.user = None
+
+	def new_comments_for_user(self, user):
+		self.user = user
+		return self
 
 
 class CommentCountManager(models.Manager):

@@ -7,11 +7,11 @@ from forum.models import Topic as ForumTopic
 
 def home(request):
 	try:
-		top_article = Article.articles.filter(top = True)[0]
-		articles = Article.articles.exclude(pk = top_article.pk)
+		top_article = Article.articles.filter(top = True).new_comments_for_user(request.user)[0]
+		articles = Article.articles.exclude(pk = top_article.pk).new_comments_for_user(request.user)
 	except IndexError:
 		top_article = None
-		articles = Article.articles.all()
+		articles = Article.articles.new_comments_for_user(request.user)
 
 	context = {
 		'top_article': top_article,

@@ -16,6 +16,7 @@ def article_detail_by_slug(request, slug):
 
 def article_list(request, category = None, page = 1):
 	articles = Article.articles.all()
+	articles = articles.new_comments_for_user(request.user)
 	category_object = None
 	if category is not None:
 		category_object = get_object_or_404(Category, slug = category)
