@@ -66,7 +66,7 @@ class ArticleListManager(CommentCountManager):
 		return self._generate_query_set()
 
 
-class ArticleAbstract(models.Model):
+class Article(models.Model):
 	objects = models.Manager()
 	articles = ArticleListManager()
 
@@ -116,11 +116,6 @@ class ArticleAbstract(models.Model):
 	def __unicode__(self):
 		return self.title
 
-	class Meta:
-		abstract = True
-
-
-class Article(ArticleAbstract):
 	class Meta:
 		verbose_name = _('article')
 		verbose_name_plural = _('articles')
