@@ -4,13 +4,12 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
-from django.db import connection, models
+from django.db import models
 from django.db.models.signals import post_save
 from django.db.models import permalink
 from django.utils.translation import ugettext_lazy as _
 from autoimagefield.fields import AutoImageField
 from datetime import datetime
-from generic_aggregation import generic_annotate
 from hitcount.models import HitCount
 from shakal.survey.models import Survey
 from shakal.threaded_comments.models import CommentCountManager, RootHeader
@@ -43,8 +42,7 @@ class ArticleListManager(CommentCountManager):
 		query += ' ORDER BY "'+table+'"."id" DESC'
 
 		params = [datetime.now(), True] + extra_params
-		queryset = super(ArticleListManager, self).get_query_set(query, model_definition = model_definition, params = params)
-		return queryset
+		return super(ArticleListManager, self).get_query_set(query, model_definition = model_definition, params = params)
 
 	def filter(self, category = None, top = None):
 		table = Article._meta.db_table

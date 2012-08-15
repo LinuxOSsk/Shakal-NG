@@ -7,9 +7,27 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import permalink
 from django.utils.translation import ugettext_lazy as _
-from shakal.threaded_comments.models import CommentCountManager, RootHeader
+from datetime import datetime
+from shakal.threaded_comments.models import CommentCountManager
 
-class SurveyAbstract(models.Model):
+
+class SurveyListManager(CommentCountManager):
+	def _generate_query_set(self, extra_filter = '', extra_params = []):
+		table = Survey._meta.db_table
+		model_definition, query = self._generate_query(Survey)
+		query += ' WHERE "'+table+'"."approved" = %s AND "'+table+'"."content_type_id" IS NULL AND active_from <= %s'
+		query += ' ORDER BY "'+table+'"."active_from" DESC'
+		params = [True, datetime.now()]
+		return super(SurveyListManager, self).get_query_set(query, model_definition = model_definition, params = params)
+
+	def get_query_set(self):
+		return self._generate_query_set()
+
+
+class Survey(models.Model):
+	objects = models.Manager()
+	surveys = SurveyListManager()
+
 	question = models.TextField(verbose_name = _("question"))
 	slug = models.SlugField(unique = True)
 	checkbox = models.BooleanField(default = False, verbose_name = _("more answers"))
@@ -48,27 +66,8 @@ class SurveyAbstract(models.Model):
 		return self.question
 
 	class Meta:
-		abstract = True
-
-
-class SurveyListManager(CommentCountManager):
-	def get_query_set(self):
-		return super(SurveyListManager, self).get_query_set(SurveyView)
-
-
-class Survey(SurveyAbstract):
-	objects = models.Manager()
-	surveys = SurveyListManager()
-	comments_header = generic.GenericRelation(RootHeader)
-
-	class Meta:
 		verbose_name = _('survey')
 		verbose_name_plural = _('surveys')
-
-
-class SurveyView(SurveyAbstract):
-	class Meta:
-		managed = False
 
 
 class Answer(models.Model):
