@@ -26,6 +26,9 @@ class RawLimitQuerySet(object):
 	def get_raw_query(self):
 		return self.raw_query
 
+	def get_model_definition(self):
+		return self.model_definition
+
 	def __getitem__(self, k):
 		if not isinstance(k, (slice, int, long)):
 			raise ValueError
@@ -58,8 +61,9 @@ class RawLimitQuerySet(object):
 		for item in queryset:
 			column = 0
 			model_args = {}
-			model = self.model_definition[0]
-			fields = self.model_definition[1:]
+			model_definition = self.get_model_definition()
+			model = model_definition[0]
+			fields = model_definition[1:]
 			for field in fields:
 				if field is None:
 					continue
