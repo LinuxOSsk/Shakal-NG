@@ -149,10 +149,18 @@ class NewCommentQuerySet(RawLimitQuerySet):
 	def get_raw_query(self):
 		ua_table = UserDiscussionAttribute._meta.db_table
 		rh_table = RootHeader._meta.db_table
-		if self.user.is_authenticated():
-			extracolumns = ''
-			extrajoin = ' LEFT OUTER JOIN "'+ua_table+'" ON ("'+rh_table+'"."id" = "'+ua_table+'"."id")'
+		if self.user and self.user.is_authenticated():
+			extracolumns = ', "'+ua_table+'"."time" AS "discssion_display_time"'
+			extracolumns += ', "'+ua_table+'"."watch" AS "discussion_watch"'
+			extracolumns += ', "'+ua_table+'"."time" < "last_comment" AS "new_comments"'
+			extrajoin = ' LEFT OUTER JOIN "'+ua_table+'" ON ("'+rh_table+'"."id" = "'+ua_table+'"."discussion_id" AND "'+ua_table+'"."user_id" = '+str(self.user.pk)+')'
+		else:
+			extracolumns = ', NULL as "discssion_display_time", False AS "discussion_watch", False as "new_comments", '
+			extrajoin = ''
 		return self.raw_query.replace('[extracolumns]', extracolumns).replace('[extrajoin]', extrajoin)
+
+	def get_model_definition(self):
+		return self.model_definition + ['discussion_display_time', 'discussion_watch', 'new_comments']
 
 	def attributes_for_user(self, user):
 		self.user = user
