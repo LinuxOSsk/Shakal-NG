@@ -8,7 +8,7 @@
 <div class="info bottom">
 	<span class="comments">
 		{% if item.comment_count %}
-			<a href="{{ item.get_absolute_url }}#comments">{% blocktrans count counter=item.comment_count %}{{ counter }} comment{% plural %}{{ counter }} commens{% endblocktrans %}</a>
+			<a href="{{ item.get_absolute_url }}#comments">{% blocktrans count counter=item.comment_count %}{{ counter }} comment{% plural %}{{ counter }} commens{% endblocktrans %}{% if item.new_comments %}(*){% endif %}</a>
 		{% else %}
 			<a href="{{ item.get_absolute_url }}#comments">{% trans "No comments" %}</a>
 		{% endif %}
