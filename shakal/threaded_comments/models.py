@@ -3,9 +3,8 @@
 import datetime
 import mptt
 
-from django.db import connection, models
+from django.db import models
 from django.db.models import Count, Max
-from django.db.models.query import QuerySet
 from django.db.models.signals import post_save
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -13,7 +12,6 @@ from django.contrib.comments.models import Comment
 from django.contrib.comments.managers import CommentManager
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
-from generic_aggregation import generic_annotate
 from shakal.utils.query import RawLimitQuerySet
 
 
@@ -148,7 +146,15 @@ class NewCommentQuerySet(RawLimitQuerySet):
 		super(NewCommentQuerySet, self).__init__(*args, **kwargs)
 		self.user = None
 
-	def new_comments_for_user(self, user):
+	def get_raw_query(self):
+		ua_table = UserDiscussionAttribute._meta.db_table
+		rh_table = RootHeader._meta.db_table
+		if self.user.is_authenticated():
+			extracolumns = ''
+			extrajoin = ' LEFT OUTER JOIN "'+ua_table+'" ON ("'+rh_table+'"."id" = "'+ua_table+'"."id")'
+		return self.raw_query.replace('[extracolumns]', extracolumns).replace('[extrajoin]', extrajoin)
+
+	def attributes_for_user(self, user):
 		self.user = user
 		return self
 
@@ -179,16 +185,16 @@ class CommentCountManager(models.Manager):
 		columns += extra_columns
 		model_definition += extra_model_definitions
 
-		query += ', '.join(columns)
+		query += ', '.join(columns) + '[extracolumns]'
 		query += ' FROM "' + table + '"'
 		query += ''.join(join_tables)
 		query += ' LEFT OUTER JOIN "' + RootHeader._meta.db_table + '"';
-		query += ' ON ("'+table+'"."id" = "'+RootHeader._meta.db_table+'"."object_id" AND "'+RootHeader._meta.db_table+'"."content_type_id" = '+str(ContentType.objects.get_for_model(base_model).id)+')'
+		query += ' ON ("'+table+'"."id" = "'+RootHeader._meta.db_table+'"."object_id" AND "'+RootHeader._meta.db_table+'"."content_type_id" = '+str(ContentType.objects.get_for_model(base_model).id)+')[extrajoin]'
 		return (model_definition, query)
 
 
 	def get_query_set(self, query, count_query = None, model_definition = None, params = []):
 		if count_query is None:
-			count_query = 'SELECT COUNT(*) FROM (' + query + ') AS count'
+			count_query = 'SELECT COUNT(*) FROM (' + query.replace('[extracolumns]', '').replace('[extrajoin]', '') + ') AS count'
 		queryset = NewCommentQuerySet(query, count_query, model_definition = model_definition, using = 'default', params = params)
 		return queryset
