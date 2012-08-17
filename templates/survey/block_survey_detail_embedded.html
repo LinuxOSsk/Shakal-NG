@@ -1,4 +1,4 @@
-{% load i18n %}{% load url from future %}
+{% load i18n threaded_comments %}{% load url from future %}
 {% for answer in survey.answers %}
 <div class="module-row">
 	<label>
@@ -21,11 +21,7 @@
 <div class="module-links bottom">
 	<span class="info">Hlasov: {{ survey.answer_count }}</span> |
 	<span class="comments">
-		{% if survey.comment_count %}
-			<a href="{{ survey.get_absolute_url }}#comments">{% blocktrans count counter=survey.comment_count %}{{ counter }} comment{% plural %}{{ counter }} commens{% endblocktrans %}</a>
-		{% else %}
-			<a href="{{ survey.get_absolute_url }}#comments">{% trans "No comments" %}</a>
-		{% endif %}
+		{% get_comments_for_item survey %}
 	</span>
 	{% if next_link %}
 		| <a class="next" href="{% url 'survey:list' %}">Ďalšie</a>

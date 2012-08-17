@@ -1,4 +1,4 @@
-{% load i18n l10n linuxos %}{% load url from future %}
+{% load i18n l10n linuxos threaded_comments %}{% load url from future %}
 	<div class="module-row{% if forloop.last %} last{% endif %}">
 		<h3><a href="{{ article.get_absolute_url }}">{{ article.title}}</a></h3>
 		<div class="info top">
@@ -21,11 +21,7 @@
 		<div class="info bottom">
 			<span class="stat">Prečítané: {% firstof article.display_count '0' %}x</span> |
 			<span class="comments">
-				{% if article.comment_count %}
-					<a href="{{ article.get_absolute_url }}#comments">{% blocktrans count counter=article.comment_count %}{{ counter }} comment{% plural %}{{ counter }} commens{% endblocktrans %}</a>, {% trans "last" %}: {{ article.last_comment|date:"d.m.Y H:i" }}
-				{% else %}
-					<a href="{{ article.get_absolute_url }}#comments">{% trans "No comments" %}</a>
-				{% endif %}
+				{% get_comments_for_item article display_last=1 %}
 			</span>
 		</div>
 	</div>

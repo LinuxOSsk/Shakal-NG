@@ -1,4 +1,4 @@
-{% load linuxos i18n %}
+{% load linuxos i18n threaded_comments %}
 <h3><a href="{{ item.get_absolute_url }}">{{ item }}</a></h3>
 <div class="info">
 	<span class="time">{{ item.time|humandatetime }}</span> |
@@ -7,10 +7,6 @@
 <p>{{ item.short_text|safe }}</p>
 <div class="info bottom">
 	<span class="comments">
-		{% if item.comment_count %}
-			<a href="{{ item.get_absolute_url }}#comments">{% blocktrans count counter=item.comment_count %}{{ counter }} comment{% plural %}{{ counter }} commens{% endblocktrans %}{% if item.new_comments %}(*){% endif %}</a>
-		{% else %}
-			<a href="{{ item.get_absolute_url }}#comments">{% trans "No comments" %}</a>
-		{% endif %}
+		{% get_comments_for_item item %}
 	</span>
 </div>

@@ -81,3 +81,8 @@ def render_threaded_comments_toplevel(context, target):
 	context.update({"target": target})
 	return mark_safe(render_to_string(templates, context))
 
+
+@register.simple_tag
+def get_comments_for_item(item, display_last = False):
+	template = "comments/comment_count.html"
+	return mark_safe(render_to_string(template, {'item': item, 'display_last': display_last}))
