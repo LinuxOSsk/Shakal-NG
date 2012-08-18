@@ -34,7 +34,7 @@ class Category(models.Model):
 class ArticleListManager(CommentCountManager):
 	def _generate_query_set(self, extra_filter = '', extra_params = []):
 		table = Article._meta.db_table
-		model_definition, query = self._generate_query(Article, ['"'+HitCount._meta.db_table+'"."hits"'], ['display_count'])
+		model_definition, query = self._generate_query(Article, ['"'+HitCount._meta.db_table+'"."hits"'], ['display_count'], skip = set(('content', )))
 		query += ' LEFT OUTER JOIN "' + HitCount._meta.db_table + '"';
 		query += ' ON ("'+table+'"."id" = "'+HitCount._meta.db_table+'"."object_id" AND "'+HitCount._meta.db_table+'"."content_type_id" = '+str(ContentType.objects.get_for_model(Article).id)+')'
 		query += ' WHERE "'+table+'"."time" < %s AND "'+table+'"."published" = %s'

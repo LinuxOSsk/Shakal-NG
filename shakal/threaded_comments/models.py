@@ -168,14 +168,14 @@ class NewCommentQuerySet(RawLimitQuerySet):
 
 
 class CommentCountManager(models.Manager):
-	def _generate_query(self, base_model, extra_columns = [], extra_model_definitions = [], reverse = False):
+	def _generate_query(self, base_model, extra_columns = [], extra_model_definitions = [], skip = set(), reverse = False):
 		table = base_model._meta.db_table
 		join_tables = []
 		model_definition = [base_model]
 		query = 'SELECT '
 		columns = []
 		for field in base_model._meta.fields:
-			if field.name == 'content':
+			if field.name in skip:
 				continue
 			elif isinstance(field, models.ForeignKey):
 				model = field.related.parent_model
