@@ -41,20 +41,41 @@ class TopicManager(models.Manager):
 
 
 class TopicListManager(CommentCountManager):
-	def get_query_set(self, view = None):
-		return super(TopicListManager, self).get_query_set(view if view else TopicReverseView)
+	def _generate_query_set(self, extra_filter = '', extra_params = [], order = None, reverse = False):
+		model_definition, query = self._generate_query(Topic, reverse = reverse)
+		params = extra_params
+		if extra_filter:
+			query += ' WHERE '+extra_filter
+		if order == '-last_comment':
+			query += ' ORDER BY "'+RootHeader._meta.db_table+'"."last_comment" DESC'
+		elif order == '-pk':
+			query += ' ORDER BY "'+RootHeader._meta.db_table+'"."id" DESC'
+		elif order == '-comment_count':
+			query += ' ORDER BY "'+RootHeader._meta.db_table+'"."comment_count" DESC'
+		return super(TopicListManager, self).get_query_set(query, model_definition = model_definition, params = params)
 
-	def newest_topics(self):
-		return self.get_query_set(TopicView).order_by('-pk')
+	def get_query_set(self):
+		return self._generate_query_set()
 
 	def newest_comments(self):
-		return self.get_query_set().order_by('-last_comment')
+		return self._generate_query_set(order = '-last_comment', reverse = True)
 
 	def no_comments(self):
-		return self.get_query_set().extra(where = ['comment_count = %s', 'last_comment > %s'], params = [0, datetime.now() - timedelta(60)])
+		table = RootHeader._meta.db_table
+		return self._generate_query_set(
+			extra_filter = '"'+table+'"."comment_count" = %s AND "'+table+'"."last_comment" > %s',
+			extra_params = [0, datetime.now() - timedelta(60)],
+			order = '-pk',
+			reverse = True
+		)
 
 	def most_commented(self):
-		return self.get_query_set().extra(where = ['last_comment > %s'], params = [datetime.now() - timedelta(30)], order_by = ['-comment_count'])
+		table = RootHeader._meta.db_table
+		return self._generate_query_set(
+			extra_filter = '"'+table+'"."last_comment" > %s',
+			extra_params = [datetime.now() - timedelta(30)],
+			order = '-comment_count'
+		)
 
 
 class TopicAbstract(models.Model):

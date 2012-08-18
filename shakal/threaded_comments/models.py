@@ -194,10 +194,17 @@ class CommentCountManager(models.Manager):
 		model_definition += extra_model_definitions
 
 		query += ', '.join(columns) + '[extracolumns]'
-		query += ' FROM "' + table + '"'
-		query += ''.join(join_tables)
-		query += ' LEFT OUTER JOIN "' + RootHeader._meta.db_table + '"';
-		query += ' ON ("'+table+'"."id" = "'+RootHeader._meta.db_table+'"."object_id" AND "'+RootHeader._meta.db_table+'"."content_type_id" = '+str(ContentType.objects.get_for_model(base_model).id)+')[extrajoin]'
+		if reverse:
+			query += ' FROM "' + RootHeader._meta.db_table + '"'
+			query += ' INNER JOIN "' + table + '"'
+		else:
+			query += ' FROM "' + table + '"'
+			query += ''.join(join_tables)
+			query += ' LEFT OUTER JOIN "' + RootHeader._meta.db_table + '"'
+		if reverse:
+			query += ''.join(join_tables)
+		query += ' ON ("'+table+'"."id" = "'+RootHeader._meta.db_table+'"."object_id" AND "'+RootHeader._meta.db_table+'"."content_type_id" = '+str(ContentType.objects.get_for_model(base_model).id)+')'
+		query += '[extrajoin]'
 		return (model_definition, query)
 
 
