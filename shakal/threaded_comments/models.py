@@ -175,9 +175,9 @@ class CommentCountManager(models.Manager):
 		query = 'SELECT '
 		columns = []
 		for field in base_model._meta.fields:
-			if field.name in skip:
+			if field.name in skip and not isinstance(field, models.ForeignKey):
 				continue
-			elif isinstance(field, models.ForeignKey):
+			elif isinstance(field, models.ForeignKey) and not field.name in skip:
 				model = field.related.parent_model
 				col_names = [f.name for f in model._meta.fields]
 				columns += ['"'+model._meta.db_table+'"."'+c+'"' for c in col_names]

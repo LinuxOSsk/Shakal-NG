@@ -42,20 +42,31 @@ class TopicManager(models.Manager):
 
 class TopicListManager(CommentCountManager):
 	def _generate_query_set(self, extra_filter = '', extra_params = [], order = None, reverse = False):
-		model_definition, query = self._generate_query(Topic, reverse = reverse)
+		model_definition, query = self._generate_query(Topic, reverse = reverse, skip = set(('user', 'section', )))
 		params = extra_params
 		if extra_filter:
 			query += ' WHERE '+extra_filter
 		if order == '-last_comment':
 			query += ' ORDER BY "'+RootHeader._meta.db_table+'"."last_comment" DESC'
 		elif order == '-pk':
-			query += ' ORDER BY "'+RootHeader._meta.db_table+'"."id" DESC'
+			if reverse:
+				query += ' ORDER BY "'+RootHeader._meta.db_table+'"."id" DESC'
+			else:
+				query += ' ORDER BY "'+Topic._meta.db_table+'"."id" DESC'
 		elif order == '-comment_count':
 			query += ' ORDER BY "'+RootHeader._meta.db_table+'"."comment_count" DESC'
 		return super(TopicListManager, self).get_query_set(query, model_definition = model_definition, params = params)
 
 	def get_query_set(self):
 		return self._generate_query_set()
+
+	def newest_topics(self, section = None):
+		extra_filter = ''
+		extra_params = []
+		if not section is None:
+			extra_filter = '"'+Topic._meta.db_table+'"."section_id" = %s'
+			extra_params = [section]
+		return self._generate_query_set(order = '-pk', extra_filter = extra_filter, extra_params = extra_params)
 
 	def newest_comments(self):
 		return self._generate_query_set(order = '-last_comment', reverse = True)
