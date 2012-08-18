@@ -1,6 +1,7 @@
 # Django settings for shakal project.
 
 import os
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -30,10 +31,10 @@ SITE_ID = 1
 
 USE_I18N = True
 USE_L10N = True
-LOCALE_PATHS = (os.path.abspath(os.path.join(os.path.dirname(__file__), 'locale')), )
+LOCALE_PATHS = (os.path.join(ROOT, 'shakal', 'locale'), )
 USE_TZ = False
 
-MEDIA_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'media'))
+MEDIA_ROOT = os.path.abspath(os.path.join(ROOT, 'media'))
 MEDIA_URL = '/media/'
 
 STATIC_ROOT = ''
@@ -42,8 +43,8 @@ STATIC_URL = '/static/'
 LOGIN_URL = '/profil/prihlasit/'
 
 STATICFILES_DIRS = (
-	('templates', os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'templates', 'static'))),
-	os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'static')),
+	('templates', os.path.join(ROOT, 'templates', 'static')),
+	os.path.join(ROOT, 'static'),
 )
 
 STATICFILES_FINDERS = (
@@ -92,7 +93,7 @@ ROOT_URLCONF = 'shakal.urls'
 WSGI_APPLICATION = 'shakal.wsgi.application'
 
 TEMPLATE_DIRS = (
-	os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'templates')),
+	os.path.join(ROOT, 'templates'),
 )
 
 INSTALLED_APPS = (
