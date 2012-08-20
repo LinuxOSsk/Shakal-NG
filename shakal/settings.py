@@ -106,6 +106,7 @@ INSTALLED_APPS = (
 	'django.contrib.admin',
 	'django.contrib.comments',
 	'django_tools',
+	'attachment',
 	'auth_remember',
 	'autoimagefield',
 	'breadcrumbs',
