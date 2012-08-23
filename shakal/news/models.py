@@ -21,7 +21,7 @@ class NewsListManager(CommentCountManager):
 		query += ' WHERE "'+table+'"."approved" = %s'
 		query += ' ORDER BY "'+table+'"."id" DESC'
 		params = [True]
-		return super(NewsListManager, self).get_query_set(query, model_definition = model_definition, params = params)
+		return super(NewsListManager, self).get_raw_query_set(query, model_definition = model_definition, params = params)
 
 
 class News(models.Model):

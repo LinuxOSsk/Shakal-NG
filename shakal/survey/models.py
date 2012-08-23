@@ -18,7 +18,7 @@ class SurveyListManager(CommentCountManager):
 		query += ' WHERE "'+table+'"."approved" = %s AND "'+table+'"."content_type_id" IS NULL AND active_from <= %s'
 		query += ' ORDER BY "'+table+'"."active_from" DESC'
 		params = [True, datetime.now()]
-		return super(SurveyListManager, self).get_query_set(query, model_definition = model_definition, params = params)
+		return super(SurveyListManager, self).get_raw_query_set(query, model_definition = model_definition, params = params)
 
 	def get_query_set(self):
 		return self._generate_query_set()

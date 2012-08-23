@@ -55,10 +55,7 @@ class TopicListManager(CommentCountManager):
 				query += ' ORDER BY "'+Topic._meta.db_table+'"."id" DESC'
 		elif order == '-comment_count':
 			query += ' ORDER BY "'+RootHeader._meta.db_table+'"."comment_count" DESC'
-		return super(TopicListManager, self).get_query_set(query, model_definition = model_definition, params = params)
-
-	def get_query_set(self):
-		return self._generate_query_set()
+		return super(TopicListManager, self).get_raw_query_set(query, model_definition = model_definition, params = params)
 
 	def newest_topics(self, section = None):
 		extra_filter = ''

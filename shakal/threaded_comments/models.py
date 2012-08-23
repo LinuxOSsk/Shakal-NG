@@ -208,7 +208,7 @@ class CommentCountManager(models.Manager):
 		return (model_definition, query)
 
 
-	def get_query_set(self, query, count_query = None, model_definition = None, params = []):
+	def get_raw_query_set(self, query, count_query = None, model_definition = None, params = []):
 		if count_query is None:
 			count_query = 'SELECT COUNT(*) FROM (' + query.replace('[extracolumns]', '').replace('[extrajoin]', '') + ') AS count'
 		queryset = NewCommentQuerySet(query, count_query, model_definition = model_definition, using = 'default', params = params)

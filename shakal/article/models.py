@@ -42,7 +42,7 @@ class ArticleListManager(CommentCountManager):
 		query += ' ORDER BY "'+table+'"."id" DESC'
 
 		params = [datetime.now(), True] + extra_params
-		return super(ArticleListManager, self).get_query_set(query, model_definition = model_definition, params = params)
+		return super(ArticleListManager, self).get_raw_query_set(query, model_definition = model_definition, params = params)
 
 	def filter(self, category = None, top = None):
 		table = Article._meta.db_table
