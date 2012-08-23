@@ -58,12 +58,11 @@ class TopicListManager(CommentCountManager):
 		return super(TopicListManager, self).get_raw_query_set(query, model_definition = model_definition, params = params)
 
 	def newest_topics(self, section = None):
-		extra_filter = ''
-		extra_params = []
+		queryset = self.get_prefetch_query_set()
 		if not section is None:
-			extra_filter = '"'+Topic._meta.db_table+'"."section_id" = %s'
-			extra_params = [section]
-		return self._generate_query_set(order = '-pk', extra_filter = extra_filter, extra_params = extra_params)
+			queryset = queryset.filter(section = section)
+		queryset = queryset.order_by('-pk')
+		return queryset
 
 	def newest_comments(self):
 		return self._generate_query_set(order = '-last_comment', reverse = True)
