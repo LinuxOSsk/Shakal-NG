@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from attachment.models import Attachment
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.core.exceptions import ValidationError
@@ -97,6 +98,7 @@ class Topic(models.Model):
 	user = models.ForeignKey(User, blank = True, null = True, verbose_name = _('user'))
 	comments_header = generic.GenericRelation(RootHeader)
 	breadcrumb_label = _('forum')
+	attachments = generic.GenericRelation(Attachment)
 
 	def get_username(self):
 		if self.user:

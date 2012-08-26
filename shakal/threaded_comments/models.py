@@ -3,6 +3,7 @@
 import datetime
 import mptt
 
+from attachment.models import Attachment
 from django.db import models
 from django.db.models import Count, Max
 from django.db.models.query import QuerySet
@@ -89,6 +90,7 @@ class ThreadedComment(Comment):
 	is_locked = models.BooleanField(default = False)
 	objects = ThreadedCommentManager()
 	comment_objects = ThreadedCommentManager(HideRootQuerySet)
+	attachments = generic.GenericRelation(Attachment)
 
 	class Meta:
 		ordering = ('tree_id', 'lft')
