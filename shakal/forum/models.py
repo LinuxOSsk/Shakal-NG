@@ -85,7 +85,7 @@ class TopicListManager(CommentCountManager):
 		)
 
 
-class TopicAbstract(models.Model):
+class Topic(models.Model):
 	objects = TopicManager()
 	topics = TopicListManager()
 
@@ -120,20 +120,5 @@ class TopicAbstract(models.Model):
 		return self.subject
 
 	class Meta:
-		abstract = True
-
-
-class Topic(TopicAbstract):
-	class Meta:
 		verbose_name = _('topic')
 		verbose_name_plural = _('topics')
-
-
-class TopicView(TopicAbstract):
-	class Meta:
-		managed = False
-
-
-class TopicReverseView(TopicAbstract):
-	class Meta:
-		managed = False
