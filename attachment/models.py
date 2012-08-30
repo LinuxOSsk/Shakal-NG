@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
+from django.core.exceptions import ValidationError
+from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
 import os
 
@@ -37,6 +40,20 @@ class Attachment(models.Model):
 				pass
 		self.size = self.attachment.size
 		super(Attachment, self).save(*args, **kwargs)
+
+	def clean(self):
+		max_size = getattr(settings, 'ATTACHMENT_MAX_SIZE', -1)
+		if max_size >= 0 and self.attachment.size > max_size:
+			raise ValidationError(_('File size exceeded, maximum size is ') + filesizeformat(max_size))
+		db_table = self.content_type.model_class()._meta.db_table
+		size_for_content = getattr(settings, 'ATTACHMENT_SIZE_FOR_CONTENT', {}).get(db_table, -1)
+		if size_for_content >= 0:
+			size = Attachment.objects.filter(object_id = self.object_id, content_type = self.content_type).aggregate(models.Sum('size'))["size__sum"]
+			if size is None:
+				size = 0
+			if self.attachment.size + size > size_for_content:
+				raise ValidationError(_('File size for this content exceeded, maximum size is ') + filesizeformat(size_for_content))
+
 
 	@property
 	def name(self):
