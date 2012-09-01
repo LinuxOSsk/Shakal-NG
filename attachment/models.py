@@ -65,3 +65,11 @@ class Attachment(models.Model):
 	class Meta:
 		verbose_name = _('attachment')
 		verbose_name_plural = _('attachments')
+
+
+class UploadSession(models.Model):
+	created = models.DateTimeField(auto_now_add = True)
+
+
+class TemporaryAttachment(Attachment):
+	session = models.ForeignKey(UploadSession)
