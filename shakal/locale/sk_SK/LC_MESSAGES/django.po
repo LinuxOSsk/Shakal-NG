@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-05 14:35+0200\n"
+"POT-Creation-Date: 2012-09-02 11:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,27 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "X-Language: sk_SK\n"
 "X-Source-Language: C\n"
+
+msgid "attachment"
+msgstr "príloha"
+
+msgid "attachments"
+msgstr "prílohy"
+
+msgid "Maximum size is: "
+msgstr "Maximálna veľkosť je: "
+
+msgid "created"
+msgstr "vytvorené"
+
+msgid "size"
+msgstr "veľkosť"
+
+msgid "File size exceeded, maximum size is "
+msgstr "Veľkosť súboru prekročená, maximálna veľkosť je "
+
+msgid "File size for this content exceeded, maximum size is "
+msgstr "Veľkosť súboru pre tento obsah prekročená, maximálna veľkosť je "
 
 msgid "^admin/"
 msgstr "^administracia/"
@@ -278,6 +299,9 @@ msgstr "Predmet"
 
 msgid "Comment"
 msgstr "Komentár"
+
+msgid "Attachment"
+msgstr "Príloha"
 
 msgid "Shakal admin"
 msgstr "Shakal administrácia"

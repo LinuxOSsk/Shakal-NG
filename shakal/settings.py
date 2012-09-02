@@ -155,3 +155,8 @@ ACCOUNT_ACTIVATION_DAYS = 7
 ABSOLUTE_URL_OVERRIDES = {
 	'auth.user': lambda o: '/profil/{0}/'.format(o.pk)
 }
+
+ATTACHMENT_MAX_SIZE = 1024**2 * 50;
+ATTACHMENT_SIZE_FOR_CONTENT = {
+	'threaded_comments_threadedcomment': 1024**2 * 2
+}

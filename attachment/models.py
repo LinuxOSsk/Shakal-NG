@@ -7,6 +7,7 @@ from django.contrib.contenttypes import generic
 from django.core.exceptions import ValidationError
 from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
+import uuid
 import os
 
 class Attachment(models.Model):
@@ -42,18 +43,30 @@ class Attachment(models.Model):
 		super(Attachment, self).save(*args, **kwargs)
 
 	def clean(self):
-		max_size = getattr(settings, 'ATTACHMENT_MAX_SIZE', -1)
-		if max_size >= 0 and self.attachment.size > max_size:
-			raise ValidationError(_('File size exceeded, maximum size is ') + filesizeformat(max_size))
-		db_table = self.content_type.model_class()._meta.db_table
-		size_for_content = getattr(settings, 'ATTACHMENT_SIZE_FOR_CONTENT', {}).get(db_table, -1)
-		if size_for_content >= 0:
-			size = Attachment.objects.filter(object_id = self.object_id, content_type = self.content_type).aggregate(models.Sum('size'))["size__sum"]
-			if size is None:
-				size = 0
-			if self.attachment.size + size > size_for_content:
-				raise ValidationError(_('File size for this content exceeded, maximum size is ') + filesizeformat(size_for_content))
+		available_size = self.get_available_size(self.content_type, self.object_id, class_instance = self._meta.model)
+		if self.attachment.size > available_size:
+			raise ValidationError(_('File size exceeded, maximum size is ') + filesizeformat(available_size))
 
+	@staticmethod
+	def get_available_size(content_type, object_id, class_instance):
+		if isinstance(content_type, (int, long, str, unicode)):
+			content_type = ContentType.objects.get(pk = int(content_type))
+		max_size = getattr(settings, 'ATTACHMENT_MAX_SIZE', -1)
+		db_table = content_type.model_class()._meta.db_table
+		size_for_content = getattr(settings, 'ATTACHMENT_SIZE_FOR_CONTENT', {}).get(db_table, -1)
+		# Bez limitu
+		if max_size == -1 and size_for_content == -1:
+			return -1
+		# Obsah bez limitu
+		if size_for_content == -1:
+			return max_size
+		size = class_instance.objects.filter(object_id = object_id, content_type = content_type).aggregate(models.Sum('size'))["size__sum"]
+		if size is None:
+			size = 0
+		if max_size == -1:
+			return size_for_content - size
+		else:
+			return min(max_size, size_for_content - size)
 
 	@property
 	def name(self):
@@ -67,8 +80,12 @@ class Attachment(models.Model):
 		verbose_name_plural = _('attachments')
 
 
+def generate_uuid():
+	return uuid.uuid1().hex
+
 class UploadSession(models.Model):
 	created = models.DateTimeField(auto_now_add = True)
+	uuid = models.CharField(max_length = 32, unique = True, default = generate_uuid)
 
 
 class TemporaryAttachment(Attachment):

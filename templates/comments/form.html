@@ -1,5 +1,5 @@
 {% load comments i18n %}
-<form action="{% comment_form_target %}" method="post" id="comment-form">{% csrf_token %}
+<form action="{% comment_form_target %}" enctype="multipart/form-data" method="post" id="comment-form">{% csrf_token %}
 	<fieldset>
 		{% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
 		{% include 'includes/form_loop.html' with form=form %}

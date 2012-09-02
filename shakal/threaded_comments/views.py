@@ -76,9 +76,12 @@ def post_comment(request):
 	parent = ThreadedComment.objects.get(pk = data['parent_pk'])
 	content_object = parent.content_object
 
-	form = get_form()(target, logged = request.user.is_authenticated(), parent_comment = parent, data = data)
+	form = get_form()(target, logged = request.user.is_authenticated(), parent_comment = parent, data = data, files = request.FILES)
+
 	if form.security_errors():
 		return http.HttpResponseBadRequest()
+
+	form.process_attachments(data['content_type'])
 
 	if form.errors or not 'create' in data:
 		template_list = [
