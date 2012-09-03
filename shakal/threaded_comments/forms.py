@@ -46,9 +46,10 @@ class ThreadedCommentForm(CommentForm):
 
 		self.fields['attachment'].widget.attrs['max_size'] = TemporaryAttachment.get_available_size(ContentType.objects.get_for_model(ThreadedComment), -1, TemporaryAttachment)
 		self.fields.keyOrder = key_order
-		self.files = kwargs.pop('files', {})
 
 	def process_attachments(self, content_type, object_id = -1):
+		if not self.files:
+			return
 		try:
 			session = UploadSession.objects.get(uuid = self.data['upload_session'])
 		except UploadSession.DoesNotExist:
