@@ -17,7 +17,7 @@ class ThreadedCommentForm(CommentForm):
 	subject = forms.CharField(label = _("Subject"), max_length = 100)
 	parent_pk = forms.IntegerField(widget = forms.HiddenInput, required = False)
 	comment = forms.CharField(label = _("Comment"), max_length = COMMENT_MAX_LENGTH, widget = forms.Textarea)
-	attachment = AttachmentField(label = _("Attachment"), required = True)
+	attachment = AttachmentField(label = _("Attachment"), required = False)
 	upload_session = forms.CharField(label = "Upload session", widget = HiddenInput, required = False)
 
 	def __init__(self, *args, **kwargs):
@@ -47,7 +47,7 @@ class ThreadedCommentForm(CommentForm):
 		self.fields['attachment'].widget.attrs['max_size'] = TemporaryAttachment.get_available_size(ContentType.objects.get_for_model(ThreadedComment), -1, TemporaryAttachment)
 		self.fields.keyOrder = key_order
 
-	def process_attachments(self, content_type, object_id = -1):
+	def process_attachments(self):
 		if not self.files:
 			return
 		try:
@@ -56,6 +56,14 @@ class ThreadedCommentForm(CommentForm):
 			session = UploadSession()
 			session.save()
 		self.data['upload_session'] = session.uuid
+
+		attachment = TemporaryAttachment(
+			session = session,
+			attachment = self.files['attachment'],
+			content_type = ContentType.objects.get_for_model(TemporaryAttachment),
+			object_id = session.id
+		)
+		attachment.save()
 
 	def get_comment_model(self):
 		return ThreadedComment

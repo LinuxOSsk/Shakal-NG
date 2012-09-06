@@ -23,6 +23,8 @@ class AttachmentField(FileField):
 		super(AttachmentField, self).__init__(**kwargs)
 
 	def clean(self, value, initial):
+		if value is None:
+			return super(AttachmentField, self).clean(value, initial)
 		if self.widget.attrs.get('max_size', -1) != -1:
 			if value.size > self.widget.attrs['max_size']:
 				raise ValidationError(_('File size exceeded, maximum size is ') + filesizeformat(self.widget.attrs['max_size']))

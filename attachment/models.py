@@ -12,11 +12,12 @@ import os
 
 class Attachment(models.Model):
 	def upload_dir(instance, filename):
+		content_class = instance.content_type.model_class()
 		return 'attachment/{0}_{1}/{2}/{3:02x}/{4}'.format(
-			instance.content_object._meta.app_label,
-			instance.content_object._meta.object_name.lower(),
-			instance.content_object.pk,
-			instance.content_object.pk,
+			content_class._meta.app_label,
+			content_class._meta.object_name.lower(),
+			instance.object_id,
+			instance.object_id,
 			filename
 		)
 

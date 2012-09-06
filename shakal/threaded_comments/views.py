@@ -81,7 +81,7 @@ def post_comment(request):
 	if form.security_errors():
 		return http.HttpResponseBadRequest()
 
-	form.process_attachments(data['content_type'])
+	form.process_attachments()
 
 	if form.errors or not 'create' in data:
 		template_list = [
