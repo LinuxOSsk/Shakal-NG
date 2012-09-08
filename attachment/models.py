@@ -7,6 +7,7 @@ from django.contrib.contenttypes import generic
 from django.core.exceptions import ValidationError
 from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
+from common_utils import clean_dir
 import uuid
 import os
 
@@ -29,8 +30,10 @@ class AttachmentAbstract(models.Model):
 	content_object = generic.GenericForeignKey('content_type', 'object_id')
 
 	def delete(self, *args, **kwargs):
+		path = self.attachment.storage.path(self.attachment.name)
 		super(AttachmentAbstract, self).delete(*args, **kwargs)
 		self.attachment.storage.delete(self.attachment.path)
+		clean_dir(os.path.dirname(path), settings.MEDIA_ROOT)
 
 	def save(self, *args, **kwargs):
 		if self.pk:
