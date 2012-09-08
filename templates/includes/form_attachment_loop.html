@@ -19,7 +19,7 @@
 					<tr class="{% cycle row1,row2 %}">
 						<td>
 							{% for hidden in attachment.hidden_fields %}{{ hidden }}{% endfor %}
-							<a href="{{ attachment.instance.attachment.url }}">{{ attachment.instance.attachment.name }}</a>
+							<a href="{{ attachment.instance.attachment.url }}">{{ attachment.instance.basename }}</a>
 						</td>
 						<td>
 							{{ attachment.instance.attachment.size|filesizeformat }}

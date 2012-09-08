@@ -29,6 +29,9 @@ class AttachmentAbstract(models.Model):
 	object_id = models.PositiveIntegerField()
 	content_object = generic.GenericForeignKey('content_type', 'object_id')
 
+	def basename(self):
+		return os.path.basename(self.attachment.name)
+
 	def delete(self, *args, **kwargs):
 		path = self.attachment.storage.path(self.attachment.name)
 		super(AttachmentAbstract, self).delete(*args, **kwargs)

@@ -65,7 +65,12 @@ class ThreadedCommentForm(CommentForm):
 						match[0].delete()
 				rownum += 1
 
-		uploaded_size = TemporaryAttachment.objects.filter(session__uuid = self.data['upload_session']).aggregate(Sum('size'))["size__sum"]
+		try:
+			uploaded_size = TemporaryAttachment.objects.filter(session__uuid = self.data['upload_session']).aggregate(Sum('size'))["size__sum"]
+		except KeyError:
+			uploaded_size = 0
+		if uploaded_size is None:
+			uploaded_size = 0
 		self.fields['attachment'].widget.attrs['max_size'] = TemporaryAttachment.get_available_size(ContentType.objects.get_for_model(ThreadedComment), uploaded_size)
 
 	def process_attachments(self):
