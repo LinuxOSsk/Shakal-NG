@@ -10,13 +10,13 @@ from django.utils.translation import ugettext_lazy as _
 import uuid
 import os
 
-class Attachment(models.Model):
+class AttachmentAbstract(models.Model):
 	def upload_dir(instance, filename):
 		content_class = instance.content_type.model_class()
-		return 'attachment/{0}_{1}/{2}/{3:02x}/{4}'.format(
+		return 'attachment/{0}_{1}/{2:02x}/{3}/{4}'.format(
 			content_class._meta.app_label,
 			content_class._meta.object_name.lower(),
-			instance.object_id,
+			instance.object_id % 256,
 			instance.object_id,
 			filename
 		)
@@ -41,7 +41,7 @@ class Attachment(models.Model):
 			except:
 				pass
 		self.size = self.attachment.size
-		super(Attachment, self).save(*args, **kwargs)
+		super(AttachmentAbstract, self).save(*args, **kwargs)
 
 	def clean(self):
 		available_size = self.get_available_size(self.content_type, self.object_id, class_instance = self._meta.model)
@@ -77,6 +77,11 @@ class Attachment(models.Model):
 		return self.attachment.name
 
 	class Meta:
+		abstract = True
+
+
+class Attachment(AttachmentAbstract):
+	class Meta:
 		verbose_name = _('attachment')
 		verbose_name_plural = _('attachments')
 
@@ -89,5 +94,5 @@ class UploadSession(models.Model):
 	uuid = models.CharField(max_length = 32, unique = True, default = generate_uuid)
 
 
-class TemporaryAttachment(Attachment):
+class TemporaryAttachment(AttachmentAbstract):
 	session = models.ForeignKey(UploadSession)
