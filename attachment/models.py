@@ -52,30 +52,27 @@ class AttachmentAbstract(models.Model):
 		super(AttachmentAbstract, self).save(*args, **kwargs)
 
 	def clean(self):
-		available_size = self.get_available_size(self.content_type, self.object_id, class_instance = self.__class__)
+		available_size = self.get_available_size(self.content_type, class_instance = self.__class__.objects.filter(object_id = self.object_id, content_type = self.content_type).aggregate(models.Sum('size'))["size__sum"])
 		if self.attachment.size > available_size:
 			raise ValidationError(_('File size exceeded, maximum size is ') + filesizeformat(available_size))
 
 	@staticmethod
-	def get_available_size(content_type, object_id, class_instance):
+	def get_available_size(content_type, uploaded_size):
 		if isinstance(content_type, (int, long, str, unicode)):
 			content_type = ContentType.objects.get(pk = int(content_type))
 		max_size = getattr(settings, 'ATTACHMENT_MAX_SIZE', -1)
 		db_table = content_type.model_class()._meta.db_table
 		size_for_content = getattr(settings, 'ATTACHMENT_SIZE_FOR_CONTENT', {}).get(db_table, -1)
 		# Bez limitu
-		if max_size == -1 and size_for_content == -1:
+		if max_size < 0 and size_for_content < 0:
 			return -1
 		# Obsah bez limitu
-		if size_for_content == -1:
+		if size_for_content < 0:
 			return max_size
-		size = class_instance.objects.filter(object_id = object_id, content_type = content_type).aggregate(models.Sum('size'))["size__sum"]
-		if size is None:
-			size = 0
-		if max_size == -1:
-			return size_for_content - size
+		if max_size < 0:
+			return max(size_for_content - uploaded_size, 0)
 		else:
-			return min(max_size, size_for_content - size)
+			return max(min(max_size, size_for_content - uploaded_size), 0)
 
 	@property
 	def name(self):

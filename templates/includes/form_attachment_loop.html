@@ -3,6 +3,7 @@
 {% block nested %}
 	{{ block.super }}
 	{{ form.attachments.management_form }}
+	{% if form.attachments.forms %}
 	<div class="form-row">
 		<div>
 			<label class="formset_label">Prílohy:</label>
@@ -17,7 +18,7 @@
 				{% for attachment in form.attachments.forms %}
 					<tr class="{% cycle row1,row2 %}">
 						<td>
-							{% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+							{% for hidden in attachment.hidden_fields %}{{ hidden }}{% endfor %}
 							<a href="{{ attachment.instance.attachment.url }}">{{ attachment.instance.attachment.name }}</a>
 						</td>
 						<td>
@@ -31,4 +32,5 @@
 			</table>
 		</div>
 	</div>
+	{% endif %}
 {% endblock %}
