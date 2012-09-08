@@ -4,13 +4,21 @@ from django import forms
 from django.conf import settings
 from django.contrib.comments.forms import CommentForm, COMMENT_MAX_LENGTH
 from django.contrib.contenttypes.models import ContentType
+from django.forms.formsets import formset_factory
 from django.forms.widgets import HiddenInput
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from attachment.fields import AttachmentField
-from attachment.models import UploadSession, TemporaryAttachment
+from attachment.models import UploadSession, Attachment, TemporaryAttachment
 from time import time
 from models import ThreadedComment
+
+
+class AttachmentForm(forms.Form):
+	pass
+
+
+AttachmentFormset = formset_factory(AttachmentForm, can_delete = True)
 
 
 class ThreadedCommentForm(CommentForm):
@@ -64,6 +72,29 @@ class ThreadedCommentForm(CommentForm):
 			object_id = session.id
 		)
 		attachment.save()
+
+	def move_attachments(self, content_object):
+		temp_attachments = self.get_attachments()
+		if not temp_attachments:
+			return
+		for temp_attachment in temp_attachments:
+			attachment = Attachment(
+				attachment = temp_attachment.attachment.name,
+				content_type = ContentType.objects.get_for_model(content_object.__class__),
+				object_id = content_object.pk
+			)
+			attachment.save()
+			temp_attachment.delete()
+
+	def get_attachments(self):
+		if self.data and 'upload_session' in self.data:
+			try:
+				session = UploadSession.objects.get(uuid = self.data['upload_session'])
+				return TemporaryAttachment.objects.filter(session = session)
+			except UploadSession.DoesNotExist:
+				return []
+		else:
+			return []
 
 	def get_comment_model(self):
 		return ThreadedComment

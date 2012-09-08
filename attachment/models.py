@@ -11,7 +11,7 @@ import uuid
 import os
 
 class AttachmentAbstract(models.Model):
-	def upload_dir(instance, filename):
+	def upload_to(instance, filename):
 		content_class = instance.content_type.model_class()
 		return 'attachment/{0}_{1}/{2:02x}/{3}/{4}'.format(
 			content_class._meta.app_label,
@@ -21,7 +21,7 @@ class AttachmentAbstract(models.Model):
 			filename
 		)
 
-	attachment = models.FileField(verbose_name = _('attachment'), upload_to = upload_dir)
+	attachment = models.FileField(verbose_name = _('attachment'), upload_to = upload_to)
 	created = models.DateTimeField(auto_now_add = True, verbose_name = _('created'))
 	size = models.IntegerField(verbose_name = _('size'))
 	content_type = models.ForeignKey(ContentType)
@@ -29,7 +29,7 @@ class AttachmentAbstract(models.Model):
 	content_object = generic.GenericForeignKey('content_type', 'object_id')
 
 	def delete(self, *args, **kwargs):
-		super(Attachment, self).delete(*args, **kwargs)
+		super(AttachmentAbstract, self).delete(*args, **kwargs)
 		self.attachment.storage.delete(self.attachment.path)
 
 	def save(self, *args, **kwargs):
@@ -41,10 +41,15 @@ class AttachmentAbstract(models.Model):
 			except:
 				pass
 		self.size = self.attachment.size
+		target_name = self.upload_to(os.path.basename(self.attachment.name))
+		if target_name != self.attachment.name:
+			if self.attachment.storage.exists(self.attachment.name):
+				file_name = self.attachment.storage.save(self.upload_to(os.path.basename(self.attachment.name)), self.attachment.file)
+				self.attachment = file_name
 		super(AttachmentAbstract, self).save(*args, **kwargs)
 
 	def clean(self):
-		available_size = self.get_available_size(self.content_type, self.object_id, class_instance = self._meta.model)
+		available_size = self.get_available_size(self.content_type, self.object_id, class_instance = self.__class__)
 		if self.attachment.size > available_size:
 			raise ValidationError(_('File size exceeded, maximum size is ') + filesizeformat(available_size))
 

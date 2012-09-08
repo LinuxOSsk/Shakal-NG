@@ -47,6 +47,7 @@ def reply_comment(request, parent):
 	next = request.GET.get('next', content_object.get_absolute_url())
 	context = {
 		'form': form,
+		'attachments': form.get_attachments(),
 		'next': next,
 		'parent': parent_comment if parent_comment.parent_id else False,
 		'content_object': content_object,
@@ -82,6 +83,7 @@ def post_comment(request):
 		return http.HttpResponseBadRequest()
 
 	form.process_attachments()
+	print(form.get_attachments())
 
 	if form.errors or not 'create' in data:
 		template_list = [
@@ -95,6 +97,7 @@ def post_comment(request):
 			comment['user'] = request.user
 		context = {
 			'form': form,
+			'attachments': form.get_attachments(),
 			'next': data['next'],
 			'comment': comment,
 			'valid': valid,
@@ -111,6 +114,7 @@ def post_comment(request):
 		comment.user = request.user
 
 	comment.save()
+	form.move_attachments(comment)
 
 	data['next'] = data['next'] + '#link_' + str(comment.pk)
 
