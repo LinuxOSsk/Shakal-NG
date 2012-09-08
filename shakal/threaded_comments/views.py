@@ -83,7 +83,6 @@ def post_comment(request):
 		return http.HttpResponseBadRequest()
 
 	form.process_attachments()
-	print(form.get_attachments())
 
 	if form.errors or not 'create' in data:
 		template_list = [

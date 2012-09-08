@@ -4,7 +4,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.comments.forms import CommentForm, COMMENT_MAX_LENGTH
 from django.contrib.contenttypes.models import ContentType
-from django.forms.formsets import formset_factory
+from django.forms.models import modelformset_factory
 from django.forms.widgets import HiddenInput
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -18,7 +18,7 @@ class AttachmentForm(forms.Form):
 	pass
 
 
-AttachmentFormset = formset_factory(AttachmentForm, can_delete = True)
+AttachmentFormset = modelformset_factory(TemporaryAttachment, can_delete = True, extra = 0, fields = ())
 
 
 class ThreadedCommentForm(CommentForm):
@@ -95,6 +95,24 @@ class ThreadedCommentForm(CommentForm):
 				return []
 		else:
 			return []
+
+	@property
+	def attachments(self):
+		if not hasattr(self, 'attachments_formset'):
+			attachments = self.get_attachments()
+			if self.data:
+				self.attachments_formset = AttachmentFormset(queryset = attachments)
+				rownum = 0
+				while self.attachments_formset.prefix + '-' + str(rownum) + '-id' in self.data:
+					pk = int(self.data[self.attachments_formset.prefix + '-' + str(rownum) + '-id'])
+					if self.attachments_formset.prefix + '-' + str(rownum) + '-DELETE' in self.data:
+						match = filter(lambda x: x.pk == pk, attachments)
+						if match:
+							match[0].delete()
+					rownum += 1
+				attachments = self.get_attachments()
+			self.attachments_formset = AttachmentFormset(queryset = attachments)
+		return self.attachments_formset
 
 	def get_comment_model(self):
 		return ThreadedComment

@@ -1,0 +1,34 @@
+{% extends "includes/form_loop.html" %}
+
+{% block nested %}
+	{{ block.super }}
+	{{ form.attachments.management_form }}
+	<div class="form-row">
+		<div>
+			<label class="formset_label">Prílohy:</label>
+			<table class="formset">
+				<thead>
+					<tr>
+						<th>Príloha</th>
+						<th>Veľkosť</th>
+						<th>Odstrániť</th>
+					</tr>
+				</thead>
+				{% for attachment in form.attachments.forms %}
+					<tr class="{% cycle row1,row2 %}">
+						<td>
+							{% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+							<a href="{{ attachment.instance.attachment.url }}">{{ attachment.instance.attachment.name }}</a>
+						</td>
+						<td>
+							{{ attachment.instance.attachment.size|filesizeformat }}
+						</td>
+						<td>
+							{{ attachment.DELETE }}
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</div>
+{% endblock %}
