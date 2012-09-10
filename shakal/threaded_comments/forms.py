@@ -4,25 +4,16 @@ from django import forms
 from django.conf import settings
 from django.contrib.comments.forms import CommentForm, COMMENT_MAX_LENGTH
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import Sum
-from django.forms.models import modelformset_factory
 from django.forms.widgets import HiddenInput
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from attachment.fields import AttachmentField
-from attachment.models import UploadSession, Attachment, TemporaryAttachment
+from attachment.forms import AttachmentFormMixin
 from time import time
 from models import ThreadedComment
 
 
-class AttachmentForm(forms.Form):
-	pass
-
-
-AttachmentFormset = modelformset_factory(TemporaryAttachment, can_delete = True, extra = 0, fields = ())
-
-
-class ThreadedCommentForm(CommentForm):
+class ThreadedCommentForm(CommentForm, AttachmentFormMixin):
 	subject = forms.CharField(label = _("Subject"), max_length = 100)
 	parent_pk = forms.IntegerField(widget = forms.HiddenInput, required = False)
 	comment = forms.CharField(label = _("Comment"), max_length = COMMENT_MAX_LENGTH, widget = forms.Textarea)
@@ -53,84 +44,10 @@ class ThreadedCommentForm(CommentForm):
 			del self.fields['name']
 			del key_order[1]
 		self.fields.keyOrder = key_order
+		self.process_attachments()
 
-		if self.data:
-			attachments = self.get_attachments()
-			rownum = 0
-			while 'form-' + str(rownum) + '-id' in self.data:
-				pk = int(self.data['form-' + str(rownum) + '-id'])
-				if 'form-' + str(rownum) + '-DELETE' in self.data:
-					match = filter(lambda x: x.pk == pk, attachments)
-					if match:
-						match[0].delete()
-				rownum += 1
-		self.set_attachment_size()
-
-	def set_attachment_size(self):
-		try:
-			uploaded_size = TemporaryAttachment.objects
-			uploaded_size = uploaded_size.filter(session__uuid = self.data['upload_session'])
-			uploaded_size = uploaded_size.aggregate(Sum('size'))["size__sum"]
-		except KeyError:
-			uploaded_size = 0
-		if uploaded_size is None:
-			uploaded_size = 0
-		self.fields['attachment'].widget.attrs['max_size'] = TemporaryAttachment.get_available_size(ContentType.objects.get_for_model(ThreadedComment), uploaded_size)
-
-	def process_attachments(self):
-		try:
-			session = UploadSession.objects.get(uuid = self.data['upload_session'])
-		except UploadSession.DoesNotExist:
-			if self.files:
-				session = UploadSession()
-				session.save()
-
-		if not self.files:
-			return
-		self.data['upload_session'] = session.uuid
-
-		try:
-			cleaned_file = self.fields['attachment'].clean(self.files['attachment'], self.files['attachment'])
-
-			attachment = TemporaryAttachment(
-				session = session,
-				attachment = cleaned_file,
-				content_type = ContentType.objects.get_for_model(TemporaryAttachment),
-				object_id = session.id
-			)
-			attachment.save()
-			self.set_attachment_size()
-		except:
-			return
-
-	def move_attachments(self, content_object):
-		temp_attachments = self.get_attachments()
-		if not temp_attachments:
-			return
-		for temp_attachment in temp_attachments:
-			attachment = Attachment(
-				attachment = temp_attachment.attachment.name,
-				content_type = ContentType.objects.get_for_model(content_object.__class__),
-				object_id = content_object.pk
-			)
-			attachment.save()
-			temp_attachment.delete()
-
-	def get_attachments(self):
-		if self.data and 'upload_session' in self.data:
-			try:
-				session = UploadSession.objects.get(uuid = self.data['upload_session'])
-				return TemporaryAttachment.objects.filter(session = session)
-			except UploadSession.DoesNotExist:
-				return []
-		else:
-			return []
-
-	@property
-	def attachments(self):
-		if not hasattr(self, 'attachments_formset'):
-			self.attachments_formset = AttachmentFormset(queryset = self.get_attachments())
-		return self.attachments_formset
+	def get_model(self):
+		return ThreadedComment
 
 	def get_comment_model(self):
 		return ThreadedComment

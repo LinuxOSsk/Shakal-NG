@@ -82,8 +82,6 @@ def post_comment(request):
 	if form.security_errors():
 		return http.HttpResponseBadRequest()
 
-	form.process_attachments()
-
 	if form.errors or not 'create' in data:
 		template_list = [
 			"comments/{0}_{1}_preview.html".format(model._meta.app_label, model._meta.module_name),
