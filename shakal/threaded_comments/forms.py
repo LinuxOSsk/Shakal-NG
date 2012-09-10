@@ -64,7 +64,9 @@ class ThreadedCommentForm(CommentForm):
 					if match:
 						match[0].delete()
 				rownum += 1
+		self.set_attachment_size()
 
+	def set_attachment_size(self):
 		try:
 			uploaded_size = TemporaryAttachment.objects.filter(session__uuid = self.data['upload_session']).aggregate(Sum('size'))["size__sum"]
 		except KeyError:
@@ -95,6 +97,7 @@ class ThreadedCommentForm(CommentForm):
 			object_id = session.id
 		)
 		attachment.save()
+		self.set_attachment_size()
 
 	def move_attachments(self, content_object):
 		temp_attachments = self.get_attachments()
