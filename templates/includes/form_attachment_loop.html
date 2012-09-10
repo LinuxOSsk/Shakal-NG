@@ -1,4 +1,5 @@
 {% extends "includes/form_loop.html" %}
+{% load staticfiles %}
 
 {% block nested %}
 	{{ block.super }}
@@ -6,26 +7,22 @@
 	{% if form.attachments.forms %}
 	<div class="form-row">
 		<div>
-			<label class="formset_label">Prílohy:</label>
 			<table class="formset">
 				<thead>
 					<tr>
-						<th>Príloha</th>
-						<th>Veľkosť</th>
-						<th>Odstrániť</th>
+						<td style="width: 16px"><img src="{% static 'desktop/default/images/trashcan.png' %}" alt="Zmazať" title="Zmazať" style="vertical-align: middle"/></td>
+						<td><label class="formset_label">Prílohy</label></td>
 					</tr>
 				</thead>
 				{% for attachment in form.attachments.forms %}
 					<tr class="{% cycle row1,row2 %}">
 						<td>
 							{% for hidden in attachment.hidden_fields %}{{ hidden }}{% endfor %}
-							<a href="{{ attachment.instance.attachment.url }}">{{ attachment.instance.basename }}</a>
-						</td>
-						<td>
-							{{ attachment.instance.attachment.size|filesizeformat }}
-						</td>
-						<td>
 							{{ attachment.DELETE }}
+						</td>
+						<td>
+							<a href="{{ attachment.instance.attachment.url }}">{{ attachment.instance.basename }}</a>
+							({{ attachment.instance.attachment.size|filesizeformat }})
 						</td>
 					</tr>
 				{% endfor %}
