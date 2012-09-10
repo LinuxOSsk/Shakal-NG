@@ -68,7 +68,9 @@ class ThreadedCommentForm(CommentForm):
 
 	def set_attachment_size(self):
 		try:
-			uploaded_size = TemporaryAttachment.objects.filter(session__uuid = self.data['upload_session']).aggregate(Sum('size'))["size__sum"]
+			uploaded_size = TemporaryAttachment.objects
+			uploaded_size = uploaded_size.filter(session__uuid = self.data['upload_session'])
+			uploaded_size = uploaded_size.aggregate(Sum('size'))["size__sum"]
 		except KeyError:
 			uploaded_size = 0
 		if uploaded_size is None:
@@ -87,17 +89,19 @@ class ThreadedCommentForm(CommentForm):
 			return
 		self.data['upload_session'] = session.uuid
 
-		if (self.files['attachment'].size > self.fields['attachment'].widget.attrs['max_size']):
-			return
+		try:
+			cleaned_file = self.fields['attachment'].clean(self.files['attachment'], self.files['attachment'])
 
-		attachment = TemporaryAttachment(
-			session = session,
-			attachment = self.files['attachment'],
-			content_type = ContentType.objects.get_for_model(TemporaryAttachment),
-			object_id = session.id
-		)
-		attachment.save()
-		self.set_attachment_size()
+			attachment = TemporaryAttachment(
+				session = session,
+				attachment = cleaned_file,
+				content_type = ContentType.objects.get_for_model(TemporaryAttachment),
+				object_id = session.id
+			)
+			attachment.save()
+			self.set_attachment_size()
+		except:
+			return
 
 	def move_attachments(self, content_object):
 		temp_attachments = self.get_attachments()
