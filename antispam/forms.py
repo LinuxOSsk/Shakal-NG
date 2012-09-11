@@ -4,9 +4,7 @@ from antispam.fields import AntispamField
 from django.forms import Form
 import random
 
-class AntispamFormMixin(Form):
-	captcha = AntispamField(required = True)
-
+class AntispamMethodsMixin:
 	def generate_antispam(self):
 		sign = random.choice(['+', '-', '/', '*'])
 		num_1 = 0
@@ -37,3 +35,6 @@ class AntispamFormMixin(Form):
 		if request.method == 'GET':
 			request.session['antispam'] = self.generate_antispam()
 		self.set_antispam(request.session['antispam'])
+
+class AntispamFormMixin(Form, AntispamMethodsMixin):
+	captcha = AntispamField(required = True)

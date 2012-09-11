@@ -7,6 +7,8 @@ from django.template.defaultfilters import capfirst
 from django.utils.encoding import force_unicode
 from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _
+from antispam.fields import AntispamField
+from antispam.forms import AntispamMethodsMixin
 from models import Topic, Section
 
 
@@ -34,14 +36,18 @@ class SectionRenderer(RadioFieldRenderer):
 		return self.render_choice(idx)
 
 
-class TopicForm(forms.ModelForm):
+class TopicForm(forms.ModelForm, AntispamMethodsMixin):
 	section = SectionModelChoiceField(Section.objects.all(), empty_label=None, widget = RadioSelect(renderer = SectionRenderer), label = capfirst(_('section')))
+	captcha = AntispamField(required = True)
 
 	def __init__(self, *args, **kwargs):
 		logged = kwargs.pop('logged', False)
+		request = kwargs.pop('request')
 		super(TopicForm, self).__init__(*args, **kwargs)
 		if logged:
 			del(self.fields['username'])
+			del(self.fields['captcha'])
+		self.process_antispam(request)
 
 	class Meta:
 		model = Topic
