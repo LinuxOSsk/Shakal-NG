@@ -36,7 +36,9 @@ def reply_comment(request, parent):
 	else:
 		new_subject = force_unicode('RE: ') + force_unicode(content_object)
 
-	form = get_form()(content_object, logged = request.user.is_authenticated(), parent_comment = parent_comment, initial = {'subject': new_subject})
+	form = get_form()(content_object, logged = request.user.is_authenticated(), parent_comment = parent_comment, initial = {'subject': new_subject}, request = request)
+	request.session['antispam'] = form.generate_antispam()
+	form.set_antispam(request.session['antispam'])
 
 	model_meta = content_object.__class__._meta
 	template_list = [
@@ -77,7 +79,7 @@ def post_comment(request):
 	parent = ThreadedComment.objects.get(pk = data['parent_pk'])
 	content_object = parent.content_object
 
-	form = get_form()(target, logged = request.user.is_authenticated(), parent_comment = parent, data = data, files = request.FILES)
+	form = get_form()(target, logged = request.user.is_authenticated(), parent_comment = parent, data = data, files = request.FILES, request = request)
 
 	if form.security_errors():
 		return http.HttpResponseBadRequest()

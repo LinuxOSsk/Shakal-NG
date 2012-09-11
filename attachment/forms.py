@@ -34,7 +34,6 @@ class AttachmentFormMixin:
 		self.set_attachment_size()
 
 	def process_attachment_upload(self):
-		print(self.data)
 		try:
 			session = UploadSession.objects.get(uuid = self.data['upload_session'])
 		except UploadSession.DoesNotExist:

@@ -7,13 +7,14 @@ from django.contrib.contenttypes.models import ContentType
 from django.forms.widgets import HiddenInput
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from antispam.forms import AntispamFormMixin
 from attachment.fields import AttachmentField
 from attachment.forms import AttachmentFormMixin
 from time import time
 from models import ThreadedComment
 
 
-class ThreadedCommentForm(CommentForm, AttachmentFormMixin):
+class ThreadedCommentForm(CommentForm, AttachmentFormMixin, AntispamFormMixin):
 	subject = forms.CharField(label = _("Subject"), max_length = 100)
 	parent_pk = forms.IntegerField(widget = forms.HiddenInput, required = False)
 	comment = forms.CharField(label = _("Comment"), max_length = COMMENT_MAX_LENGTH, widget = forms.Textarea)
@@ -24,12 +25,14 @@ class ThreadedCommentForm(CommentForm, AttachmentFormMixin):
 		self.__parent_comment = kwargs.pop('parent_comment', None)
 		logged = kwargs.pop('logged', False)
 		files = kwargs.pop('files', {})
+		request = kwargs.pop('request')
 		super(ThreadedCommentForm, self).__init__(*args, **kwargs)
 		self.files = files
 		key_order = [
 			'subject',
 			'name',
 			'comment',
+			'captcha',
 			'attachment',
 			'honeypot',
 			'content_type',
@@ -43,7 +46,11 @@ class ThreadedCommentForm(CommentForm, AttachmentFormMixin):
 		if logged:
 			del self.fields['name']
 			del key_order[1]
+			del self.fields['captcha']
+			del key_order[2]
+
 		self.fields.keyOrder = key_order
+		self.process_antispam(request)
 		self.process_attachments()
 
 	def get_model(self):
