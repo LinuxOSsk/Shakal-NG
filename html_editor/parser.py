@@ -8,6 +8,9 @@ class AttributeException(Exception):
 	pass
 class TagReadException(Exception):
 	pass
+class ParserError(object):
+	def __init__(self):
+		self.message = ''
 
 class HtmlTag:
 	def __init__(self, name, req = [], opt = [], req_attributes = [], opt_attributes = [], attribute_validators = {}, empty = None):
@@ -58,6 +61,7 @@ class HtmlParser:
 
 	def __init__(self):
 		self.output = StringIO.StringIO()
+		self.errors = []
 
 	""" Získanie prečisteného HTML kódu. """
 	def get_output(self):
@@ -79,20 +83,26 @@ class HtmlParser:
 
 	def __unroll_stack(self):
 		if self.__tag_obj.empty == False:
-			print("sakra prazdny tag")
-			self.output.write("Nic")
+			self.__log_error("Empty tag")
+			self.output.write("&nbsp;")
 		if self.__tag_obj.req:
-			print("sakra nemam pozadovane tagy")
+			self.__log_error("Required tag")
 			for reqtag in self.__tag_obj.req:
 				self.__tag_obj = self.supported_tags[reqtag]
 				if self.__tag_obj.empty == False:
 					self.output.write('<' + reqtag + '/>')
 				else:
-					self.output.write('<' + reqtag + '>' + 'Tu chyba ' + reqtag + '</' + reqtag + '>')
+					self.output.write('<' + reqtag + '>' + reqtag + '</' + reqtag + '>')
 		self.output.write('</')
 		self.output.write(self.__tags[-1].name)
 		self.output.write('>')
 		self.__tags.pop()
+
+	""" Zaznamenanie chyby """
+	def __log_error(self, error):
+		parser_error = ParserError()
+		parser_error.error = error
+		self.errors.append(parser_error)
 
 	def __read_tag(self, match):
 		type, token = match.lastindex, match.group(match.lastindex)
@@ -114,7 +124,7 @@ class HtmlParser:
 			try:
 				to = self.supported_tags[self.__tagname]
 				if to.empty == False:
-					print("Sakra nemoze byt prazdny")
+					self.__log_error("Empty tag")
 					raise KeyError(self.__tagname);
 				self.__tag_str.write('/>')
 				self.output.write(self.__tag_str.getvalue())
@@ -192,7 +202,7 @@ class HtmlParser:
 
 			self.__state = self.TAG_READ
 			if attrname in self.__tag_attributes:
-				print ("atribut uz nastaveny")
+				self.__log_error("Duplicate attribute")
 			self.__tag_attributes[attrname] = (attrvalue, attrquot)
 
 		elif type == self.SPECIAL:
@@ -205,7 +215,7 @@ class HtmlParser:
 							self.__unroll_stack()
 							self.__tag_obj = self.__get_current_tag()
 						else:
-							print("nespravny uzatvaraci tag")
+							self.__log_error("Bad end tag")
 							can_unroll = False
 							for tag in self.__tags:
 								if self.__tagname == tag.name:
@@ -220,7 +230,7 @@ class HtmlParser:
 							self.__tag_obj = self.__get_current_tag()
 						self.__tag_str.truncate(0)
 					except:
-						print("Niet co uzatvarat")
+						self.__log_error("Bad end tag")
 						self.output.write(escape(self.__tag_str.getvalue()))
 						self.__tag_str.truncate(0)
 						self.__tagname = ''
@@ -228,7 +238,7 @@ class HtmlParser:
 					try:
 						to = copy.deepcopy(self.supported_tags[self.__tagname])
 						if (not self.__tagname in self.__tag_obj.req) and (not self.__tagname in self.__tag_obj.opt):
-							print("rolujem")
+							self.__log_error("Missing end tag")
 							can_unroll = False
 							for tag in self.__tags:
 								if (self.__tagname in tag.req) or (self.__tagname in tag.opt):
@@ -247,14 +257,14 @@ class HtmlParser:
 						self.__tags.append(to)
 						for attribute in self.__tag_attributes:
 							if (not attribute in to.req_attributes) and (not attribute in to.opt_attributes):
-								print("Preskakujem atribut")
+								self.__log_error("Skipping attribute")
 							else:
 								if attribute in to.req_attributes:
 									to.req_attributes.remove(attribute)
 								av = self.__tag_attributes[attribute]
 								self.__tag_str.write(attribute + '=' + av[1] + av[0] + av[1])
 						for attribute in to.req_attributes:
-							print("Vyzadovany atribut")
+							self.__log_error("Required attribute")
 							self.__tag_str.write(' ' + attribute + '=""')
 						# Zápis atribútov
 						self.__tag_str.write('>')
@@ -264,14 +274,14 @@ class HtmlParser:
 						self.__tag_obj= to
 					# Nepodporovany tag
 					except:
-						print("neznamy tag")
+						self.__log_error("Unknown tag")
 						self.__tag_str.write('>')
 						self.output.write(escape(self.__tag_str.getvalue()))
 						self.__tag_str.truncate(0)
 						self.__state = self.TEXT_READ
 				self.__tag_obj = self.__get_current_tag()
 			else:
-				print("nahovno token")
+				self.__log_error("Bad token")
 				raise TagReadException()
 			self.__state = self.TEXT_READ
 			self.__tagname = ''
@@ -326,7 +336,7 @@ class HtmlParser:
 					self.output.write(token)
 				if (type == self.ENTITY) or (type == self.TEXT) or (type == self.SPECIAL):
 					if self.__tag_obj.empty == True:
-						print("sakraaa nemozem zapisovat")
+						self.__log_error("No content allowed")
 						while self.__tag_obj.empty == True:
 							self.__unroll_stack()
 							self.__tag_obj = self.__get_current_tag()
@@ -349,6 +359,6 @@ class HtmlParser:
 					self.__state = self.TEXT_READ
 		# Uzatvorenie neuzatvorenych tagov
 		while len(self.__tags) > 1:
-			print("neuzavrety tag lamo")
+			self.__log_error("Tag not closed")
 			self.__unroll_stack()
 			self.__tag_obj = self.__get_current_tag()
