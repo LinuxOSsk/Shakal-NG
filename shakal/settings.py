@@ -112,6 +112,7 @@ INSTALLED_APPS = (
 	'autoimagefield',
 	'breadcrumbs',
 	'hitcount',
+	'html_editor',
 	'mptt',
 	'registration',
 	'paginator',

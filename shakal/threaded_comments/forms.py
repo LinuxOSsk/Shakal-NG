@@ -10,6 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from antispam.forms import AntispamFormMixin
 from attachment.fields import AttachmentField
 from attachment.forms import AttachmentFormMixin
+from html_editor.fields import HtmlField
 from time import time
 from models import ThreadedComment
 
@@ -17,7 +18,7 @@ from models import ThreadedComment
 class ThreadedCommentForm(CommentForm, AttachmentFormMixin, AntispamFormMixin):
 	subject = forms.CharField(label = _("Subject"), max_length = 100)
 	parent_pk = forms.IntegerField(widget = forms.HiddenInput, required = False)
-	comment = forms.CharField(label = _("Comment"), max_length = COMMENT_MAX_LENGTH, widget = forms.Textarea)
+	comment = HtmlField(label = _("Comment"), max_length = COMMENT_MAX_LENGTH, widget = forms.Textarea)
 	attachment = AttachmentField(label = _("Attachment"), required = False)
 	upload_session = forms.CharField(label = "Upload session", widget = HiddenInput, required = False)
 
@@ -73,7 +74,7 @@ class ThreadedCommentForm(CommentForm, AttachmentFormMixin, AntispamFormMixin):
 			'user_name' : self.data.get('name'),
 			'email'     : self.data.get('email'),
 			'url'       : self.data.get('url'),
-			'comment'   : self.data.get('comment'),
+			'comment'   : self.fields['comment'].to_python(self.data.get('comment')),
 		}
 
 	def generate_security_data(self):
