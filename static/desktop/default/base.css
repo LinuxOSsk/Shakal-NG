@@ -183,6 +183,14 @@ button span:before, .button.flat span:before, .object-tools a:before {
 	overflow: hidden;
 }
 
+.button.flat span span:before {
+	content: "";
+	width: 0;
+	background: none;
+	margin: 0;
+	text-indent: 0;
+}
+
 button:hover span:before, .button.flat:hover span:before {
 	background: url('images/button_flat.png') no-repeat left -38px !important;
 }
@@ -207,8 +215,19 @@ button span, .button.flat span, .object-tools a {
 	text-decoration: none;
 }
 
+.button.flat span span {
+	background: none;
+	display: inline;
+	float: none;
+	padding: 0;
+}
+
 #site_content button span, #site_content .button.flat span, #site_content .object-tools a:hover {
 	background: url('images/button_flat.png') no-repeat top right;
+}
+
+#site_content .button.flat span span {
+	background: none;
 }
 
 #site_content .button.flat span a {
@@ -225,6 +244,16 @@ button:active span, .button.flat:active span, button:focus span, .button.flat:fo
 
 button:active:hover span, .button.flat:active:hover span {
 	background: url('images/button_flat.png') no-repeat right -76px !important;
+}
+
+.button.flat:hover span span, .button.flat:active span span, .button.flat:active:hover span span {
+	background: none !important;
+}
+
+.button.flat span span.dropdown {
+	display: block;
+	padding-right: 15px;
+	background: url('images/down_icon_14.png') no-repeat right 13px !important;
 }
 
 .button.flat a {
@@ -401,7 +430,7 @@ h1 a, h2 a, h3 a {
 
 #site_content a:hover {
 	color: #0c3875;
-	background: rgba(215, 228, 239, 0.5);
+	background-color: rgba(215, 228, 239, 0.5);
 	border-radius: 3px;
 }
 

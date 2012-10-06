@@ -18,7 +18,7 @@ from models import ThreadedComment
 class ThreadedCommentForm(CommentForm, AttachmentFormMixin, AntispamFormMixin):
 	subject = forms.CharField(label = _("Subject"), max_length = 100)
 	parent_pk = forms.IntegerField(widget = forms.HiddenInput, required = False)
-	comment = HtmlField(label = _("Comment"), max_length = COMMENT_MAX_LENGTH, widget = forms.Textarea)
+	comment = HtmlField(label = _("Comment"), max_length = COMMENT_MAX_LENGTH)
 	attachment = AttachmentField(label = _("Attachment"), required = False)
 	upload_session = forms.CharField(label = "Upload session", widget = HiddenInput, required = False)
 
