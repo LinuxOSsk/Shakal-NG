@@ -7,3 +7,4 @@ pil
 phpserialize
 django-mptt
 django-generic-aggregation
+psycopg2
