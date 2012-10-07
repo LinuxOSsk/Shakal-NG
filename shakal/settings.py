@@ -43,7 +43,6 @@ STATIC_URL = '/static/'
 LOGIN_URL = '/profil/prihlasit/'
 
 STATICFILES_DIRS = (
-	('templates', os.path.join(ROOT, 'templates', 'static')),
 	os.path.join(ROOT, 'static'),
 )
 
