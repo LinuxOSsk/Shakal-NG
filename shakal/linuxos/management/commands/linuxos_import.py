@@ -20,6 +20,8 @@ from collections import OrderedDict
 import os
 import sys
 import urllib
+import urllib2
+from cookielib import CookieJar
 from phpserialize import loads
 
 class Command(BaseCommand):
@@ -59,6 +61,7 @@ class Command(BaseCommand):
 		return s
 
 	def handle(self, *args, **kwargs):
+		self.download_db()
 		self.cursor = connections["linuxos"].cursor()
 		self.import_users()
 		self.import_articles()
@@ -66,6 +69,37 @@ class Command(BaseCommand):
 		self.import_news()
 		self.import_survey()
 		self.import_discussion()
+
+	def download_db(self):
+		cj = CookieJar()
+		opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+		formdata = {
+			'driver': 'server',
+			'server': settings.DATABASES['linuxos_remote']['HOST'],
+			'username': settings.DATABASES['linuxos_remote']['USER'],
+			'password': settings.DATABASES['linuxos_remote']['PASSWORD']
+		}
+		data_encoded = urllib.urlencode(formdata)
+		response = opener.open('https://cloud.relbit.com/tools/adminer/', data_encoded)
+		response.read()
+		formdata = {
+			'output': 'gz',
+			'format': 'sql',
+			'db_style': 'CREATE',
+			'routines': '1',
+			'events': '1',
+			'table_style': 'DROP+CREATE',
+			'auto_increment': '1',
+			'triggers': '1',
+			'data_style': 'INSERT',
+			'databases[]': settings.DATABASES['linuxos_remote']['NAME']
+		}
+		data_encoded = urllib.urlencode(formdata)
+		response = opener.open('https://cloud.relbit.com/tools/adminer/?server='+settings.DATABASES['linuxos_remote']['HOST']+'&username='+settings.DATABASES['linuxos_remote']['USER']+'&dump', data_encoded)
+		f = open("dump.gz", "w")
+		content = response.read()
+		f.write(content)
+		f.close()
 
 	def import_users(self):
 		cols = [
