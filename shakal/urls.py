@@ -28,3 +28,5 @@ if settings.DEBUG:
 	urlpatterns += patterns('',
 		(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT})
 	)
+else:
+	handler500 = 'shakal.views.error_500'

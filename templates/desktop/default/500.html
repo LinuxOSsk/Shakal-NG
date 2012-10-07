@@ -1,1 +1,10 @@
 {% extends "error.html" %}
+
+{% block info %}
+Táto chyba by sa štandardne nemala vyskytnúť. Znamená buď internú chybu v skripte, alebo neočakávané dáta od užívateľa.
+{% endblock %}
+
+{% block podrobnosti %}
+	<li>Typ výnimky: {{ exception_type }}</li>
+	<li>Chybové hlásenie: {{ exception_value }}</li>
+{% endblock %}

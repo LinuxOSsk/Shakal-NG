@@ -1,9 +1,22 @@
 # -*- coding: utf-8 -*-
 
-from django.template import RequestContext
+from django.http import HttpResponseServerError
+from django.template import RequestContext, Context
+from django.template.loader import get_template
 from django.template.response import TemplateResponse
 from article.models import Article, Category as ArticleCategory
 from forum.models import Topic as ForumTopic
+import sys
+
+def error_500(request):
+	template = get_template('500.html')
+	type, value, tb = sys.exc_info()
+	return HttpResponseServerError(template.render(Context({
+		'exception_type': type.__name__,
+		'exception_value': value,
+		'request': request
+	})))
+
 
 def home(request):
 	try:
