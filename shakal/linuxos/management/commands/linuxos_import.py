@@ -23,6 +23,7 @@ import urllib
 import urllib2
 from cookielib import CookieJar
 from phpserialize import loads
+from subprocess import call
 
 class Command(BaseCommand):
 	args = ''
@@ -62,6 +63,7 @@ class Command(BaseCommand):
 
 	def handle(self, *args, **kwargs):
 		self.download_db()
+		return
 		self.cursor = connections["linuxos"].cursor()
 		self.import_users()
 		self.import_articles()
@@ -85,7 +87,7 @@ class Command(BaseCommand):
 		formdata = {
 			'output': 'gz',
 			'format': 'sql',
-			'db_style': 'CREATE',
+			'db_style': '',
 			'routines': '1',
 			'events': '1',
 			'table_style': 'DROP+CREATE',
@@ -100,6 +102,22 @@ class Command(BaseCommand):
 		content = response.read()
 		f.write(content)
 		f.close()
+		linuxos_settings = settings.DATABASES['linuxos']
+		call('zcat dump.gz|mysql \
+			--user='+linuxos_settings['USER']+' \
+			--password='+linuxos_settings['PASSWORD']+' \
+			--host='+linuxos_settings['HOST']+' \
+			--port='+linuxos_settings['PORT']+' \
+			' +linuxos_settings['NAME'], shell = True)
+		php_filename = os.path.join(os.path.dirname(__file__), 'decrypt.php')
+		call([
+			'php', php_filename,
+			linuxos_settings['USER'],
+			linuxos_settings['PASSWORD'],
+			linuxos_settings['HOST'],
+			linuxos_settings['PORT'],
+			linuxos_settings['NAME'],
+			linuxos_settings['PRIV_KEY']])
 
 	def import_users(self):
 		cols = [
