@@ -63,7 +63,6 @@ class Command(BaseCommand):
 
 	def handle(self, *args, **kwargs):
 		self.download_db()
-		return
 		self.cursor = connections["linuxos"].cursor()
 		self.import_users()
 		self.import_articles()
@@ -186,7 +185,7 @@ class Command(BaseCommand):
 			user_profile_objects.append(user_profile_object)
 		User.objects.bulk_create(user_objects)
 		UserProfile.objects.bulk_create(user_profile_objects)
-		connections['default'].cursor().execute('SELECT setval(\'auth_user_id_seq\', (SELECT MAX(id) FROM auth_user));')
+		connections['default'].cursor().execute('SELECT setval(\'auth_user_id_seq\', (SELECT MAX(id) FROM auth_user) + 1);')
 
 	def import_articles(self):
 		self.import_article_categories()
@@ -211,7 +210,7 @@ class Command(BaseCommand):
 			}
 			category_object = ArticleCategory(**category)
 			category_object.save()
-		connections['default'].cursor().execute('SELECT setval(\'article_category_id_seq\', (SELECT MAX(id) FROM article_category));')
+		connections['default'].cursor().execute('SELECT setval(\'article_category_id_seq\', (SELECT MAX(id) FROM article_category) + 1);')
 
 	def import_article_contents(self):
 		cols = [
@@ -255,7 +254,7 @@ class Command(BaseCommand):
 			}
 			articles.append(Article(**clanok))
 		Article.objects.bulk_create(articles)
-		connections['default'].cursor().execute('SELECT setval(\'article_article_id_seq\', (SELECT MAX(id) FROM article_article));')
+		connections['default'].cursor().execute('SELECT setval(\'article_article_id_seq\', (SELECT MAX(id) FROM article_article) + 1);')
 
 	def import_article_hitcount(self):
 		cols = [
@@ -321,7 +320,7 @@ class Command(BaseCommand):
 				'description': section_dict['popis'],
 			}
 			ForumSection(**section).save()
-		connections['default'].cursor().execute('SELECT setval(\'forum_section_id_seq\', (SELECT MAX(id) FROM forum_section));')
+		connections['default'].cursor().execute('SELECT setval(\'forum_section_id_seq\', (SELECT MAX(id) FROM forum_section) + 1);')
 
 	def import_forum_topics(self):
 		users = set(map(lambda x: x['id'], User.objects.values('id')))
@@ -362,7 +361,7 @@ class Command(BaseCommand):
 				topics = []
 		ForumTopic.objects.bulk_create(topics)
 		topics = []
-		connections['default'].cursor().execute('SELECT setval(\'forum_topic_id_seq\', (SELECT MAX(id) FROM forum_topic));')
+		connections['default'].cursor().execute('SELECT setval(\'forum_topic_id_seq\', (SELECT MAX(id) FROM forum_topic) + 1);')
 
 	def import_news(self):
 		users = dict(map(lambda x: (x['id'], (x['first_name'], x['last_name'], x['username'])), User.objects.values('id', 'first_name', 'last_name', 'username')))
@@ -416,7 +415,7 @@ class Command(BaseCommand):
 				news_objects = []
 		News.objects.bulk_create(news_objects)
 		news_objects = []
-		connections['default'].cursor().execute('SELECT setval(\'news_news_id_seq\', (SELECT MAX(id) FROM news_news));')
+		connections['default'].cursor().execute('SELECT setval(\'news_news_id_seq\', (SELECT MAX(id) FROM news_news) + 1);')
 
 	def import_survey(self):
 		all_slugs = set()
@@ -475,8 +474,8 @@ class Command(BaseCommand):
 			for item in items:
 				answers.append(SurveyAnswer(survey = surveys[survey_dict['id']], answer = item[0], votes = item[1]))
 		SurveyAnswer.objects.bulk_create(answers)
-		connections['default'].cursor().execute('SELECT setval(\'survey_survey_id_seq\', (SELECT MAX(id) FROM survey_survey));')
-		connections['default'].cursor().execute('SELECT setval(\'survey_answer_id_seq\', (SELECT MAX(id) FROM survey_answer));')
+		connections['default'].cursor().execute('SELECT setval(\'survey_survey_id_seq\', (SELECT MAX(id) FROM survey_survey) + 1);')
+		connections['default'].cursor().execute('SELECT setval(\'survey_answer_id_seq\', (SELECT MAX(id) FROM survey_answer) + 1);')
 
 	def import_discussion(self):
 		sys.stdout.write("Importing discussion\n")
@@ -537,7 +536,7 @@ class Command(BaseCommand):
 					LEFT OUTER JOIN threaded_comments_rootheader ON (threaded_comments_rootheader.content_type_id = '+str(self.content_types['forum'])+' AND threaded_comments_rootheader.object_id = forum_topic.id)\
 					WHERE object_id IS NULL;')
 		connections['default'].cursor().execute('UPDATE threaded_comments_rootheader SET last_comment = (SELECT time FROM forum_topic WHERE id = object_id) WHERE last_comment IS NULL AND content_type_id = '+str(self.content_types['forum'])+';')
-		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', (SELECT MAX(id) FROM threaded_comments_rootheader));')
+		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', (SELECT MAX(id) FROM threaded_comments_rootheader) + 1);')
 
 	def decode_username_for_comment(self, comment_row):
 		if (comment_row['first_name'] + ' ' + comment_row['last_name']).strip():
@@ -655,8 +654,8 @@ class Command(BaseCommand):
 			query_params = tuple((c['comment_ptr_id'], c['subject'], c['parent_id'], c['is_locked'], c['lft'], c['rght'], c['tree_id'], c['level']) for c in comment_rows)
 			connection.cursor().executemany(query, query_params)
 			transaction.commit()
-		connections['default'].cursor().execute('SELECT setval(\'django_comments_id_seq\', (SELECT MAX(id) FROM django_comments));')
-		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', (SELECT MAX(id) FROM threaded_comments_rootheader));')
+		connections['default'].cursor().execute('SELECT setval(\'django_comments_id_seq\', (SELECT MAX(id) FROM django_comments) + 1);')
+		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', (SELECT MAX(id) FROM threaded_comments_rootheader) + 1);')
 
 	def make_tree_structure(self, tree_items, root):
 		items = tree_items[root]
