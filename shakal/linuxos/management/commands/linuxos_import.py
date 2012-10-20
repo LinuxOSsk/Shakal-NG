@@ -62,6 +62,7 @@ class Command(BaseCommand):
 		return s
 
 	def handle(self, *args, **kwargs):
+		self.clean_db()
 		self.download_db()
 		self.cursor = connections["linuxos"].cursor()
 		self.import_users()
@@ -71,7 +72,48 @@ class Command(BaseCommand):
 		self.import_survey()
 		self.import_discussion()
 
+	def clean_db(self):
+		tables = [
+			('auth_group_permissions', 'auth_group_permissions_id_seq'),
+			('auth_user_user_permissions', 'auth_user_user_permissions_id_seq'),
+			('auth_permission', 'auth_permission_id_seq'),
+			('auth_group', 'auth_group_id_seq'),
+			('accounts_userprofile', 'accounts_userprofile_id_seq'),
+			('threaded_comments_rootheader', 'threaded_comments_rootheader_id_seq'),
+			('threaded_comments_userdiscussionattribute', 'threaded_comments_userdiscussionattribute_id_seq'),
+			('threaded_comments_threadedcomment', ),
+			('django_comments', 'django_comments_id_seq'),
+			('django_comment_flags', 'django_comment_flags_id_seq'),
+			('forum_topic', 'forum_topic_id_seq'),
+			('django_admin_log', 'django_admin_log_id_seq'),
+			('attachment_attachment', 'attachment_attachment_id_seq'),
+			('attachment_temporaryattachment', 'attachment_temporaryattachment_id_seq'),
+			('attachment_uploadsession', 'attachment_uploadsession_id_seq'),
+			('article_category', 'article_category_id_seq'),
+			('article_article', 'article_article_id_seq'),
+			('news_news', 'news_news_id_seq'),
+			('registration_registrationprofile', 'registration_registrationprofile_id_seq'),
+			('survey_answer', 'survey_answer_id_seq'),
+			('survey_recordip', 'survey_recordip_id_seq'),
+			('survey_recorduser', 'survey_recorduser_id_seq'),
+			('survey_survey', 'survey_survey_id_seq'),
+			('auth_user', 'auth_user_id_seq'),
+			('forum_section', 'forum_section_id_seq'),
+			('hitcount_hitcount', 'hitcount_hitcount_id_seq'),
+			('auth_remember_remembertoken', ),
+		]
+
+		sys.stdout.write("Cleaning tables\n")
+		for table in tables:
+			sys.stdout.write(table[0] + "                            \r")
+			sys.stdout.flush()
+			connections['default'].cursor().execute('DELETE FROM '+table[0]+';')
+			if len(table) > 1:
+				connections['default'].cursor().execute('SELECT setval(\''+table[1]+'\', 1);')
+
 	def download_db(self):
+		sys.stdout.write("Downloading LinuxOS database ...\n")
+		sys.stdout.flush()
 		cj = CookieJar()
 		opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 		formdata = {
@@ -102,6 +144,8 @@ class Command(BaseCommand):
 		f.write(content)
 		f.close()
 		linuxos_settings = settings.DATABASES['linuxos']
+		sys.stdout.write("Importing LinuxOS database ...\n")
+		sys.stdout.flush()
 		call('zcat dump.gz|mysql \
 			--user='+linuxos_settings['USER']+' \
 			--password='+linuxos_settings['PASSWORD']+' \
