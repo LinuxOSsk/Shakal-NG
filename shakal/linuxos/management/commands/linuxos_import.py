@@ -18,18 +18,72 @@ from shakal.utils import create_unique_slug
 from hitcount.models import HitCount
 from collections import OrderedDict
 import os
-import sys
 import urllib
 import urllib2
 from cookielib import CookieJar
+from copy import copy
 from phpserialize import loads
 from subprocess import call
+from progressbar import Bar, BouncingBar, ETA, FormatLabel, ProgressBar, RotatingMarker
+
+
+class ProgressLogger:
+	def __init__(self):
+		self.main_progress = {'text': '', 'steps': 0, 'progress': 0}
+		self.sub_progress = {'text': '', 'steps': 0, 'progress': 0}
+		self.pb_widgets = [FormatLabel('%(value)6d / %(max)-6d '), Bar('>'), ' ', ETA()]
+		self.pb_widgets_bounce = [FormatLabel('%(value)6d (%(elapsed)s) '), BouncingBar(marker=RotatingMarker())]
+		self.progressbar = None
+
+	def set_main_progress(self, text, steps, progress = 0):
+		if text != self.main_progress['text']:
+			print("\x1b[37;1m" + text + '\x1b[0m')
+		self.main_progress = {'text': text, 'steps': steps, 'progress': progress}
+
+	def set_sub_progress(self, text, steps, progress = 0):
+		if self.progressbar is None:
+			if not steps:
+				self.progressbar = ProgressBar(widgets = [text] + self.pb_widgets_bounce, maxval = steps)
+			else:
+				self.progressbar = ProgressBar(widgets = [text] + self.pb_widgets, maxval = steps)
+			self.progressbar.start()
+		if not steps:
+			self.progressbar.widgets[0] = "%-15s " % text
+		else:
+			self.progressbar.widgets[0] = "%-16s " % text
+		self.progressbar.update(progress)
+		self.sub_progress = {'text': text, 'steps': steps, 'progress': progress}
+
+	def step_main_progress(self, text = None):
+		self.finish_sub_progress()
+		p = copy(self.main_progress)
+		p['progress'] += 1
+		if text is not None:
+			p['text'] = text
+		self.set_main_progress(**p)
+
+	def step_sub_progress(self, text = None):
+		p = copy(self.sub_progress)
+		p['progress'] += 1
+		if text is not None:
+			p['text'] = text
+		self.set_sub_progress(**p)
+
+	def finish_main_progress(self):
+		self.finish_sub_progress()
+
+	def finish_sub_progress(self):
+		if self.progressbar is not None:
+			self.progressbar.finish()
+		self.progressbar = None
+
 
 class Command(BaseCommand):
 	args = ''
 	help = 'Import data from LinuxOS'
 
 	def __init__(self, *args, **kwargs):
+		self.logger = ProgressLogger()
 		super(Command, self).__init__(*args, **kwargs)
 		self.content_types = {
 			'forum': ContentType.objects.get(app_label = 'forum', model = 'topic').pk,
@@ -38,7 +92,6 @@ class Command(BaseCommand):
 			'anketa': ContentType.objects.get(app_label = 'survey', model = 'survey').pk,
 		}
 		self.inverted_content_types = dict([(v, k) for (k, v) in self.content_types.iteritems()])
-
 
 	def decode_cols_to_dict(self, names, values):
 		return dict(zip(names, values))
@@ -62,15 +115,25 @@ class Command(BaseCommand):
 		return s
 
 	def handle(self, *args, **kwargs):
-		self.clean_db()
-		self.download_db()
 		self.cursor = connections["linuxos"].cursor()
+		self.logger.set_main_progress(u"Import LinuxOS", 9, 0)
+		self.logger.step_main_progress(u"Čistenie dtabázy")
+		self.clean_db()
+		self.logger.step_main_progress(u"Sťahovanie starej dtabázy")
+		self.download_db()
+		self.logger.step_main_progress(u"Import užívateľov")
 		self.import_users()
+		self.logger.step_main_progress(u"Import článkov")
 		self.import_articles()
+		self.logger.step_main_progress(u"Import fóra")
 		self.import_forum()
+		self.logger.step_main_progress(u"Import správ")
 		self.import_news()
+		self.logger.step_main_progress(u"Import ankiet")
 		self.import_survey()
+		self.logger.step_main_progress(u"Import diskusie")
 		self.import_discussion()
+		self.logger.finish_main_progress()
 
 	def clean_db(self):
 		tables = [
@@ -103,17 +166,15 @@ class Command(BaseCommand):
 			('auth_remember_remembertoken', ),
 		]
 
-		sys.stdout.write("Cleaning tables\n")
+		self.logger.set_sub_progress(u"Tabuľka", len(tables))
 		for table in tables:
-			sys.stdout.write(table[0] + "                            \r")
-			sys.stdout.flush()
+			self.logger.step_sub_progress(u"%35s" % (table[0], ))
 			connections['default'].cursor().execute('DELETE FROM '+table[0]+';')
 			if len(table) > 1:
 				connections['default'].cursor().execute('SELECT setval(\''+table[1]+'\', 1);')
+		self.logger.finish_sub_progress()
 
 	def download_db(self):
-		sys.stdout.write("Downloading LinuxOS database ...\n")
-		sys.stdout.flush()
 		cj = CookieJar()
 		opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 		formdata = {
@@ -144,8 +205,6 @@ class Command(BaseCommand):
 		f.write(content)
 		f.close()
 		linuxos_settings = settings.DATABASES['linuxos']
-		sys.stdout.write("Importing LinuxOS database ...\n")
-		sys.stdout.flush()
 		call('zcat dump.gz|mysql \
 			--user='+linuxos_settings['USER']+' \
 			--password='+linuxos_settings['PASSWORD']+' \
@@ -180,16 +239,12 @@ class Command(BaseCommand):
 			'real_name',
 		]
 		self.cursor.execute('SELECT COUNT(*) FROM users WHERE prava > 0')
-		count = self.cursor.fetchall()[0][0]
-		counter = 0
+		self.logger.set_sub_progress(u"Užívatelia", self.cursor.fetchall()[0][0])
 		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM users WHERE prava > 0')
-		sys.stdout.write("Importing users\n")
 		user_objects = []
 		user_profile_objects = []
 		for user in self.cursor:
-			counter += 1
-			sys.stdout.write("{0} / {1}\r".format(counter, count))
-			sys.stdout.flush()
+			self.logger.step_sub_progress()
 			user_dict = self.decode_cols_to_dict(cols, user)
 			base_user = {
 				'pk': user_dict['id'],
@@ -230,11 +285,24 @@ class Command(BaseCommand):
 		User.objects.bulk_create(user_objects)
 		UserProfile.objects.bulk_create(user_profile_objects)
 		connections['default'].cursor().execute('SELECT setval(\'auth_user_id_seq\', (SELECT MAX(id) FROM auth_user) + 1);')
+		self.logger.finish_sub_progress()
 
 	def import_articles(self):
+		self.cursor.execute('SELECT COUNT(*) FROM clanky')
+		self.articles_count = self.cursor.fetchall()[0][0]
+
+		self.logger.set_sub_progress(u"Kategórie", None)
 		self.import_article_categories()
+		self.logger.finish_sub_progress()
+
+		self.logger.set_sub_progress(u"Obsah", self.articles_count)
 		self.import_article_contents()
+		self.logger.finish_sub_progress()
+
+		self.logger.set_sub_progress(u"Hlasovanie", self.articles_count)
 		self.import_article_hitcount()
+		self.logger.finish_sub_progress()
+
 		self.import_article_images()
 
 	def import_article_categories(self):
@@ -245,6 +313,7 @@ class Command(BaseCommand):
 		]
 		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM clanky_kategorie')
 		for category_row in self.cursor:
+			self.logger.step_sub_progress()
 			category_dict = self.decode_cols_to_dict(cols, category_row)
 			category = {
 				'pk': category_dict['id'],
@@ -275,6 +344,7 @@ class Command(BaseCommand):
 		articles = []
 		unique_slugs = {}
 		for clanok_row in self.cursor:
+			self.logger.step_sub_progress()
 			clanok_dict = self.decode_cols_to_dict(cols, clanok_row)
 			slug = slugify(clanok_dict['nazov'])[:45]
 			if slug in unique_slugs:
@@ -313,17 +383,15 @@ class Command(BaseCommand):
 
 		hitcount = []
 		for article in Article.objects.all():
+			self.logger.step_sub_progress()
 			hitcount.append(HitCount(content_object = article, hits = hitcount_map.get(article.pk, 0)))
 		HitCount.objects.bulk_create(hitcount)
 
 	def import_article_images(self):
 		articles = Article.objects.exclude(image = '')[:]
-		sys.stdout.write("Downloading articles\n")
-		counter = 0;
+		self.logger.set_sub_progress(u"Obrázky", len(articles))
 		for article in articles:
-			counter += 1;
-			sys.stdout.write("{0} / {1}\r".format(counter, len(articles)))
-			sys.stdout.flush()
+			self.logger.step_sub_progress()
 			image_file = str(article.image)
 			if image_file[0] == '/':
 				image_file = 'http://www.linuxos.sk' + image_file
@@ -340,6 +408,7 @@ class Command(BaseCommand):
 				article.save()
 			except IOError:
 				pass
+		self.logger.finish_sub_progress()
 
 	def import_forum(self):
 		self.import_forum_sections()
@@ -352,8 +421,6 @@ class Command(BaseCommand):
 			'popis'
 		]
 		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM forum_sekcie')
-		sys.stdout.write("Importing forum sections\n")
-		sys.stdout.flush()
 		for section_row in self.cursor:
 			section_dict = self.decode_cols_to_dict(cols, section_row)
 			section_dict['nazov'] = self.unescape(section_dict['nazov'])
@@ -378,16 +445,13 @@ class Command(BaseCommand):
 			'datetime'
 		]
 		self.cursor.execute('SELECT COUNT(*) FROM forum')
-		count = self.cursor.fetchall()[0][0]
+		self.logger.set_sub_progress(u"Fórum", self.cursor.fetchall()[0][0])
 		counter = 0
 		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM forum')
-		sys.stdout.write("Importing forum\n")
-		sys.stdout.flush()
 		topics = []
 		for topic_row in self.cursor:
+			self.logger.step_sub_progress()
 			counter += 1
-			sys.stdout.write("{0} / {1}\r".format(counter, count))
-			sys.stdout.flush()
 			topic_dict = self.decode_cols_to_dict(cols, topic_row)
 			topic = {
 				'pk': topic_dict['id'],
@@ -406,6 +470,7 @@ class Command(BaseCommand):
 		ForumTopic.objects.bulk_create(topics)
 		topics = []
 		connections['default'].cursor().execute('SELECT setval(\'forum_topic_id_seq\', (SELECT MAX(id) FROM forum_topic) + 1);')
+		self.logger.finish_sub_progress()
 
 	def import_news(self):
 		users = dict(map(lambda x: (x['id'], (x['first_name'], x['last_name'], x['username'])), User.objects.values('id', 'first_name', 'last_name', 'username')))
@@ -419,16 +484,13 @@ class Command(BaseCommand):
 			'schvalene'
 		]
 		self.cursor.execute('SELECT COUNT(*) FROM spravy')
-		count = self.cursor.fetchall()[0][0]
+		self.logger.set_sub_progress(u"Správy", self.cursor.fetchall()[0][0])
 		counter = 0
 		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM spravy')
-		sys.stdout.write("Importing news\n")
-		sys.stdout.flush()
 		news_objects = []
 		for news_row in self.cursor:
+			self.logger.step_sub_progress()
 			counter += 1
-			sys.stdout.write("{0} / {1}\r".format(counter, count))
-			sys.stdout.flush()
 			news_dict = self.decode_cols_to_dict(cols, news_row)
 
 			slug = str(news_dict['id'])
@@ -460,6 +522,7 @@ class Command(BaseCommand):
 		News.objects.bulk_create(news_objects)
 		news_objects = []
 		connections['default'].cursor().execute('SELECT setval(\'news_news_id_seq\', (SELECT MAX(id) FROM news_news) + 1);')
+		self.logger.finish_sub_progress()
 
 	def import_survey(self):
 		all_slugs = set()
@@ -474,8 +537,8 @@ class Command(BaseCommand):
 			'schvalena',
 			'article_id',
 		]
-		sys.stdout.write("Importing surveys\n")
-		sys.stdout.flush()
+		self.cursor.execute('SELECT COUNT(*) FROM anketa')
+		self.logger.set_sub_progress(u"Anketa", self.cursor.fetchall()[0][0])
 		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM anketa')
 		surveys = []
 		for survey_row in self.cursor:
@@ -508,6 +571,7 @@ class Command(BaseCommand):
 		answers = []
 		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM anketa')
 		for survey_row in self.cursor:
+			self.logger.step_sub_progress()
 			survey_dict = self.decode_cols_to_dict(cols, survey_row)
 			survey_answers = loads(bytes(survey_dict['odpovede'].encode('utf-8')), array_hook=OrderedDict)
 			survey_answers = [unicode(a[1], encoding='utf-8') for a in survey_answers.iteritems()]
@@ -520,15 +584,10 @@ class Command(BaseCommand):
 		SurveyAnswer.objects.bulk_create(answers)
 		connections['default'].cursor().execute('SELECT setval(\'survey_survey_id_seq\', (SELECT MAX(id) FROM survey_survey) + 1);')
 		connections['default'].cursor().execute('SELECT setval(\'survey_answer_id_seq\', (SELECT MAX(id) FROM survey_answer) + 1);')
+		self.logger.finish_sub_progress()
 
 	def import_discussion(self):
-		sys.stdout.write("Importing discussion\n")
-		sys.stdout.flush()
-		sys.stdout.write("Headers ...\n")
-		sys.stdout.flush()
 		self.import_discussion_headers()
-		sys.stdout.write("Contents ...\n")
-		sys.stdout.flush()
 		self.import_discussion_comments()
 
 	def import_discussion_headers(self):
@@ -541,15 +600,14 @@ class Command(BaseCommand):
 			'vyriesene',
 		]
 		self.cursor.execute('SELECT COUNT(*) FROM diskusia_header')
-		count = self.cursor.fetchall()[0][0]
+		self.logger.set_sub_progress(u"Diskusia meta", self.cursor.fetchall()[0][0])
 		counter = 0
 		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM diskusia_header')
 		root_header_objects = []
 		unique_check = set()
 		for header_row in self.cursor:
+			self.logger.step_sub_progress()
 			counter += 1
-			sys.stdout.write("{0} / {1}\r".format(counter, count))
-			sys.stdout.flush()
 
 			header_dict = self.decode_cols_to_dict(cols, header_row)
 			if header_dict['kategoria'] == 'eshop':
@@ -581,6 +639,7 @@ class Command(BaseCommand):
 					WHERE object_id IS NULL;')
 		connections['default'].cursor().execute('UPDATE threaded_comments_rootheader SET last_comment = (SELECT time FROM forum_topic WHERE id = object_id) WHERE last_comment IS NULL AND content_type_id = '+str(self.content_types['forum'])+';')
 		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', (SELECT MAX(id) FROM threaded_comments_rootheader) + 1);')
+		self.logger.finish_sub_progress()
 
 	def decode_username_for_comment(self, comment_row):
 		if (comment_row['first_name'] + ' ' + comment_row['last_name']).strip():
@@ -615,11 +674,11 @@ class Command(BaseCommand):
 		headers = ThreadedRootHeader.objects.values_list('id', 'content_type_id', 'object_id', 'is_locked')
 		counter = 0
 		comment_counter = 0
+		self.logger.set_sub_progress(u"Diskusia obsah", len(headers))
 		for id, content_type_id, object_pk, is_locked in headers:
+			self.logger.step_sub_progress()
 			counter += 1
 			comment_counter += 1
-			sys.stdout.write("{0} / {1}\r".format(counter, len(headers)))
-			sys.stdout.flush()
 			self.cursor.execute(select_query.format(object_pk, self.inverted_content_types[content_type_id]))
 			comment_objects = [Comment(
 				comment = '-',
@@ -700,6 +759,7 @@ class Command(BaseCommand):
 			transaction.commit()
 		connections['default'].cursor().execute('SELECT setval(\'django_comments_id_seq\', (SELECT MAX(id) FROM django_comments) + 1);')
 		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', (SELECT MAX(id) FROM threaded_comments_rootheader) + 1);')
+		self.logger.finish_sub_progress()
 
 	def make_tree_structure(self, tree_items, root):
 		items = tree_items[root]

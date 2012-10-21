@@ -8,3 +8,4 @@ phpserialize
 django-mptt
 django-generic-aggregation
 psycopg2
+progressbar
