@@ -81,6 +81,7 @@ MIDDLEWARE_CLASSES = (
 	'auth_remember.middleware.AuthRememberMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django_tools.middlewares.ThreadLocal.ThreadLocalMiddleware', # required for template_dynamicloader
+	'maintenance.middleware.MaintenanceMiddleware',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -113,6 +114,7 @@ INSTALLED_APPS = (
 	'breadcrumbs',
 	'hitcount',
 	'html_editor',
+	'maintenance',
 	'mptt',
 	'registration',
 	'paginator',

@@ -112,6 +112,7 @@ h2 {
 		<hr />
 		Už sme vyslali tím špeciálne vycvičených opíc, aby situáciu vyriešili.
 		<hr class="popis" />
+		{% block details %}
 		<h2>Podrobnosti</h2>
 		<ul>
 			<li>Zdroj chyby: Skript</li>
@@ -121,10 +122,11 @@ h2 {
 			<li>Port: {{ request.META.SERVER_PORT }}</li>
 			<li>Metóda: {{ request.META.REQUEST_METHOD }}</li>
 			<li>Protokol: {{ request.META.SERVER_PROTOCOL }}</li>
-			{% block podrobnosti %}
+			{% block more_details %}
 			{% endblock %}
 		</ul>
-		<div id="back"><a href="/">Späť na domovskú stránku</a></div>
+		{% endblock %}
+		{% block backlink %}<div id="back"><a href="/">Späť na domovskú stránku</a></div>{% endblock %}
 	</div>
 </body>
 </html>
