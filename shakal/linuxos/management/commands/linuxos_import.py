@@ -18,6 +18,8 @@ from shakal.utils import create_unique_slug
 from hitcount.models import HitCount
 from collections import OrderedDict
 import os
+import socket
+import threading
 import urllib
 import urllib2
 from cookielib import CookieJar
@@ -27,8 +29,44 @@ from subprocess import call
 from progressbar import Bar, BouncingBar, ETA, FormatLabel, ProgressBar, RotatingMarker
 
 
-class ProgressLogger:
+class SocketMaintenance(object):
 	def __init__(self):
+		self.address = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", "maintenance.flag"))
+		try:
+			os.unlink(self.address)
+		except OSError:
+			if os.path.exists(self.address):
+				raise
+		self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+		self.sock.bind(self.address)
+		self.sock.listen(1)
+		self.thread = threading.Thread(target = self.process_connections)
+		self.thread.start()
+
+	def finish(self):
+		self.sock.shutdown(2)
+		self.thread.join()
+		try:
+			os.unlink(self.address)
+		except OSError:
+			if os.path.exists(self.address):
+				raise
+
+	def process_connections(self):
+		while True:
+			try:
+				sock_connection, address = self.sock.accept()
+			except:
+				return
+			try:
+				sock_connection.sendall(self.get_info())
+			finally:
+				sock_connection.close()
+
+
+class ProgressLogger(SocketMaintenance):
+	def __init__(self):
+		super(ProgressLogger, self).__init__()
 		self.main_progress = {'text': '', 'steps': 0, 'progress': 0}
 		self.sub_progress = {'text': '', 'steps': 0, 'progress': 0}
 		self.pb_widgets = [FormatLabel('%(value)6d / %(max)-6d '), Bar('>'), ' ', ETA()]
@@ -77,6 +115,9 @@ class ProgressLogger:
 			self.progressbar.finish()
 		self.progressbar = None
 
+	def get_info(self):
+		return "test"
+
 
 class Command(BaseCommand):
 	args = ''
@@ -115,6 +156,10 @@ class Command(BaseCommand):
 		return s
 
 	def handle(self, *args, **kwargs):
+		import time
+		time.sleep(2)
+		self.logger.finish()
+		return
 		self.cursor = connections["linuxos"].cursor()
 		self.logger.set_main_progress(u"Import LinuxOS", 9, 0)
 		self.logger.step_main_progress(u"Čistenie dtabázy")
