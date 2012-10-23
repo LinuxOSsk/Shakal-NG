@@ -15,6 +15,7 @@ from shakal.news.models import News
 from shakal.survey.models import Survey, Answer as SurveyAnswer
 from shakal.threaded_comments.models import RootHeader as ThreadedRootHeader
 from shakal.utils import create_unique_slug
+from django.utils import simplejson
 from hitcount.models import HitCount
 from collections import OrderedDict
 import os
@@ -31,7 +32,7 @@ from progressbar import Bar, BouncingBar, ETA, FormatLabel, ProgressBar, Rotatin
 
 class SocketMaintenance(object):
 	def __init__(self):
-		self.address = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", "maintenance.flag"))
+		self.address = os.path.abspath("maintenance.flag")
 		try:
 			os.unlink(self.address)
 		except OSError:
@@ -116,7 +117,7 @@ class ProgressLogger(SocketMaintenance):
 		self.progressbar = None
 
 	def get_info(self):
-		return "test"
+		return simplejson.dumps({"main_progress": self.main_progress, "sub_progress": self.sub_progress, "text": u"Import dát"})
 
 
 class Command(BaseCommand):
@@ -156,10 +157,6 @@ class Command(BaseCommand):
 		return s
 
 	def handle(self, *args, **kwargs):
-		import time
-		time.sleep(2)
-		self.logger.finish()
-		return
 		self.cursor = connections["linuxos"].cursor()
 		self.logger.set_main_progress(u"Import LinuxOS", 9, 0)
 		self.logger.step_main_progress(u"Čistenie dtabázy")
@@ -179,6 +176,7 @@ class Command(BaseCommand):
 		self.logger.step_main_progress(u"Import diskusie")
 		self.import_discussion()
 		self.logger.finish_main_progress()
+		self.logger.finish()
 
 	def clean_db(self):
 		tables = [
