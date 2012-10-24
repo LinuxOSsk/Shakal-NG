@@ -135,6 +135,9 @@ class Command(BaseCommand):
 		}
 		self.inverted_content_types = dict([(v, k) for (k, v) in self.content_types.iteritems()])
 
+	def __del__(self):
+		self.logger.finish()
+
 	def decode_cols_to_dict(self, names, values):
 		return dict(zip(names, values))
 
@@ -159,7 +162,7 @@ class Command(BaseCommand):
 	def handle(self, *args, **kwargs):
 		self.cursor = connections["linuxos"].cursor()
 		self.logger.set_main_progress(u"Import LinuxOS", 9, 0)
-		self.logger.step_main_progress(u"Čistenie dtabázy")
+		self.logger.step_main_progress(u"Čistenie databázy")
 		self.clean_db()
 		self.logger.step_main_progress(u"Sťahovanie starej dtabázy")
 		self.download_db()
