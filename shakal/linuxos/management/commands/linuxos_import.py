@@ -160,26 +160,28 @@ class Command(BaseCommand):
 		return s
 
 	def handle(self, *args, **kwargs):
-		self.cursor = connections["linuxos"].cursor()
-		self.logger.set_main_progress(u"Import LinuxOS", 9, 0)
-		self.logger.step_main_progress(u"Čistenie databázy")
-		self.clean_db()
-		self.logger.step_main_progress(u"Sťahovanie starej dtabázy")
-		self.download_db()
-		self.logger.step_main_progress(u"Import užívateľov")
-		self.import_users()
-		self.logger.step_main_progress(u"Import článkov")
-		self.import_articles()
-		self.logger.step_main_progress(u"Import fóra")
-		self.import_forum()
-		self.logger.step_main_progress(u"Import správ")
-		self.import_news()
-		self.logger.step_main_progress(u"Import ankiet")
-		self.import_survey()
-		self.logger.step_main_progress(u"Import diskusie")
-		self.import_discussion()
-		self.logger.finish_main_progress()
-		self.logger.finish()
+		try:
+			self.cursor = connections["linuxos"].cursor()
+			self.logger.set_main_progress(u"Import LinuxOS", 9, 0)
+			self.logger.step_main_progress(u"Čistenie databázy")
+			self.clean_db()
+			self.logger.step_main_progress(u"Sťahovanie starej dtabázy")
+			self.download_db()
+			self.logger.step_main_progress(u"Import užívateľov")
+			self.import_users()
+			self.logger.step_main_progress(u"Import článkov")
+			self.import_articles()
+			self.logger.step_main_progress(u"Import fóra")
+			self.import_forum()
+			self.logger.step_main_progress(u"Import správ")
+			self.import_news()
+			self.logger.step_main_progress(u"Import ankiet")
+			self.import_survey()
+			self.logger.step_main_progress(u"Import diskusie")
+			self.import_discussion()
+			self.logger.finish_main_progress()
+		finally:
+			self.logger.finish()
 
 	def clean_db(self):
 		tables = [
