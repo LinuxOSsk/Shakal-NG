@@ -1,6 +1,7 @@
-{% load mptt_tags %}
+{% load mptt_tags template_preprocessor %}
 <div class="comments_tree">
 {% for comment, tree in comments|tree_info %}
+	{% !raw %}
 	{% if tree.new_level %}
 		<ul class="comment_thread thread_{{ comment.level }}">
 		<li class="comment">
@@ -8,10 +9,13 @@
 		</li>
 		<li class="comment">
 	{% endif %}
+	{% !endraw %}
 	{% include "comments/comment_item.html" %}
+	{% !raw %}
 	{% for level in tree.closed_levels %}
 		</li>
 		</ul>
 	{% endfor %}
+	{% !endraw %}
 {% endfor %}
 </div>

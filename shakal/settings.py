@@ -27,6 +27,7 @@ DATABASES = {
 TIME_ZONE = 'Europe/Bratislava'
 LANGUAGE_CODE = 'sk'
 LANGUAGES = (('sk', 'Slovak'),)
+TEMPLATES = (('desktop', ('default',),),)
 
 SITE_ID = 1
 
@@ -37,6 +38,10 @@ USE_TZ = False
 
 MEDIA_ROOT = os.path.abspath(os.path.join(ROOT, 'media'))
 MEDIA_URL = '/media/'
+
+MEDIA_CACHE_DIR = os.path.join(MEDIA_ROOT, 'cache')
+MEDIA_CACHE_URL = MEDIA_URL + 'cache/'
+TEMPLATE_CACHE_DIR = os.path.join(ROOT, 'templates', 'cache')
 
 STATIC_ROOT = ''
 STATIC_URL = '/static/'
@@ -117,6 +122,7 @@ INSTALLED_APPS = (
 	'maintenance',
 	'mptt',
 	'registration',
+	'template_preprocessor',
 	'paginator',
 	'shakal.accounts',
 	'shakal.article',

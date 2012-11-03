@@ -9,3 +9,4 @@ django-mptt
 django-generic-aggregation
 psycopg2
 progressbar
+git+git://github.com/citylive/django-template-preprocessor.git

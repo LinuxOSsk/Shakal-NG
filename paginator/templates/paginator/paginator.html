@@ -1,7 +1,7 @@
 {% if paginated %}
 {% load paginator_tags %}
 <div class="paginator">
-	<span class="prev">{% if previous %}<a href="{% pager_url previous %}">{% endif %}&lt;{% if previous %}</a>{% endif %}</span>
+	<span class="prev">{% if previous %}<a href="{% pager_url previous %}">&lt;</a>{% else %}&lt;{% endif %}</span>
 
 	{% for page in pages %}
 		{% if page %}
@@ -10,6 +10,6 @@
 		<span class="skip">...</span>
 		{% endif %}
 	{% endfor %}
-	<span class="next">{% if next %}<a href="{% pager_url next %}">{% endif %}&gt;{% if next %}</a>{% endif %}</span>
+	<span class="next">{% if next %}<a href="{% pager_url next %}">&gt;</a>{% else %}&gt;{% endif %}</span>
 </div>
 {% endif %}

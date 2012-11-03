@@ -6,7 +6,9 @@
 <div class="module article">
 	<h2>Články</h2>
 	<div class="article top">
-		{% include 'article/block_list_item.html' with article=top_article thumbnail=1 %}
+		{% with article=top_article %}
+		{% include 'article/block_list_item.html' with thumbnail=1 %}
+		{% endwith %}
 	</div>
 	{% for article in articles %}
 		{% include 'article/block_list_item.html' with thumbnail=0 %}
@@ -23,13 +25,19 @@
 <div class="module forum">
 	<h2>Diskusné fórum</h2>
 	<div class="module-row">
-		{% include "forum/block_topics_table.html" with caption="Najnovšie komentáre" forum=forum_new %}
+		{% with caption="Najnovšie komentáre" %}
+		{% include "forum/block_topics_table.html" with forum=forum_new %}
+		{% endwith %}
 	</div>
 	<div class="module-row">
-		{% include "forum/block_topics_table.html" with caption="Nediskutované témy" forum=forum_no_comments %}
+		{% with caption="Nediskutované témy" %}
+		{% include "forum/block_topics_table.html" with forum=forum_no_comments %}
+		{% endwith %}
 	</div>
 	<div class="module-row">
-		{% include "forum/block_topics_table.html" with caption="Najdiskutovanejšie témy" forum=forum_most_comments %}
+		{% with caption="Najdiskutovanejšie témy" %}
+		{% include "forum/block_topics_table.html" with forum=forum_most_comments %}
+		{% endwith %}
 	</div>
 	<div class="module-links bottom">
 		<a href="{% url 'forum:create' %}">Pridať novú tému</a> |

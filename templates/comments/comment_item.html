@@ -1,6 +1,6 @@
 {% load linuxos %}{% load url from future %}
 <div class="discussion header entry{% ifequal comment.user request.user %} me{% endifequal %}">
-	<div class="title">{{ comment.subject }}&nbsp;<a id="link_{{ comment.pk }}"></a></div>
+	<div class="title">{{ comment.subject }}&nbsp;<a id="link_{{ comment.pk }}" href="#"></a></div>
 	<span class="icon"></span>
 	<span class="user">
 		{% user_link comment.user comment.user_name %}
