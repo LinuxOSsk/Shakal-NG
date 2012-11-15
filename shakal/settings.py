@@ -86,6 +86,7 @@ MIDDLEWARE_CLASSES = (
 	'auth_remember.middleware.AuthRememberMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django_tools.middlewares.ThreadLocal.ThreadLocalMiddleware', # required for template_dynamicloader
+	'shakal.template_dynamicloader.middleware.TemplateSwitcherMiddleware',
 	'maintenance.middleware.MaintenanceMiddleware',
 )
 
