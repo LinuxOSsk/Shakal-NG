@@ -24,6 +24,7 @@ urlpatterns = patterns('',
 	url(_(r'^maintenance/'), include(maintenance_urls.urlpatterns)),
 	url(_(r'^news/'), include(news_urls.urlpatterns)),
 	url(_(r'^survey/'), include(survey_urls.urlpatterns)),
+	url(_(r'^template-change/$'), 'shakal.template_dynamicloader.views.change', name = 'template-change'),
 )
 
 if settings.DEBUG:

@@ -4,6 +4,7 @@ from django.template import TemplateDoesNotExist, loader
 from django.template.loader import BaseLoader
 from shakal.template_dynamicloader.settings import TEMPLATE_DEFAULT_SKIN, TEMPLATE_DEFAULT_DEVICE
 from django_tools.middlewares.ThreadLocal import get_current_request
+from shakal.template_dynamicloader.utils import decode_switch_template
 import os
 
 class Loader(BaseLoader):
@@ -27,6 +28,9 @@ class Loader(BaseLoader):
 			template_skin = request.session['template_skin']
 		except KeyError:
 			template_skin = TEMPLATE_DEFAULT_SKIN;
+
+		if request.method == 'GET' and 'switch_template' in request.GET:
+			(template_device, template_skin, css) = decode_switch_template(request.GET['switch_template'])
 
 		return os.path.join(template_device, template_skin)
 
