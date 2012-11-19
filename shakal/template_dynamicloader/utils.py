@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from django.conf import settings
-from shakal.template_dynamicloader.settings import TEMPLATE_DEFAULT_SKIN, TEMPLATE_DEFAULT_DEVICE
 
 
 def switch_template(request, device, template, css):
@@ -41,20 +40,18 @@ def get_template_settings(request):
 		template_device = request.session['template_device']
 		templates = dict(settings.TEMPLATES)
 		if not template_device in templates:
-			template_device = TEMPLATE_DEFAULT_DEVICE
+			template_device = settings.TEMPLATES[0][0]
 	except KeyError:
-		template_device = TEMPLATE_DEFAULT_DEVICE
+		template_device = settings.TEMPLATES[0][0]
 
-	device_templates = set({})
-	if template_device in templates:
-		device_templates = templates[template_device]
+	device_templates = set(templates[template_device])
 
 	try:
 		template_skin = request.session['template_skin']
 		if not template_skin in device_templates:
-			template_skin = TEMPLATE_DEFAULT_SKIN
+			template_skin = templates[template_device][0]
 	except KeyError:
-		template_skin = TEMPLATE_DEFAULT_SKIN
+		template_skin = templates[template_device][0]
 
 	css = None
 	if request.method == 'GET' and 'switch_template' in request.GET:
