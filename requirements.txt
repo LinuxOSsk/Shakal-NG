@@ -9,3 +9,4 @@ django-mptt
 django-generic-aggregation
 progressbar
 git+git://github.com/citylive/django-template-preprocessor.git
+django-bootstrap-toolkit
