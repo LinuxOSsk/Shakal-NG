@@ -7,6 +7,27 @@
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 	<title>{% block title %}{% endblock %}</title>
+	{% if style_options.small %}
+<style type="text/css" media="screen">
+
+html, body {
+	font-size: 90%;
+}
+
+.module-row {
+	padding: .4em .4em;
+}
+
+#site_content, #aside_left {
+	padding: .7em;
+}
+
+.module + .module, .content + .module, .module + form {
+	margin-top: .7em;
+}
+
+</style>
+	{% endif %}
 	{% block extrastyle %}{% endblock %}{% block extraheaders %}{% endblock %}
 </head>
 <body>
