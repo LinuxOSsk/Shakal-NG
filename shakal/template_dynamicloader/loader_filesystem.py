@@ -2,9 +2,8 @@
 
 from django.template import TemplateDoesNotExist, loader
 from django.template.loader import BaseLoader
-from shakal.template_dynamicloader.settings import TEMPLATE_DEFAULT_SKIN, TEMPLATE_DEFAULT_DEVICE
 from django_tools.middlewares.ThreadLocal import get_current_request
-from shakal.template_dynamicloader.utils import decode_switch_template
+from shakal.template_dynamicloader.utils import get_template_settings
 import os
 
 class Loader(BaseLoader):
@@ -18,21 +17,8 @@ class Loader(BaseLoader):
 
 	def get_visitors_template_dir(self):
 		request = get_current_request()
-
-		try:
-			template_device = request.session['template_device']
-		except KeyError:
-			template_device = TEMPLATE_DEFAULT_DEVICE
-
-		try:
-			template_skin = request.session['template_skin']
-		except KeyError:
-			template_skin = TEMPLATE_DEFAULT_SKIN;
-
-		if request.method == 'GET' and 'switch_template' in request.GET:
-			(template_device, template_skin, css) = decode_switch_template(request.GET['switch_template'])
-
-		return os.path.join(template_device, template_skin)
+		(template_device, template_skin, css) = get_template_settings(request)
+		return os.path.join(template_device, template_skin.split(',')[0])
 
 	def get_visitors_template(self, template_name):
 		return os.path.join(self.get_visitors_template_dir(), template_name)

@@ -75,6 +75,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 	'django.core.context_processors.request',
 	'django.contrib.auth.context_processors.auth',
 	'django.contrib.messages.context_processors.messages',
+	'shakal.template_dynamicloader.context_processors.style',
 )
 
 MIDDLEWARE_CLASSES = (
