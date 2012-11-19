@@ -39,11 +39,20 @@ def decode_switch_template(data):
 def get_template_settings(request):
 	try:
 		template_device = request.session['template_device']
+		templates = dict(settings.TEMPLATES)
+		if not template_device in templates:
+			template_device = TEMPLATE_DEFAULT_DEVICE
 	except KeyError:
 		template_device = TEMPLATE_DEFAULT_DEVICE
 
+	device_templates = set({})
+	if template_device in templates:
+		device_templates = templates[template_device]
+
 	try:
 		template_skin = request.session['template_skin']
+		if not template_skin in device_templates:
+			template_skin = TEMPLATE_DEFAULT_SKIN
 	except KeyError:
 		template_skin = TEMPLATE_DEFAULT_SKIN
 
