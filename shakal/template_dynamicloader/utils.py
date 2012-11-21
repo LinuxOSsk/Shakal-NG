@@ -36,9 +36,9 @@ def decode_switch_template(data):
 
 
 def get_template_settings(request):
+	templates = dict(settings.TEMPLATES)
 	try:
 		template_device = request.session['template_device']
-		templates = dict(settings.TEMPLATES)
 		if not template_device in templates:
 			template_device = settings.TEMPLATES[0][0]
 	except KeyError:
