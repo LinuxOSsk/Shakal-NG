@@ -11,8 +11,8 @@
 		{% endif %}
 		{{ answer }}
 	</label>
-	<div class="progressbar">
-		<div class="completed" style="width: {{ answer.percent|floatformat:0 }}%">
+	<div class="progress">
+		<div class="bar" style="width: {{ answer.percent|floatformat:0 }}%">
 			{{ answer.percent|floatformat:0 }} %
 		</div>
 	</div>

@@ -1,0 +1,80 @@
+#site-body {
+	margin-bottom: 40px;
+}
+
+.well-side {
+	font-size: 90%;
+}
+
+.well h2, .well h3, .well h4 {
+	line-height: normal;
+}
+
+.well h2 {
+	font-size: 110%;
+	margin-top: 0px;
+	margin-bottom: 5px;
+	padding-bottom: 5px;
+	color: #999;
+	text-transform: uppercase;
+	border-bottom: 1px solid #ddd;
+}
+
+.well.survey h3 {
+	font-size: 100%;
+	font-weight: normal;
+	margin: 10px 0px;
+}
+
+.well h3 {
+	font-size: 110%;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.well form {
+	margin: 0px;
+}
+
+.module-links.bottom {
+	color: #888;
+}
+
+.well.survey .module-links.bottom {
+	margin-bottom: 20px;
+}
+
+.info.bottom {
+	margin-bottom: 10px;
+}
+
+.info.top {
+	color: #888;
+	margin-bottom: 10px;
+}
+
+.module.article.hero-unit {
+	padding: 15px;
+	margin-bottom: 10px;
+	font-weight: normal;
+	line-height: normal;
+	font-size: 110%;
+}
+
+.module.article .thumbnail {
+	margin: 0 10px;
+}
+
+.article .module-row {
+	border-bottom: 1px solid #ddd;
+}
+
+.article .module-row.last {
+	border: none;
+}
+
+.well.news .module-row {
+	border-bottom: 1px solid #e0e0e0;
+	margin-bottom: 10px;
+	padding-bottom: 0px;
+}

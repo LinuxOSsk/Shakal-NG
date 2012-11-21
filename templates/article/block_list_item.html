@@ -1,5 +1,5 @@
 {% load i18n l10n linuxos threaded_comments %}{% load url from future %}
-	<div class="module-row{% if forloop.last %} last{% endif %}">
+<div class="module-row{% if forloop.last %} last{% endif %}">
 		<h3><a href="{{ article.get_absolute_url }}">{{ article.title}}</a></h3>
 		<div class="info top">
 			{{ article.time|date:"d.m.Y H:i" }} |
@@ -12,7 +12,7 @@
 		</div>
 		{% if thumbnail %}
 			{% if article.image.thumbnail_standard.url %}
-				<div class="article thumbnail">
+				<div class="article thumbnail pull-left">
 					<img src="{{ article.image.thumbnail_standard.url }}" alt="{{ article.title }}" />
 				</div>
 			{% endif %}

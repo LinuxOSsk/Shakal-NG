@@ -450,7 +450,7 @@ h1 a, h2 a, h3 a {
 	border: none;
 }
 
-.module-links, .paginator {
+.module-links, .pagination {
 	padding: .5em;
 	text-align: center;
 	color: #aaa;
@@ -469,32 +469,46 @@ a.next:after {
 }
 
 /* === Stránkovač === */
-.paginator span {
+.pagination li {
 	padding: 2px 0px;
 	border: #eee solid 1px;
+	display: inline;
+	list-style: none;
+	margin: 0;
 }
 
-.paginator span a {
+.pagination li a {
 	padding: 2px 3px;
 	text-decoration: none;
 }
 
-.paginator span.current {
+.pagination li.disabled a {
+	color: #aaa;
+	cursor: default;
+}
+
+.pagination li.active {
 	border-color: #1d5886;
 }
 
-.paginator span.current a {
+.pagination li.active a {
 	background: #eaf1f6;
 }
 
-#site_content .paginator span a:hover {
+#site_content .pagination li a:hover {
 	border-radius: 0px;
 	border: none;
 	color: white;
 	background: #1d5886;
 }
 
-.paginator span.skip {
+#site_content .pagination li.disabled a:hover {
+	border: none;
+	color: #aaa;
+	background: #ffffff;
+}
+
+.pagination li.skip {
 	border: none;
 }
 
@@ -891,7 +905,7 @@ ul.messages li.error {
 }
 
 /* === Anketa === */
-.progressbar {
+.progress {
 	border: solid 1px #e4e5e7;
 	border-radius: 3px;
 	background: url('images/progressbar.png') repeat-x 0px -1px;
@@ -899,7 +913,7 @@ ul.messages li.error {
 	margin: .3em 0;
 }
 
-.progressbar .completed {
+.progress .bar {
 	border: solid 1px #2f83bb;
 	border-radius: 3px;
 	overflow: hidden;
@@ -918,7 +932,7 @@ ul.messages li.error {
 	text-align: right;
 }
 
-.module.survey.compact .progressbar {
+.module.survey.compact .progress {
 	width: 69%;
 	float: right;
 }
