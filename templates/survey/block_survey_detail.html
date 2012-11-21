@@ -11,12 +11,12 @@
 	<input type="hidden" name="next" value="{{ request.path }}" />
 	{% if request.user.is_authenticated %}
 	<div class="negative">
-		<div class="button flat"><span><a href="{% url 'survey:create' %}">Navrhnúť</a></span></div>
+		<div class="btn flat"><span><a href="{% url 'survey:create' %}">Navrhnúť</a></span></div>
 	</div>
 	{% endif %}
 	{% if survey %}
 	<div class="positive">
-		<button type="submit"><span>Hlasovať</span></button>
+		<button class="btn" type="submit"><span>Hlasovať</span></button>
 	</div>
 	{% endif %}
 </div>

@@ -23,7 +23,7 @@
 	{% endif %}
 	{% if comment.pk and not readonly %}
 		<div class="links">
-			<div class="button flat reply"><span><a href="{% url 'comments-reply-comment' comment.pk %}" class="reply">Odpovedať</a></span></div>
+			<div class="btn flat reply"><span><a href="{% url 'comments-reply-comment' comment.pk %}" class="reply">Odpovedať</a></span></div>
 		</div>
 	{% endif %}
 	<div class="clear"></div>

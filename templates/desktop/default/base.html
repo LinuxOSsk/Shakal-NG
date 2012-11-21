@@ -67,7 +67,7 @@ html, body {
 				<a id="linuxos_logo" href="{% url 'home' %}">LinuxOS</a>
 			</div>
 			<div class="hdrmain">
-				<div id="user_panel"class="button flat{% if user.is_authenticated %} authenticated{% endif %}">
+				<div id="user_panel"class="btn flat{% if user.is_authenticated %} authenticated{% endif %}">
 					{% if user.is_authenticated %}
 						<span class="username"><a href="{{ request.user.get_absolute_url }}">{% firstof request.user.get_full_name request.user.username %}</a></span>
 						<ul id="userlinks" class="dropdown menu">

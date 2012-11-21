@@ -164,7 +164,7 @@ td.icons, th.icons, td.number, th.number, td.date, th.date {
 }
 
 /* Tlačidlo */
-button, .button.flat, .object-tools li {
+.btn, .object-tools li {
 	line-height: 38px;
 	border: none;
 	padding: 0px 0px 0px 15px;
@@ -178,7 +178,7 @@ button:focus {
 	outline: none;
 }
 
-button span:before, .button.flat span:before, .object-tools a:before {
+.btn span:before, .object-tools a:before {
 	content: ".";
 	width: 15px;
 	background: url('images/button_flat.png') no-repeat top left;
@@ -188,7 +188,7 @@ button span:before, .button.flat span:before, .object-tools a:before {
 	overflow: hidden;
 }
 
-.button.flat span span:before {
+.btn.flat span span:before {
 	content: "";
 	width: 0;
 	background: none;
@@ -196,19 +196,19 @@ button span:before, .button.flat span:before, .object-tools a:before {
 	text-indent: 0;
 }
 
-button:hover span:before, .button.flat:hover span:before {
+.btn:hover span:before {
 	background: url('images/button_flat.png') no-repeat left -38px !important;
 }
 
-button:focus span:before, .button.flat:active span:before, button:active span:before, .button.flat:focus span:before {
+.btn:active span:before, .btn:focus span:before {
 	background: url('images/button_flat.png') no-repeat left -76px !important;
 }
 
-button:active:hover span:before, .button.flat:active:hover span:before {
+.btn:active:hover span:before {
 	background: url('images/button_flat.png') no-repeat left -76px !important;
 }
 
-button span, .button.flat span, .object-tools a {
+.btn span, .object-tools a {
 	background: url('images/button_flat.png') no-repeat top right;
 	display: block;
 	float: left;
@@ -220,48 +220,48 @@ button span, .button.flat span, .object-tools a {
 	text-decoration: none;
 }
 
-.button.flat span span {
+.btn.flat span span {
 	background: none;
 	display: inline;
 	float: none;
 	padding: 0;
 }
 
-#site_content button span, #site_content .button.flat span, #site_content .object-tools a:hover {
+#site_content .btn span, #site_content .object-tools a:hover {
 	background: url('images/button_flat.png') no-repeat top right;
 }
 
-#site_content .button.flat span span {
+#site_content .btn span span {
 	background: none;
 }
 
-#site_content .button.flat span a {
+#site_content .btn.flat span a {
 	background: none;
 }
 
-button:hover span, .button.flat:hover span {
+.btn:hover span {
 	background: url('images/button_flat.png') no-repeat right -38px !important;
 }
 
-button:active span, .button.flat:active span, button:focus span, .button.flat:focus span {
+.btn:active span, .btn:focus span {
 	background: url('images/button_flat.png') no-repeat right -76px !important;
 }
 
-button:active:hover span, .button.flat:active:hover span {
+.btn:active:hover span {
 	background: url('images/button_flat.png') no-repeat right -76px !important;
 }
 
-.button.flat:hover span span, .button.flat:active span span, .button.flat:active:hover span span {
+.btn.flat:hover span span, .btn.flat:active span span, .btn.flat:active:hover span span {
 	background: none !important;
 }
 
-.button.flat span span.dropdown {
+.btn.flat span span.dropdown {
 	display: block;
 	padding-right: 15px;
 	background: url('images/down_icon_14.png') no-repeat right 13px !important;
 }
 
-.button.flat a {
+.btn.flat a {
 	color: #1d5886;
 	text-decoration: none;
 	line-height: 38px;
@@ -538,11 +538,11 @@ a.next:after {
 	position: relative;
 }
 
-.button.flat span {
+.btn.flat span {
 	float: right;
 }
 
-.button.flat span.username a {
+.btn.flat span.username a {
 	padding-left: 15px;
 	background: url('images/profile_icon_14.png') no-repeat center left;
 }
