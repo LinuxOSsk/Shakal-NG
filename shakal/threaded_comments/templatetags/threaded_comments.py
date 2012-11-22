@@ -6,6 +6,7 @@ from django.contrib.comments.templatetags.comments import BaseCommentNode
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
+from datetime import datetime
 from shakal import threaded_comments
 
 register = template.Library()
@@ -47,6 +48,12 @@ class ThreadedCommentsBaseNode(BaseCommentNode):
 
 class ThreadedCommentsListNode(ThreadedCommentsBaseNode):
 	def render(self, context):
+		if context['user'].is_authenticated():
+			ctype, object_pk = self.get_target_ctype_pk(context)
+			header = threaded_comments.models.RootHeader.objects.get(content_type = ctype, object_id = object_pk)
+			(discussion_attribute, created) = threaded_comments.models.UserDiscussionAttribute.objects.get_or_create(user = context['user'], discussion = header)
+			discussion_attribute.time = datetime.now()
+			discussion_attribute.save()
 		query_set = self.get_query_set(context)
 		context[self.as_varname] = query_set
 		return ''
