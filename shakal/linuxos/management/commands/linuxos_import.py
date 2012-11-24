@@ -14,6 +14,7 @@ from shakal.forum.models import Section as ForumSection, Topic as ForumTopic
 from shakal.news.models import News
 from shakal.survey.models import Survey, Answer as SurveyAnswer
 from shakal.threaded_comments.models import RootHeader as ThreadedRootHeader
+from shakal.threaded_comments.models import UserDiscussionAttribute
 from shakal.utils import create_unique_slug
 from django.utils import simplejson
 from hitcount.models import HitCount
@@ -162,7 +163,7 @@ class Command(BaseCommand):
 	def handle(self, *args, **kwargs):
 		try:
 			self.cursor = connections["linuxos"].cursor()
-			self.logger.set_main_progress(u"Import LinuxOS", 9, 0)
+			self.logger.set_main_progress(u"Import LinuxOS", 10, 0)
 			self.logger.step_main_progress(u"Čistenie databázy")
 			self.clean_db()
 			self.logger.step_main_progress(u"Sťahovanie starej dtabázy")
@@ -179,6 +180,8 @@ class Command(BaseCommand):
 			self.import_survey()
 			self.logger.step_main_progress(u"Import diskusie")
 			self.import_discussion()
+			self.logger.step_main_progress(u"Import atribútov diskusie")
+			self.import_discussion_attributes()
 			self.logger.finish_main_progress()
 		finally:
 			self.logger.finish()
@@ -640,6 +643,7 @@ class Command(BaseCommand):
 
 	def import_discussion_headers(self):
 		cols = [
+			'id',
 			'diskusia_id',
 			'kategoria',
 			'last_time',
@@ -666,6 +670,7 @@ class Command(BaseCommand):
 			unique_check.add((self.content_types[header_dict['kategoria']], header_dict['diskusia_id']))
 
 			header = {
+				'id': header_dict['id'],
 				'last_comment': header_dict['last_time'],
 				'comment_count': self.get_default_if_null(header_dict['reakcii'], 0),
 				'is_locked': bool(header_dict['zamknute']),
@@ -679,6 +684,7 @@ class Command(BaseCommand):
 				root_header_objects = []
 		ThreadedRootHeader.objects.bulk_create(root_header_objects)
 		root_header_objects = []
+		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', (SELECT MAX(id) FROM threaded_comments_rootheader) + 1);')
 		connections['default'].cursor().execute('\
 			INSERT INTO threaded_comments_rootheader (last_comment, comment_count, is_locked, is_resolved, content_type_id, object_id)\
 				SELECT DISTINCT forum_topic.time, 0, FALSE, FALSE, '+str(self.content_types['forum'])+', forum_topic.id\
@@ -686,7 +692,6 @@ class Command(BaseCommand):
 					LEFT OUTER JOIN threaded_comments_rootheader ON (threaded_comments_rootheader.content_type_id = '+str(self.content_types['forum'])+' AND threaded_comments_rootheader.object_id = forum_topic.id)\
 					WHERE object_id IS NULL;')
 		connections['default'].cursor().execute('UPDATE threaded_comments_rootheader SET last_comment = (SELECT time FROM forum_topic WHERE id = object_id) WHERE last_comment IS NULL AND content_type_id = '+str(self.content_types['forum'])+';')
-		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', (SELECT MAX(id) FROM threaded_comments_rootheader) + 1);')
 		self.logger.finish_sub_progress()
 
 	def decode_username_for_comment(self, comment_row):
@@ -807,6 +812,39 @@ class Command(BaseCommand):
 			transaction.commit()
 		connections['default'].cursor().execute('SELECT setval(\'django_comments_id_seq\', (SELECT MAX(id) FROM django_comments) + 1);')
 		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', (SELECT MAX(id) FROM threaded_comments_rootheader) + 1);')
+		self.logger.finish_sub_progress()
+
+	def import_discussion_attributes(self):
+		root_headers = set(ThreadedRootHeader.objects.values_list('id', flat = True))
+		users = set(User.objects.values_list('id', flat = True))
+
+		self.cursor.execute('SELECT userid, diskusiaid, time FROM diskusia_zvyraznenie')
+		time = self.cursor.fetchall()
+		data = dict(map(lambda x: ((x[0], x[1]), {'user_id': x[0], 'discussion_id': x[1], 'time': x[2], 'watch': False}), time))
+
+		self.cursor.execute('SELECT uid, diskusia_id FROM diskusia_watch')
+		watch = self.cursor.fetchall()
+		for item in watch:
+			key = (item[0], item[1])
+			if key in data:
+				data[key]['watch'] = True
+			else:
+				data[key] = {'user_id': item[0], 'discussion_id': item[1], 'time': None, 'watch': True}
+
+		self.logger.set_sub_progress(u"Atribúty diskusie", len(data))
+		metadata = []
+		counter = 0;
+		for (key, value) in data.iteritems():
+			self.logger.step_sub_progress()
+			counter += 1
+			if counter % 1000 == 0:
+				UserDiscussionAttribute.objects.bulk_create(metadata)
+				metadata = []
+			if value['discussion_id'] in root_headers and value['user_id'] in users:
+				metadata.append(UserDiscussionAttribute(**value))
+		UserDiscussionAttribute.objects.bulk_create(metadata)
+		metadata = []
+		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_userdiscussionattribute_id_seq\', (SELECT MAX(id) FROM threaded_comments_userdiscussionattribute) + 1);')
 		self.logger.finish_sub_progress()
 
 	def make_tree_structure(self, tree_items, root):
