@@ -941,3 +941,21 @@ ul.messages li.error {
 	margin-left: 30%;
 }
 
+/* === Zoznam tém fóra === */
+
+.table-topics .status {
+	width: 2em;
+}
+
+.table-topics .comments {
+	width: 2em;
+}
+
+.table-topics .last-comment {
+	width: 9em;
+}
+
+.table-topics .status, .table-topics .comments, .table-topics .last-comment {
+	text-align: center;
+	font-weight: bold;
+}

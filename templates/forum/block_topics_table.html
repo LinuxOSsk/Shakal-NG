@@ -1,5 +1,5 @@
 {% load linuxos %}{% load url from future %}
-<table class="table table-striped table-condensed">
+<table class="table table-striped table-condensed table-topics">
 	<caption>{{ caption }}</caption>
 	<tr>
 		<th class="title">Predmet</th>
@@ -10,9 +10,9 @@
 	{% for topic in forum %}
 	<tr>
 		<td class="title"><a href="{% url 'forum:topic-detail' topic.id %}">{{ topic.subject }}</a></td>
-		<td></td>
-		<td><span class="badge">{{ topic.comment_count }}</span></td>
-		<td>{{ topic.last_comment|humandatetime:"Žiadna reakcia" }}</td>
+		<td class="status"></td>
+		<td class="comments">{{ topic.comment_count }}</td>
+		<td class="last-comment">{{ topic.last_comment|humandatetime:"Žiadna reakcia" }}</td>
 	</tr>
 	{% endfor %}
 </table>
