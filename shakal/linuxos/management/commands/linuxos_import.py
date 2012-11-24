@@ -722,6 +722,9 @@ class Command(BaseCommand):
 			'time',
 			'locked',
 		]
+		insert_query = 'INSERT INTO threaded_comments_threadedcomment (comment_ptr_id, subject, parent_id, is_locked, lft, rght, tree_id, level) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
+		insert_tree_params = ()
+		comment_objects = []
 		select_query = 'SELECT ' + (', '.join(['diskusia.' + col for col in cols])) + ', diskusia_header.diskusia_id FROM diskusia INNER JOIN diskusia_header ON (diskusia.diskusiaid = diskusia_header.id) WHERE diskusia_id = {0} AND kategoria = "{1}" ORDER BY diskusia.id'
 		cols.append('diskusia_id')
 		headers = ThreadedRootHeader.objects.values_list('id', 'content_type_id', 'object_id', 'is_locked')
@@ -733,7 +736,7 @@ class Command(BaseCommand):
 			counter += 1
 			comment_counter += 1
 			self.cursor.execute(select_query.format(object_pk, self.inverted_content_types[content_type_id]))
-			comment_objects = [Comment(
+			comment_objects += [Comment(
 				comment = '-',
 				user_name = '-',
 				submit_date = datetime.now(),
@@ -762,7 +765,6 @@ class Command(BaseCommand):
 					comment['user_id'] = comment_dict['userid']
 				comment_objects.append(Comment(**comment))
 
-			Comment.objects.bulk_create(comment_objects)
 			pk_map = dict((d['id'], d['pk']) for d in comment_rows)
 			comment_tree = {}
 			for comment_dict in comment_rows:
@@ -806,10 +808,18 @@ class Command(BaseCommand):
 			self.lr_counter = 0
 			self.depth = -1
 			self.make_tree_structure(comment_tree, 0)
-			query = 'INSERT INTO threaded_comments_threadedcomment (comment_ptr_id, subject, parent_id, is_locked, lft, rght, tree_id, level) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
-			query_params = tuple((c['comment_ptr_id'], c['subject'], c['parent_id'], c['is_locked'], c['lft'], c['rght'], c['tree_id'], c['level']) for c in comment_rows)
-			connection.cursor().executemany(query, query_params)
-			transaction.commit()
+			insert_tree_params = insert_tree_params + tuple((c['comment_ptr_id'], c['subject'], c['parent_id'], c['is_locked'], c['lft'], c['rght'], c['tree_id'], c['level']) for c in comment_rows)
+			if counter % 1000 == 0:
+				Comment.objects.bulk_create(comment_objects)
+				comment_objects = []
+				connection.cursor().executemany(insert_query, insert_tree_params)
+				transaction.commit()
+				insert_tree_params = ()
+		Comment.objects.bulk_create(comment_objects)
+		comment_objects = []
+		connection.cursor().executemany(insert_query, insert_tree_params)
+		transaction.commit()
+		insert_tree_params = ()
 		connections['default'].cursor().execute('SELECT setval(\'django_comments_id_seq\', (SELECT MAX(id) FROM django_comments) + 1);')
 		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', (SELECT MAX(id) FROM threaded_comments_rootheader) + 1);')
 		self.logger.finish_sub_progress()
