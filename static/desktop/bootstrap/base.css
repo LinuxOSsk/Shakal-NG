@@ -78,3 +78,51 @@
 	margin-bottom: 10px;
 	padding-bottom: 0px;
 }
+
+/* === Zoznam tém fóra === */
+
+.table-topics .status {
+	text-align: right;
+}
+
+.table-topics .comments {
+	width: 3em;
+}
+
+.table-topics .last-comment {
+	width: 9em;
+}
+
+/* Úprava farieb bootstrap-u */
+.navbar-inner {
+	background-color: #52a6e2;
+	background-image: url(../default/images/header_bg.png);
+	background-position: left bottom;
+}
+
+.navbar .nav > .active > a, .navbar .nav > .active > a:hover, .navbar .nav > .active > a:focus {
+	background-image: url(../default/images/header_bg.png);
+	background-position: left top;
+	color: white;
+	text-shadow: 0 1px 0 #427098;
+}
+
+.navbar .nav li.dropdown.open > .dropdown-toggle, .navbar .nav li.dropdown.active > .dropdown-toggle, .navbar .nav li.dropdown.open.active > .dropdown-toggle {
+	background-image: url(../default/images/header_bg.png);
+	background-position: left top;
+}
+
+.navbar .brand {
+	color: white;
+	text-shadow: 0 1px 0 #427098;
+}
+
+.navbar .nav > li > a {
+	color: #c2e3f2;
+	text-shadow: 0 1px 0 #427098;
+}
+
+.navbar .nav li.dropdown > .dropdown-toggle .caret {
+	border-top-color: #c2e3f2;
+	border-bottom-color: #c2e3f2;
+}
