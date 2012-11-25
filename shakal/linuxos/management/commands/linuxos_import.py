@@ -166,7 +166,7 @@ class Command(BaseCommand):
 			self.logger.set_main_progress(u"Import LinuxOS", 10, 0)
 			self.logger.step_main_progress(u"Čistenie databázy")
 			self.clean_db()
-			self.logger.step_main_progress(u"Sťahovanie starej dtabázy")
+			self.logger.step_main_progress(u"Sťahovanie starej databázy")
 			self.download_db()
 			self.logger.step_main_progress(u"Import užívateľov")
 			self.import_users()
