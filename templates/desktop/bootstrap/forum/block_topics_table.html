@@ -1,0 +1,18 @@
+{% load linuxos %}{% load url from future %}
+<table class="table table-striped table-condensed table-topics">
+	<caption>{{ caption }}</caption>
+	<tr>
+		<th class="title">Predmet</th>
+		<th></th>
+		<th></th>
+		<th>Posledná&nbsp;reakcia</th>
+	</tr>
+	{% for topic in forum %}
+	<tr>
+		<td class="title"><a href="{% url 'forum:topic-detail' topic.id %}">{{ topic.subject }}</a></td>
+		<td class="status">{% if topic.is_resolved %}&nbsp;<span class="label label-success">Vyriešené</span>{% endif %}{% if topic.is_locked %}&nbsp;<span class="label label-warning">Zamknuté</span>{% endif %}{% if topic.discussion_watch %}&nbsp;<span class="label label-info">Sledované</span>{% endif %}</td>
+		<td class="comments"><span class="badge badge-{{ topic.new_comments|yesno:"important,info,default" }}">{{ topic.comment_count }}</span></td>
+		<td class="last-comment">{{ topic.last_comment|humandatetime:"Žiadna reakcia" }}</td>
+	</tr>
+	{% endfor %}
+</table>
