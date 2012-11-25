@@ -24,7 +24,7 @@ def home(request):
 		articles = Article.articles.exclude(pk = top_article.pk).attributes_for_user(request.user)
 	except IndexError:
 		top_article = None
-		articles = Article.articles.attributes_for_user(request.user)
+		articles = Article.articles.all().attributes_for_user(request.user)
 
 	context = {
 		'top_article': top_article,
