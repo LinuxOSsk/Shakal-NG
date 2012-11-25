@@ -48,7 +48,7 @@ def get_template_settings(request):
 
 	try:
 		template_skin = request.session['template_skin']
-		if not template_skin in device_templates:
+		if not template_skin.split(',', 1)[0] in device_templates:
 			template_skin = templates[template_device][0]
 	except KeyError:
 		template_skin = templates[template_device][0]
