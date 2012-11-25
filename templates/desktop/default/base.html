@@ -7,9 +7,8 @@
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 	<title>{% block title %}{% endblock %}</title>
-	{% if style_options.small or style_options.reverse %}
-<style type="text/css" media="screen">
 {% if style_options.small %}
+<style type="text/css" media="screen">
 html, body {
 	font-size: 90%;
 }
@@ -25,8 +24,10 @@ html, body {
 .module + .module, .content + .module, .module + form {
 	margin-top: .7em;
 }
+</style>
 {% endif %}
 {% if style_options.reverse %}
+<style type="text/css" media="screen">
 #colmain, #colleft {
 	float: right;
 	left: -68%;
@@ -53,11 +54,10 @@ html, body {
 	padding-right: 5px;
 	margin-left: 0px;
 	margin-right: -3px;
-	background: url('{% static 'desktop/default/images/breadcrumb_bg_reverse.png' %}') no-repeat top right;
+	background: url(/static/desktop/default/images/breadcrumb_bg_reverse.png) no-repeat top right;
 }
-{% endif %}
 </style>
-	{% endif %}
+{% endif %}
 	{% block extrastyle %}{% endblock %}{% block extraheaders %}{% endblock %}
 </head>
 <body>
