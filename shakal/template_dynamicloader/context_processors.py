@@ -7,7 +7,6 @@ class StyleOptions:
 	def __init__(self, options_data):
 		if not options_data:
 			pass
-		print(options_data)
 		for option in options_data.split(','):
 			try:
 				(name, value) = option.split('=', 1)
