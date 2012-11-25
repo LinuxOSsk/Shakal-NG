@@ -163,7 +163,7 @@ class NewCommentQuerySet(RawLimitQuerySet):
 			extracolumns += ', "'+ua_table+'"."time" < "last_comment" AS "new_comments"'
 			extrajoin = ' LEFT OUTER JOIN "'+ua_table+'" ON ("'+rh_table+'"."id" = "'+ua_table+'"."discussion_id" AND "'+ua_table+'"."user_id" = '+str(self.user.pk)+')'
 		else:
-			extracolumns += ', NULL AS "discssion_display_time", False AS "discussion_watch", False AS "new_comments" '
+			extracolumns += ', NULL AS "discssion_display_time", NULL AS "discussion_watch", NULL AS "new_comments" '
 			extrajoin = ''
 		return self.raw_query.replace('[extracolumns]', extracolumns).replace('[extrajoin]', extrajoin)
 
