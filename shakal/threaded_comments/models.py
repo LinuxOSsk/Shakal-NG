@@ -152,18 +152,23 @@ class NewCommentQuerySet(RawLimitQuerySet):
 	def get_raw_query(self):
 		ua_table = UserDiscussionAttribute._meta.db_table
 		rh_table = RootHeader._meta.db_table
+		extracolumns  = ', "'+rh_table+'"."last_comment" AS "last_comment"'
+		extracolumns += ', "'+rh_table+'"."comment_count" AS "comment_count"'
+		extracolumns += ', "'+rh_table+'"."is_locked" AS "is_locked"'
+		extracolumns += ', "'+rh_table+'"."is_resolved" AS "is_resolved"'
+		extracolumns += ', "'+rh_table+'"."id" AS "rootheader_id"'
 		if self.user and self.user.is_authenticated():
-			extracolumns = ', "'+ua_table+'"."time" AS "discssion_display_time"'
+			extracolumns += ', "'+ua_table+'"."time" AS "discssion_display_time"'
 			extracolumns += ', "'+ua_table+'"."watch" AS "discussion_watch"'
 			extracolumns += ', "'+ua_table+'"."time" < "last_comment" AS "new_comments"'
 			extrajoin = ' LEFT OUTER JOIN "'+ua_table+'" ON ("'+rh_table+'"."id" = "'+ua_table+'"."discussion_id" AND "'+ua_table+'"."user_id" = '+str(self.user.pk)+')'
 		else:
-			extracolumns = ', NULL AS "discssion_display_time", False AS "discussion_watch", False AS "new_comments" '
+			extracolumns += ', NULL AS "discssion_display_time", False AS "discussion_watch", False AS "new_comments" '
 			extrajoin = ''
 		return self.raw_query.replace('[extracolumns]', extracolumns).replace('[extrajoin]', extrajoin)
 
 	def get_model_definition(self):
-		return self.model_definition + ['discussion_display_time', 'discussion_watch', 'new_comments']
+		return self.model_definition + ['last_comment', 'comment_count', 'is_locked', 'is_resolved', 'rootheader_id', 'discussion_display_time', 'discussion_watch', 'new_comments']
 
 	def attributes_for_user(self, user):
 		self.user = user
