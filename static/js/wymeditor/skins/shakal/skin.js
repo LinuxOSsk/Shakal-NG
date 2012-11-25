@@ -20,9 +20,9 @@ WYMeditor.SKINS['shakal'] = {
 		jQuery(wym._box).find(".wym_tools_image").wrapAll("<ul class=\"wym_toolbar_group\"></ul>");
 		jQuery(wym._box).find(".wym_tools_html, .wym_tools_preview").wrapAll("<ul class=\"wym_toolbar_group last\"></ul>");
 
-		jQuery(wym._box).find("div.wym_area_right h2").wrap("<div class=\"button flat\" />");
+		jQuery(wym._box).find("div.wym_area_right h2").wrap("<div class=\"btn flat\" />");
 		jQuery(wym._box).find("div.wym_area_right h2").each(function() {
-			jQuery("<span><span class=\"dropdown\">" + jQuery(this).html() + "</span></span>").replaceAll(this);
+			jQuery("<span><span class=\"dropdown\">" + jQuery(this).html() + "<span class=\"dropdown-icon\"></span></span></span>").replaceAll(this);
 		});
 		jQuery(wym._box).find("div.wym_area_right > *")
 			.remove()

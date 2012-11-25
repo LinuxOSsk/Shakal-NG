@@ -122,6 +122,7 @@ INSTALLED_APPS = (
 	'breadcrumbs',
 	'hitcount',
 	'html_editor',
+	'imgcompress',
 	'maintenance',
 	'mptt',
 	'registration',

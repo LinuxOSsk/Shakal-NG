@@ -4,9 +4,9 @@
 			{% for breadcrumb in breadcrumbs %}
 			<li{% if breadcrumb.class %} class="{{ breadcrumb.class }}"{% endif %}>
 				{% if breadcrumb.url %}
-					<span><a href="{{ breadcrumb.url }}">{{ breadcrumb.contents }}</a></span>
+					<span class="crumb"><a href="{{ breadcrumb.url }}">{{ breadcrumb.contents }}<span class="icon"></span></a></span>
 				{% else %}
-					<span>{{ breadcrumb.contents }}</span>
+					<span class="crumb">{{ breadcrumb.contents }}</span>
 				{% endif %}
 			</li>
 			{% endfor %}

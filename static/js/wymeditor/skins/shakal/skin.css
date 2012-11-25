@@ -44,7 +44,7 @@
 .wym_skin_shakal .wym_area_top .wym_panel.wym_classes { display: none; }
 .wym_skin_shakal .wym_area_top .wym_panel .button.flat { height: 38px; margin-top: 4px; margin-right: 5px; }
 .wym_skin_shakal .wym_area_top .wym_panel { float: left; background: none; border: none; }
-.wym_skin_shakal .wym_area_top .wym_panel .wym_top_toolbar { position: absolute; display: none; }
+.wym_skin_shakal .wym_area_top .wym_panel .wym_top_toolbar { position: absolute; display: none; margin-top: 32px; }
 .wym_skin_shakal .wym_area_top .wym_panel:hover .wym_top_toolbar { position: absolute; display: block; }
 .wym_skin_shakal .wym_buttons li { float:left; }
 .wym_skin_shakal .wym_tools h2 { display: none; }

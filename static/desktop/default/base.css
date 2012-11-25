@@ -114,7 +114,7 @@ fieldset h2, .module h2 {
 	height: 37px;
 	padding: 0 1em;
 	margin: 0 -5px;
-	background: url(images/block_header_bg.png) repeat-x;
+	background: url(images/backgrounds.png) 0px -464px repeat-x;
 	font-size: 1.5em;
 	color: white;
 	text-shadow: 1px 1px 0px #418cc0;
@@ -181,7 +181,7 @@ button:focus {
 .btn span:before, .object-tools a:before {
 	content: ".";
 	width: 15px;
-	background: url('images/button_flat.png') no-repeat top left;
+	background: url('images/backgrounds.png') no-repeat left -160px;
 	float: left;
 	margin-left: -15px;
 	text-indent: -9999px;
@@ -197,19 +197,19 @@ button:focus {
 }
 
 .btn:hover span:before {
-	background: url('images/button_flat.png') no-repeat left -38px !important;
+	background: url('images/backgrounds.png') no-repeat left -198px;
 }
 
 .btn:active span:before, .btn:focus span:before {
-	background: url('images/button_flat.png') no-repeat left -76px !important;
+	background: url('images/backgrounds.png') no-repeat left -236px;
 }
 
 .btn:active:hover span:before {
-	background: url('images/button_flat.png') no-repeat left -76px !important;
+	background: url('images/backgrounds.png') no-repeat left -236px;
 }
 
 .btn span, .object-tools a {
-	background: url('images/button_flat.png') no-repeat top right;
+	background: url('images/backgrounds.png') no-repeat right -160px;
 	display: block;
 	float: left;
 	padding-right: 15px;
@@ -228,7 +228,7 @@ button:focus {
 }
 
 #site_content .btn span, #site_content .object-tools a:hover {
-	background: url('images/button_flat.png') no-repeat top right;
+	background: url('images/backgrounds.png') no-repeat right -160px;
 }
 
 #site_content .btn span span {
@@ -240,25 +240,30 @@ button:focus {
 }
 
 .btn:hover span {
-	background: url('images/button_flat.png') no-repeat right -38px !important;
+	background: url('images/backgrounds.png') no-repeat right -198px;
 }
 
 .btn:active span, .btn:focus span {
-	background: url('images/button_flat.png') no-repeat right -76px !important;
+	background: url('images/backgrounds.png') no-repeat right -236px;
 }
 
 .btn:active:hover span {
-	background: url('images/button_flat.png') no-repeat right -76px !important;
-}
-
-.btn.flat:hover span span, .btn.flat:active span span, .btn.flat:active:hover span span {
-	background: none !important;
+	background: url('images/backgrounds.png') no-repeat right -236px;
 }
 
 .btn.flat span span.dropdown {
 	display: block;
-	padding-right: 15px;
-	background: url('images/down_icon_14.png') no-repeat right 13px !important;
+	margin-right: 15px;
+	position: relative;
+}
+
+.btn.flat span span.dropdown .dropdown-icon {
+	background: url('images/backgrounds.png') no-repeat -18px -312px !important;
+	width: 9px;
+	height: 14px;
+	position: absolute;
+	right: -18px;
+	top: 13px;
 }
 
 .btn.flat a {
@@ -292,7 +297,7 @@ button:focus {
 	overflow: hidden;
 	width: 13px;
 	height: 7px;
-	background: url('images/corner_arrow_up.png') no-repeat;
+	background: url('images/backgrounds.png') -52px -312px no-repeat;
 	position: absolute;
 	top: -7px;
 	right: 10px;
@@ -357,7 +362,7 @@ button:focus {
 
 .submit-row {
 	height: 41px;
-	background: url('images/submit_row_bg.png') repeat-x;
+	background: url('images/backgrounds.png') 0px -501px repeat-x;
 	margin: 0 -5px;
 }
 
@@ -369,8 +374,14 @@ button:focus {
 	float: left;
 }
 
-input[type="text"], input[type="password"], textarea {
-	background: #fff url('images/input_bg.png') repeat-x;
+input[type="text"], input[type="password"] {
+	background: #fff url('images/backgrounds.png') 0px -542px repeat-x;
+	border: 1px solid #e6e4e4;
+	padding: 3px 6px;
+}
+
+textarea {
+	background: #fff url('images/input_bg.png') 0px 0px repeat-x;
 	border: 1px solid #e6e4e4;
 	padding: 3px 6px;
 }
@@ -512,12 +523,23 @@ a.next:after {
 	border: none;
 }
 
+/* === Ikony === */
+
+.trashcan-icon {
+	display: block;
+	width: 16px;
+	height: 16px;
+	background: url('images/backgrounds.png') -36px -312px no-repeat;
+	overflow: hidden;
+	text-indent: -9999px;
+}
+
 /* === Hlavička === */
 
 #linuxos_logo {
 	width: 240px;
 	height: 80px;
-	background: url('images/logo.png') no-repeat;
+	background: url('images/backgrounds.png') 0px 0px no-repeat;
 	display: block;
 	text-align: center;
 	margin: 0px auto;
@@ -541,7 +563,7 @@ a.next:after {
 
 #top_header {
 	height: 80px;
-	background: url('images/header_bg.png') repeat-x;
+	background: url('images/backgrounds.png') 0px -80px repeat-x;
 }
 
 /* Prihlásenie */
@@ -556,9 +578,14 @@ a.next:after {
 	float: right;
 }
 
-.btn.flat span.username a {
-	padding-left: 15px;
-	background: url('images/profile_icon_14.png') no-repeat center left;
+.btn.flat span.username .icon-user {
+	margin-left: 3px;
+	margin-right: 5px;
+	background: url('images/backgrounds.png') no-repeat -27px -312px;
+	float: left;
+	width: 9px;
+	height: 14px;
+	margin-top: 12px;
 }
 
 #user_panel:hover #userlinks {
@@ -576,7 +603,7 @@ a.next:after {
 	bottom: 0px;
 	margin-left: -3px;
 	padding-left: 5px;
-	background: url('images/breadcrumb_bg.png') no-repeat;
+	background: url('images/backgrounds.png') 0px -428px no-repeat;
 	margin-top: 44px;
 }
 
@@ -584,7 +611,7 @@ a.next:after {
 	padding: 0;
 	margin: 0;
 	height: 36px;
-	background: url('images/breadcrumb_panel_bg.png') repeat-x;
+	background: url('images/backgrounds.png') 0px -330px repeat-x;
 }
 
 #site_breadcrumbs li {
@@ -594,18 +621,18 @@ a.next:after {
 	height: 31px;
 	line-height: 31px;
 	margin-top: 5px;
-	background: url('images/breadcrumb.png') no-repeat right top;
+	background: url('images/backgrounds.png') no-repeat right -366px;
 	padding-right: 5px;
 }
 
 #site_breadcrumbs li:hover {
-	background: url('images/breadcrumb.png') no-repeat right bottom;
+	background: url('images/backgrounds.png') no-repeat right -397px;
 }
 
-#site_breadcrumbs li span {
+#site_breadcrumbs li span.crumb {
 	display: block;
 	padding-left: 25px;
-	background: url('images/breadcrumb.png') no-repeat left top;
+	background: url('images/backgrounds.png') no-repeat left -366px;
 	position: relative;
 	right: 17px;
 	height: 31px;
@@ -615,15 +642,15 @@ a.next:after {
 	color: #1d5682;
 }
 
-#site_breadcrumbs li span a {
+#site_breadcrumbs li span.crumb a {
 	text-decoration: none;
 	display: block;
 	height: 31px;
 	color: #1d5682;
 }
 
-#site_breadcrumbs li:hover span {
-	background: url('images/breadcrumb.png') no-repeat left bottom;
+#site_breadcrumbs li:hover span.crumb {
+	background: url('images/backgrounds.png') no-repeat left -397px;
 }
 
 #site_breadcrumbs li.home {
@@ -631,15 +658,24 @@ a.next:after {
 	border-left: 1px solid #c5dcec;
 }
 
-#site_breadcrumbs li.home span {
+#site_breadcrumbs li.home span.crumb {
 	background: none;
 }
 
-#site_breadcrumbs li.home span a {
+#site_breadcrumbs li.home span.crumb a {
 	display: block;
 	overflow: hidden;
 	text-indent: -9999px;
-	background: url('images/breadcrumb_home.png') no-repeat center center;
+	position: relative;
+}
+
+#site_breadcrumbs li.home span.icon {
+	background: url('images/backgrounds.png') no-repeat 0px -312px;
+	position: absolute;
+	width: 18px;
+	height: 18px;
+	top: 6px;
+	left: 8px;
 }
 
 
@@ -908,7 +944,7 @@ ul.messages li.error {
 .progress {
 	border: solid 1px #e4e5e7;
 	border-radius: 3px;
-	background: url('images/progressbar.png') repeat-x 0px -1px;
+	background: url('images/backgrounds.png') repeat-x 0px -591px;
 	height: 16px;
 	margin: .3em 0;
 }
@@ -918,7 +954,7 @@ ul.messages li.error {
 	border-radius: 3px;
 	overflow: hidden;
 	text-indent: -9999px;
-	background: url('images/progressbar.png') repeat-x 0px -19px;
+	background: url('images/backgrounds.png') repeat-x 0px -609px;
 	height: 16px;
 	position: relative;
 	top: -1px;
