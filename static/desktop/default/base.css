@@ -959,3 +959,44 @@ ul.messages li.error {
 	text-align: center;
 	font-weight: bold;
 }
+
+/* === Prvky požičané z bootsrap-u === */
+
+.label, .badge {
+	display: inline-block;
+	padding: 2px 4px;
+	font-size: 0.8em;
+	font-weight: bold;
+	line-height: 1.1em;
+	color: white;
+	/*text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);*/
+	text-shadow: 0 -1px 0 #737373;
+	white-space: nowrap;
+	vertical-align: baseline;
+	background-color: #999;
+}
+
+.badge {
+	padding-right: 0.7em;
+	padding-left: 0.7em;
+	border-radius: 0.7em;
+}
+
+.label {
+	border-radius: 3px;
+}
+
+.badge-info, .label-info, .badge-watch {
+	text-shadow: 0 -1px 0 #2b6582;
+	background-color: #3a87ad;
+}
+
+.badge-warning, .label-warning {
+	text-shadow: 0 -1px 0 #ba6f04;
+	background-color: #f89406;
+}
+
+.badge-success, .label-success, .badge-new {
+	text-shadow: 0 -1px 0 #346635;
+	background-color: #468847;
+}

@@ -11,7 +11,7 @@
 	<tr>
 		<td class="title"><a href="{% url 'forum:topic-detail' topic.id %}">{{ topic.subject }}</a></td>
 		<td class="status"></td>
-		<td class="comments">{{ topic.comment_count }}</td>
+		<td class="comments"><span class="badge badge-{{ topic.new_comments|yesno:"new,watch,default" }}">{{ topic.comment_count }}</span></td>
 		<td class="last-comment">{{ topic.last_comment|humandatetime:"Žiadna reakcia" }}</td>
 	</tr>
 	{% endfor %}
