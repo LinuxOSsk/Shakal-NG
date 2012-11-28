@@ -18,6 +18,7 @@
 @module-header-background: white;
 @module-row-border: 1px solid #eee;
 @input-border: 1px solid #e6e4e4;
+@layout-padding: @module-margin;
 
 @left-background: #e0ebff;
 @comment-border: @left-background;
@@ -61,7 +62,7 @@
 	right: 68%;
 	width: 100%;
 	position: relative;
-	background: #e0ebff;
+	background: @left-background;
 	border-right: solid 1px #c4d1e3;
 }
 
@@ -87,6 +88,7 @@ body { min-width: 800px; .generic-color; .generic-font; .no-space; }
 header, nav, ul, form { display: block; .no-space; }
 
 h1, h2, h3, h4, h5, h6 { font-weight: bold; }
+h1 a, h2 a, h3 a { text-decoration: none; }
 h1, h2 { color: @hdr-high; }
 h3, h4 { color: @hdr-mid; }
 h5, h6 { color: @hdr-low; }
@@ -105,7 +107,7 @@ li    { list-style: square; }
 li li { list-style: circle; }
 
 a       { color: @link-color; text-decoration: underline; }
-a:hover { color: @link-color-hover; }
+a:hover { color: @link-color-hover; background-color: rgba(215, 228, 239, 0.5); border-radius: 3px; }
 
 textarea { width: 30em; height: 10em; }
 
@@ -121,6 +123,8 @@ fieldset, .module {
 	}
 }
 #aside_left .module { border: #c0cbef 1px solid; }
+
+.clear { clear: both; }
 
 .module + .module, .content + .module, .module + form { margin-top: @module-margin; }
 .module .clearpadding { margin: 0 -@module-padding; }
@@ -158,7 +162,7 @@ button:focus { outline: none; }
 		padding-right: 15px;
 		font-size: 14px;
 		font-weight: bold;
-		color: #1d5886;
+		color: @link-color;
 		text-shadow: 0px 1px 0px white;
 		text-decoration: none;
 		span {
@@ -244,6 +248,45 @@ button:focus { outline: none; }
 	}
 }
 
+/* === Prvky požičané z bootsrap-u === */
+
+.label, .badge {
+	display: inline-block;
+	padding: 2px 4px;
+	font-size: 0.8em; font-weight: bold;
+	line-height: 1.1em;
+	color: white;
+	text-shadow: 0 -1px 0 darken(#999, 10%);
+	white-space: nowrap;
+	vertical-align: baseline;
+	background-color: #999;
+}
+
+.badge {
+	padding-right: 0.7em;
+	padding-left: 0.7em;
+	border-radius: 0.7em;
+}
+
+.label {
+	border-radius: 3px;
+}
+
+.badge-info, .label-info, .badge-watch {
+	text-shadow: 0 -1px 0 darken(#3a87ad, 10%);
+	background-color: #3a87ad;
+}
+
+.badge-warning, .label-warning {
+	text-shadow: 0 -1px 0 darken(#f89406, 10%);
+	background-color: #f89406;
+}
+
+.badge-success, .label-success, .badge-new {
+	text-shadow: 0 -1px 0 darken(#468847, 10%);
+	background-color: #468847;
+}
+
 /* Formulár */
 .form-row {
 	padding: @row-padding @row-padding; border-bottom: @module-row-border; overflow: hidden;
@@ -267,56 +310,32 @@ button:focus { outline: none; }
 input[type="text"], input[type="password"] { .input; background: #fff url('images/backgrounds.png') 0px -542px repeat-x; }
 textarea { .input; background: #fff url('images/input_bg.png') 0px 0px repeat-x; }
 
-.formset-field input[type="text"], .formset-field input[type="password"], .formset-field textarea { padding: 3px 0; width: 100%; }
-.formset-field { padding: 0 3px; }
+.formset-field {
+	padding: 0 3px;
+	input[type="text"], input[type="password"], textarea {
+		padding: 3px 0; width: 100%;
+	}
+}
 
 /* === Obsah stránky */
 
-#site_content, #aside_left {
-	padding: 1.5em;
-}
-
-#aside_left .module {
-	font-size: 85%;
-}
-
-h1 a, h2 a, h3 a {
-	text-decoration: none;
-}
-
-#site_content a:hover {
-	color: #0c3875;
-	background-color: rgba(215, 228, 239, 0.5);
-	border-radius: 3px;
-}
+#site_content, #aside_left { padding: @layout-padding; }
+#aside_left .module { font-size: 85%; }
 
 .module-row {
-	padding: @row-padding @row-padding;
-	border-bottom: 1px solid #eee;
-	overflow: hidden;
-}
-
-.module-row .module-row {
-	padding: .2em .2em;
-	border: none;
+	padding: @row-padding @row-padding; border-bottom: @module-row-border;
+	.module-row { padding: @row-padding*0.4 @row-padding*0.4; border: none; }
 }
 
 .module-links, .pagination {
 	padding: .5em;
 	text-align: center;
 	color: #aaa;
-}
-
-.module-links a {
-	text-decoration: none;
-}
-
-a.prev:before {
-	content: "\00AB ";
-}
-
-a.next:after {
-	content: " \00BB";
+	a {
+		text-decoration: none;
+		&.prev:before { content: "\00AB "; }
+		&.next:after { content: " \00BB"; }
+	}
 }
 
 /* === Stránkovač === */
@@ -326,59 +345,31 @@ a.next:after {
 	display: inline;
 	list-style: none;
 	margin: 0;
-}
-
-.pagination li a {
-	padding: 2px 3px;
-	text-decoration: none;
-}
-
-.pagination li.disabled a {
-	color: #aaa;
-	cursor: default;
-}
-
-.pagination li.active {
-	border-color: #1d5886;
-}
-
-.pagination li.active a {
-	background: #eaf1f6;
-}
-
-#site_content .pagination li a:hover {
-	border-radius: 0px;
-	border: none;
-	color: white;
-	background: #1d5886;
-}
-
-#site_content .pagination li.disabled a:hover {
-	border: none;
-	color: #aaa;
-	background: #ffffff;
-}
-
-.pagination li.skip {
-	border: none;
+	a { padding: 2px 3px; text-decoration: none; }
+	a:hover { border-radius: 0px; border: none; color: white; background: @link-color; }
+	&.disabled a { color: #aaa; cursor: default; }
+	&.disabled a:hover { border: none; color: #aaa; background: white; }
+	&.active { border-color: @link-color; }
+	&.active a { background: @table-row-alternate-bg; }
+	&.skip { border: none; }
 }
 
 /* === Ikony === */
 
-.trashcan-icon {
+.icon () {
 	display: block;
 	width: 16px;
 	height: 16px;
-	background: url('images/backgrounds.png') -36px -312px no-repeat;
 	overflow: hidden;
 	text-indent: -9999px;
 }
 
+.trashcan-icon { .icon; background: url('images/backgrounds.png') -36px -312px no-repeat; }
+
 /* === Hlavička === */
 
 #linuxos_logo {
-	width: 240px;
-	height: 80px;
+	width: 240px; height: 80px;
 	background: url('images/backgrounds.png') 0px 0px no-repeat;
 	display: block;
 	text-align: center;
@@ -412,24 +403,16 @@ a.next:after {
 	float: right;
 	margin: 5px 5px 0 0;
 	position: relative;
-}
-
-.btn span {
-	float: right;
+	&:hover #userlinks {
+		display: block;
+	}
 }
 
 .btn span.username .icon-user {
-	margin-left: 3px;
-	margin-right: 5px;
+	margin: 12px 5px 0 3px;
+	width: 9px; height: 14px;
 	background: url('images/backgrounds.png') no-repeat -27px -312px;
 	float: left;
-	width: 9px;
-	height: 14px;
-	margin-top: 12px;
-}
-
-#user_panel:hover #userlinks {
-	display: block;
 }
 
 #login-form {
@@ -438,86 +421,65 @@ a.next:after {
 }
 
 /* Breadcrumbs */
+
 #site_breadcrumbs {
-	height: 36px;
-	bottom: 0px;
-	margin-left: -3px;
-	padding-left: 5px;
+	height: 36px; bottom: 0px; margin-left: -3px; padding-left: 5px;
 	background: @breadcrumb-background url('images/backgrounds.png') 0px -428px no-repeat;
 	margin-top: 44px;
+	ul {
+		.no-space;
+		height: 36px;
+		background: url('images/backgrounds.png') 0px -330px repeat-x;
+	}
+	li {
+		height: 31px; line-height: 31px; margin-top: 5px; padding-right: 5px;
+		list-style: none;
+		float: left;
+		background: url('images/backgrounds.png') no-repeat right -366px;
+		.crumb {
+			display: block;
+			position: relative;
+			right: 17px; height: 31px; padding-left: 25px;
+			background: url('images/backgrounds.png') no-repeat left -366px;
+			font-weight: bold; font-size: 0.875em;
+			text-shadow: 0px -1px 0px #cedfeb, 0px 1px 0px #fcfdfe;
+			color: @link-color;
+			a {
+				text-decoration: none;
+				display: block;
+				height: 31px;
+				color: @link-color;
+			}
+		}
+		&.home {
+			width: 58px;
+			border-left: 1px solid #c5dcec;
+			.crumb {
+				background: none !important;
+			}
+			a {
+				display: block;
+				overflow: hidden;
+				text-indent: -9999px;
+				position: relative;
+			}
+			.icon {
+				width: 18px; height: 18px; top: 6px; left: 8px;
+				background: url('images/backgrounds.png') no-repeat 0px -312px;
+				position: absolute;
+			}
+		}
+		&:hover {
+			background: url('images/backgrounds.png') no-repeat right -397px;
+			.crumb {
+				background: url('images/backgrounds.png') no-repeat left -397px;
+			}
+		}
+	}
+	a:hover {
+		background: none;
+	}
 }
-
-#site_breadcrumbs ul {
-	padding: 0;
-	margin: 0;
-	height: 36px;
-	background: url('images/backgrounds.png') 0px -330px repeat-x;
-}
-
-#site_breadcrumbs li {
-	list-style: none;
-	display: block;
-	float: left;
-	height: 31px;
-	line-height: 31px;
-	margin-top: 5px;
-	background: url('images/backgrounds.png') no-repeat right -366px;
-	padding-right: 5px;
-}
-
-#site_breadcrumbs li:hover {
-	background: url('images/backgrounds.png') no-repeat right -397px;
-}
-
-#site_breadcrumbs li span.crumb {
-	display: block;
-	padding-left: 25px;
-	background: url('images/backgrounds.png') no-repeat left -366px;
-	position: relative;
-	right: 17px;
-	height: 31px;
-	font-weight: bold;
-	font-size: 0.875em;
-	text-shadow: 0px -1px 0px #cedfeb, 0px 1px 0px #fcfdfe;
-	color: #1d5682;
-}
-
-#site_breadcrumbs li span.crumb a {
-	text-decoration: none;
-	display: block;
-	height: 31px;
-	color: #1d5682;
-}
-
-#site_breadcrumbs li:hover span.crumb {
-	background: url('images/backgrounds.png') no-repeat left -397px;
-}
-
-#site_breadcrumbs li.home {
-	width: 58px;
-	border-left: 1px solid #c5dcec;
-}
-
-#site_breadcrumbs li.home span.crumb {
-	background: none;
-}
-
-#site_breadcrumbs li.home span.crumb a {
-	display: block;
-	overflow: hidden;
-	text-indent: -9999px;
-	position: relative;
-}
-
-#site_breadcrumbs li.home span.icon {
-	background: url('images/backgrounds.png') no-repeat 0px -312px;
-	position: absolute;
-	width: 18px;
-	height: 18px;
-	top: 6px;
-	left: 8px;
-}
-
 
 /* === Systémové správy === */
 
@@ -525,56 +487,34 @@ a.next:after {
 	background: #fcc;
 	border: 1px solid #faa;
 	border-radius: 3px;
-	padding: 2px 3px;
-	margin: 3px;
-}
-
-.errorlist li {
-	list-style: none;
+	padding: 2px 3px; margin: 3px;
+	li {
+		list-style: none;
+	}
 }
 
 .error {
 	color: red;
-}
-
-.error.passive {
-	font-size: 130%;
-	font-weight: bold;
+	&.passive {
+		font-size: 130%;
+		font-weight: bold;
+	}
 }
 
 ul.messages {
-	padding: 0px;
-	margin: 1.5em 1.5em 0 1.5em;
+	padding: 0px; margin: 1.5em 1.5em 0 1.5em;
 	color: black;
 	position: relative;
-}
-
-ul.messages li {
-	display: block;
-	padding: 5px;
-	margin: 0px;
-	list-style: none;
-	border-radius: 3px;
-}
-
-ul.messages li.info {
-	background: #eefaff;
-	border: 1px solid #cdf;
-}
-
-ul.messages li.success {
-	background: #efe;
-	border: 1px solid #afa;
-}
-
-ul.messages li.warning {
-	background: #ffffe0;
-	border: 1px solid #ff4;
-}
-
-ul.messages li.error {
-	background: #fcc;
-	border: 1px solid #faa;
+	li {
+		padding: 5px; margin: 0px;
+		display: block;
+		list-style: none;
+		border-radius: 3px;
+		&.info { background: #eefaff; border: 1px solid #cdf; }
+		&.success { background: #efe; border: 1px solid #afa; }
+		&.warning { background: #ffffe0; border: 1px solid #ff4; }
+		&.error { background: #fcc; border: 1px solid #faa; }
+	}
 }
 
 /* === Články === */
@@ -602,14 +542,8 @@ ul.messages li.error {
 	color: #999;
 	font-weight: bold;
 	text-align: center;
-}
-
-.forum caption:before {
-	content: '::';
-}
-
-.forum caption:after {
-	content: '::';
+	&:before { content: '::'; }
+	&:after { content: '::'; }
 }
 
 .discussion.header {
@@ -617,36 +551,11 @@ ul.messages li.error {
 	background: #eff3f7;
 	padding: 0.3em;
 	margin: 0 0 1em 0;
-}
-
-.discussion.header .title {
-	float: left;
-	clear: left;
-	padding-bottom: 10px;
-}
-
-.discussion.header .user {
-	float: right;
-	display: block;
-	text-align: right;
-}
-
-.discussion.header .distribution {
-	padding-top: 10px;
-	display: block;
-}
-
-.discussion.header .info {
-	display: block;
-	clear: left;
-}
-
-.discussion.header .icon {
-	display: block;
-	float: right;
-	width: 23px;
-	height: 34px;
-	padding: 3px 5px;
+	.title { float: left; clear: left; padding-bottom: 10px; }
+	.user { float: right; display: block; text-align: right; }
+	.distribution { padding-top: 10px; display: block; }
+	.info { display: block; clear: left; }
+	.icon { display: block; float: right; width: 23px; height: 34px; padding: 3px 5px; }
 }
 
 .thread_1 .discussion.header.entry {
@@ -749,9 +658,6 @@ ul.messages li.error {
 	height: 38px;
 }
 
-.clear {
-	clear: both;
-}
 
 .signature {
 	color: #616b7a;
@@ -787,18 +693,17 @@ ul.messages li.error {
 	background: url('images/backgrounds.png') repeat-x 0px -591px;
 	height: 16px;
 	margin: .3em 0;
-}
-
-.progress .bar {
-	border: solid 1px #2f83bb;
-	border-radius: 3px;
-	overflow: hidden;
-	text-indent: -9999px;
-	background: url('images/backgrounds.png') repeat-x 0px -609px;
-	height: 16px;
-	position: relative;
-	top: -1px;
-	left: -1px;
+	.bar {
+		border: solid 1px #2f83bb;
+		border-radius: 3px;
+		overflow: hidden;
+		text-indent: -9999px;
+		background: url('images/backgrounds.png') repeat-x 0px -609px;
+		height: 16px;
+		position: relative;
+		top: -1px;
+		left: -1px;
+	}
 }
 
 .module.survey.compact label {
@@ -836,43 +741,3 @@ ul.messages li.error {
 	font-weight: bold;
 }
 
-/* === Prvky požičané z bootsrap-u === */
-
-.label, .badge {
-	display: inline-block;
-	padding: 2px 4px;
-	font-size: 0.8em;
-	font-weight: bold;
-	line-height: 1.1em;
-	color: white;
-	/*text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);*/
-	text-shadow: 0 -1px 0 #737373;
-	white-space: nowrap;
-	vertical-align: baseline;
-	background-color: #999;
-}
-
-.badge {
-	padding-right: 0.7em;
-	padding-left: 0.7em;
-	border-radius: 0.7em;
-}
-
-.label {
-	border-radius: 3px;
-}
-
-.badge-info, .label-info, .badge-watch {
-	text-shadow: 0 -1px 0 #2b6582;
-	background-color: #3a87ad;
-}
-
-.badge-warning, .label-warning {
-	text-shadow: 0 -1px 0 #ba6f04;
-	background-color: #f89406;
-}
-
-.badge-success, .label-success, .badge-new {
-	text-shadow: 0 -1px 0 #346635;
-	background-color: #468847;
-}
