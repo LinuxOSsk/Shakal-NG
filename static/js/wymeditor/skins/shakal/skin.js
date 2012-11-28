@@ -22,7 +22,7 @@ WYMeditor.SKINS['shakal'] = {
 
 		jQuery(wym._box).find("div.wym_area_right h2").wrap("<div class=\"btn flat\" />");
 		jQuery(wym._box).find("div.wym_area_right h2").each(function() {
-			jQuery("<span><span class=\"dropdown\">" + jQuery(this).html() + "<span class=\"dropdown-icon\"></span></span></span>").replaceAll(this);
+			jQuery("<span><span class=\"dropdown\">" + jQuery(this).html() + "<span class=\"icon\"></span></span></span>").replaceAll(this);
 		});
 		jQuery(wym._box).find("div.wym_area_right > *")
 			.remove()

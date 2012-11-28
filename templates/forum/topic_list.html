@@ -18,7 +18,7 @@
 {% block content %}
 
 <ul class="object-tools">
-	<li><a href="{% url 'forum:create' %}">Pridať novú tému</a></li>
+	<li class="btn"><span><a href="{% url 'forum:create' %}">Pridať novú tému</a></span></li>
 </ul>
 <h1>{% if section %}{{ section }}{% else %}Diskusné fórum{% endif %}</h1>
 

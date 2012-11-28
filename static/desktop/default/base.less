@@ -1,416 +1,66 @@
-body {
-	background-color: white;
-	color: black;
-	margin: 0;
-	padding: 0;
-	min-width: 800px;
-	font-family: sans-serif;
-	height: 100%;
+@generic-background: white;
+@generic-foreground: black;
+@generic-font: sans-serif;
+
+@hdr-high: #4c4e5a;
+@hdr-mid: #5d6370;
+@hdr-low: #000000;
+
+@link-color: #1d5886;
+@link-color-hover: @link-color - #0e2940;
+@info-color: @hdr-mid;
+@breadcrumb-background: #d6eeff;
+
+@title-padding: 1em;
+@row-padding: .7em;
+@module-padding: 5px;
+@module-margin: 1.5em;
+@module-header-background: white;
+@module-row-border: 1px solid #eee;
+@input-border: 1px solid #e6e4e4;
+
+@left-background: #e0ebff;
+@comment-border: @left-background;
+
+@form-label-width: 10em;
+
+@header-bg: #4d9dd9;
+
+@table-row-bg: @generic-background;
+@table-row-alternate-bg: mix(@header-bg, @generic-background, 9%);
+
+
+.no-space () {
+	margin: 0; padding: 0;
 }
 
-/* === Nastavenia základných prvkov === */
-
-header, nav {
-	display: block;
+.generic-color () {
+	background-color: @generic-background;
+	color: @generic-foreground;
 }
 
-h1 {
-	font-size: 2em;
-	margin: .7em 0px;
+.generic-font () {
+	font-family: @generic-font;
 }
 
-h2 {
-	font-size: 1.5em;
-	margin: .7em 0px;
-}
-
-h3 {
-	font-size: 1.25em;
-	margin: .5em 0px;
-}
-
-h4 {
-	font-size: 1em;
-	margin: .4em 0px;
-}
-
-h5 {
-	font-size: 0.85em;
-	margin: .3em 0px;
-}
-
-h6 {
-	font-size: 0.66em;
-	margin: .2em 0px;
-}
-
-h1, h2, h3, h4, h5, h6 {
-	font-weight: bold;
-}
-
-h1, h2 {
-	color: #4c4e5a;
-}
-
-h3, h4 {
-	color: #5d6370;
-}
-
-h5, h6 {
-	color: black;
-}
-
-a {
-	color: #1d5886;
-	text-decoration: underline;
-}
-
-form {
-	margin: 0;
-	padding: 0;
-}
-
-a:hover {
-	color: #0f2e46;
-	text-decoration: underline;
-}
-
-ul {
-	margin: 0;
-	padding: 0 0 0 2em;
-}
-
-li {
-	list-style: square;
-}
-
-li > ul > li {
-	list-style: circle;
-}
-
-fieldset, .module {
-	padding: 0 5px;
-	margin: 0;
-	border: #e8e8e8 1px solid;
+.module-shadow () {
 	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-	background: white;
-}
-
-#aside_left .module {
-	border: #c0cbef 1px solid;
-}
-
-.module + .module, .content + .module, .module + form {
-	margin-top: 1.5em;
-}
-
-.module .clearpadding {
-	margin: 0 -5px;
-}
-
-fieldset h2, .module h2 {
-	display: block;
-	line-height: 37px;
-	height: 37px;
-	padding: 0 1em;
-	margin: 0 -5px;
-	background: url(images/backgrounds.png) 0px -464px repeat-x;
-	font-size: 1.5em;
-	color: white;
-	text-shadow: 1px 1px 0px #418cc0;
-}
-
-textarea {
-	width: 30em;
-	height: 10em;
-}
-
-/* === Tabuľka === */
-
-table {
-	width: 100%;
-	border-collapse: collapse;
-}
-
-tr:nth-child(odd) {
-	background-color: white;
-}
-
-tr:nth-child(even) {
-	background-color: #eff3f7;
-}
-
-th {
-	font-weight: bold;
-	text-align: center;
-}
-
-th, td {
-	padding: 2px 4px;
-}
-
-td.title, th.title {
-	text-align: left;
-}
-
-td.icons, th.icons, td.number, th.number, td.date, th.date {
-	text-align: center;
-}
-
-/* === UI prvky === */
-
-.info {
-	color: #5d6370;
-}
-
-/* Tlačidlo */
-.btn, .object-tools li {
-	line-height: 38px;
-	border: none;
-	padding: 0px 0px 0px 15px;
-	margin: 0;
-	background: none;
-	cursor: pointer;
-	list-style: none;
-}
-
-button:focus {
-	outline: none;
-}
-
-.btn span:before, .object-tools a:before {
-	content: ".";
-	width: 15px;
-	background: url('images/backgrounds.png') no-repeat left -160px;
-	float: left;
-	margin-left: -15px;
-	text-indent: -9999px;
-	overflow: hidden;
-}
-
-.btn.flat span span:before {
-	content: "";
-	width: 0;
-	background: none;
-	margin: 0;
-	text-indent: 0;
-}
-
-.btn:hover span:before {
-	background: url('images/backgrounds.png') no-repeat left -198px;
-}
-
-.btn:active span:before, .btn:focus span:before {
-	background: url('images/backgrounds.png') no-repeat left -236px;
-}
-
-.btn:active:hover span:before {
-	background: url('images/backgrounds.png') no-repeat left -236px;
-}
-
-.btn span, .object-tools a {
-	background: url('images/backgrounds.png') no-repeat right -160px;
-	display: block;
-	float: left;
-	padding-right: 15px;
-	font-size: 14px;
-	font-weight: bold;
-	color: #1d5886;
-	text-shadow: 0px 1px 0px white;
-	text-decoration: none;
-}
-
-.btn.flat span span {
-	background: none;
-	display: inline;
-	float: none;
-	padding: 0;
-}
-
-#site_content .btn span, #site_content .object-tools a:hover {
-	background: url('images/backgrounds.png') no-repeat right -160px;
-}
-
-#site_content .btn span span {
-	background: none;
-}
-
-#site_content .btn.flat span a {
-	background: none;
-}
-
-.btn:hover span {
-	background: url('images/backgrounds.png') no-repeat right -198px;
-}
-
-.btn:active span, .btn:focus span {
-	background: url('images/backgrounds.png') no-repeat right -236px;
-}
-
-.btn:active:hover span {
-	background: url('images/backgrounds.png') no-repeat right -236px;
-}
-
-.btn.flat span span.dropdown {
-	display: block;
-	margin-right: 15px;
-	position: relative;
-}
-
-.btn.flat span span.dropdown .dropdown-icon {
-	background: url('images/backgrounds.png') no-repeat -18px -312px !important;
-	width: 9px;
-	height: 14px;
-	position: absolute;
-	right: -18px;
-	top: 13px;
-}
-
-.btn.flat a {
-	color: #1d5886;
-	text-decoration: none;
-	line-height: 38px;
-	display: block;
-}
-
-.object-tools {
-	float: right;
-	margin: 10px 0 0 0;
-}
-
-/* Dropdown zoznam */
-.dropdown.menu {
-	background: white;
-	position: relative;
-	right: 0px;
-	padding: 3px 0px;
-	margin: 38px 1px 0 0;
-	border-radius: 3px;
-	box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.8);
-	display: none;
-	z-index: 1;
-}
-
-.dropdown.menu:before {
-	content: ".";
-	text-indent: -9999px;
-	overflow: hidden;
-	width: 13px;
-	height: 7px;
-	background: url('images/backgrounds.png') -52px -312px no-repeat;
-	position: absolute;
-	top: -7px;
-	right: 10px;
-}
-
-.dropdown.menu li {
-	list-style: none;
-	padding: 0px 10px;
-	margin: 0px;
-}
-
-.dropdown.menu li:hover {
-	background: #d5eeff;
-}
-
-/* Formulár */
-.form-row {
-	padding: .7em .7em;
-	border-bottom: 1px solid #eee;
-	overflow: hidden;
-}
-
-.form-row label.field_label, .form-row label.formset_label {
-	display: block;
-	padding: 5px 10px 0 0;
-	float: left;
-	width: 10em;
-	color: #555;
-}
-
-.form-row input[type="text"], .form-row input[type="password"] {
-	vertical-align: middle;
-	width: 15em;
-}
-
-.form-row label.required {
-	color: black;
-	font-weight: bold;
-}
-
-.form-row p.help {
-	padding-left: 12em;
-	font-size: 0.875em;
-	color: #888;
-}
-
-.form-row ul {
-	padding: 0;
-	margin: 0 0 0 11em;
-}
-
-.form-row ul li {
-	list-style: none;
-}
-
-.form-row p.radio-description {
-	font-size: 0.875em;
-	color: #888;
-	margin-top: 0;
-	padding-top: 0;
-}
-
-.submit-row {
-	height: 41px;
-	background: url('images/backgrounds.png') 0px -501px repeat-x;
-	margin: 0 -5px;
-}
-
-.submit-row .positive {
-	float: right;
-}
-
-.submit-row .negative {
-	float: left;
-}
-
-input[type="text"], input[type="password"] {
-	background: #fff url('images/backgrounds.png') 0px -542px repeat-x;
-	border: 1px solid #e6e4e4;
-	padding: 3px 6px;
-}
-
-textarea {
-	background: #fff url('images/input_bg.png') 0px 0px repeat-x;
-	border: 1px solid #e6e4e4;
-	padding: 3px 6px;
-}
-
-.formset-field input[type="text"], .formset-field input[type="password"], .formset-field textarea {
-	padding: 3px 0;
-	width: 100%;
-}
-
-.formset-field {
-	padding: 0 3px;
 }
 
 /* === Layout === */
 
 #colmask {
-	position: relative;
-	clear: both;
-	float: left;
-	width: 100%;
-	height: 100%;
+	float: left; clear: both;
+	width: 100%; height: 100%;
 	overflow: hidden;
+	position: relative;
 }
 
 #colinner {
 	float: left;
+	right: 68%;
 	width: 100%;
 	position: relative;
-	right: 68%;
 	background: #e0ebff;
 	border-right: solid 1px #c4d1e3;
 }
@@ -429,6 +79,196 @@ textarea {
 #colleft {
 	width: 32%;
 }
+
+/* === Nastavenia základných prvkov === */
+
+body { min-width: 800px; .generic-color; .generic-font; .no-space; }
+
+header, nav, ul, form { display: block; .no-space; }
+
+h1, h2, h3, h4, h5, h6 { font-weight: bold; }
+h1, h2 { color: @hdr-high; }
+h3, h4 { color: @hdr-mid; }
+h5, h6 { color: @hdr-low; }
+
+h1 { font-size: 2em;    margin: @row-padding*1.0 0px; }
+h2 { font-size: 1.5em;  margin: @row-padding*1.0 0px; }
+h3 { font-size: 1.25em; margin: @row-padding*0.7 0px; }
+h4 { font-size: 1em;    margin: @row-padding*0.5 0px; }
+h5 { font-size: 0.85em; margin: @row-padding*0.4 0px; }
+h6 { font-size: 0.66em; margin: @row-padding*0.3 0px; }
+
+p { margin: 2em 0; }
+ul { padding-left: 2em; }
+
+li    { list-style: square; }
+li li { list-style: circle; }
+
+a       { color: @link-color; text-decoration: underline; }
+a:hover { color: @link-color-hover; }
+
+textarea { width: 30em; height: 10em; }
+
+fieldset, .module {
+	margin: 0; padding: 0 @module-padding; .module-shadow; .generic-color;
+	border: #e8e8e8 1px solid;
+	h2 {
+		font-size: 1.5em;
+		line-height: 37px; height: 37px;
+		padding: 0 @title-padding; margin: 0 -@module-padding;
+		background: url(images/backgrounds.png) @header-bg 0px -464px repeat-x;
+		color: @module-header-background; text-shadow: 1px 1px 0px darken(@header-bg, 10%);
+	}
+}
+#aside_left .module { border: #c0cbef 1px solid; }
+
+.module + .module, .content + .module, .module + form { margin-top: @module-margin; }
+.module .clearpadding { margin: 0 -@module-padding; }
+
+/* === Tabuľka === */
+
+table { width: 100%; border-collapse: collapse; }
+tr:nth-child(odd) { background-color: @table-row-bg; }
+tr:nth-child(even) { background-color: @table-row-alternate-bg; }
+th { font-weight: bold; text-align: center; }
+th, td { padding: 2px 4px; }
+
+td, th { &.title { text-align: left; } }
+th, td { &.icons, &.number, &.date { text-align: center; } }
+
+/* === UI prvky === */
+
+.info { color: @info-color; }
+.object-tools { float: right; margin: 10px 0 0 0; }
+
+/* Tlačidlo */
+
+button:focus { outline: none; }
+
+.btn {
+	padding: 0px 0px 0px 15px; margin: 0;
+	background: none; border: none;
+	line-height: 38px;
+	list-style: none;
+	cursor: pointer;
+	span {
+		background: url('images/backgrounds.png') no-repeat right -160px;
+		display: block;
+		float: left;
+		padding-right: 15px;
+		font-size: 14px;
+		font-weight: bold;
+		color: #1d5886;
+		text-shadow: 0px 1px 0px white;
+		text-decoration: none;
+		span {
+			background: none;
+			display: inline;
+			padding: 0;
+		}
+		span:before {
+			content: "";
+			display: none;
+		}
+		span.dropdown {
+			display: block;
+			margin-right: 15px;
+			position: relative;
+			.icon {
+				background: url('images/backgrounds.png') no-repeat -18px -312px !important;
+				width: 9px;
+				height: 14px;
+				position: absolute;
+				right: -18px;
+				top: 13px;
+			}
+		}
+	}
+	a {
+		text-decoration: none;
+		line-height: 38px;
+		display: block;
+		&:hover {
+			background: none !important;
+		}
+	}
+	span:before {
+		content: ".";
+		background: url('images/backgrounds.png') no-repeat left -160px;
+		width: 15px; margin-left: -15px;
+		text-indent: -9999px; overflow: hidden;
+		float: left;
+	}
+	&:hover {
+		span { background: url('images/backgrounds.png') no-repeat right -198px; }
+		span:before { background: url('images/backgrounds.png') no-repeat left -198px; }
+	}
+	&:active, &:focus {
+		span { background: url('images/backgrounds.png') no-repeat right -236px; }
+		span:before, &:focus span:before { background: url('images/backgrounds.png') no-repeat left -236px; }
+	}
+	&:active:hover {
+		span { background: url('images/backgrounds.png') no-repeat right -236px; }
+		span:before { background: url('images/backgrounds.png') no-repeat left -236px; }
+	}
+}
+
+/* Dropdown zoznam */
+.dropdown.menu {
+	background: @generic-background;
+	position: relative;
+	right: 0px;
+	padding: 3px 0px;
+	margin: 38px 1px 0 0;
+	border-radius: 3px;
+	box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.8);
+	display: none;
+	z-index: 1;
+	&:hover {
+		display: block;
+	}
+	&:before {
+		content: ".";
+		text-indent: -9999px;
+		overflow: hidden;
+		width: 13px; height: 7px;
+		top: -7px; right: 10px;
+		background: url('images/backgrounds.png') -52px -312px no-repeat;
+		position: absolute;
+	}
+	li {
+		list-style: none; padding: 0px @title-padding; margin: 0px;
+		&:hover {
+			background: @breadcrumb-background;
+		}
+	}
+}
+
+/* Formulár */
+.form-row {
+	padding: @row-padding @row-padding; border-bottom: @module-row-border; overflow: hidden;
+	.field_label, .formset_label { display: block; padding: 5px 10px 0 0; float: left; width: @form-label-width; color: #555; }
+	.required { color: black; font-weight: bold; }
+	.help { padding-left: @form-label-width+2em; font-size: 0.875em; color: #888; }
+	.radio-description { .no-space; font-size: 0.875em; color: #888; }
+	input[type="text"], input[type="password"] { vertical-align: middle; width: 15em; }
+	ul { .no-space; margin-left: @form-label-width+1em; }
+	li { list-style: none; }
+}
+
+.submit-row {
+	height: 41px; margin: 0 -5px; background: url('images/backgrounds.png') 0px -501px repeat-x;
+	.positive { float: right; }
+	.negative { float: left; }
+}
+
+.input () { padding: 3px 6px; border: @input-border; }
+
+input[type="text"], input[type="password"] { .input; background: #fff url('images/backgrounds.png') 0px -542px repeat-x; }
+textarea { .input; background: #fff url('images/input_bg.png') 0px 0px repeat-x; }
+
+.formset-field input[type="text"], .formset-field input[type="password"], .formset-field textarea { padding: 3px 0; width: 100%; }
+.formset-field { padding: 0 3px; }
 
 /* === Obsah stránky */
 
@@ -451,7 +291,7 @@ h1 a, h2 a, h3 a {
 }
 
 .module-row {
-	padding: .7em .7em;
+	padding: @row-padding @row-padding;
 	border-bottom: 1px solid #eee;
 	overflow: hidden;
 }
@@ -563,7 +403,7 @@ a.next:after {
 
 #top_header {
 	height: 80px;
-	background: url('images/backgrounds.png') 0px -80px repeat-x;
+	background: #4d9dd9 url('images/backgrounds.png') 0px -80px repeat-x;
 }
 
 /* Prihlásenie */
@@ -574,11 +414,11 @@ a.next:after {
 	position: relative;
 }
 
-.btn.flat span {
+.btn span {
 	float: right;
 }
 
-.btn.flat span.username .icon-user {
+.btn span.username .icon-user {
 	margin-left: 3px;
 	margin-right: 5px;
 	background: url('images/backgrounds.png') no-repeat -27px -312px;
@@ -603,7 +443,7 @@ a.next:after {
 	bottom: 0px;
 	margin-left: -3px;
 	padding-left: 5px;
-	background: url('images/backgrounds.png') 0px -428px no-repeat;
+	background: @breadcrumb-background url('images/backgrounds.png') 0px -428px no-repeat;
 	margin-top: 44px;
 }
 

@@ -10,7 +10,7 @@
 {% block content %}
 {% if user.is_staff and perms.article.can_change %}
 <ul class="object-tools">
-	<li><a href="{% url 'admin:article_article_change' article.pk %}">{% trans 'Edit article' %}</a></li>
+	<li class="btn"><span><a href="{% url 'admin:article_article_change' article.pk %}">{% trans 'Edit article' %}</a></span></li>
 </ul>
 {% endif %}
 <h1>{{ article.title }}</h1>

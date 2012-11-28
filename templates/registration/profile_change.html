@@ -9,7 +9,7 @@
 
 {% block content %}
 <ul class="object-tools">
-	<li><a href="{% url 'auth_password_change' %}">{% trans 'Change password' %}</a></li>
+	<li class="btn"><span><a href="{% url 'auth_password_change' %}">{% trans 'Change password' %}</a></span></li>
 </ul>
 <h1>{% trans 'Edit user profile' %}</h1>
 
@@ -18,7 +18,7 @@
 		{% include 'includes/form_loop.html' with form=form %}
 		<div class="submit-row">
 			<div class="negative">
-				<div class="btn flat"><span><a href="{% url 'auth_my_profile' %}">{% trans "Back to profile" %}</a></span></div>
+				<div class="btn"><span><a href="{% url 'auth_my_profile' %}">{% trans "Back to profile" %}</a></span></div>
 			</div>
 			<div class="positive">
 				<button class="btn" type="submit" title="{% trans "Save" %}"><span>{% trans "Save" %}</span></button>

@@ -11,7 +11,7 @@
 	<input type="hidden" name="next" value="{{ request.path }}" />
 	{% if request.user.is_authenticated %}
 	<div class="negative">
-		<div class="btn flat"><span><a href="{% url 'survey:create' %}">Navrhnúť</a></span></div>
+		<div class="btn"><span><a href="{% url 'survey:create' %}">Navrhnúť</a></span></div>
 	</div>
 	{% endif %}
 	{% if survey %}
