@@ -198,14 +198,17 @@ class PrefetchUserAttributesQuerySet(QuerySet):
 			user = self.user,
 			discussion__in = [item.rootheader_id for item in items]
 		).values()
-		user_attributes = dict([(a['id'], a) for a in user_attributes])
+		user_attributes = dict([(a['discussion_id'], a) for a in user_attributes])
 		for item in items:
-			setattr(item, 'discussion_display_time', user_attributes.get(item.pk, {'time': None})['time'])
-			setattr(item, 'discussion_watch', user_attributes.get(item.pk, {'watch': None})['watch'])
-			setattr(item, 'new_comments', False)
+			setattr(item, 'discussion_display_time', user_attributes.get(item.rootheader_id, {'time': None})['time'])
+			setattr(item, 'discussion_watch', user_attributes.get(item.rootheader_id, {'watch': None})['watch'])
+			setattr(item, 'new_comments', None)
 			if item.last_comment and item.discussion_display_time:
-				if item.discussion_display_time < item.last_comment:
-					setattr(item, 'new_comments', True)
+				if item.discussion_display_time is not None:
+					if item.discussion_display_time < item.last_comment:
+						setattr(item, 'new_comments', True)
+					else:
+						setattr(item, 'new_comments', False)
 
 	def __getitem__(self, k):
 		if isinstance(k, slice):
