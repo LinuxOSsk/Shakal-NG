@@ -76,7 +76,7 @@ class Compressor:
 			size = self.__get_image_size(image)
 			img_pos = self.__get_pos(size, last_pos, out_size)
 			print(termcolor.colored("  Position " + image['name'] + ' ' + str(img_pos), "green"))
-			last_pos = (img_pos[0], img_pos[1], img_pos[2], max(img_pos[3], last_pos[3]))
+			last_pos = (img_pos[0], img_pos[1], img_pos[2] + 1, max(img_pos[3], last_pos[3]) + 1)
 			out_size[self.SIZE_HEIGHT] = last_pos[self.POS_BOTTOM]
 			image['computed_pos'] = img_pos
 			computed_images[image['name']] = image
@@ -122,22 +122,22 @@ class Compressor:
 		if mode == 'no-repeat':
 			out_image.paste(in_image.crop((offset[0], offset[1], image['width'] + offset[0], image['height'] + offset[1])), image['computed_pos'])
 		elif mode == 'repeat-x':
-			tiled = self.__tile_image(in_image, (pos[self.POS_RIGHT] - pos[self.POS_LEFT], pos[self.POS_BOTTOM] - pos[self.POS_TOP]))
+			tiled = self.__tile_image(in_image, (image['width'], image['height']), offset, (pos[self.POS_RIGHT] - pos[self.POS_LEFT], pos[self.POS_BOTTOM] - pos[self.POS_TOP]))
 			out_image.paste(tiled, image['computed_pos'])
 
-	def __tile_image(self, in_image, target_size):
+	def __tile_image(self, in_image, in_size, offset, target_size):
+		img = in_image.crop((offset[0], offset[1], offset[0] + in_size[0], offset[1] + in_size[1]))
 		out_image = Image.new('RGBA', target_size)
-		in_size = in_image.size
 		current_pos = (0, 0)
 		while current_pos[self.POS_LEFT] < target_size[self.SIZE_WIDTH] and current_pos[self.POS_TOP] < target_size[self.SIZE_HEIGHT]:
 			target_pos = current_pos + (current_pos[0] + in_size[0], current_pos[1] + in_size[1])
 			# Kontrola pre orezanie
 			if target_pos[self.POS_RIGHT] <= target_size[self.SIZE_WIDTH] and target_pos[self.POS_BOTTOM] <= target_size[self.SIZE_HEIGHT]:
-				out_image.paste(in_image, target_pos)
+				out_image.paste(img, target_pos)
 			else:
 				crop_size = (target_size[0] - target_pos[0], target_size[1] - target_pos[1])
 				crop_pos = (target_pos[0], target_pos[1], target_pos[0] + crop_size[0], target_pos[1] + crop_size[1])
-				out_image.paste(in_image.crop((0, 0) + crop_size), crop_pos)
+				out_image.paste(img.crop((0, 0) + crop_size), crop_pos)
 
 			if current_pos[self.POS_LEFT] + 1 >= target_size[self.SIZE_WIDTH]:
 				current_pos = (0, current_pos[self.POS_TOP] + in_size[self.SIZE_HEIGHT])
