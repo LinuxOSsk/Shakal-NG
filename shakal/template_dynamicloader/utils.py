@@ -36,25 +36,24 @@ def decode_switch_template(data):
 
 
 def get_template_settings(request):
+	template_device = template_skin = css = None
+	if request.method == 'GET' and 'switch_template' in request.GET:
+		(template_device, template_skin, css) = decode_switch_template(request.GET['switch_template'])
+
 	templates = dict(settings.TEMPLATES)
-	try:
+	if template_device is None:
+		template_device = request.session['template_device']
+	if not template_device in templates and template_device:
 		template_device = request.session['template_device']
 		if not template_device in templates:
 			template_device = settings.TEMPLATES[0][0]
-	except KeyError:
-		template_device = settings.TEMPLATES[0][0]
 
 	device_templates = set(templates[template_device])
-
-	try:
+	if template_skin is None:
+		template_skin = request.session['template_skin']
+	if not template_skin.split(',', 1)[0] in device_templates:
 		template_skin = request.session['template_skin']
 		if not template_skin.split(',', 1)[0] in device_templates:
 			template_skin = templates[template_device][0]
-	except KeyError:
-		template_skin = templates[template_device][0]
-
-	css = None
-	if request.method == 'GET' and 'switch_template' in request.GET:
-		(template_device, template_skin, css) = decode_switch_template(request.GET['switch_template'])
 
 	return (template_device, template_skin, css)
