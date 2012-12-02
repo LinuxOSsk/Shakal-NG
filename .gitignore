@@ -1,0 +1,9 @@
+*.xcf
+*.pyc
+/media
+/wsgi_app.py
+/dump.gz
+/templates/cache
+/static/compressed_images.less
+/static/desktop/default/images/backgrounds.png
+/static/desktop/default/base.css
