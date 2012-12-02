@@ -14,6 +14,13 @@ class UserProfile(models.Model):
 	distribution = models.CharField(max_length = 50, blank = True, verbose_name = _('linux distribution'))
 	info = models.TextField(validators = [MaxLengthValidator(100000)], blank = True, verbose_name = _('informations'))
 	year = models.SmallIntegerField(validators = [MinValueValidator(1900), MaxValueValidator(lambda: 2000)], blank = True, null = True, verbose_name = _('year of birth'))
+	def save(self, *args, **kwargs):
+		try:
+			existing = UserProfile.objects.get(user = self.user)
+			self.id = existing.id
+		except UserProfile.DoesNotExist:
+			pass
+		super(UserProfile, self).save(*args, **kwargs)
 
 
 def create_user_profile(sender, **kwargs):
