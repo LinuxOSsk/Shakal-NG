@@ -2,9 +2,9 @@
 
 from PIL import Image
 from imgcompress import settings as imgcompress_settings
-import termcolor
-import os
 from subprocess import call
+import os
+import termcolor
 
 
 class Compressor:
@@ -32,7 +32,13 @@ class Compressor:
 			except OSError:
 				pass
 
+	def savePositions(self):
+		self.__collect_positions()
+		self.__save_image_positions()
+
 	def __collect_positions(self):
+		if hasattr(self, "images"):
+			return
 		self.images = {}
 		images = imgcompress_settings.IMAGES
 		for label, value in images.iteritems():
@@ -41,6 +47,20 @@ class Compressor:
 			out_size = [width, 0]
 			computed_images = self.__compute_image_positions(value["images"], out_size)
 			self.images[label] = {'images': computed_images, 'size': out_size, 'output': value["output"]}
+
+	def __save_image_positions(self):
+		f = open(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'static', "compressed_images.less")), "w")
+		for image_label, images in self.images.iteritems():
+			for sprite_label, sprite in images["images"].iteritems():
+				computed_pos = sprite["computed_pos"]
+				f.write("@{0}_{1}_width: {2}px;\n".format(image_label, sprite_label, sprite["width"]))
+				f.write("@{0}_{1}_height: {2}px;\n".format(image_label, sprite_label, sprite["height"]))
+				f.write("@{0}_{1}_x1: {2}px;\n".format(image_label, sprite_label, computed_pos[0]))
+				f.write("@{0}_{1}_y1: {2}px;\n".format(image_label, sprite_label, computed_pos[1]))
+				f.write("@{0}_{1}_x2: {2}px;\n".format(image_label, sprite_label, computed_pos[2]))
+				f.write("@{0}_{1}_y2: {2}px;\n".format(image_label, sprite_label, computed_pos[3]))
+				f.write("@{0}_{1}_imgpos: -{2}px -{3}px;\n".format(image_label, sprite_label, computed_pos[0], computed_pos[1]))
+				f.write("@{0}_{1}_imgpos_right: right -{3}px;\n".format(image_label, sprite_label, computed_pos[0], computed_pos[1]))
 
 	def __calculate_required_width(self, images):
 		width = 1
@@ -98,8 +118,9 @@ class Compressor:
 		in_image = Image.open(image['src'])
 		mode = image['mode']
 		pos = image['computed_pos']
+		offset = image.get('offset', (0, 0))
 		if mode == 'no-repeat':
-			out_image.paste(in_image, image['computed_pos'])
+			out_image.paste(in_image.crop((offset[0], offset[1], image['width'] + offset[0], image['height'] + offset[1])), image['computed_pos'])
 		elif mode == 'repeat-x':
 			tiled = self.__tile_image(in_image, (pos[self.POS_RIGHT] - pos[self.POS_LEFT], pos[self.POS_BOTTOM] - pos[self.POS_TOP]))
 			out_image.paste(tiled, image['computed_pos'])

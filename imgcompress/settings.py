@@ -15,9 +15,24 @@ backgrounds = {
 			'mode': 'repeat-x', 'width': 8, 'height': 80
 		},
 		{
-			'name': 'button_flat',
-			'src': 'static/desktop/default/images/button_flat.png',
-			'mode': 'no-repeat', 'width': 800, 'height': 152
+			'name': 'btn_std',
+			'src': 'static/desktop/default/images/btn.png',
+			'mode': 'no-repeat', 'width': 800, 'height': 38, 'offset': (0, 0)
+		},
+		{
+			'name': 'btn_std_hover',
+			'src': 'static/desktop/default/images/btn.png',
+			'mode': 'no-repeat', 'width': 800, 'height': 38, 'offset': (0, 38)
+		},
+		{
+			'name': 'btn_act',
+			'src': 'static/desktop/default/images/btn.png',
+			'mode': 'no-repeat', 'width': 800, 'height': 38, 'offset': (0, 76)
+		},
+		{
+			'name': 'btn_act_hover',
+			'src': 'static/desktop/default/images/btn.png',
+			'mode': 'no-repeat', 'width': 800, 'height': 38, 'offset': (0, 114)
 		},
 		{
 			'name': 'breadcrumb_home',
@@ -50,9 +65,14 @@ backgrounds = {
 			'mode': 'repeat-x', 'width': 8, 'height': 36
 		},
 		{
-			'name': 'breadcrumb',
+			'name': 'breadcrumb_std',
 			'src': 'static/desktop/default/images/breadcrumb.png',
-			'mode': 'no-repeat', 'width': 800, 'height': 62
+			'mode': 'no-repeat', 'width': 800, 'height': 31, 'offset': (0, 0)
+		},
+		{
+			'name': 'breadcrumb_act',
+			'src': 'static/desktop/default/images/breadcrumb.png',
+			'mode': 'no-repeat', 'width': 800, 'height': 31, 'offset': (0, 31)
 		},
 		{
 			'name': 'breadcrumb_bg',
@@ -80,9 +100,14 @@ backgrounds = {
 			'mode': 'repeat-x', 'width': 8, 'height': 48
 		},
 		{
-			'name': 'progressbar',
+			'name': 'progress',
 			'src': 'static/desktop/default/images/progressbar.png',
-			'mode': 'repeat-x', 'width': 8, 'height': 36
+			'mode': 'repeat-x', 'width': 8, 'height': 18, 'offset': (0, 0)
+		},
+		{
+			'name': 'progress_bar',
+			'src': 'static/desktop/default/images/progressbar.png',
+			'mode': 'repeat-x', 'width': 8, 'height': 18, 'offset': (0, 18)
 		},
 	]
 }

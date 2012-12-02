@@ -1,3 +1,5 @@
+@import "../../compressed_images.less";
+
 @generic-background: white;
 @generic-foreground: black;
 @generic-font: sans-serif;
@@ -30,6 +32,13 @@
 @table-row-bg: @generic-background;
 @table-row-alternate-bg: mix(@header-bg, @generic-background, 9%);
 
+.sprite (@pos, @repeat: no-repeat, @color: 0) when (iscolor(@color)) {
+	background: url(images/backgrounds.png) @pos @color @repeat;
+}
+
+.sprite (@pos, @repeat: no-repeat, @color: 0) when not (iscolor(@color)) {
+	background: url(images/backgrounds.png) @pos @repeat;
+}
 
 .no-space () {
 	margin: 0; padding: 0;
@@ -118,8 +127,8 @@ fieldset, .module {
 		font-size: 1.5em;
 		line-height: 37px; height: 37px;
 		padding: 0 @title-padding; margin: 0 -@module-padding;
-		background: url(images/backgrounds.png) @header-bg 0px -464px repeat-x;
 		color: @module-header-background; text-shadow: 1px 1px 0px darken(@header-bg, 10%);
+		.sprite(@backgrounds_block_header_bg_imgpos, repeat-x, @header-bg);
 	}
 }
 #aside_left .module { border: #c0cbef 1px solid; }
@@ -156,7 +165,7 @@ button:focus { outline: none; }
 	list-style: none;
 	cursor: pointer;
 	span {
-		background: url('images/backgrounds.png') no-repeat right -160px;
+		.sprite(@backgrounds_btn_std_imgpos_right);
 		display: block;
 		float: left;
 		padding-right: 15px;
@@ -179,7 +188,7 @@ button:focus { outline: none; }
 			margin-right: 15px;
 			position: relative;
 			.icon {
-				background: url('images/backgrounds.png') no-repeat -18px -312px !important;
+				.sprite(@backgrounds_down_icon_14_imgpos);
 				width: 9px;
 				height: 14px;
 				position: absolute;
@@ -198,22 +207,26 @@ button:focus { outline: none; }
 	}
 	span:before {
 		content: ".";
-		background: url('images/backgrounds.png') no-repeat left -160px;
+		.sprite(@backgrounds_btn_std_imgpos);
 		width: 15px; margin-left: -15px;
 		text-indent: -9999px; overflow: hidden;
 		float: left;
 	}
 	&:hover {
-		span { background: url('images/backgrounds.png') no-repeat right -198px; }
-		span:before { background: url('images/backgrounds.png') no-repeat left -198px; }
+		span { .sprite(@backgrounds_btn_std_hover_imgpos_right); }
+		span:before { .sprite(@backgrounds_btn_std_hover_imgpos); }
+		span.dropdown { background: none; }
 	}
 	&:active, &:focus {
-		span { background: url('images/backgrounds.png') no-repeat right -236px; }
-		span:before, &:focus span:before { background: url('images/backgrounds.png') no-repeat left -236px; }
+		span { .sprite(@backgrounds_btn_act_imgpos_right); }
+		span:before, &:focus span:before { .sprite(@backgrounds_btn_act_imgpos); }
 	}
 	&:active:hover {
-		span { background: url('images/backgrounds.png') no-repeat right -236px; }
-		span:before { background: url('images/backgrounds.png') no-repeat left -236px; }
+		span { .sprite(@backgrounds_btn_act_hover_imgpos_right); }
+		span:before { .sprite(@backgrounds_btn_act_hover_imgpos); }
+	}
+	&.reply, .login {
+		float: right;
 	}
 }
 
@@ -237,7 +250,7 @@ button:focus { outline: none; }
 		overflow: hidden;
 		width: 13px; height: 7px;
 		top: -7px; right: 10px;
-		background: url('images/backgrounds.png') -52px -312px no-repeat;
+		.sprite(@backgrounds_corner_arrow_up_imgpos);
 		position: absolute;
 	}
 	li {
@@ -300,14 +313,15 @@ button:focus { outline: none; }
 }
 
 .submit-row {
-	height: 41px; margin: 0 -5px; background: url('images/backgrounds.png') 0px -501px repeat-x;
+	height: 41px; margin: 0 -5px;
+	.sprite(@backgrounds_submit_row_bg_imgpos, repeat-x, #8cccfe);
 	.positive { float: right; }
 	.negative { float: left; }
 }
 
 .input () { padding: 3px 6px; border: @input-border; }
 
-input[type="text"], input[type="password"] { .input; background: #fff url('images/backgrounds.png') 0px -542px repeat-x; }
+input[type="text"], input[type="password"] { .input; .sprite(@backgrounds_input_bg_imgpos, repeat-x, #fff); }
 textarea { .input; background: #fff url('images/input_bg.png') 0px 0px repeat-x; }
 
 .formset-field {
@@ -364,18 +378,18 @@ textarea { .input; background: #fff url('images/input_bg.png') 0px 0px repeat-x;
 	text-indent: -9999px;
 }
 
-.trashcan-icon { .icon; background: url('images/backgrounds.png') -36px -312px no-repeat; }
+.trashcan-icon { .icon; .sprite(@backgrounds_trashcan_imgpos); }
 
 /* === Hlavička === */
 
 #linuxos_logo {
 	width: 240px; height: 80px;
-	background: url('images/backgrounds.png') 0px 0px no-repeat;
 	display: block;
 	text-align: center;
 	margin: 0px auto;
 	overflow: hidden;
 	text-indent: -9999px;
+	.sprite(@backgrounds_logo_imgpos);
 }
 
 .hdrleft {
@@ -394,7 +408,7 @@ textarea { .input; background: #fff url('images/input_bg.png') 0px 0px repeat-x;
 
 #top_header {
 	height: 80px;
-	background: #4d9dd9 url('images/backgrounds.png') 0px -80px repeat-x;
+	.sprite(@backgrounds_header_bg_imgpos, repeat-x, #4d9dd9);
 }
 
 /* Prihlásenie */
@@ -411,7 +425,7 @@ textarea { .input; background: #fff url('images/input_bg.png') 0px 0px repeat-x;
 .btn span.username .icon-user {
 	margin: 12px 5px 0 3px;
 	width: 9px; height: 14px;
-	background: url('images/backgrounds.png') no-repeat -27px -312px;
+	.sprite(@backgrounds_profile_icon_14_imgpos);
 	float: left;
 }
 
@@ -424,23 +438,23 @@ textarea { .input; background: #fff url('images/input_bg.png') 0px 0px repeat-x;
 
 #site_breadcrumbs {
 	height: 36px; bottom: 0px; margin-left: -3px; padding-left: 5px;
-	background: @breadcrumb-background url('images/backgrounds.png') 0px -428px no-repeat;
+	.sprite(@backgrounds_breadcrumb_bg_imgpos, no-repeat, @breadcrumb-background);
 	margin-top: 44px;
 	ul {
 		.no-space;
 		height: 36px;
-		background: url('images/backgrounds.png') 0px -330px repeat-x;
+		.sprite(@backgrounds_breadcrumb_panel_bg_imgpos, repeat-x);
 	}
 	li {
 		height: 31px; line-height: 31px; margin-top: 5px; padding-right: 5px;
 		list-style: none;
 		float: left;
-		background: url('images/backgrounds.png') no-repeat right -366px;
+		.sprite(@backgrounds_breadcrumb_std_imgpos_right);
 		.crumb {
 			display: block;
 			position: relative;
 			right: 17px; height: 31px; padding-left: 25px;
-			background: url('images/backgrounds.png') no-repeat left -366px;
+			.sprite(@backgrounds_breadcrumb_std_imgpos);
 			font-weight: bold; font-size: 0.875em;
 			text-shadow: 0px -1px 0px #cedfeb, 0px 1px 0px #fcfdfe;
 			color: @link-color;
@@ -465,14 +479,14 @@ textarea { .input; background: #fff url('images/input_bg.png') 0px 0px repeat-x;
 			}
 			.icon {
 				width: 18px; height: 18px; top: 6px; left: 8px;
-				background: url('images/backgrounds.png') no-repeat 0px -312px;
 				position: absolute;
+				.sprite(@backgrounds_breadcrumb_home_imgpos);
 			}
 		}
 		&:hover {
-			background: url('images/backgrounds.png') no-repeat right -397px;
+			.sprite(@backgrounds_breadcrumb_act_imgpos_right);
 			.crumb {
-				background: url('images/backgrounds.png') no-repeat left -397px;
+				.sprite(@backgrounds_breadcrumb_act_imgpos);
 			}
 		}
 	}
@@ -690,19 +704,19 @@ ul.messages {
 .progress {
 	border: solid 1px #e4e5e7;
 	border-radius: 3px;
-	background: url('images/backgrounds.png') repeat-x 0px -591px;
 	height: 16px;
 	margin: .3em 0;
+	.sprite(@backgrounds_progress_imgpos, repeat-x);
 	.bar {
 		border: solid 1px #2f83bb;
 		border-radius: 3px;
 		overflow: hidden;
 		text-indent: -9999px;
-		background: url('images/backgrounds.png') repeat-x 0px -609px;
-		height: 16px;
 		position: relative;
-		top: -1px;
-		left: -1px;
+		top: -1px; left: -1px; height: 16px;
+		@ypos: -@backgrounds_progress_bar_y1 - 1px;
+		@pos: 0px @ypos;
+		.sprite(@pos, repeat-x);
 	}
 }
 
