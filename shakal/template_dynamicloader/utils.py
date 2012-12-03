@@ -42,17 +42,17 @@ def get_template_settings(request):
 
 	templates = dict(settings.TEMPLATES)
 	if template_device is None:
-		template_device = request.session['template_device']
+		template_device = request.session.get('template_device', settings.TEMPLATES[0][0])
 	if not template_device in templates and template_device:
-		template_device = request.session['template_device']
+		template_device = request.session.get('template_device', settings.TEMPLATES[0][0])
 		if not template_device in templates:
 			template_device = settings.TEMPLATES[0][0]
 
 	device_templates = set(templates[template_device])
 	if template_skin is None:
-		template_skin = request.session['template_skin']
+		template_skin = request.session.get('template_skin', templates[template_device][0])
 	if not template_skin.split(',', 1)[0] in device_templates:
-		template_skin = request.session['template_skin']
+		template_skin = request.session.get('template_skin', templates[template_device][0])
 		if not template_skin.split(',', 1)[0] in device_templates:
 			template_skin = templates[template_device][0]
 
