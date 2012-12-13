@@ -7,7 +7,10 @@
 {{ block.super }}
 {% endblock %}
 
-{% block extraheaders %}{{ form.media }}{% endblock %}
+{% block extraheaders %}
+<meta name="robots" content="noindex, nofollow" />
+{{ form.media }}
+{% endblock %}
 
 {% block content %}
 <h1>Pridať komentár</h1>
