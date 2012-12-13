@@ -11,7 +11,7 @@
 			<li class="disabled"><a href="#">...</a></li>
 			{% endif %}
 		{% endfor %}
-		<li class="next{% if next %}{% else %} disabled{% endif %}"><a href="{% if previous %}{% pager_url next %}{% else %}#{% endif %}">&gt;</a></li>
+		<li class="next{% if next %}{% else %} disabled{% endif %}"><a href="{% if next %}{% pager_url next %}{% else %}#{% endif %}">&gt;</a></li>
 	</ul>
 </div>
 {% endif %}
