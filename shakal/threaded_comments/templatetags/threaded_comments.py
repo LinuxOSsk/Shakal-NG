@@ -48,13 +48,25 @@ class ThreadedCommentsBaseNode(BaseCommentNode):
 
 class ThreadedCommentsListNode(ThreadedCommentsBaseNode):
 	def render(self, context):
+		last_display_time = datetime.now()
 		if context['user'].is_authenticated():
 			ctype, object_pk = self.get_target_ctype_pk(context)
 			header = threaded_comments.models.RootHeader.objects.get(content_type = ctype, object_id = object_pk)
 			(discussion_attribute, created) = threaded_comments.models.UserDiscussionAttribute.objects.get_or_create(user = context['user'], discussion = header)
+			if discussion_attribute.time:
+				last_display_time = discussion_attribute.time
 			discussion_attribute.time = datetime.now()
 			discussion_attribute.save()
-		query_set = self.get_query_set(context)
+		query_set = self.get_query_set(context).extra(select = {'is_new': 'submit_date >= %s'}, select_params = (last_display_time, ))[:]
+		root_item = query_set.get_root_item()
+		prev_new_item = root_item;
+		if context['user'].is_authenticated():
+			for comment in query_set:
+				if comment.is_new:
+					prev_new_item.next_new = comment.pk
+					if prev_new_item != root_item:
+						comment.prev_new = prev_new_item.pk
+					prev_new_item = comment
 		context[self.as_varname] = query_set
 		return ''
 

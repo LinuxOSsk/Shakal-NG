@@ -3,6 +3,12 @@
 <div class="module">
 	<a id="comments" href="#"></a>
 	{% if comments %}
+		<div class="links">
+			{% if comments.get_root_item.next_new %}
+				<a href="#link_{{ comments.get_root_item.next_new }}" class="comment-link first">Prvý neprečítaný komentár</a>
+			{% endif %}
+			<div class="btn reply"><span><a href="{% url 'comments-reply-comment' comments.get_root_item.pk %}" class="reply">Pridať komentár</a></span></div>
+		</div>
 		{% include "comments/comments_tree.html" %}
 	{% endif %}
 	<div class="links">

@@ -629,6 +629,10 @@ ul.messages {
 	background-color: #fffae0;
 }
 
+.comments_tree .thread_2 .comment:hover .discussion.header.entry.new {
+	background-color: mix(#fffae0, #eff3f7, 20%);
+}
+
 .discussion.header.entry {
 	border-left: 10px solid #e0ebff;
 	border-top: none;
@@ -672,7 +676,6 @@ ul.messages {
 	height: 38px;
 }
 
-
 .signature {
 	color: #616b7a;
 	font-size: 85%;
@@ -680,6 +683,16 @@ ul.messages {
 	margin-top: .5em;
 	float: left;
 	clear: left;
+}
+
+.comment-link.first {
+	float: left;
+	line-height: 38px;
+	margin-left: .5em;
+}
+
+.comment-link.first:after {
+	content: ' ⇓';
 }
 
 /* === Správy === */
