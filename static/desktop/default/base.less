@@ -167,7 +167,7 @@ button:focus { outline: none; }
 	line-height: 38px;
 	list-style: none;
 	cursor: pointer;
-	span {
+	span, .search-input {
 		.sprite(@backgrounds_btn_std_imgpos_right);
 		display: block;
 		float: left;
@@ -204,11 +204,12 @@ button:focus { outline: none; }
 		text-decoration: none;
 		line-height: 38px;
 		display: block;
+		white-space: nowrap;
 		&:hover {
 			background: none !important;
 		}
 	}
-	span:before {
+	span:before, .search-input:before {
 		content: ".";
 		.sprite(@backgrounds_btn_std_imgpos);
 		width: 15px; margin-left: -15px;
@@ -236,7 +237,7 @@ button:focus { outline: none; }
 /* Dropdown zoznam */
 .dropdown.menu {
 	background: @generic-background;
-	position: relative;
+	position: absolute;
 	right: 0px;
 	padding: 3px 0px;
 	margin: 38px 1px 0 0;
@@ -415,6 +416,51 @@ textarea { .input; background: #fff url('images/input_bg.png') 0px 0px repeat-x;
 	.sprite(@backgrounds_header_bg_imgpos, repeat-x, #4d9dd9);
 	.search {
 		float: right;
+		position: relative;
+		width: 47px;
+		height: 38px;
+		margin-top: 5px;
+		overflow: hidden;
+		input {
+			background: none;
+			border: none;
+			outline: none;
+			width: 200px;
+			color: @link-color;
+			font-weight: bold;
+			font-size: 14px;
+			height: 20px;
+			line-height: 20px;
+			margin-top: 6px;
+			padding: 3px 0;
+		}
+		.btn-search {
+			line-height: 38px;
+			height: 38px;
+			width: 32px;
+			border: none;
+			overflow: hidden;
+			text-indent: -9999px;
+			cursor: pointer;
+			.sprite(@backgrounds_search_icon_imgpos);
+		}
+		&:hover {
+			width: 252px;
+		}
+	}
+	.search-input {
+		position: absolute;
+		input {
+			display: none;
+		}
+		button {
+			padding: 0;
+		}
+		&:hover input {
+			display: block;
+			float: left;
+			margin-right: 5px;
+		}
 	}
 }
 

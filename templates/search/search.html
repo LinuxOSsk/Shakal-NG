@@ -27,7 +27,7 @@
 {% if query %}
 <h2>Výsledky</h2>
 
-{% autopaginate results pagenum items_per_page=5 %}
+{% autopaginate results pagenum items_per_page=20 %}
 {% for result in results %}
 	<div class="module-row">
 		<h3><a href="{{ result.object.get_absolute_url }}">{% highlight result.title with query max_length 120 %}</a></h3>
