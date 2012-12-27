@@ -539,13 +539,13 @@ class Command(BaseCommand):
 			topic = {
 				'pk': topic_dict['id'],
 				'section_id': topic_dict['sekcia'],
-				'username': topic_dict['username'],
+				'authors_name': topic_dict['username'],
 				'subject': topic_dict['predmet'],
 				'text': topic_dict['text'],
 				'time': topic_dict['datetime'],
 			}
 			if topic_dict['userid'] and topic_dict['userid'] in users:
-				topic['user_id'] = topic_dict['userid']
+				topic['author_id'] = topic_dict['userid']
 			topics.append(ForumTopic(**topic))
 			if counter % 1000 == 0:
 				ForumTopic.objects.bulk_create(topics)

@@ -45,11 +45,11 @@ class TopicForm(forms.ModelForm, AntispamMethodsMixin):
 		request = kwargs.pop('request')
 		super(TopicForm, self).__init__(*args, **kwargs)
 		if logged:
-			del(self.fields['username'])
+			del(self.fields['authors_name'])
 			del(self.fields['captcha'])
 		self.process_antispam(request)
 
 	class Meta:
 		model = Topic
-		exclude = ('user', 'time', )
-		fields = ('section', 'username', 'subject', 'text', )
+		exclude = ('author', 'time', )
+		fields = ('section', 'authors_name', 'subject', 'text', )

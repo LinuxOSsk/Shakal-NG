@@ -94,21 +94,21 @@ class Topic(models.Model):
 	subject = models.CharField(max_length = 100, verbose_name = _('subject'))
 	text = models.TextField(verbose_name = _('text'))
 	time = models.DateTimeField(default = datetime.now, verbose_name = _('time'))
-	username = models.CharField(max_length = 50, blank = False, verbose_name = _('user name'))
-	user = models.ForeignKey(User, blank = True, null = True, verbose_name = _('user'))
+	authors_name = models.CharField(max_length = 50, blank = False, verbose_name = _('authors name'))
+	author = models.ForeignKey(User, blank = True, null = True, verbose_name = _('author'))
 	comments_header = generic.GenericRelation(RootHeader)
 	breadcrumb_label = _('forum')
 	attachments = generic.GenericRelation(Attachment)
 
-	def get_username(self):
-		if self.user:
-			if self.user.get_full_name():
-				return self.user.get_full_name()
+	def get_authors_name(self):
+		if self.author:
+			if self.author.get_full_name():
+				return self.author.get_full_name()
 			else:
-				return self.user.username
+				return self.author.username
 		else:
-			return self.username
-	get_username.short_description = _('user name')
+			return self.authors_name
+	get_authors_name.short_description = _('user name')
 
 	@permalink
 	def get_absolute_url(self):

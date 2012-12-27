@@ -10,11 +10,11 @@ class SectionAdmin(admin.ModelAdmin):
 	prepopulated_fields = {'slug': ('name', )}
 
 class TopicAdmin(admin.ModelAdmin):
-	list_display = ('subject', 'get_username', )
+	list_display = ('subject', 'get_authors_name', )
 	list_filter = ('section', )
-	search_fields = ('subject', 'get_username', )
+	search_fields = ('subject', 'get_authors_name', )
 	ordering = ('-id', )
-	raw_id_fields = ('user', )
+	raw_id_fields = ('author', )
 	inlines = [AttachmentInline]
 
 admin.site.register(Section, SectionAdmin)
