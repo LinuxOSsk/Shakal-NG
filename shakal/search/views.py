@@ -2,13 +2,13 @@
 
 from django.shortcuts import render_to_response
 from haystack.views import SearchView as HaystackSearchView
-from haystack.forms import HighlightedModelSearchForm
+from forms import SearchForm
 
 
 class SearchView(HaystackSearchView):
 	def __init__(self, *args, **kwargs):
 		if not 'form_class' in kwargs:
-			kwargs['form_class'] = HighlightedModelSearchForm
+			kwargs['form_class'] = SearchForm
 		super(SearchView, self).__init__(*args, **kwargs)
 
 	def create_response(self):
