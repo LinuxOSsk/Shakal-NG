@@ -14,6 +14,7 @@ from django.contrib.comments.models import Comment
 from django.contrib.comments.managers import CommentManager
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
+from django.utils.translation import ugettext_lazy as _
 from shakal.utils.query import RawLimitQuerySet
 
 
@@ -108,6 +109,8 @@ class RootHeader(models.Model):
 
 	class Meta:
 		unique_together = (('content_type', 'object_id'),)
+		verbose_name = _('comment')
+		verbose_name_plural = _('comments')
 
 
 def update_comments_header(sender, **kwargs):
