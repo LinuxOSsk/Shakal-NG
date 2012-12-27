@@ -134,6 +134,7 @@ INSTALLED_APPS = (
 	'shakal.forum',
 	'shakal.linuxos',
 	'shakal.news',
+	'shakal.search',
 	'shakal.survey',
 	'shakal.template_dynamicloader',
 	'shakal.threaded_comments',
@@ -180,6 +181,7 @@ HAYSTACK_CONNECTIONS = {
 	'default': {
 		'ENGINE': 'xapian_backend.XapianEngine',
 		'PATH': os.path.join(ROOT, 'xapian_index'),
+		'INCLUDE_SPELLING': True
 	},
 }
-
+HAYSTACK_XAPIAN_LANGUAGE = 'sk'
