@@ -27,8 +27,8 @@ import urllib2
 from cookielib import CookieJar
 from copy import copy
 from phpserialize import loads
-from subprocess import call
-from progressbar import Bar, BouncingBar, ETA, FormatLabel, ProgressBar, RotatingMarker
+from subprocess import call, Popen, PIPE
+from progressbar import Bar, BouncingBar, ETA, FileTransferSpeed, FormatLabel, ProgressBar, RotatingMarker
 
 
 class SocketMaintenance(object):
@@ -252,11 +252,43 @@ class Command(BaseCommand):
 		data_encoded = urllib.urlencode(formdata)
 		response = opener.open('https://cloud.relbit.com/tools/adminer/?server='+settings.DATABASES['linuxos_remote']['HOST']+'&username='+settings.DATABASES['linuxos_remote']['USER']+'&dump', data_encoded)
 		f = open("dump.gz", "w")
-		content = response.read()
-		f.write(content)
+		progress = ProgressBar(widgets = ["Downloading database", BouncingBar(marker=RotatingMarker()), FileTransferSpeed()], maxval = 1024 * 1024 * 256)
+		progress.start()
+		while True:
+			content = response.read(1024 * 16)
+			if not content:
+				break
+			f.write(content)
+			progress.update(f.tell())
+		progress.finish()
 		f.close()
 		linuxos_settings = settings.DATABASES['linuxos']
-		call('zcat dump.gz|mysql \
+		call('zcat dump.gz > dump.sql', shell = True)
+
+		proc = Popen([
+			'/usr/bin/mysql',
+			'--user='+linuxos_settings['USER'],
+			'--password='+linuxos_settings['PASSWORD'],
+			'--host='+linuxos_settings['HOST'],
+			'--port='+linuxos_settings['PORT'],
+			linuxos_settings['NAME'],
+		], stdin = PIPE)
+		f = open("dump.sql", "r")
+		progress = ProgressBar(widgets = ["Importing database", Bar('>'), ETA()], maxval = os.path.getsize("dump.sql"))
+		progress.start()
+		pos = 0L
+		while True:
+			progress.update(pos)
+			content = f.read(1024 * 16)
+			if not content:
+				break
+			pos += len(content)
+			proc.stdin.write(content)
+		progress.finish()
+		proc.stdin.close()
+		f.close()
+		del proc
+		call('cat dump.sql|mysql \
 			--user='+linuxos_settings['USER']+' \
 			--password='+linuxos_settings['PASSWORD']+' \
 			--host='+linuxos_settings['HOST']+' \
