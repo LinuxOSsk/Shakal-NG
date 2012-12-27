@@ -11,6 +11,7 @@
 @link-color: #1d5886;
 @link-color-hover: @link-color - #0e2940;
 @info-color: @hdr-mid;
+@highlight-color: #fafa40;
 @breadcrumb-background: #d6eeff;
 
 @title-padding: 1em;
@@ -137,6 +138,8 @@ fieldset, .module {
 
 .module + .module, .content + .module, .module + form { margin-top: @module-margin; }
 .module .clearpadding { margin: 0 -@module-padding; }
+
+.highlighted { background: @highlight-color; }
 
 /* === Tabuľka === */
 
@@ -409,6 +412,9 @@ textarea { .input; background: #fff url('images/input_bg.png') 0px 0px repeat-x;
 #top_header {
 	height: 80px;
 	.sprite(@backgrounds_header_bg_imgpos, repeat-x, #4d9dd9);
+	.search {
+		float: right;
+	}
 }
 
 /* Prihlásenie */

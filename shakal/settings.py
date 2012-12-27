@@ -114,6 +114,7 @@ INSTALLED_APPS = (
 	'django.contrib.admin',
 	'django.contrib.comments',
 	'django_tools',
+	'haystack',
 	'antispam',
 	'attachment',
 	'auth_remember',
@@ -174,3 +175,11 @@ ATTACHMENT_MAX_SIZE = 1024**2 * 50;
 ATTACHMENT_SIZE_FOR_CONTENT = {
 	'threaded_comments_threadedcomment': 1024**2 * 2
 }
+
+HAYSTACK_CONNECTIONS = {
+	'default': {
+		'ENGINE': 'xapian_backend.XapianEngine',
+		'PATH': os.path.join(ROOT, 'xapian_index'),
+	},
+}
+

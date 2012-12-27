@@ -36,6 +36,11 @@ def decode_switch_template(data):
 
 
 def get_template_settings(request):
+	if request is None:
+		class C:
+			method = 'None'
+			session = {}
+		request = C()
 	template_device = template_skin = css = None
 	if request.method == 'GET' and 'switch_template' in request.GET:
 		(template_device, template_skin, css) = decode_switch_template(request.GET['switch_template'])

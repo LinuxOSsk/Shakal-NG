@@ -102,6 +102,9 @@ html, body {
 						</ul>
 					{% endif %}
 				</div>
+				<form method="get" action="{% url 'haystack_search' %}" class="search">
+					<input type="text" name="q" />
+				</form>
 				{% block breadcrumbs %}
 					{% breadcrumb class='home' url='home' %}Home{% endbreadcrumb %}
 					{% render_breadcrumbs %}

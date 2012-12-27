@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
-from views import home
+from views import home, SearchView
 from accounts import urls as accounts_urls
 from article import urls as article_urls
 from threaded_comments import urls as comments_urls
@@ -25,6 +25,7 @@ urlpatterns = patterns('',
 	url(_(r'^news/'), include(news_urls.urlpatterns)),
 	url(_(r'^survey/'), include(survey_urls.urlpatterns)),
 	url(_(r'^template-change/$'), 'shakal.template_dynamicloader.views.change', name = 'template-change'),
+	url(_(r'^search/'), SearchView(), name = 'haystack_search'),
 )
 
 if settings.DEBUG:

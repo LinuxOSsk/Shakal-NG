@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% load url from future %}
+{% load highlight %}
+{% load paginator_tags %}
+
+{% block content %}
+<h1>Výsledky vyhľadávania</h1>
+
+<form method="get" action="{% url 'haystack_search' %}" class="search">
+	<fieldset>
+		{% include 'includes/form_loop.html' with form=form %}
+		<div class="submit-row">
+			<div class="positive">
+				<button class="btn" type="submit" title="Hľadať"><span>Hľadať</span></button>
+			</div>
+		</div>
+	</fieldset>
+</form>
+
+{% if query %}
+<h2>Výsledky</h2>
+
+{% autopaginate results pagenum %}
+{% for result in results %}
+	<div class="module-row">
+		<h3><a href="{{ result.object.get_absolute_url }}">{% highlight result.title with query max_length 120 %}</a></h3>
+		{% highlight result.text with query max_length 300 %}
+	</div>
+{% empty %}
+	<p>Žiadne výsledky neboli nájdené.</p>
+{% endfor %}
+{% paginator haystack_search %}
+
+{% endif %}
+
+{% endblock %}
