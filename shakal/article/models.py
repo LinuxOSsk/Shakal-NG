@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.signals import post_save
 from django.db.models import permalink
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from autoimagefield.fields import AutoImageField
 from datetime import datetime
@@ -83,9 +84,15 @@ class Article(models.Model):
 	hitcount = generic.GenericRelation(HitCount)
 	surveys = generic.GenericRelation(Survey)
 	comments_header = generic.GenericRelation(RootHeader)
+
 	@property
 	def survey_set(self):
 		return self.surveys.filter(approved = True).order_by('pk').all()
+
+	def display_content(self):
+		content = self.content
+		content = content.replace('<<ANOTACIA>>', '<div class="annotation">' + self.annotation + '</div>')
+		return mark_safe(content)
 
 	def hit(self):
 		article_type = ContentType.objects.get_for_model(self.__class__)

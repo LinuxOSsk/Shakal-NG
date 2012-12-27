@@ -1,4 +1,4 @@
-{% extends "article/article_base.html" %}{% load breadcrumbs_tags i18n linuxos article threaded_comments %}{% load url from future %}
+{% extends "article/article_base.html" %}{% load breadcrumbs_tags i18n linuxos threaded_comments %}{% load url from future %}
 
 {% block title %}{{ article.title }}{% endblock %}
 
@@ -28,7 +28,7 @@
 </div>
 
 <div class="content">
-{{ article|content }}
+{{ article.display_content }}
 </div>
 
 {% for survey in article.survey_set %}
