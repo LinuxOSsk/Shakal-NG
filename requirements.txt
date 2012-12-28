@@ -1,5 +1,4 @@
 Django>=1.4
-MySQL-python
 django-tools
 django-registration
 django-auth-remember
