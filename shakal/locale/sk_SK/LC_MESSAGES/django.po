@@ -239,10 +239,10 @@ msgid "forum"
 msgstr "fórum"
 
 msgid "topic"
-msgstr "téma"
+msgstr "téma diskusného fóra"
 
 msgid "topics"
-msgstr "témy"
+msgstr "témy diskusného fóra"
 
 msgid "short text"
 msgstr "krátky text"
