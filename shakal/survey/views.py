@@ -50,7 +50,7 @@ def post(request, pk):
 
 	record_vote(request, survey)
 
-	messages.success(request, 'Hlas bol prijatý.', extra_tags = 'survey')
+	messages.success(request, 'Hlas bol prijatý.', extra_tags = tag)
 	return HttpResponseRedirect(request.POST['next'])
 
 
