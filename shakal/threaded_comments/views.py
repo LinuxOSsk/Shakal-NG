@@ -117,7 +117,7 @@ def post_comment(request):
 
 	data['next'] = data['next'] + '#link_' + str(comment.pk)
 
-	return next_redirect(data, data['next'], 'done-comment')
+	return next_redirect(request, data['next'], 'done-comment')
 
 
 def done_comment(request):
