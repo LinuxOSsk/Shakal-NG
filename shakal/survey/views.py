@@ -8,7 +8,6 @@ from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 from django.template import RequestContext
 from django.views.decorators.http import require_POST
-from datetime import datetime
 from forms import SurveyForm
 from models import Survey, Answer, check_can_vote, record_vote
 from shakal.utils import unique_slugify
@@ -85,7 +84,7 @@ def survey_detail_by_slug(request, slug):
 
 def survey_list(request, page = 1):
 	context = {
-		'surveys': Survey.surveys.all().attributes_for_user(request.user),
+		'surveys': Survey.surveys.all(),
 		'pagenum': page,
 	}
 	return TemplateResponse(request, "survey/survey_list.html", RequestContext(request, context))

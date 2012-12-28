@@ -6,7 +6,7 @@ from django.db.models import permalink
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime
-from shakal.threaded_comments.models import CommentCountManager, RootHeader
+from shakal.threaded_comments.models import RootHeader
 
 
 class NewsManager(models.Manager):
@@ -14,14 +14,9 @@ class NewsManager(models.Manager):
 		return super(NewsManager, self).get_query_set().select_related('author')
 
 
-class NewsListManager(CommentCountManager):
+class NewsListManager(models.Manager):
 	def get_query_set(self):
-		table = News._meta.db_table
-		model_definition, query = self._generate_query(News)
-		query += ' WHERE "'+table+'"."approved" = %s'
-		query += ' ORDER BY "'+table+'"."id" DESC'
-		params = [True]
-		return super(NewsListManager, self).get_raw_query_set(query, model_definition = model_definition, params = params)
+		return super(NewsListManager, self).get_query_set().select_related('author').filter(approved = True).order_by('-pk')
 
 
 class News(models.Model):

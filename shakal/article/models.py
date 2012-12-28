@@ -10,10 +10,9 @@ from django.db.models import permalink
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from autoimagefield.fields import AutoImageField
-from datetime import datetime
 from hitcount.models import HitCount
 from shakal.survey.models import Survey
-from shakal.threaded_comments.models import CommentCountManager, RootHeader
+from shakal.threaded_comments.models import RootHeader
 
 class Category(models.Model):
 	name = models.CharField(max_length = 255, verbose_name = _('name'))
@@ -32,42 +31,8 @@ class Category(models.Model):
 		verbose_name_plural = _('categories')
 
 
-class ArticleListManager(CommentCountManager):
-	def _generate_query_set(self, extra_filter = '', extra_params = []):
-		table = Article._meta.db_table
-		model_definition, query = self._generate_query(Article, ['"'+HitCount._meta.db_table+'"."hits"'], ['display_count'], skip = set(('content', )))
-		query += ' LEFT OUTER JOIN "' + HitCount._meta.db_table + '"';
-		query += ' ON ("'+table+'"."id" = "'+HitCount._meta.db_table+'"."object_id" AND "'+HitCount._meta.db_table+'"."content_type_id" = '+str(ContentType.objects.get_for_model(Article).id)+')'
-		query += ' WHERE "'+table+'"."time" < %s AND "'+table+'"."published" = %s'
-		query += extra_filter
-		query += ' ORDER BY "'+table+'"."id" DESC'
-
-		params = [datetime.now(), True] + extra_params
-		return super(ArticleListManager, self).get_raw_query_set(query, model_definition = model_definition, params = params)
-
-	def filter(self, category = None, top = None):
-		table = Article._meta.db_table
-		where = '';
-		params = []
-		if category is not None:
-			where += ' AND "'+table+'"."category_id" = %s'
-			params.append(category.pk)
-		if top is not None:
-			where += ' AND "'+table+'"."top" = %s'
-			params.append(top)
-		return self._generate_query_set(where, params)
-
-	def exclude(self, pk):
-		table = Article._meta.db_table
-		return self._generate_query_set(' AND "'+table+'"."id" != %s', [pk])
-
-	def get_query_set(self):
-		return self._generate_query_set()
-
-
 class Article(models.Model):
 	objects = models.Manager()
-	articles = ArticleListManager()
 
 	title = models.CharField(max_length = 255, verbose_name = _('title'))
 	slug = models.SlugField(unique = True)

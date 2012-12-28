@@ -1,16 +1,25 @@
-{% extends "base.html" %}{% load url from future %}
+{% extends "base.html" %}
+{% load url from future %}
+{% load threaded_comments %}
+{% load hitcount_tags %}
 
 {% block title %}LinuxOS.sk - slovenský linuxový portál{% endblock %}
 
 {% block content %}
+{% add_discussion_attributes articles %}
+{% add_discussion_attributes top_articles %}
+{% add_hitcount articles %}
+{% add_hitcount top_articles %}
 <h1 style="display: none">LinuxOS.sk - slovenský linuxový portál</h1>
 <div class="module article">
 	<h2>Články</h2>
-	<div class="article top">
-		{% with article=top_article %}
-		{% include 'article/block_list_item.html' with thumbnail=1 %}
-		{% endwith %}
-	</div>
+	{% for top_article in top_articles %}
+		<div class="article top">
+			{% with article=top_article %}
+			{% include 'article/block_list_item.html' with thumbnail=1 %}
+			{% endwith %}
+		</div>
+	{% endfor %}
 	{% for article in articles %}
 		{% include 'article/block_list_item.html' with thumbnail=0 %}
 	{% endfor %}

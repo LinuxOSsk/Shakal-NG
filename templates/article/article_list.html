@@ -1,4 +1,7 @@
-{% extends "article/article_base.html" %}{% load breadcrumbs_tags paginator_tags %}
+{% extends "article/article_base.html" %}
+{% load breadcrumbs_tags paginator_tags %}
+{% load threaded_comments %}
+{% load hitcount_tags %}
 
 {% block title %}{% if category %}{{ category }}{% else %}Články{% endif %}{% endblock %}
 
@@ -10,6 +13,8 @@
 {% endblock %}
 
 {% block content %}
+{% add_discussion_attributes articles %}
+{% add_hitcount articles %}
 <h1>{% if category %}{{ category }}{% else %}Články{% endif %}</h1>
 <div class="module">
 	{% autopaginate articles pagenum items_per_page=10 %}

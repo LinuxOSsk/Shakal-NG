@@ -15,12 +15,11 @@ def article_detail_by_slug(request, slug):
 
 
 def article_list(request, category = None, page = 1):
-	articles = Article.articles.all()
-	articles = articles.attributes_for_user(request.user)
+	articles = Article.objects.order_by('-pk')
 	category_object = None
 	if category is not None:
 		category_object = get_object_or_404(Category, slug = category)
-		articles = Article.articles.filter(category = category_object).attributes_for_user(request.user)
+		articles = articles.filter(category = category_object)
 
 	context = {
 		'articles': articles,

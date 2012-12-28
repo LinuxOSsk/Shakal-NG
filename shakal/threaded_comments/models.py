@@ -6,7 +6,6 @@ import mptt
 from attachment.models import Attachment
 from django.db import models
 from django.db.models import Count, Max
-from django.db.models.query import QuerySet
 from django.db.models.signals import post_save
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -15,7 +14,6 @@ from django.contrib.comments.managers import CommentManager
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext_lazy as _
-from shakal.utils.query import RawLimitQuerySet
 
 
 class HideRootQuerySet(models.query.QuerySet):
@@ -145,135 +143,3 @@ class UserDiscussionAttribute(models.Model):
 
 	class Meta:
 		unique_together = (('user', 'discussion'),)
-
-
-class NewCommentQuerySet(RawLimitQuerySet):
-	def __init__(self, *args, **kwargs):
-		super(NewCommentQuerySet, self).__init__(*args, **kwargs)
-		self.user = None
-
-	def get_raw_query(self):
-		ua_table = UserDiscussionAttribute._meta.db_table
-		rh_table = RootHeader._meta.db_table
-		extracolumns  = ', "'+rh_table+'"."last_comment" AS "last_comment"'
-		extracolumns += ', "'+rh_table+'"."comment_count" AS "comment_count"'
-		extracolumns += ', "'+rh_table+'"."is_locked" AS "is_locked"'
-		extracolumns += ', "'+rh_table+'"."is_resolved" AS "is_resolved"'
-		extracolumns += ', "'+rh_table+'"."id" AS "rootheader_id"'
-		if self.user and self.user.is_authenticated():
-			extracolumns += ', "'+ua_table+'"."time" AS "discssion_display_time"'
-			extracolumns += ', "'+ua_table+'"."watch" AS "discussion_watch"'
-			extracolumns += ', "'+ua_table+'"."time" < "last_comment" AS "new_comments"'
-			extrajoin = ' LEFT OUTER JOIN "'+ua_table+'" ON ("'+rh_table+'"."id" = "'+ua_table+'"."discussion_id" AND "'+ua_table+'"."user_id" = '+str(self.user.pk)+')'
-		else:
-			extracolumns += ', NULL AS "discssion_display_time", NULL AS "discussion_watch", NULL AS "new_comments" '
-			extrajoin = ''
-		return self.raw_query.replace('[extracolumns]', extracolumns).replace('[extrajoin]', extrajoin)
-
-	def get_model_definition(self):
-		return self.model_definition + ['last_comment', 'comment_count', 'is_locked', 'is_resolved', 'rootheader_id', 'discussion_display_time', 'discussion_watch', 'new_comments']
-
-	def attributes_for_user(self, user):
-		self.user = user
-		return self
-
-
-class PrefetchUserAttributesQuerySet(QuerySet):
-	def __init__(self, *args, **kwargs):
-		super(PrefetchUserAttributesQuerySet, self).__init__(*args, **kwargs)
-		self.user = None
-
-	def _load_root_header(self, items):
-		content_type = ContentType.objects.get_for_model(self.model)
-		root_headers = RootHeader.objects.filter(
-			content_type = content_type,
-			object_id__in = [item.pk for item in items]).values()
-		root_headers = dict([(h['object_id'], h) for h in root_headers])
-		for item in items:
-			setattr(item, 'last_comment', root_headers.get(item.pk, {'last_comment': None})['last_comment'])
-			setattr(item, 'comment_count', root_headers.get(item.pk, {'comment_count': None})['comment_count'])
-			setattr(item, 'is_locked', root_headers.get(item.pk, {'is_locked': None})['is_locked'])
-			setattr(item, 'is_resolved', root_headers.get(item.pk, {'is_resolved': None})['is_resolved'])
-			setattr(item, 'rootheader_id', root_headers.get(item.pk, {'id': None})['id'])
-
-	def _load_user_attributes(self, items):
-		user_attributes = UserDiscussionAttribute.objects.filter(
-			user = self.user,
-			discussion__in = [item.rootheader_id for item in items]
-		).values()
-		user_attributes = dict([(a['discussion_id'], a) for a in user_attributes])
-		for item in items:
-			setattr(item, 'discussion_display_time', user_attributes.get(item.rootheader_id, {'time': None})['time'])
-			setattr(item, 'discussion_watch', user_attributes.get(item.rootheader_id, {'watch': None})['watch'])
-			setattr(item, 'new_comments', None)
-			if item.last_comment and item.discussion_display_time:
-				if item.discussion_display_time is not None:
-					if item.discussion_display_time < item.last_comment:
-						setattr(item, 'new_comments', True)
-					else:
-						setattr(item, 'new_comments', False)
-
-	def __getitem__(self, k):
-		if isinstance(k, slice):
-			items = list(super(PrefetchUserAttributesQuerySet, self).__getitem__(k))
-			self._load_root_header(items)
-			if self.user.is_authenticated():
-				self._load_user_attributes(items)
-		else:
-			items = super(PrefetchUserAttributesQuerySet, self).__getitem__(k)
-		return items
-
-	def attributes_for_user(self, user):
-		self.user = user
-		return self
-
-
-class CommentCountManager(models.Manager):
-	def _generate_query(self, base_model, extra_columns = [], extra_model_definitions = [], skip = set(), reverse = False):
-		table = base_model._meta.db_table
-		join_tables = []
-		model_definition = [base_model]
-		query = 'SELECT '
-		columns = []
-		for field in base_model._meta.fields:
-			if field.name in skip and not isinstance(field, models.ForeignKey):
-				continue
-			elif isinstance(field, models.ForeignKey) and not field.name in skip:
-				model = field.related.parent_model
-				col_names = [f.name for f in model._meta.fields]
-				columns += ['"'+model._meta.db_table+'"."'+c+'"' for c in col_names]
-				model_definition.append([model, field.name] + col_names)
-				join_type = 'LEFT OUTER' if field.null else 'INNER'
-				join_tables.append(' '+join_type+' JOIN "'+model._meta.db_table+'" ON ("'+table+'"."'+field.column+'" = "'+model._meta.db_table+'"."id")')
-			else:
-				columns.append('"' + table + '"."' + field.column + '"')
-				model_definition.append(field.column)
-
-		columns += ['"'+RootHeader._meta.db_table+'"."comment_count"', '"'+RootHeader._meta.db_table+'"."last_comment"']
-		model_definition += ['comment_count', 'last_comment']
-		columns += extra_columns
-		model_definition += extra_model_definitions
-
-		query += ', '.join(columns) + '[extracolumns]'
-		if reverse:
-			query += ' FROM "' + RootHeader._meta.db_table + '"'
-			query += ' INNER JOIN "' + table + '"'
-		else:
-			query += ' FROM "' + table + '"'
-			query += ''.join(join_tables)
-			query += ' LEFT OUTER JOIN "' + RootHeader._meta.db_table + '"'
-		if reverse:
-			query += ''.join(join_tables)
-		query += ' ON ("'+table+'"."id" = "'+RootHeader._meta.db_table+'"."object_id" AND "'+RootHeader._meta.db_table+'"."content_type_id" = '+str(ContentType.objects.get_for_model(base_model).id)+')'
-		query += '[extrajoin]'
-		return (model_definition, query)
-
-
-	def get_raw_query_set(self, query, count_query = None, model_definition = None, params = []):
-		if count_query is None:
-			count_query = 'SELECT COUNT(*) FROM (' + query.replace('[extracolumns]', '').replace('[extrajoin]', '') + ') AS count'
-		queryset = NewCommentQuerySet(query, count_query, model_definition = model_definition, using = 'default', params = params)
-		return queryset
-
-	def get_prefetch_query_set(self):
-		return PrefetchUserAttributesQuerySet(model = self.model, using = self._db)

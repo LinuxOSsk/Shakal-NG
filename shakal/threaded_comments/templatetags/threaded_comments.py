@@ -3,11 +3,13 @@
 from django import template
 from django.conf import settings
 from django.contrib.comments.templatetags.comments import BaseCommentNode
+from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from datetime import datetime
 from shakal import threaded_comments
+from shakal.threaded_comments.models import RootHeader, UserDiscussionAttribute
 
 register = template.Library()
 
@@ -59,8 +61,8 @@ class ThreadedCommentsListNode(ThreadedCommentsBaseNode):
 
 	def get_discussion_attribute(self, context):
 		ctype, object_pk = self.get_target_ctype_pk(context)
-		header = threaded_comments.models.RootHeader.objects.get(content_type = ctype, object_id = object_pk)
-		(discussion_attribute, created) = threaded_comments.models.UserDiscussionAttribute.objects.get_or_create(user = context['user'], discussion = header)
+		header = RootHeader.objects.get(content_type = ctype, object_id = object_pk)
+		(discussion_attribute, created) = UserDiscussionAttribute.objects.get_or_create(user = context['user'], discussion = header)
 		return discussion_attribute
 
 	def update_discussion_attribute(self, discussion_attribute):
@@ -119,3 +121,52 @@ def render_threaded_comments_toplevel(context, target):
 def get_comments_for_item(item, display_last = False):
 	template = "comments/comment_count.html"
 	return mark_safe(render_to_string(template, {'item': item, 'display_last': display_last}))
+
+
+@register.simple_tag(takes_context = True)
+def add_discussion_attributes(context, model):
+	try:
+		iter(model)
+	except TypeError:
+		model = [model]
+	content_type = None
+	id_list = []
+	for obj in model:
+		id_list.append(obj.pk)
+		if content_type is None:
+			content_type = ContentType.objects.get_for_model(type(obj))
+	if not content_type:
+		return ''
+	headers = RootHeader.objects
+	headers = headers.filter(content_type = content_type, object_id__in = id_list)
+	headers = headers.values(
+		'id',
+		'object_id',
+		'last_comment',
+		'comment_count',
+		'is_locked',
+		'is_resolved'
+	)
+	if 'user' in context and context['user'].is_authenticated():
+		header_ids = [h['id'] for h in headers]
+		user_attributes = UserDiscussionAttribute.objects
+		user_attributes = user_attributes.filter(user = context['user'], discussion__in = header_ids)
+		user_attributes = user_attributes.values('discussion_id', 'time', 'watch')
+		user_attributes = dict([(a['discussion_id'], a) for a in user_attributes])
+		for header in headers:
+			header.update(user_attributes.get(header['id'], {}))
+	headers = dict([(h['object_id'], h) for h in headers])
+	for obj in model:
+		hdr = headers.get(obj.pk, {})
+		obj.last_comment = hdr.get('last_comment', None)
+		obj.comment_count = hdr.get('comment_count', 0)
+		obj.is_locked = hdr.get('is_locked', False)
+		obj.is_resolved = hdr.get('is_resolved', False)
+		obj.rootheader_id = hdr.get('id', None)
+		obj.discussion_display_time = hdr.get('time', None)
+		obj.discussion_watch = hdr.get('watch', None)
+		if obj.last_comment and obj.discussion_display_time:
+			obj.new_comments = obj.discussion_display_time < obj.last_comment
+		else:
+			obj.new_comments = None
+	return ''

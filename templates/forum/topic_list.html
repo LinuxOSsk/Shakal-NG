@@ -1,4 +1,7 @@
-{% extends "forum/forum_base.html" %}{% load breadcrumbs_tags paginator_tags %}{% load url from future %}
+{% extends "forum/forum_base.html" %}
+{% load url from future %}
+{% load breadcrumbs_tags paginator_tags %}
+{% load threaded_comments %}
 
 {% block title %}
 	{% if section %}
@@ -37,6 +40,7 @@
 
 <div class="module forum">
 	{% autopaginate forum pagenum items_per_page=50 %}
+	{% add_discussion_attributes forum %}
 	<div class="module-row">
 		{% include "forum/block_topics_table.html" with caption="Témy" %}
 	</div>

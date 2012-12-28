@@ -8,7 +8,7 @@ from django.db import models
 from django.db.models import permalink
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime, timedelta
-from shakal.threaded_comments.models import RootHeader, CommentCountManager
+from shakal.threaded_comments.models import RootHeader
 
 class Section(models.Model):
 	name = models.CharField(max_length = 255, verbose_name = _('name'))
@@ -41,49 +41,32 @@ class TopicManager(models.Manager):
 		return super(TopicManager, self).get_query_set().select_related('user', 'section')
 
 
-class TopicListManager(CommentCountManager):
-	def _generate_query_set(self, extra_filter = '', extra_params = [], order = None, reverse = False):
-		model_definition, query = self._generate_query(Topic, reverse = reverse, skip = set(('user', 'section', )))
-		params = extra_params
-		if extra_filter:
-			query += ' WHERE '+extra_filter
-		if order == '-last_comment':
-			query += ' ORDER BY "'+RootHeader._meta.db_table+'"."last_comment" DESC'
-		elif order == '-pk':
-			if reverse:
-				query += ' ORDER BY "'+RootHeader._meta.db_table+'"."id" DESC'
-			else:
-				query += ' ORDER BY "'+Topic._meta.db_table+'"."id" DESC'
-		elif order == '-comment_count':
-			query += ' ORDER BY "'+RootHeader._meta.db_table+'"."comment_count" DESC'
-		return super(TopicListManager, self).get_raw_query_set(query, model_definition = model_definition, params = params)
-
+class TopicListManager(models.Manager):
 	def newest_topics(self, section = None):
-		queryset = self.get_prefetch_query_set()
+		queryset = self.get_query_set()
 		if not section is None:
 			queryset = queryset.filter(section = section)
 		queryset = queryset.order_by('-pk')
 		return queryset
 
 	def newest_comments(self):
-		return self._generate_query_set(order = '-last_comment', reverse = True)
+		queryset = self.get_query_set()
+		queryset = queryset.filter(comments_header__last_comment__gt = datetime.now() - timedelta(30))
+		queryset = queryset.order_by("-comments_header__last_comment")
+		return queryset
 
 	def no_comments(self):
-		table = RootHeader._meta.db_table
-		return self._generate_query_set(
-			extra_filter = '"'+table+'"."comment_count" = %s AND "'+table+'"."last_comment" > %s',
-			extra_params = [0, datetime.now() - timedelta(60)],
-			order = '-pk',
-			reverse = True
-		)
+		queryset = self.get_query_set()
+		queryset = queryset.filter(comments_header__comment_count = 0)
+		queryset = queryset.filter(comments_header__last_comment__gt = datetime.now() - timedelta(60))
+		queryset = queryset.order_by("-id")
+		return queryset
 
 	def most_commented(self):
-		table = RootHeader._meta.db_table
-		return self._generate_query_set(
-			extra_filter = '"'+table+'"."last_comment" > %s',
-			extra_params = [datetime.now() - timedelta(30)],
-			order = '-comment_count'
-		)
+		queryset = self.get_query_set()
+		queryset = queryset.filter(comments_header__last_comment__gt = datetime.now() - timedelta(30))
+		queryset = queryset.order_by("-comments_header__comment_count")
+		return queryset
 
 
 class Topic(models.Model):

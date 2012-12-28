@@ -16,7 +16,7 @@ def overview(request, section = None, page = 1):
 		topics = Topic.topics.newest_topics()
 
 	context = {
-		'forum': topics.attributes_for_user(request.user),
+		'forum': topics,
 		'section': section,
 		'pagenum': page,
 		'sections': Section.objects.all()

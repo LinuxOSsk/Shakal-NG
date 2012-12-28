@@ -16,6 +16,7 @@ def news_detail_by_slug(request, slug):
 	return TemplateResponse(request, "news/news_detail.html", RequestContext(request, context))
 
 
+
 class NewsCreateView(AddLoggedFormArgumentMixin, PreviewCreateView):
 	model = News
 	template_name = 'news/news_create.html'
@@ -37,7 +38,7 @@ class NewsCreateView(AddLoggedFormArgumentMixin, PreviewCreateView):
 
 def news_list(request, page = 1):
 	context = {
-		'news': News.news.all().attributes_for_user(request.user),
+		'news': News.news.all(),
 		'pagenum': page,
 	}
 	return TemplateResponse(request, "news/news_list.html", RequestContext(request, context))

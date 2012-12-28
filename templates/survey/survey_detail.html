@@ -1,4 +1,7 @@
-{% extends "survey/survey_base.html" %}{% load breadcrumbs_tags threaded_comments %}
+{% extends "survey/survey_base.html" %}
+
+{% load breadcrumbs_tags threaded_comments %}
+{% load threaded_comments %}
 
 {% block breadcrumbs %}
 {% breadcrumb %}{{ survey }}{% endbreadcrumb %}
@@ -8,6 +11,7 @@
 {% block title %}{{ survey }}{% endblock %}
 
 {% block content %}
+{% add_discussion_attributes survey %}
 <h1>{{ survey }}</h1>
 
 <div class="module survey">

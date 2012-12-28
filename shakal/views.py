@@ -20,18 +20,18 @@ def error_500(request):
 
 def home(request):
 	try:
-		top_article = Article.articles.filter(top = True).attributes_for_user(request.user)[0:1][0]
-		articles = Article.articles.exclude(pk = top_article.pk).attributes_for_user(request.user)
+		top_articles = [Article.objects.filter(top = True).order_by('-pk')[0:1][0]]
+		articles = Article.objects.exclude(pk = top_articles[0].pk).order_by('-pk')
 	except IndexError:
-		top_article = None
-		articles = Article.articles.all().attributes_for_user(request.user)
+		top_articles = []
+		articles = Article.objects.order_by('-pk')
 
 	context = {
-		'top_article': top_article,
+		'top_articles': top_articles,
 		'articles': articles[:5],
 		'article_categories': ArticleCategory.objects.all(),
-		'forum_new': ForumTopic.topics.newest_comments().attributes_for_user(request.user)[:20],
-		'forum_no_comments': ForumTopic.topics.no_comments().attributes_for_user(request.user)[:5],
-		'forum_most_comments': ForumTopic.topics.most_commented().attributes_for_user(request.user)[:5],
+		'forum_new': ForumTopic.topics.newest_comments()[:20],
+		'forum_no_comments': ForumTopic.topics.no_comments()[:5],
+		'forum_most_comments': ForumTopic.topics.most_commented()[:5],
 	}
 	return TemplateResponse(request, "home.html", RequestContext(request, context))
