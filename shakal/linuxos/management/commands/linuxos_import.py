@@ -21,6 +21,7 @@ from hitcount.models import HitCount
 from collections import OrderedDict
 import os
 import socket
+import sys
 import threading
 import urllib
 import urllib2
@@ -28,7 +29,7 @@ from cookielib import CookieJar
 from copy import copy
 from phpserialize import loads
 from subprocess import call, Popen, PIPE
-from progressbar import Bar, BouncingBar, ETA, FileTransferSpeed, FormatLabel, ProgressBar, RotatingMarker
+from progressbar import Bar, BouncingBar, ETA, FormatLabel, ProgressBar, RotatingMarker
 
 
 class SocketMaintenance(object):
@@ -252,15 +253,13 @@ class Command(BaseCommand):
 		data_encoded = urllib.urlencode(formdata)
 		response = opener.open('https://cloud.relbit.com/tools/adminer/?server='+settings.DATABASES['linuxos_remote']['HOST']+'&username='+settings.DATABASES['linuxos_remote']['USER']+'&dump', data_encoded)
 		f = open("dump.gz", "w")
-		progress = ProgressBar(widgets = ["Downloading database", BouncingBar(marker=RotatingMarker()), FileTransferSpeed()], maxval = 1024 * 1024 * 256)
-		progress.start()
 		while True:
-			content = response.read(1024 * 16)
+			content = response.read(1024 * 1024)
 			if not content:
 				break
 			f.write(content)
-			progress.update(f.tell())
-		progress.finish()
+			sys.stdout.write("\r" + str(f.tell() / (1024 * 1024)) + " MB")
+			sys.stdout.flush()
 		f.close()
 		linuxos_settings = settings.DATABASES['linuxos']
 		call('zcat dump.gz > dump.sql', shell = True)
