@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-11 22:11+0200\n"
+"POT-Creation-Date: 2012-12-28 16:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,6 +42,9 @@ msgstr "vytvorené"
 msgid "size"
 msgstr "veľkosť"
 
+msgid "^status/$"
+msgstr "^stav/$"
+
 msgid "^admin/"
 msgstr "^administracia/"
 
@@ -57,11 +60,20 @@ msgstr "^komentare/"
 msgid "^forum/"
 msgstr "^forum/"
 
+msgid "^maintenance/"
+msgstr "^maintenance/"
+
 msgid "^news/"
 msgstr "^spravy/"
 
 msgid "^survey/"
 msgstr "^anketa/"
+
+msgid "^template-change/$"
+msgstr "^template-cache/$"
+
+msgid "^search/"
+msgstr "^hladat/"
 
 msgid "profile"
 msgstr "profil"
@@ -223,9 +235,6 @@ msgstr "text"
 msgid "time"
 msgstr "čas"
 
-msgid "user"
-msgstr "používateľ"
-
 msgid "forum"
 msgstr "fórum"
 
@@ -240,6 +249,9 @@ msgstr "krátky text"
 
 msgid "long text"
 msgstr "dlhý text"
+
+msgid "user"
+msgstr "používateľ"
 
 msgid "approved"
 msgstr "schválené"
@@ -304,6 +316,12 @@ msgstr "Komentár"
 msgid "Attachment"
 msgstr "Príloha"
 
+msgid "comment"
+msgstr "komentár"
+
+msgid "comments"
+msgstr "komentáre"
+
 msgid "Shakal admin"
 msgstr "Shakal administrácia"
 
@@ -329,12 +347,6 @@ msgstr "posledný"
 msgid "No comments"
 msgstr "Žiadne komentáre"
 
-msgid "Page not found"
-msgstr "Stránka nebola nájdená"
-
-msgid "Sorry, but the requested page could not be found."
-msgstr "Ospravedlňujeme sa, ale požadovaná stránka nebola nájdená."
-
 msgid "Profile"
 msgstr "Profil"
 
@@ -355,9 +367,6 @@ msgstr "Registrovať"
 
 msgid "Password reset"
 msgstr "Obnovenie hesla"
-
-msgid "Page unavailable"
-msgstr "Stránka nedostupn"
 
 msgid "Activation"
 msgstr "Aktivácia"
