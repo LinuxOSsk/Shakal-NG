@@ -7,3 +7,7 @@
 /static/compressed_images.less
 /static/desktop/default/images/backgrounds.png
 /static/desktop/default/base.css
+/venv
+/shakal/settings-local.py
+/shakal.db
+/virtualenv.py
