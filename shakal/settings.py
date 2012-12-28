@@ -43,7 +43,7 @@ MEDIA_CACHE_DIR = os.path.join(MEDIA_ROOT, 'cache')
 MEDIA_CACHE_URL = MEDIA_URL + 'cache/'
 TEMPLATE_CACHE_DIR = os.path.join(ROOT, 'templates', 'cache')
 
-STATIC_ROOT = os.path.join(ROOT, 'static'),
+STATIC_ROOT = ''
 STATIC_URL = '/static/'
 
 LOGIN_URL = '/profil/prihlasit/'
