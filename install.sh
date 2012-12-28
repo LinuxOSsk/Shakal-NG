@@ -39,6 +39,7 @@ npm -l i less
 cd bin
 ln -s ../node_modules/less/bin/lessc .
 cd ../..
+python manage.py compilemessages
 python manage.py syncdb
 python manage.py compress_images
 python manage.py compress_less

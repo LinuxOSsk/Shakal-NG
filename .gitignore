@@ -1,5 +1,6 @@
 *.xcf
 *.pyc
+*.mo
 /media
 /wsgi_app.py
 /dump.gz
