@@ -179,9 +179,6 @@ ATTACHMENT_SIZE_FOR_CONTENT = {
 
 HAYSTACK_CONNECTIONS = {
 	'default': {
-		'ENGINE': 'xapian_backend.XapianEngine',
-		'PATH': os.path.join(ROOT, 'xapian_index'),
-		'INCLUDE_SPELLING': True
+		'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
 	},
 }
-HAYSTACK_XAPIAN_LANGUAGE = 'sk'
