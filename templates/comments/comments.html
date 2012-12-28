@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% load breadcrumbs_tags %}
+{% load threaded_comments %}
+
+{% block breadcrumbs %}
+{% breadcrumb %}Diskusia{% endbreadcrumb %}
+{% breadcrumb absolute_url=object.get_absolute_url %}{{ object }}{% endbreadcrumb %}
+{% breadcrumb absolute_url=module_url %}{{ module_name }}{% endbreadcrumb %}
+{{ block.super }}
+{% endblock %}
+
+{% block extraheaders %}
+<meta name="robots" content="noindex, nofollow" />
+{{ form.media }}
+{% endblock %}
+
+{% block content %}Diskusia k: <a href="{{ object.get_absolute_url }}">{{ object }}</a>{% endblock %}
+
+{% block discussion %}{% render_threaded_comments_toplevel object %}{% endblock %}

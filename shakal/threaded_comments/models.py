@@ -105,6 +105,10 @@ class RootHeader(models.Model):
 	object_id = models.PositiveIntegerField()
 	content_object = generic.GenericForeignKey('content_type', 'object_id')
 
+	@models.permalink
+	def get_absolute_url(self):
+		return ('comments', [self.pk], {})
+
 	class Meta:
 		unique_together = (('content_type', 'object_id'),)
 		verbose_name = _('comment')

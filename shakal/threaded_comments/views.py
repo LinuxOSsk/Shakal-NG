@@ -3,11 +3,12 @@
 from django import http
 from django.contrib.comments.views.utils import next_redirect
 from django.db import models
+from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import capfirst
 from django.template.response import TemplateResponse
 from django.views.decorators.http import require_POST
 from django.utils.encoding import force_unicode
-from shakal.threaded_comments.models import ThreadedComment
+from shakal.threaded_comments.models import ThreadedComment, RootHeader
 from shakal.threaded_comments import get_form
 
 
@@ -122,3 +123,13 @@ def post_comment(request):
 
 def done_comment(request):
 	pass
+
+def comments(request, header_id):
+	header = get_object_or_404(RootHeader, id = header_id)
+	object = header.content_object
+	context = {
+		'object': object,
+		'module_name': get_module_name(object),
+		'module_url': get_module_url(object),
+	}
+	return TemplateResponse(request, "comments/comments.html", context)
