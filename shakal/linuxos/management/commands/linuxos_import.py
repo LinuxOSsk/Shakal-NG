@@ -540,7 +540,7 @@ class Command(BaseCommand):
 				'pk': topic_dict['id'],
 				'section_id': topic_dict['sekcia'],
 				'authors_name': topic_dict['username'],
-				'subject': topic_dict['predmet'],
+				'title': topic_dict['predmet'],
 				'text': topic_dict['text'],
 				'time': topic_dict['datetime'],
 			}

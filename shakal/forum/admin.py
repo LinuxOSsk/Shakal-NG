@@ -10,9 +10,9 @@ class SectionAdmin(admin.ModelAdmin):
 	prepopulated_fields = {'slug': ('name', )}
 
 class TopicAdmin(admin.ModelAdmin):
-	list_display = ('subject', 'get_authors_name', )
+	list_display = ('title', 'get_authors_name', )
 	list_filter = ('section', )
-	search_fields = ('subject', 'get_authors_name', )
+	search_fields = ('title', 'get_authors_name', )
 	ordering = ('-id', )
 	raw_id_fields = ('author', )
 	inlines = [AttachmentInline]

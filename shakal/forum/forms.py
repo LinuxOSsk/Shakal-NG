@@ -52,4 +52,4 @@ class TopicForm(forms.ModelForm, AntispamMethodsMixin):
 	class Meta:
 		model = Topic
 		exclude = ('author', 'time', )
-		fields = ('section', 'authors_name', 'subject', 'text', )
+		fields = ('section', 'authors_name', 'title', 'text', )

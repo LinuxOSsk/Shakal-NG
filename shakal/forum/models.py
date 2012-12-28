@@ -91,7 +91,7 @@ class Topic(models.Model):
 	topics = TopicListManager()
 
 	section = models.ForeignKey(Section, verbose_name = _('section'))
-	subject = models.CharField(max_length = 100, verbose_name = _('subject'))
+	title = models.CharField(max_length = 100, verbose_name = _('subject'))
 	text = models.TextField(verbose_name = _('text'))
 	time = models.DateTimeField(default = datetime.now, verbose_name = _('time'))
 	authors_name = models.CharField(max_length = 50, blank = False, verbose_name = _('authors name'))
@@ -119,7 +119,7 @@ class Topic(models.Model):
 		return ('forum:overview', None, None)
 
 	def __unicode__(self):
-		return self.subject
+		return self.title
 
 	class Meta:
 		verbose_name = _('topic')
