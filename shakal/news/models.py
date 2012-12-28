@@ -23,7 +23,7 @@ class News(models.Model):
 	objects = NewsManager()
 	news = NewsListManager()
 
-	subject = models.CharField(max_length = 255, verbose_name = _('subject'))
+	title = models.CharField(max_length = 255, verbose_name = _('title'))
 	slug = models.SlugField(unique = True)
 	short_text = models.TextField(verbose_name = _('short text'))
 	long_text = models.TextField(verbose_name = _('long text'))
@@ -46,4 +46,4 @@ class News(models.Model):
 		return ('news:list', None, None)
 
 	def __unicode__(self):
-		return self.subject
+		return self.title

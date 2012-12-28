@@ -582,7 +582,7 @@ class Command(BaseCommand):
 
 			news = {
 				'pk': news_dict['id'],
-				'subject': news_dict['predmet'] if news_dict['predmet'] else '-',
+				'title': news_dict['predmet'] if news_dict['predmet'] else '-',
 				'slug': slug,
 				'short_text': news_dict['sprava'],
 				'long_text': news_dict['sprava'],
