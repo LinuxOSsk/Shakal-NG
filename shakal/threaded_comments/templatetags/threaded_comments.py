@@ -47,26 +47,40 @@ class ThreadedCommentsBaseNode(BaseCommentNode):
 
 
 class ThreadedCommentsListNode(ThreadedCommentsBaseNode):
-	def render(self, context):
-		last_display_time = datetime.now()
-		if 'user' in context and context['user'].is_authenticated():
-			ctype, object_pk = self.get_target_ctype_pk(context)
-			header = threaded_comments.models.RootHeader.objects.get(content_type = ctype, object_id = object_pk)
-			(discussion_attribute, created) = threaded_comments.models.UserDiscussionAttribute.objects.get_or_create(user = context['user'], discussion = header)
-			if discussion_attribute.time:
-				last_display_time = discussion_attribute.time
-			discussion_attribute.time = datetime.now()
-			discussion_attribute.save()
-		query_set = self.get_query_set(context).extra(select = {'is_new': 'submit_date >= %s'}, select_params = (last_display_time, ))[:]
+	def highlight_new(self, query_set, context):
 		root_item = query_set.get_root_item()
 		prev_new_item = root_item;
+		for comment in query_set:
+			if comment.is_new:
+				prev_new_item.next_new = comment.pk
+				if prev_new_item != root_item:
+					comment.prev_new = prev_new_item.pk
+				prev_new_item = comment
+
+	def get_discussion_attribute(self, context):
+		ctype, object_pk = self.get_target_ctype_pk(context)
+		header = threaded_comments.models.RootHeader.objects.get(content_type = ctype, object_id = object_pk)
+		(discussion_attribute, created) = threaded_comments.models.UserDiscussionAttribute.objects.get_or_create(user = context['user'], discussion = header)
+		return discussion_attribute
+
+	def update_discussion_attribute(self, discussion_attribute):
+		discussion_attribute.time = datetime.now()
+		discussion_attribute.save()
+
+	def get_last_display_time(self, discussion_attribute):
+		last_display_time = datetime.now()
+		if discussion_attribute.time:
+			last_display_time = discussion_attribute.time
+		return last_display_time
+
+	def render(self, context):
+		query_set = self.get_query_set(context)
 		if 'user' in context and context['user'].is_authenticated():
-			for comment in query_set:
-				if comment.is_new:
-					prev_new_item.next_new = comment.pk
-					if prev_new_item != root_item:
-						comment.prev_new = prev_new_item.pk
-					prev_new_item = comment
+			attrib = self.get_discussion_attribute(context)
+			last_display_time = self.get_last_display_time(attrib)
+			self.update_discussion_attribute(attrib)
+			query_set = query_set.extra(select = {'is_new': 'submit_date >= %s'}, select_params = (last_display_time, ))[:]
+			self.highlight_new(query_set, context)
 		context[self.as_varname] = query_set
 		return ''
 
