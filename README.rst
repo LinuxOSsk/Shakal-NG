@@ -18,4 +18,5 @@ Spustenie
 
 
 ::
+
     python manage.py runserver
