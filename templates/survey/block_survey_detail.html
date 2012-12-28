@@ -22,4 +22,12 @@
 </div>
 
 </form>
+{% else %}
+	{% if request.user.is_authenticated %}
+		<div class="submit-row">
+			<div class="negative">
+				<div class="btn"><span><a href="{% url 'survey:create' %}">Navrhnúť</a></span></div>
+			</div>
+		</div>
+	{% endif %}
 {% endif %}
