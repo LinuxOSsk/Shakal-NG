@@ -16,6 +16,13 @@
 {% add_discussion_attributes articles %}
 {% add_hitcount articles %}
 <h1>{% if category %}{{ category }}{% else %}Články{% endif %}</h1>
+{% if not category %}
+<ul>
+	{% for category in article_categories %}
+	<li><a href="{{ category.get_absolute_url }}">{{ category }}</a></li>
+	{% endfor %}
+</ul>
+{% endif %}
 <div class="module">
 	{% autopaginate articles pagenum items_per_page=10 %}
 	{% for article in articles %}
