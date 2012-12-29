@@ -4,16 +4,16 @@
 {% load threaded_comments %}
 
 {% block title %}
-	{% if section %}
-		{{ section }}
+	{% if forum_section %}
+		{{ forum_section }}
 	{% else %}
 		Diskusné fórum
 	{% endif %}
 {% endblock %}
 
 {% block breadcrumbs %}
-	{% if section %}
-		{% breadcrumb %}{{ section|truncatechars:60 }}{% endbreadcrumb %}
+	{% if forum_section %}
+		{% breadcrumb %}{{ forum_section|truncatechars:60 }}{% endbreadcrumb %}
 	{% endif %}
 	{{ block.super }}
 {% endblock %}
@@ -23,10 +23,10 @@
 <ul class="object-tools">
 	<li class="btn"><span><a href="{% url 'forum:create' %}">Pridať novú tému</a></span></li>
 </ul>
-<h1>{% if section %}{{ section }}{% else %}Diskusné fórum{% endif %}</h1>
+<h1>{% if forum_section %}{{ forum_section }}{% else %}Diskusné fórum{% endif %}</h1>
 
-{% if section %}
-<p class="description">{{ section.description }}</p>
+{% if forum_section %}
+<p class="description">{{ forum_section.description }}</p>
 {% else %}
 <p>Diskusné fórum slúži tak začínajúcim ako aj pokročilejším užívateľom Linuxu. Tu sa môžete spýtať otázku či predložiť problém, s ktorým si sami neviete poradiť. Fórum je rozdelené do nasledujúcich kategórií:</p>
 
@@ -44,8 +44,8 @@
 	<div class="module-row">
 		{% include "forum/block_topics_table.html" with caption="Témy" %}
 	</div>
-	{% if section %}
-		{% paginator forum:section-page section=section.slug %}
+	{% if forum_section %}
+		{% paginator forum:section-page section=forum_section.slug %}
 	{% else %}
 		{% paginator forum:overview-page %}
 	{% endif %}
