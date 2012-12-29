@@ -12,13 +12,11 @@
 {% endif %}
 <h1>{% trans 'User profile' %}</h1>
 
-<table>
+<dl class="profile">
 	{% for user_property in user_table %}
-	<tr class="{% cycle odd even %}">
-		<th>{{ user_property.name|capfirst }}:</th>
-		<td>{{ user_property.value }}</td>
-	</tr>
+		<dt>{{ user_property.name|capfirst }}:</dt>
+		<dd>{{ user_property.value }}</dd>
 	{% endfor %}
-</table>
+</dl>
 
 {% endblock %}

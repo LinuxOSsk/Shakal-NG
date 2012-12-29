@@ -119,6 +119,10 @@ li li { list-style: circle; }
 a       { color: @link-color; text-decoration: underline; }
 a:hover { color: @link-color-hover; background-color: rgba(215, 228, 239, 0.5); border-radius: 3px; }
 
+dl { .no-space(); }
+dt { .no-space(); font-weight: bold; }
+dd { margin-left: 4em; }
+
 textarea { width: 30em; height: 10em; }
 
 fieldset, .module {
@@ -486,6 +490,11 @@ textarea { .input; background: #fff url('images/input_bg.png') 0px 0px repeat-x;
 #login-form {
 	width: 30em;
 	margin: 2em auto 0 auto;
+}
+
+dl.profile {
+	dt { width: 13em; float: left; text-align: right; }
+	dd { margin-left: 14em; }
 }
 
 /* Breadcrumbs */
