@@ -70,13 +70,7 @@ html, body {
 			</div>
 			<div class="hdrmain">
 				<ul id="main_menu" class="tabs">
-					<li{% ifequal section 'article' %} class="active"{% endifequal %}><a href="{% url 'article:article-list' %}">Články</a>
-					<ul>
-						{% for category in article_categories %}
-						<li><a href="{{ category.get_absolute_url }}">{{ category }}</a></li>
-						{% endfor %}
-					</ul>
-					</li>
+					<li{% ifequal section 'article' %} class="active"{% endifequal %}><a href="{% url 'article:article-list' %}">Články</a></li>
 					<li{% ifequal section 'forum' %} class="active"{% endifequal %}><a href="{% url 'forum:overview' %}">Fórum</a></li>
 					<li{% ifequal section 'news' %} class="active"{% endifequal %}><a href="{% url 'news:list' %}">Správy</a></li>
 					<li><a href="#">Wiki</a></li>
