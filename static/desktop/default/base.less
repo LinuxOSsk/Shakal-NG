@@ -165,7 +165,7 @@ th, td { &.icons, &.number, &.date { text-align: center; } }
 
 button:focus { outline: none; }
 
-.btn {
+#top_header .btn, .submit-row .btn {
 	padding: 0px 0px 0px 15px; margin: 0;
 	background: none; border: none;
 	line-height: 38px;
@@ -219,6 +219,7 @@ button:focus { outline: none; }
 		width: 15px; margin-left: -15px;
 		text-indent: -9999px; overflow: hidden;
 		float: left;
+		height: 38px;
 	}
 	&:hover {
 		span { .sprite(@backgrounds_btn_std_hover_imgpos_right); }
@@ -235,6 +236,12 @@ button:focus { outline: none; }
 	}
 	&.reply, .login {
 		float: right;
+	}
+	.username .icon-user {
+		margin: 12px 5px 0 3px;
+		width: 9px; height: 14px;
+		.sprite(@backgrounds_profile_icon_14_imgpos);
+		float: left;
 	}
 }
 
@@ -421,71 +428,53 @@ textarea { .input; background: #fff url('images/input_bg.png') 0px 0px repeat-x;
 	.sprite(@backgrounds_header_bg_imgpos, repeat-x, #4d9dd9);
 	.search {
 		float: right;
-		position: relative;
-		width: 47px;
+		line-height: inherit;
 		height: 38px;
 		margin-top: 5px;
-		overflow: hidden;
 		input {
-			background: none;
-			border: none;
-			outline: none;
 			width: 200px;
 			color: @link-color;
+			display: none;
+			border: none;
+			outline: none;
+			color: @link-color;
+			background: none;
 			font-weight: bold;
 			font-size: 14px;
 			height: 20px;
 			line-height: 20px;
-			margin-top: 6px;
+			margin: 6px 0 0 0;
 			padding: 3px 0;
 		}
-		.btn-search {
-			line-height: 38px;
-			height: 38px;
-			width: 32px;
-			border: none;
-			overflow: hidden;
-			text-indent: -9999px;
-			cursor: pointer;
-			.sprite(@backgrounds_search_icon_imgpos);
+		&:hover input {
+			display: inline;
 		}
 		&:hover {
-			width: 252px;
+			width: 247px;
 		}
 	}
-	.search-input {
-		position: absolute;
-		input {
-			display: none;
-		}
-		button {
-			padding: 0;
-		}
-		&:hover input {
+	.btn-search {
+		width: 32px;
+		border: none;
+		margin: 0;
+		padding: 0;
+		line-height: 38px;
+		cursor: pointer;
+		text-indent: -9999px;
+		.sprite(@backgrounds_search_icon_imgpos);
+		height: 38px;
+	}
+	#user_panel {
+		float: right;
+		margin: 5px 5px 0 0;
+		position: relative;
+		&:hover #userlinks {
 			display: block;
-			float: left;
-			margin-right: 5px;
 		}
 	}
 }
 
 /* Prihlásenie */
-
-#user_panel {
-	float: right;
-	margin: 5px 5px 0 0;
-	position: relative;
-	&:hover #userlinks {
-		display: block;
-	}
-}
-
-.btn span.username .icon-user {
-	margin: 12px 5px 0 3px;
-	width: 9px; height: 14px;
-	.sprite(@backgrounds_profile_icon_14_imgpos);
-	float: left;
-}
 
 #login-form {
 	width: 30em;
