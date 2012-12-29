@@ -1,5 +1,9 @@
 {% extends "base.html" %}{% load breadcrumbs_tags %}
 
+{% block site_header %}
+{% with section='news' %}{{ block.super }}{% endwith %}
+{% endblock %}
+
 {% block breadcrumbs %}
 {% breadcrumb url='news:list' %}Správy{% endbreadcrumb %}
 {{ block.super }}

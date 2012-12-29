@@ -78,7 +78,7 @@ html, body {
 					</ul>
 					</li>
 					<li{% ifequal section 'forum' %} class="active"{% endifequal %}><a href="{% url 'forum:overview' %}">Fórum</a></li>
-					<li><a href="{% url 'news:list' %}">Správy</a></li>
+					<li{% ifequal section 'news' %} class="active"{% endifequal %}><a href="{% url 'news:list' %}">Správy</a></li>
 					<li><a href="#">Wiki</a></li>
 					<li><a href="#">Portál</a></li>
 				</ul>
