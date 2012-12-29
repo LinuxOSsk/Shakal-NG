@@ -63,56 +63,75 @@ html, body {
 </head>
 <body>
 	<header>
+	{% block site_header %}
 		<div id="top_header">
 			<div class="hdrleft">
 				<a id="linuxos_logo" href="{% url 'home' %}">LinuxOS</a>
 			</div>
 			<div class="hdrmain">
-				<div id="user_panel"class="btn{% if user.is_authenticated %} authenticated{% endif %}">
-					{% if user.is_authenticated %}
-						<span class="username"><a href="{{ request.user.get_absolute_url }}"><span class="icon-user"></span>{% firstof request.user.get_full_name request.user.username %}</a></span>
-						<ul id="userlinks" class="dropdown menu">
-							<li>
-								<a href="{{ request.user.get_absolute_url }}" rel="nofollow">{% trans "Profile" %}</a>
-							</li>
-							{% if user.is_superuser %}
-							<li>
-								<a href="{% url 'admin:index' %}" rel="nofollow">{% trans 'Site administration' %}</a>
-							</li>
-							{% endif %}
-							<li>
-								<a href="{% url 'auth_logout' %}" rel="nofollow">{% trans 'Log out' %}</a>
-							</li>
-							<li>
-								<a href="{% url 'auth_password_change' %}" rel="nofollow">{% trans "Change password" %}</a>
-							</li>
-						</ul>
-					{% else %}
-						<span class="login"><a href="{% url 'auth_login' %}?next={% url 'home' %}" rel="nofollow">{% trans "Log in" %}</a></span>
-						<ul id="userlinks" class="dropdown menu">
-							<li>
-								<a href="{% url 'auth_login' %}?next={% url 'home' %}" rel="nofollow">{% trans "Log in" %}</a>
-							</li>
-							<li>
-								<a href="{% url 'registration_register' %}" rel="nofollow">{% trans 'Sign up' %}</a>
-							</li>
-							<li>
-								<a href="{% url 'auth_password_reset' %}" rel="nofollow">{% trans "Password reset" %}</a>
-							</li>
-						</ul>
-					{% endif %}
-				</div>
-				<form method="get" action="{% url 'haystack_search' %}" class="search btn">
-					<div class="search-input">
-						<input type="text" name="q" /><button class="btn-search" title="Hľadať">Hľadať</button>
+				<ul id="main_menu" class="tabs">
+					<li{% ifequal section 'article' %} class="active"{% endifequal %}><a href="{% url 'article:article-list' %}">Články</a>
+					<ul>
+						{% for category in article_categories %}
+						<li><a href="{{ category.get_absolute_url }}">{{ category }}</a></li>
+						{% endfor %}
+					</ul>
+					</li>
+					<li{% ifequal section 'forum' %} class="active"{% endifequal %}><a href="{% url 'forum:overview' %}">Fórum</a></li>
+					<li><a href="{% url 'news:list' %}">Správy</a></li>
+					<li><a href="#">Wiki</a></li>
+					<li><a href="#">Portál</a></li>
+				</ul>
+				<div class="pull-right">
+					<div id="user_panel"class="btn{% if user.is_authenticated %} authenticated{% endif %}">
+						{% if user.is_authenticated %}
+							<span class="username"><a href="{{ request.user.get_absolute_url }}"><span class="icon-user"></span>{% firstof request.user.get_full_name request.user.username %}</a></span>
+							<ul id="userlinks" class="dropdown menu">
+								<li>
+									<a href="{{ request.user.get_absolute_url }}" rel="nofollow">{% trans "Profile" %}</a>
+								</li>
+								{% if user.is_superuser %}
+								<li>
+									<a href="{% url 'admin:index' %}" rel="nofollow">{% trans 'Site administration' %}</a>
+								</li>
+								{% endif %}
+								<li>
+									<a href="{% url 'auth_logout' %}" rel="nofollow">{% trans 'Log out' %}</a>
+								</li>
+								<li>
+									<a href="{% url 'auth_password_change' %}" rel="nofollow">{% trans "Change password" %}</a>
+								</li>
+							</ul>
+						{% else %}
+							<span class="login"><a href="{% url 'auth_login' %}?next={% url 'home' %}" rel="nofollow">{% trans "Log in" %}</a></span>
+							<ul id="userlinks" class="dropdown menu">
+								<li>
+									<a href="{% url 'auth_login' %}?next={% url 'home' %}" rel="nofollow">{% trans "Log in" %}</a>
+								</li>
+								<li>
+									<a href="{% url 'registration_register' %}" rel="nofollow">{% trans 'Sign up' %}</a>
+								</li>
+								<li>
+									<a href="{% url 'auth_password_reset' %}" rel="nofollow">{% trans "Password reset" %}</a>
+								</li>
+							</ul>
+						{% endif %}
 					</div>
-				</form>
+					<div id="search-panel">
+						<form method="get" action="{% url 'haystack_search' %}" class="search btn">
+							<div class="search-input">
+								<input type="text" name="q" /><button class="btn-search" title="Hľadať">Hľadať</button>
+							</div>
+						</form>
+					</div>
+				</div>
 				{% block breadcrumbs %}
 					{% breadcrumb class='home' url='home' %}Home{% endbreadcrumb %}
 					{% render_breadcrumbs %}
 				{% endblock %}
 			</div>
 		</div>
+	{% endblock %}
 	</header>
 	<div id="colmask">
 		<div id="colinner">

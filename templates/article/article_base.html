@@ -1,5 +1,9 @@
 {% extends "base.html" %}{% load breadcrumbs_tags i18n %}
 
+{% block site_header %}
+{% with section='article' %}{{ block.super }}{% endwith %}
+{% endblock %}
+
 {% block breadcrumbs %}
 {% breadcrumb url="article:article-list" %}{% trans "Articles" %}{% endbreadcrumb %}
 {{ block.super }}

@@ -459,6 +459,91 @@ textarea { .input; background: #fff url('images/input_bg.png') 0px 0px repeat-x;
 .hdrmain {
 	width: 68%;
 	float: right;
+	position: relative;
+}
+
+.tabs {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 31px;
+	margin: 15px 0 0 -15px;
+	height: 33px;
+	li {
+		float: left;
+		list-style: none;
+		a {
+			display: block;
+			line-height: 25px;
+			padding: 8px 10px 0 0;
+			font-size: 12px;
+			font-weight: bold;
+			color: #e5f4ff;
+			text-shadow: 0px 1px 0px #2c6c99;
+			text-decoration: none;
+			.sprite(@backgrounds_tabs_std_imgpos_right);
+			margin-right: 5px;
+		}
+		a:before {
+			content: ".";
+			.sprite(@backgrounds_tabs_std_imgpos);
+			width: 10px; margin-left: -10px;
+			text-indent: -9999px; overflow: hidden;
+			float: left;
+			height: 33px;
+			margin-top: -8px;
+		}
+		&:hover, &.active {
+			a {
+				.sprite(@backgrounds_tabs_act_imgpos_right);
+				border-radius: 0px;
+				color: @link-color;
+				text-shadow: 0px 1px 0px @generic-background;
+				line-height: 30px;
+				padding-top: 3px;
+			}
+			a:before {
+				.sprite(@backgrounds_tabs_act_imgpos);
+				margin-top: -3px;
+			}
+		}
+		ul {
+			position: absolute;
+			line-height: 31px;
+			top: 33px;
+			right: 0px;
+			left: 0px;
+			margin-left: 16px;
+			background: @breadcrumb-background;
+			z-index: 1;
+			display: none;
+		}
+		&:hover ul {
+			display: block;
+			padding: 0 0 0 6px;
+			li {
+				a {
+					background: none;
+					line-height: 31px;
+					padding: 0 6px;
+				}
+				a:before {
+					background: none;
+				}
+				a:hover {
+					background: mix(@breadcrumb-background, @generic-foreground, 95%);
+				}
+			}
+		}
+	}
+}
+
+#search-panel {
+	margin-top: 5px;
+	float: right;
+	&:hover {
+		width: 262px;
+	}
 }
 
 .hdrleft, .hdrmain {
@@ -467,12 +552,11 @@ textarea { .input; background: #fff url('images/input_bg.png') 0px 0px repeat-x;
 
 #top_header {
 	height: 80px;
+	.pull-right { right: 0px; position: absolute; }
 	.sprite(@backgrounds_header_bg_imgpos, repeat-x, #4d9dd9);
 	.search {
-		float: right;
 		line-height: inherit;
 		height: 38px;
-		margin-top: 5px;
 		input {
 			width: 200px;
 			color: @link-color;
@@ -493,6 +577,7 @@ textarea { .input; background: #fff url('images/input_bg.png') 0px 0px repeat-x;
 		}
 		&:hover {
 			width: 247px;
+			position: absolute;
 		}
 	}
 	.btn-search {

@@ -110,6 +110,16 @@ backgrounds = {
 			'mode': 'no-repeat', 'width': 800, 'height': 31, 'offset': (0, 31)
 		},
 		{
+			'name': 'tabs_std',
+			'src': 'static/desktop/default/images/tabs.png',
+			'mode': 'no-repeat', 'width': 800, 'height': 33, 'offset': (0, 33)
+		},
+		{
+			'name': 'tabs_act',
+			'src': 'static/desktop/default/images/tabs.png',
+			'mode': 'no-repeat', 'width': 800, 'height': 33, 'offset': (0, 0)
+		},
+		{
 			'name': 'block_header_bg',
 			'src': 'static/desktop/default/images/block_header_bg.png',
 			'mode': 'repeat-x', 'width': 8, 'height': 37

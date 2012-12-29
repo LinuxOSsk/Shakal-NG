@@ -4,7 +4,7 @@ from django.http import HttpResponseServerError
 from django.template import RequestContext, Context
 from django.template.loader import get_template
 from django.template.response import TemplateResponse
-from article.models import Article, Category as ArticleCategory
+from article.models import Article
 from forum.models import Topic as ForumTopic
 import sys
 
@@ -29,7 +29,6 @@ def home(request):
 	context = {
 		'top_articles': top_articles,
 		'articles': articles[:5],
-		'article_categories': ArticleCategory.objects.all(),
 		'forum_new': ForumTopic.topics.newest_comments()[:20],
 		'forum_no_comments': ForumTopic.topics.no_comments()[:5],
 		'forum_most_comments': ForumTopic.topics.most_commented()[:5],
