@@ -165,20 +165,19 @@ th, td { &.icons, &.number, &.date { text-align: center; } }
 
 button:focus { outline: none; }
 
-#top_header .btn, .submit-row .btn {
-	padding: 0px 0px 0px 15px; margin: 0;
+.btn {
+	padding: 0px 0px 0px 6px; margin: 0;
 	background: none; border: none;
-	line-height: 38px;
+	line-height: 32px;
 	list-style: none;
 	cursor: pointer;
-	span, .search-input {
-		.sprite(@backgrounds_btn_std_imgpos_right);
+	span, search-input {
+		.sprite(@backgrounds_btn_content_std_imgpos_right);
 		display: block;
 		float: left;
 		padding-right: 15px;
-		font-size: 14px;
-		font-weight: bold;
-		color: @link-color;
+		font-size: 12px;
+		color: @generic-foreground;
 		text-shadow: 0px 1px 0px white;
 		text-decoration: none;
 		span {
@@ -200,18 +199,64 @@ button:focus { outline: none; }
 				height: 14px;
 				position: absolute;
 				right: -18px;
-				top: 13px;
+				top: 11px;
 			}
 		}
 	}
 	a {
 		text-decoration: none;
-		line-height: 38px;
+		line-height: 32px;
 		display: block;
 		white-space: nowrap;
 		&:hover {
 			background: none !important;
 		}
+	}
+	span:before, .search-input:before {
+		content: ".";
+		.sprite(@backgrounds_btn_content_std_imgpos);
+		width: 15px; margin-left: -15px;
+		text-indent: -9999px; overflow: hidden;
+		float: left;
+		height: 32px;
+	}
+	&:hover {
+		span { .sprite(@backgrounds_btn_content_std_hover_imgpos_right); }
+		span:before { .sprite(@backgrounds_btn_content_std_hover_imgpos); }
+		span.dropdown { background: none; }
+	}
+	&:active, &:focus {
+		span { .sprite(@backgrounds_btn_content_act_imgpos_right); }
+		span:before, &:focus span:before { .sprite(@backgrounds_btn_content_act_imgpos); }
+	}
+	&:active:hover {
+		span { .sprite(@backgrounds_btn_content_act_hover_imgpos_right); }
+		span:before { .sprite(@backgrounds_btn_content_act_hover_imgpos); }
+	}
+	&.reply, .login {
+		float: right;
+	}
+}
+
+#top_header .btn, .submit-row .btn {
+	padding: 0px 0px 0px 15px; margin: 0;
+	background: none; border: none;
+	line-height: 38px;
+	span, .search-input {
+		.sprite(@backgrounds_btn_std_imgpos_right);
+		padding-right: 15px;
+		font-size: 14px;
+		font-weight: bold;
+		color: @link-color;
+		span {
+			padding: 0;
+		}
+		span.dropdown {
+			.icon { top: 13px; }
+		}
+	}
+	a {
+		line-height: 38px;
 	}
 	span:before, .search-input:before {
 		content: ".";
@@ -233,9 +278,6 @@ button:focus { outline: none; }
 	&:active:hover {
 		span { .sprite(@backgrounds_btn_act_hover_imgpos_right); }
 		span:before { .sprite(@backgrounds_btn_act_hover_imgpos); }
-	}
-	&.reply, .login {
-		float: right;
 	}
 	.username .icon-user {
 		margin: 12px 5px 0 3px;

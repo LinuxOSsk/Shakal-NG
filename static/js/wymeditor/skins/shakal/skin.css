@@ -35,9 +35,11 @@
 /* Layout */
 .wym_skin_shakal .wym_area_left { width: 200px; float: left;}
 .wym_skin_shakal .wym_area_right { width: 200px; float: right;}
+.wym_skin_shakal .wym_area_top { padding: 0 10px; }
 
 /* Spoločné nastavenia */
-.wym_skin_shakal .wym_section { margin-bottom: 5px; }
+
+.wym_skin_shakal .wym_section { margin-top: 7px; }
 .wym_skin_shakal .wym_section:after { content: ".", display: block; height: 0; clear: both; visibility: hidden; }
 
 /* Toolbar */
