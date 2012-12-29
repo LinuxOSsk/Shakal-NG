@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.contrib.comments.forms import COMMENT_MAX_LENGTH
 from django.forms import ChoiceField, ModelChoiceField
 from django.forms.models import ModelChoiceIterator
 from django.forms.widgets import RadioSelect, RadioFieldRenderer, RadioInput
@@ -9,6 +10,7 @@ from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _
 from antispam.fields import AntispamField
 from antispam.forms import AntispamMethodsMixin
+from html_editor.fields import HtmlField
 from models import Topic, Section
 
 
@@ -38,6 +40,7 @@ class SectionRenderer(RadioFieldRenderer):
 
 class TopicForm(forms.ModelForm, AntispamMethodsMixin):
 	section = SectionModelChoiceField(Section.objects.all(), empty_label=None, widget = RadioSelect(renderer = SectionRenderer), label = capfirst(_('section')))
+	text = HtmlField(label = _("Text"), max_length = COMMENT_MAX_LENGTH)
 	captcha = AntispamField(required = True)
 
 	def __init__(self, *args, **kwargs):
