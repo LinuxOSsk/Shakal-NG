@@ -1,4 +1,8 @@
-{% extends "news/news_base.html" %}{% load breadcrumbs_tags %}{% load url from future %}
+{% extends "news/news_base.html" %}
+
+{% load breadcrumbs_tags %}
+{% load linuxos %}
+{% load url from future %}
 
 {% block extraheaders %}
 <meta name="robots" content="noindex, nofollow" />
@@ -12,9 +16,16 @@
 <h1>Pridať správu </h1>
 
 {% if valid %}
-	<h2>Náhľad</h2>
 	<div class="module preview">
-		{% include "news/block_news_item.html" %}
+		<h2>Náhľad</h2>
+		<h3>{{ item }}</h3>
+		<div class="info">
+			<span class="time">{{ item.time|humandatetime }}</span> |
+			<span class="user">{% user_link item.author item.authors_name %}</span>
+		</div>
+		<p>{{ item.short_text|safe }}</p>
+		<hr />
+		<p>{{ item.long_text|safe }}</p>
 	</div>
 {% endif %}
 
