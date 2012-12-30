@@ -191,7 +191,6 @@ class Command(BaseCommand):
 		tables = [
 			('auth_group_permissions', 'auth_group_permissions_id_seq'),
 			('auth_user_user_permissions', 'auth_user_user_permissions_id_seq'),
-			('auth_permission', 'auth_permission_id_seq'),
 			('auth_group', 'auth_group_id_seq'),
 			('accounts_userprofile', 'accounts_userprofile_id_seq'),
 			('threaded_comments_rootheader', 'threaded_comments_rootheader_id_seq'),
