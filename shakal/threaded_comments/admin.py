@@ -5,9 +5,10 @@ from django.contrib import admin
 from django.contrib.comments.admin import CommentsAdmin
 from django.contrib.comments.models import Comment
 from django.utils.translation import ugettext_lazy as _
+from mptt.admin import MPTTModelAdmin
 from shakal.threaded_comments.models import ThreadedComment
 
-class ThreadedCommentsAdmin(CommentsAdmin):
+class ThreadedCommentsAdmin(MPTTModelAdmin, CommentsAdmin):
 	fieldsets = (
 		(None,
 			{'fields': ('content_type', 'object_pk', 'site')}
