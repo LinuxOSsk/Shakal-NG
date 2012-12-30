@@ -12,8 +12,12 @@
 <h1>{{ page }}</h1>
 {{ page.text|safe }}
 
-{% autopaginate children pagenum items_per_page=20 %}
-{% include 'wiki/pages_table.html' with pages=children %}
-{% paginator wiki:page-page slug=page.slug %}
+<div class="module">
+	{% autopaginate children pagenum items_per_page=20 %}
+	<div class="module-row">
+		{% include 'wiki/pages_table.html' with pages=children %}
+	</div>
+	{% paginator wiki:page-page slug=page.slug %}
+</div>
 
 {% endblock %}

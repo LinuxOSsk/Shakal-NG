@@ -18,7 +18,7 @@ def show_page(request, slug = None, page = 1):
 	if wiki_page.page_type == 'h':
 		if wiki_page.parent:
 			template = "wiki/category.html"
-			children = wiki_page.get_children()
+			children = wiki_page.get_descendants().order_by('-modified')
 		else:
 			template = "wiki/home.html"
 			children = wiki_page.get_children().filter(page_type = 'h')[:]
