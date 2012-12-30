@@ -11,3 +11,4 @@ git+git://github.com/citylive/django-template-preprocessor.git
 django-bootstrap-toolkit
 git+https://github.com/toastdriven/django-haystack.git@master#egg=django-haystack
 git+git://github.com/notanumber/xapian-haystack.git
+django-reversion

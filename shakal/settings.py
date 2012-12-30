@@ -128,6 +128,7 @@ INSTALLED_APPS = (
 	'maintenance',
 	'mptt',
 	'registration',
+	'reversion',
 	'template_preprocessor',
 	'paginator',
 	'shakal.accounts',
@@ -139,6 +140,7 @@ INSTALLED_APPS = (
 	'shakal.survey',
 	'shakal.template_dynamicloader',
 	'shakal.threaded_comments',
+	'shakal.wiki',
 )
 
 LOGGING = {

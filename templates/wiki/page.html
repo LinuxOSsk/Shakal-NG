@@ -1,0 +1,19 @@
+{% extends 'wiki/wiki_base.html' %}
+
+{% load breadcrumbs_tags %}
+{% load paginator_tags %}
+
+{% block breadcrumbs %}
+{% breadcrumb %}{{ page }}{% endbreadcrumb %}
+{% for wiki_page in tree reversed %}
+	{% if forloop.revcounter != 1 %}
+		{% breadcrumb url='wiki:page' wiki_page.slug %}{{ wiki_page }}{% endbreadcrumb %}
+	{% endif %}
+{% endfor %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+<h1>{{ page }}</h1>
+{{ page.text|safe }}
+{% endblock %}

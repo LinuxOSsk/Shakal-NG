@@ -1,0 +1,24 @@
+{% extends 'wiki/wiki_base.html' %}
+
+{% load url from future %}
+{% load paginator_tags %}
+
+{% block content %}
+<h1>{{ page }}</h1>
+{{ page.text|safe }}
+
+{% for child in children %}
+	<h2>{{ child }}</h2>
+	{{ child.text|safe }}
+	<div class="module">
+		{% autopaginate child.pages pagenum items_per_page=20 %}
+		<div class="module-row">
+			{% include 'wiki/pages_table.html' with pages=child.pages %}
+		</div>
+		<div class="module-links bottom">
+			<a href="{{ child.get_absolute_url }}" class="next">Zobraziť všetky</a>
+		</div>
+	</div>
+{% endfor %}
+
+{% endblock %}

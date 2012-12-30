@@ -73,8 +73,7 @@ html, body {
 					<li{% ifequal section 'article' %} class="active"{% endifequal %}><a href="{% url 'article:article-list' %}">Články</a></li>
 					<li{% ifequal section 'forum' %} class="active"{% endifequal %}><a href="{% url 'forum:overview' %}">Fórum</a></li>
 					<li{% ifequal section 'news' %} class="active"{% endifequal %}><a href="{% url 'news:list' %}">Správy</a></li>
-					<li><a href="#">Wiki</a></li>
-					<li><a href="#">Portál</a></li>
+					<li{% ifequal section 'wiki' %} class="active"{% endifequal %}><a href="{% url 'wiki:home' %}">Wiki</a></li>
 				</ul>
 				<div class="pull-right">
 					<div id="user_panel"class="btn{% if user.is_authenticated %} authenticated{% endif %}">

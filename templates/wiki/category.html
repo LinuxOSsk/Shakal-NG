@@ -1,0 +1,19 @@
+{% extends 'wiki/wiki_base.html' %}
+
+{% load breadcrumbs_tags %}
+{% load paginator_tags %}
+
+{% block breadcrumbs %}
+{% breadcrumb url='wiki:page' page.slug %}{{ page }}{% endbreadcrumb %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+<h1>{{ page }}</h1>
+{{ page.text|safe }}
+
+{% autopaginate children pagenum items_per_page=20 %}
+{% include 'wiki/pages_table.html' with pages=children %}
+{% paginator wiki:page-page slug=page.slug %}
+
+{% endblock %}

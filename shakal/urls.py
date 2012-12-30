@@ -11,6 +11,7 @@ from news import urls as news_urls
 from maintenance import urls as maintenance_urls
 from search.views import SearchView
 from survey import urls as survey_urls
+from wiki import urls as wiki_urls
 
 admin.autodiscover()
 
@@ -25,6 +26,7 @@ urlpatterns = patterns('',
 	url(_(r'^maintenance/'), include(maintenance_urls.urlpatterns)),
 	url(_(r'^news/'), include(news_urls.urlpatterns)),
 	url(_(r'^survey/'), include(survey_urls.urlpatterns)),
+	url(_(r'^wiki/'), include(wiki_urls.urlpatterns)),
 	url(_(r'^template-change/$'), 'shakal.template_dynamicloader.views.change', name = 'template-change'),
 	url(_(r'^search/'), SearchView(), name = 'haystack_search'),
 )
