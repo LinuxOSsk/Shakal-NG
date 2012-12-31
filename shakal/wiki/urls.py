@@ -13,7 +13,8 @@ class Patterns(object):
 	def urls(self):
 		urlpatterns = patterns('',
 			url(r'^$', wiki_views.show_page, name = 'home'),
-			url(r'(?P<slug>[-\w]+)/edit/$', wiki_views.PageUpdateView.as_view(), name = 'edit'),
+			url(r'(?P<slug>[-\w]+)/create/$', wiki_views.PageCreateView.as_view(), {'create': True}, name = 'create'),
+			url(r'(?P<slug>[-\w]+)/edit/$', wiki_views.PageUpdateView.as_view(), {'create': False}, name = 'edit'),
 			url(r'(?P<slug>[-\w]+)/$', wiki_views.show_page, name = 'page'),
 			url(r'(?P<slug>[-\w]+)/(?P<pagenum>\d+)/$', wiki_views.show_page, name = 'page-page'),
 		)

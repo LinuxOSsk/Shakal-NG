@@ -4,11 +4,10 @@ from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
-from django.utils.decorators import available_attrs, method_decorator
-from functools import wraps
+from django.utils.decorators import method_decorator
 from models import Page
 from forms import WikiEditForm
-from shakal.utils.generic import PreviewUpdateView
+from shakal.utils.generic import PreviewCreateView, PreviewUpdateView
 from shakal.utils import unique_slugify
 import reversion
 
@@ -45,17 +44,23 @@ def show_page(request, slug = None, page = 1):
 
 
 def check_perms(view_func):
-	def decorator(request, slug, *args, **kwargs):
+	def decorator(request, slug, create, *args, **kwargs):
 		if not request.user.is_authenticated():
 			return user_passes_test(lambda u: False)(view_func)(request)
+		wiki_page = get_object_or_404(Page, slug = slug)
 		if request.user.is_staff and request.user.has_perm('admin:wiki_page_change'):
 			return view_func(request, slug = slug, *args, **kwargs)
 		else:
-			wiki_page = get_object_or_404(Page, slug = slug)
-			if wiki_page.page_type == 'p':
-				return view_func(request, slug = slug, *args, **kwargs)
+			if create:
+				if wiki_page.page_type == 'p' or (wiki_page.page_type == 'h' and wiki_page.parent):
+					return view_func(request, slug = slug, *args, **kwargs)
+				else:
+					return user_passes_test(lambda u: False)(view_func)(request)
 			else:
-				return user_passes_test(lambda u: False)(view_func)(request)
+				if wiki_page.page_type == 'p':
+					return view_func(request, slug = slug, *args, **kwargs)
+				else:
+					return user_passes_test(lambda u: False)(view_func)(request)
 	return decorator
 
 
@@ -69,10 +74,35 @@ class PageUpdateView(PreviewUpdateView):
 		with reversion.create_revision():
 			response = super(PageUpdateView, self).dispatch(*args, **kwargs)
 			reversion.set_user(args[0].user)
-			return response
+		return response
 
 	def form_valid(self, form):
 		page = form.save(commit = False)
 		page.last_author = self.request.user
 		return super(PageUpdateView, self).form_valid(form)
 
+
+class PageCreateView(PreviewCreateView):
+	model = Page
+	template_name = 'wiki/create.html'
+	form_class = WikiEditForm
+
+	@method_decorator(check_perms)
+	def dispatch(self, *args, **kwargs):
+		self.extra_context = {'slug': kwargs['slug'], 'page': get_object_or_404(Page, slug = kwargs['slug'])}
+		with reversion.create_revision():
+			response = super(PageCreateView, self).dispatch(*args, **kwargs)
+			reversion.set_user(args[0].user)
+		return response
+
+	def get_context_data(self, **kwargs):
+		context = super(PageCreateView, self).get_context_data(**kwargs)
+		context.update(self.extra_context)
+		return context
+
+	def form_valid(self, form):
+		page = form.save(commit = False)
+		page.last_author = self.request.user
+		page.parent = self.extra_context['page']
+		unique_slugify(page, title_field = 'title')
+		return super(PageCreateView, self).form_valid(form)

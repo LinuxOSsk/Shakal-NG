@@ -9,7 +9,6 @@ class Page(models.Model):
 	TYPE_CHOICES = (
 		('h', u'Domovská stránka'),
 		('i', u'Interná stránka'),
-		('l', u'Stránka so zoznamom podstránok'),
 		('p', u'Stránka wiki'),
 	)
 	title = models.CharField(max_length = 100, verbose_name = u'titulok')

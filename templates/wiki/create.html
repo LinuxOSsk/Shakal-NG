@@ -3,18 +3,16 @@
 {% load url from future %}
 {% load breadcrumbs_tags %}
 
-{% block title %}Editovať stránku{% endblock %}
+{% block title %}Pridať stránku{% endblock %}
 
 {% block breadcrumbs %}
-{% breadcrumb %}Editovať{% endbreadcrumb %}
+{% breadcrumb %}Pridať stránku{% endbreadcrumb %}
 {% breadcrumb url='wiki:page' page.slug %}{{ page }}{% endbreadcrumb %}
 {{ block.super }}
 {% endblock %}
 
 {% block content %}
-{% with slug=page.slug %}
-{% with form_url='wiki:edit' %}
+{% with form_url='wiki:create' %}
 {{ block.super }}
-{% endwith %}
 {% endwith %}
 {% endblock %}
