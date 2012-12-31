@@ -11,6 +11,6 @@ class PageAdmin(reversion.VersionAdmin, MPTTModelAdmin):
 	search_fields = ('title', 'text', )
 	ordering = ('-id', )
 	prepopulated_fields = {'slug': ('title', )}
-	raw_id_fields = ('parent', )
+	raw_id_fields = ('parent', 'last_author',)
 
 admin.site.register(Page, PageAdmin)
