@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 
 
 class AddLoggedFormArgumentMixin(object):
@@ -14,3 +14,11 @@ class PreviewCreateView(CreateView):
 		if not 'create' in self.request.POST:
 			return self.render_to_response(self.get_context_data(form = form, item = item, valid = True))
 		return super(PreviewCreateView, self).form_valid(form)
+
+
+class PreviewUpdateView(UpdateView):
+	def form_valid(self, form):
+		item = form.save(commit = False)
+		if not 'update' in self.request.POST:
+			return self.render_to_response(self.get_context_data(form = form, item = item, valid = True))
+		return super(PreviewUpdateView, self).form_valid(form)

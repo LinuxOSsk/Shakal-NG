@@ -1,0 +1,38 @@
+{% extends 'wiki/wiki_base.html' %}
+
+{% load url from future %}
+{% load breadcrumbs_tags %}
+
+{% block title %}Editovať stránku{% endblock %}
+
+{% block extraheaders %}
+<meta name="robots" content="noindex, nofollow" />
+{{ form.media }}
+{% endblock %}
+
+{% block breadcrumbs %}
+{% breadcrumb %}Editovať{% endbreadcrumb %}
+{% breadcrumb url='wiki:page' page.slug %}{{ page }}{% endbreadcrumb %}
+{% for wiki_page in tree reversed %}
+	{% if forloop.revcounter != 1 %}
+		{% breadcrumb url='wiki:page' wiki_page.slug %}{{ wiki_page }}{% endbreadcrumb %}
+	{% endif %}
+{% endfor %}
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+<form action="{% url 'wiki:edit' slug=page.slug %}" method="post" id="wiki-form">{% csrf_token %}
+	<fieldset>
+		{% include 'includes/form_loop.html' with form=form %}
+		<div class="submit-row">
+			<div class="positive">
+				<button class="btn" type="submit" title="Náhľad"><span>Náhľad</span></button>
+				{% if valid %}
+				<button class="btn" type="submit" title="Uložiť" name="update" value="1"><span>Uložiť</span></button>
+				{% endif %}
+			</div>
+		</div>
+	</fieldset>
+</form>
+{% endblock %}

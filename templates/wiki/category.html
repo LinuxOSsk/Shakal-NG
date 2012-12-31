@@ -1,5 +1,6 @@
 {% extends 'wiki/wiki_base.html' %}
 
+{% load url from future %}
 {% load breadcrumbs_tags %}
 {% load paginator_tags %}
 
@@ -9,6 +10,13 @@
 {% endblock %}
 
 {% block content %}
+
+{% if user.is_staff and perms.article.can_change %}
+<ul class="object-tools">
+	<li class="btn"><span><a href="{% url 'wiki:edit' page.slug %}">Editovať</a></span></li>
+</ul>
+{% endif %}
+
 <h1>{{ page }}</h1>
 {{ page.text|safe }}
 
