@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django import template
+from django.utils.safestring import mark_safe
 from django.template.loader import render_to_string
 from django.utils.html import escape
 from datetime import date, timedelta
@@ -13,14 +14,14 @@ def humandatetime(value, default = ''):
 	try:
 		today = date.today()
 		if value.year != today.year:
-			return value.strftime("%d.%m.%Y | %H:%M")
+			return mark_safe(value.strftime("%d.%m.%Y&nbsp;|&nbsp;%H:%M"))
 		else:
 			if today == value.date():
-				return "Dnes | " + value.strftime("%H:%M")
+				return mark_safe("Dnes&nbsp;|&nbsp;" + value.strftime("%H:%M"))
 			elif (today - timedelta(days = 1)) == value.date():
-				return "Včera | " + value.strftime("%H:%M")
+				return mark_safe("Včera&nbsp;|&nbsp;" + value.strftime("%H:%M"))
 			else:
-				return value.strftime("%d.%m | %H:%M")
+				return mark_safe(value.strftime("%d.%m&nbsp;|&nbsp;%H:%M"))
 	except Exception:
 		return default
 
