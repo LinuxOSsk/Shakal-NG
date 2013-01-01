@@ -3,6 +3,7 @@
 {% load url from future %}
 {% load breadcrumbs_tags %}
 {% load paginator_tags %}
+{% load linuxos %}
 
 {% block breadcrumbs %}
 {% breadcrumb %}{{ page }}{% endbreadcrumb %}
@@ -24,6 +25,13 @@
 {% endif %}
 
 <h1>{{ page }}</h1>
+
+<div class="info top">
+	{{ page.updated|humandatetime }} |
+	<a href="{{ tree.1.get_absolute_url }}">{{ tree.1 }}</a>
+	{% if page.last_author %} | <a href="{{ page.last_author.get_absolute_url }}">{{ page.last_author }}</a>{% endif %}
+</div>
+
 {% if children %}
 <div class="module subpages">
 	<h2>Podstránky</h2>
