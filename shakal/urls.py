@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.contrib.contenttypes import views as contenttype_views
 from django.utils.translation import ugettext_lazy as _
 from views import home
 from accounts import urls as accounts_urls
@@ -29,6 +30,7 @@ urlpatterns = patterns('',
 	url(_(r'^wiki/'), include(wiki_urls.urlpatterns)),
 	url(_(r'^template-change/$'), 'shakal.template_dynamicloader.views.change', name = 'template-change'),
 	url(_(r'^search/'), SearchView(), name = 'haystack_search'),
+	url(r'^v/(?P<content_type_id>\d+)/(?P<object_id>.+)/$', contenttype_views.shortcut, name = 'view-object'),
 )
 
 if settings.DEBUG:
