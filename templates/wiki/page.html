@@ -18,7 +18,7 @@
 
 {% if request.user.is_authenticated %}
 <ul class="object-tools">
-	<li class="btn"><span><a href="{% url 'wiki:create' page.slug %}">Pridať stránku</a></span></li>
+	<li class="btn"><span><a href="{% url 'wiki:create' page.slug %}">Pridať podstránku</a></span></li>
 	<li class="btn"><span><a href="{% url 'wiki:edit' page.slug %}">Editovať</a></span></li>
 </ul>
 {% endif %}
