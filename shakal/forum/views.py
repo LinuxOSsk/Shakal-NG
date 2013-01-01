@@ -14,7 +14,6 @@ def overview(request, section = None, page = 1):
 		topics = Topic.topics.newest_topics(section = section.pk)
 	else:
 		topics = Topic.topics.newest_topics()
-	print(section)
 
 	context = {
 		'forum': topics,
