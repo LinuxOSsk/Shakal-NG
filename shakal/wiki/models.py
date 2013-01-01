@@ -36,6 +36,9 @@ class Page(models.Model):
 
 	@models.permalink
 	def get_absolute_url(self):
-		return ('wiki:page', None, {'slug': self.slug})
+		if self.page_type == 'h' and not self.parent:
+			return ('wiki:home', None, None)
+		else:
+			return ('wiki:page', None, {'slug': self.slug})
 
 mptt.register(Page)
