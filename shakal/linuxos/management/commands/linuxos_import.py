@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.comments.models import Comment
 from django.core.management.base import BaseCommand
+from django.core.serializers.json import Deserializer
 from django.db import connections, transaction, connection
 from django.template.defaultfilters import slugify
 from shakal.accounts.models import UserProfile
@@ -164,7 +165,7 @@ class Command(BaseCommand):
 	def handle(self, *args, **kwargs):
 		try:
 			self.cursor = connections["linuxos"].cursor()
-			self.logger.set_main_progress(u"Import LinuxOS", 10, 0)
+			self.logger.set_main_progress(u"Import LinuxOS", 11, 0)
 			self.logger.step_main_progress(u"Čistenie databázy")
 			self.clean_db()
 			self.logger.step_main_progress(u"Sťahovanie starej databázy")
@@ -183,12 +184,16 @@ class Command(BaseCommand):
 			self.import_discussion()
 			self.logger.step_main_progress(u"Import atribútov diskusie")
 			self.import_discussion_attributes()
+			self.logger.step_main_progress(u"Import databázy znalostí")
+			self.import_wiki()
 			self.logger.finish_main_progress()
+			self.finish_import()
 		finally:
 			self.logger.finish()
 
 	def clean_db(self):
 		tables = [
+			('wiki_page', 'wiki_page_id_seq'),
 			('auth_group_permissions', 'auth_group_permissions_id_seq'),
 			('auth_user_user_permissions', 'auth_user_user_permissions_id_seq'),
 			('auth_group', 'auth_group_id_seq'),
@@ -215,14 +220,18 @@ class Command(BaseCommand):
 			('forum_section', 'forum_section_id_seq'),
 			('hitcount_hitcount', 'hitcount_hitcount_id_seq'),
 			('auth_remember_remembertoken', ),
+			('reversion_revision', 'reversion_revision_id_seq'),
+			('reversion_version', 'reversion_version_id_seq'),
 		]
 
 		self.logger.set_sub_progress(u"Tabuľka", len(tables))
 		for table in tables:
 			self.logger.step_sub_progress(u"%35s" % (table[0], ))
+			connections['default'].cursor().execute('SET CONSTRAINTS ALL DEFERRED;');
 			connections['default'].cursor().execute('DELETE FROM '+table[0]+';')
 			if len(table) > 1:
 				connections['default'].cursor().execute('SELECT setval(\''+table[1]+'\', 1);')
+			connections['default'].cursor().execute('SET CONSTRAINTS ALL IMMEDIATE;');
 		self.logger.finish_sub_progress()
 
 	def download_db(self):
@@ -442,7 +451,7 @@ class Command(BaseCommand):
 				'content': clanok_dict['clanok'],
 				'author_id': clanok_dict['uid'],
 				'authors_name': clanok_dict['username'],
-				'time': self.first_datetime_if_null(clanok_dict['time']),
+				'pub_time': self.first_datetime_if_null(clanok_dict['time']),
 				'published': True if clanok_dict['published'] == 'yes' else False,
 				'top': True if clanok_dict['mesiaca'] == 'yes' else False,
 				'image': clanok_dict['file'],
@@ -540,7 +549,7 @@ class Command(BaseCommand):
 				'authors_name': topic_dict['username'],
 				'title': topic_dict['predmet'],
 				'text': topic_dict['text'],
-				'time': topic_dict['datetime'],
+				'created': topic_dict['datetime'],
 			}
 			if topic_dict['userid'] and topic_dict['userid'] in users:
 				topic['author_id'] = topic_dict['userid']
@@ -585,7 +594,7 @@ class Command(BaseCommand):
 				'slug': slug,
 				'short_text': news_dict['sprava'],
 				'long_text': news_dict['sprava'],
-				'time': news_dict['time'],
+				'created': news_dict['time'],
 				'authors_name': '-',
 				'approved': bool(news_dict['schvalene']),
 			}
@@ -887,6 +896,11 @@ class Command(BaseCommand):
 		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_userdiscussionattribute_id_seq\', (SELECT MAX(id) FROM threaded_comments_userdiscussionattribute) + 1);')
 		self.logger.finish_sub_progress()
 
+	def import_wiki(self):
+		for instance in Deserializer(open('shakal/wiki/pages.json')):
+			instance.object.created = datetime.now()
+			instance.object.save()
+
 	def make_tree_structure(self, tree_items, root):
 		items = tree_items[root]
 		self.depth += 1
@@ -899,3 +913,6 @@ class Command(BaseCommand):
 			self.lr_counter += 1
 			item['rght'] = self.lr_counter
 		self.depth -= 1
+
+	def finish_import(self):
+		connections['default'].cursor().execute('COMMIT;')

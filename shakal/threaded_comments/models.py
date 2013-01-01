@@ -90,6 +90,7 @@ class ThreadedComment(Comment):
 	objects = ThreadedCommentManager()
 	comment_objects = ThreadedCommentManager(HideRootQuerySet)
 	attachments = generic.GenericRelation(Attachment)
+	updated = models.DateTimeField(auto_now = True)
 
 	class Meta:
 		ordering = ('tree_id', 'lft')

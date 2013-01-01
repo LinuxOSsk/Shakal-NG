@@ -16,7 +16,7 @@
 <h1>{{ article.title }}</h1>
 
 <div class="info top">
-	{{ article.time|date:"d.m.Y H:i" }} |
+	{{ article.pub_time|date:"d.m.Y H:i" }} |
 	{{ article.category }} |
 	{% if article.author %}
 	<a href="{% url 'auth_profile' article.author.pk %}">

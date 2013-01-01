@@ -9,7 +9,7 @@ class CategoryAdmin(admin.ModelAdmin):
 	prepopulated_fields = {'slug': ('name', )}
 
 class ArticleAdmin(admin.ModelAdmin):
-	list_display = ('title', 'author', 'time', 'published', )
+	list_display = ('title', 'author', 'pub_time', 'published', )
 	search_fields = ('title', 'slug', )
 	prepopulated_fields = {'slug': ('title', )}
 	raw_id_fields = ('author', )

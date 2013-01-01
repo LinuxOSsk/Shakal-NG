@@ -7,7 +7,7 @@
 	{% for page in pages %}
 	<tr>
 		<td><a href="{{ page.get_absolute_url }}">{{ page }}</a></td>
-		<td>{{ page.modified|humandatetime }}</td>
+		<td>{{ page.updated|humandatetime }}</td>
 	</tr>
 	{% endfor %}
 </table>

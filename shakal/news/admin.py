@@ -4,7 +4,7 @@ from django.contrib import admin
 from shakal.news.models import News
 
 class NewsAdmin(admin.ModelAdmin):
-	list_display = ('title', 'time', 'author', 'approved', )
+	list_display = ('title', 'created', 'author', 'approved', )
 	list_filter = ('approved', )
 	search_fields = ('title', 'slug', )
 	ordering = ('-id', )

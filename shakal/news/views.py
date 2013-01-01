@@ -33,6 +33,7 @@ class NewsCreateView(AddLoggedFormArgumentMixin, PreviewCreateView):
 			news.author = self.request.user
 		if self.request.user.has_perm('news.can_change'):
 			news.approved = True;
+		news.updated = news.created
 		return super(NewsCreateView, self).form_valid(form)
 
 

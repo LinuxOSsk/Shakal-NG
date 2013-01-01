@@ -40,11 +40,12 @@ class TopicCreateView(AddLoggedFormArgumentMixin, PreviewCreateView):
 
 	def form_valid(self, form):
 		topic = form.save(commit = False)
-		topic.time = datetime.now()
+		topic.created = datetime.now()
 		if self.request.user.is_authenticated():
 			if self.request.user.get_full_name():
 				topic.username = self.request.user.get_full_name()
 			else:
 				topic.username = self.request.user.username
 			topic.user = self.request.user
+		topic.updated = topic.created
 		return super(TopicCreateView, self).form_valid(form)

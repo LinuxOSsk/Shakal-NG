@@ -23,5 +23,5 @@ class NewsForm(forms.ModelForm, AntispamMethodsMixin):
 
 	class Meta:
 		model = News
-		exclude = ('author', 'time', 'approved', )
+		exclude = ('author', 'created', 'approved', )
 		fields = ('title', 'authors_name', 'short_text', 'long_text', )
