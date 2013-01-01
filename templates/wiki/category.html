@@ -24,7 +24,7 @@
 {{ page.text|safe }}
 
 <div class="module">
-	{% autopaginate children pagenum items_per_page=20 %}
+	{% autopaginate children pagenum items_per_page=50 %}
 	<div class="module-row">
 		{% include 'wiki/pages_table.html' with pages=children %}
 	</div>

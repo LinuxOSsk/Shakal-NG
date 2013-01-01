@@ -17,10 +17,12 @@ from shakal.survey.models import Survey, Answer as SurveyAnswer
 from shakal.threaded_comments.models import RootHeader as ThreadedRootHeader
 from shakal.threaded_comments.models import UserDiscussionAttribute
 from shakal.utils import create_unique_slug
+from shakal.wiki.models import Page as WikiPage
 from django.utils import simplejson
 from hitcount.models import HitCount
 from collections import OrderedDict
 import os
+import reversion
 import socket
 import sys
 import threading
@@ -220,8 +222,8 @@ class Command(BaseCommand):
 			('forum_section', 'forum_section_id_seq'),
 			('hitcount_hitcount', 'hitcount_hitcount_id_seq'),
 			('auth_remember_remembertoken', ),
-			('reversion_revision', 'reversion_revision_id_seq'),
 			('reversion_version', 'reversion_version_id_seq'),
+			('reversion_revision', 'reversion_revision_id_seq'),
 		]
 
 		self.logger.set_sub_progress(u"Tabuľka", len(tables))
@@ -897,9 +899,76 @@ class Command(BaseCommand):
 		self.logger.finish_sub_progress()
 
 	def import_wiki(self):
+		users = set(User.objects.values_list('id', flat = True))
+		all_slugs = set()
+		categories = {}
 		for instance in Deserializer(open('shakal/wiki/pages.json')):
 			instance.object.created = datetime.now()
 			instance.object.save()
+			categories[instance.object.title.replace('&amp;', '&')] = instance.object.id
+			all_slugs.add(instance.object.slug)
+
+		cols = [
+			'id',
+			'nadpis',
+			'text',
+			'time',
+			'userid',
+			'kategoria',
+			'nazov_kategorie',
+		]
+		select_query = 'SELECT ' + (', '.join(['KnowledgeBase.' + col for col in cols])) + ' FROM KnowledgeBase ORDER BY KnowledgeBase.id DESC'
+		self.cursor.execute(select_query)
+		wiki_pages = [self.decode_cols_to_dict(cols, r) for r in list(self.cursor)]
+		wiki_pages = dict([(p['id'], [p]) for p in wiki_pages])
+
+		select_query = 'SELECT ' + (', '.join(['KnowledgeBase_History.' + col for col in cols])) + ' FROM KnowledgeBase_History ORDER BY KnowledgeBase_History.id'
+		self.cursor.execute(select_query)
+		wiki_history = [self.decode_cols_to_dict(cols, r) for r in list(self.cursor)]
+		for item in wiki_history:
+			if item['id'] in wiki_pages:
+				wiki_pages[item['id']].insert(0, item)
+
+		count = 0
+		for id, page_list in wiki_pages.iteritems():
+			count += len(page_list)
+
+		reversion.register(WikiPage)
+
+		self.logger.set_sub_progress(u"Databáza znalostí", count)
+		for id, page_list in wiki_pages.iteritems():
+			page_object = None
+			for page in page_list:
+				page['nadpis'] = page['nadpis'].replace('&amp;', '&')
+				page['nazov_kategorie'] = page['nazov_kategorie'].replace('&amp;', '&')
+				if not page_object:
+					page_object = WikiPage()
+
+				user = None
+				if page['userid'] in users:
+					page_object.last_author_id = page['userid']
+					user = User.objects.get(pk = page['userid'])
+				page_object.id = page['id'] + 7
+				page_object.title = page['nadpis']
+				page_object.text = page['text']
+				page_object.updated = page['time']
+				page_object.parent = WikiPage.objects.get(pk = categories[page['nazov_kategorie']])
+				page_object.page_type = 'p'
+				if not page_object.created:
+					page_object.created = page['time']
+				if not page_object.slug:
+					slug = create_unique_slug(slugify(page['nadpis'])[:45], all_slugs, 9999)
+					all_slugs.add(slug)
+					page_object.slug = slug
+				page_object.save(ignore_auto_date = True)
+				revision = reversion.revision.save_revision([page_object], user = user)
+				revision.date_created = page['time']
+				revision.save()
+
+				self.logger.step_sub_progress()
+		self.logger.finish_sub_progress()
+
+		connections['default'].cursor().execute('SELECT setval(\'wiki_page_id_seq\', (SELECT MAX(id) FROM wiki_page) + 1);')
 
 	def make_tree_structure(self, tree_items, root):
 		items = tree_items[root]

@@ -12,19 +12,20 @@ class Page(models.Model):
 		('i', u'Interná stránka'),
 		('p', u'Stránka wiki'),
 	)
-	title = models.CharField(max_length = 100, verbose_name = u'titulok')
+	title = models.CharField(max_length = 255, verbose_name = u'titulok')
 	created = models.DateTimeField(editable = False)
 	updated = models.DateTimeField(editable = False)
-	last_author = models.ForeignKey(User, verbose_name = u'posledný autor')
+	last_author = models.ForeignKey(User, verbose_name = u'posledný autor', blank = True, null = True)
 	slug = models.SlugField(unique = True, verbose_name = u'slug')
 	parent = models.ForeignKey('self', related_name = 'children', blank = True, null = True, verbose_name = u'nadradená stránka')
 	text = models.TextField(verbose_name = u'text')
 	page_type = models.CharField(max_length = 1, choices = TYPE_CHOICES, default = 'p', verbose_name = u'typ stránky')
 
 	def save(self, *args, **kwargs):
-		self.updated = datetime.now()
-		if not self.id:
-			self.created = self.updated
+		if not kwargs.pop('ignore_auto_date', False):
+			self.updated = datetime.now()
+			if not self.id:
+				self.created = self.updated
 		super(Page, self).save(*args, **kwargs)
 
 	def __unicode__(self):
