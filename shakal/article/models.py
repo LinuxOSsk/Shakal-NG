@@ -10,6 +10,7 @@ from django.db.models import permalink
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from autoimagefield.fields import AutoImageField
+from datetime import datetime
 from hitcount.models import HitCount
 from shakal.survey.models import Survey
 from shakal.threaded_comments.models import RootHeader
@@ -43,13 +44,19 @@ class Article(models.Model):
 	author = models.ForeignKey(User, on_delete = models.SET_NULL, blank = True, null = True, verbose_name = _('author'))
 	authors_name = models.CharField(max_length = 255, verbose_name = _('authors name'))
 	pub_time = models.DateTimeField(verbose_name = _('publication time'))
-	updated = models.DateTimeField(auto_now = True)
+	updated = models.DateTimeField(editable = False)
 	published = models.BooleanField(verbose_name = _('published'))
 	top = models.BooleanField(verbose_name = _('top article'))
 	image = AutoImageField(verbose_name = _('image'), upload_to = 'article/thumbnails', size = (512, 512), thumbnail = {'standard': (100, 100)}, blank = True, null = True)
 	hitcount = generic.GenericRelation(HitCount)
 	surveys = generic.GenericRelation(Survey)
 	comments_header = generic.GenericRelation(RootHeader)
+
+	def save(self, *args, **kwargs):
+		self.updated = datetime.now()
+		if not self.id and not self.pub_time:
+			self.pub_time = self.updated
+		return super(Article, self).save(*args, **kwargs)
 
 	@property
 	def survey_set(self):

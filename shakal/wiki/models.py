@@ -3,6 +3,7 @@
 import mptt
 from django.contrib.auth.models import User
 from django.db import models
+from datetime import datetime
 
 
 class Page(models.Model):
@@ -12,13 +13,19 @@ class Page(models.Model):
 		('p', u'Stránka wiki'),
 	)
 	title = models.CharField(max_length = 100, verbose_name = u'titulok')
-	created = models.DateTimeField(auto_now_add = True)
-	updated = models.DateTimeField(auto_now = True)
+	created = models.DateTimeField(editable = False)
+	updated = models.DateTimeField(editable = False)
 	last_author = models.ForeignKey(User, verbose_name = u'posledný autor')
 	slug = models.SlugField(unique = True, verbose_name = u'slug')
 	parent = models.ForeignKey('self', related_name = 'children', blank = True, null = True, verbose_name = u'nadradená stránka')
 	text = models.TextField(verbose_name = u'text')
 	page_type = models.CharField(max_length = 1, choices = TYPE_CHOICES, default = 'p', verbose_name = u'typ stránky')
+
+	def save(self, *args, **kwargs):
+		self.updated = datetime.now()
+		if not self.id:
+			self.created = self.updated
+		super(Page, self).save(*args, **kwargs)
 
 	def __unicode__(self):
 		return self.title

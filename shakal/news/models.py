@@ -27,8 +27,8 @@ class News(models.Model):
 	slug = models.SlugField(unique = True)
 	short_text = models.TextField(verbose_name = _('short text'))
 	long_text = models.TextField(verbose_name = _('long text'))
-	created = models.DateTimeField(default = datetime.now, verbose_name = _('time'))
-	updated = models.DateTimeField(auto_now = True)
+	created = models.DateTimeField(verbose_name = _('time'))
+	updated = models.DateTimeField(editable = False)
 	author = models.ForeignKey(User, on_delete = models.SET_NULL, blank = True, null = True, verbose_name = _('user'))
 	authors_name = models.CharField(max_length = 255, verbose_name = _('authors name'))
 	approved = models.BooleanField(default = False, verbose_name = _('approved'))
@@ -37,6 +37,12 @@ class News(models.Model):
 	class Meta:
 		verbose_name = _('news item')
 		verbose_name_plural = _('news items')
+
+	def save(self, *args, **kwargs):
+		self.updated = datetime.now()
+		if not self.id:
+			self.created = self.updated
+		return super(News, self).save(*args, **kwargs)
 
 	@permalink
 	def get_absolute_url(self):

@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import datetime
 import mptt
-
 from attachment.models import Attachment
+from datetime import datetime
 from django.db import models
 from django.db.models import Count, Max
 from django.db.models.signals import post_save
@@ -72,7 +71,7 @@ class ThreadedCommentManager(CommentManager):
 				'user_name': '-',
 				'user_email': 'no@user.no',
 				'user_url': '',
-				'submit_date': datetime.datetime.now(),
+				'submit_date': datetime.now(),
 				'site_id': settings.SITE_ID
 			}
 		)
@@ -90,7 +89,13 @@ class ThreadedComment(Comment):
 	objects = ThreadedCommentManager()
 	comment_objects = ThreadedCommentManager(HideRootQuerySet)
 	attachments = generic.GenericRelation(Attachment)
-	updated = models.DateTimeField(auto_now = True)
+	updated = models.DateTimeField(editable = False)
+
+	def save(self, *args, **kwargs):
+		self.updated = datetime.now()
+		if not self.id:
+			self.submit_date = self.updated
+		return super(ThreadedComment, self).save(*args, **kwargs)
 
 	class Meta:
 		ordering = ('tree_id', 'lft')

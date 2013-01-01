@@ -76,13 +76,19 @@ class Topic(models.Model):
 	section = models.ForeignKey(Section, verbose_name = _('section'))
 	title = models.CharField(max_length = 100, verbose_name = _('subject'))
 	text = models.TextField(verbose_name = _('text'))
-	created = models.DateTimeField(default = datetime.now, verbose_name = _('time'))
-	updated = models.DateTimeField(auto_now = True)
+	created = models.DateTimeField(verbose_name = _('time'))
+	updated = models.DateTimeField(editable = False)
 	authors_name = models.CharField(max_length = 50, blank = False, verbose_name = _('authors name'))
 	author = models.ForeignKey(User, blank = True, null = True, verbose_name = _('author'))
 	comments_header = generic.GenericRelation(RootHeader)
 	breadcrumb_label = _('forum')
 	attachments = generic.GenericRelation(Attachment)
+
+	def save(self, *args, **kwargs):
+		self.updated = datetime.now()
+		if not self.id:
+			self.created = self.updated
+		return super(Topic, self).save(*args, **kwargs)
 
 	def get_authors_name(self):
 		if self.author:
