@@ -18,8 +18,8 @@ class CommentIndex(indexes.SearchIndex, indexes.Indexable):
 
 	def prepare_created(self, object):
 		content_object = object.content_object
-		if hasattr(content_object, 'time'):
-			return content_object.time
+		if hasattr(content_object, 'created'):
+			return content_object.created
 		else:
 			return None
 
