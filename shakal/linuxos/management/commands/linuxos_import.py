@@ -227,13 +227,13 @@ class Command(BaseCommand):
 		]
 
 		self.logger.set_sub_progress(u"Tabuľka", len(tables))
+		connections['default'].cursor().execute('SET CONSTRAINTS ALL DEFERRED;');
 		for table in tables:
 			self.logger.step_sub_progress(u"%35s" % (table[0], ))
-			connections['default'].cursor().execute('SET CONSTRAINTS ALL DEFERRED;');
 			connections['default'].cursor().execute('DELETE FROM '+table[0]+';')
 			if len(table) > 1:
 				connections['default'].cursor().execute('SELECT setval(\''+table[1]+'\', 1);')
-			connections['default'].cursor().execute('SET CONSTRAINTS ALL IMMEDIATE;');
+		connections['default'].cursor().execute('SET CONSTRAINTS ALL IMMEDIATE;');
 		self.logger.finish_sub_progress()
 
 	def download_db(self):
@@ -454,6 +454,7 @@ class Command(BaseCommand):
 				'author_id': clanok_dict['uid'],
 				'authors_name': clanok_dict['username'],
 				'pub_time': self.first_datetime_if_null(clanok_dict['time']),
+				'updated': self.first_datetime_if_null(clanok_dict['time']),
 				'published': True if clanok_dict['published'] == 'yes' else False,
 				'top': True if clanok_dict['mesiaca'] == 'yes' else False,
 				'image': clanok_dict['file'],
@@ -552,6 +553,7 @@ class Command(BaseCommand):
 				'title': topic_dict['predmet'],
 				'text': topic_dict['text'],
 				'created': topic_dict['datetime'],
+				'updated': topic_dict['datetime'],
 			}
 			if topic_dict['userid'] and topic_dict['userid'] in users:
 				topic['author_id'] = topic_dict['userid']
@@ -597,6 +599,7 @@ class Command(BaseCommand):
 				'short_text': news_dict['sprava'],
 				'long_text': news_dict['sprava'],
 				'created': news_dict['time'],
+				'updated': news_dict['time'],
 				'authors_name': '-',
 				'approved': bool(news_dict['schvalene']),
 			}
@@ -728,11 +731,11 @@ class Command(BaseCommand):
 		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', (SELECT MAX(id) FROM threaded_comments_rootheader) + 1);')
 		connections['default'].cursor().execute('\
 			INSERT INTO threaded_comments_rootheader (last_comment, comment_count, is_locked, is_resolved, content_type_id, object_id)\
-				SELECT DISTINCT forum_topic.time, 0, FALSE, FALSE, '+str(self.content_types['forum'])+', forum_topic.id\
+				SELECT DISTINCT forum_topic.created, 0, FALSE, FALSE, '+str(self.content_types['forum'])+', forum_topic.id\
 					FROM forum_topic\
 					LEFT OUTER JOIN threaded_comments_rootheader ON (threaded_comments_rootheader.content_type_id = '+str(self.content_types['forum'])+' AND threaded_comments_rootheader.object_id = forum_topic.id)\
 					WHERE object_id IS NULL;')
-		connections['default'].cursor().execute('UPDATE threaded_comments_rootheader SET last_comment = (SELECT time FROM forum_topic WHERE id = object_id) WHERE last_comment IS NULL AND content_type_id = '+str(self.content_types['forum'])+';')
+		connections['default'].cursor().execute('UPDATE threaded_comments_rootheader SET last_comment = (SELECT created FROM forum_topic WHERE id = object_id) WHERE last_comment IS NULL AND content_type_id = '+str(self.content_types['forum'])+';')
 		self.logger.finish_sub_progress()
 
 	def decode_username_for_comment(self, comment_row):
@@ -763,7 +766,7 @@ class Command(BaseCommand):
 			'time',
 			'locked',
 		]
-		insert_query = 'INSERT INTO threaded_comments_threadedcomment (comment_ptr_id, subject, parent_id, is_locked, lft, rght, tree_id, level) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'
+		insert_query = 'INSERT INTO threaded_comments_threadedcomment (comment_ptr_id, subject, parent_id, is_locked, lft, rght, tree_id, level, updated) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
 		insert_tree_params = ()
 		comment_objects = []
 		select_query = 'SELECT ' + (', '.join(['diskusia.' + col for col in cols])) + ', diskusia_header.diskusia_id FROM diskusia INNER JOIN diskusia_header ON (diskusia.diskusiaid = diskusia_header.id) WHERE diskusia_id = {0} AND kategoria = "{1}" ORDER BY diskusia.id'
@@ -800,7 +803,7 @@ class Command(BaseCommand):
 					'is_removed': False,
 					'content_type_id': content_type_id,
 					'object_pk': object_pk,
-					'pk': comment_counter
+					'pk': comment_counter,
 				}
 				if comment_dict['userid'] and comment_dict['userid'] in users:
 					comment['user_id'] = comment_dict['userid']
@@ -821,6 +824,7 @@ class Command(BaseCommand):
 				except KeyError:
 					comment_dict['parent_id'] = root_comment_id
 
+				comment_dict['updated'] = self.first_datetime_if_null(comment_dict['time'])
 				del comment_dict['id']
 				del comment_dict['parent']
 				del comment_dict['diskusia_id']
@@ -843,13 +847,14 @@ class Command(BaseCommand):
 					'tree_id': counter,
 					'is_locked': is_locked,
 					'subject': '-',
+					'updated': datetime.now()
 				}
 			]
 			comment_rows.insert(0, comment_tree[0][0])
 			self.lr_counter = 0
 			self.depth = -1
 			self.make_tree_structure(comment_tree, 0)
-			insert_tree_params = insert_tree_params + tuple((c['comment_ptr_id'], c['subject'], c['parent_id'], c['is_locked'], c['lft'], c['rght'], c['tree_id'], c['level']) for c in comment_rows)
+			insert_tree_params = insert_tree_params + tuple((c['comment_ptr_id'], c['subject'], c['parent_id'], c['is_locked'], c['lft'], c['rght'], c['tree_id'], c['level'], c['updated']) for c in comment_rows)
 			if counter % 1000 == 0:
 				Comment.objects.bulk_create(comment_objects)
 				comment_objects = []
@@ -976,6 +981,8 @@ class Command(BaseCommand):
 		for item in items:
 			self.lr_counter += 1
 			item['lft'] = self.lr_counter
+			if not item['lft']:
+				print(item['lft'])
 			item['level'] = self.depth
 			if item['comment_ptr_id'] in tree_items:
 				self.make_tree_structure(tree_items, item['comment_ptr_id'])
