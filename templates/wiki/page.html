@@ -5,8 +5,13 @@
 {% load paginator_tags %}
 {% load linuxos %}
 
+{% block extraheaders %}
+{% if revision %}<meta name="robots" content="noindex, nofollow" />{% endif %}
+{% endblock %}
+
 {% block breadcrumbs %}
-{% breadcrumb %}{{ page }}{% endbreadcrumb %}
+{% if revision %}{% breadcrumb %}História{% endbreadcrumb %}{% endif %}
+{% breadcrumb url='wiki:page' page.slug %}{{ page }}{% endbreadcrumb %}
 {% for wiki_page in tree reversed %}
 	{% if forloop.revcounter != 1 %}
 		{% breadcrumb url='wiki:page' wiki_page.slug %}{{ wiki_page }}{% endbreadcrumb %}
@@ -17,31 +22,57 @@
 
 {% block content %}
 
-{% if request.user.is_authenticated %}
+{% if request.user.is_authenticated and not revision %}
 <ul class="object-tools">
 	<li class="btn"><span><a href="{% url 'wiki:create' page.slug %}">Pridať podstránku</a></span></li>
 	<li class="btn"><span><a href="{% url 'wiki:edit' page.slug %}">Editovať</a></span></li>
 </ul>
 {% endif %}
 
-<h1>{{ page }}</h1>
+{% if revision %}
+	<h1>{{ revision.object_version.object }}</h1>
+	{{ revision.object_version.object.text|safe }}
+{% else %}
+	<h1>{{ page }}</h1>
 
-<div class="info top">
-	{{ page.updated|humandatetime }} |
-	<a href="{{ tree.1.get_absolute_url }}">{{ tree.1 }}</a>
-	{% if page.last_author %} | <a href="{{ page.last_author.get_absolute_url }}">{{ page.last_author }}</a>{% endif %}
-</div>
+	<div class="info top">
+		{{ page.updated|humandatetime }} |
+		<a href="{{ tree.1.get_absolute_url }}">{{ tree.1 }}</a>
+		{% if page.last_author %} | <a href="{{ page.last_author.get_absolute_url }}">{{ page.last_author }}</a>{% endif %}
+	</div>
 
-{% if children %}
-<div class="module subpages">
-	<h2>Podstránky</h2>
-	<ul>
-		{% for child in children %}
-			<li><a href="{{ child.get_absolute_url }}">{{ child }}</a></li>
-		{% endfor %}
-	</ul>
-</div>
+	{% if children %}
+	<div class="module subpages">
+		<h2>Podstránky</h2>
+		<ul>
+			{% for child in children %}
+				<li><a href="{{ child.get_absolute_url }}">{{ child }}</a></li>
+			{% endfor %}
+		</ul>
+	</div>
+	{% endif %}
+
+	{{ page.text|safe }}
 {% endif %}
 
-{{ page.text|safe }}
+{% if history %}
+	{% autopaginate history pagenum items_per_page=20 %}
+	<h2>História úprav </h2>
+
+	<table>
+		<tr><th>Autor</th><th>Dátum</th></tr>
+		{% for item in history %}
+		<tr>
+			<td><a href="{{ item.revision.user.get_absolute_url }}">{{ item.revision.user }}</a></td>
+			<td><a href="{% url 'wiki:page-history' slug=page.slug history=item.pk %}">{{ item.revision.date_created|humandatetime }}</a></td>
+		</tr>
+		{% endfor %}
+		{% if revision %}
+			{% paginator wiki:page-history-page slug=page.slug history=revision.pk %}
+		{% else %}
+			{% paginator wiki:page-page slug=page.slug %}
+		{% endif %}
+	</table>
+{% endif %}
+
 {% endblock %}
