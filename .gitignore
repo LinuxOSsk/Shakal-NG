@@ -12,3 +12,5 @@
 /shakal/settings-local.py
 /shakal.db
 /virtualenv.py
+/dump.sql
+/xapian_index
