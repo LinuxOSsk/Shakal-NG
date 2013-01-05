@@ -15,7 +15,7 @@ def article_detail_by_slug(request, slug):
 
 
 def article_list(request, category = None, page = 1):
-	articles = Article.objects.order_by('-pk').select_related('author', 'category')
+	articles = Article.objects.defer('content').order_by('-pk').select_related('author', 'category')
 	category_object = None
 	if category is not None:
 		category_object = get_object_or_404(Category, slug = category)

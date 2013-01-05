@@ -20,11 +20,11 @@ def error_500(request):
 
 def home(request):
 	try:
-		top_articles = [Article.objects.select_related('author', 'category').filter(top = True).order_by('-pk')[0:1][0]]
-		articles = Article.objects.select_related('author', 'category').exclude(pk = top_articles[0].pk).order_by('-pk')
+		top_articles = [Article.objects.select_related('author', 'category').defer('content').filter(top = True).order_by('-pk')[0:1][0]]
+		articles = Article.objects.select_related('author', 'category').defer('content').exclude(pk = top_articles[0].pk).order_by('-pk')
 	except IndexError:
 		top_articles = []
-		articles = Article.objects.select_related('author', 'category').order_by('-pk')
+		articles = Article.objects.select_related('author', 'category').defer('content').order_by('-pk')
 
 	context = {
 		'top_articles': top_articles,
