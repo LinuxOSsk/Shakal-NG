@@ -5,6 +5,7 @@ from django.http import HttpResponsePermanentRedirect
 from shakal.article.models import Article
 from shakal.news.models import News
 from shakal.survey.models import Survey
+from shakal.wiki.models import Page as WikiPage
 
 def profile_redirect(request, pk):
 	return HttpResponsePermanentRedirect(reverse('auth_profile', kwargs = {'pk': pk}))
@@ -26,3 +27,7 @@ def news_redirect(request, pk):
 def survey_redirect(request, pk):
 	survey = get_object_or_404(Survey, pk = pk)
 	return HttpResponsePermanentRedirect(reverse('survey:detail-by-slug', kwargs = {'slug': survey.slug}))
+
+def wiki_redirect(request, pk):
+	wiki = get_object_or_404(WikiPage, pk = int(pk) - 7)
+	return HttpResponsePermanentRedirect(reverse('wiki:detail-by-slug', kwargs = {'slug': wiki.slug}))

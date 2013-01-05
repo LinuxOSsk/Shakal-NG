@@ -10,4 +10,5 @@ urlpatterns = patterns('',
 	url('^zobraz_prispevok.php$', redirect_views.forum_topic_old_redirect),
 	url('^sprava_zobraz_komentare/(?P<pk>\d+)/index.html', redirect_views.news_redirect),
 	url('^anketa_show/(?P<pk>\d+)/index.html', redirect_views.survey_redirect),
+	url('^KnowledgeBase_show_entry/(?P<pk>\d+)/index.html', redirect_views.wiki_redirect),
 )
