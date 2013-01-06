@@ -1,4 +1,6 @@
-{% extends "base.html" %}{% load breadcrumbs_tags i18n %}
+{% extends "base.html" %}
+{% load breadcrumbs_tags %}
+{% load i18n %}
 
 {% block breadcrumbs %}
 {% breadcrumb url='auth_user_zone' %}{% trans "User zone" %}{% endbreadcrumb %}

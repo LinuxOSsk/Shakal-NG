@@ -13,7 +13,7 @@
 <h1>{% trans 'User profile' %}</h1>
 
 <div class="avatar-profile">
-	<img src="{% gravatar_for_user user_profile 128 %}" class="gravatar" />
+	<img src="{% gravatar_for_user user_profile 128 %}" class="gravatar" alt="Avatar" />
 </div>
 <dl class="profile">
 	{% for user_property in user_table %}

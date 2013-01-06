@@ -3,7 +3,7 @@
 	<div class="title"><strong>Sekcia</strong>: <a href="{{ topic.section.get_absolute_url }}">{{ topic.section }}</a></div>
 	<span class="icon">
 		{% if topic.author %}
-			<img src="{% gravatar_for_user topic.author 52 %}" class="gravatar" />
+			<img src="{% gravatar_for_user topic.author 52 %}" class="gravatar" alt="Avatar" />
 		{% endif %}
 	</span>
 	<span class="user">
