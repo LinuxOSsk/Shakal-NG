@@ -122,6 +122,7 @@ INSTALLED_APPS = (
 	'autoimagefield',
 	'bootstrap_toolkit',
 	'breadcrumbs',
+	'gravatar',
 	'hitcount',
 	'html_editor',
 	'imgcompress',
@@ -187,3 +188,5 @@ HAYSTACK_CONNECTIONS = {
 }
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+GRAVATAR_DEFAULT_SIZE = 200

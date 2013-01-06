@@ -1,4 +1,4 @@
-{% extends "registration/user_base.html" %}{% load i18n breadcrumbs_tags %}{% load url from future %}
+{% extends "registration/user_base.html" %}{% load i18n breadcrumbs_tags %}{% load url from future %}{% load gravatar %}
 
 {% block title %}{% trans 'User profile' %}{% endblock %}
 {% block breadcrumbs %}{% breadcrumb %}{% firstof user_profile.get_full_name user_profile.username %}{% endbreadcrumb %}{{ block.super }}{% endblock %}
@@ -12,11 +12,17 @@
 {% endif %}
 <h1>{% trans 'User profile' %}</h1>
 
+<div class="avatar-profile">
+	<img src="{% gravatar_for_user user_profile 128 %}" class="gravatar" />
+</div>
 <dl class="profile">
 	{% for user_property in user_table %}
 		<dt>{{ user_property.name|capfirst }}:</dt>
-		<dd>{{ user_property.value }}</dd>
+		<dd>{% if user_property.value %}{{ user_property.value }}{% else %}&nbsp;{% endif %}</dd>
 	{% endfor %}
 </dl>
+
+<h2>Informácie o mne</h2>
+{{ profile.info|safe }}
 
 {% endblock %}

@@ -27,7 +27,6 @@ def profile(request, pk):
 		{ 'name': _('first name'), 'value': user.first_name },
 		{ 'name': _('last name'), 'value': user.last_name },
 		{ 'name': _('signature'), 'value': mark_safe(profile.signature) },
-		{ 'name': _('info'), 'value': mark_safe(profile.info) },
 		{ 'name': _('linux distribution'), 'value': profile.distribution },
 		{ 'name': _('year of birth'), 'value': profile.year },
 	)
@@ -38,6 +37,7 @@ def profile(request, pk):
 		'user_table': user_table,
 		'user_profile': user,
 		'is_my_profile': request.user == user,
+		'profile': profile,
 	}
 	return TemplateResponse(request, "registration/profile.html", RequestContext(request, context))
 

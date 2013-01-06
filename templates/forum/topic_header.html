@@ -1,10 +1,11 @@
-{% load linuxos %}
+{% load linuxos %}{% load gravatar %}
 <div class="discussion header topic">
 	<div class="title"><strong>Sekcia</strong>: <a href="{{ topic.section.get_absolute_url }}">{{ topic.section }}</a></div>
-	{% if topic.author %}
-		<span class="icon">
-		</span>
-	{% endif %}
+	<span class="icon">
+		{% if topic.author %}
+			<img src="{% gravatar_for_user topic.author 52 %}" class="gravatar" />
+		{% endif %}
+	</span>
 	<span class="user">
 		{% user_link topic.author topic.authors_name %}
 		{% if topic.author %}

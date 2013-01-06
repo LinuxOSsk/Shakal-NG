@@ -99,6 +99,7 @@ body { min-width: 800px; .generic-color; .generic-font; .no-space; }
 header, nav, ul, form { display: block; .no-space; }
 
 h1, h2, h3, h4, h5, h6 { font-weight: bold; }
+h2, h3, h4, h5, h6 { clear: both; }
 h1 a, h2 a, h3 a { text-decoration: none; }
 h1, h2 { color: @hdr-high; }
 h3, h4 { color: @hdr-mid; }
@@ -667,8 +668,21 @@ ul#main_menu li:first-child {
 }
 
 dl.profile {
-	dt { width: 13em; float: left; text-align: right; clear: left; }
-	dd { margin-left: 14em; }
+	margin-left: 200px;
+	margin-top: @module-margin * 2;
+	dt { width: 13em; float: left; text-align: right; }
+	dd { margin-left: 14em; clear: right; }
+}
+
+.avatar-profile {
+	.module-shadow();
+	border: #e8e8e8 1px solid;
+	padding: 5px;
+	float: left;
+	margin: @module-margin;
+	img {
+		display: block;
+	}
 }
 
 /* Breadcrumbs */
@@ -802,13 +816,14 @@ ul.messages {
 .discussion.header {
 	border-top: 1px solid #dbdfe3;
 	background: #eff3f7;
-	padding: 0.3em;
+	padding: 4px;
+	height: 44px;
 	margin: 0 0 1em 0;
 	.title { float: left; clear: left; padding-bottom: 10px; }
 	.user { float: right; display: block; text-align: right; }
 	.distribution { padding-top: 10px; display: block; }
 	.info { display: block; clear: left; }
-	.icon { display: block; float: right; width: 23px; height: 34px; padding: 3px 5px; }
+	.icon { display: block; float: right; margin: -4px; height: 52px; padding-left: .6em; }
 }
 
 .thread_1 .discussion.header.entry {
