@@ -156,7 +156,8 @@ tr:nth-child(odd) { background-color: @table-row-bg; }
 tr:nth-child(even) { background-color: @table-row-alternate-bg; }
 tr { border-top: 1px solid mix(@table-row-alternate-bg, @generic-foreground, 95%); }
 th { font-weight: bold; text-align: center; }
-th, td { padding: @td-padding; }
+td { padding: @td-padding; }
+th { padding: @td-padding * 2 @td-padding; }
 .module table tr:first-child { border: none; }
 
 td, th { &.title { text-align: left; } }
@@ -389,7 +390,7 @@ button:focus { outline: none; }
 	overflow: hidden;
 	border-radius: 0px;
 	padding: 0;
-	margin: 0;
+	margin: -@td-padding;
 }
 
 .label {
