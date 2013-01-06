@@ -15,6 +15,7 @@
 @breadcrumb-background: #d6eeff;
 
 @title-padding: 1em;
+@td-padding: 3px;
 @row-padding: .7em;
 @module-padding: 5px;
 @module-margin: 1.5em;
@@ -153,11 +154,26 @@ fieldset, .module {
 table { width: 100%; border-collapse: collapse; }
 tr:nth-child(odd) { background-color: @table-row-bg; }
 tr:nth-child(even) { background-color: @table-row-alternate-bg; }
+tr { border-top: 1px solid mix(@table-row-alternate-bg, @generic-foreground, 95%); }
 th { font-weight: bold; text-align: center; }
-th, td { padding: 2px 4px; }
+th, td { padding: @td-padding; }
+.module table tr:first-child { border: none; }
 
 td, th { &.title { text-align: left; } }
 th, td { &.icons, &.number, &.date { text-align: center; } }
+
+th.title a, td.title a {
+	display: block;
+	margin: -@td-padding;
+	height: 100%;
+	padding: @td-padding;
+	text-decoration: none;
+	&:hover {
+		background: none;
+		border-radius: 0px;
+		text-decoration: underline;
+	}
+}
 
 /* === UI prvky === */
 
@@ -332,7 +348,7 @@ button:focus { outline: none; }
 .label, .badge {
 	display: inline-block;
 	padding: 2px 4px;
-	font-size: 0.8em; font-weight: bold;
+	font-size: 0.85em; font-weight: bold;
 	line-height: 1.1em;
 	color: white;
 	text-shadow: 0 -1px 0 darken(#999, 10%);
@@ -342,9 +358,9 @@ button:focus { outline: none; }
 }
 
 .badge {
-	padding-right: 0.7em;
-	padding-left: 0.7em;
-	border-radius: 0.7em;
+	padding-right: 0.8em;
+	padding-left: 0.8em;
+	border-radius: 0.8em;
 }
 
 .label {
@@ -748,6 +764,8 @@ ul.messages {
 	color: #999;
 	font-weight: bold;
 	text-align: center;
+	padding: @td-padding;
+	border-bottom: 1px solid mix(@table-row-alternate-bg, @generic-foreground, 95%);
 	&:before { content: '::'; }
 	&:after { content: '::'; }
 }
@@ -949,6 +967,8 @@ ul.messages {
 
 .table-topics .status {
 	width: 2em;
+	text-align: right;
+	white-space: nowrap;
 }
 
 .table-topics .comments {

@@ -81,15 +81,16 @@
 
 /* === Zoznam tém fóra === */
 
-.table-topics .status {
+td.status {
 	text-align: right;
+	white-space: nowrap;
 }
 
-.table-topics .comments {
+td.comments {
 	width: 3em;
 }
 
-.table-topics .last-comment {
+td.date {
 	width: 9em;
 }
 
