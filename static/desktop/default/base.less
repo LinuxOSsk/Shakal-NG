@@ -382,6 +382,34 @@ button:focus { outline: none; }
 	background-color: #468847;
 }
 
+.label.label-new, .label.label-locked, .label.label-resolved, .label.label-watch {
+	width: 16px;
+	height: 16px;
+	text-indent: 9999px;
+	overflow: hidden;
+	border-radius: 0px;
+	padding: 0;
+	margin: 0;
+}
+
+.label {
+	&.label-new {
+		.sprite(@backgrounds_new_icon_imgpos);
+	}
+
+	&.label-resolved {
+		.sprite(@backgrounds_tick_icon_imgpos);
+	}
+
+	&.label-locked {
+		.sprite(@backgrounds_locked_icon_imgpos);
+	}
+
+	&.label-watch {
+		.sprite(@backgrounds_watch_icon_imgpos);
+	}
+}
+
 /* Formulár */
 .form-row {
 	padding: @row-padding @row-padding; border-bottom: @module-row-border; overflow: hidden;

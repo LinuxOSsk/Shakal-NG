@@ -85,6 +85,26 @@ backgrounds = {
 			'mode': 'no-repeat', 'width': 13, 'height': 7
 		},
 		{
+			'name': 'locked_icon',
+			'src': 'static/desktop/default/images/locked.png',
+			'mode': 'no-repeat', 'width': 16, 'height': 16
+		},
+		{
+			'name': 'new_icon',
+			'src': 'static/desktop/default/images/new.png',
+			'mode': 'no-repeat', 'width': 16, 'height': 16
+		},
+		{
+			'name': 'tick_icon',
+			'src': 'static/desktop/default/images/tick.png',
+			'mode': 'no-repeat', 'width': 16, 'height': 16
+		},
+		{
+			'name': 'watch_icon',
+			'src': 'static/desktop/default/images/watch.png',
+			'mode': 'no-repeat', 'width': 16, 'height': 16
+		},
+		{
 			'name': 'breadcrumb_bg',
 			'src': 'static/desktop/default/images/breadcrumb_bg.png',
 			'mode': 'no-repeat', 'width': 8, 'height': 36

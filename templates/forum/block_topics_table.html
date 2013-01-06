@@ -12,9 +12,10 @@
 	<tr>
 		<td class="title"><a href="{% url 'forum:topic-detail' topic.id %}">{{ topic.title }}</a></td>
 		<td class="status">{% spaceless %}
-			{% if topic.is_resolved %}&nbsp;<span class="label label-success">Vyriešené</span>{% endif %}
-			{% if topic.is_locked %}&nbsp;<span class="label label-warning">Zamknuté</span>{% endif %}
-			{% if topic.discussion_watch %}&nbsp;<span class="label label-info">Sledované</span>{% endif %}
+			{% if topic.new_comments %}&nbsp;<span class="label label-success label-new">Nové komentáre</span>{% endif %}
+			{% if topic.is_resolved %}&nbsp;<span class="label label-success label-resolved">Vyriešené</span>{% endif %}
+			{% if topic.is_locked %}&nbsp;<span class="label label-warning label-locked">Zamknuté</span>{% endif %}
+			{% if topic.discussion_watch %}&nbsp;<span class="label label-info label-watch">Sledované</span>{% endif %}
 		{% endspaceless %}</td>
 		<td class="comments"><span class="badge badge-{{ topic.new_comments|yesno:"new,watch,default" }}">{{ topic.comment_count }}</span></td>
 		<td class="date">{{ topic.last_comment|humandatetime:"Žiadna reakcia" }}</td>
