@@ -60,11 +60,11 @@
 	<h2>História úprav </h2>
 
 	<table>
-		<tr><th>Autor</th><th>Dátum</th></tr>
+		<tr><th class="title">Autor</th><th>Dátum</th></tr>
 		{% for item in history %}
 		<tr>
-			<td><a href="{{ item.revision.user.get_absolute_url }}">{{ item.revision.user }}</a></td>
-			<td><a href="{% url 'wiki:page-history' slug=page.slug history=item.pk %}">{{ item.revision.date_created|humandatetime }}</a></td>
+			<td class="title"><a href="{{ item.revision.user.get_absolute_url }}">{{ item.revision.user }}</a></td>
+			<td class="date"><a href="{% url 'wiki:page-history' slug=page.slug history=item.pk %}">{{ item.revision.date_created|humandatetime }}</a></td>
 		</tr>
 		{% endfor %}
 		{% if revision %}

@@ -1,13 +1,13 @@
 {% load linuxos %}
 <table class="table table-striped table-condensed table">
 	<tr>
-		<th>Predmet</th>
+		<th class="title">Predmet</th>
 		<th>Posledná úprava</th>
 	</tr>
 	{% for page in pages %}
 	<tr>
-		<td><a href="{{ page.get_absolute_url }}">{{ page }}</a></td>
-		<td>{{ page.updated|humandatetime }}</td>
+		<td class="title"><a href="{{ page.get_absolute_url }}">{{ page }}</a></td>
+		<td class="date">{{ page.updated|humandatetime }}</td>
 	</tr>
 	{% endfor %}
 </table>
