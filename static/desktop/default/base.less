@@ -68,7 +68,15 @@
 	position: relative;
 }
 
-#colinner {
+#col1 {
+	width: 68%;
+	left: 100%;
+	float: left;
+	position: relative;
+	overflow: hidden;
+}
+
+#colleft {
 	float: left;
 	right: 68%;
 	width: 100%;
@@ -77,19 +85,73 @@
 	border-right: solid 1px #c4d1e3;
 }
 
-#colmain, #colleft {
+#aside {
+	float: left;
+	position: relative;
+	overflow: hidden;
+	width: 32%;
+}
+
+
+@media only screen and (min-width: 1280px) {
+
+#col1, #col2, #col3 {
 	float: left;
 	position: relative;
 	overflow: hidden;
 }
 
-#colmain {
-	width: 68%;
-	left: 100%;
+#colright, #colmid, #colleft {
+	float: left;
+	width: 100%;
+	position: relative;
+}
+
+#colmask {
+	background: @left-background;
+}
+
+#colmid {
+	right: 25%;
+	background: @generic-background;
+	border-right: solid 1px #c4d1e3;
 }
 
 #colleft {
-	width: 32%;
+	right: 50%;
+	background: @left-background;
+	border-right: solid 1px #c4d1e3;
+}
+
+#col1 {
+	width: 50%;
+	left: 100%;
+}
+
+#col2 {
+	width: 25%;
+	left: 25%;
+}
+
+#col3 {
+	width: 25%;
+	left: 75%;
+}
+
+#aside {
+	float: none;
+	overflow: visible;
+	width: auto;
+}
+
+#top_header .hdrleft {
+	width: 25%;
+}
+
+#top_header .hdrmain {
+	width: 75%;
+}
+
 }
 
 /* === Nastavenia základných prvkov === */
@@ -141,7 +203,7 @@ fieldset, .module {
 		.sprite(@backgrounds_block_header_bg_imgpos, repeat-x, @header-bg);
 	}
 }
-#aside_left .module { border: #c0cbef 1px solid; }
+#aside_left .module, #aside_right .module { border: #c0cbef 1px solid; }
 
 .clear { clear: both; }
 
@@ -445,8 +507,8 @@ textarea { .input; background: #fff url('images/input_bg.png') 0px 0px repeat-x;
 
 /* === Obsah stránky */
 
-#site_content, #aside_left { padding: @layout-padding; }
-#aside_left .module { font-size: 85%; }
+#site_content, #aside_left, #aside_right { padding: @layout-padding; }
+#aside_left .module, #aside_right .module { font-size: 85%; }
 
 .module-row {
 	padding: @row-padding @row-padding; border-bottom: @module-row-border;
