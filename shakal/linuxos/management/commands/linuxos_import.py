@@ -730,11 +730,10 @@ class Command(BaseCommand):
 		root_header_objects = []
 		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', (SELECT MAX(id) FROM threaded_comments_rootheader) + 1);')
 		connections['default'].cursor().execute('\
-			INSERT INTO threaded_comments_rootheader (last_comment, comment_count, is_locked, is_resolved, content_type_id, object_id)\
-				SELECT DISTINCT forum_topic.created, 0, FALSE, FALSE, '+str(self.content_types['forum'])+', forum_topic.id\
-					FROM forum_topic\
-					LEFT OUTER JOIN threaded_comments_rootheader ON (threaded_comments_rootheader.content_type_id = '+str(self.content_types['forum'])+' AND threaded_comments_rootheader.object_id = forum_topic.id)\
-					WHERE object_id IS NULL;')
+			UPDATE forum_topic SET deleted = true\
+				WHERE forum_topic.id NOT IN\
+					(SELECT object_id FROM threaded_comments_rootheader WHERE content_type_id = '+str(self.content_types['forum'])+')\
+		')
 		connections['default'].cursor().execute('UPDATE threaded_comments_rootheader SET last_comment = (SELECT created FROM forum_topic WHERE id = object_id) WHERE last_comment IS NULL AND content_type_id = '+str(self.content_types['forum'])+';')
 		self.logger.finish_sub_progress()
 
