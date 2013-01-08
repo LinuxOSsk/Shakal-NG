@@ -29,16 +29,19 @@ html, body {
 {% endif %}
 {% if style_options.reverse %}
 <style type="text/css" media="screen">
-#colmain, #colleft {
+
+@media only screen and (max-width: 1279px) {
+
+#col1, #aside {
 	float: right;
 	left: -68%;
 }
 
-#colmain {
+#col1 {
 	float: left;
 }
 
-#colinner {
+#colleft {
 	left: 68%;
 	right: auto;
 	float: right;
@@ -55,7 +58,9 @@ html, body {
 	padding-right: 5px;
 	margin-left: 0px;
 	margin-right: -3px;
-	background: url(/static/desktop/default/images/breadcrumb_bg_reverse.png) no-repeat top right;
+	background: url('/static/desktop/default/images/breadcrumb_bg_reverse.png') no-repeat top right;
+}
+
 }
 </style>
 {% endif %}
@@ -127,37 +132,47 @@ html, body {
 	{% endblock %}
 	</header>
 	<div id="colmask">
-		<div id="colinner">
-			<div id="colmain">
-				{% block messages %}
-					{% render_messages messages %}
-				{% endblock %}
-				<div id="site_content">
-					{% block content %}{% endblock %}
-				</div>
-				{% block discussion %}{% endblock %}
-			</div>
-			<aside>
-				<div id="colleft">
-					<div id="aside_left">
-						{% block left %}
-							<div class="module survey">
-								<h2>Anketa</h2>
-								{% render_messages messages 'survey' %}
-								{% survey_frontpage %}
-							</div>
-							<div class="module news">
-								<h2>Správy</h2>
-								{% news_frontpage %}
-								<div class="module-links bottom">
-									<a href="{% url 'news:create' %}">Pridať správu</a> |
-									<a href="{% url 'news:list' %}" class="next">Ďalšie</a>
-								</div>
-							</div>
-						{% endblock %}
+		<div id="colmid">
+			<div id="colleft">
+				<div id="col1">
+					{% block messages %}
+						{% render_messages messages %}
+					{% endblock %}
+					<div id="site_content">
+						{% block content %}{% endblock %}
 					</div>
+					{% block discussion %}{% endblock %}
 				</div>
-			</aside>
+				<aside>
+					<div id="aside">
+						<div id="col2">
+							<div id="aside_left">
+								{% block left %}
+									<div class="module news">
+										<h2>Správy</h2>
+										{% news_frontpage %}
+										<div class="module-links bottom">
+											<a href="{% url 'news:create' %}">Pridať správu</a> |
+											<a href="{% url 'news:list' %}" class="next">Ďalšie</a>
+										</div>
+									</div>
+								{% endblock %}
+							</div>
+						</div>
+						<div id="col3">
+							<div id="aside_right">
+								{% block right %}
+									<div class="module survey">
+										<h2>Anketa</h2>
+										{% render_messages messages 'survey' %}
+										{% survey_frontpage %}
+									</div>
+								{% endblock %}
+							</div>
+						</div>
+					</div>
+				</aside>
+			</div>
 		</div>
 	</div>
 </body>
