@@ -1,0 +1,40 @@
+# -*- coding: utf-8 -*-
+
+from django.conf import settings
+from django.contrib.syndication.views import Feed
+from django.core.urlresolvers import reverse_lazy
+from django.shortcuts import get_object_or_404
+from django.utils.encoding import smart_unicode
+from shakal.article.models import Article, Category
+
+
+class ArticleFeed(Feed):
+	title = u"Články"
+	description = u"Zoznam najnovších článkov"
+	link = reverse_lazy('article:article-list')
+
+	def categories(self):
+		return Category.objects.values_list('name', flat = True)
+
+	def item_description(self, item):
+		return item.perex
+
+	def item_author_name(self, item):
+		return item.authors_name
+
+	def item_author_link(self, item):
+		if item.author:
+			return item.author.get_absolute_url()
+		else:
+			return None
+
+	def item_pubdate(self, item):
+		return item.pub_time
+
+	def item_categories(self, item):
+		return [smart_unicode(item.category)]
+
+
+class LatestArticleFeed(ArticleFeed):
+	def items(self):
+		return Article.articles.select_related('author', 'category').all()[:settings.FEED_SIZE]

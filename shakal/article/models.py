@@ -15,6 +15,7 @@ from hitcount.models import HitCount
 from shakal.survey.models import Survey
 from shakal.threaded_comments.models import RootHeader
 
+
 class Category(models.Model):
 	name = models.CharField(max_length = 255, verbose_name = _('name'))
 	slug = models.SlugField(unique = True)
@@ -32,8 +33,14 @@ class Category(models.Model):
 		verbose_name_plural = _('categories')
 
 
+class ArticleManager(models.Manager):
+	def get_query_set(self):
+		return super(ArticleManager, self).get_query_set().filter(published = True).order_by('-pk')
+
+
 class Article(models.Model):
 	objects = models.Manager()
+	articles = ArticleManager()
 
 	title = models.CharField(max_length = 255, verbose_name = _('title'))
 	slug = models.SlugField(unique = True)

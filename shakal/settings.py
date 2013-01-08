@@ -114,6 +114,7 @@ INSTALLED_APPS = (
 	'django.contrib.staticfiles',
 	'django.contrib.admin',
 	'django.contrib.comments',
+	'django.contrib.syndication',
 	'django_tools',
 	'haystack',
 	'antispam',
@@ -191,3 +192,5 @@ HAYSTACK_CUSTOM_HIGHLIGHTER = 'shakal.search.utils.XapianHighlighter'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 GRAVATAR_DEFAULT_SIZE = 200
+
+FEED_SIZE = 20
