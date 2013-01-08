@@ -30,8 +30,10 @@
 {% autopaginate results pagenum items_per_page=20 %}
 {% for result in results %}
 	<div class="module-row">
-		<h3><a href="{{ result.object.get_absolute_url }}">{% highlight result.title with query max_length 120 %}</a></h3>
-		{% highlight result.text with query max_length 300 %}
+		<h3><a href="{{ result.object.get_absolute_url }}">{% highlight result.title with query max_length 0 %}</a></h3>
+		{% with result.text|add:"<xapian>"|add:result.highlighted.text as result_text %}
+			{% highlight result_text with query max_length 300 %}
+		{% endwith %}
 		<div class="info">
 		{% if result.author %}Autor: {{ result.author }}&nbsp;|&nbsp;{% endif %}
 		{% if result.created %}Vytvorené: {{ result.created|date:"d.m.Y H:i" }}&nbsp;|&nbsp;{% endif %}

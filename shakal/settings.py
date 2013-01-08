@@ -186,6 +186,7 @@ HAYSTACK_CONNECTIONS = {
 		'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
 	},
 }
+HAYSTACK_CUSTOM_HIGHLIGHTER = 'shakal.search.utils.XapianHighlighter'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
