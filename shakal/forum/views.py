@@ -25,7 +25,7 @@ def overview(request, section = None, page = 1):
 
 
 def topic_detail(request, pk):
-	topic = get_object_or_404(Topic, pk = pk)
+	topic = get_object_or_404(Topic.objects.topics(), pk = pk)
 	context = {
 		'topic': topic
 	}

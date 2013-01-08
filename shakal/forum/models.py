@@ -40,8 +40,14 @@ class TopicManager(models.Manager):
 	def get_query_set(self):
 		return super(TopicManager, self).get_query_set().select_related('user', 'section')
 
+	def topics(self):
+		return self.get_query_set().filter(deleted = False)
+
 
 class TopicListManager(models.Manager):
+	def get_query_set(self):
+		return super(TopicListManager, self).get_query_set().filter(deleted = False)
+
 	def newest_topics(self, section = None):
 		queryset = self.get_query_set()
 		if not section is None:
@@ -83,6 +89,7 @@ class Topic(models.Model):
 	comments_header = generic.GenericRelation(RootHeader)
 	breadcrumb_label = _('forum')
 	attachments = generic.GenericRelation(Attachment)
+	deleted = models.BooleanField(default = False, verbose_name = u'vymazané')
 
 	def save(self, *args, **kwargs):
 		self.updated = datetime.now()
