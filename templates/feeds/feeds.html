@@ -1,7 +1,7 @@
 {% if feeds %}
 	<ul>
 		{% for feed in feeds %}
-			<li><a href="{{ feed.url }}">{{ feed.title }}</a></li>
+			<li><a href="{{ feed.url }}" rel="nofollow">{{ feed.title }}</a></li>
 		{% endfor %}
 	</ul>
 {% endif %}

@@ -306,7 +306,7 @@ button:focus { outline: none; }
 		display: block;
 		white-space: nowrap;
 		&:hover {
-			background: none !important;
+			background: none;
 		}
 	}
 	span:before, .search-input:before {
@@ -683,6 +683,16 @@ ul#main_menu li:first-child {
 	height: 80px;
 	.pull-right { right: 0px; position: absolute; }
 	.sprite(@backgrounds_header_bg_imgpos, repeat-x, #4d9dd9);
+	.btn_icon() {
+		width: 32px;
+		border: none;
+		margin: 0;
+		padding: 0;
+		line-height: 38px;
+		cursor: pointer;
+		text-indent: -9999px;
+		height: 38px;
+	}
 	.search {
 		line-height: inherit;
 		height: 38px;
@@ -710,21 +720,30 @@ ul#main_menu li:first-child {
 		}
 	}
 	.btn-search {
-		width: 32px;
-		border: none;
-		margin: 0;
-		padding: 0;
-		line-height: 38px;
-		cursor: pointer;
-		text-indent: -9999px;
+		.btn_icon();
 		.sprite(@backgrounds_search_icon_imgpos);
-		height: 38px;
 	}
 	#user_panel {
 		float: right;
 		margin: 5px 5px 0 0;
 		position: relative;
 		&:hover #userlinks {
+			display: block;
+		}
+	}
+	#rss_panel {
+		float: right;
+		margin: 5px 0 0 0;
+		position: relative;
+		.rss-icon {
+			.btn_icon();
+			.sprite(@backgrounds_rss_icon_imgpos);
+			&:hover {
+				border-radius: 0px;
+				.sprite(@backgrounds_rss_icon_imgpos);
+			}
+		}
+		&:hover #rsslinks {
 			display: block;
 		}
 	}

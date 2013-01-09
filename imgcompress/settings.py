@@ -75,6 +75,11 @@ backgrounds = {
 			'mode': 'no-repeat', 'width': 32, 'height': 38
 		},
 		{
+			'name': 'rss_icon',
+			'src': 'static/desktop/default/images/rss_icon.png',
+			'mode': 'no-repeat', 'width': 32, 'height': 38
+		},
+		{
 			'name': 'trashcan',
 			'src': 'static/desktop/default/images/trashcan.png',
 			'mode': 'no-repeat', 'width': 16, 'height': 16

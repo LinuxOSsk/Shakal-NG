@@ -1,0 +1,5 @@
+<ul id="rsslinks" class="dropdown menu">
+	{% for feed in feeds %}
+		<li><a href="{{ feed.url }}" rel="nofollow">{{ feed.title }}</a></li>
+	{% endfor %}
+</ul>

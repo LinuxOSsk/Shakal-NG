@@ -115,6 +115,10 @@ html, body {
 							</ul>
 						{% endif %}
 					</div>
+					<div id="rss_panel" class="btn">
+						<span><a class="rss-icon" href="#">RSS</a></span>
+						{% render_all_feeds template="feeds/home_feeds.html" %}
+					</div>
 					<div id="search-panel">
 						<form method="get" action="{% url 'haystack_search' %}" class="search btn">
 							<div class="search-input">
