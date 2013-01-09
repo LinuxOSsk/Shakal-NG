@@ -12,6 +12,7 @@ class ArticleFeed(Feed):
 	title = u"Články"
 	description = u"Zoznam najnovších článkov"
 	link = reverse_lazy('article:article-list')
+	feed_url = reverse_lazy('article:feed-latest')
 
 	def categories(self):
 		return Category.objects.values_list('name', flat = True)

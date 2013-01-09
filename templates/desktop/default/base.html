@@ -1,4 +1,4 @@
-{% load url from future %}{% load breadcrumbs_tags i18n linuxos news staticfiles survey %}<!DOCTYPE HTML>
+{% load url from future %}{% load breadcrumbs_tags i18n linuxos news staticfiles survey %}{% load feeds_tags %}<!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"  lang="{{ LANGUAGE_CODE|default:"en-us" }}" xml:lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -131,7 +131,6 @@ html, body {
 		</div>
 	{% endblock %}
 	</header>
-	{% render_feeds %}
 	<div id="colmask">
 		<div id="colmid">
 			<div id="colleft">

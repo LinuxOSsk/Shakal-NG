@@ -85,8 +85,3 @@ def render_messages(parser, token):
 	if len(parts) < 2:
 		raise template.TemplateSyntaxError('{0} tags requires messages variable.'.format(token.contents.split()[0]))
 	return MessagesNode(parts[1], parts[2:])
-
-
-@register.simple_tag(takes_context = True)
-def render_feeds(context, object_type = None, object_id = None, template = 'feeds/feeds.html'):
-	return ""
