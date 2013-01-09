@@ -670,7 +670,7 @@ ul#main_menu li:first-child {
 #search-panel {
 	margin-top: 5px;
 	float: right;
-	&:hover {
+	&:hover, &.active {
 		width: 262px;
 	}
 }
@@ -701,12 +701,12 @@ ul#main_menu li:first-child {
 			margin: 6px 0 0 0;
 			padding: 3px 0;
 		}
-		&:hover input {
+	}
+	.active .search, .search:hover {
+		width: 247px;
+		position: absolute;
+		input {
 			display: inline;
-		}
-		&:hover {
-			width: 247px;
-			position: absolute;
 		}
 	}
 	.btn-search {

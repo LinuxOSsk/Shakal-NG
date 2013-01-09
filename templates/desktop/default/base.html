@@ -118,7 +118,7 @@ html, body {
 					<div id="search-panel">
 						<form method="get" action="{% url 'haystack_search' %}" class="search btn">
 							<div class="search-input">
-								<input type="text" name="q" /><button class="btn-search" title="Hľadať">Hľadať</button>
+								<input type="text" name="q" onfocus="this.parentNode.parentNode.parentNode.className='active'" onblur="this.parentNode.parentNode.parentNode.className=''" /><button class="btn-search" title="Hľadať">Hľadať</button>
 							</div>
 						</form>
 					</div>
