@@ -12,6 +12,7 @@ from django.contrib.comments.models import Comment
 from django.contrib.comments.managers import CommentManager
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -88,8 +89,12 @@ class ThreadedComment(Comment):
 	is_locked = models.BooleanField(default = False)
 	objects = ThreadedCommentManager()
 	comment_objects = ThreadedCommentManager(HideRootQuerySet)
+	plain_objects = models.Manager()
 	attachments = generic.GenericRelation(Attachment)
 	updated = models.DateTimeField(editable = False)
+
+	def get_absolute_url(self):
+		return reverse('comment', args = [self.pk], kwargs = {}) + "#link_" + str(self.id)
 
 	def save(self, *args, **kwargs):
 		self.updated = datetime.now()

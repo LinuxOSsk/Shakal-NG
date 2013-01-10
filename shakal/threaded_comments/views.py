@@ -124,6 +124,7 @@ def post_comment(request):
 def done_comment(request):
 	pass
 
+
 def comments(request, header_id):
 	header = get_object_or_404(RootHeader, id = header_id)
 	object = header.content_object
@@ -133,3 +134,16 @@ def comments(request, header_id):
 		'module_url': get_module_url(object),
 	}
 	return TemplateResponse(request, "comments/comments.html", context)
+
+
+def comment(request, comment_id):
+	comment = get_object_or_404(ThreadedComment, pk = comment_id)
+	object = comment.content_object
+	context = {
+		'object': object,
+		'module_name': get_module_name(object),
+		'module_url': get_module_url(object),
+		'highlight': [comment.pk]
+	}
+	return TemplateResponse(request, "comments/comments.html", context)
+
