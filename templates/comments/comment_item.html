@@ -1,5 +1,5 @@
 {% load linuxos %}{% load url from future %}{% load gravatar %}
-<div class="discussion header entry{% ifequal comment.user request.user %} me{% endifequal %}{% if comment.is_new %} new{% endif %}">
+<div class="discussion header entry{% ifequal comment.user request.user %} me{% endifequal %}{% if comment.is_new %} new{% endif %}{% if comment.pk in highlight %} highlight{% endif %}">
 	<div class="title">{{ comment.subject }}&nbsp;<a id="link_{{ comment.pk }}" href="#"></a></div>
 	<span class="icon">
 		{% if comment.user %}
