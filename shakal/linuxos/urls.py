@@ -11,4 +11,7 @@ urlpatterns = patterns('',
 	url('^sprava_zobraz_komentare/(?P<pk>\d+)/index.html', redirect_views.news_redirect),
 	url('^anketa_show/(?P<pk>\d+)/index.html', redirect_views.survey_redirect),
 	url('^KnowledgeBase_show_entry/(?P<pk>\d+)/index.html', redirect_views.wiki_redirect),
+	url('^forum_rss/index.html', redirect_views.forum_rss_redirect),
+	url('^spravy_rss/index.html', redirect_views.news_rss_redirect),
+	url('^clanok_rss/index.html', redirect_views.article_rss_redirect),
 )

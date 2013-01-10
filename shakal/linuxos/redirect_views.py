@@ -31,3 +31,9 @@ def survey_redirect(request, pk):
 def wiki_redirect(request, pk):
 	wiki = get_object_or_404(WikiPage, pk = int(pk) - 7)
 	return HttpResponsePermanentRedirect(reverse('wiki:detail-by-slug', kwargs = {'slug': wiki.slug}))
+def forum_rss_redirect(request):
+	return HttpResponsePermanentRedirect(reverse('forum:feed-latest'))
+def news_rss_redirect(request):
+	return HttpResponsePermanentRedirect(reverse('news:feed-latest'))
+def article_rss_redirect(request):
+	return HttpResponsePermanentRedirect(reverse('article:feed-latest'))
