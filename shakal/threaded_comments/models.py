@@ -97,6 +97,9 @@ class ThreadedComment(Comment):
 			self.submit_date = self.updated
 		return super(ThreadedComment, self).save(*args, **kwargs)
 
+	def __unicode__(self):
+		return self.subject
+
 	class Meta:
 		ordering = ('tree_id', 'lft')
 mptt.register(ThreadedComment)
