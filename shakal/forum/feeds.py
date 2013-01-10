@@ -5,20 +5,20 @@ from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404
 from django.utils.encoding import smart_unicode
-from shakal.article.models import Article, Category
+from shakal.forum.models import Topic, Section
 
 
-class ArticleFeed(Feed):
-	title = u"Články"
-	description = u"Zoznam najnovších článkov"
-	link = reverse_lazy('article:article-list')
-	feed_url = reverse_lazy('article:feed-latest')
+class TopicFeed(Feed):
+	title = u"Fórum"
+	description = u"Témy fóra"
+	link = reverse_lazy('forum:overview')
+	feed_url = reverse_lazy('forum:feed-latest')
 
 	def categories(self):
-		return Category.objects.values_list('name', flat = True)
+		return Section.objects.values_list('name', flat = True)
 
 	def item_description(self, item):
-		return item.perex
+		return item.text
 
 	def item_author_name(self, item):
 		return item.authors_name
@@ -30,12 +30,10 @@ class ArticleFeed(Feed):
 			return None
 
 	def item_pubdate(self, item):
-		return item.pub_time
+		return item.created
 
 	def item_categories(self, item):
-		return [smart_unicode(item.category)]
+		return [smart_unicode(item.section)]
 
-
-class LatestArticleFeed(ArticleFeed):
 	def items(self):
-		return Article.articles.select_related('author', 'category').order_by('-pk')[:settings.FEED_SIZE]
+		return Topic.topics.select_related('author', 'section').order_by('-pk')[:settings.FEED_SIZE]

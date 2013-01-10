@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.conf.urls import patterns, url
+import feeds as forum_feeds
 import views as forum_views
 
 class Patterns(object):
@@ -17,6 +18,7 @@ class Patterns(object):
 			url('^(?P<pk>\d+)/$', forum_views.topic_detail, name = 'topic-detail'),
 			url('^(?P<section>[-\w]+)/$', forum_views.overview, name = 'section'),
 			url('^(?P<section>[-\w]+)/(?P<page>\d+)/$', forum_views.overview, name = 'section-page'),
+			url(r'^feeds/latest/$', forum_feeds.TopicFeed(), name = 'feed-latest'),
 		)
 		return (urlpatterns, self.app_name, self.name)
 
