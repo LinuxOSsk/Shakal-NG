@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.conf.urls import patterns, url
+import feeds as news_feeds
 import views as news_views
 
 class Patterns(object):
@@ -15,6 +16,7 @@ class Patterns(object):
 			url(r'^pridat/$', news_views.NewsCreateView.as_view(), name = 'create'),
 			url(r'^$', news_views.news_list, name = 'list'),
 			url(r'^zoznam/(?P<page>\d+)/', news_views.news_list, name = 'list-page'),
+			url(r'^feeds/latest/$', news_feeds.NewsFeed(), name = 'feed-latest'),
 		)
 		return (urlpatterns, self.app_name, self.name)
 
