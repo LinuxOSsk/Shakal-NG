@@ -592,7 +592,7 @@ textarea { .input; background: #fff url('images/input_bg.png') 0px 0px repeat-x;
 	left: 0px;
 	right: 0px;
 	bottom: 31px;
-	margin: 15px 0 0 -@module-margin;
+	margin: 15px 0 0 0;
 	height: 33px;
 	li {
 		float: left;
@@ -663,8 +663,11 @@ textarea { .input; background: #fff url('images/input_bg.png') 0px 0px repeat-x;
 	}
 }
 
-ul#main_menu li:first-child {
-	margin-left: 2px;
+ul#main_menu {
+	padding-left: 6px;
+	li:first-child {
+		margin-left: 2px;
+	}
 }
 
 #search-panel {
