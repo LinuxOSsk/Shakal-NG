@@ -6,7 +6,11 @@
 {% endblock %}
 
 {% block title %}Pridať tému{% endblock %}
-{% block breadcrumbs %}{% breadcrumb %}Pridať tému{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block breadcrumbs %}
+	{% breadcrumb %}Pridať tému{% endbreadcrumb %}
+	{% breadcrumb url='forum:overview' %}Fórum{% endbreadcrumb %}
+	{{ block.super }}
+{% endblock %}
 
 {% block content %}
 <h1>Pridať tému</h1>

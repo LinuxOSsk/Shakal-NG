@@ -10,7 +10,11 @@
 {% endblock %}
 
 {% block title %}Pridať správu{% endblock %}
-{% block breadcrumbs %}{% breadcrumb %}Pridať správu{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block breadcrumbs %}
+	{% breadcrumb %}Pridať správu{% endbreadcrumb %}
+	{% breadcrumb url='news:list' %}Správy{% endbreadcrumb %}
+	{{ block.super }}
+{% endblock %}
 
 {% block content %}
 <h1>Pridať správu </h1>

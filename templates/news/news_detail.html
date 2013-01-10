@@ -1,8 +1,9 @@
 {% extends "news/news_base.html" %}{% load breadcrumbs_tags threaded_comments %}{% load url from future %}
 
 {% block breadcrumbs %}
-{% breadcrumb %}{{ news|truncatechars:80 }}{% endbreadcrumb %}
-{{ block.super }}
+	{% breadcrumb %}{{ news|truncatechars:80 }}{% endbreadcrumb %}
+	{% breadcrumb url='news:list' %}Správy{% endbreadcrumb %}
+	{{ block.super }}
 {% endblock %}
 
 {% block content %}

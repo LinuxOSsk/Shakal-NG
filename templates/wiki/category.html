@@ -5,8 +5,9 @@
 {% load paginator_tags %}
 
 {% block breadcrumbs %}
-{% breadcrumb url='wiki:page' page.slug %}{{ page }}{% endbreadcrumb %}
-{{ block.super }}
+	{% breadcrumb url='wiki:page' page.slug %}{{ page }}{% endbreadcrumb %}
+	{% breadcrumb url='wiki:home' %}Wiki{% endbreadcrumb %}
+	{{ block.super }}
 {% endblock %}
 
 {% block content %}

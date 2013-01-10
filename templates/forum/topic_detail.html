@@ -3,9 +3,10 @@
 {% block title %}{{ topic }}{% endblock %}
 
 {% block breadcrumbs %}
-{% breadcrumb %}{{ topic|truncatechars:60 }}{% endbreadcrumb %}
-{% breadcrumb url='forum:section' section=topic.section.slug %}{{ topic.section|truncatechars:60 }}{% endbreadcrumb %}
-{{ block.super }}
+	{% breadcrumb %}{{ topic|truncatechars:60 }}{% endbreadcrumb %}
+	{% breadcrumb url='forum:section' section=topic.section.slug %}{{ topic.section|truncatechars:60 }}{% endbreadcrumb %}
+	{% breadcrumb url='forum:overview' %}Fórum{% endbreadcrumb %}
+	{{ block.super }}
 {% endblock %}
 
 {% block content %}

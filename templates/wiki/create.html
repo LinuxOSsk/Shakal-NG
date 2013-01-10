@@ -6,9 +6,10 @@
 {% block title %}Pridať stránku{% endblock %}
 
 {% block breadcrumbs %}
-{% breadcrumb %}Pridať stránku{% endbreadcrumb %}
-{% breadcrumb url='wiki:page' page.slug %}{{ page }}{% endbreadcrumb %}
-{{ block.super }}
+	{% breadcrumb %}Pridať stránku{% endbreadcrumb %}
+	{% breadcrumb url='wiki:page' page.slug %}{{ page }}{% endbreadcrumb %}
+	{% breadcrumb url='wiki:home' %}Wiki{% endbreadcrumb %}
+	{{ block.super }}
 {% endblock %}
 
 {% block content %}

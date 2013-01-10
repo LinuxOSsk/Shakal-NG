@@ -15,6 +15,7 @@
 	{% if forum_section %}
 		{% breadcrumb %}{{ forum_section|truncatechars:60 }}{% endbreadcrumb %}
 	{% endif %}
+	{% breadcrumb url='forum:overview' %}Fórum{% endbreadcrumb %}
 	{{ block.super }}
 {% endblock %}
 

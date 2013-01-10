@@ -10,14 +10,15 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-{% if revision %}{% breadcrumb %}História{% endbreadcrumb %}{% endif %}
-{% breadcrumb url='wiki:page' page.slug %}{{ page }}{% endbreadcrumb %}
-{% for wiki_page in tree reversed %}
-	{% if forloop.revcounter != 1 %}
-		{% breadcrumb url='wiki:page' wiki_page.slug %}{{ wiki_page }}{% endbreadcrumb %}
-	{% endif %}
-{% endfor %}
-{{ block.super }}
+	{% if revision %}{% breadcrumb %}História{% endbreadcrumb %}{% endif %}
+	{% breadcrumb url='wiki:page' page.slug %}{{ page }}{% endbreadcrumb %}
+	{% for wiki_page in tree reversed %}
+		{% if forloop.revcounter != 1 %}
+			{% breadcrumb url='wiki:page' wiki_page.slug %}{{ wiki_page }}{% endbreadcrumb %}
+		{% endif %}
+	{% endfor %}
+	{% breadcrumb url='wiki:home' %}Wiki{% endbreadcrumb %}
+	{{ block.super }}
 {% endblock %}
 
 {% block content %}

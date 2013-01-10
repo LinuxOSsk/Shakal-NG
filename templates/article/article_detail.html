@@ -3,8 +3,9 @@
 {% block title %}{{ article.title }}{% endblock %}
 
 {% block breadcrumbs %}
-{% breadcrumb %}{{ article.title|truncatechars:80 }}{% endbreadcrumb %}
-{{ block.super }}
+	{% breadcrumb %}{{ article.title|truncatechars:80 }}{% endbreadcrumb %}
+	{% breadcrumb url="article:article-list" %}{% trans "Articles" %}{% endbreadcrumb %}
+	{{ block.super }}
 {% endblock %}
 
 {% block content %}

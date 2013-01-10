@@ -6,10 +6,11 @@
 {% block title %}{% if category %}{{ category }}{% else %}Články{% endif %}{% endblock %}
 
 {% block breadcrumbs %}
-{% if category %}
-{% breadcrumb %}{{ category }}{% endbreadcrumb %}
-{% endif %}
-{{ block.super }}
+	{% if category %}
+		{% breadcrumb %}{{ category }}{% endbreadcrumb %}
+	{% endif %}
+	{% breadcrumb url="article:article-list" %}{% trans "Articles" %}{% endbreadcrumb %}
+	{{ block.super }}
 {% endblock %}
 
 {% block content %}

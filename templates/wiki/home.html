@@ -3,6 +3,12 @@
 {% load url from future %}
 {% load paginator_tags %}
 
+{% block breadcrumbs %}
+	{% breadcrumb url='wiki:home' %}Wiki{% endbreadcrumb %}
+	{{ block.super }}
+{% endblock %}
+
+
 {% block content %}
 
 {% if user.is_staff and perms.article.can_change %}

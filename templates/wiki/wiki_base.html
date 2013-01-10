@@ -7,8 +7,3 @@
 {% block site_header %}
 {% with section='wiki' %}{{ block.super }}{% endwith %}
 {% endblock %}
-
-{% block breadcrumbs %}
-{% breadcrumb url='wiki:home' %}Wiki{% endbreadcrumb %}
-{{ block.super }}
-{% endblock %}
