@@ -340,6 +340,50 @@ button:focus { outline: none; }
 	}
 }
 
+.btn-group {
+	.btn {
+		padding-left: 0px;
+		a {
+			padding-left: 10px;
+		}
+		span {
+			background-position-x: -16px;
+			background-repeat: repeat-x;
+			padding-right: 10px;
+			&:active, &:focus {
+				background-position-x: -16px;
+				background-repeat: repeat-x;
+			}
+		}
+		span:before {
+			width: 1px;
+			margin-left: 0px;
+			background-position-x: -@backgrounds_btn_std_x2 + 4px;
+		}
+		&:first-child {
+			a {
+				padding-left: 0px;
+			}
+			span:before {
+				background-position-x: 0px;
+				margin-left: -15px;
+				width: 15px;
+			}
+		}
+		&:last-child {
+			span {
+				background-position-x: right;
+				background-repeat: no-repeat;
+				padding-right: 15px;
+				&:active, &:focus {
+					background-position-x: right;
+					background-repeat: no-repeat;
+				}
+			}
+		}
+	}
+}
+
 #top_header .btn, .submit-row .btn {
 	padding: 0px 0px 0px 15px; margin: 0;
 	background: none; border: none;

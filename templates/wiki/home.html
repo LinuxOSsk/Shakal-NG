@@ -13,7 +13,7 @@
 {% block content %}
 
 {% if user.is_staff and perms.article.can_change %}
-<ul class="object-tools">
+<ul class="object-tools btn-group">
 	<li class="btn"><span><a href="{% url 'wiki:edit' page.slug %}">Editovať</a></span></li>
 </ul>
 {% endif %}
