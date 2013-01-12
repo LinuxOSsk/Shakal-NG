@@ -1,17 +1,17 @@
-{% extends "article/article_base.html" %}{% load breadcrumbs_tags i18n linuxos threaded_comments %}{% load url from future %}
+{% extends "article/article_base.html" %}{% load breadcrumbs_tags linuxos threaded_comments %}{% load url from future %}
 
 {% block title %}{{ article.title }}{% endblock %}
 
 {% block breadcrumbs %}
 	{% breadcrumb %}{{ article.title|truncatechars:80 }}{% endbreadcrumb %}
-	{% breadcrumb url="article:article-list" %}{% trans "Articles" %}{% endbreadcrumb %}
+	{% breadcrumb url="article:article-list" %}Články{% endbreadcrumb %}
 	{{ block.super }}
 {% endblock %}
 
 {% block content %}
 {% if user.is_staff and perms.article.can_change %}
 <ul class="object-tools">
-	<li class="btn"><span><a href="{% url 'admin:article_article_change' article.pk %}">{% trans 'Edit article' %}</a></span></li>
+	<li class="btn"><span><a href="{% url 'admin:article_article_change' article.pk %}">Editovať článok</a></span></li>
 </ul>
 {% endif %}
 <h1>{{ article.title }}</h1>
