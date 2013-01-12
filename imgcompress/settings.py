@@ -110,6 +110,41 @@ backgrounds = {
 			'mode': 'no-repeat', 'width': 16, 'height': 16
 		},
 		{
+			'name': 'comment_icon_14',
+			'src': 'static/desktop/default/images/comment_icon_14.png',
+			'mode': 'no-repeat', 'width': 16, 'height': 15
+		},
+		{
+			'name': 'watch_icon_14',
+			'src': 'static/desktop/default/images/watch_icon_14.png',
+			'mode': 'no-repeat', 'width': 16, 'height': 15
+		},
+		{
+			'name': 'tick_icon_14',
+			'src': 'static/desktop/default/images/tick_icon_14.png',
+			'mode': 'no-repeat', 'width': 16, 'height': 15
+		},
+		{
+			'name': 'lock_icon_14',
+			'src': 'static/desktop/default/images/lock_icon_14.png',
+			'mode': 'no-repeat', 'width': 16, 'height': 15
+		},
+		{
+			'name': 'up_icon_14',
+			'src': 'static/desktop/default/images/up_icon_14.png',
+			'mode': 'no-repeat', 'width': 16, 'height': 15
+		},
+		{
+			'name': 'down_icon_14',
+			'src': 'static/desktop/default/images/down_icon_14.png',
+			'mode': 'no-repeat', 'width': 16, 'height': 15
+		},
+		{
+			'name': 'delete_icon_14',
+			'src': 'static/desktop/default/images/delete_icon_14.png',
+			'mode': 'no-repeat', 'width': 16, 'height': 15
+		},
+		{
 			'name': 'breadcrumb_bg',
 			'src': 'static/desktop/default/images/breadcrumb_bg.png',
 			'mode': 'no-repeat', 'width': 8, 'height': 36

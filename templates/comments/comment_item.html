@@ -18,6 +18,7 @@
 		{% if comment.prev_new %} | <a href="#link_{{ comment.prev_new }}" class="comment-link next">Predchádzajúci</a>{% endif %}
 		{% if comment.next_new %} | <a href="#link_{{ comment.next_new }}" class="comment-link prev">Nasledujúci</a>{% endif %}
 	</span>
+	<div class="clear"></div>
 </div>
 <div class="content">
 	<div class="text">
@@ -30,7 +31,35 @@
 	{% endif %}
 	{% if comment.pk and not readonly %}
 		<div class="links">
-			<div class="btn reply"><span><a href="{% url 'comments-reply-comment' comment.pk %}" class="reply">Odpovedať</a></span></div>
+			<div class="btn reply">
+				<span>
+					<a href="{% url 'comments-reply-comment' comment.pk %}" class="reply">Odpovedať</a>
+				</span>
+			</div>
+			<div class="btn-group voting">
+				<div class="btn">
+					<span>
+						<a href="#" class="up">+ 1</a>
+					</span>
+				</div>
+				<div class="btn">
+					<span>
+						<a href="#" class="down">- 1</a>
+					</span>
+				</div>
+			</div>
+			<div class="btn-group admin">
+				<div class="btn">
+					<span>
+						<a href="#" class="lock">Zamknúť</a>
+					</span>
+				</div>
+				<div class="btn">
+					<span>
+						<a href="#" class="resolved">Riešenie</a>
+					</span>
+				</div>
+			</div>
 		</div>
 	{% endif %}
 	<div class="clear"></div>

@@ -7,7 +7,35 @@
 			{% if comments.get_root_item.next_new %}
 				<a href="#link_{{ comments.get_root_item.next_new }}" class="comment-link first">Prvý neprečítaný komentár</a>
 			{% endif %}
-			<div class="btn reply"><span><a href="{% url 'comments-reply-comment' comments.get_root_item.pk %}" class="reply">Pridať komentár</a></span></div>
+			<div class="btn reply">
+				<span>
+					<a href="{% url 'comments-reply-comment' comments.get_root_item.pk %}" class="reply">Pridať komentár</a>
+				</span>
+			</div>
+			<div class="btn-group reply">
+				<div class="btn">
+					<span>
+						<a href="#" class="resolved">Vyriešené</a>
+					</span>
+				</div>
+				<div class="btn">
+					<span>
+						<a href="#" class="watch">Sledovať</a>
+					</span>
+				</div>
+			</div>
+			<div class="btn-group admin">
+				<div class="btn">
+					<span>
+						<a href="#" class="delete">Vymazať</a>
+					</span>
+				</div>
+				<div class="btn">
+					<span>
+						<a href="#" class="lock">Zamknúť</a>
+					</span>
+				</div>
+			</div>
 		</div>
 		{% include "comments/comments_tree.html" %}
 	{% endif %}

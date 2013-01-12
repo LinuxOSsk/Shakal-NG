@@ -272,6 +272,14 @@ button:focus { outline: none; }
 	line-height: 32px;
 	list-style: none;
 	cursor: pointer;
+	.btn_icon() {
+		float: left;
+		width: 16px;
+		height: 15px;
+		margin: 9px 4px 0 -2px;
+		text-indent: -9999px; overflow: hidden;
+		content: ".";
+	}
 	span, search-input {
 		.sprite(@backgrounds_btn_content_std_imgpos_right);
 		display: block;
@@ -313,6 +321,13 @@ button:focus { outline: none; }
 		&:hover {
 			background: none;
 		}
+		/*&.reply:before { .btn_icon(); .sprite(@backgrounds_comment_icon_14_imgpos); }*/
+		&.watch:before { .btn_icon(); .sprite(@backgrounds_watch_icon_14_imgpos); }
+		&.resolved:before { .btn_icon(); .sprite(@backgrounds_tick_icon_14_imgpos); }
+		&.lock:before { .btn_icon(); .sprite(@backgrounds_lock_icon_14_imgpos); }
+		&.delete:before { .btn_icon(); .sprite(@backgrounds_delete_icon_14_imgpos); }
+		&.up:before { .btn_icon(); .sprite(@backgrounds_up_icon_14_imgpos); }
+		&.down:before { .btn_icon(); .sprite(@backgrounds_down_icon_14_imgpos); }
 	}
 	span:before, .search-input:before {
 		content: ".";
@@ -340,9 +355,22 @@ button:focus { outline: none; }
 	}
 }
 
+.btn-group.reply, .btn-group.voting, .btn-group.admin {
+	float: right;
+}
+
+.btn-group.reply, .btn-group.voting {
+	margin-right: 15px;
+}
+
+.btn-group.admin {
+	margin-right: 20px;
+}
+
 .btn-group {
 	.btn {
 		padding-left: 0px;
+		float: left;
 		a {
 			padding-left: 10px;
 		}
@@ -965,7 +993,7 @@ ul.messages {
 	.user { float: right; display: block; text-align: right; }
 	.distribution { padding-top: 10px; display: block; }
 	.info { display: block; clear: left; }
-	.icon { display: block; float: right; margin: -1px; height: 52px; padding-left: .6em; }
+	.icon { display: block; float: right; height: 48px; padding-left: .6em; }
 }
 
 .thread_1 .discussion.header.entry {
