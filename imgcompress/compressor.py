@@ -76,7 +76,7 @@ class Compressor:
 			size = self.__get_image_size(image)
 			img_pos = self.__get_pos(size, last_pos, out_size)
 			print(termcolor.colored("  Position " + image['name'] + ' ' + str(img_pos), "green"))
-			last_pos = (img_pos[0], img_pos[1], img_pos[2] + 1, max(img_pos[3], last_pos[3]) + 1)
+			last_pos = (img_pos[0], img_pos[1], img_pos[2] + 1, max(img_pos[3] + 1, last_pos[3]))
 			out_size[self.SIZE_HEIGHT] = last_pos[self.POS_BOTTOM]
 			image['computed_pos'] = img_pos
 			computed_images[image['name']] = image
