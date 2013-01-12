@@ -257,6 +257,11 @@ th.title a, td.title a {
 	}
 }
 
+.links {
+	height: 32px;
+	padding: @row-padding;
+}
+
 /* Tlačidlo */
 
 button:focus { outline: none; }
@@ -946,7 +951,10 @@ ul.messages {
 .comments_tree .thread_1 .comment {
 	border: 1px solid #eff3f7;
 	background: #fafbfc;
-	margin-bottom: .5em;
+}
+
+.comments_tree .thread_1 .comment + .comment {
+	margin-top: 0.5em;
 }
 
 .comments_tree .thread_2 .comment {
@@ -992,11 +1000,10 @@ ul.messages {
 
 .comments_tree ul.comment_thread.thread_1 {
 	margin-left: 0;
-	margin-top: .5em;
 }
 
 .comments_tree {
-	padding: .5em;
+	margin: 0 .5em;
 }
 
 .comments_tree .content {
