@@ -175,7 +175,7 @@ h1, h2 { color: @hdr-high; }
 h3, h4 { color: @hdr-mid; }
 h5, h6 { color: @hdr-low; }
 
-h1 { font-size: 2em;    margin: @row-padding*1.0 0px; }
+h1 { font-size: 2em;    margin: 0px 0px @row-padding*1.0 0px; }
 h2 { font-size: 1.5em;  margin: @row-padding*1.0 0px; }
 h3 { font-size: 1.25em; margin: @row-padding*0.7 0px; }
 h4 { font-size: 1em;    margin: @row-padding*0.5 0px; }
@@ -252,7 +252,6 @@ th.title a, td.title a {
 .info { color: @info-color; }
 .object-tools {
 	float: right;
-	margin: 10px 0 0 0;
 	.btn {
 		float: left;
 	}
@@ -305,7 +304,7 @@ button:focus { outline: none; }
 		line-height: 32px;
 		display: block;
 		white-space: nowrap;
-		color: black;
+		color: #333;
 		&:hover {
 			background: none;
 		}
