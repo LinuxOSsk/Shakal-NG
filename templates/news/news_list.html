@@ -2,8 +2,14 @@
 
 {% load paginator_tags i18n %}
 {% load threaded_comments %}
+{% load breadcrumbs_tags %}
 
 {% block title %}Správy{% endblock %}
+
+{% block breadcrumbs %}
+	{% breadcrumb url='news:list' %}Správy{% endbreadcrumb %}
+	{{ block.super }}
+{% endblock %}
 
 {% block content %}
 <h1>Správy</h1>
