@@ -12,7 +12,7 @@ backgrounds = {
 		{
 			'name': 'header_bg',
 			'src': 'static/desktop/default/images/header_bg.png',
-			'mode': 'repeat-x', 'width': 8, 'height': 80
+			'mode': 'repeat-x', 'width': 1, 'height': 80
 		},
 		{
 			'name': 'btn_std',
@@ -122,7 +122,7 @@ backgrounds = {
 		{
 			'name': 'breadcrumb_panel_bg',
 			'src': 'static/desktop/default/images/breadcrumb_panel_bg.png',
-			'mode': 'repeat-x', 'width': 8, 'height': 36
+			'mode': 'repeat-x', 'width': 1, 'height': 36
 		},
 		{
 			'name': 'breadcrumb_std',
@@ -147,17 +147,17 @@ backgrounds = {
 		{
 			'name': 'block_header_bg',
 			'src': 'static/desktop/default/images/block_header_bg.png',
-			'mode': 'repeat-x', 'width': 8, 'height': 37
+			'mode': 'repeat-x', 'width': 1, 'height': 37
 		},
 		{
 			'name': 'submit_row_bg',
 			'src': 'static/desktop/default/images/submit_row_bg.png',
-			'mode': 'repeat-x', 'width': 8, 'height': 41
+			'mode': 'repeat-x', 'width': 1, 'height': 41
 		},
 		{
 			'name': 'input_bg',
 			'src': 'static/desktop/default/images/input_bg.png',
-			'mode': 'repeat-x', 'width': 8, 'height': 48
+			'mode': 'repeat-x', 'width': 1, 'height': 48
 		},
 		{
 			'name': 'progress',
