@@ -162,12 +162,12 @@ backgrounds = {
 		{
 			'name': 'progress',
 			'src': 'static/desktop/default/images/progressbar.png',
-			'mode': 'repeat-x', 'width': 8, 'height': 18, 'offset': (0, 0)
+			'mode': 'repeat-x', 'width': 1, 'height': 14, 'offset': (0, 1)
 		},
 		{
 			'name': 'progress_bar',
 			'src': 'static/desktop/default/images/progressbar.png',
-			'mode': 'repeat-x', 'width': 8, 'height': 18, 'offset': (0, 18)
+			'mode': 'repeat-x', 'width': 1, 'height': 14, 'offset': (0, 16)
 		},
 	]
 }
