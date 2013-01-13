@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 from django.template import RequestContext
@@ -25,13 +26,23 @@ def overview(request, section = None, page = 1):
 
 
 def topic_detail(request, pk):
-	topic = get_object_or_404(Topic.objects.topics(), pk = pk)
-	topic.resolved_perm = (request.user.is_staff and request.user.has_perm('forum.change_topic')) or (topic.author and topic.author == request.user)
+	delete_perm = request.user.has_perm('forum.delete_topic')
+	if delete_perm:
+		topic = get_object_or_404(Topic.objects.all(), pk = pk)
+	else:
+		topic = get_object_or_404(Topic.objects.topics(), pk = pk)
+	topic.resolved_perm = request.user.has_perm('forum.change_topic') or (topic.author and topic.author == request.user)
+	topic.delete_perm = delete_perm
 
 	if request.GET:
 		if 'resolved' in request.GET:
 			topic.is_resolved = bool(request.GET['resolved'])
 			topic.save()
+			return HttpResponseRedirect(topic.get_absolute_url())
+		if 'removed' in request.GET:
+			topic.is_removed = bool(request.GET['removed'])
+			topic.save()
+			return HttpResponseRedirect(topic.get_absolute_url())
 
 	context = {
 		'topic': topic
