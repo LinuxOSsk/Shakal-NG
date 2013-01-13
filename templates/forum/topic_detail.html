@@ -12,11 +12,13 @@
 {% block content %}
 
 <ul class="object-tools btn-group">
-	<li class="btn">
-		<span>
-			<a href="#" class="resolved">Vyriešené</a>
-		</span>
-	</li>
+	{% if topic.resolved_perm %}
+		<li class="btn">
+			<span>
+				<a href="{{ topic.get_absolute_url }}?resolved={{ topic.is_resolved|yesno:",1" }}" class="resolved" rel="nofollow">{% if topic.is_resolved %}Nastaviť nevyriešené{% else %}Nastaviť vyriešené{% endif %}</a>
+			</span>
+		</li>
+	{% endif %}
 </ul>
 
 <h1>{{ topic }}</h1>

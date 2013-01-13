@@ -144,7 +144,7 @@ class Command(BaseCommand):
 		self.logger.finish()
 
 	def decode_cols_to_dict(self, names, values):
-		return dict(zip(names, values))
+		return dict(zip([n.split('.')[-1] for n in names], values))
 
 	def empty_if_null(self, value):
 		return self.get_default_if_null(value, '')
@@ -529,18 +529,19 @@ class Command(BaseCommand):
 	def import_forum_topics(self):
 		users = set(map(lambda x: x['id'], User.objects.values('id')))
 		cols = [
-			'id',
+			'forum.id',
 			'sekcia',
 			'username',
 			'predmet',
 			'text',
 			'userid',
-			'datetime'
+			'datetime',
+			'vyriesene',
 		]
 		self.cursor.execute('SELECT COUNT(*) FROM forum')
 		self.logger.set_sub_progress(u"Fórum", self.cursor.fetchall()[0][0])
 		counter = 0
-		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM forum')
+		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM forum LEFT JOIN diskusia_header ON forum.id = diskusia_header.diskusia_id AND kategoria = "forum" GROUP BY forum.id')
 		topics = []
 		for topic_row in self.cursor:
 			self.logger.step_sub_progress()
@@ -554,6 +555,7 @@ class Command(BaseCommand):
 				'text': topic_dict['text'],
 				'created': topic_dict['datetime'],
 				'updated': topic_dict['datetime'],
+				'is_resolved': self.get_default_if_null(topic_dict['vyriesene'], False),
 			}
 			if topic_dict['userid'] and topic_dict['userid'] in users:
 				topic['author_id'] = topic_dict['userid']
@@ -718,7 +720,6 @@ class Command(BaseCommand):
 				'last_comment': header_dict['last_time'],
 				'comment_count': self.get_default_if_null(header_dict['reakcii'], 0),
 				'is_locked': bool(header_dict['zamknute']),
-				'is_resolved': bool(header_dict['vyriesene']),
 				'content_type_id': self.content_types[header_dict['kategoria']],
 				'object_id': header_dict['diskusia_id'],
 			}
@@ -730,7 +731,7 @@ class Command(BaseCommand):
 		root_header_objects = []
 		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', (SELECT MAX(id) FROM threaded_comments_rootheader) + 1);')
 		connections['default'].cursor().execute('\
-			UPDATE forum_topic SET deleted = true\
+			UPDATE forum_topic SET is_removed = true\
 				WHERE forum_topic.id NOT IN\
 					(SELECT object_id FROM threaded_comments_rootheader WHERE content_type_id = '+str(self.content_types['forum'])+')\
 		')

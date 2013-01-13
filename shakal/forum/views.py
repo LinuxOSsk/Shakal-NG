@@ -26,6 +26,13 @@ def overview(request, section = None, page = 1):
 
 def topic_detail(request, pk):
 	topic = get_object_or_404(Topic.objects.topics(), pk = pk)
+	topic.resolved_perm = (request.user.is_staff and request.user.has_perm('forum.change_topic')) or (topic.author and topic.author == request.user)
+
+	if request.GET:
+		if 'resolved' in request.GET:
+			topic.is_resolved = bool(request.GET['resolved'])
+			topic.save()
+
 	context = {
 		'topic': topic
 	}
@@ -44,7 +51,7 @@ class TopicCreateView(AddLoggedFormArgumentMixin, PreviewCreateView):
 			if self.request.user.get_full_name():
 				topic.authors_name = self.request.user.get_full_name()
 			else:
-				topic.authors_name = self.request.user.authors_name
+				topic.authors_name = self.request.user.username
 			topic.author = self.request.user
 		topic.updated = topic.created
 		return super(TopicCreateView, self).form_valid(form)
