@@ -70,8 +70,8 @@ backgrounds = {
 			'mode': 'no-repeat', 'width': 18, 'height': 18
 		},
 		{
-			'name': 'down_icon_14',
-			'src': 'static/desktop/default/images/down_icon_14.png',
+			'name': 'dropdown_icon_14',
+			'src': 'static/desktop/default/images/dropdown_icon_14.png',
 			'mode': 'no-repeat', 'width': 9, 'height': 14
 		},
 		{
