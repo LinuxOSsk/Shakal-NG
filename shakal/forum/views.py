@@ -42,9 +42,9 @@ class TopicCreateView(AddLoggedFormArgumentMixin, PreviewCreateView):
 		topic.created = datetime.now()
 		if self.request.user.is_authenticated():
 			if self.request.user.get_full_name():
-				topic.username = self.request.user.get_full_name()
+				topic.authors_name = self.request.user.get_full_name()
 			else:
-				topic.username = self.request.user.username
-			topic.user = self.request.user
+				topic.authors_name = self.request.user.authors_name
+			topic.author = self.request.user
 		topic.updated = topic.created
 		return super(TopicCreateView, self).form_valid(form)
