@@ -10,6 +10,15 @@
 {% endblock %}
 
 {% block content %}
+
+<ul class="object-tools btn-group">
+	<li class="btn">
+		<span>
+			<a href="#" class="resolved">Vyriešené</a>
+		</span>
+	</li>
+</ul>
+
 <h1>{{ topic }}</h1>
 {% include "forum/topic_header.html" %}
 {% endblock %}
