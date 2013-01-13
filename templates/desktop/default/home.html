@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% load url from future %}
+{% load cache %}
 {% load threaded_comments %}
 {% load hitcount_tags %}
+{% load feed_parser_tags %}
 
 {% block title %}LinuxOS.sk - slovenský linuxový portál{% endblock %}
 
@@ -54,4 +56,15 @@
 		<a href="{% url 'article:article-list' %}" class="next">Ďalšie</a>
 	</div>
 </div>
+
+{% cache 1800 planet_opensoft %}
+<div class="column-left">
+	<div class="module feeds">
+		<h2>Planet.OpenSoft.sk</h2>
+		<div class="module-row">
+			{% pull_feeds "http://planet.opensoft.sk/rss20.xml" %}
+		</div>
+	</div>
+</div>
+{% endcache %}
 {% endblock %}

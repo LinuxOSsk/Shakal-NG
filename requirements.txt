@@ -13,3 +13,4 @@ git+https://github.com/toastdriven/django-haystack.git@master#egg=django-haystac
 git+git://github.com/notanumber/xapian-haystack.git
 django-reversion
 django-gravatar
+feedparser
