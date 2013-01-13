@@ -1,5 +1,5 @@
 {% load linuxos %}{% load gravatar %}
-<div class="discussion header topic">
+<div class="discussion header topic{% if topic.is_resolved %} resolved{% endif %}">
 	<div class="title"><strong>Sekcia</strong>: <a href="{{ topic.section.get_absolute_url }}">{{ topic.section }}</a></div>
 	<span class="icon">
 		{% if topic.author %}
