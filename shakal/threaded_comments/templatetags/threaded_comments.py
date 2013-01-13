@@ -23,7 +23,7 @@ class ThreadedCommentsBaseNode(BaseCommentNode):
 	def get_root_node(self, context):
 		if self.root_node is None:
 			ctype, object_pk = self.get_target_ctype_pk(context)
-			self.root_node = self.comments_model.objects.get_root_comment(ctype, object_pk)
+			self.root_node, created = self.comments_model.objects.get_root_comment(ctype, object_pk)
 		return self.root_node
 
 	def get_comments_query_set(self, context):

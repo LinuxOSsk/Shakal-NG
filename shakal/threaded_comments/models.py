@@ -64,7 +64,6 @@ class ThreadedCommentManager(CommentManager):
 	def get_root_comment(self, ctype, object_pk):
 		root_comment, created = self.model.objects.get_or_create(
 			parent = None,
-			is_locked = False,
 			content_type = ctype,
 			object_pk = object_pk,
 			defaults = {
@@ -76,7 +75,7 @@ class ThreadedCommentManager(CommentManager):
 				'site_id': settings.SITE_ID
 			}
 		)
-		return root_comment
+		return (root_comment, created)
 
 	def get_query_set(self):
 		queryset = self.__qs_class(self.model).select_related('user__profile')
@@ -145,7 +144,9 @@ def update_comments_header(sender, **kwargs):
 	header.last_comment = statistics['submit_date__max']
 	if header.last_comment is None:
 		content_object = root.content_object
-		if hasattr(content_object, 'time'):
+		if hasattr(content_object, 'created'):
+			header.last_comment = content_object.created
+		elif hasattr(content_object, 'time'):
 			header.last_comment = content_object.time
 	header.comment_count = statistics['pk__count']
 	header.save()

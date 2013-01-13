@@ -3,12 +3,14 @@
 from attachment.models import Attachment
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import permalink
+from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime, timedelta
-from shakal.threaded_comments.models import RootHeader
+from shakal.threaded_comments.models import RootHeader, ThreadedComment
 
 class Section(models.Model):
 	name = models.CharField(max_length = 255, verbose_name = _('name'))
@@ -121,3 +123,12 @@ class Topic(models.Model):
 	class Meta:
 		verbose_name = _('topic')
 		verbose_name_plural = _('topics')
+
+
+def update_comments_header(sender, instance, **kwargs):
+	root, created = ThreadedComment.objects.get_root_comment(ctype = ContentType.objects.get_for_model(Topic), object_pk = instance.pk)
+	if created:
+		root.last_comment = instance.created
+	root.save()
+
+post_save.connect(update_comments_header, sender = Topic)
