@@ -129,6 +129,7 @@ def update_comments_header(sender, instance, **kwargs):
 	root, created = ThreadedComment.objects.get_root_comment(ctype = ContentType.objects.get_for_model(Topic), object_pk = instance.pk)
 	if created:
 		root.last_comment = instance.created
+	root.is_removed = instance.deleted
 	root.save()
 
 post_save.connect(update_comments_header, sender = Topic)
