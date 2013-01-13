@@ -145,7 +145,6 @@ def add_discussion_attributes(context, model):
 		'last_comment',
 		'comment_count',
 		'is_locked',
-		'is_resolved'
 	)
 	if 'user' in context and context['user'].is_authenticated():
 		header_ids = [h['id'] for h in headers]
@@ -161,7 +160,6 @@ def add_discussion_attributes(context, model):
 		obj.last_comment = hdr.get('last_comment', None)
 		obj.comment_count = hdr.get('comment_count', 0)
 		obj.is_locked = hdr.get('is_locked', False)
-		obj.is_resolved = hdr.get('is_resolved', False)
 		obj.rootheader_id = hdr.get('id', None)
 		obj.discussion_display_time = hdr.get('time', None)
 		obj.discussion_watch = hdr.get('watch', None)

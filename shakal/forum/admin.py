@@ -10,8 +10,8 @@ class SectionAdmin(admin.ModelAdmin):
 	prepopulated_fields = {'slug': ('name', )}
 
 class TopicAdmin(admin.ModelAdmin):
-	list_display = ('title', 'get_authors_name', 'deleted', )
-	list_filter = ('section', 'deleted', )
+	list_display = ('title', 'get_authors_name', 'is_removed', 'is_resolved', )
+	list_filter = ('section', 'is_removed', 'is_resolved', )
 	search_fields = ('title', 'get_authors_name', )
 	ordering = ('-id', )
 	raw_id_fields = ('author', )

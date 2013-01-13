@@ -113,7 +113,6 @@ class RootHeader(models.Model):
 	last_comment = models.DateTimeField(null = True, blank = True, db_index = True)
 	comment_count = models.PositiveIntegerField(default = 0, db_index = True)
 	is_locked = models.BooleanField(default = False)
-	is_resolved = models.BooleanField(default = False)
 	content_type = models.ForeignKey(ContentType)
 	object_id = models.PositiveIntegerField()
 	content_object = generic.GenericForeignKey('content_type', 'object_id')

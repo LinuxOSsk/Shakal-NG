@@ -43,12 +43,12 @@ class TopicManager(models.Manager):
 		return super(TopicManager, self).get_query_set().select_related('user', 'section')
 
 	def topics(self):
-		return self.get_query_set().filter(deleted = False)
+		return self.get_query_set().filter(is_removed = False)
 
 
 class TopicListManager(models.Manager):
 	def get_query_set(self):
-		return super(TopicListManager, self).get_query_set().filter(deleted = False)
+		return super(TopicListManager, self).get_query_set().filter(is_removed = False)
 
 	def newest_topics(self, section = None):
 		queryset = self.get_query_set()
@@ -91,7 +91,8 @@ class Topic(models.Model):
 	comments_header = generic.GenericRelation(RootHeader)
 	breadcrumb_label = _('forum')
 	attachments = generic.GenericRelation(Attachment)
-	deleted = models.BooleanField(default = False, verbose_name = u'vymazané')
+	is_removed = models.BooleanField(default = False, verbose_name = u'vymazané')
+	is_resolved = models.BooleanField(default = False)
 
 	def save(self, *args, **kwargs):
 		self.updated = datetime.now()
@@ -129,7 +130,7 @@ def update_comments_header(sender, instance, **kwargs):
 	root, created = ThreadedComment.objects.get_root_comment(ctype = ContentType.objects.get_for_model(Topic), object_pk = instance.pk)
 	if created:
 		root.last_comment = instance.created
-	root.is_removed = instance.deleted
+	root.is_removed = instance.is_removed
 	root.save()
 
 post_save.connect(update_comments_header, sender = Topic)
