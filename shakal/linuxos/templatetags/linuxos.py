@@ -4,6 +4,7 @@ from django import template
 from django.utils.safestring import mark_safe
 from django.template.loader import render_to_string
 from django.utils.html import escape
+from django.contrib.contenttypes.models import ContentType
 from datetime import date, timedelta
 
 register = template.Library()
@@ -85,3 +86,9 @@ def render_messages(parser, token):
 	if len(parts) < 2:
 		raise template.TemplateSyntaxError('{0} tags requires messages variable.'.format(token.contents.split()[0]))
 	return MessagesNode(parts[1], parts[2:])
+
+
+@register.filter
+def labelize_content_type(content_type):
+	app_label, model = content_type.split('.')
+	return ContentType.objects.get_by_natural_key(app_label = app_label, model = model).model_class()._meta.verbose_name

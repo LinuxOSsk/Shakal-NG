@@ -32,6 +32,11 @@
 {% for result in results %}
 	<div class="module-row">
 		<h3><a href="{{ result.object.get_absolute_url }}">{% highlight result.title with query max_length 0 %}</a></h3>
+		<span class="label
+			{% ifequal result.content_type "forum.topic" %} label-info{% endifequal %}
+			{% if result.content_type == "article.article" or result.content_type == "wiki.page" or result.content_type == "news.news" %} label-success{% endif %}">
+			{{ result.content_type|labelize_content_type|capfirst }}
+		</span>
 		{% with result.text|add:"<xapian>"|add:result.highlighted.text as result_text %}
 			{% highlight result_text with query max_length 300 %}
 		{% endwith %}
