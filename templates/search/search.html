@@ -26,8 +26,6 @@
 </form>
 
 {% if query %}
-<h2>Výsledky</h2>
-
 {% autopaginate results pagenum items_per_page=20 %}
 {% for result in results %}
 	<div class="module-row">
