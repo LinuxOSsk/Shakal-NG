@@ -17,12 +17,16 @@
 </div>
 <dl class="profile">
 	{% for user_property in user_table %}
-		<dt>{{ user_property.name|capfirst }}:</dt>
-		<dd>{% if user_property.value %}{{ user_property.value }}{% else %}&nbsp;{% endif %}</dd>
+		{% if user_property.value %}
+			<dt>{{ user_property.name|capfirst }}:</dt>
+			<dd>{% if user_property.value %}{{ user_property.value }}{% else %}&nbsp;{% endif %}</dd>
+		{% endif %}
 	{% endfor %}
 </dl>
 
-<h2>Informácie o mne</h2>
-{{ profile.info|safe }}
+{% if profile.info %}
+	<h2>Informácie o mne</h2>
+	{{ profile.info|safe }}
+{% endif %}
 
 {% endblock %}
