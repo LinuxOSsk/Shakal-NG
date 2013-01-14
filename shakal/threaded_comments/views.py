@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 
 from django import http
+from django.contrib.auth.decorators import login_required
 from django.contrib.comments.views.utils import next_redirect
 from django.db import models
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import capfirst
 from django.template.response import TemplateResponse
 from django.views.decorators.http import require_POST
 from django.utils.encoding import force_unicode
-from shakal.threaded_comments.models import ThreadedComment, RootHeader
+from shakal.threaded_comments.models import ThreadedComment, RootHeader, UserDiscussionAttribute
 from shakal.threaded_comments import get_form
 
 
@@ -147,3 +149,18 @@ def comment(request, comment_id):
 	}
 	return TemplateResponse(request, "comments/comments.html", context)
 
+
+@login_required
+def watch(request, header_id):
+	header = get_object_or_404(RootHeader, id = header_id)
+	attributes, created = UserDiscussionAttribute.objects.get_or_create(user = request.user, discussion = header)
+	if 'watch' in request.GET:
+		if request.GET['watch']:
+			attributes.watch = 1
+		else:
+			attributes.watch = 0
+	else:
+		attributes.watch = 1
+	attributes.save()
+	obj = header.content_object
+	return HttpResponseRedirect(obj.get_absolute_url())

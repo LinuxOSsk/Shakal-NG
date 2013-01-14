@@ -83,6 +83,12 @@ class ThreadedCommentsListNode(ThreadedCommentsBaseNode):
 			self.update_discussion_attribute(attrib)
 			query_set = query_set.extra(select = {'is_new': 'submit_date >= %s'}, select_params = (last_display_time, ))[:]
 			self.highlight_new(query_set, context)
+		setattr(query_set, 'root_header', query_set.get_root_item().root_header())
+		if 'user' in context and context['user'].is_authenticated():
+			try:
+				setattr(query_set, 'user_attribute', UserDiscussionAttribute.objects.get(user = context['user'], discussion = query_set.root_header))
+			except UserDiscussionAttribute.DoesNotExist:
+				pass
 		context[self.as_varname] = query_set
 		return ''
 

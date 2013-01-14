@@ -1,9 +1,12 @@
 {% load threaded_comments %}{% load url from future %}
 {% get_threaded_comments_list for target as comments %}
+{% with root_item=comments.get_root_item %}
+{% with root_header=comments.root_header %}
+{% with user_attribute=comments.user_attribute %}
 <div class="module">
 	<a id="comments" href="#"></a>
 	<div class="links">
-		{% if comments.get_root_item.next_new %}
+		{% if root_item.next_new %}
 			<a href="#link_{{ comments.get_root_item.next_new }}" class="comment-link first">Prvý neprečítaný komentár</a>
 		{% endif %}
 		<div class="btn reply">
@@ -11,13 +14,15 @@
 				<a href="{% url 'comments-reply-comment' comments.get_root_item.pk %}" class="reply">Pridať komentár</a>
 			</span>
 		</div>
+		{% if request.user.is_authenticated %}
 		<div class="btn-group reply">
 			<div class="btn">
 				<span>
-					<a href="#" class="watch">Sledovať</a>
+					<a href="{% url 'comments-watch' root_header.pk %}?watch={{ user_attribute.watch|yesno:",1" }}" class="watch">{% if user_attribute.watch %}Nesledovať{% else %}Sledovať{% endif %}</a>
 				</span>
 			</div>
 		</div>
+		{% endif %}
 		<div class="btn-group admin">
 			<div class="btn">
 				<span>
@@ -34,3 +39,6 @@
 	{% endif %}
 	<div class="clear"></div>
 </div>
+{% endwith %}
+{% endwith %}
+{% endwith %}

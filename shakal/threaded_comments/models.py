@@ -92,6 +92,10 @@ class ThreadedComment(Comment):
 	attachments = generic.GenericRelation(Attachment)
 	updated = models.DateTimeField(editable = False)
 
+	def root_header(self):
+		header, created = RootHeader.objects.get_or_create(content_type = self.content_type, object_id = self.object_pk)
+		return header
+
 	def get_absolute_url(self):
 		return reverse('comment', args = [self.pk], kwargs = {}) + "#link_" + str(self.id)
 
