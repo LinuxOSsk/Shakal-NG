@@ -58,13 +58,11 @@
 </div>
 
 {% cache 1800 planet_opensoft %}
-<div class="column-left">
 	<div class="module feeds">
 		<h2>Planet.OpenSoft.sk</h2>
 		<div class="module-row">
 			{% pull_feeds "http://planet.opensoft.sk/rss20.xml" %}
 		</div>
 	</div>
-</div>
 {% endcache %}
 {% endblock %}
