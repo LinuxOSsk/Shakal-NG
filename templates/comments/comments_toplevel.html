@@ -1,17 +1,17 @@
 {% load threaded_comments %}{% load url from future %}
 {% get_threaded_comments_list for target as comments %}
-{% with root_item=comments.get_root_item %}
+{% with root=comments.get_root_item %}
 {% with root_header=comments.root_header %}
 {% with user_attribute=comments.user_attribute %}
 <div class="module">
 	<a id="comments" href="#"></a>
 	<div class="links">
-		{% if root_item.next_new %}
-			<a href="#link_{{ comments.get_root_item.next_new }}" class="comment-link first">Prvý neprečítaný komentár</a>
+		{% if root.next_new %}
+			<a href="#link_{{ root.next_new }}" class="comment-link first">Prvý neprečítaný komentár</a>
 		{% endif %}
 		<div class="btn reply">
 			<span>
-				<a href="{% url 'comments-reply-comment' comments.get_root_item.pk %}" class="reply">Pridať komentár</a>
+				<a href="{% url 'comments-reply-comment' root.pk %}" class="reply">Pridať komentár</a>
 			</span>
 		</div>
 		{% if request.user.is_authenticated %}
@@ -23,18 +23,20 @@
 			</div>
 		</div>
 		{% endif %}
+		{% if user.is_staff and perms.threaded_comments.change_threaded_comment %}
 		<div class="btn-group admin">
 			<div class="btn">
 				<span>
-					<a href="#" class="lock">Zamknúť</a>
+					<a href="{% url 'comments-lock' root.pk %}?lock={{ root.is_locked|yesno:",1" }}" class="lock">{% if root.is_locked %}Odomknúť{% else %}Zamknúť{% endif %}</a>
 				</span>
 			</div>
 		</div>
+		{% endif %}
 	</div>
 	{% if comments %}
 		{% include "comments/comments_tree.html" %}
 		<div class="links">
-			<div class="btn reply"><span><a href="{% url 'comments-reply-comment' comments.get_root_item.pk %}" class="reply">Pridať komentár</a></span></div>
+			<div class="btn reply"><span><a href="{% url 'comments-reply-comment' root.pk %}" class="reply">Pridať komentár</a></span></div>
 		</div>
 	{% endif %}
 	<div class="clear"></div>

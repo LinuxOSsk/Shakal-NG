@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django import http
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.comments.views.utils import next_redirect
 from django.db import models
 from django.http import HttpResponseRedirect
@@ -10,7 +10,7 @@ from django.template.defaultfilters import capfirst
 from django.template.response import TemplateResponse
 from django.views.decorators.http import require_POST
 from django.utils.encoding import force_unicode
-from shakal.threaded_comments.models import ThreadedComment, RootHeader, UserDiscussionAttribute
+from shakal.threaded_comments.models import ThreadedComment, RootHeader, UserDiscussionAttribute, update_comments_header
 from shakal.threaded_comments import get_form
 
 
@@ -164,3 +164,19 @@ def watch(request, header_id):
 	attributes.save()
 	obj = header.content_object
 	return HttpResponseRedirect(obj.get_absolute_url())
+
+
+@permission_required('threaded_comments.change_threaded_comment')
+def lock(request, comment_id):
+	if 'lock' in request.GET:
+		if request.GET['lock']:
+			lock = True
+		else:
+			lock = False
+	else:
+		lock = True
+	comment = get_object_or_404(ThreadedComment, pk = comment_id)
+	comment.get_descendants(include_self = True).update(is_locked = lock)
+	comment = ThreadedComment.objects.get(pk = comment_id)
+	update_comments_header(ThreadedComment, instance = comment)
+	return HttpResponseRedirect(comment.content_object.get_absolute_url())
