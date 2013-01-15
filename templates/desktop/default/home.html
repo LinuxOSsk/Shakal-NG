@@ -65,4 +65,13 @@
 		</div>
 	</div>
 {% endcache %}
+
+{% cache 300 vyvoj_linuxos %}
+	<div class="module feeds">
+		<h2>Vývoj Shakal CMS</h2>
+		<div class="module-row">
+			{% pull_feeds "https://github.com/mireq/Shakal-NG/commits/master.atom" %}
+		</div>
+	</div>
+{% endcache %}
 {% endblock %}
