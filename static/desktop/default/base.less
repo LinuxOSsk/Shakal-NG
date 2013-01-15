@@ -287,7 +287,7 @@ th.title a, td.title a {
 button:focus { outline: none; }
 
 .btn {
-	padding: 0px 0px 0px 6px; margin: 0;
+	padding: 0; margin: 0 5px 0 0;
 	background: none; border: none;
 	line-height: 32px;
 	list-style: none;
@@ -309,10 +309,12 @@ button:focus { outline: none; }
 		color: @generic-foreground;
 		text-shadow: 0px 1px 0px white;
 		text-decoration: none;
+		margin-left: 15px;
 		span {
 			background: none;
 			display: inline;
 			padding: 0;
+			margin: 0;
 		}
 		span:before {
 			content: "";
@@ -375,21 +377,15 @@ button:focus { outline: none; }
 	}
 }
 
+
 .btn-group.reply, .btn-group.voting, .btn-group.admin {
 	float: right;
-}
-
-.btn-group.reply, .btn-group.voting {
-	margin-right: 15px;
-}
-
-.btn-group.admin {
-	margin-right: 20px;
 }
 
 .btn-group {
 	.btn {
 		padding-left: 0px;
+		margin-right: 0px;
 		float: left;
 		a {
 			padding-left: 10px;
@@ -398,6 +394,7 @@ button:focus { outline: none; }
 			background-position-x: -16px;
 			background-repeat: repeat-x;
 			padding-right: 10px;
+			margin-left: 0px;
 			&:active, &:focus {
 				background-position-x: -16px;
 				background-repeat: repeat-x;
@@ -412,6 +409,9 @@ button:focus { outline: none; }
 			a {
 				padding-left: 0px;
 			}
+			span {
+				margin-left: 15px;
+			}
 			span:before {
 				background-position-x: 0px;
 				margin-left: -15px;
@@ -423,6 +423,7 @@ button:focus { outline: none; }
 				background-position-x: right;
 				background-repeat: no-repeat;
 				padding-right: 15px;
+				margin-right: 5px;
 				&:active, &:focus {
 					background-position-x: right;
 					background-repeat: no-repeat;
@@ -433,7 +434,7 @@ button:focus { outline: none; }
 }
 
 #top_header .btn, .submit-row .btn {
-	padding: 0px 0px 0px 15px; margin: 0;
+	padding: 0px; margin: 0;
 	background: none; border: none;
 	line-height: 38px;
 	span, .search-input {
@@ -772,7 +773,7 @@ ul#main_menu {
 	margin-top: 5px;
 	float: right;
 	&:hover, &.active {
-		width: 252px;
+		width: 237px;
 	}
 }
 
