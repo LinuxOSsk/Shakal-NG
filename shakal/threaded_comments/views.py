@@ -39,10 +39,6 @@ def reply_comment(request, parent):
 	else:
 		new_subject = force_unicode('RE: ') + force_unicode(content_object)
 
-	form = get_form()(content_object, logged = request.user.is_authenticated(), parent_comment = parent_comment, initial = {'subject': new_subject}, request = request)
-	request.session['antispam'] = form.generate_antispam()
-	form.set_antispam(request.session['antispam'])
-
 	model_meta = content_object.__class__._meta
 	template_list = [
 		"comments/{0}_{1}_preview.html".format(*tuple(str(model_meta).split('.'))),
@@ -51,14 +47,24 @@ def reply_comment(request, parent):
 	]
 	next = request.GET.get('next', content_object.get_absolute_url())
 	context = {
-		'form': form,
-		'attachments': form.get_attachments(),
 		'next': next,
 		'parent': parent_comment if parent_comment.parent_id else False,
 		'content_object': content_object,
 		'module_name': get_module_name(content_object),
 		'module_url': get_module_url(content_object),
 	}
+
+	if parent_comment.is_locked:
+		return TemplateResponse(request, "comments/error.html", context)
+
+
+	form = get_form()(content_object, logged = request.user.is_authenticated(), parent_comment = parent_comment, initial = {'subject': new_subject}, request = request)
+	request.session['antispam'] = form.generate_antispam()
+	form.set_antispam(request.session['antispam'])
+
+	context["form"] = form
+	context["attachments"] = form.get_attachments()
+
 	return TemplateResponse(request, template_list, context)
 
 
@@ -87,7 +93,7 @@ def post_comment(request):
 	if form.security_errors():
 		return http.HttpResponseBadRequest()
 
-	if form.errors or not 'create' in data:
+	if form.errors or not 'create' in data or parent.is_locked:
 		template_list = [
 			"comments/{0}_{1}_preview.html".format(model._meta.app_label, model._meta.module_name),
 			"comments/{0}_preview.html".format(model._meta.app_label),
@@ -98,8 +104,6 @@ def post_comment(request):
 		if request.user.is_authenticated():
 			comment['user'] = request.user
 		context = {
-			'form': form,
-			'attachments': form.get_attachments(),
 			'next': data['next'],
 			'comment': comment,
 			'valid': valid,
@@ -107,7 +111,13 @@ def post_comment(request):
 			'content_object': content_object,
 			'module_name': get_module_name(content_object),
 			'module_url': get_module_url(content_object),
+			'form': form,
+			'attachments': form.get_attachments(),
 		}
+		if parent.is_locked:
+			del context['form']
+			del context['attachments']
+			return TemplateResponse(request, "comments/error.html", context)
 		return TemplateResponse(request, template_list, context)
 
 	comment = form.get_comment_object()
