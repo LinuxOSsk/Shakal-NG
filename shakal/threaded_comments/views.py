@@ -189,4 +189,4 @@ def lock(request, comment_id):
 	comment.get_descendants(include_self = True).update(is_locked = lock)
 	comment = ThreadedComment.objects.get(pk = comment_id)
 	update_comments_header(ThreadedComment, instance = comment)
-	return HttpResponseRedirect(comment.content_object.get_absolute_url())
+	return HttpResponseRedirect(comment.content_object.get_absolute_url() + '#link_' + str(comment_id))
