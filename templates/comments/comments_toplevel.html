@@ -9,11 +9,13 @@
 		{% if root.next_new %}
 			<a href="#link_{{ root.next_new }}" class="comment-link first">Prvý neprečítaný komentár</a>
 		{% endif %}
-		<div class="btn reply">
-			<span>
-				<a href="{% url 'comments-reply-comment' root.pk %}" class="reply">Pridať komentár</a>
-			</span>
-		</div>
+		{% if not root.is_locked %}
+			<div class="btn reply">
+				<span>
+					<a href="{% url 'comments-reply-comment' root.pk %}" class="reply">Pridať komentár</a>
+				</span>
+			</div>
+		{% endif %}
 		{% if request.user.is_authenticated %}
 		<div class="btn-group reply">
 			<div class="btn">
@@ -35,9 +37,11 @@
 	</div>
 	{% if comments %}
 		{% include "comments/comments_tree.html" %}
-		<div class="links">
-			<div class="btn reply"><span><a href="{% url 'comments-reply-comment' root.pk %}" class="reply">Pridať komentár</a></span></div>
-		</div>
+		{% if not root.is_locked %}
+			<div class="links">
+				<div class="btn reply"><span><a href="{% url 'comments-reply-comment' root.pk %}" class="reply">Pridať komentár</a></span></div>
+			</div>
+		{% endif %}
 	{% endif %}
 	<div class="clear"></div>
 </div>

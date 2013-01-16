@@ -31,35 +31,47 @@
 	{% endif %}
 	{% if comment.pk and not readonly %}
 		<div class="links">
-			<div class="btn reply">
-				<span>
-					<a href="{% url 'comments-reply-comment' comment.pk %}" class="reply">Odpovedať</a>
-				</span>
-			</div>
-			<div class="btn-group voting">
-				<div class="btn">
+			{% if not comment.is_locked %}
+				<div class="btn reply">
 					<span>
-						<a href="#" class="up">+ 1</a>
+						<a href="{% url 'comments-reply-comment' comment.pk %}" class="reply">Odpovedať</a>
 					</span>
 				</div>
-				<div class="btn">
-					<span>
-						<a href="#" class="down">- 1</a>
-					</span>
+			{% endif %}
+			{% if user.is_authenticated and not comment.is_locked %}
+				<div class="btn-group voting">
+					<div class="btn">
+						<span>
+							<a href="#" class="up">+ 1</a>
+						</span>
+					</div>
+					<div class="btn">
+						<span>
+							<a href="#" class="down">- 1</a>
+						</span>
+					</div>
 				</div>
-			</div>
-			<div class="btn-group admin">
-				<div class="btn">
-					<span>
-						<a href="#" class="lock">Zamknúť</a>
-					</span>
+			{% endif %}
+			{% if user.is_authenticated %}
+				{% if user.is_staff and perms.threaded_comments.change_threaded_comment or not comment.is_locked %}
+					<div class="btn-group admin">
+						{% if user.is_staff and perms.threaded_comments.change_threaded_comment %}
+							<div class="btn">
+								<span>
+									<a href="{% url 'comments-lock' comment.pk %}?lock={{ comment.is_locked|yesno:",1" }}" class="lock">{% if comment.is_locked %}Odomknúť{% else %}Zamknúť{% endif %}</a>
+								</span>
+							</div>
+						{% endif %}
+						{% if not comment.is_locked %}
+							<div class="btn">
+								<span>
+									<a href="#" class="resolved">Riešenie</a>
+								</span>
+							</div>
+						{% endif %}
+					{% endif %}
 				</div>
-				<div class="btn">
-					<span>
-						<a href="#" class="resolved">Riešenie</a>
-					</span>
-				</div>
-			</div>
+			{% endif %}
 		</div>
 	{% endif %}
 	<div class="clear"></div>
