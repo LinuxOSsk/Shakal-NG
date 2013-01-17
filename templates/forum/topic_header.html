@@ -15,10 +15,21 @@
 	<span class="info">
 		{{ topic.created|humandatetime }}
 	</span>
+
+{% if topic.get_attachments %}
+	<p class="files">Priložené súbory</p>
+	<ul class="files">
+	{% for attachment in topic.get_attachments %}
+		<li><a href="{{ attachment.url }}">{{ attachment.basename }}</a></li>
+	{% endfor %}
+	</ul>
+{% endif %}
+
 </div>
 <div class="text">
 	{{ topic.text|safe }}
 </div>
+
 {% if topic.author.get_profile.signature %}
 	<div class="signature">
 		{{ topic.author.get_profile.signature|safe }}
