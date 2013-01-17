@@ -81,6 +81,10 @@ class AttachmentAbstract(models.Model):
 	def name(self):
 		return os.path.split(self.attachment.name)[1]
 
+	@property
+	def url(self):
+		return settings.MEDIA_URL + self.attachment.name
+
 	def __unicode__(self):
 		return self.attachment.name
 
