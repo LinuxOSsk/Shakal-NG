@@ -39,7 +39,7 @@ def topic_detail(request, pk):
 			topic.is_resolved = bool(request.GET['resolved'])
 			topic.save()
 			return HttpResponseRedirect(topic.get_absolute_url())
-		if 'removed' in request.GET and topic.deleted_perm:
+		if 'removed' in request.GET and topic.delete_perm:
 			topic.is_removed = bool(request.GET['removed'])
 			topic.save()
 			return HttpResponseRedirect(topic.get_absolute_url())
