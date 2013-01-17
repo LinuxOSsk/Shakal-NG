@@ -65,4 +65,7 @@ class TopicCreateView(AddLoggedFormArgumentMixin, PreviewCreateView):
 				topic.authors_name = self.request.user.username
 			topic.author = self.request.user
 		topic.updated = topic.created
-		return super(TopicCreateView, self).form_valid(form)
+		ret = super(TopicCreateView, self).form_valid(form)
+		if self.object:
+			form.move_attachments(self.object)
+		return ret

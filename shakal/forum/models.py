@@ -94,6 +94,9 @@ class Topic(models.Model):
 	is_removed = models.BooleanField(default = False, verbose_name = u'vymazané')
 	is_resolved = models.BooleanField(default = False)
 
+	def get_attachments(self):
+		return self.attachments.all()
+
 	def save(self, *args, **kwargs):
 		self.updated = datetime.now()
 		if not self.id:

@@ -182,7 +182,8 @@ ABSOLUTE_URL_OVERRIDES = {
 
 ATTACHMENT_MAX_SIZE = 1024**2 * 50;
 ATTACHMENT_SIZE_FOR_CONTENT = {
-	'threaded_comments_threadedcomment': 1024**2 * 2
+	'threaded_comments_threadedcomment': 1024**2 * 2,
+	'forum_topic': 1024**2 * 2,
 }
 
 HAYSTACK_CONNECTIONS = {

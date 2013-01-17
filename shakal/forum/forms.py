@@ -3,13 +3,15 @@ from django import forms
 from django.contrib.comments.forms import COMMENT_MAX_LENGTH
 from django.forms import ChoiceField, ModelChoiceField
 from django.forms.models import ModelChoiceIterator
-from django.forms.widgets import RadioSelect, RadioFieldRenderer, RadioInput
+from django.forms.widgets import HiddenInput, RadioSelect, RadioFieldRenderer, RadioInput
 from django.template.defaultfilters import capfirst
 from django.utils.encoding import force_unicode
 from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _
 from antispam.fields import AntispamField
 from antispam.forms import AntispamMethodsMixin
+from attachment.fields import AttachmentField
+from attachment.forms import AttachmentFormMixin
 from html_editor.fields import HtmlField
 from models import Topic, Section
 
@@ -38,19 +40,30 @@ class SectionRenderer(RadioFieldRenderer):
 		return self.render_choice(idx)
 
 
-class TopicForm(forms.ModelForm, AntispamMethodsMixin):
+class TopicForm(forms.ModelForm, AttachmentFormMixin, AntispamMethodsMixin):
 	section = SectionModelChoiceField(Section.objects.all(), empty_label=None, widget = RadioSelect(renderer = SectionRenderer), label = capfirst(_('section')))
 	text = HtmlField(label = _("Text"), max_length = COMMENT_MAX_LENGTH)
 	captcha = AntispamField(required = True)
+	attachment = AttachmentField(label = _("Attachment"), required = False)
+	upload_session = forms.CharField(label = "Upload session", widget = HiddenInput, required = False)
 
 	def __init__(self, *args, **kwargs):
 		logged = kwargs.pop('logged', False)
 		request = kwargs.pop('request')
+		files = kwargs.pop('files', {})
 		super(TopicForm, self).__init__(*args, **kwargs)
+		self.files = files
 		if logged:
 			del(self.fields['authors_name'])
 			del(self.fields['captcha'])
 		self.process_antispam(request)
+		self.process_attachments()
+
+	def get_model(self):
+		return Topic
+
+	def security_errors(self):
+		return []
 
 	class Meta:
 		model = Topic

@@ -25,9 +25,9 @@
 	</div>
 {% endif %}
 
-<form action="{% url 'forum:create' %}" method="post" id="registration-form">{% csrf_token %}
+<form action="{% url 'forum:create' %}" enctype="multipart/form-data" method="post">{% csrf_token %}
 	<fieldset>
-		{% include 'includes/form_loop.html' with form=form %}
+		{% include 'includes/form_attachment_loop.html' with form=form %}
 		<div class="submit-row">
 			<div class="positive">
 				<button class="btn" type="submit" title="Náhľad"><span>Náhľad</span></button>
