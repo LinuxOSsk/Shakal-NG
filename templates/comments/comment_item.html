@@ -34,7 +34,7 @@
 			{% if not comment.is_locked %}
 				<div class="btn reply">
 					<span>
-						<a href="{% url 'comments-reply-comment' comment.pk %}" class="reply">Odpovedať</a>
+						<a href="{% url 'comments-reply-comment' comment.pk %}" class="reply" rel="nofollow">Odpovedať</a>
 					</span>
 				</div>
 			{% endif %}
