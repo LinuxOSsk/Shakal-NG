@@ -11,10 +11,10 @@
 .wym_skin_shakal .wym_panel .wym_top_toolbar { border-top: 1px solid #f7f9ff; }
 
 /* Položky panelu */
-.wym_skin_shakal .wym_panel .wym_top_toolbar ul { background: white; padding: 5px; border: #e8e8e8 1px solid; box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1); }
+.wym_skin_shakal .wym_panel .wym_top_toolbar ul { background: white; padding: 0px; border: #33688f 1px solid; box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1); }
 .wym_skin_shakal .wym_panel .wym_top_toolbar li a { display: block; border-bottom: 1px solid #eee; padding: .3em; text-decoration: none; }
 .wym_skin_shakal .wym_panel .wym_top_toolbar li:last-child a { border: none; }
-#site_content .wym_skin_shakal .wym_panel .wym_top_toolbar li a:hover { border-radius: 0; background: #3f8bc7; color: white; }
+#site_content .wym_skin_shakal .wym_panel .wym_top_toolbar li a:hover { border-radius: 0; background: #3f88c0; color: white; }
 
 /* Typografia */
 .wym_skin_shakal h2 { font-size: 110%; font-weight: bold; color: #1d5886; text-shadow: #ffffff 0px 1px 0px; }

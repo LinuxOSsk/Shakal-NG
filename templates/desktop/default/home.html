@@ -7,12 +7,16 @@
 
 {% block title %}LinuxOS.sk - slovenský linuxový portál{% endblock %}
 
+{% block header %}
+{{ block.super }}
+<h1 style="display: none">LinuxOS.sk - slovenský linuxový portál</h1>
+{% endblock %}
+
 {% block content %}
 {% add_discussion_attributes articles %}
 {% add_discussion_attributes top_articles %}
 {% add_hitcount articles %}
 {% add_hitcount top_articles %}
-<h1 style="display: none">LinuxOS.sk - slovenský linuxový portál</h1>
 <div class="module forum">
 	<h2>Diskusné fórum</h2>
 	<div class="module-row">
