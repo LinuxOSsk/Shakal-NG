@@ -23,6 +23,15 @@ class UserProfile(models.Model):
 		super(UserProfile, self).save(*args, **kwargs)
 
 
+class UserRating(models.Model):
+	user = models.OneToOneField(User, related_name = 'rating')
+	comments = models.IntegerField(default = 0)
+	articles = models.IntegerField(default = 0)
+	helped = models.IntegerField(default = 0)
+	news = models.IntegerField(default = 0)
+	wiki = models.IntegerField(default = 0)
+
+
 def create_user_profile(sender, **kwargs):
 	user = kwargs['instance']
 	if not UserProfile.objects.filter(user = user):
