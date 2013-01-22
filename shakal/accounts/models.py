@@ -31,17 +31,29 @@ class UserRating(models.Model):
 	news = models.IntegerField(default = 0)
 	wiki = models.IntegerField(default = 0)
 
+
 def update_user_rating_on_create(user, property_name):
-	rating = UserRating.objects.get_or_create(user = user)
+	rating, created = UserRating.objects.get_or_create(user = user)
 	setattr(rating, property_name, getattr(rating, property_name) + 1)
+	print(rating.comments)
 	rating.save()
 
 
-def user_rating_updater(property_name, author_property):
-	def update(sender, instance, created, **kwargs):
-		if created:
-			update_user_rating_on_create(getattr(instance, author_property))
-	return update
+from shakal.threaded_comments.models import ThreadedComment
+
+SENDERS = {
+	ThreadedComment: ('user', 'comments')
+}
+
+
+def update(sender, instance, created, **kwargs):
+	author_property, property_name = SENDERS[sender]
+	if created:
+		author = getattr(instance, author_property)
+		if author:
+			update_user_rating_on_create(getattr(instance, author_property), property_name)
+
+post_save.connect(update, sender = ThreadedComment)
 
 
 def create_user_profile(sender, **kwargs):
