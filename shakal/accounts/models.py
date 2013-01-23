@@ -46,7 +46,7 @@ SENDERS = {
 def update_user_rating(instance, author_property, property_name, change):
 	user = getattr(instance, author_property)
 	rating, created = UserRating.objects.get_or_create(user = user)
-	setattr(rating, property_name, getattr(rating, property_name) + change)
+	setattr(rating, property_name, max(getattr(rating, property_name) + change, 0))
 	rating.save()
 
 
