@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.contrib.auth.models import User
 from django.core.validators import MaxLengthValidator, MinValueValidator, MaxValueValidator
 from django.utils.translation import ugettext_lazy as _
@@ -32,9 +32,9 @@ class UserRating(models.Model):
 	wiki = models.IntegerField(default = 0)
 
 
-def update_user_rating_on_create(user, property_name):
+def update_user_rating(user, property_name, change):
 	rating, created = UserRating.objects.get_or_create(user = user)
-	setattr(rating, property_name, getattr(rating, property_name) + 1)
+	setattr(rating, property_name, getattr(rating, property_name) + change)
 	rating.save()
 
 
@@ -49,15 +49,15 @@ SENDERS = {
 }
 
 
-def update(sender, instance, created, **kwargs):
+def update_count_post_save(sender, instance, created, **kwargs):
 	author_property, property_name = SENDERS[sender]
 	author = getattr(instance, author_property)
 	if author:
-		update_user_rating_on_create(getattr(instance, author_property), property_name)
+		update_user_rating(getattr(instance, author_property), property_name, 1)
 
-post_save.connect(update, sender = ThreadedComment)
-post_save.connect(update, sender = News)
-post_save.connect(update, sender = WikiPage)
+post_save.connect(update_count_post_save, sender = ThreadedComment)
+post_save.connect(update_count_post_save, sender = News)
+post_save.connect(update_count_post_save, sender = WikiPage)
 
 
 def create_user_profile(sender, **kwargs):
