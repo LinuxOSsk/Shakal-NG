@@ -32,12 +32,6 @@ class UserRating(models.Model):
 	wiki = models.IntegerField(default = 0)
 
 
-def update_user_rating(user, property_name, change):
-	rating, created = UserRating.objects.get_or_create(user = user)
-	setattr(rating, property_name, getattr(rating, property_name) + change)
-	rating.save()
-
-
 from shakal.threaded_comments.models import ThreadedComment
 from shakal.news.models import News
 from shakal.wiki.models import Page as WikiPage
@@ -49,11 +43,27 @@ SENDERS = {
 }
 
 
+def update_user_rating(instance, author_property, property_name, change):
+	user = getattr(instance, author_property)
+	rating, created = UserRating.objects.get_or_create(user = user)
+	setattr(rating, property_name, getattr(rating, property_name) + change)
+	rating.save()
+
+
+def update_count_pre_save(sender, instance, **kwargs):
+	author_property, property_name = SENDERS[sender]
+	if instance.pk:
+		instance = instance.__class__.objects.get(pk = instance.pk)
+		update_user_rating(instance, author_property, property_name, -1)
+
+pre_save.connect(update_count_pre_save, sender = ThreadedComment)
+pre_save.connect(update_count_pre_save, sender = News)
+pre_save.connect(update_count_pre_save, sender = WikiPage)
+
+
 def update_count_post_save(sender, instance, created, **kwargs):
 	author_property, property_name = SENDERS[sender]
-	author = getattr(instance, author_property)
-	if author:
-		update_user_rating(getattr(instance, author_property), property_name, 1)
+	update_user_rating(instance, author_property, property_name, 1)
 
 post_save.connect(update_count_post_save, sender = ThreadedComment)
 post_save.connect(update_count_post_save, sender = News)
