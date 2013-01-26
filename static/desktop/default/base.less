@@ -1031,7 +1031,12 @@ ul.messages {
 		&.private { border-left-color: #ff6000; }
 		&.deleted { border-left-color: #ff0000; }
 	}
-	p.files { margin: 0.3em 0 0 0; padding: 0; }
+	ul.files {
+		border-top: 1px solid rgba(0, 0, 0, 5%);
+		margin-top: 5px;
+		padding-bottom: 5px;
+		padding-top: 5px;
+	}
 	.title { float: left; clear: left; line-height: 2em; padding-left: 5px; }
 	.user { float: right; display: block; text-align: right; line-height: 2em; }
 	.distribution { display: block; line-height: 2em; font-size: 80%; color: @info-color; }
@@ -1112,7 +1117,7 @@ ul.messages {
 	font-weight: bold;
 }
 
-.preview .header, .preview .text, .preview .signature {
+.preview .text, .preview .signature {
 	padding: 0 1em .5em 1em;
 }
 

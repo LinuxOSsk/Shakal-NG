@@ -19,7 +19,6 @@
 		{% if comment.next_new %} | <a href="#link_{{ comment.next_new }}" class="comment-link prev">Nasledujúci</a>{% endif %}
 	</span>
 	{% if comment.attachments.all %}
-		<p class="files">Priložené súbory</p>
 		<ul class="files">
 		{% for attachment in comment.attachments.all %}
 			<li><a href="{{ attachment.url }}">{{ attachment.basename }}</a></li>

@@ -17,7 +17,6 @@
 	</span>
 
 {% if topic.get_attachments %}
-	<p class="files">Priložené súbory</p>
 	<ul class="files">
 	{% for attachment in topic.get_attachments %}
 		<li><a href="{{ attachment.url }}">{{ attachment.basename }}</a></li>
