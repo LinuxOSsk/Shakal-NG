@@ -403,6 +403,7 @@ button:focus { outline: none; }
 		&.resolved:before { .btn_icon(); .sprite(@backgrounds_tick_icon_14_imgpos); }
 		&.lock:before { .btn_icon(); .sprite(@backgrounds_lock_icon_14_imgpos); }
 		&.delete:before { .btn_icon(); .sprite(@backgrounds_delete_icon_14_imgpos); }
+		&.private:before { .btn_icon(); .sprite(@backgrounds_watch_icon_14_imgpos); }
 		&.up:before { .btn_icon(); .sprite(@backgrounds_up_icon_14_imgpos); }
 		&.down:before { .btn_icon(); .sprite(@backgrounds_down_icon_14_imgpos); }
 	}
@@ -1021,8 +1022,15 @@ ul.messages {
 	padding: 4px;
 	min-height: 44px;
 	margin: 0 0 1em 0;
+	&.me { background: #e0ebff;  }
 	&.resolved { background: mix(#eff3f7, #00ff00, 90%); }
-	&.deleted { background: mix(#eff3f7, #ff0000, 70%); }
+	&.deleted, &.private { background: mix(#eff3f7, #ff0000, 70%); }
+	&.entry {
+		&.me { border-left-color: #1d5886; }
+		&.resolved { border-left-color: #00ff00; }
+		&.private { border-left-color: #ff6000; }
+		&.deleted { border-left-color: #ff0000; }
+	}
 	p.files { margin: 0.3em 0 0 0; padding: 0; }
 	.title { float: left; clear: left; padding-bottom: 10px; }
 	.user { float: right; display: block; text-align: right; }
@@ -1031,28 +1039,32 @@ ul.messages {
 	.icon { display: block; float: right; height: 48px; padding-left: .6em; }
 }
 
-.thread_1 .discussion.header.entry {
+.thread_1 .discussion.header {
 	border-left-color: #2e82bc;
 }
 
-.thread_2 .discussion.header.entry {
+.thread_2 .discussion.header {
 	border-left-color: #3d9de1;
 }
 
-.thread_3 .discussion.header.entry {
+.thread_3 .discussion.header {
 	border-left-color: #8bcafb;
 }
 
-.thread_4 .discussion.header.entry {
+.thread_4 .discussion.header {
 	border-left-color: #add7fc;
 }
 
-.thread_5 .discussion.header.entry {
+.thread_5 .discussion.header {
 	border-left-color: #cbe2fe;
 }
 
-.thread_6 .discussion.header.entry {
+.thread_6 .discussion.header {
 	border-left-color: #eff3f7;
+}
+
+.content ul.messages {
+	margin: 1.5em;
 }
 
 .comments_tree .thread_1 .comment {
@@ -1072,12 +1084,7 @@ ul.messages {
 	background: white;
 }
 
-.discussion.header.entry.me {
-	border-left-color: #1d5886;
-	background: #e0ebff;
-}
-
-.discussion.header.entry.new, .discussion.header.entry.highlight {
+.discussion.header.new, .discussion.header.highlight {
 	border-left-color: #ffee55;
 	background-color: #fffae0;
 }
