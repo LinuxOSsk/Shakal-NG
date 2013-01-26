@@ -9,7 +9,7 @@
 	<span class="user">
 		{% user_link comment.user comment.user_name %}
 		{% if comment.user %}
-			<span class="distribution"><strong>Distribúcia: </strong>{{ comment.user.get_profile.distribution }}</span>
+			<span class="distribution">{{ comment.user.get_profile.distribution }}</span>
 		{% endif %}
 	</span>
 	<span class="info">

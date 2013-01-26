@@ -9,7 +9,7 @@
 	<span class="user">
 		{% user_link topic.author topic.authors_name %}
 		{% if topic.author %}
-			<span class="distribution"><strong>Distribúcia: </strong>{{ topic.author.get_profile.distribution }}</span>
+			<span class="distribution">{{ topic.author.get_profile.distribution }}</span>
 		{% endif %}
 	</span>
 	<span class="info">
