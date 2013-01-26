@@ -195,6 +195,7 @@ class Command(BaseCommand):
 
 	def clean_db(self):
 		tables = [
+			('accounts_userrating', 'accounts_userrating_id_seq'),
 			('wiki_page', 'wiki_page_id_seq'),
 			('auth_group_permissions', 'auth_group_permissions_id_seq'),
 			('auth_user_user_permissions', 'auth_user_user_permissions_id_seq'),
