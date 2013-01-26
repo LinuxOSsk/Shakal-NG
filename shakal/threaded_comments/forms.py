@@ -75,6 +75,8 @@ class ThreadedCommentForm(CommentForm, AttachmentFormMixin, AntispamFormMixin):
 			'email'     : self.data.get('email'),
 			'url'       : self.data.get('url'),
 			'comment'   : self.fields['comment'].to_python(self.data.get('comment')),
+			'is_public' : True,
+			'is_removed': False,
 		}
 
 	def generate_security_data(self):
@@ -91,15 +93,13 @@ class ThreadedCommentForm(CommentForm, AttachmentFormMixin, AntispamFormMixin):
 	def get_comment_create_data(self):
 		return {
 			'content_type': ContentType.objects.get_for_model(self.target_object),
-			'object_pk':    self.target_object._get_pk_val(),
-			'user_name':    self.cleaned_data.get("name", ""),
-			'user_url':     "",
-			'comment':      self.cleaned_data["comment"],
-			'submit_date':  timezone.now(),
-			'site_id':      settings.SITE_ID,
-			'is_public':    True,
-			'is_removed':   False,
-			'subject':      self.cleaned_data['subject'],
+			'object_pk'   : self.target_object._get_pk_val(),
+			'user_name'   : self.cleaned_data.get("name", ""),
+			'user_url'    : "",
+			'comment'     : self.cleaned_data["comment"],
+			'submit_date' : timezone.now(),
+			'site_id'     : settings.SITE_ID,
+			'subject'     : self.cleaned_data['subject'],
 		}
 
 	def clean_comment(self):
