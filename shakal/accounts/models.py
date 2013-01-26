@@ -53,8 +53,11 @@ def update_user_rating(instance, author_property, property_name, change):
 def update_count_pre_save(sender, instance, **kwargs):
 	author_property, property_name = SENDERS[sender]
 	if instance.pk:
-		instance = instance.__class__.objects.get(pk = instance.pk)
-		update_user_rating(instance, author_property, property_name, -1)
+		try:
+			instance = instance.__class__.objects.get(pk = instance.pk)
+			update_user_rating(instance, author_property, property_name, -1)
+		except instance.__class__.DoesNotExist:
+			pass
 
 pre_save.connect(update_count_pre_save, sender = ThreadedComment)
 pre_save.connect(update_count_pre_save, sender = News)
