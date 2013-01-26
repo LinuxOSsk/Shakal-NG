@@ -74,7 +74,7 @@
 	<div class="module feeds">
 		<h2>Vývoj Shakal CMS</h2>
 		<div class="module-row">
-			{% pull_feeds "https://github.com/mireq/Shakal-NG/commits/master.atom" %}
+			{% pull_feeds "https://github.com/mireq/Shakal-NG/commits/master.atom" max_count=15 %}
 		</div>
 	</div>
 {% endcache %}
