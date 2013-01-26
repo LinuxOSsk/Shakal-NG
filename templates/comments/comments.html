@@ -15,6 +15,21 @@
 {{ form.media }}
 {% endblock %}
 
-{% block content %}Diskusia k: <a href="{{ object.get_absolute_url }}">{{ object }}</a>{% endblock %}
+{% block content %}
+	<h1>Obsah diskusie</h1>
+	Diskusia k: <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+{% endblock %}
 
-{% block discussion %}{% render_threaded_comments_toplevel object %}{% endblock %}
+{% block discussion %}
+	{% if single %}
+		<div class="comments_tree secondary_content">
+			<ul class="comment_thread thread_1">
+				<li class="comment">
+					{% include "comments/comment_item.html" %}
+				</li>
+			</ul>
+		</div>
+	{% else %}
+		{% render_threaded_comments_toplevel object %}
+	{% endif %}
+{% endblock %}

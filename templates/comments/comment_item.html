@@ -1,5 +1,5 @@
 {% load linuxos %}{% load url from future %}{% load gravatar %}
-<div class="discussion header entry{% ifequal comment.user request.user %} me{% endifequal %}{% if comment.is_new %} new{% endif %}{% if comment.pk in highlight %} highlight{% endif %}{% if not comment.is_public %} private{% endif %}{% if comment.is_removed %} deleted{% endif %}">
+<div class="discussion header entry{% if not single %}{% ifequal comment.user request.user %} me{% endifequal %}{% if comment.is_new %} new{% endif %}{% if comment.pk in highlight %} highlight{% endif %}{% if not comment.is_public %} private{% endif %}{% if comment.is_removed %} deleted{% endif %}{% endif %}">
 	<div class="title">{{ comment.subject }}&nbsp;<a id="link_{{ comment.pk }}" href="#"></a></div>
 	<span class="icon">
 		{% if comment.user %}
@@ -29,13 +29,11 @@
 	<div class="clear"></div>
 </div>
 <div class="content">
-	{% if comment.is_removed %}
-		<ul class="messages"><li class="error">Príspevok bol vymazaný.</li></ul>
-	{% endif %}
-	{% if not comment.is_public %}
-		<ul class="messages"><li class="warning">Príspevok bol označený závadným.</li></ul>
-	{% endif %}
-	{% if not comment.is_removed and comment.is_public %}
+	{% if comment.is_removed and not can_display_deleted %}
+		<ul class="messages"><li class="error">Príspevok bol vymazaný. {% if request.user.is_staff %} Zobraziť ho môžte na <a href="{{ comment.get_single_comment_url }}" rel="nofollow">tejto adrese</a>.{% endif %}</li></ul>
+	{% elif not comment.is_public and not single %}
+		<ul class="messages"><li class="warning">Príspevok bol označený závadným. Zobraziť ho môžte na <a href="{{ comment.get_single_comment_url }}" rel="nofollow">tejto adrese</a>.</li></ul>
+	{% else %}
 		<div class="text">
 		{{ comment.comment|safe }}
 		</div>
@@ -45,7 +43,7 @@
 			</div>
 		{% endif %}
 	{% endif %}
-	{% if comment.pk and not readonly %}
+	{% if comment.pk and not readonly and not single %}
 		<div class="links">
 			{% if not comment.is_locked %}
 				<div class="btn reply">

@@ -99,6 +99,10 @@ class ThreadedComment(Comment):
 	def get_absolute_url(self):
 		return reverse('comment', args = [self.pk], kwargs = {}) + "#link_" + str(self.id)
 
+	@models.permalink
+	def get_single_comment_url(self):
+		return ('comment-single', (self.pk,), {})
+
 	def save(self, *args, **kwargs):
 		self.updated = datetime.now()
 		if not self.id:

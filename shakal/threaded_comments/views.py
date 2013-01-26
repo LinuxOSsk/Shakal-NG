@@ -148,15 +148,22 @@ def comments(request, header_id):
 	return TemplateResponse(request, "comments/comments.html", context)
 
 
-def comment(request, comment_id):
+
+def comment(request, comment_id, single = True):
 	comment = get_object_or_404(ThreadedComment, pk = comment_id)
 	object = comment.content_object
 	context = {
+		'comment': comment,
 		'object': object,
 		'module_name': get_module_name(object),
 		'module_url': get_module_url(object),
-		'highlight': [comment.pk]
+		'single': single,
 	}
+	if not single:
+		context['highlight'] = [comment.pk]
+	else:
+		if request.user.is_staff:
+			context['can_display_deleted'] = True
 	return TemplateResponse(request, "comments/comments.html", context)
 
 

@@ -643,7 +643,7 @@ textarea {
 
 /* === Obsah stránky */
 
-#site_content, #aside_left, #aside_right { padding: @layout-padding; }
+#site_content, .secondary_content, #aside_left, #aside_right { padding: @layout-padding; }
 #aside_left .module, #aside_right .module { font-size: 85%; }
 
 /* === Stránkovač === */
@@ -1024,7 +1024,7 @@ ul.messages {
 	margin: 0 0 1em 0;
 	&.me { background: #e0ebff;  }
 	&.resolved { background: mix(#eff3f7, #00ff00, 90%); }
-	&.deleted, &.private { background: mix(#eff3f7, #ff0000, 70%); }
+	&.deleted { background: mix(#eff3f7, #ff0000, 70%); }
 	&.entry {
 		&.me { border-left-color: #1d5886; }
 		&.resolved { border-left-color: #00ff00; }
@@ -1089,9 +1089,14 @@ ul.messages {
 	background-color: #fffae0;
 }
 
-.discussion.header.entry {
+.discussion.header {
 	border-left: 10px solid #e0ebff;
 	border-top: none;
+}
+
+.discussion.header.topic {
+	border-top: 1px solid #dbdfe3;
+	border-left: none;
 }
 
 .discussion.header.entry .title {
