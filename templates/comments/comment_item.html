@@ -18,12 +18,16 @@
 		{% if comment.prev_new %} | <a href="#link_{{ comment.prev_new }}" class="comment-link next">Predchádzajúci</a>{% endif %}
 		{% if comment.next_new %} | <a href="#link_{{ comment.next_new }}" class="comment-link prev">Nasledujúci</a>{% endif %}
 	</span>
-	{% if comment.attachments.all %}
-		<ul class="files">
-		{% for attachment in comment.attachments.all %}
-			<li><a href="{{ attachment.url }}">{{ attachment.basename }}</a></li>
-		{% endfor %}
-		</ul>
+	{% if comment.is_removed and not can_display_deleted %}
+	{% elif not comment.is_public and not single %}
+	{% else %}
+		{% if comment.attachments.all %}
+			<ul class="files">
+			{% for attachment in comment.attachments.all %}
+				<li><a href="{{ attachment.url }}">{{ attachment.basename }}</a></li>
+			{% endfor %}
+			</ul>
+		{% endif %}
 	{% endif %}
 	<div class="clear"></div>
 </div>
