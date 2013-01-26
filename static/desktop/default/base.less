@@ -1032,9 +1032,9 @@ ul.messages {
 		&.deleted { border-left-color: #ff0000; }
 	}
 	p.files { margin: 0.3em 0 0 0; padding: 0; }
-	.title { float: left; clear: left; padding-bottom: 10px; }
-	.user { float: right; display: block; text-align: right; }
-	.distribution { padding-top: 10px; display: block; }
+	.title { float: left; clear: left; line-height: 1.75em; }
+	.user { float: right; display: block; text-align: right; line-height: 1.75em; }
+	.distribution { display: block; }
 	.info { display: block; clear: left; }
 	.icon {
 		display: block;
@@ -1077,6 +1077,7 @@ ul.messages {
 
 .comments_tree .thread_1 .comment {
 	border: 1px solid #eff3f7;
+	border-top: 1px solid #dbdfe3;
 	background: #fafbfc;
 }
 
@@ -1146,6 +1147,11 @@ ul.messages {
 
 .comments_tree .links {
 	float: right;
+}
+
+.comments_tree ul.messages {
+	margin: 0;
+	margin-bottom: .5em;
 }
 
 .signature {
