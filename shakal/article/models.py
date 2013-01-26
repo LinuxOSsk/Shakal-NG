@@ -72,6 +72,7 @@ class Article(models.Model):
 	def display_content(self):
 		content = self.content
 		content = content.replace('<<ANOTACIA>>', '<div class="annotation">' + self.annotation + '</div>')
+		content = content.replace('{SHAKAL_PREFIX}', '/')
 		return mark_safe(content)
 
 	def hit(self):
