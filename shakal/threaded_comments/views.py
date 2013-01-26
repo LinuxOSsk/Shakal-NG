@@ -184,16 +184,19 @@ def watch(request, header_id):
 
 
 @permission_required('threaded_comments.change_threaded_comment')
-def lock(request, comment_id):
-	if 'lock' in request.GET:
-		if request.GET['lock']:
-			lock = True
-		else:
-			lock = False
-	else:
-		lock = True
+def admin(request, comment_id):
+	delete = request.GET.get('delete', None)
+	public = request.GET.get('public', None)
+	lock = request.GET.get('lock', None)
 	comment = get_object_or_404(ThreadedComment, pk = comment_id)
-	comment.get_descendants(include_self = True).update(is_locked = lock)
+	if delete is not None:
+		comment.is_removed = bool(delete)
+		comment.save()
+	if public is not None:
+		comment.is_public = bool(public)
+		comment.save()
+	if lock is not None:
+		comment.get_descendants(include_self = True).update(is_locked = bool(lock))
 	comment = ThreadedComment.objects.get(pk = comment_id)
 	update_comments_header(ThreadedComment, instance = comment)
 	return HttpResponseRedirect(comment.content_object.get_absolute_url() + '#link_' + str(comment_id))

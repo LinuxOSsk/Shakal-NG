@@ -29,7 +29,7 @@
 		<div class="btn-group admin">
 			<div class="btn">
 				<span>
-					<a href="{% url 'comments-lock' root.pk %}?lock={{ root.is_locked|yesno:",1" }}" class="lock">{% if root.is_locked %}Odomknúť{% else %}Zamknúť{% endif %}</a>
+					<a href="{% url 'comments-admin' root.pk %}?lock={{ root.is_locked|yesno:",1" }}" class="lock">{% if root.is_locked %}Odomknúť{% else %}Zamknúť{% endif %}</a>
 				</span>
 			</div>
 		</div>
