@@ -55,6 +55,11 @@ backgrounds = {
 			'mode': 'no-repeat', 'width': 800, 'height': 32, 'offset': (0, 96)
 		},
 		{
+			'name': 'avatar_placeholder',
+			'src': 'static/desktop/default/images/avatar_placeholder.png',
+			'mode': 'no-repeat', 'width': 56, 'height': 56
+		},
+		{
 			'name': 'breadcrumb_bg',
 			'src': 'static/desktop/default/images/breadcrumb_bg.png',
 			'mode': 'no-repeat', 'width': 8, 'height': 36

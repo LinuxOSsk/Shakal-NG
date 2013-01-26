@@ -1019,8 +1019,7 @@ ul.messages {
 .discussion.header {
 	border-top: 1px solid #dbdfe3;
 	background: #eff3f7;
-	padding: 4px;
-	min-height: 48px;
+	min-height: 56px;
 	margin: 0 0 1em 0;
 	&.me { background: #e0ebff;  }
 	&.resolved { background: mix(#eff3f7, #00ff00, 90%); }
@@ -1032,18 +1031,18 @@ ul.messages {
 		&.deleted { border-left-color: #ff0000; }
 	}
 	p.files { margin: 0.3em 0 0 0; padding: 0; }
-	.title { float: left; clear: left; line-height: 1.75em; }
-	.user { float: right; display: block; text-align: right; line-height: 1.75em; }
+	.title { float: left; clear: left; line-height: 2em; padding-left: 5px; }
+	.user { float: right; display: block; text-align: right; line-height: 2em; }
 	.distribution { display: block; }
-	.info { display: block; clear: left; }
+	.info { display: block; clear: left; padding-left: 5px; }
 	.icon {
 		display: block;
 		float: right;
-		height: 46px;
 		width: 46px;
-		margin-left: .6em;
-		border: 1px solid @generic-background;
-		.module-shadow();
+		height: 46px;
+		padding: 5px;
+		background: red;
+		.sprite(@backgrounds_avatar_placeholder_imgpos);
 	}
 }
 
