@@ -198,6 +198,10 @@
 	}
 }
 
+.module.preview {
+	padding-bottom: .7em;
+}
+
 /* === Nastavenia základných prvkov === */
 
 body {
@@ -1021,7 +1025,6 @@ ul.messages {
 	border-top: 1px solid #dbdfe3;
 	background: #eff3f7;
 	min-height: 56px;
-	margin: 0 0 1em 0;
 	&.me { background: #e0ebff;  }
 	&.resolved { background: mix(#eff3f7, #00ff00, 90%); }
 	&.deleted { background: mix(#eff3f7, #ff0000, 70%); }
@@ -1117,10 +1120,6 @@ ul.messages {
 	font-weight: bold;
 }
 
-.preview .text, .preview .signature {
-	padding: 0 1em .5em 1em;
-}
-
 .text p {
 	margin: .2em 0;
 }
@@ -1139,8 +1138,8 @@ ul.messages {
 	margin: 0 .5em;
 }
 
-.comments_tree .content {
-	padding: .5em;
+.discussion.content, .topic.content {
+	padding: .7em .7em 0 .7em;
 }
 
 .comments_tree li.comment {
@@ -1152,11 +1151,17 @@ ul.messages {
 
 .comments_tree .links {
 	float: right;
+	padding: 0 .7em .7em .7em;
+	margin: 0 -8px -2px 0;
 }
 
 .comments_tree ul.messages {
 	margin: 0;
 	margin-bottom: .5em;
+}
+
+.preview ul.messages {
+	margin: .7em;
 }
 
 .signature {

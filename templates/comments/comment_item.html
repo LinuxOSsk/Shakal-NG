@@ -31,7 +31,7 @@
 	{% endif %}
 	<div class="clear"></div>
 </div>
-<div class="content">
+<div class="discussion content">
 	{% if comment.is_removed and not can_display_deleted %}
 		<ul class="messages"><li class="error">Príspevok bol vymazaný. {% if request.user.is_staff %} Zobraziť ho môžte na <a href="{{ comment.get_single_comment_url }}" rel="nofollow">tejto adrese</a>.{% endif %}</li></ul>
 	{% elif not comment.is_public and not single %}
@@ -46,62 +46,62 @@
 			</div>
 		{% endif %}
 	{% endif %}
-	{% if comment.pk and not readonly and not single %}
-		<div class="links">
-			{% if not comment.is_locked %}
-				<div class="btn reply">
+</div>
+{% if comment.pk and not readonly and not single %}
+	<div class="links">
+		{% if not comment.is_locked %}
+			<div class="btn reply">
+				<span>
+					<a href="{% url 'comments-reply-comment' comment.pk %}" class="reply" rel="nofollow">Odpovedať</a>
+				</span>
+			</div>
+		{% endif %}
+		{% if user.is_authenticated and not comment.is_locked and comment.is_public and not comment.is_removed %}
+			<div class="btn-group voting">
+				<div class="btn">
 					<span>
-						<a href="{% url 'comments-reply-comment' comment.pk %}" class="reply" rel="nofollow">Odpovedať</a>
+						<a href="#" class="up" rel="nofollow">+ 1</a>
 					</span>
 				</div>
-			{% endif %}
-			{% if user.is_authenticated and not comment.is_locked and comment.is_public and not comment.is_removed %}
-				<div class="btn-group voting">
-					<div class="btn">
-						<span>
-							<a href="#" class="up" rel="nofollow">+ 1</a>
-						</span>
-					</div>
-					<div class="btn">
-						<span>
-							<a href="#" class="down" rel="nofollow">- 1</a>
-						</span>
-					</div>
+				<div class="btn">
+					<span>
+						<a href="#" class="down" rel="nofollow">- 1</a>
+					</span>
+				</div>
+			</div>
+		{% endif %}
+		{% if user.is_authenticated %}
+			{% if user.is_staff and perms.threaded_comments.change_threaded_comment or not comment.is_locked %}
+				<div class="btn-group admin">
+					{% if user.is_staff and perms.threaded_comments.change_threaded_comment %}
+						<div class="btn">
+							<span>
+								<a href="{% url 'comments-admin' comment.pk %}?delete={{ comment.is_removed|yesno:",1" }}" class="delete" rel="nofollow">{% if comment.is_removed %}Obnoviť{% else %}Zmazať{% endif %}</a>
+							</span>
+						</div>
+						{% if not comment.is_removed %}
+							<div class="btn">
+								<span>
+									<a href="{% url 'comments-admin' comment.pk %}?public={{ comment.is_public|yesno:",1" }}" class="private" rel="nofollow">{% if comment.is_public %}Závadný{% else %}Nezávadný{% endif %}</a>
+								</span>
+							</div>
+						{% endif %}
+						<div class="btn">
+							<span>
+								<a href="{% url 'comments-admin' comment.pk %}?lock={{ comment.is_locked|yesno:",1" }}" class="lock" rel="nofollow">{% if comment.is_locked %}Odomknúť{% else %}Zamknúť{% endif %}</a>
+							</span>
+						</div>
+					{% endif %}
+					{% if not comment.is_locked and comment.is_public and not comment.is_removed %}
+						<div class="btn">
+							<span>
+								<a href="#" class="resolved" rel="nofollow">Riešenie</a>
+							</span>
+						</div>
+					{% endif %}
 				</div>
 			{% endif %}
-			{% if user.is_authenticated %}
-				{% if user.is_staff and perms.threaded_comments.change_threaded_comment or not comment.is_locked %}
-					<div class="btn-group admin">
-						{% if user.is_staff and perms.threaded_comments.change_threaded_comment %}
-							<div class="btn">
-								<span>
-									<a href="{% url 'comments-admin' comment.pk %}?delete={{ comment.is_removed|yesno:",1" }}" class="delete" rel="nofollow">{% if comment.is_removed %}Obnoviť{% else %}Zmazať{% endif %}</a>
-								</span>
-							</div>
-							{% if not comment.is_removed %}
-								<div class="btn">
-									<span>
-										<a href="{% url 'comments-admin' comment.pk %}?public={{ comment.is_public|yesno:",1" }}" class="private" rel="nofollow">{% if comment.is_public %}Závadný{% else %}Nezávadný{% endif %}</a>
-									</span>
-								</div>
-							{% endif %}
-							<div class="btn">
-								<span>
-									<a href="{% url 'comments-admin' comment.pk %}?lock={{ comment.is_locked|yesno:",1" }}" class="lock" rel="nofollow">{% if comment.is_locked %}Odomknúť{% else %}Zamknúť{% endif %}</a>
-								</span>
-							</div>
-						{% endif %}
-						{% if not comment.is_locked and comment.is_public and not comment.is_removed %}
-							<div class="btn">
-								<span>
-									<a href="#" class="resolved" rel="nofollow">Riešenie</a>
-								</span>
-							</div>
-						{% endif %}
-					</div>
-				{% endif %}
-			{% endif %}
-		</div>
-	{% endif %}
-	<div class="clear"></div>
-</div>
+		{% endif %}
+	</div>
+{% endif %}
+<div class="clear"></div>
