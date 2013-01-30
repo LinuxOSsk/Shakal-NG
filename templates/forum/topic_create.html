@@ -20,7 +20,12 @@
 		<h2>Náhľad</h2>
 		<h3>{{ item }}</h3>
 		<div class="clearpadding">
-			{% include "forum/topic_header.html" with topic=item %}
+		{% with topic=item %}
+			{% with comment_type="topic" %}{% with comment=topic %}{% with user=topic.author %}{% with user_name=topic.authors_name %}
+			{% include "forum/topic_header.html" %}
+			{% endwith %}{% endwith %}{% endwith %}{% endwith %}
+			{% include "forum/topic_content.html" %}
+		{% endwith %}
 		</div>
 	</div>
 {% endif %}

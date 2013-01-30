@@ -1,0 +1,11 @@
+<div class="topic content">
+<div class="text">
+	{{ topic.text|safe }}
+</div>
+
+{% if topic.author.get_profile.signature %}
+	<div class="signature">
+		{{ topic.author.get_profile.signature|safe }}
+	</div>
+{% endif %}
+</div>

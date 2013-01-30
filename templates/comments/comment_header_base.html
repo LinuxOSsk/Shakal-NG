@@ -1,0 +1,35 @@
+{% load gravatar %}{% load linuxos %}
+<div class="discussion header {{ comment_type }}{% if not single %}{% ifequal user request.user %} me{% endifequal %}{% if comment.is_new %} new{% endif %}{% if comment.pk in highlight %} highlight{% endif %}{% if not comment.is_public %} private{% endif %}{% if comment.is_removed %} deleted{% endif %}{% if comment.is_resolved %} resolved{% endif %}{% endif %}">
+	<div class="title">{% block comment_title %}{% endblock %}</div>
+	<span class="icon">
+		{% if user %}
+			<img src="{% gravatar_for_user user 48 %}" class="gravatar" alt="Avatar" />
+		{% endif %}
+	</span>
+	<span class="user">
+		<span class="user_link">{% user_link user user_name %}</span>
+		<span class="user_rating"></span>
+		{% if user %}
+			<span class="distribution">{{ user.get_profile.distribution }}</span>
+			<span class="rank">Administrátor</span>
+		{% endif %}
+	</span>
+	<span class="info">
+		{% if comment.submit_date %}{{ comment.submit_date|humandatetime }}{% else %}Teraz{% endif %}{% if comment.pk %}
+		| <a href="#link_{{ comment.pk }}">Link</a>{% endif %}
+		{% if comment.prev_new %} | <a href="#link_{{ comment.prev_new }}" class="comment-link next">Predchádzajúci</a>{% endif %}
+		{% if comment.next_new %} | <a href="#link_{{ comment.next_new }}" class="comment-link prev">Nasledujúci</a>{% endif %}
+	</span>
+	{% if comment.is_removed and not can_display_deleted %}
+	{% elif not comment.is_public and not single %}
+	{% else %}
+		{% if comment.attachments.all %}
+			<ul class="files">
+			{% for attachment in comment.attachments.all %}
+				<li><a href="{{ attachment.url }}">{{ attachment.basename }}</a></li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	{% endif %}
+	<div class="clear"></div>
+</div>

@@ -1,38 +1,5 @@
-{% load linuxos %}{% load gravatar %}
-<div class="discussion header topic{% if topic.is_removed %} deleted{% else %}{% if topic.is_resolved %} resolved{% endif %}{% endif %}">
-	<div class="title"><strong>Sekcia</strong>: <a href="{{ topic.section.get_absolute_url }}">{{ topic.section }}</a></div>
-	<span class="icon">
-		{% if topic.author %}
-			<img src="{% gravatar_for_user topic.author 48 %}" class="gravatar" alt="Avatar" />
-		{% endif %}
-	</span>
-	<span class="user">
-		{% user_link topic.author topic.authors_name %}
-		{% if topic.author %}
-			<span class="distribution">{{ topic.author.get_profile.distribution }}</span>
-		{% endif %}
-	</span>
-	<span class="info">
-		{{ topic.created|humandatetime }}
-	</span>
+{% extends "comments/comment_header_base.html" %}
 
-{% if topic.get_attachments %}
-	<ul class="files">
-	{% for attachment in topic.get_attachments %}
-		<li><a href="{{ attachment.url }}">{{ attachment.basename }}</a></li>
-	{% endfor %}
-	</ul>
-{% endif %}
-
-</div>
-<div class="topic content">
-<div class="text">
-	{{ topic.text|safe }}
-</div>
-
-{% if topic.author.get_profile.signature %}
-	<div class="signature">
-		{{ topic.author.get_profile.signature|safe }}
-	</div>
-{% endif %}
-</div>
+{% block comment_title %}
+	<strong>Sekcia</strong>: <a href="{{ comment.section.get_absolute_url }}">{{ comment.section }}</a>
+{% endblock %}

@@ -1,36 +1,7 @@
-{% load linuxos %}{% load url from future %}{% load gravatar %}
-<div class="discussion header entry{% if not single %}{% ifequal comment.user request.user %} me{% endifequal %}{% if comment.is_new %} new{% endif %}{% if comment.pk in highlight %} highlight{% endif %}{% if not comment.is_public %} private{% endif %}{% if comment.is_removed %} deleted{% endif %}{% endif %}">
-	<div class="title">{{ comment.subject }}&nbsp;<a id="link_{{ comment.pk }}" href="#"></a></div>
-	<span class="icon">
-		{% if comment.user %}
-			<img src="{% gravatar_for_user comment.user 48 %}" class="gravatar" alt="Avatar" />
-		{% endif %}
-	</span>
-	<span class="user">
-		{% user_link comment.user comment.user_name %}
-		{% if comment.user %}
-			<span class="distribution">{{ comment.user.get_profile.distribution }}</span>
-		{% endif %}
-	</span>
-	<span class="info">
-		{% if comment.submit_date %}{{ comment.submit_date|humandatetime }}{% else %}Teraz{% endif %}{% if comment.pk %}
-		| <a href="#link_{{ comment.pk }}">Link</a>{% endif %}
-		{% if comment.prev_new %} | <a href="#link_{{ comment.prev_new }}" class="comment-link next">Predchádzajúci</a>{% endif %}
-		{% if comment.next_new %} | <a href="#link_{{ comment.next_new }}" class="comment-link prev">Nasledujúci</a>{% endif %}
-	</span>
-	{% if comment.is_removed and not can_display_deleted %}
-	{% elif not comment.is_public and not single %}
-	{% else %}
-		{% if comment.attachments.all %}
-			<ul class="files">
-			{% for attachment in comment.attachments.all %}
-				<li><a href="{{ attachment.url }}">{{ attachment.basename }}</a></li>
-			{% endfor %}
-			</ul>
-		{% endif %}
-	{% endif %}
-	<div class="clear"></div>
-</div>
+{% load url from future %}
+{% with comment_type="entry" %}{% with user=comment.user %}{% with user_name=comment.user_name %}
+{% include "comments/comment_header.html" %}
+{% endwith %}{% endwith %}{% endwith %}
 <div class="discussion content">
 	{% if comment.is_removed and not can_display_deleted %}
 		<ul class="messages"><li class="error">Príspevok bol vymazaný. {% if request.user.is_staff %} Zobraziť ho môžte na <a href="{{ comment.get_single_comment_url }}" rel="nofollow">tejto adrese</a>.{% endif %}</li></ul>

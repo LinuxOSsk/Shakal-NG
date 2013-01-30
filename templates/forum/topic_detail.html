@@ -31,7 +31,10 @@
 {% endif %}
 
 <h1>{{ topic }}</h1>
+{% with comment_type="topic" %}{% with comment=topic %}{% with user=topic.author %}{% with user_name=topic.authors_name %}
 {% include "forum/topic_header.html" %}
+{% endwith %}{% endwith %}{% endwith %}{% endwith %}
+{% include "forum/topic_content.html" %}
 {% endblock %}
 
 {% block discussion %}{% render_threaded_comments_toplevel topic %}{% endblock %}
