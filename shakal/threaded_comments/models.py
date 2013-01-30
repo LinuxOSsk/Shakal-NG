@@ -103,6 +103,20 @@ class ThreadedComment(Comment):
 	def get_single_comment_url(self):
 		return ('comment-single', (self.pk,), {})
 
+	def get_tags(self):
+		tags = []
+		if hasattr(self, 'is_new'):
+			if self.is_new:
+				tags.append('new')
+		if not self.is_public:
+			tags.append('private')
+		if self.is_removed:
+			tags.append('deleted')
+		if tags:
+			return u' ' + u' '.join(tags)
+		else:
+			return u''
+
 	def save(self, *args, **kwargs):
 		self.updated = datetime.now()
 		if not self.id:

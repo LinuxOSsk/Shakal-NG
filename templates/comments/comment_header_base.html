@@ -1,5 +1,5 @@
 {% load gravatar %}{% load linuxos %}
-<div class="discussion header {{ comment_type }}{% if not single %}{% ifequal user request.user %} me{% endifequal %}{% if comment.is_new %} new{% endif %}{% if comment.pk in highlight %} highlight{% endif %}{% if not comment.is_public %} private{% endif %}{% if comment.is_removed %} deleted{% endif %}{% if comment.is_resolved %} resolved{% endif %}{% endif %}">
+<div class="discussion header {{ comment_type }}{% if not single %}{% ifequal user request.user %} me{% endifequal %}{{ comment.get_tags }}{% endif %}">
 	<div class="title">{% block comment_title %}{% endblock %}</div>
 	<span class="icon">
 		{% if user %}

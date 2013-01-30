@@ -94,6 +94,17 @@ class Topic(models.Model):
 	is_removed = models.BooleanField(default = False, verbose_name = u'vymazané')
 	is_resolved = models.BooleanField(default = False)
 
+	def get_tags(self):
+		tags = []
+		if self.is_removed:
+			tags.append('deleted')
+		if self.is_resolved:
+			tags.append('resolved')
+		if tags:
+			return u' ' + u' '.join(tags)
+		else:
+			return u''
+
 	def get_attachments(self):
 		return self.attachments.all()
 
