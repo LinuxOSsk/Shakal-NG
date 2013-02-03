@@ -4,8 +4,10 @@ from attachment.models import TemporaryAttachment
 import datetime
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
+from django.contrib.comments.models import Comment
 from django.db.models import Count
 from shakal.accounts.models import UserRating
+from shakal.article.models import Article
 
 class Command(BaseCommand):
 	args = ''
@@ -38,15 +40,7 @@ class Command(BaseCommand):
 		ratings = [dict(zip(columns, r)) for r in ratings]
 		ratings = dict([(r['user'], r) for r in ratings])
 
-		user_comments = User.objects.extra(
-			{'num_comments':
-				'SELECT COUNT(*) \
-					FROM django_comments \
-					WHERE \
-						auth_user.id = django_comments.user_id AND \
-						django_comments.is_public AND \
-						NOT django_comments.is_removed'}
-			).values_list('id', 'num_comments')
+		user_comments = Comment.objects.filter(user_id__isnull = False, is_removed = False, is_public = True).values('user_id').annotate(num_comments = Count('pk')).order_by('user').values_list('user_id', 'num_comments')
 		user_comments_changed = filter(lambda c: c[0] not in ratings or c[1] != ratings[c[0]]['comments'], user_comments)
 		for user_id, comment_count in user_comments_changed:
 			rating, created = UserRating.objects.get_or_create(user_id = user_id)
@@ -55,16 +49,11 @@ class Command(BaseCommand):
 		del(user_comments)
 		del(user_comments_changed)
 
-		user_articles = User.objects.extra(
-			{'num_articles':
-				'SELECT COUNT(*) \
-					FROM article_article \
-					WHERE \
-						auth_user.id = article_article.author_id AND \
-						article_article.published'}
-			).values_list('id', 'num_articles')
+		user_articles = Article.objects.filter(author_id__isnull = False, published = True).values('author_id').annotate(num_articles = Count('pk')).order_by('author').values_list('author_id', 'num_articles')
 		user_articles_changed = filter(lambda c: c[0] not in ratings or c[1] != ratings[c[0]]['articles'], user_articles)
 		for user_id, comment_count in user_articles_changed:
 			rating, created = UserRating.objects.get_or_create(user_id = user_id)
 			rating.articles = comment_count
 			rating.save()
+		del(user_articles)
+		del(user_articles_changed)
