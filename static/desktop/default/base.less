@@ -1036,14 +1036,63 @@ ul.messages {
 	}
 	ul.files {
 		border-top: 1px solid rgba(0, 0, 0, 5%);
-		margin-top: 5px;
-		padding-bottom: 5px;
-		padding-top: 5px;
+		margin-top: 4px;
+		padding-bottom: 4px;
+		padding-top: 4px;
 	}
-	.title { float: left; clear: left; line-height: 2em; padding-left: 5px; }
-	.user { float: right; display: block; text-align: right; line-height: 2em; padding-right: 3px; }
-	.distribution { display: block; line-height: 2em; font-size: 80%; color: @info-color; }
-	.info { display: block; clear: left; line-height: 2em; padding-left: 5px; }
+	.user {
+		float: right;
+		display: block;
+		text-align: right;
+		padding-right: 3px;
+		min-height: 56px;
+	}
+	.user_link {
+		display: block;
+		line-height: 22px;
+		vertical-align: bottom;
+		a {
+			line-height: 22px;
+			vertical-align: bottom;
+		}
+	}
+	.distribution, .rank {
+		display: block;
+		font-size: 80%;
+		color: @info-color;
+		white-space: nowrap;
+		padding-right: 28px;
+		line-height: 14px;
+	}
+	&.deleted {
+		.distribution, .rank, .info {
+			color: mix(mix(#eff3f7, #ff0000, 70%), @generic-foreground, 40%);
+		}
+	}
+	.comment_info {
+		float: left;
+		margin-left: 5px;
+		.title {
+			display: block;
+			line-height: 25px;
+		}
+		.info {
+			line-height: 25px;
+		}
+	}
+	.user_rating {
+		float: right;
+		width: 20px;
+		height: 36px;
+		margin: -3px 0 0 8px;
+		&.admin { .sprite(@backgrounds_user_rating_admin_imgpos); }
+		&.rating_0 { .sprite(@backgrounds_user_rating_0_imgpos); }
+		&.rating_1 { .sprite(@backgrounds_user_rating_1_imgpos); }
+		&.rating_2 { .sprite(@backgrounds_user_rating_2_imgpos); }
+		&.rating_3 { .sprite(@backgrounds_user_rating_3_imgpos); }
+		&.rating_4 { .sprite(@backgrounds_user_rating_4_imgpos); }
+		&.rating_5 { .sprite(@backgrounds_user_rating_5_imgpos); }
+	}
 	.icon {
 		display: block;
 		float: right;

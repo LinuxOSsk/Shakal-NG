@@ -165,6 +165,41 @@ backgrounds = {
 			'mode': 'repeat-x', 'width': 1, 'height': 36
 		},
 		{
+			'name': 'user_rating_0',
+			'src': 'static/desktop/default/images/rating_0.png',
+			'mode': 'repeat-x', 'width': 20, 'height': 36
+		},
+		{
+			'name': 'user_rating_1',
+			'src': 'static/desktop/default/images/rating_1.png',
+			'mode': 'repeat-x', 'width': 20, 'height': 36
+		},
+		{
+			'name': 'user_rating_2',
+			'src': 'static/desktop/default/images/rating_2.png',
+			'mode': 'repeat-x', 'width': 20, 'height': 36
+		},
+		{
+			'name': 'user_rating_3',
+			'src': 'static/desktop/default/images/rating_3.png',
+			'mode': 'repeat-x', 'width': 20, 'height': 36
+		},
+		{
+			'name': 'user_rating_4',
+			'src': 'static/desktop/default/images/rating_4.png',
+			'mode': 'repeat-x', 'width': 20, 'height': 36
+		},
+		{
+			'name': 'user_rating_5',
+			'src': 'static/desktop/default/images/rating_5.png',
+			'mode': 'repeat-x', 'width': 20, 'height': 36
+		},
+		{
+			'name': 'user_rating_admin',
+			'src': 'static/desktop/default/images/rating_admin.png',
+			'mode': 'repeat-x', 'width': 20, 'height': 36
+		},
+		{
 			'name': 'breadcrumb_std',
 			'src': 'static/desktop/default/images/breadcrumb.png',
 			'mode': 'no-repeat', 'width': 800, 'height': 31, 'offset': (0, 0)

@@ -31,7 +31,19 @@ class UserRating(models.Model):
 	helped = models.IntegerField(default = 0)
 	news = models.IntegerField(default = 0)
 	wiki = models.IntegerField(default = 0)
-	rating = models.FloatField(default = 0)
+	rating = models.IntegerField(default = 0)
+
+	def get_rating_label(self):
+		if self.rating < 10:
+			return '1'
+		elif self.rating < 50:
+			return '2'
+		elif self.rating < 400:
+			return '3'
+		elif self.rating < 1000:
+			return '4'
+		else:
+			return '5'
 
 
 from shakal.article.models import Article

@@ -36,6 +36,7 @@ class ThreadedCommentsBaseNode(BaseCommentNode):
 			object_pk = object_pk,
 			site__pk = settings.SITE_ID,
 		)
+		queryset = queryset.select_related('user__profile', 'user__rating', )
 		queryset = queryset.prefetch_related('attachments')
 		queryset = queryset.order_by('lft')
 		return queryset
