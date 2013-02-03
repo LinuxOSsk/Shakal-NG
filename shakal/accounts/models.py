@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import post_save, pre_save, pre_delete
 from django.contrib.auth.models import User
 from django.core.validators import MaxLengthValidator, MinValueValidator, MaxValueValidator
 from django.utils.translation import ugettext_lazy as _
@@ -32,6 +32,7 @@ class UserRating(models.Model):
 	wiki = models.IntegerField(default = 0)
 
 
+from shakal.article.models import Article
 from shakal.threaded_comments.models import ThreadedComment
 from shakal.news.models import News
 from shakal.wiki.models import Page as WikiPage
@@ -40,6 +41,7 @@ SENDERS = {
 	ThreadedComment: ('user', 'comments', lambda c: c.is_public and not c.is_removed),
 	News: ('author', 'news', lambda c: c.approved),
 	WikiPage: ('last_author', 'wiki', lambda c: True),
+	Article: ('author', 'articles', lambda c: c.published),
 }
 
 
@@ -60,15 +62,21 @@ def update_count_pre_save(sender, instance, **kwargs):
 		except instance.__class__.DoesNotExist:
 			pass
 
+pre_save.connect(update_count_pre_save, sender = Article)
 pre_save.connect(update_count_pre_save, sender = ThreadedComment)
 pre_save.connect(update_count_pre_save, sender = News)
 pre_save.connect(update_count_pre_save, sender = WikiPage)
+pre_delete.connect(update_count_pre_save, sender = Article)
+pre_delete.connect(update_count_pre_save, sender = ThreadedComment)
+pre_delete.connect(update_count_pre_save, sender = News)
+pre_delete.connect(update_count_pre_save, sender = WikiPage)
 
 
 def update_count_post_save(sender, instance, created, **kwargs):
 	author_property, property_name, count_fun = SENDERS[sender]
 	update_user_rating(instance, author_property, property_name, int(count_fun(instance)))
 
+post_save.connect(update_count_post_save, sender = Article)
 post_save.connect(update_count_post_save, sender = ThreadedComment)
 post_save.connect(update_count_post_save, sender = News)
 post_save.connect(update_count_post_save, sender = WikiPage)
