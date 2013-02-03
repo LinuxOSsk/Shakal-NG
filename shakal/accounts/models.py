@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.db.models import F
 from django.db.models.signals import post_save, pre_save, pre_delete
 from django.contrib.auth.models import User
 from django.core.validators import MaxLengthValidator, MinValueValidator, MaxValueValidator
@@ -30,6 +31,7 @@ class UserRating(models.Model):
 	helped = models.IntegerField(default = 0)
 	news = models.IntegerField(default = 0)
 	wiki = models.IntegerField(default = 0)
+	rating = models.FloatField(default = 0)
 
 
 from shakal.article.models import Article
@@ -45,11 +47,21 @@ SENDERS = {
 }
 
 
+RATING_WEIGHTS = {
+	'comments': 1,
+	'articles': 200,
+	'helped': 20,
+	'news': 10,
+	'wiki': 50,
+}
+
+
 def update_user_rating(instance, author_property, property_name, change):
 	user = getattr(instance, author_property)
 	if user:
 		rating, created = UserRating.objects.get_or_create(user = user)
 		setattr(rating, property_name, max(getattr(rating, property_name) + change, 0))
+		rating.rating = sum(getattr(rating, w[0]) * w[1] for w in RATING_WEIGHTS.iteritems())
 		rating.save()
 
 

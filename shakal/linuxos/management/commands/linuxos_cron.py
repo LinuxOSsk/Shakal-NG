@@ -5,7 +5,7 @@ import datetime
 from django.core.management.base import BaseCommand
 from django.contrib.comments.models import Comment
 from django.db.models import Count, F
-from shakal.accounts.models import UserRating
+from shakal.accounts.models import UserRating, RATING_WEIGHTS
 from shakal.article.models import Article
 from shakal.news.models import News
 from shakal.wiki.models import Page as WikiPage
@@ -77,4 +77,4 @@ class Command(BaseCommand):
 		del(user_wiki)
 		del(user_wiki_changed)
 
-		UserRating.objects.update(rating = F("comments") + F("articles") * 200 + F("helped") * 20 + F("news") * 10 + F("wiki") * 50)
+		UserRating.objects.update(rating = sum([(F(w[0]) * w[1]) for w in RATING_WEIGHTS.iteritems()]))
