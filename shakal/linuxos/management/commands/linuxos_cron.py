@@ -3,11 +3,11 @@
 from attachment.models import TemporaryAttachment
 import datetime
 from django.core.management.base import BaseCommand
-from django.contrib.auth.models import User
 from django.contrib.comments.models import Comment
 from django.db.models import Count
 from shakal.accounts.models import UserRating
 from shakal.article.models import Article
+from shakal.news.models import News
 
 class Command(BaseCommand):
 	args = ''
@@ -57,3 +57,12 @@ class Command(BaseCommand):
 			rating.save()
 		del(user_articles)
 		del(user_articles_changed)
+
+		user_news = News.objects.filter(author_id__isnull = False, approved = True).values('author_id').annotate(num_news = Count('pk')).order_by('author').values_list('author_id', 'num_news')
+		user_news_changed = filter(lambda c: c[0] not in ratings or c[1] != ratings[c[0]]['news'], user_news)
+		for user_id, comment_count in user_news_changed:
+			rating, created = UserRating.objects.get_or_create(user_id = user_id)
+			rating.news = comment_count
+			rating.save()
+		del(user_news)
+		del(user_news_changed)
