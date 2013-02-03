@@ -4,7 +4,6 @@ from attachment.models import TemporaryAttachment
 import datetime
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
-from django.contrib.comments.models import Comment
 from django.db.models import Count
 from shakal.accounts.models import UserRating
 
@@ -52,4 +51,20 @@ class Command(BaseCommand):
 		for user_id, comment_count in user_comments_changed:
 			rating, created = UserRating.objects.get_or_create(user_id = user_id)
 			rating.comments = comment_count
+			rating.save()
+		del(user_comments)
+		del(user_comments_changed)
+
+		user_articles = User.objects.extra(
+			{'num_articles':
+				'SELECT COUNT(*) \
+					FROM article_article \
+					WHERE \
+						auth_user.id = article_article.author_id AND \
+						article_article.published'}
+			).values_list('id', 'num_articles')
+		user_articles_changed = filter(lambda c: c[0] not in ratings or c[1] != ratings[c[0]]['articles'], user_articles)
+		for user_id, comment_count in user_articles_changed:
+			rating, created = UserRating.objects.get_or_create(user_id = user_id)
+			rating.articles = comment_count
 			rating.save()
