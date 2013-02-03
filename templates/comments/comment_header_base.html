@@ -16,7 +16,7 @@
 	</span>
 	<span class="user">
 		<span class="user_link">{% user_link user user_name %}</span>
-		<span class="user_rating {% if user.is_staff %}admin{% elif user.is_active %}rating_{{ user.rating.get_rating_label }}{% else %}rating_0{% endif %}"{% if user.rating %} title="Body {{ user.rating.rating }}"{% endif %}></span>
+		<span class="user_rating {% if user.is_staff %}admin{% elif user.is_active %}rating_{{ user.rating.get_rating_label }}{% else %}rating_0{% endif %}"{% if user.rating %} title="Body: {{ user.rating.rating }}"{% endif %}></span>
 		<span class="distribution">{{ user.get_profile.distribution }}&nbsp;</span>
 		<span class="rank">{% if user.is_staff %}Administrátor{% elif user.is_active %}Používateľ{% else %}Návštevník{% endif %}</span>
 	</span>
