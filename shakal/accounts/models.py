@@ -37,9 +37,9 @@ from shakal.news.models import News
 from shakal.wiki.models import Page as WikiPage
 
 SENDERS = {
-	ThreadedComment: ('user', 'comments'),
-	News: ('author', 'news'),
-	WikiPage: ('last_author', 'wiki'),
+	ThreadedComment: ('user', 'comments', lambda c: c.is_public and not c.is_removed),
+	News: ('author', 'news', lambda c: c.approved),
+	WikiPage: ('last_author', 'wiki', lambda c: True),
 }
 
 
@@ -52,11 +52,11 @@ def update_user_rating(instance, author_property, property_name, change):
 
 
 def update_count_pre_save(sender, instance, **kwargs):
-	author_property, property_name = SENDERS[sender]
+	author_property, property_name, count_fun = SENDERS[sender]
 	if instance.pk:
 		try:
 			instance = instance.__class__.objects.get(pk = instance.pk)
-			update_user_rating(instance, author_property, property_name, -1)
+			update_user_rating(instance, author_property, property_name, -int(count_fun(instance)))
 		except instance.__class__.DoesNotExist:
 			pass
 
@@ -66,8 +66,8 @@ pre_save.connect(update_count_pre_save, sender = WikiPage)
 
 
 def update_count_post_save(sender, instance, created, **kwargs):
-	author_property, property_name = SENDERS[sender]
-	update_user_rating(instance, author_property, property_name, 1)
+	author_property, property_name, count_fun = SENDERS[sender]
+	update_user_rating(instance, author_property, property_name, int(count_fun(instance)))
 
 post_save.connect(update_count_post_save, sender = ThreadedComment)
 post_save.connect(update_count_post_save, sender = News)
