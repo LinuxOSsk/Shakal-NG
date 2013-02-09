@@ -17,7 +17,7 @@ var wymeditor_plugin = function(element, settings) {
 			skin: 'shakal',
 			lang: settings['lang'],
 			statusHtml: '',
-			updateSelector: jQuery('#id_{{ name }}').parents('form:first'),
+			updateSelector: jQuery(element).parents('form:first'),
 			updateEvent: 'submit',
 			postInit: function(wym) {
 				//wym.table();
