@@ -1,0 +1,11 @@
+{% load staticfiles %}
+<script type="text/javascript" charset="utf-8">
+	initialize_html_editor(
+		'{{ name }}',
+		{
+			lang: '{{ lang }}',
+			iframe_preview: '{% static 'js/wymeditor/iframe/default/wymiframe.html' %}',
+			script_wymeditor: '{% static 'js/wymeditor/jquery.wymeditor.min.js' %}'
+		}
+	);
+</script>

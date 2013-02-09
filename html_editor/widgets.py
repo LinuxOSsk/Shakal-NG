@@ -8,9 +8,11 @@ from django.utils.safestring import mark_safe
 class HtmlEditor(Textarea):
 	class Media:
 		js = [
-			'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js',
-			'js/wymeditor/jquery.wymeditor.min.js',
+			'js/htmleditor/editor.js',
 		]
+		css = {
+			'all': ('js/wymeditor/skins/shakal/skin.css', )
+		}
 
 	def __init__(self, attrs = {}, **kwargs):
 		self.language = settings.LANGUAGE_CODE
@@ -23,4 +25,4 @@ class HtmlEditor(Textarea):
 			'name': name,
 			'lang': self.language[:2]
 		}
-		return widget + mark_safe(render_to_string('widgets/wymeditor.html', context))
+		return widget + mark_safe(render_to_string('widgets/editor.html', context))
