@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-28 16:56+0100\n"
+"POT-Creation-Date: 2013-02-09 12:23+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,6 +69,9 @@ msgstr "^spravy/"
 msgid "^survey/"
 msgstr "^anketa/"
 
+msgid "^wiki/"
+msgstr "^wiki/"
+
 msgid "^template-change/$"
 msgstr "^template-cache/$"
 
@@ -109,8 +112,14 @@ msgstr "Krstné meno"
 msgid "Last name"
 msgstr "Priezvisko"
 
+msgid "Email address can be changed <a href=\"{0}\">this link</a>."
+msgstr ""
+
 msgid "Please enter the correct password."
 msgstr "Zadajte prosím správne heslo."
+
+msgid "New e-mail"
+msgstr "Nový e-mail"
 
 msgid "display mail"
 msgstr "zobrazovať email"
@@ -136,6 +145,15 @@ msgstr "^registrovat/$"
 msgid "^login/$"
 msgstr "^prihlasit/$"
 
+msgid "^email/change/$"
+msgstr "^email/zmena/$"
+
+msgid "^email/change/done/$"
+msgstr "^email/zmena/done/$"
+
+msgid "^email/change/activate/(?P<email>.*)/$"
+msgstr "^email/zmena/activate/(?P<email>.*)/$"
+
 msgid "user name"
 msgstr "používateľské meno"
 
@@ -148,9 +166,6 @@ msgstr "priezvisko"
 msgid "signature"
 msgstr "podpis"
 
-msgid "info"
-msgstr "info"
-
 msgid "ROLLMOP"
 msgstr "UDENÁ RYBA"
 
@@ -159,6 +174,12 @@ msgstr "BODKA"
 
 msgid "e-mail"
 msgstr "e-mail"
+
+msgid "Link expired."
+msgstr "Platnosť odkazu vypršala."
+
+msgid "E-mail address is already in use."
+msgstr "E-mailová adresa sa už používa."
 
 msgid "name"
 msgstr "meno"
@@ -219,6 +240,12 @@ msgstr "články"
 
 msgid "section"
 msgstr "sekcia"
+
+msgid "Text"
+msgstr "Text"
+
+msgid "Attachment"
+msgstr "Príloha"
 
 msgid "description"
 msgstr "popis"
@@ -313,9 +340,6 @@ msgstr "Predmet"
 msgid "Comment"
 msgstr "Komentár"
 
-msgid "Attachment"
-msgstr "Príloha"
-
 msgid "comment"
 msgstr "komentár"
 
@@ -328,11 +352,71 @@ msgstr "Shakal administrácia"
 msgid "Welcome to Shakal admin interface"
 msgstr "Vitajte v administrátorskom rozhraní Shakal CMS"
 
-msgid "Articles"
-msgstr "Články"
+#, python-format
+msgid "Models available in the %(name)s application."
+msgstr "Modely dostupné v aplikácii %(name)s."
 
-msgid "Edit article"
-msgstr "Upraviť článok"
+#, python-format
+msgid "%(name)s"
+msgstr "%(name)s"
+
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] "Opravte prosím nasledujúcu chybu."
+msgstr[1] "Opravte prosím nasledujúce chyby."
+msgstr[2] "Opravte prosím nasledujúce chyby."
+
+#, python-format
+msgid "Sorting priority: %(priority_number)s"
+msgstr "Priorita zoradenia: %(priority_number)s "
+
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would result in deleting "
+"related objects, but your account doesn't have permission to delete the "
+"following types of objects:"
+msgstr ""
+"Vymazanie objektov %(object_name)s '%(escaped_object)s' spôsobí vymazanie "
+"súvisiacich objektov, ale váš účet nemá práva na vymazanie týchto objektov:"
+
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would require deleting the "
+"following protected related objects:"
+msgstr ""
+"Vymazanie %(object_name)s '%(escaped_object)s' spôsobí vymazanie "
+"nasledujúcich chránených objektov:"
+
+#, python-format
+msgid ""
+"Are you sure you want to delete the %(object_name)s \"%(escaped_object)s\"? "
+"All of the following related items will be deleted:"
+msgstr ""
+"Ste si istí, že chcete vymazať %(object_name)s \"%(escaped_object)s\"? "
+"Nasledujúce položky budú vymazané:"
+
+#, python-format
+msgid " By %(filter_title)s "
+msgstr " Pomocou %(filter_title)s "
+
+#, python-format
+msgid "%(counter)s result"
+msgid_plural "%(counter)s results"
+msgstr[0] "%(counter)s výsledok"
+msgstr[1] "%(counter)s výsledky"
+msgstr[2] "%(counter)s výsledkov"
+
+#, python-format
+msgid "%(full_result_count)s total"
+msgstr "%(full_result_count)s celkovo"
+
+#, python-format
+msgid "Enter a new password for the user <strong>%(username)s</strong>."
+msgstr "Zadajte heslo pre užívateľa <strong>%(username)s</strong>."
+
+#, python-format
+msgid "Add another %(verbose_name)s"
+msgstr "Pridať ďalšie %(verbose_name)s"
 
 #, python-format
 msgid "%(counter)s comment"
@@ -389,6 +473,49 @@ msgstr "Po aktivácii sa môžte prihlásiť na stránku"
 
 msgid "Activate your account"
 msgstr "Aktivujte si účet"
+
+msgid "Please use this link to change your e-mail"
+msgstr "Použite prosím nasledujúci odkaz pre zmenu vášho e-mailu"
+
+msgid "E-mail change complete"
+msgstr "E-mail zmenený"
+
+msgid "Your e-mail has been changed."
+msgstr "Váš e-mail bol zmenený."
+
+msgid "Back to my profile"
+msgstr "Späť na profil"
+
+msgid "E-mail change unsuccessful"
+msgstr "Zmena e-mailu neúspešná"
+
+msgid "The e-mail change link was invalid."
+msgstr "Odkaz na zmenu e-mailu je neplatný."
+
+msgid "E-mail change successful"
+msgstr "Zmena e-mailu úspešná"
+
+msgid "E-mail change request sent"
+msgstr "Požiadavka na zmenu e-mailu bola odoslaná"
+
+msgid ""
+"We've e-mailed you instructions for setting your new e-mail address. You "
+"should be receiving it shortly."
+msgstr ""
+"Na uvedenú e-mailovú adresu sme vám poslali návod na zmenu e-mailovej "
+"adresy. Mali by ste ho o nedlho dostať."
+
+msgid "E-mail change"
+msgstr "Zmena e-mailu"
+
+msgid "Enter your new e-mail address below."
+msgstr "Zadajte vašu novú e-mailovu adresu."
+
+msgid "Change my e-mail"
+msgstr "Zmeniť môj e-mail"
+
+msgid "Change your e-mail"
+msgstr "Zmeniť váš e-mail"
 
 msgid "Log in to"
 msgstr "Prihlásiť sa na"
@@ -454,7 +581,7 @@ msgid ""
 "address you submitted. You should be receiving it shortly."
 msgstr ""
 "Na uvedenú e-mailovú adresu sme vám poslali návod na obnovenie hesla. Mali "
-"by ste ho zakrátko dostať."
+"by ste ho o nedlho dostať."
 
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll e-mail "
@@ -480,6 +607,9 @@ msgstr "Upraviť používateľský profil"
 
 msgid "Edit"
 msgstr "Upraviť"
+
+msgid "Change e-mail"
+msgstr "Zmeniť e-mail"
 
 msgid "Back to profile"
 msgstr "Späť na profil"

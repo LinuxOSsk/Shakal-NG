@@ -3,7 +3,7 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
-from django.forms import ValidationError, BooleanField, CharField, PasswordInput, RegexField, ModelForm
+from django.forms import ValidationError, BooleanField, CharField, PasswordInput, RegexField, ModelForm, Form, EmailField
 from django.utils.translation import ugettext_lazy as _
 from models import UserProfile
 from registration.forms import RegistrationForm
@@ -70,3 +70,8 @@ class ProfileEditForm(ModelForm):
 		user.last_name = self.cleaned_data['last_name']
 		if commit:
 			user.save()
+
+
+class EmailChangeForm(Form):
+	current_password = CharField(max_length = 128, widget = PasswordInput, label = _('Current password'))
+	email = EmailField(label = _('New e-mail'))

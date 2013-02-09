@@ -8,7 +8,8 @@
 {% endblock %}
 
 {% block content %}
-<ul class="object-tools">
+<ul class="object-tools btn-group">
+	<li class="btn"><span><a href="{% url 'auth_email_change' %}">{% trans 'Change e-mail' %}</a></span></li>
 	<li class="btn"><span><a href="{% url 'auth_password_change' %}">{% trans 'Change password' %}</a></span></li>
 </ul>
 <h1>{% trans 'Edit user profile' %}</h1>
