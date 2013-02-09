@@ -22,6 +22,15 @@ class HtmlTag:
 		self.attribute_validators = attribute_validators
 		self.empty = empty
 
+	def get_child_tags(self):
+		return self.req.union(self.opt)
+
+ALL_TAGS = ['a', 'abbr', 'acronym', 'address', 'applet', 'area', 'article', 'aside', 'audio', 'b', 'base', 'basefont', 'bdi', 'bdo', 'big', 'blockquote', 'body', 'br', 'button', 'canvas', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'command', 'datalist', 'dd', 'del', 'details', 'dfn', 'dir', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset', 'figcaption', 'figure', 'font', 'footer', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'hr', 'html', 'i', 'iframe', 'img', 'input', 'ins', 'kbd', 'keygen', 'label', 'legend', 'li', 'link', 'map', 'mark', 'menu', 'meta', 'meter', 'nav', 'noframes', 'noscript', 'object', 'ol', 'optgroup', 'option', 'output', 'p', 'param', 'pre', 'progress', 'q', 'rp', 'rt', 'ruby', 's', 'samp', 'script', 'section', 'select', 'small', 'source', 'span', 'strike', 'strong', 'style', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'title', 'tr', 'track', 'tt', 'u', 'ul', 'var', 'video', 'wbr']
+
+
+TEXT_TAGS = ['', 'b', 'u', 'i', 'em', 'strong', 'a', 'br']
+
+
 class HtmlParser:
 	# Typy tokenov
 	TAG = 1; ENDTAG = 2; ENTITY = 3; WHITESPACE = 4; TEXT = 5; SPECIAL = 6;
@@ -35,25 +44,23 @@ class HtmlParser:
 		|(.)             # 6. Ostatne
 	""", re.VERBOSE)
 
-	# Tagy plain textu
-	text_tags = ['', 'b', 'u', 'i', 'em', 'strong', 'a', 'br']
 	# Validatory tagov
 	supported_tags = {
-		'b'          : HtmlTag('b', opt = text_tags, empty = False),
-		'u'          : HtmlTag('u', opt = text_tags, empty = False),
-		'i'          : HtmlTag('i', opt = text_tags, empty = False),
-		'em'         : HtmlTag('em', opt = text_tags, empty = False),
-		'strong'     : HtmlTag('strong', opt = text_tags, empty = False),
+		'b'          : HtmlTag('b', opt = TEXT_TAGS, empty = False),
+		'u'          : HtmlTag('u', opt = TEXT_TAGS, empty = False),
+		'i'          : HtmlTag('i', opt = TEXT_TAGS, empty = False),
+		'em'         : HtmlTag('em', opt = TEXT_TAGS, empty = False),
+		'strong'     : HtmlTag('strong', opt = TEXT_TAGS, empty = False),
 		'a'          : HtmlTag('a', opt = [''], req_attributes = ['href'], empty = False),
-		'p'          : HtmlTag('p', opt = text_tags + ['span', 'code', 'cite'], empty = False),
-		'span'       : HtmlTag('span', opt = text_tags, empty = False),
+		'p'          : HtmlTag('p', opt = TEXT_TAGS + ['span', 'code', 'cite'], empty = False),
+		'span'       : HtmlTag('span', opt = TEXT_TAGS, empty = False),
 		'br'         : HtmlTag('br', empty = True),
 		'code'       : HtmlTag('p', opt = ['', 'b', 'u', 'i', 'em', 'strong'], empty = False),
-		'blockquote' : HtmlTag('blockquote', opt = text_tags + ['p', 'code', 'pre', 'cite', 'span', 'ol', 'ul'], empty = False),
-		'cite'       : HtmlTag('cite', opt = text_tags, empty = False),
+		'blockquote' : HtmlTag('blockquote', opt = TEXT_TAGS + ['p', 'code', 'pre', 'cite', 'span', 'ol', 'ul'], empty = False),
+		'cite'       : HtmlTag('cite', opt = TEXT_TAGS, empty = False),
 		'ol'         : HtmlTag('ol', req = ['li'], empty = True),
 		'ul'         : HtmlTag('ul', req = ['li'], empty = True),
-		'li'         : HtmlTag('li', opt = text_tags + ['ol', 'ul'], empty = None),
+		'li'         : HtmlTag('li', opt = TEXT_TAGS + ['ol', 'ul'], empty = None),
 		''           : HtmlTag('', opt = ['', 'a','b','u', 'br','p','i','em','code','strong','pre','blockquote','ol','ul','span','cite'])
 	}
 	# Stav parseru

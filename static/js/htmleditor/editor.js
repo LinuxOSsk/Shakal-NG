@@ -1,3 +1,15 @@
+var generate_unsupported_tags = function(frame, unsupported_tags) {
+	console.log(frame);
+	var doc = frame.contentDocument;
+	console.log(doc);
+	var styleEl = doc.createElement('style');
+	styleEl.type = 'text/css';
+	var style = doc.createTextNode(unsupported_tags.join(', ') + '{ background-color: #ff9999 !important; border: 1px solid red !important; font-size: 12px !important; font-weight: normal; }');
+	styleEl.appendChild(style);
+	var link = doc.getElementsByTagName('link')[0];
+	link.parentNode.appendChild(styleEl);
+};
+
 var wymeditor_plugin = function(element, settings) {
 	var startEditor = function()
 	{
@@ -30,6 +42,13 @@ var wymeditor_plugin = function(element, settings) {
 				{name:"Preview",title:"Preview",css:"wym_tools_preview"}
 			]
 		});
+		var iframe = element.parentNode.getElementsByTagName('iframe')[0];
+		var old_onload = iframe.onload;
+		iframe.onload = function(event) {
+			this.onload = old_onload;
+			this.onload(event);
+			generate_unsupported_tags(iframe, settings.unsupported_tags);
+		}
 	}
 
 	var loadEditor = function ()

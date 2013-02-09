@@ -1,11 +1,14 @@
 {% load staticfiles %}
 <script type="text/javascript" charset="utf-8">
+//<![CDATA[
 	initialize_html_editor(
 		'{{ name }}',
 		{
 			lang: '{{ lang }}',
+			unsupported_tags: {{ unsupported_tags|safe }},
 			iframe_preview: '{% static 'js/wymeditor/iframe/default/wymiframe.html' %}',
 			script_wymeditor: '{% static 'js/wymeditor/jquery.wymeditor.min.js' %}'
 		}
 	);
+//]]>
 </script>

@@ -7,7 +7,15 @@ from widgets import HtmlEditor
 class HtmlField(CharField):
 	widget = HtmlEditor
 
+	def __init__(self, *args, **kwargs):
+		self.parser = HtmlParser()
+		super(HtmlField, self).__init__(*args, **kwargs)
+
+	def widget_attrs(self, widget):
+		attrs = super(HtmlField, self).widget_attrs(widget)
+		attrs['supported_tags'] = self.parser.supported_tags
+		return attrs
+
 	def to_python(self, value):
-		parser = HtmlParser()
-		parser.parse(value)
-		return parser.get_output()
+		self.parser.parse(value)
+		return self.parser.get_output()
