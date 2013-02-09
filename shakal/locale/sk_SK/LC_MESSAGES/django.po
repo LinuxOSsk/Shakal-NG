@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-09 12:24+0100\n"
+"POT-Creation-Date: 2013-02-09 12:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -121,6 +121,9 @@ msgstr "Zadajte prosím správne heslo."
 msgid "New e-mail"
 msgstr "Nový e-mail"
 
+msgid "signature"
+msgstr "podpis"
+
 msgid "display mail"
 msgstr "zobrazovať email"
 
@@ -162,9 +165,6 @@ msgstr "krsné meno"
 
 msgid "last name"
 msgstr "priezvisko"
-
-msgid "signature"
-msgstr "podpis"
 
 msgid "ROLLMOP"
 msgstr "UDENÁ RYBA"

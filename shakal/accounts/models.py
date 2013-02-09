@@ -10,7 +10,7 @@ class UserProfile(models.Model):
 	user = models.OneToOneField(User, related_name = 'profile')
 	jabber = models.CharField(max_length = 127, blank = True)
 	url = models.CharField(max_length = 255, blank = True)
-	signature = models.CharField(max_length = 255, blank = True)
+	signature = models.CharField(max_length = 255, blank = True, verbose_name = _('signature'))
 	display_mail = models.BooleanField(default = False, verbose_name = _('display mail'))
 	distribution = models.CharField(max_length = 50, blank = True, verbose_name = _('linux distribution'))
 	info = models.TextField(validators = [MaxLengthValidator(100000)], blank = True, verbose_name = _('informations'))
