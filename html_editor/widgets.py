@@ -22,8 +22,9 @@ class HtmlEditor(Textarea):
 		super(HtmlEditor, self).__init__(attrs)
 
 	def render(self, name, value, attrs = None, **kwargs):
-		widget = super(HtmlEditor, self).render(name, value, attrs)
-		supported_tags = self.attrs['supported_tags']
+		supported_tags = self.attrs.pop('supported_tags', {})
+		widget = mark_safe(u'<div class="textareawrapper">') + super(HtmlEditor, self).render(name, value, attrs) + mark_safe(u'</div>')
+		self.attrs['supported_tags'] = supported_tags;
 		unsupported_tags = set(ALL_TAGS) - set(supported_tags.keys()) - set(('html', 'body'))
 		defined_tags = set(supported_tags.keys()) - set('')
 		for tag in supported_tags:

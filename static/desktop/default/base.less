@@ -242,7 +242,16 @@ dl { .no-space(); }
 dt { .no-space(); font-weight: bold; }
 dd { .no-space(); margin-left: 4em; }
 
-textarea { width: 30em; height: 10em; }
+textarea { width: 30em; height: 10em; .input; }
+textarea.wymeditor { width: auto; height: 15em; display: block; clear: both; }
+.textareawrapper {
+	clear: both;
+	padding: @row-padding 12px 3px 0;
+	position: relative;
+	textarea {
+		width: 100%;
+	}
+}
 
 .highlighted { background: @highlight-color; }
 
@@ -628,7 +637,7 @@ button:focus { outline: none; }
 	.negative { float: left; }
 }
 
-input[type="text"], input[type="password"], textarea {
+input[type="text"], input[type="password"] {
 	.input;
 }
 
