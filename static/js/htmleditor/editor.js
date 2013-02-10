@@ -1,16 +1,34 @@
+function setCookie(name, value, expiredays) {
+	var expires = new Date();
+	expires.setDate(expires.getDate() + expiredays);
+	document.cookie = name + '=' + escape(value) + '; expires=' + expires.toUTCString();
+}
+
+function getCookie(requested_name, default_value) {
+	var cookies = document.cookie.split(";");
+	for (var i = 0; i < cookies.length; ++i) {
+		var name = cookies[i].substr(0, cookies[i].indexOf('='));
+		var value = cookies[i].substr(cookies[i].indexOf('=') + 1);
+		name = name.replace(/^\s+|\s+$/g,"");
+		if (name == requested_name) {
+			return unescape(value);
+		}
+	}
+	return default_value;
+}
+
 var generate_unsupported_tags = function(frame, unsupported_tags) {
-	console.log(frame);
 	var doc = frame.contentDocument;
-	console.log(doc);
 	var styleEl = doc.createElement('style');
 	styleEl.type = 'text/css';
-	var style = doc.createTextNode(unsupported_tags.join(', ') + '{ background-color: #ff9999 !important; border: 1px solid red !important; font-size: 12px !important; font-weight: normal; }');
+	var style = doc.createTextNode(unsupported_tags.join(', ') + '{ background-color: #ff9999 !important; border: 1px solid red !important; }');
 	styleEl.appendChild(style);
 	var link = doc.getElementsByTagName('link')[0];
 	link.parentNode.appendChild(styleEl);
 };
 
 var wymeditor_plugin = function(element, settings) {
+	var editor = undefined;
 	var startEditor = function()
 	{
 		jQuery(element).wymeditor({
@@ -20,6 +38,7 @@ var wymeditor_plugin = function(element, settings) {
 			updateSelector: jQuery(element).parents('form:first'),
 			updateEvent: 'submit',
 			postInit: function(wym) {
+				editor = wym;
 				//wym.table();
 			},
 			toolsItems: [
@@ -89,14 +108,81 @@ var wymeditor_plugin = function(element, settings) {
 
 	this.unload = function()
 	{
+		if (editor != undefined) {
+			editor.update();
+		}
 		element.style.display = 'block';
-		var editor_div = element.parentNode.getElementsByTagName('div')[0];
+		var editor_div = element.parentNode.getElementsByTagName('div')[1];
 		editor_div.parentNode.removeChild(editor_div);
 	}
 };
 
+var createEditorSwitch = function(element, settings) {
+	var currentPlugin = undefined;
+
+	var editors = [
+		{
+			'id': 'wymeditor',
+			'name': 'WYMEditor',
+			'plugin': wymeditor_plugin
+		},
+		{
+			'id': '',
+			'name': 'Žiaden vizuálny editor',
+			'plugin': undefined
+		}
+	];
+	var functions = {};
+
+	var div = document.createElement('div');
+	div.className = "btn settings";
+	var span = document.createElement('span');
+	span.innerHTML = '<a href="#" class="settings">Nastavenia</a>';
+	div.appendChild(span);
+	var list = document.createElement('ul');
+	list.className = 'dropdown menu';
+	for (var i = 0; i < editors.length; ++i) {
+		var id = editors[i]['id'];
+		var editor = editors[i]['name'];
+		var plugin = editors[i]['plugin'];
+		var li = document.createElement('li');
+		var link = document.createElement('a');
+		var text = document.createTextNode(editor);
+		link.href = '#';
+		var change_fn = function(id, editor, plugin) {
+			return function() {
+				setCookie('last_editor', id, 365);
+				if (currentPlugin != undefined) {
+					currentPlugin.unload();
+					currentPlugin = undefined;
+				}
+				if (plugin != undefined) {
+					currentPlugin = new plugin(element, settings);
+					currentPlugin.load();
+				}
+			}
+		} (id, editor, plugin);
+		functions[id] = change_fn;
+		link.onclick = change_fn;
+		link.appendChild(text);
+		li.appendChild(link);
+		list.appendChild(li);
+	}
+	div.appendChild(list);
+	element.parentNode.insertBefore(div, element);
+	return functions;
+}
+
 function initialize_html_editor(name, settings) {
+	var default_editor = 'wymeditor';
 	var element = document.getElementById('id_' + name);
-	var plugin = new wymeditor_plugin(element, settings);
-	plugin.load();
+	var loadFunctions = createEditorSwitch(element, settings);
+	var editor = getCookie('last_editor');
+	if (loadFunctions[editor] != undefined) {
+
+		loadFunctions[editor]();
+	}
+	else {
+		loadFunctions[default_editor]();
+	}
 }

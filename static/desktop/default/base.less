@@ -248,6 +248,14 @@ textarea.wymeditor { width: auto; height: 15em; display: block; clear: both; }
 	clear: both;
 	padding: @row-padding 12px 3px 0;
 	position: relative;
+	.btn.settings {
+		position: absolute;
+		right: 0px;
+		a.settings {
+			width: 12px;
+			overflow: hidden;
+		}
+	}
 	textarea {
 		width: 100%;
 	}
@@ -416,11 +424,15 @@ button:focus { outline: none; }
 		&.resolved:before { .btn_icon(); .sprite(@backgrounds_tick_icon_14_imgpos); }
 		&.lock:before { .btn_icon(); .sprite(@backgrounds_lock_icon_14_imgpos); }
 		&.delete:before { .btn_icon(); .sprite(@backgrounds_delete_icon_14_imgpos); }
+		&.settings:before { .btn_icon(); .sprite(@backgrounds_settings_icon_14_imgpos); }
 		&.private:before { .btn_icon(); .sprite(@backgrounds_watch_icon_14_imgpos); }
 		/*
 		&.up:before { .btn_icon(); .sprite(@backgrounds_up_icon_14_imgpos); }
 		&.down:before { .btn_icon(); .sprite(@backgrounds_down_icon_14_imgpos); }
 		*/
+	}
+	.dropdown.menu {
+		margin-top: 30px;
 	}
 	>span:before, >.search-input:before {
 		content: ".";
@@ -436,6 +448,7 @@ button:focus { outline: none; }
 		>span { .sprite(@backgrounds_btn_content_std_hover_imgpos_right); }
 		>span:before { .sprite(@backgrounds_btn_content_std_hover_imgpos); }
 		>span.dropdown { background: none; }
+		.dropdown { display: block; }
 	}
 	&:active, &:focus {
 		>span { .sprite(@backgrounds_btn_content_act_imgpos_right); }
@@ -561,7 +574,7 @@ button:focus { outline: none; }
 	padding: 3px 0px;
 	margin: @big-btn-height 1px 0 0;
 	border-radius: 3px;
-	border: mix(@header-bg, @generic-foreground, 66%) 1px solid;
+	border: rgba(0, 0, 0, 0.4) 1px solid;
 	.module-shadow;
 	display: none;
 	z-index: 1;
@@ -570,15 +583,6 @@ button:focus { outline: none; }
 	}
 	&:hover {
 		display: block;
-	}
-	&:before {
-		content: ".";
-		text-indent: -9999px;
-		overflow: hidden;
-		width: 13px; height: 7px;
-		top: -7px; right: 10px;
-		.sprite(@backgrounds_corner_arrow_up_imgpos);
-		position: absolute;
 	}
 	li {
 		list-style: none; padding: 0px @title-padding; margin: 0px;
@@ -875,6 +879,19 @@ ul#main_menu {
 			}
 		}
 		&:hover #rsslinks {
+			display: block;
+		}
+	}
+	.dropdown.menu {
+		margin-top: 38px;
+		&:before {
+			content: ".";
+			text-indent: -9999px;
+			overflow: hidden;
+			width: 13px; height: 7px;
+			top: -7px; right: 10px;
+			.sprite(@backgrounds_corner_arrow_up_imgpos);
+			position: absolute;
 			display: block;
 		}
 	}

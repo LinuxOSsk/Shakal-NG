@@ -160,6 +160,11 @@ backgrounds = {
 			'mode': 'no-repeat', 'width': 16, 'height': 15
 		},
 		{
+			'name': 'settings_icon_14',
+			'src': 'static/desktop/default/images/settings_icon_14.png',
+			'mode': 'no-repeat', 'width': 16, 'height': 15
+		},
+		{
 			'name': 'breadcrumb_panel_bg',
 			'src': 'static/desktop/default/images/breadcrumb_panel_bg.png',
 			'mode': 'repeat-x', 'width': 1, 'height': 36
