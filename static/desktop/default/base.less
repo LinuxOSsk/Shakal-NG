@@ -382,12 +382,12 @@ button:focus { outline: none; }
 		.sprite(@backgrounds_btn_content_std_imgpos_right);
 		display: block;
 		float: left;
-		padding-right: 15px;
+		padding-right: 12px;
 		font-size: 12px;
 		color: @generic-foreground;
 		text-shadow: 0px 1px 0px white;
 		text-decoration: none;
-		margin-left: 15px;
+		margin-left: 12px;
 		span.dropdown {
 			display: block;
 			margin-right: 15px;
@@ -417,14 +417,16 @@ button:focus { outline: none; }
 		&.lock:before { .btn_icon(); .sprite(@backgrounds_lock_icon_14_imgpos); }
 		&.delete:before { .btn_icon(); .sprite(@backgrounds_delete_icon_14_imgpos); }
 		&.private:before { .btn_icon(); .sprite(@backgrounds_watch_icon_14_imgpos); }
+		/*
 		&.up:before { .btn_icon(); .sprite(@backgrounds_up_icon_14_imgpos); }
 		&.down:before { .btn_icon(); .sprite(@backgrounds_down_icon_14_imgpos); }
+		*/
 	}
 	>span:before, >.search-input:before {
 		content: ".";
 		.sprite(@backgrounds_btn_content_std_imgpos);
-		width: 15px;
-		margin-left: -15px;
+		width: 12px;
+		margin-left: -12px;
 		text-indent: -9999px;
 		overflow: hidden;
 		float: left;
@@ -460,12 +462,12 @@ button:focus { outline: none; }
 		margin-right: 0px;
 		float: left;
 		a {
-			padding-left: 10px;
+			padding-left: 7px;
 		}
 		>span {
 			background-position-x: -16px;
 			background-repeat: repeat-x;
-			padding-right: 10px;
+			padding-right: 7px;
 			margin-left: 0px;
 			&:active, &:focus {
 				background-position-x: -16px;
@@ -482,19 +484,19 @@ button:focus { outline: none; }
 				padding-left: 0px;
 			}
 			>span {
-				margin-left: 15px;
+				margin-left: 12px;
 			}
 			>span:before {
 				background-position-x: 0px;
-				margin-left: -15px;
-				width: 15px;
+				margin-left: -12px;
+				width: 12px;
 			}
 		}
 		&:last-child {
 			>span {
 				background-position-x: right;
 				background-repeat: no-repeat;
-				padding-right: 15px;
+				padding-right: 12px;
 				margin-right: 5px;
 				&:active, &:focus {
 					background-position-x: right;
