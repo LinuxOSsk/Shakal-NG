@@ -33,9 +33,13 @@ class HtmlEditor(Textarea):
 			else:
 				tag_name = tag
 			unsupported_tags.update([tag_name + ' > ' + t for t in defined_tags - supported_tags[tag].get_child_tags() if t != ''])
+		tags_info = {
+			'unsupported': list(unsupported_tags),
+			'known': supported_tags.keys(),
+		}
 		context = {
 			'name': name,
 			'lang': self.language[:2],
-			'unsupported_tags': dumps(list(unsupported_tags)),
+			'tags': dumps(tags_info),
 		}
 		return widget + mark_safe(render_to_string('widgets/editor.html', context))

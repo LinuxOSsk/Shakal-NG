@@ -14,11 +14,11 @@ WYMeditor.SKINS['shakal'] = {
 		jQuery(wym._box).find("ul").wrap("<div class=\"wym_top_toolbar\"></div>");
 		jQuery(wym._box).find(".wym_area_top li").unwrap();
 		jQuery(wym._box).find(".wym_tools_undo, .wym_tools_redo").wrapAll("<ul class=\"wym_toolbar_group first\"></ul>");
-		jQuery(wym._box).find(".wym_tools_emphasis, .wym_tools_strong").wrapAll("<ul class=\"wym_toolbar_group\"></ul>");
+		jQuery(wym._box).find(".wym_tools_emphasis, .wym_tools_strong, .wym_tools_superscript, .wym_tools_subscript").wrapAll("<ul class=\"wym_toolbar_group\"></ul>");
 		jQuery(wym._box).find(".wym_tools_ordered_list, .wym_tools_unordered_list, .wym_tools_indent, .wym_tools_outdent").wrapAll("<ul class=\"wym_toolbar_group\"></ul>");
 		jQuery(wym._box).find(".wym_tools_link, .wym_tools_unlink").wrapAll("<ul class=\"wym_toolbar_group\"></ul>");
 		jQuery(wym._box).find(".wym_tools_image").wrapAll("<ul class=\"wym_toolbar_group\"></ul>");
-		jQuery(wym._box).find(".wym_tools_html, .wym_tools_preview").wrapAll("<ul class=\"wym_toolbar_group last\"></ul>");
+		jQuery(wym._box).find(".wym_tools_html, .wym_tools_preview, .wym_tools_paste").wrapAll("<ul class=\"wym_toolbar_group last\"></ul>");
 
 		jQuery(wym._box).find("div.wym_area_right h2").wrap("<div class=\"btn\" />");
 		jQuery(wym._box).find("div.wym_area_right h2").each(function() {

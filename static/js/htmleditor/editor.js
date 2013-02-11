@@ -17,6 +17,16 @@ function getCookie(requested_name, default_value) {
 	return default_value;
 }
 
+function filterTools(tools, selectors) {
+	var ret_tools = [];
+	for (var i = 0; i < tools.length; ++i) {
+		if (tools[i].tag == undefined || selectors.indexOf(tools[i].tag) != -1) {
+			ret_tools.push(tools[i]);
+		}
+	}
+	return ret_tools;
+}
+
 var generate_unsupported_tags = function(frame, unsupported_tags) {
 	var doc = frame.contentDocument;
 	var styleEl = doc.createElement('style');
@@ -31,6 +41,37 @@ var wymeditor_plugin = function(element, settings) {
 	var editor = undefined;
 	var startEditor = function()
 	{
+		all_tools = [
+			{name:"Undo",title:"Undo",css:"wym_tools_undo"},
+			{name:"Redo",title:"Redo",css:"wym_tools_redo"},
+			{name:"Bold",title:"Strong",css:"wym_tools_strong",tag:"strong"},
+			{name:"Italic",title:"Emphasis",css:"wym_tools_emphasis",tag:"em"},
+			//{name:"Superscript",title:"Superscript",css:"wym_tools_superscript",tag:"sup"},
+			//{name:"Subscript",title:"Subscript",css:"wym_tools_subscript",tag:"sub"},
+			{name:"InsertOrderedList",title:"Ordered_List",css:"wym_tools_ordered_list",tag:"ol"},
+			{name:"InsertUnorderedList",title:"Unordered_List",css:"wym_tools_unordered_list",tag:"ul"},
+			{name:"Indent",title:"Indent",css:"wym_tools_indent"},
+			{name:"Outdent",title:"Outdent",css:"wym_tools_outdent"},
+			{name:"CreateLink",title:"Link",css:"wym_tools_link",tag:"a"},
+			{name:"Unlink",title:"Unlink",css:"wym_tools_unlink",tag:"a"},
+			{name:"InsertImage",title:"Image",css:"wym_tools_image",tag:"img"},
+			//{name:"InsertTable",title:"Table",css:"wym_tools_table",tag:"table"},
+			{name:"Paste",title:"Paste_From_Word",css:"wym_tools_paste"},
+			{name:"ToggleHtml",title:"HTML",css:"wym_tools_html"},
+			{name:"Preview",title:"Preview",css:"wym_tools_preview"}
+		];
+		all_containers = [
+			{name:"P",title:"Paragraph",css:"wym_containers_p",tag:"p"},
+			{name:"H1",title:"Heading_1",css:"wym_containers_h1",tag:"h1"},
+			{name:"H2",title:"Heading_2",css:"wym_containers_h2",tag:"h2"},
+			{name:"H3",title:"Heading_3",css:"wym_containers_h3",tag:"h3"},
+			{name:"H4",title:"Heading_4",css:"wym_containers_h4",tag:"h4"},
+			{name:"H5",title:"Heading_5",css:"wym_containers_h5",tag:"h5"},
+			{name:"H6",title:"Heading_6",css:"wym_containers_h6",tag:"h6"},
+			{name:"PRE",title:"Preformatted",css:"wym_containers_pre",tag:"pre"},
+			{name:"BLOCKQUOTE",title:"Blockquote","css": "wym_containers_blockquote",tag:"blockquote"},
+			{name:"TH",title:"Table_Header",css:"wym_containers_th",tag:"th"}
+		];
 		jQuery(element).wymeditor({
 			skin: 'shakal',
 			lang: settings['lang'],
@@ -41,32 +82,15 @@ var wymeditor_plugin = function(element, settings) {
 				editor = wym;
 				//wym.table();
 			},
-			toolsItems: [
-				{name:"Undo",title:"Undo",css:"wym_tools_undo"},
-				{name:"Redo",title:"Redo",css:"wym_tools_redo"},
-				{name:"Bold",title:"Strong",css:"wym_tools_strong"},
-				{name:"Italic",title:"Emphasis",css:"wym_tools_emphasis"},
-				//{name:"Superscript",title:"Superscript",css:"wym_tools_superscript"},
-				//{name:"Subscript",title:"Subscript",css:"wym_tools_subscript"},
-				{name:"InsertOrderedList",title:"Ordered_List",css:"wym_tools_ordered_list"},
-				{name:"InsertUnorderedList",title:"Unordered_List",css:"wym_tools_unordered_list"},
-				{name:"Indent",title:"Indent",css:"wym_tools_indent"},
-				{name:"Outdent",title:"Outdent",css:"wym_tools_outdent"},
-				{name:"CreateLink",title:"Link",css:"wym_tools_link"},
-				{name:"Unlink",title:"Unlink",css:"wym_tools_unlink"},
-				{name:"InsertImage",title:"Image",css:"wym_tools_image"},
-				//{name:"InsertTable",title:"Table",css:"wym_tools_table"},
-				//{name:"Paste",title:"Paste_From_Word",css:"wym_tools_paste"},
-				{name:"ToggleHtml",title:"HTML",css:"wym_tools_html"},
-				{name:"Preview",title:"Preview",css:"wym_tools_preview"}
-			]
+			toolsItems: filterTools(all_tools, settings.tags.known),
+			containersItems: filterTools(all_containers, settings.tags.known)
 		});
 		var iframe = element.parentNode.getElementsByTagName('iframe')[0];
 		var old_onload = iframe.onload;
 		iframe.onload = function(event) {
 			this.onload = old_onload;
 			this.onload(event);
-			generate_unsupported_tags(iframe, settings.unsupported_tags);
+			generate_unsupported_tags(iframe, settings.tags.unsupported);
 		}
 	}
 
