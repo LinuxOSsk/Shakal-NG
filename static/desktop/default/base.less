@@ -252,8 +252,12 @@ textarea.wymeditor { width: auto; height: 15em; display: block; clear: both; }
 		position: absolute;
 		right: 0px;
 		a.settings {
-			width: 12px;
+			width: 16px;
+			height: 15px;
 			overflow: hidden;
+			margin-top: 9px;
+			text-indent: -9999px;
+			.sprite(@backgrounds_settings_icon_14_imgpos);
 		}
 	}
 	textarea {
@@ -424,7 +428,6 @@ button:focus { outline: none; }
 		&.resolved:before { .btn_icon(); .sprite(@backgrounds_tick_icon_14_imgpos); }
 		&.lock:before { .btn_icon(); .sprite(@backgrounds_lock_icon_14_imgpos); }
 		&.delete:before { .btn_icon(); .sprite(@backgrounds_delete_icon_14_imgpos); }
-		&.settings:before { .btn_icon(); .sprite(@backgrounds_settings_icon_14_imgpos); }
 		&.private:before { .btn_icon(); .sprite(@backgrounds_watch_icon_14_imgpos); }
 		/*
 		&.up:before { .btn_icon(); .sprite(@backgrounds_up_icon_14_imgpos); }
@@ -474,13 +477,10 @@ button:focus { outline: none; }
 		padding-left: 0px;
 		margin-right: 0px;
 		float: left;
-		a {
-			padding-left: 7px;
-		}
 		>span {
 			background-position-x: -16px;
 			background-repeat: repeat-x;
-			padding-right: 7px;
+			padding: 0px 7px;
 			margin-left: 0px;
 			&:active, &:focus {
 				background-position-x: -16px;
@@ -489,10 +489,11 @@ button:focus { outline: none; }
 		}
 		>span:before {
 			width: 1px;
-			margin-left: 0px;
+			margin-left: -7px;
 			background-position-x: -@backgrounds_btn_std_x2 + 4px;
 		}
 		&:first-child {
+			margin-left: -7px;
 			a {
 				padding-left: 0px;
 			}
@@ -502,7 +503,7 @@ button:focus { outline: none; }
 			>span:before {
 				background-position-x: 0px;
 				margin-left: -12px;
-				width: 12px;
+				width: 5px;
 			}
 		}
 		&:last-child {

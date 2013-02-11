@@ -45,49 +45,45 @@
 
 /* Toolbar */
 .wym_skin_shakal .wym_area_top .wym_panel.wym_classes { display: none; }
-.wym_skin_shakal .wym_area_top .wym_panel { float: left; background: none; border: none; }
+.wym_skin_shakal .wym_area_top .wym_panel { float: left; background: none; border: none; margin-bottom: 4px; }
 .wym_skin_shakal .wym_area_top .wym_panel .wym_top_toolbar { position: absolute; display: none; margin-top: 32px; }
 .wym_skin_shakal .wym_area_top .wym_panel:hover .wym_top_toolbar { position: absolute; display: block; }
-.wym_skin_shakal .wym_buttons li { float:left; }
 .wym_skin_shakal .wym_tools h2 { display: none; }
 .wym_skin_shakal .wym_tools { margin-right: 9em; }
 
-.wym_skin_shakal .wym_buttons a { display: block; width: 22px; height: 22px; overflow: hidden; text-indent: -9999px; background-image: url(icons.png) !important; text-decoration: none; border: solid 3px white; margin: 0px 1px 1px 0px; border-radius: 3px; }
-.wym_skin_shakal .wym_buttons a:hover { background-position: -22px 0px; border-color: #d6eeff; background-color: #d6eeff; }
-#site_content .wym_skin_shakal .wym_buttons a:hover { background-color: #d6eeff; }
-.wym_skin_shakal .wym_buttons a:active { margin: 1px 0px 0px 1px; }
-
-/* Skupiny toolbaru */
-.wym_skin_shakal .wym_toolbar_group { display: inline-block; border-left: 1px solid #d8d8d8; margin: 3px 0 0 0; padding: 0px; }
+.wym_skin_shakal .wym_buttons a { display: block; width: 18px; height: 22px; overflow: hidden; text-indent: -9999px; background-image: url(glyphicons.png) !important; text-decoration: none; margin: 5px -3px; }
+.wym_skin_shakal .wym_buttons a:hover { background-position: -18px 0px; border-radius: 0px; }
 
 .wym_skin_shakal .wym_buttons li.wym_tools_undo a { background-position: 0 -22px;}
 .wym_skin_shakal .wym_buttons li.wym_tools_redo a { background-position: 0 -44px;}
-.wym_skin_shakal .wym_buttons li.wym_tools_undo a:hover { background-position: -22px -22px;}
-.wym_skin_shakal .wym_buttons li.wym_tools_redo a:hover { background-position: -22px -44px;}
+.wym_skin_shakal .wym_buttons li.wym_tools_undo a:hover { background-position: -18px -22px;}
+.wym_skin_shakal .wym_buttons li.wym_tools_redo a:hover { background-position: -18px -44px;}
 
 .wym_skin_shakal .wym_buttons li.wym_tools_strong a { background-position: 0 -66px;}
 .wym_skin_shakal .wym_buttons li.wym_tools_emphasis a { background-position: 0 -88px;}
-.wym_skin_shakal .wym_buttons li.wym_tools_strong a:hover { background-position: -22px -66px;}
-.wym_skin_shakal .wym_buttons li.wym_tools_emphasis a:hover { background-position: -22px -88px;}
+.wym_skin_shakal .wym_buttons li.wym_tools_strong a:hover { background-position: -18px -66px;}
+.wym_skin_shakal .wym_buttons li.wym_tools_emphasis a:hover { background-position: -18px -88px;}
 
 .wym_skin_shakal .wym_buttons li.wym_tools_ordered_list a { background-position: 0 -110px;}
 .wym_skin_shakal .wym_buttons li.wym_tools_unordered_list a { background-position: 0 -132px;}
 .wym_skin_shakal .wym_buttons li.wym_tools_indent a { background-position: 0 -154px}
 .wym_skin_shakal .wym_buttons li.wym_tools_outdent a { background-position: 0 -176px}
-.wym_skin_shakal .wym_buttons li.wym_tools_ordered_list a:hover { background-position: -22px -110px;}
-.wym_skin_shakal .wym_buttons li.wym_tools_unordered_list a:hover { background-position: -22px -132px;}
-.wym_skin_shakal .wym_buttons li.wym_tools_indent a:hover { background-position: -22px -154px}
-.wym_skin_shakal .wym_buttons li.wym_tools_outdent a:hover { background-position: -22px -176px}
+.wym_skin_shakal .wym_buttons li.wym_tools_ordered_list a:hover { background-position: -18px -110px;}
+.wym_skin_shakal .wym_buttons li.wym_tools_unordered_list a:hover { background-position: -18px -132px;}
+.wym_skin_shakal .wym_buttons li.wym_tools_indent a:hover { background-position: -18px -154px}
+.wym_skin_shakal .wym_buttons li.wym_tools_outdent a:hover { background-position: -18px -176px}
 
 .wym_skin_shakal .wym_buttons li.wym_tools_link a { background-position: 0 -198px}
 .wym_skin_shakal .wym_buttons li.wym_tools_unlink a { background-position: 0 -220px}
-.wym_skin_shakal .wym_buttons li.wym_tools_link a:hover { background-position: -22px -198px}
-.wym_skin_shakal .wym_buttons li.wym_tools_unlink a:hover { background-position: -22px -220px}
+.wym_skin_shakal .wym_buttons li.wym_tools_link a:hover { background-position: -18px -198px}
+.wym_skin_shakal .wym_buttons li.wym_tools_unlink a:hover { background-position: -18px -220px}
 
 .wym_skin_shakal .wym_buttons li.wym_tools_image a { background-position: 0 -242px}
-.wym_skin_shakal .wym_buttons li.wym_tools_image a:hover { background-position: -22px -242px}
+.wym_skin_shakal .wym_buttons li.wym_tools_image a:hover { background-position: -18px -242px}
 
 .wym_skin_shakal .wym_buttons li.wym_tools_html a { background-position: 0 -264px}
 .wym_skin_shakal .wym_buttons li.wym_tools_preview a { background-position: 0 -286px}
-.wym_skin_shakal .wym_buttons li.wym_tools_html a:hover { background-position: -22px -264px}
-.wym_skin_shakal .wym_buttons li.wym_tools_preview a:hover { background-position: -22px -286px}
+.wym_skin_shakal .wym_buttons li.wym_tools_paste a { background-position: 0 -352px}
+.wym_skin_shakal .wym_buttons li.wym_tools_html a:hover { background-position: -18px -264px}
+.wym_skin_shakal .wym_buttons li.wym_tools_preview a:hover { background-position: -18px -286px}
+.wym_skin_shakal .wym_buttons li.wym_tools_paste a:hover { background-position: -18px -352px}

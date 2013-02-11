@@ -83,7 +83,16 @@ var wymeditor_plugin = function(element, settings) {
 				//wym.table();
 			},
 			toolsItems: filterTools(all_tools, settings.tags.known),
-			containersItems: filterTools(all_containers, settings.tags.known)
+			containersItems: filterTools(all_containers, settings.tags.known),
+			toolsItemHtml: String() +
+				'<li class="' + WYMeditor.TOOL_CLASS + ' btn" onclick="this.childNodes[0].childNodes[0].click()">' +
+					'<span>' +
+						'<a href="#" name="' + WYMeditor.TOOL_NAME + '" ' +
+							'title="' + WYMeditor.TOOL_TITLE + '">' +
+							WYMeditor.TOOL_TITLE +
+						'</a>' +
+					'</span>' +
+				'</li>'
 		});
 		var iframe = element.parentNode.getElementsByTagName('iframe')[0];
 		var old_onload = iframe.onload;
