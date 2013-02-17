@@ -130,7 +130,7 @@ var wymeditor_plugin = function(element, settings) {
 			else {
 				var link = document.getElementsByTagName('link')[0];
 				var script = document.createElement('script');
-				script.src = 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js';
+				script.src = '/static/js/jquery-1.7.2.min.js';
 				script.type = 'text/javascript';
 				script.async = true;
 				script.onload = loadEditor;
