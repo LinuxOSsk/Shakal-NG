@@ -52,6 +52,7 @@ class HtmlParser:
 		'em'         : HtmlTag('em', opt = TEXT_TAGS, empty = False),
 		'strong'     : HtmlTag('strong', opt = TEXT_TAGS, empty = False),
 		'a'          : HtmlTag('a', opt = [''], req_attributes = ['href'], empty = False),
+		'pre'        : HtmlTag('pre', opt = [''], empty = False),
 		'p'          : HtmlTag('p', opt = TEXT_TAGS + ['span', 'code', 'cite'], empty = False),
 		'span'       : HtmlTag('span', opt = TEXT_TAGS, empty = False),
 		'br'         : HtmlTag('br', empty = True),
