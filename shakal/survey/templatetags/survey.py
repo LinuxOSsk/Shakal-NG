@@ -7,9 +7,4 @@ register = template.Library()
 
 @register.inclusion_tag('survey/block_survey_detail.html', takes_context = True)
 def survey_frontpage(context):
-	survey = Survey.surveys.all()
-	context.update({'survey': ''})
-	if not survey:
-		return context
-	context.update({'survey': survey[0]})
-	return context
+	return {'surveys': Survey.surveys.all()[:1]}
