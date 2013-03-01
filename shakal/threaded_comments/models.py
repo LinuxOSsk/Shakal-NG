@@ -8,12 +8,15 @@ from django.db.models import Count, Max
 from django.db.models.signals import post_save
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.contrib.comments.models import Comment
+from django.contrib.comments.models import BaseCommentAbstractModel
 from django.contrib.comments.managers import CommentManager
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.core.urlresolvers import reverse
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+
+COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)
 
 
 class HideRootQuerySet(models.query.QuerySet):
@@ -51,7 +54,6 @@ class HideRootQuerySet(models.query.QuerySet):
 class CommentManager(CommentManager):
 	def get_query_set(self):
 		return (super(CommentManager, self).get_query_set().select_related('user__profile__pk'))
-Comment.add_to_class('objects', CommentManager())
 
 
 class ThreadedCommentManager(CommentManager):
@@ -82,10 +84,24 @@ class ThreadedCommentManager(CommentManager):
 		return queryset
 
 
-class ThreadedComment(Comment):
+class ThreadedComment(BaseCommentAbstractModel):
+	objects = CommentManager()
+
 	subject = models.CharField(max_length = 100)
 	parent = models.ForeignKey('self', related_name = 'children', blank = True, null = True)
-	is_locked = models.BooleanField(default = False)
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name = _('user'), blank = True, null = True, related_name = "%(class)s_comments")
+	user_name = models.CharField(_("user's name"), max_length = 50, blank = True)
+	user_email = models.EmailField(_("user's email address"), blank = True)
+	user_url = models.URLField(_("user's URL"), blank = True)
+
+	comment = models.TextField(_('comment'), max_length = COMMENT_MAX_LENGTH)
+
+	submit_date = models.DateTimeField(_('date/time submitted'), default = None)
+	ip_address = models.IPAddressField(_('IP address'), blank = True, null = True)
+	is_public = models.BooleanField(_('is public'), default = True)
+	is_removed = models.BooleanField(_('is removed'), default = False)
+
+	is_locked = models.BooleanField(_('is locked'), default = False)
 	objects = ThreadedCommentManager()
 	comment_objects = ThreadedCommentManager(HideRootQuerySet)
 	plain_objects = models.Manager()
@@ -98,6 +114,10 @@ class ThreadedComment(Comment):
 
 	def get_absolute_url(self):
 		return reverse('comment', args = [self.pk], kwargs = {}) + "#link_" + str(self.id)
+
+	def _get_name(self):
+		return self.user_name
+	name = property(_get_name)
 
 	@models.permalink
 	def get_single_comment_url(self):
@@ -121,6 +141,8 @@ class ThreadedComment(Comment):
 		self.updated = datetime.now()
 		if not self.id:
 			self.submit_date = self.updated
+		if self.submit_date is None:
+			self.submit_date = timezone.now()
 		return super(ThreadedComment, self).save(*args, **kwargs)
 
 	def __unicode__(self):
@@ -128,6 +150,7 @@ class ThreadedComment(Comment):
 
 	class Meta:
 		ordering = ('tree_id', 'lft')
+		index_together = [['object_pk', 'content_type']]
 mptt.register(ThreadedComment)
 
 
