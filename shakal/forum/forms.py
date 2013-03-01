@@ -8,6 +8,7 @@ from django.template.defaultfilters import capfirst
 from django.utils.encoding import force_unicode
 from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _
+from django.utils.safestring import mark_safe
 from antispam.forms import AntispamModelFormMixin
 from attachment.fields import AttachmentField
 from attachment.forms import AttachmentFormMixin
@@ -29,7 +30,7 @@ class SectionModelChoiceField(ModelChoiceField):
 class SectionRenderer(RadioFieldRenderer):
 	def render_choice(self, idx):
 		choice = self.choices[idx]
-		return force_unicode(RadioInput(self.name, self.value, self.attrs.copy(), choice, idx)) + '<p class="radio-description">' + force_unicode(escape(choice[2])) + '</p>'
+		return mark_safe(force_unicode(RadioInput(self.name, self.value, self.attrs.copy(), choice, idx)) + '<p class="radio-description">' + force_unicode(escape(choice[2])) + '</p>')
 
 	def __iter__(self):
 		for idx, choice in enumerate(self.choices):
