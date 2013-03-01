@@ -8,8 +8,7 @@ from django.template.defaultfilters import capfirst
 from django.utils.encoding import force_unicode
 from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _
-from antispam.fields import AntispamField
-from antispam.forms import AntispamMethodsMixin
+from antispam.forms import AntispamModelFormMixin
 from attachment.fields import AttachmentField
 from attachment.forms import AttachmentFormMixin
 from html_editor.fields import HtmlField
@@ -40,10 +39,9 @@ class SectionRenderer(RadioFieldRenderer):
 		return self.render_choice(idx)
 
 
-class TopicForm(forms.ModelForm, AttachmentFormMixin, AntispamMethodsMixin):
+class TopicForm(AntispamModelFormMixin, forms.ModelForm, AttachmentFormMixin):
 	section = SectionModelChoiceField(Section.objects.all(), empty_label=None, widget = RadioSelect(renderer = SectionRenderer), label = capfirst(_('section')))
 	text = HtmlField(label = _("Text"), max_length = COMMENT_MAX_LENGTH)
-	captcha = AntispamField(required = True)
 	attachment = AttachmentField(label = _("Attachment"), required = False)
 	upload_session = forms.CharField(label = "Upload session", widget = HiddenInput, required = False)
 

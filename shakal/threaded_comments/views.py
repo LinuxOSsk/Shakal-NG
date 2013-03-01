@@ -59,8 +59,6 @@ def reply_comment(request, parent):
 
 
 	form = get_form()(content_object, logged = request.user.is_authenticated(), parent_comment = parent_comment, initial = {'subject': new_subject}, request = request)
-	request.session['antispam'] = form.generate_antispam()
-	form.set_antispam(request.session['antispam'])
 
 	context["form"] = form
 	context["attachments"] = form.get_attachments()

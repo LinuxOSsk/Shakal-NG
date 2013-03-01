@@ -2,13 +2,11 @@
 
 from django import forms
 from django.contrib.comments.forms import COMMENT_MAX_LENGTH
-from antispam.fields import AntispamField
-from antispam.forms import AntispamMethodsMixin
+from antispam.forms import AntispamModelFormMixin
 from html_editor.fields import HtmlField
 from models import News
 
-class NewsForm(forms.ModelForm, AntispamMethodsMixin):
-	captcha = AntispamField(required = True)
+class NewsForm(AntispamModelFormMixin, forms.ModelForm):
 	short_text = HtmlField(label = u'Krátky text', max_length = COMMENT_MAX_LENGTH)
 	long_text = HtmlField(label = u'Dlhý text', max_length = COMMENT_MAX_LENGTH)
 
