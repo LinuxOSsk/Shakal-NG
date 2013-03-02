@@ -204,7 +204,6 @@ GRAVATAR_DEFAULT_SIZE = 200
 
 FEED_SIZE = 20
 
-ADMIN_TOOLS_INDEX_DASHBOARD = 'shakal.shakal_dashboard.dashboard.ShakalIndexDashboard'
 SHAKAL_DASHBOARD_APP_GROUPS = (
 	(_('Content management'), {
 		'models': (
@@ -248,3 +247,6 @@ SHAKAL_DASHBOARD_APP_ICONS = {
 	'survey/survey': 'poll.png',
 	'forum/section': 'section.png',
 }
+ADMIN_TOOLS_INDEX_DASHBOARD = 'shakal.shakal_dashboard.dashboard.ShakalIndexDashboard'
+ADMIN_TOOLS_MENU = 'shakal.shakal_dashboard.menu.ShakalMenu'
+ADMIN_TOOLS_THEMING_CSS = 'admin/css/shakal.css'

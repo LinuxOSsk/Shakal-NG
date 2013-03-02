@@ -1,0 +1,30 @@
+@import url("../../admin_tools/css/theming.css");
+
+
+body #header {
+	background: #fafafa;
+}
+
+body #header #branding {
+	border-bottom: 1px solid #eee;
+}
+
+body #header #branding h1 {
+	width: 326px;
+	height: 76px;
+	background: url(../images/logo.png) 0px 0px no-repeat;
+	padding: 0;
+	border-bottom: 1px solid #888;
+}
+
+body #header #user-tools {
+	color: #888;
+}
+
+body #header #user-tools strong {
+	color: #444;
+}
+
+body #header #user-tools a, body #header #user-tools a:link, body #header #user-tools a:visited {
+	color: #5b80b2;
+}
