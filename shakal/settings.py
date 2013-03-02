@@ -2,6 +2,7 @@
 
 import os
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+from django.utils.translation import ugettext_lazy as _
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -108,14 +109,19 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+	'shakal.shakal_dashboard',
+	'admin_tools',
+	'admin_tools.theming',
+	'admin_tools.menu',
+	'admin_tools.dashboard',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
 	'django.contrib.sessions',
 	'django.contrib.sites',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
-	'django.contrib.admin',
 	'django.contrib.syndication',
+	'django.contrib.admin',
 	'django_tools',
 	'haystack',
 	'antispam',
@@ -197,3 +203,48 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 GRAVATAR_DEFAULT_SIZE = 200
 
 FEED_SIZE = 20
+
+ADMIN_TOOLS_INDEX_DASHBOARD = 'shakal.shakal_dashboard.dashboard.ShakalIndexDashboard'
+SHAKAL_DASHBOARD_APP_GROUPS = (
+	(_('Content management'), {
+		'models': (
+			'shakal.article.*',
+			'shakal.news.*',
+			'shakal.wiki.models.*',
+		),
+		'exclude': (
+			'shakal.article.models.Category',
+		)
+	}),
+	(_('Administration'), {
+		'models': (
+			'django.contrib.auth.*',
+			'django.contrib.sites.*',
+			'shakal.survey.*',
+		),
+	}),
+	(_('Forum'), {
+		'models': (
+			'shakal.forum.*',
+			'shakal.threaded_comments.*',
+		),
+	}),
+	(_('Applications'), {
+		'models': ('*',),
+		'module': 'AppList',
+		'exclude': ('auth_remember.*', 'registration.*', ),
+		'collapsible': True,
+	}),
+)
+SHAKAL_DASHBOARD_APP_ICONS = {
+	'auth/user': 'user.png',
+	'auth/group': 'group.png',
+	'sites/site': 'site.png',
+	'article/article': 'article.png',
+	'news/news': 'news.png',
+	'wiki/page': 'wiki.png',
+	'threaded_comments/threadedcomment': 'comments.png',
+	'forum/topic': 'topic.png',
+	'survey/survey': 'poll.png',
+	'forum/section': 'section.png',
+}

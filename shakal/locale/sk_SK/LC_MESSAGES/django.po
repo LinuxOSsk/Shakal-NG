@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-09 12:28+0100\n"
+"POT-Creation-Date: 2013-03-02 20:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,10 +19,6 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "X-Language: sk_SK\n"
 "X-Source-Language: C\n"
-
-# Zlá odpoveď
-msgid "Bad answer"
-msgstr "Zlá odpoveď"
 
 msgid "attachment"
 msgstr "príloha"
@@ -44,6 +40,18 @@ msgstr "veľkosť"
 
 msgid "^status/$"
 msgstr "^stav/$"
+
+msgid "Content management"
+msgstr "Správa obsahu"
+
+msgid "Administration"
+msgstr "Správa stránky"
+
+msgid "Forum"
+msgstr "Fórum"
+
+msgid "Applications"
+msgstr "Aplikácie"
 
 msgid "^admin/"
 msgstr "^administracia/"
@@ -266,10 +274,10 @@ msgid "forum"
 msgstr "fórum"
 
 msgid "topic"
-msgstr "téma diskusného fóra"
+msgstr "téma fóra"
 
 msgid "topics"
-msgstr "témy diskusného fóra"
+msgstr "témy fóra"
 
 msgid "short text"
 msgstr "krátky text"
@@ -288,6 +296,9 @@ msgstr "správa"
 
 msgid "news items"
 msgstr "správy"
+
+msgid "Recent Actions"
+msgstr "Posledné akcie"
 
 msgid "Minimum 2 answers are required"
 msgstr "Sú požadované minimálne 2 odpovede"
@@ -340,8 +351,32 @@ msgstr "Predmet"
 msgid "Comment"
 msgstr "Komentár"
 
+msgid "user's name"
+msgstr "používateľské meno"
+
+msgid "user's email address"
+msgstr "E-mailová adresa:"
+
+msgid "user's URL"
+msgstr "URL adresa"
+
 msgid "comment"
 msgstr "komentár"
+
+msgid "date/time submitted"
+msgstr "dátum/čas odoslania"
+
+msgid "IP address"
+msgstr "IP adresa"
+
+msgid "is public"
+msgstr "je verejný"
+
+msgid "is removed"
+msgstr "je odstránený"
+
+msgid "is locked"
+msgstr "je uzamknutý"
 
 msgid "comments"
 msgstr "komentáre"
@@ -351,72 +386,6 @@ msgstr "Shakal administrácia"
 
 msgid "Welcome to Shakal admin interface"
 msgstr "Vitajte v administrátorskom rozhraní Shakal CMS"
-
-#, python-format
-msgid "Models available in the %(name)s application."
-msgstr "Modely dostupné v aplikácii %(name)s."
-
-#, python-format
-msgid "%(name)s"
-msgstr "%(name)s"
-
-msgid "Please correct the error below."
-msgid_plural "Please correct the errors below."
-msgstr[0] "Opravte prosím nasledujúcu chybu."
-msgstr[1] "Opravte prosím nasledujúce chyby."
-msgstr[2] "Opravte prosím nasledujúce chyby."
-
-#, python-format
-msgid "Sorting priority: %(priority_number)s"
-msgstr "Priorita zoradenia: %(priority_number)s "
-
-#, python-format
-msgid ""
-"Deleting the %(object_name)s '%(escaped_object)s' would result in deleting "
-"related objects, but your account doesn't have permission to delete the "
-"following types of objects:"
-msgstr ""
-"Vymazanie objektov %(object_name)s '%(escaped_object)s' spôsobí vymazanie "
-"súvisiacich objektov, ale váš účet nemá práva na vymazanie týchto objektov:"
-
-#, python-format
-msgid ""
-"Deleting the %(object_name)s '%(escaped_object)s' would require deleting the "
-"following protected related objects:"
-msgstr ""
-"Vymazanie %(object_name)s '%(escaped_object)s' spôsobí vymazanie "
-"nasledujúcich chránených objektov:"
-
-#, python-format
-msgid ""
-"Are you sure you want to delete the %(object_name)s \"%(escaped_object)s\"? "
-"All of the following related items will be deleted:"
-msgstr ""
-"Ste si istí, že chcete vymazať %(object_name)s \"%(escaped_object)s\"? "
-"Nasledujúce položky budú vymazané:"
-
-#, python-format
-msgid " By %(filter_title)s "
-msgstr " Pomocou %(filter_title)s "
-
-#, python-format
-msgid "%(counter)s result"
-msgid_plural "%(counter)s results"
-msgstr[0] "%(counter)s výsledok"
-msgstr[1] "%(counter)s výsledky"
-msgstr[2] "%(counter)s výsledkov"
-
-#, python-format
-msgid "%(full_result_count)s total"
-msgstr "%(full_result_count)s celkovo"
-
-#, python-format
-msgid "Enter a new password for the user <strong>%(username)s</strong>."
-msgstr "Zadajte heslo pre užívateľa <strong>%(username)s</strong>."
-
-#, python-format
-msgid "Add another %(verbose_name)s"
-msgstr "Pridať ďalšie %(verbose_name)s"
 
 #, python-format
 msgid "%(counter)s comment"

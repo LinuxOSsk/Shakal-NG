@@ -155,6 +155,8 @@ class ThreadedComment(BaseCommentAbstractModel):
 	class Meta:
 		ordering = ('tree_id', 'lft')
 		index_together = [['object_pk', 'content_type']]
+		verbose_name = _('comment')
+		verbose_name_plural = _('comments')
 mptt.register(ThreadedComment)
 
 

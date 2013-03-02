@@ -1,0 +1,14 @@
+.shakal-dashboard-appiconlist {
+	overflow: hidden;
+}
+
+.shakal-dashboard-appiconlist li {
+	float: left;
+	margin: 5px;
+	width: 100px;
+	text-align: center;
+}
+
+.shakal-dashboard-appiconlist li .shakal-dashboard-icon-caption {
+	display: block;
+}

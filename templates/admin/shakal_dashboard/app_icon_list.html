@@ -1,0 +1,24 @@
+{% extends "admin_tools/dashboard/module.html" %}
+
+{% load i18n %}
+{% block module_content %}
+
+<ul class="shakal-dashboard-appiconlist clearfix">
+	{% for child in module.children %}
+		{% for model in child.models %}
+		{% spaceless %}
+		<li>
+			{% if model.change_url %}
+				<a class="shakal-dashboard-icon" href="{{ model.change_url }}"><img src="{{ model.icon }}" style="width: 64px; height: 64px;" alt="{{ model.title }}" /></a>
+				<a class="shakal-dashboard-icon-caption" href="{{ model.change_url }}">{{ model.title }}</a>
+			{% else %}
+				<img src="{{ model.icon }}" style="width: 64px; height: 64px;" alt="{{ model.title }}" />
+				{{ model.title }}
+			{% endif %}
+		</li>
+		{% endspaceless %}
+		{% endfor %}
+	{% endfor %}
+</ul>
+
+{% endblock %}

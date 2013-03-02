@@ -92,7 +92,7 @@ class Topic(models.Model):
 	breadcrumb_label = _('forum')
 	attachments = generic.GenericRelation(Attachment)
 	is_removed = models.BooleanField(default = False, verbose_name = u'vymazané')
-	is_resolved = models.BooleanField(default = False)
+	is_resolved = models.BooleanField(default = False, verbose_name = u'vyriešené')
 
 	def get_tags(self):
 		tags = []
