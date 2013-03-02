@@ -4,10 +4,9 @@ from datetime import datetime
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.comments.models import Comment
 from django.core.management.base import BaseCommand
 from django.core.serializers.json import Deserializer
-from django.db import connections, transaction, connection
+from django.db import connections, connection
 from django.template.defaultfilters import slugify
 from shakal.accounts.models import UserProfile
 from shakal.article.models import Article, Category as ArticleCategory
@@ -18,9 +17,9 @@ from shakal.threaded_comments.models import RootHeader as ThreadedRootHeader
 from shakal.threaded_comments.models import UserDiscussionAttribute
 from shakal.utils import create_unique_slug
 from shakal.wiki.models import Page as WikiPage
-from django.utils import simplejson
 from hitcount.models import HitCount
 from collections import OrderedDict
+import json
 import os
 import reversion
 import socket
@@ -122,7 +121,7 @@ class ProgressLogger(SocketMaintenance):
 		self.progressbar = None
 
 	def get_info(self):
-		return simplejson.dumps({"main_progress": self.main_progress, "sub_progress": self.sub_progress, "text": u"Import dát"})
+		return json.dumps({"main_progress": self.main_progress, "sub_progress": self.sub_progress, "text": u"Import dát"})
 
 
 class Command(BaseCommand):
@@ -203,9 +202,7 @@ class Command(BaseCommand):
 			('accounts_userprofile', 'accounts_userprofile_id_seq'),
 			('threaded_comments_rootheader', 'threaded_comments_rootheader_id_seq'),
 			('threaded_comments_userdiscussionattribute', 'threaded_comments_userdiscussionattribute_id_seq'),
-			('threaded_comments_threadedcomment', ),
-			('django_comments', 'django_comments_id_seq'),
-			('django_comment_flags', 'django_comment_flags_id_seq'),
+			('threaded_comments_threadedcomment', 'threaded_comments_threadedcomment_id_seq'),
 			('forum_topic', 'forum_topic_id_seq'),
 			('django_admin_log', 'django_admin_log_id_seq'),
 			('attachment_attachment', 'attachment_attachment_id_seq'),
@@ -693,6 +690,7 @@ class Command(BaseCommand):
 			'id',
 			'diskusia_id',
 			'kategoria',
+			'time',
 			'last_time',
 			'reakcii',
 			'zamknute',
@@ -718,6 +716,7 @@ class Command(BaseCommand):
 
 			header = {
 				'id': header_dict['id'],
+				'pub_date': header_dict['time'],
 				'last_comment': header_dict['last_time'],
 				'comment_count': self.get_default_if_null(header_dict['reakcii'], 0),
 				'is_locked': bool(header_dict['zamknute']),
@@ -751,11 +750,6 @@ class Command(BaseCommand):
 		return comment_row
 
 	def import_discussion_comments(self):
-		connections['default'].cursor().execute('DELETE FROM threaded_comments_threadedcomment')
-		connections['default'].cursor().execute('DELETE FROM django_comments')
-		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', 1);')
-		connections['default'].cursor().execute('SELECT setval(\'django_comments_id_seq\', 1);')
-
 		users = set(map(lambda x: x['id'], User.objects.values('id')))
 		cols = [
 			'id',
@@ -767,108 +761,123 @@ class Command(BaseCommand):
 			'time',
 			'locked',
 		]
-		insert_query = 'INSERT INTO threaded_comments_threadedcomment (comment_ptr_id, subject, parent_id, is_locked, lft, rght, tree_id, level, updated) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
-		insert_tree_params = ()
-		comment_objects = []
+		insert_cols = [
+			'id',
+			'content_type_id',
+			'object_pk',
+			'site_id',
+			'subject',
+			'parent_id',
+			'user_id',
+			'user_name',
+			'user_email',
+			'user_url',
+			'comment',
+			'submit_date',
+			'ip_address',
+			'is_public',
+			'is_removed',
+			'is_locked',
+			'updated',
+			'lft',
+			'rght',
+			'tree_id',
+			'level',
+		]
+		insert_query = 'INSERT INTO threaded_comments_threadedcomment ('+(','.join(insert_cols))+') VALUES ('+(("%s, " * len(insert_cols))[:-2])+')'
 		select_query = 'SELECT ' + (', '.join(['diskusia.' + col for col in cols])) + ', diskusia_header.diskusia_id FROM diskusia INNER JOIN diskusia_header ON (diskusia.diskusiaid = diskusia_header.id) WHERE diskusia_id = {0} AND kategoria = "{1}" ORDER BY diskusia.id'
-		cols.append('diskusia_id')
-		headers = ThreadedRootHeader.objects.values_list('id', 'content_type_id', 'object_id', 'is_locked')
+		headers = ThreadedRootHeader.objects.values_list('id', 'content_type_id', 'object_id', 'is_locked', 'pub_date')
 		counter = 0
 		comment_counter = 0
 		self.logger.set_sub_progress(u"Diskusia obsah", len(headers))
-		for id, content_type_id, object_pk, is_locked in headers:
+
+		comments = []
+
+		for id, content_type_id, object_pk, is_locked, pub_date in headers:
 			self.logger.step_sub_progress()
 			counter += 1
 			comment_counter += 1
-			self.cursor.execute(select_query.format(object_pk, self.inverted_content_types[content_type_id]))
-			comment_objects += [Comment(
-				comment = '-',
-				user_name = '-',
-				submit_date = datetime.now(),
-				site_id = settings.SITE_ID,
-				content_type_id = content_type_id,
-				object_pk = object_pk,
-				pk = comment_counter
-			)]
+			comment_tree = {}
+			comments.append({
+				'id': comment_counter,
+				'content_type_id': content_type_id,
+				'object_pk': object_pk,
+				'site_id': settings.SITE_ID,
+				'subject': '',
+				'parent_id': None,
+				'user_id': None,
+				'user_name': '',
+				'user_email': '',
+				'user_url': '',
+				'comment': '',
+				'submit_date': pub_date,
+				'ip_address': None,
+				'is_public': True,
+				'is_removed': False,
+				'is_locked': is_locked,
+				'updated': pub_date,
+				'lft': 0,
+				'rght': 0,
+				'tree_id': counter,
+				'level': 0,
+			})
+			comment_tree[0] = [comments[-1]]
 			root_comment_id = comment_counter
+			self.cursor.execute(select_query.format(object_pk, self.inverted_content_types[content_type_id]))
 			comment_rows = [self.decode_cols_to_dict(cols, r) for r in list(self.cursor)]
 			for comment_dict in comment_rows:
 				comment_counter += 1
 				comment_dict['pk'] = comment_counter
+			pk_map = dict((d['id'], d['pk']) for d in comment_rows)
+			for comment_dict in comment_rows:
+				try:
+					parent = pk_map[comment_dict['parent']]
+				except KeyError:
+					parent = root_comment_id
+				if comment_dict['userid'] and comment_dict['userid'] in users:
+					user_id = comment_dict['userid']
+				else:
+					user_id = None
 				comment = {
-					'comment': comment_dict['text'],
-					'user_name': comment_dict['username'],
-					'submit_date': comment_dict['time'],
-					'site_id': settings.SITE_ID,
-					'is_public': True,
-					'is_removed': False,
+					'id': comment_dict['pk'],
 					'content_type_id': content_type_id,
 					'object_pk': object_pk,
-					'pk': comment_counter,
-				}
-				if comment_dict['userid'] and comment_dict['userid'] in users:
-					comment['user_id'] = comment_dict['userid']
-				comment_objects.append(Comment(**comment))
-
-			pk_map = dict((d['id'], d['pk']) for d in comment_rows)
-			comment_tree = {}
-			for comment_dict in comment_rows:
-				comment_dict['tree_id'] = counter
-				comment_dict['level'] = 0
-				comment_dict['lft'] = 0
-				comment_dict['rght'] = 0
-				comment_dict['is_locked'] = is_locked or (True if comment_dict['locked'] == 'yes' else False)
-				comment_dict['subject'] = comment_dict['predmet']
-				comment_dict['comment_ptr_id'] = comment_dict['pk']
-				try:
-					comment_dict['parent_id'] = pk_map[comment_dict['parent']]
-				except KeyError:
-					comment_dict['parent_id'] = root_comment_id
-
-				comment_dict['updated'] = self.first_datetime_if_null(comment_dict['time'])
-				del comment_dict['id']
-				del comment_dict['parent']
-				del comment_dict['diskusia_id']
-				del comment_dict['predmet']
-				del comment_dict['text']
-				del comment_dict['time']
-				del comment_dict['userid']
-				del comment_dict['username']
-				del comment_dict['pk']
-				if not comment_dict['parent_id'] in comment_tree:
-					comment_tree[comment_dict['parent_id']] = []
-				comment_tree[comment_dict['parent_id']].append(comment_dict)
-			comment_tree[0] = [
-				{
-					'comment_ptr_id': root_comment_id,
-					'level': 0,
+					'site_id': settings.SITE_ID,
+					'subject': comment_dict['predmet'],
+					'parent_id': parent,
+					'user_id': user_id,
+					'user_name': comment_dict['username'],
+					'user_email': '',
+					'user_url': '',
+					'comment': comment_dict['text'],
+					'submit_date': comment_dict['time'],
+					'ip_address': None,
+					'is_public': True,
+					'is_removed': False,
+					'is_locked': is_locked or (True if comment_dict['locked'] == 'yes' else False),
+					'updated': comment_dict['time'],
 					'lft': 0,
 					'rght': 0,
-					'parent_id': None,
 					'tree_id': counter,
-					'is_locked': is_locked,
-					'subject': '-',
-					'updated': datetime.now()
+					'level': 0,
 				}
-			]
-			comment_rows.insert(0, comment_tree[0][0])
+				comments.append(comment)
+				if not comment['parent_id'] in comment_tree:
+					comment_tree[comment['parent_id']] = []
+				comment_tree[comment['parent_id']].append(comment)
 			self.lr_counter = 0
 			self.depth = -1
 			self.make_tree_structure(comment_tree, 0)
-			insert_tree_params = insert_tree_params + tuple((c['comment_ptr_id'], c['subject'], c['parent_id'], c['is_locked'], c['lft'], c['rght'], c['tree_id'], c['level'], c['updated']) for c in comment_rows)
 			if counter % 1000 == 0:
-				Comment.objects.bulk_create(comment_objects)
-				comment_objects = []
-				connection.cursor().executemany(insert_query, insert_tree_params)
-				transaction.commit()
-				insert_tree_params = ()
-		Comment.objects.bulk_create(comment_objects)
-		comment_objects = []
-		connection.cursor().executemany(insert_query, insert_tree_params)
-		transaction.commit()
-		insert_tree_params = ()
-		connections['default'].cursor().execute('SELECT setval(\'django_comments_id_seq\', (SELECT MAX(id) FROM django_comments) + 1);')
+				comments_data = map(lambda c: tuple([c[col] for col in insert_cols]), comments)
+				connection.cursor().executemany(insert_query, comments_data)
+				comments = []
+		comments_data = map(lambda c: tuple([c[col] for col in insert_cols]), comments)
+		connection.cursor().executemany(insert_query, comments_data)
+		comments = []
+
 		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', (SELECT MAX(id) FROM threaded_comments_rootheader) + 1);')
+		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_threadedcomment_id_seq\', (SELECT MAX(id) FROM threaded_comments_threadedcomment) + 1);')
 		self.logger.finish_sub_progress()
 
 	def import_discussion_attributes(self):
@@ -985,8 +994,8 @@ class Command(BaseCommand):
 			if not item['lft']:
 				print(item['lft'])
 			item['level'] = self.depth
-			if item['comment_ptr_id'] in tree_items:
-				self.make_tree_structure(tree_items, item['comment_ptr_id'])
+			if item['id'] in tree_items:
+				self.make_tree_structure(tree_items, item['id'])
 			self.lr_counter += 1
 			item['rght'] = self.lr_counter
 		self.depth -= 1

@@ -64,14 +64,15 @@ class ThreadedCommentManager(CommentManager):
 		super(ThreadedCommentManager, self).__init__()
 
 	def get_root_comment(self, ctype, object_pk):
+		print(ctype.pk, object_pk)
 		root_comment, created = self.model.objects.get_or_create(
 			parent = None,
 			content_type = ctype,
 			object_pk = object_pk,
 			defaults = {
-				'comment': '-',
-				'user_name': '-',
-				'user_email': 'no@user.no',
+				'comment': '',
+				'user_name': '',
+				'user_email': '',
 				'user_url': '',
 				'submit_date': datetime.now(),
 				'site_id': settings.SITE_ID
@@ -110,6 +111,9 @@ class ThreadedComment(BaseCommentAbstractModel):
 
 	def root_header(self):
 		header, created = RootHeader.objects.get_or_create(content_type = self.content_type, object_id = self.object_pk)
+		if created:
+			header.pub_date = self.submit_date
+			header.save()
 		return header
 
 	def get_absolute_url(self):
@@ -155,6 +159,7 @@ mptt.register(ThreadedComment)
 
 
 class RootHeader(models.Model):
+	pub_date = models.DateTimeField(null = False, blank = False, db_index = True)
 	last_comment = models.DateTimeField(null = True, blank = True, db_index = True)
 	comment_count = models.PositiveIntegerField(default = 0, db_index = True)
 	is_locked = models.BooleanField(default = False)
@@ -183,9 +188,10 @@ def update_comments_header(sender, **kwargs):
 	statistics = statistics.exclude(pk = root.pk)
 	statistics = statistics.aggregate(Count('pk'), Max('submit_date'))
 
-	header, created = RootHeader.objects.get_or_create(content_type = root.content_type, object_id = root.object_pk)
+	header, created = RootHeader.objects.get_or_create(content_type = root.content_type, object_id = root.object_pk, defaults = {'pub_date': root.submit_date})
 	header.is_locked = root.is_locked
 	header.last_comment = statistics['submit_date__max']
+	header.pub_date = root.submit_date
 	if header.last_comment is None:
 		content_object = root.content_object
 		if hasattr(content_object, 'created'):

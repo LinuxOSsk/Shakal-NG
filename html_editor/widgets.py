@@ -4,7 +4,7 @@ from django.conf import settings
 from django.forms import Textarea
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
-from django.utils.simplejson import dumps
+from json import dumps
 from html_editor.parser import ALL_TAGS
 
 class HtmlEditor(Textarea):

@@ -115,7 +115,6 @@ INSTALLED_APPS = (
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 	'django.contrib.admin',
-	'django.contrib.comments',
 	'django.contrib.syndication',
 	'django_tools',
 	'haystack',
