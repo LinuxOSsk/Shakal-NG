@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.core.management.base import BaseCommand
 from django.core.serializers.json import Deserializer
-from django.db import connections, connection
+from django.db import connections, connection, models
 from django.template.defaultfilters import slugify
 from shakal.accounts.models import UserProfile
 from shakal.article.models import Article, Category as ArticleCategory
@@ -914,6 +914,8 @@ class Command(BaseCommand):
 		self.logger.finish_sub_progress()
 
 	def import_wiki(self):
+		models.signals.pre_save.disconnect(dispatch_uid='setup_index_signals')
+		models.signals.post_save.disconnect(dispatch_uid='setup_index_signals')
 		users = set(User.objects.values_list('id', flat = True))
 		all_slugs = set()
 		categories = {}
