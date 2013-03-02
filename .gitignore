@@ -1,5 +1,6 @@
 *.xcf
 *.pyc
+*.pyo
 *.mo
 /media
 /wsgi_app.py
