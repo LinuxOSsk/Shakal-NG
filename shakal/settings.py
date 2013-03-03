@@ -116,7 +116,6 @@ INSTALLED_APPS = (
 	'admin_tools.dashboard',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
-	'django.contrib.comments',
 	'django.contrib.sessions',
 	'django.contrib.sites',
 	'django.contrib.messages',
@@ -190,7 +189,7 @@ ABSOLUTE_URL_OVERRIDES = {
 
 ATTACHMENT_MAX_SIZE = 1024**2 * 50;
 ATTACHMENT_SIZE_FOR_CONTENT = {
-	'threaded_comments_threadedcomment': 1024**2 * 2,
+	'django_comments': 1024**2 * 2,
 	'forum_topic': 1024**2 * 2,
 }
 

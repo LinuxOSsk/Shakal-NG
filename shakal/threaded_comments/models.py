@@ -18,6 +18,7 @@ from django.utils.translation import ugettext_lazy as _
 
 COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)
 
+# TODO: django_comment_flags
 
 class HideRootQuerySet(models.query.QuerySet):
 	def __init__(self, *args, **kwargs):
@@ -157,6 +158,7 @@ class ThreadedComment(BaseCommentAbstractModel):
 		index_together = [['object_pk', 'content_type']]
 		verbose_name = _('comment')
 		verbose_name_plural = _('comments')
+		db_table = 'django_comments'
 mptt.register(ThreadedComment)
 
 
