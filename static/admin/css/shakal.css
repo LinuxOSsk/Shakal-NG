@@ -28,3 +28,19 @@ body #header #user-tools strong {
 body #header #user-tools a, body #header #user-tools a:link, body #header #user-tools a:visited {
 	color: #5b80b2;
 }
+
+body.login #container {
+	width: 326px;
+}
+
+body #header #branding h1 {
+	background: url(../images/logo-admin.png) 0px 0px no-repeat;
+}
+
+body.login .form-row label {
+	width: 11em;
+}
+
+body.login .form-row #id_username, body.login .form-row #id_password {
+	width: 12em;
+}
