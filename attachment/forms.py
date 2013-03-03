@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from attachment.models import UploadSession, TemporaryAttachment, Attachment
-from django import forms
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import ValidationError
 from django.db.models import Sum
 from django.forms.models import modelformset_factory
-
-
-class AttachmentForm(forms.Form):
-	pass
 
 
 AttachmentFormset = modelformset_factory(TemporaryAttachment, can_delete = True, extra = 0, fields = ())
@@ -19,6 +15,7 @@ class AttachmentFormMixin:
 		self.process_attachment_delete()
 		if not self.security_errors():
 			self.process_attachment_upload()
+		self.update_attachment_size()
 
 	def process_attachment_delete(self):
 		if self.data:
@@ -31,7 +28,7 @@ class AttachmentFormMixin:
 					if match:
 						match[0].delete()
 				rownum += 1
-		self.set_attachment_size()
+			self.update_attachment_size()
 
 	def process_attachment_upload(self):
 		try:
@@ -57,25 +54,23 @@ class AttachmentFormMixin:
 				object_id = session.id
 			)
 			attachment.save()
-			self.set_attachment_size()
-		except:
+			self.update_attachment_size()
+		except ValidationError:
 			return
 
-	def set_attachment_size(self):
-		try:
-			uploaded_size = TemporaryAttachment.objects
-			uploaded_size = uploaded_size.filter(session__uuid = self.data['upload_session'])
-			uploaded_size = uploaded_size.aggregate(Sum('size'))["size__sum"]
-		except KeyError:
+	def update_attachment_size(self):
+		if 'upload_session' in self.data:
+			uploaded_size = TemporaryAttachment.objects \
+				.filter(session__uuid = self.data['upload_session']) \
+				.aggregate(Sum('size'))["size__sum"] or 0
+		else:
 			uploaded_size = 0
-		if uploaded_size is None:
-			uploaded_size = 0
-		self.fields['attachment'].widget.attrs['max_size'] = TemporaryAttachment.get_available_size(ContentType.objects.get_for_model(self.get_model()), uploaded_size)
+		content_type = ContentType.objects.get_for_model(self.get_model())
+		max_size = TemporaryAttachment.get_available_size(content_type, uploaded_size)
+		self.fields['attachment'].widget.attrs['max_size'] = max_size
 
 	def move_attachments(self, content_object):
 		temp_attachments = self.get_attachments()
-		if not temp_attachments:
-			return
 		for temp_attachment in temp_attachments:
 			attachment = Attachment(
 				attachment = temp_attachment.attachment.name,
@@ -97,6 +92,6 @@ class AttachmentFormMixin:
 
 	@property
 	def attachments(self):
-		if not hasattr(self, 'attachments_formset'):
-			self.attachments_formset = AttachmentFormset(queryset = self.get_attachments())
-		return self.attachments_formset
+		if not hasattr(self, '_attachments'):
+			self._attachments= AttachmentFormset(queryset = self.get_attachments())
+		return self._attachments
