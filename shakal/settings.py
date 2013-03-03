@@ -116,6 +116,7 @@ INSTALLED_APPS = (
 	'admin_tools.dashboard',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
+	'django.contrib.comments',
 	'django.contrib.sessions',
 	'django.contrib.sites',
 	'django.contrib.messages',
@@ -152,6 +153,8 @@ INSTALLED_APPS = (
 	'shakal.threaded_comments',
 	'shakal.wiki',
 )
+
+COMMENTS_APP = 'shakal.threaded_comments'
 
 LOGGING = {
 	'version': 1,
