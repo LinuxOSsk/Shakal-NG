@@ -33,7 +33,7 @@ body.login #container {
 	width: 326px;
 }
 
-body #header #branding h1 {
+body.login #header #branding h1 {
 	background: url(../images/logo-admin.png) 0px 0px no-repeat;
 }
 
