@@ -194,6 +194,7 @@ class Command(BaseCommand):
 
 	def clean_db(self):
 		tables = [
+			('admin_tools_dashboard_preferences', ),
 			('accounts_userrating', 'accounts_userrating_id_seq'),
 			('wiki_page', 'wiki_page_id_seq'),
 			('auth_group_permissions', 'auth_group_permissions_id_seq'),
@@ -202,7 +203,7 @@ class Command(BaseCommand):
 			('accounts_userprofile', 'accounts_userprofile_id_seq'),
 			('threaded_comments_rootheader', 'threaded_comments_rootheader_id_seq'),
 			('threaded_comments_userdiscussionattribute', 'threaded_comments_userdiscussionattribute_id_seq'),
-			('threaded_comments_threadedcomment', 'threaded_comments_threadedcomment_id_seq'),
+			('django_comments', 'django_comments_id_seq'),
 			('forum_topic', 'forum_topic_id_seq'),
 			('django_admin_log', 'django_admin_log_id_seq'),
 			('attachment_attachment', 'attachment_attachment_id_seq'),
@@ -784,7 +785,7 @@ class Command(BaseCommand):
 			'tree_id',
 			'level',
 		]
-		insert_query = 'INSERT INTO threaded_comments_threadedcomment ('+(','.join(insert_cols))+') VALUES ('+(("%s, " * len(insert_cols))[:-2])+')'
+		insert_query = 'INSERT INTO django_comments ('+(','.join(insert_cols))+') VALUES ('+(("%s, " * len(insert_cols))[:-2])+')'
 		select_query = 'SELECT ' + (', '.join(['diskusia.' + col for col in cols])) + ', diskusia_header.diskusia_id FROM diskusia INNER JOIN diskusia_header ON (diskusia.diskusiaid = diskusia_header.id) WHERE diskusia_id = {0} AND kategoria = "{1}" ORDER BY diskusia.id'
 		headers = ThreadedRootHeader.objects.values_list('id', 'content_type_id', 'object_id', 'is_locked', 'pub_date')
 		counter = 0
@@ -877,7 +878,7 @@ class Command(BaseCommand):
 		comments = []
 
 		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_rootheader_id_seq\', (SELECT MAX(id) FROM threaded_comments_rootheader) + 1);')
-		connections['default'].cursor().execute('SELECT setval(\'threaded_comments_threadedcomment_id_seq\', (SELECT MAX(id) FROM threaded_comments_threadedcomment) + 1);')
+		connections['default'].cursor().execute('SELECT setval(\'django_comments_id_seq\', (SELECT MAX(id) FROM django_comments) + 1);')
 		self.logger.finish_sub_progress()
 
 	def import_discussion_attributes(self):
