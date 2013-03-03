@@ -33,10 +33,15 @@ class AttachmentAbstract(models.Model):
 		return os.path.basename(self.attachment.name)
 
 	def delete(self, *args, **kwargs):
-		path = self.attachment.storage.path(self.attachment.name)
 		super(AttachmentAbstract, self).delete(*args, **kwargs)
-		self.attachment.storage.delete(self.attachment.path)
-		clean_dir(os.path.dirname(path), settings.MEDIA_ROOT)
+		self.delete_file()
+
+	def delete_file(self):
+		if self.attachment:
+			path = self.attachment.storage.path(self.attachment.name)
+			self.attachment.storage.delete(self.attachment.path)
+			clean_dir(os.path.dirname(path), settings.MEDIA_ROOT)
+			self.attachment = ''
 
 	def save(self, *args, **kwargs):
 		if self.pk:
@@ -108,3 +113,9 @@ class UploadSession(models.Model):
 
 class TemporaryAttachment(AttachmentAbstract):
 	session = models.ForeignKey(UploadSession)
+
+
+def delete_file(sender, instance, *args, **kwargs):
+	instance.delete_file()
+models.signals.pre_delete.connect(delete_file, sender = Attachment)
+models.signals.pre_delete.connect(delete_file, sender = TemporaryAttachment)
