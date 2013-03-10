@@ -20,9 +20,9 @@ from django.db import connections, connection, models
 from django.template.defaultfilters import slugify
 from phpserialize import loads
 from progressbar import Bar, BouncingBar, ETA, FormatLabel, ProgressBar, RotatingMarker
-from shakal.accounts.models import User
 from subprocess import call, Popen, PIPE
 
+from accounts.models import User
 from hitcount.models import HitCount
 from shakal.article.models import Article, Category as ArticleCategory
 from shakal.forum.models import Section as ForumSection, Topic as ForumTopic
@@ -169,7 +169,7 @@ class Command(BaseCommand):
 			self.logger.step_main_progress(u"Čistenie databázy")
 			self.clean_db()
 			self.logger.step_main_progress(u"Sťahovanie starej databázy")
-			self.download_db()
+			#self.download_db()
 			self.logger.step_main_progress(u"Import užívateľov")
 			self.import_users()
 			self.logger.step_main_progress(u"Import článkov")
@@ -215,12 +215,12 @@ class Command(BaseCommand):
 			('survey_recordip', 'survey_recordip_id_seq'),
 			('survey_recorduser', 'survey_recorduser_id_seq'),
 			('survey_survey', 'survey_survey_id_seq'),
-			('auth_user', 'auth_user_id_seq'),
 			('forum_section', 'forum_section_id_seq'),
 			('hitcount_hitcount', 'hitcount_hitcount_id_seq'),
 			('auth_remember_remembertoken', ),
 			('reversion_version', 'reversion_version_id_seq'),
 			('reversion_revision', 'reversion_revision_id_seq'),
+			('accounts_user', 'accounts_user_id_seq'),
 		]
 
 		self.logger.set_sub_progress(u"Tabuľka", len(tables))
@@ -366,7 +366,7 @@ class Command(BaseCommand):
 			user_object.set_password(user['password'])
 			user_objects.append(user_object)
 		User.objects.bulk_create(user_objects)
-		connections['default'].cursor().execute('SELECT setval(\'auth_user_id_seq\', (SELECT MAX(id) FROM auth_user) + 1);')
+		connections['default'].cursor().execute('SELECT setval(\'accounts_user_id_seq\', (SELECT MAX(id) FROM accounts_user) + 1);')
 		self.logger.finish_sub_progress()
 
 	def import_articles(self):
