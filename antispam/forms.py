@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+import random
+
+from django.forms import Form, ModelForm
 
 from antispam.fields import AntispamField
-from django.forms import Form, ModelForm
-import random
+
 
 class AntispamMethodsMixin:
 	def generate_antispam(self):

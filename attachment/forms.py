@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-
-from attachment.models import UploadSession, TemporaryAttachment, Attachment
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.db.models import Sum
 from django.forms.models import modelformset_factory
+
+from attachment.models import UploadSession, TemporaryAttachment, Attachment
 
 
 AttachmentFormset = modelformset_factory(TemporaryAttachment, can_delete = True, extra = 0, fields = ())
@@ -93,5 +93,5 @@ class AttachmentFormMixin:
 	@property
 	def attachments(self):
 		if not hasattr(self, '_attachments'):
-			self._attachments= AttachmentFormset(queryset = self.get_attachments())
+			self._attachments = AttachmentFormset(queryset = self.get_attachments())
 		return self._attachments

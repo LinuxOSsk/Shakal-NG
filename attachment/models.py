@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
+import os
+import uuid
 
-from django.db import models
 from django.conf import settings
-from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
+from django.db import models
 from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
+
 from common_utils import clean_dir
-import uuid
-import os
+
 
 class AttachmentAbstract(models.Model):
 	def upload_to(instance, filename):

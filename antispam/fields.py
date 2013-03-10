@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from django.core.exceptions import ValidationError
 from django.forms.fields import CharField
 from django.forms.widgets import TextInput
@@ -18,6 +17,7 @@ class AntispamInput(TextInput):
 
 class AntispamField(CharField):
 	widget = AntispamInput
+
 	def clean(self, value):
 		value = super(CharField, self).clean(value)
 		if value != self.widget.attrs.get("answer", ""):
