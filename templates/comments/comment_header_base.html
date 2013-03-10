@@ -1,4 +1,4 @@
-{% load gravatar %}{% load linuxos %}
+{% load avatar %}{% load linuxos %}
 <div class="discussion header {{ comment_type }}{% if not single %}{% ifequal user request.user %} me{% endifequal %}{{ comment.get_tags }}{% endif %}">
 	<div class="comment_info">
 		<span class="title">{% block comment_title %}{% endblock %}</span>
@@ -11,7 +11,7 @@
 	</div>
 	<span class="icon">
 		{% if user %}
-			<img src="{% gravatar_for_user user 48 %}" class="gravatar" alt="Avatar" />
+			<img src="{% avatar_for_user user 48 %}" class="gravatar" alt="Avatar" />
 		{% endif %}
 	</span>
 	<span class="user">
