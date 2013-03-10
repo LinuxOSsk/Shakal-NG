@@ -47,35 +47,19 @@ class ProfileEditForm(ModelForm):
 
 	class Meta:
 		model = get_user_model()
-		exclude = ('user', )
 		fields = ('current_password', 'first_name', 'last_name', 'jabber', 'url', 'signature', 'email', 'display_mail', 'distribution', 'info', 'year', )
 
 	def __init__(self, *args, **kwargs):
-		if 'instance' in kwargs:
-			user = kwargs['instance'].user
-			kwargs['initial'] = {
-				'first_name': user.first_name,
-				'last_name': user.last_name,
-				'email': user.email,
-			}
 		super(ProfileEditForm, self).__init__(*args, **kwargs)
 		self.fields['email'].widget.attrs['readonly'] = True
 		self.fields['email'].help_text = mark_safe(_('E-mail address can be changed <a href="{0}">this link</a>.').format(reverse('auth_email_change')))
 
 	def clean_current_password(self):
-		if not self.instance.user.check_password(self.cleaned_data['current_password']):
+		if not self.instance.check_password(self.cleaned_data['current_password']):
 			raise ValidationError(_('Please enter the correct password.'))
 
 	def clean_email(self):
-		return self.instance.user.email
-
-	def save(self, commit = True):
-		user_profile = super(ProfileEditForm, self).save(commit)
-		user = user_profile.user
-		user.first_name = self.cleaned_data['first_name']
-		user.last_name = self.cleaned_data['last_name']
-		if commit:
-			user.save()
+		return self.instance.email
 
 
 class EmailChangeForm(Form):

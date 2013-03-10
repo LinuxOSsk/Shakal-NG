@@ -120,7 +120,7 @@ def my_profile_edit(request):
 
 
 def profile_edit(request, pk):
-	user = get_object_or_404(get_user_model(), user = pk)
+	user = get_object_or_404(get_user_model(), pk = pk)
 	return ProfileEditView.as_view()(request, pk = user.pk)
 
 
