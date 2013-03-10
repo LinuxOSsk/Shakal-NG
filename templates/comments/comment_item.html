@@ -11,9 +11,9 @@
 		<div class="text">
 		{{ comment.comment|safe }}
 		</div>
-		{% if comment.user.get_profile.signature %}
+		{% if comment.user.signature %}
 			<div class="signature">
-				{{ comment.user.get_profile.signature|safe }}
+				{{ comment.user.signature|safe }}
 			</div>
 		{% endif %}
 	{% endif %}

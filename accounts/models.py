@@ -20,6 +20,10 @@ class User(AbstractUser):
 	info = models.TextField(validators = [MaxLengthValidator(100000)], blank = True, verbose_name = _('informations'))
 	year = models.SmallIntegerField(validators = [MinValueValidator(1900), MaxValueValidator(lambda: 2010)], blank = True, null = True, verbose_name = _('year of birth'))
 
+	@models.permalink
+	def get_absolute_url(self):
+		return ('auth_profile', [], {'pk': self.pk})
+
 
 class UserRating(models.Model):
 	user = models.OneToOneField(User, related_name = 'rating')

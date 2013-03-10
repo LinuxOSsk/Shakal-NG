@@ -30,23 +30,21 @@ def login(*args, **kwargs):
 
 def profile(request, pk):
 	user = get_object_or_404(get_user_model(), pk = pk)
-	profile = user.get_profile()
 	user_table = (
 		{'name': _('user name'), 'value': user.username},
 		{'name': _('first name'), 'value': user.first_name},
 		{'name': _('last name'), 'value': user.last_name},
-		{'name': _('signature'), 'value': mark_safe(profile.signature)},
-		{'name': _('linux distribution'), 'value': profile.distribution},
-		{'name': _('year of birth'), 'value': profile.year},
+		{'name': _('signature'), 'value': mark_safe(user.signature)},
+		{'name': _('linux distribution'), 'value': user.distribution},
+		{'name': _('year of birth'), 'value': user.year},
 	)
-	if profile.display_mail:
+	if user.display_mail:
 		email = user.email.replace('@', ' ' + ugettext('ROLLMOP') + ' ').replace('.', ' ' + ugettext('DOT') + ' ')
 		user_table = user_table + ({'name': _('e-mail'), 'value': email}, )
 	context = {
 		'user_table': user_table,
 		'user_profile': user,
 		'is_my_profile': request.user == user,
-		'profile': profile,
 	}
 	return TemplateResponse(request, "registration/profile.html", RequestContext(request, context))
 
