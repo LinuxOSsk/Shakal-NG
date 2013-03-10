@@ -222,6 +222,7 @@ SHAKAL_DASHBOARD_APP_GROUPS = (
 	(
 		_('Administration'), {
 			'models': (
+				'accounts.*',
 				'django.contrib.auth.*',
 				'django.contrib.sites.*',
 				'shakal.survey.*',
@@ -246,7 +247,7 @@ SHAKAL_DASHBOARD_APP_GROUPS = (
 	),
 )
 SHAKAL_DASHBOARD_APP_ICONS = {
-	'auth/user': 'user.png',
+	'accounts/user': 'user.png',
 	'auth/group': 'group.png',
 	'sites/site': 'site.png',
 	'article/article': 'article.png',
