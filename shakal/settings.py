@@ -89,7 +89,7 @@ MIDDLEWARE_CLASSES = (
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'auth_remember.middleware.AuthRememberMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
-	'django_tools.middlewares.ThreadLocal.ThreadLocalMiddleware', # required for template_dynamicloader
+	'django_tools.middlewares.ThreadLocal.ThreadLocalMiddleware',
 	'shakal.template_dynamicloader.middleware.TemplateSwitcherMiddleware',
 	'shakal.feeds.middleware.FeedsMiddleware',
 	'maintenance.middleware.MaintenanceMiddleware',
@@ -124,6 +124,7 @@ INSTALLED_APPS = (
 	'django.contrib.admin',
 	'django_tools',
 	'haystack',
+	'accounts',
 	'antispam',
 	'attachment',
 	'auth_remember',
@@ -140,7 +141,6 @@ INSTALLED_APPS = (
 	'reversion',
 	'template_preprocessor',
 	'paginator',
-	'shakal.accounts',
 	'shakal.article',
 	'shakal.feeds',
 	'shakal.forum',
@@ -179,7 +179,7 @@ LOGGING = {
 	}
 }
 
-AUTH_PROFILE_MODULE = 'accounts.UserProfile'
+AUTH_USER_MODEL = 'accounts.User'
 
 ACCOUNT_ACTIVATION_DAYS = 7
 
@@ -187,10 +187,10 @@ ABSOLUTE_URL_OVERRIDES = {
 	'auth.user': lambda o: '/profil/{0}/'.format(o.pk)
 }
 
-ATTACHMENT_MAX_SIZE = 1024**2 * 50;
+ATTACHMENT_MAX_SIZE = 1024 * 1024 * 50
 ATTACHMENT_SIZE_FOR_CONTENT = {
-	'django_comments': 1024**2 * 2,
-	'forum_topic': 1024**2 * 2,
+	'django_comments': 1024 * 1024 * 2,
+	'forum_topic': 1024 * 1024 * 2,
 }
 
 HAYSTACK_CONNECTIONS = {
@@ -207,35 +207,43 @@ GRAVATAR_DEFAULT_SIZE = 200
 FEED_SIZE = 20
 
 SHAKAL_DASHBOARD_APP_GROUPS = (
-	(_('Content management'), {
-		'models': (
-			'shakal.article.*',
-			'shakal.news.*',
-			'shakal.wiki.models.*',
-		),
-		'exclude': (
-			'shakal.article.models.Category',
-		)
-	}),
-	(_('Administration'), {
-		'models': (
-			'django.contrib.auth.*',
-			'django.contrib.sites.*',
-			'shakal.survey.*',
-		),
-	}),
-	(_('Forum'), {
-		'models': (
-			'shakal.forum.*',
-			'shakal.threaded_comments.*',
-		),
-	}),
-	(_('Applications'), {
-		'models': ('*',),
-		'module': 'AppList',
-		'exclude': ('auth_remember.*', 'registration.*', ),
-		'collapsible': True,
-	}),
+	(
+		_('Content management'), {
+			'models': (
+				'shakal.article.*',
+				'shakal.news.*',
+				'shakal.wiki.models.*',
+			),
+			'exclude': (
+				'shakal.article.models.Category',
+			)
+		}
+	),
+	(
+		_('Administration'), {
+			'models': (
+				'django.contrib.auth.*',
+				'django.contrib.sites.*',
+				'shakal.survey.*',
+			),
+		}
+	),
+	(
+		_('Forum'), {
+			'models': (
+				'shakal.forum.*',
+				'shakal.threaded_comments.*',
+			),
+		}
+	),
+	(
+		_('Applications'), {
+			'models': ('*',),
+			'module': 'AppList',
+			'exclude': ('auth_remember.*', 'registration.*', ),
+			'collapsible': True,
+		}
+	),
 )
 SHAKAL_DASHBOARD_APP_ICONS = {
 	'auth/user': 'user.png',

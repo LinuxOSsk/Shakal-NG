@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.core.exceptions import ValidationError
+from django.forms import Form
 from django.test.client import RequestFactory
 from django.utils import unittest
-from django.forms import Form
 
 from antispam.fields import AntispamInput, AntispamField
 from antispam.forms import AntispamFormMixin
