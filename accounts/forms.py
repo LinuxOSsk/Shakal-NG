@@ -1,19 +1,16 @@
 # -*- coding: utf-8 -*-
-
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django.core.urlresolvers import reverse
 from django.forms import ValidationError, BooleanField, CharField, PasswordInput, RegexField, ModelForm, Form, EmailField
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
-from models import UserProfile
 from registration.forms import RegistrationForm
 
 
 class RegistrationFormUniqueEmail(RegistrationForm):
 	def clean_email(self):
-		if User.objects.filter(email__iexact=self.cleaned_data['email']):
+		if get_user_model().objects.filter(email__iexact=self.cleaned_data['email']):
 			raise ValidationError(_("This email address is already in use. Please supply a different email address."))
 		return self.cleaned_data['email']
 
@@ -49,7 +46,7 @@ class ProfileEditForm(ModelForm):
 	email = EmailField(required = False)
 
 	class Meta:
-		model = UserProfile
+		model = get_user_model()
 		exclude = ('user', )
 		fields = ('current_password', 'first_name', 'last_name', 'jabber', 'url', 'signature', 'email', 'display_mail', 'distribution', 'info', 'year', )
 

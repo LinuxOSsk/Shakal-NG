@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import permalink
 from django.utils.translation import ugettext_lazy as _
-from datetime import datetime
 
 
 class SurveyListManager(models.Manager):
@@ -91,7 +91,7 @@ class RecordIp(models.Model):
 
 class RecordUser(models.Model):
 	survey = models.ForeignKey(Survey)
-	user = models.ForeignKey(User)
+	user = models.ForeignKey(settings.AUTH_USER_MODEL)
 	date = models.DateTimeField(auto_now_add = True)
 
 	class Meta:

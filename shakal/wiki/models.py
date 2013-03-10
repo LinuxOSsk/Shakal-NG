@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 
 import mptt
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.db import models
-from datetime import datetime
 
 
 class Page(models.Model):
@@ -15,7 +15,7 @@ class Page(models.Model):
 	title = models.CharField(max_length = 255, verbose_name = u'titulok')
 	created = models.DateTimeField(editable = False)
 	updated = models.DateTimeField(editable = False)
-	last_author = models.ForeignKey(User, verbose_name = u'posledný autor', blank = True, null = True)
+	last_author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name = u'posledný autor', blank = True, null = True)
 	slug = models.SlugField(unique = True, verbose_name = u'slug')
 	parent = models.ForeignKey('self', related_name = 'children', blank = True, null = True, verbose_name = u'nadradená stránka')
 	text = models.TextField(verbose_name = u'text')

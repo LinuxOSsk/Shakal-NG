@@ -1,7 +1,7 @@
 Django>=1.5
 django-tools
-hg+https://bitbucket.org/mrginglymus/django-registration#egg=django-registration
-django-auth-remember
+hg+https://bitbucket.org/LinnTroll/django-registration-1.5#egg=django-registration
+git+git://github.com/mireq/django-auth-remember.git#egg=django-auth-remember
 pil
 phpserialize
 django-mptt

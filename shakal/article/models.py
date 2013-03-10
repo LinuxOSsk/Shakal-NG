@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models.signals import post_save
 from django.db.models import permalink
+from django.db.models.signals import post_save
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
+
 from autoimagefield.fields import AutoImageField
-from datetime import datetime
 from hitcount.models import HitCount
 from shakal.survey.models import Survey
 from shakal.threaded_comments.models import RootHeader
@@ -48,7 +49,7 @@ class Article(models.Model):
 	perex = models.TextField(verbose_name = _('perex'), help_text = _('Text on title page.'))
 	annotation = models.TextField(verbose_name = _('annotation'), help_text = _('Text before article body.'))
 	content = models.TextField(verbose_name = _('content'))
-	author = models.ForeignKey(User, on_delete = models.SET_NULL, blank = True, null = True, verbose_name = _('author'))
+	author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.SET_NULL, blank = True, null = True, verbose_name = _('author'))
 	authors_name = models.CharField(max_length = 255, verbose_name = _('authors name'))
 	pub_time = models.DateTimeField(verbose_name = _('publication time'))
 	updated = models.DateTimeField(editable = False)

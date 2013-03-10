@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 
+from django.conf import settings
 from django.contrib.contenttypes import generic
 from django.db import models
 from django.db.models import permalink
-from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from datetime import datetime
+
 from shakal.threaded_comments.models import RootHeader
 
 
@@ -29,7 +30,7 @@ class News(models.Model):
 	long_text = models.TextField(verbose_name = _('long text'))
 	created = models.DateTimeField(verbose_name = _('time'))
 	updated = models.DateTimeField(editable = False)
-	author = models.ForeignKey(User, on_delete = models.SET_NULL, blank = True, null = True, verbose_name = _('user'))
+	author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.SET_NULL, blank = True, null = True, verbose_name = _('user'))
 	authors_name = models.CharField(max_length = 255, verbose_name = _('authors name'))
 	approved = models.BooleanField(default = False, verbose_name = _('approved'))
 	comments_header = generic.GenericRelation(RootHeader)

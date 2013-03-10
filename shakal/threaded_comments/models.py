@@ -1,24 +1,25 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 
 import mptt
-from attachment.models import Attachment
-from datetime import datetime
+from django.conf import settings
+from django.contrib.comments.models import BaseCommentAbstractModel, CommentManager as OrigCommentManager
+from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.models import ContentType
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Count, Max
 from django.db.models.signals import post_save
-from django.conf import settings
-from django.contrib.auth.models import User
-from django.contrib.comments.models import BaseCommentAbstractModel
-from django.contrib.comments.managers import CommentManager
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes import generic
-from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+
+from attachment.models import Attachment
+
 
 COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)
 
 # TODO: django_comment_flags
+
 
 class HideRootQuerySet(models.query.QuerySet):
 	def __init__(self, *args, **kwargs):
@@ -52,7 +53,7 @@ class HideRootQuerySet(models.query.QuerySet):
 		return item.parent_id is None
 
 
-class CommentManager(CommentManager):
+class CommentManager(OrigCommentManager):
 	def get_query_set(self):
 		return (super(CommentManager, self).get_query_set().select_related('user__profile__pk'))
 
@@ -209,7 +210,7 @@ post_save.connect(update_comments_header, sender = ThreadedComment)
 
 
 class UserDiscussionAttribute(models.Model):
-	user = models.ForeignKey(User)
+	user = models.ForeignKey(settings.AUTH_USER_MODEL)
 	discussion = models.ForeignKey(RootHeader)
 	time = models.DateTimeField(null = True, blank = True)
 	watch = models.BooleanField(default = False)

@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
+from time import mktime
+
 from auth_remember import remember_user
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.contrib.auth.signals import user_logged_in
 from django.contrib.auth.views import login as login_view
 from django.contrib.sites.models import get_current_site
 from django.core import signing
 from django.core.mail import send_mail
-from django.core.urlresolvers import reverse
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
@@ -18,29 +20,28 @@ from django.template.response import TemplateResponse
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _, ugettext
 from django.views.generic import RedirectView, UpdateView
-from datetime import datetime
+
 from forms import ProfileEditForm, EmailChangeForm
-from models import UserProfile
-from time import mktime
+
 
 def login(*args, **kwargs):
 	return login_view(*args, **kwargs)
 
 
 def profile(request, pk):
-	user = get_object_or_404(User, pk = pk)
+	user = get_object_or_404(get_user_model(), pk = pk)
 	profile = user.get_profile()
 	user_table = (
-		{ 'name': _('user name'), 'value': user.username },
-		{ 'name': _('first name'), 'value': user.first_name },
-		{ 'name': _('last name'), 'value': user.last_name },
-		{ 'name': _('signature'), 'value': mark_safe(profile.signature) },
-		{ 'name': _('linux distribution'), 'value': profile.distribution },
-		{ 'name': _('year of birth'), 'value': profile.year },
+		{'name': _('user name'), 'value': user.username},
+		{'name': _('first name'), 'value': user.first_name},
+		{'name': _('last name'), 'value': user.last_name},
+		{'name': _('signature'), 'value': mark_safe(profile.signature)},
+		{'name': _('linux distribution'), 'value': profile.distribution},
+		{'name': _('year of birth'), 'value': profile.year},
 	)
 	if profile.display_mail:
 		email = user.email.replace('@', ' ' + ugettext('ROLLMOP') + ' ').replace('.', ' ' + ugettext('DOT') + ' ')
-		user_table = user_table + ({ 'name': _('e-mail'), 'value': email}, )
+		user_table = user_table + ({'name': _('e-mail'), 'value': email}, )
 	context = {
 		'user_table': user_table,
 		'user_profile': user,
@@ -97,20 +98,20 @@ def email_change_activate(request, email):
 		signer = signing.Signer()
 		email_data = signer.unsign(email)
 		user_id, timestamp, email = email_data.split('.', 2)
-		user = User.objects.get(pk = int(user_id))
+		user = get_user_model().objects.get(pk = int(user_id))
 		if user != request.user:
 			raise ValueError
 		time = datetime.fromtimestamp(int(timestamp))
 		if ((datetime.now() - time).days) > 14:
 			raise UserInputError(_("Link expired."))
-		if User.objects.filter(email = email).exclude(pk = user.pk).count() > 0:
+		if get_user_model().objects.filter(email = email).exclude(pk = user.pk).count() > 0:
 			raise UserInputError(_("E-mail address is already in use."))
 		user.email = email
 		user.save()
 	except UserInputError as e:
 		context['validlink'] = False
 		context['error_message'] = e.message
-	except (signing.BadSignature, ValueError, User.DoesNotExist) as e:
+	except (signing.BadSignature, ValueError, get_user_model().DoesNotExist) as e:
 		context['validlink'] = False
 	return TemplateResponse(request, "registration/email_change_complete.html", context)
 
@@ -121,13 +122,13 @@ def my_profile_edit(request):
 
 
 def profile_edit(request, pk):
-	user = get_object_or_404(UserProfile, user = pk)
+	user = get_object_or_404(get_user_model(), user = pk)
 	return ProfileEditView.as_view()(request, pk = user.pk)
 
 
 class ProfileEditView(UpdateView):
 	form_class = ProfileEditForm
-	model = UserProfile
+	model = get_user_model()
 	template_name = 'registration/profile_change.html'
 
 	def get_success_url(self):
@@ -141,4 +142,4 @@ def remember_user_handle(sender, request, user, **kwargs):
 	if user.is_authenticated() and request.POST.get('remember_me', False):
 		remember_user(request, user)
 
-user_logged_in.connect(remember_user_handle, sender = User)
+user_logged_in.connect(remember_user_handle, sender = get_user_model())

@@ -1,37 +1,36 @@
 # -*- coding: utf-8 -*-
-
+import os
+import sys
 from datetime import datetime
+
+import json
+import reversion
+import socket
+import threading
+import urllib
+import urllib2
+from collections import OrderedDict
+from cookielib import CookieJar
+from copy import copy
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.core.management.base import BaseCommand
 from django.core.serializers.json import Deserializer
 from django.db import connections, connection, models
 from django.template.defaultfilters import slugify
-from shakal.accounts.models import UserProfile
+from phpserialize import loads
+from progressbar import Bar, BouncingBar, ETA, FormatLabel, ProgressBar, RotatingMarker
+from shakal.accounts.models import User
+from subprocess import call, Popen, PIPE
+
+from hitcount.models import HitCount
 from shakal.article.models import Article, Category as ArticleCategory
 from shakal.forum.models import Section as ForumSection, Topic as ForumTopic
 from shakal.news.models import News
 from shakal.survey.models import Survey, Answer as SurveyAnswer
-from shakal.threaded_comments.models import RootHeader as ThreadedRootHeader
-from shakal.threaded_comments.models import UserDiscussionAttribute
+from shakal.threaded_comments.models import RootHeader as ThreadedRootHeader, UserDiscussionAttribute
 from shakal.utils import create_unique_slug
 from shakal.wiki.models import Page as WikiPage
-from hitcount.models import HitCount
-from collections import OrderedDict
-import json
-import os
-import reversion
-import socket
-import sys
-import threading
-import urllib
-import urllib2
-from cookielib import CookieJar
-from copy import copy
-from phpserialize import loads
-from subprocess import call, Popen, PIPE
-from progressbar import Bar, BouncingBar, ETA, FormatLabel, ProgressBar, RotatingMarker
 
 
 class SocketMaintenance(object):
@@ -200,7 +199,6 @@ class Command(BaseCommand):
 			('auth_group_permissions', 'auth_group_permissions_id_seq'),
 			('auth_user_user_permissions', 'auth_user_user_permissions_id_seq'),
 			('auth_group', 'auth_group_id_seq'),
-			('accounts_userprofile', 'accounts_userprofile_id_seq'),
 			('threaded_comments_rootheader', 'threaded_comments_rootheader_id_seq'),
 			('threaded_comments_userdiscussionattribute', 'threaded_comments_userdiscussionattribute_id_seq'),
 			('django_comments', 'django_comments_id_seq'),
@@ -226,13 +224,13 @@ class Command(BaseCommand):
 		]
 
 		self.logger.set_sub_progress(u"Tabuľka", len(tables))
-		connections['default'].cursor().execute('SET CONSTRAINTS ALL DEFERRED;');
+		connections['default'].cursor().execute('SET CONSTRAINTS ALL DEFERRED')
 		for table in tables:
 			self.logger.step_sub_progress(u"%35s" % (table[0], ))
-			connections['default'].cursor().execute('DELETE FROM '+table[0]+';')
+			connections['default'].cursor().execute('DELETE FROM ' + table[0] + '')
 			if len(table) > 1:
-				connections['default'].cursor().execute('SELECT setval(\''+table[1]+'\', 1);')
-		connections['default'].cursor().execute('SET CONSTRAINTS ALL IMMEDIATE;');
+				connections['default'].cursor().execute('SELECT setval(\'' + table[1] + '\', 1)')
+		connections['default'].cursor().execute('SET CONSTRAINTS ALL IMMEDIATE')
 		self.logger.finish_sub_progress()
 
 	def download_db(self):
@@ -260,7 +258,7 @@ class Command(BaseCommand):
 			'databases[]': settings.DATABASES['linuxos_remote']['NAME']
 		}
 		data_encoded = urllib.urlencode(formdata)
-		response = opener.open('https://cloud.relbit.com/tools/adminer/?server='+settings.DATABASES['linuxos_remote']['HOST']+'&username='+settings.DATABASES['linuxos_remote']['USER']+'&dump', data_encoded)
+		response = opener.open('https://cloud.relbit.com/tools/adminer/?server=' + settings.DATABASES['linuxos_remote']['HOST'] + '&username=' + settings.DATABASES['linuxos_remote']['USER'] + '&dump', data_encoded)
 		f = open("dump.gz", "w")
 		while True:
 			content = response.read(1024 * 1024)
@@ -275,10 +273,10 @@ class Command(BaseCommand):
 
 		proc = Popen([
 			'/usr/bin/mysql',
-			'--user='+linuxos_settings['USER'],
-			'--password='+linuxos_settings['PASSWORD'],
-			'--host='+linuxos_settings['HOST'],
-			'--port='+linuxos_settings['PORT'],
+			'--user=' + linuxos_settings['USER'],
+			'--password=' + linuxos_settings['PASSWORD'],
+			'--host=' + linuxos_settings['HOST'],
+			'--port=' + linuxos_settings['PORT'],
 			linuxos_settings['NAME'],
 		], stdin = PIPE)
 		f = open("dump.sql", "r")
@@ -297,11 +295,11 @@ class Command(BaseCommand):
 		f.close()
 		del proc
 		call('cat dump.sql|mysql \
-			--user='+linuxos_settings['USER']+' \
-			--password='+linuxos_settings['PASSWORD']+' \
-			--host='+linuxos_settings['HOST']+' \
-			--port='+linuxos_settings['PORT']+' \
-			' +linuxos_settings['NAME'], shell = True)
+			--user=' + linuxos_settings['USER'] + ' \
+			--password=' + linuxos_settings['PASSWORD'] + ' \
+			--host=' + linuxos_settings['HOST'] + ' \
+			--port=' + linuxos_settings['PORT'] + ' \
+			' + linuxos_settings['NAME'], shell = True)
 		php_filename = os.path.join(os.path.dirname(__file__), 'decrypt.php')
 		call([
 			'php', php_filename,
@@ -333,35 +331,16 @@ class Command(BaseCommand):
 		self.logger.set_sub_progress(u"Užívatelia", self.cursor.fetchall()[0][0])
 		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM users WHERE prava > 0')
 		user_objects = []
-		user_profile_objects = []
 		for user in self.cursor:
 			self.logger.step_sub_progress()
 			user_dict = self.decode_cols_to_dict(cols, user)
-			base_user = {
+			user = {
 				'pk': user_dict['id'],
 				'username': user_dict['nick'][:30],
 				'email': user_dict['email'][:75],
 				'password': user_dict['heslo'],
 				'is_active': False,
 				'last_login': self.first_datetime_if_null(user_dict['lastlogin']),
-			}
-			if user_dict['real_name']:
-				space_pos = user_dict['real_name'].find(' ')
-				if space_pos == -1:
-					base_user['first_name'] = user_dict['real_name']
-				else:
-					base_user['first_name'] = user_dict['real_name'][:space_pos]
-					base_user['last_name'] = user_dict['real_name'][space_pos + 1:]
-			if user_dict['prava'] > 0:
-				base_user['is_active'] = True
-				if user_dict['prava'] > 1:
-					base_user['is_staff'] = True
-					if user_dict['prava'] > 2:
-						base_user['is_superuser'] = True
-			user_object = User(**base_user)
-			user_object.set_password(base_user['password'])
-			user_objects.append(user_object)
-			user_profile = {
 				'jabber': self.empty_if_null(user_dict['jabber']),
 				'url': self.empty_if_null(user_dict['url']),
 				'signature': self.empty_if_null(user_dict['signatura']),
@@ -369,12 +348,24 @@ class Command(BaseCommand):
 				'distribution': self.empty_if_null(user_dict['more_info']),
 				'info': self.empty_if_null(user_dict['info']),
 				'year': user_dict['rok'],
-				'user_id': user_dict['id'],
 			}
-			user_profile_object = UserProfile(**user_profile)
-			user_profile_objects.append(user_profile_object)
+			if user_dict['real_name']:
+				space_pos = user_dict['real_name'].find(' ')
+				if space_pos == -1:
+					user['first_name'] = user_dict['real_name']
+				else:
+					user['first_name'] = user_dict['real_name'][:space_pos]
+					user['last_name'] = user_dict['real_name'][space_pos + 1:]
+			if user_dict['prava'] > 0:
+				user['is_active'] = True
+				if user_dict['prava'] > 1:
+					user['is_staff'] = True
+					if user_dict['prava'] > 2:
+						user['is_superuser'] = True
+			user_object = User(**user)
+			user_object.set_password(user['password'])
+			user_objects.append(user_object)
 		User.objects.bulk_create(user_objects)
-		UserProfile.objects.bulk_create(user_profile_objects)
 		connections['default'].cursor().execute('SELECT setval(\'auth_user_id_seq\', (SELECT MAX(id) FROM auth_user) + 1);')
 		self.logger.finish_sub_progress()
 
@@ -734,9 +725,9 @@ class Command(BaseCommand):
 		connections['default'].cursor().execute('\
 			UPDATE forum_topic SET is_removed = true\
 				WHERE forum_topic.id NOT IN\
-					(SELECT object_id FROM threaded_comments_rootheader WHERE content_type_id = '+str(self.content_types['forum'])+')\
+					(SELECT object_id FROM threaded_comments_rootheader WHERE content_type_id = ' + str(self.content_types['forum']) + ')\
 		')
-		connections['default'].cursor().execute('UPDATE threaded_comments_rootheader SET last_comment = (SELECT created FROM forum_topic WHERE id = object_id) WHERE last_comment IS NULL AND content_type_id = '+str(self.content_types['forum'])+';')
+		connections['default'].cursor().execute('UPDATE threaded_comments_rootheader SET last_comment = (SELECT created FROM forum_topic WHERE id = object_id) WHERE last_comment IS NULL AND content_type_id = ' + str(self.content_types['forum']) + ';')
 		self.logger.finish_sub_progress()
 
 	def decode_username_for_comment(self, comment_row):
@@ -785,7 +776,7 @@ class Command(BaseCommand):
 			'tree_id',
 			'level',
 		]
-		insert_query = 'INSERT INTO django_comments ('+(','.join(insert_cols))+') VALUES ('+(("%s, " * len(insert_cols))[:-2])+')'
+		insert_query = 'INSERT INTO django_comments (' + (','.join(insert_cols)) + ') VALUES (' + (("%s, " * len(insert_cols))[:-2]) + ')'
 		select_query = 'SELECT ' + (', '.join(['diskusia.' + col for col in cols])) + ', diskusia_header.diskusia_id FROM diskusia INNER JOIN diskusia_header ON (diskusia.diskusiaid = diskusia_header.id) WHERE diskusia_id = {0} AND kategoria = "{1}" ORDER BY diskusia.id'
 		headers = ThreadedRootHeader.objects.values_list('id', 'content_type_id', 'object_id', 'is_locked', 'pub_date')
 		counter = 0
@@ -900,7 +891,7 @@ class Command(BaseCommand):
 
 		self.logger.set_sub_progress(u"Atribúty diskusie", len(data))
 		metadata = []
-		counter = 0;
+		counter = 0
 		for (key, value) in data.iteritems():
 			self.logger.step_sub_progress()
 			counter += 1

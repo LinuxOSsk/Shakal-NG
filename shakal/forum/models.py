@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime, timedelta
 
-from attachment.models import Attachment
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
@@ -9,8 +9,10 @@ from django.db import models
 from django.db.models import permalink
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
-from datetime import datetime, timedelta
+
+from attachment.models import Attachment
 from shakal.threaded_comments.models import RootHeader, ThreadedComment
+
 
 class Section(models.Model):
 	name = models.CharField(max_length = 255, verbose_name = _('name'))
@@ -87,7 +89,7 @@ class Topic(models.Model):
 	created = models.DateTimeField(verbose_name = _('time'))
 	updated = models.DateTimeField(editable = False)
 	authors_name = models.CharField(max_length = 50, blank = False, verbose_name = _('authors name'))
-	author = models.ForeignKey(User, blank = True, null = True, verbose_name = _('author'))
+	author = models.ForeignKey(settings.AUTH_USER_MODEL, blank = True, null = True, verbose_name = _('author'))
 	comments_header = generic.GenericRelation(RootHeader)
 	breadcrumb_label = _('forum')
 	attachments = generic.GenericRelation(Attachment)
