@@ -10,7 +10,7 @@ from registration.forms import RegistrationForm
 
 class RegistrationFormUniqueEmail(RegistrationForm):
 	def clean_email(self):
-		if get_user_model().objects.filter(email__iexact=self.cleaned_data['email']):
+		if get_user_model().objects.filter(email__iexact = self.cleaned_data['email']):
 			raise ValidationError(_("This email address is already in use. Please supply a different email address."))
 		return self.cleaned_data['email']
 

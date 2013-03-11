@@ -18,8 +18,6 @@ from attachment.models import Attachment
 
 COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)
 
-# TODO: django_comment_flags
-
 
 class HideRootQuerySet(models.query.QuerySet):
 	def __init__(self, *args, **kwargs):
@@ -161,6 +159,27 @@ class ThreadedComment(BaseCommentAbstractModel):
 		verbose_name_plural = _('comments')
 		db_table = 'django_comments'
 mptt.register(ThreadedComment)
+
+
+class ThreadedCommentFlag(models.Model):
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('user'), related_name="threadedcomment_flags")
+	comment = models.ForeignKey(ThreadedComment, verbose_name=_('comment'), related_name="flags")
+	flag = models.CharField(_('flag'), max_length=30, db_index=True)
+	flag_date = models.DateTimeField(_('date'), default=None)
+
+	class Meta:
+		db_table = 'django_comment_flags'
+		unique_together = [('user', 'comment', 'flag')]
+		verbose_name = _('comment flag')
+		verbose_name_plural = _('comment flags')
+
+	def __unicode__(self):
+		return u"%s flag of comment ID %s by %s" % (self.flag, self.comment_id, self.user.get_username())
+
+	def save(self, *args, **kwargs):
+		if self.flag_date is None:
+			self.flag_date = timezone.now()
+		super(ThreadedCommentFlag, self).save(*args, **kwargs)
 
 
 class RootHeader(models.Model):
