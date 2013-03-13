@@ -47,7 +47,19 @@ class ProfileEditForm(ModelForm):
 
 	class Meta:
 		model = get_user_model()
-		fields = ('current_password', 'first_name', 'last_name', 'jabber', 'url', 'signature', 'email', 'display_mail', 'distribution', 'info', 'year', )
+		fields = (
+			'current_password',
+			'first_name',
+			'last_name',
+			'jabber',
+			'url',
+			'signature',
+			'email',
+			'display_mail',
+			'distribution',
+			'info',
+			'year',
+		)
 
 	def __init__(self, *args, **kwargs):
 		super(ProfileEditForm, self).__init__(*args, **kwargs)

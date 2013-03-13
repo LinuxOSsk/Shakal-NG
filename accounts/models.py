@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.core.validators import MaxLengthValidator, MinValueValidator, MaxValueValidator
 from django.db import models
 from django.db.models.signals import post_save, pre_save, pre_delete
@@ -14,11 +15,17 @@ from shakal.wiki.models import Page as WikiPage
 class User(AbstractUser):
 	jabber = models.CharField(max_length = 127, blank = True)
 	url = models.CharField(max_length = 255, blank = True)
-	signature = models.CharField(max_length = 255, blank = True, verbose_name = _('signature'))
-	display_mail = models.BooleanField(default = False, verbose_name = _('display mail'))
-	distribution = models.CharField(max_length = 50, blank = True, verbose_name = _('linux distribution'))
-	info = models.TextField(validators = [MaxLengthValidator(100000)], blank = True, verbose_name = _('informations'))
-	year = models.SmallIntegerField(validators = [MinValueValidator(1900), MaxValueValidator(lambda: 2010)], blank = True, null = True, verbose_name = _('year of birth'))
+	signature = models.CharField(_('signature'), max_length = 255, blank = True)
+	display_mail = models.BooleanField(_('display mail'), default = False)
+	distribution = models.CharField(_('linux distribution'), max_length = 50, blank = True)
+	info = models.TextField(_('informations'), validators = [MaxLengthValidator(100000)], blank = True)
+	year = models.SmallIntegerField(_('year of birth'), validators = [MinValueValidator(1900), MaxValueValidator(lambda: 2010)], blank = True, null = True)
+
+	def clean_fields(self, exclude = None):
+		qs = self._default_manager.filter(email = self.email).exclude(pk = self.pk)
+		if qs.exists():
+			raise ValidationError(self.unique_error_message(self.__class__, ['email']))
+		super(User, self).clean_fields(exclude)
 
 	@models.permalink
 	def get_absolute_url(self):
