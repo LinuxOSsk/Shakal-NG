@@ -74,6 +74,13 @@ class ProfileEditForm(ModelForm):
 		return self.instance.email
 
 
-class EmailChangeForm(Form):
+class EmailChangeForm(ModelForm):
 	current_password = CharField(max_length = 128, widget = PasswordInput, label = _('Current password'))
 	email = EmailField(label = _('New e-mail'))
+
+	class Meta:
+		model = get_user_model()
+		fields = (
+			'current_password',
+			'email',
+		)

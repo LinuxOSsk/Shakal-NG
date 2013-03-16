@@ -5,5 +5,5 @@
 
 {% block content %}
 <h1>{% trans "Your account is now active!" %}</h1>
-<a href="{% url 'auth_login' %}?next={% url 'home' %}">{% trans "Log in" %}</a>
+<a href="{% url 'auth_login' %}?next={% url 'home' %}" class="login">{% trans "Log in" %}</a>
 {% endblock %}
