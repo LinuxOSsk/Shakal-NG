@@ -31,6 +31,9 @@ class User(AbstractUser):
 	def get_absolute_url(self):
 		return ('auth_profile', [], {'pk': self.pk})
 
+	class Meta:
+		db_table = 'auth_user'
+
 
 class UserRating(models.Model):
 	user = models.OneToOneField(User, related_name = 'rating')
