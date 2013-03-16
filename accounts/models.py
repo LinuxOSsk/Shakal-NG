@@ -24,7 +24,7 @@ class User(AbstractUser):
 	def clean_fields(self, exclude = None):
 		qs = self._default_manager.filter(email = self.email).exclude(pk = self.pk)
 		if qs.exists():
-			raise ValidationError(self.unique_error_message(self.__class__, ['email']))
+			raise ValidationError({'email': [self.unique_error_message(self.__class__, ['email'])]})
 		super(User, self).clean_fields(exclude)
 
 	@models.permalink
