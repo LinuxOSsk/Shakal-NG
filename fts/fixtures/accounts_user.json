@@ -1,0 +1,27 @@
+[
+{
+	"pk": 1,
+	"model": "accounts.user",
+	"fields": {
+		"username": "admin",
+		"info": "",
+		"first_name": "",
+		"last_name": "",
+		"url": "",
+		"year": null,
+		"is_active": true,
+		"display_mail": false,
+		"is_superuser": true,
+		"is_staff": true,
+		"last_login": "2013-03-16T10:07:03.229",
+		"groups": [],
+		"signature": "",
+		"user_permissions": [],
+		"distribution": "",
+		"password": "crypt$$hdWzQ.OkntQXM",
+		"jabber": "",
+		"email": "mireq@linuxos.sk",
+		"date_joined": "2013-03-16T10:07:03.229"
+	}
+}
+]
