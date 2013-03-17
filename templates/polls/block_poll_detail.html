@@ -1,21 +1,21 @@
 {% load url from future %}{% load threaded_comments %}
 
-{% add_discussion_attributes surveys %}
-{% for survey in surveys %}
-<h3><a href="{{ survey.get_absolute_url }}">{{ survey }}</a></h3>
+{% add_discussion_attributes polls %}
+{% for poll in polls %}
+<h3><a href="{{ poll.get_absolute_url }}">{{ poll }}</a></h3>
 
-<form action="{% url 'survey:post' pk=survey.pk %}" method="post" id="survey-form">{% csrf_token %}
+<form action="{% url 'polls:post' pk=poll.pk %}" method="post" id="polls-form">{% csrf_token %}
 {% with next_link=1 %}
-{% include "survey/block_survey_detail_embedded.html" with input=1 %}
+{% include "polls/block_poll_detail_embedded.html" with input=1 %}
 {% endwith %}
 <div class="submit-row">
 	<input type="hidden" name="next" value="{{ request.path }}" />
 	{% if request.user.is_authenticated %}
 	<div class="negative">
-		<div class="btn"><span><a href="{% url 'survey:create' %}">Navrhnúť</a></span></div>
+		<div class="btn"><span><a href="{% url 'polls:create' %}">Navrhnúť</a></span></div>
 	</div>
 	{% endif %}
-	{% if survey %}
+	{% if poll %}
 	<div class="positive">
 		<button class="btn" type="submit"><span>Hlasovať</span></button>
 	</div>
@@ -27,7 +27,7 @@
 	{% if request.user.is_authenticated %}
 		<div class="submit-row">
 			<div class="negative">
-				<div class="btn"><span><a href="{% url 'survey:create' %}">Navrhnúť</a></span></div>
+				<div class="btn"><span><a href="{% url 'polls:create' %}">Navrhnúť</a></span></div>
 			</div>
 		</div>
 	{% endif %}

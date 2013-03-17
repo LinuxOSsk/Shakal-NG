@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
-from shakal.survey.models import Answer, Survey
+from polls.models import Choice, Poll
 
-class AnswerInline(admin.TabularInline):
-	model = Answer
+class ChoiceInline(admin.TabularInline):
+	model = Choice
 	readonly_fields = ('votes', )
 
-class SurveyAdmin(admin.ModelAdmin):
+class PollAdmin(admin.ModelAdmin):
 	list_display = ('question', 'slug', )
 	search_fields = ('question', 'slug', )
 	prepopulated_fields = {'slug': ('question', )}
 	list_filter = ('approved', 'content_type', )
 	ordering = ('-id', )
-	inlines = [AnswerInline, ]
-	exclude = ('answer_count', )
+	inlines = [ChoiceInline, ]
+	exclude = ('choice_count', )
 
-admin.site.register(Survey, SurveyAdmin)
+admin.site.register(Poll, PollAdmin)

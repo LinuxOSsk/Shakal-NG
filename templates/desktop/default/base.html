@@ -1,4 +1,4 @@
-{% load url from future %}{% load breadcrumbs_tags i18n linuxos news staticfiles survey %}{% load feeds_tags %}<!DOCTYPE HTML>
+{% load url from future %}{% load breadcrumbs_tags i18n linuxos news staticfiles polls_tags %}{% load feeds_tags %}<!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"  lang="{{ LANGUAGE_CODE|default:"en-us" }}" xml:lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -167,10 +167,10 @@ html, body {
 						<div id="col3">
 							<div id="aside_right">
 								{% block right %}
-									<div class="module survey">
+									<div class="module polls">
 										<h2>Anketa</h2>
-										{% render_messages messages 'survey' %}
-										{% survey_frontpage %}
+										{% render_messages messages 'polls' %}
+										{% polls_frontpage %}
 									</div>
 								{% endblock %}
 							</div>

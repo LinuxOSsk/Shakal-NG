@@ -23,11 +23,11 @@ from progressbar import Bar, BouncingBar, ETA, FormatLabel, ProgressBar, Rotatin
 from subprocess import call, Popen, PIPE
 
 from accounts.models import User
+from polls.models import Poll, Choice as PollChoice
 from hitcount.models import HitCount
 from shakal.article.models import Article, Category as ArticleCategory
 from shakal.forum.models import Section as ForumSection, Topic as ForumTopic
 from shakal.news.models import News
-from shakal.survey.models import Survey, Answer as SurveyAnswer
 from shakal.threaded_comments.models import RootHeader as ThreadedRootHeader, UserDiscussionAttribute
 from shakal.utils import create_unique_slug
 from shakal.wiki.models import Page as WikiPage
@@ -134,7 +134,7 @@ class Command(BaseCommand):
 			'forum': ContentType.objects.get(app_label = 'forum', model = 'topic').pk,
 			'clanky': ContentType.objects.get(app_label = 'article', model = 'article').pk,
 			'spravy': ContentType.objects.get(app_label = 'news', model = 'news').pk,
-			'anketa': ContentType.objects.get(app_label = 'survey', model = 'survey').pk,
+			'anketa': ContentType.objects.get(app_label = 'polls', model = 'poll').pk,
 		}
 		self.inverted_content_types = dict([(v, k) for (k, v) in self.content_types.iteritems()])
 
@@ -179,7 +179,7 @@ class Command(BaseCommand):
 			self.logger.step_main_progress(u"Import správ")
 			self.import_news()
 			self.logger.step_main_progress(u"Import ankiet")
-			self.import_survey()
+			self.import_polls()
 			self.logger.step_main_progress(u"Import diskusie")
 			self.import_discussion()
 			self.logger.step_main_progress(u"Import atribútov diskusie")
@@ -211,10 +211,10 @@ class Command(BaseCommand):
 			('article_article', 'article_article_id_seq'),
 			('news_news', 'news_news_id_seq'),
 			('registration_registrationprofile', 'registration_registrationprofile_id_seq'),
-			('survey_answer', 'survey_answer_id_seq'),
-			('survey_recordip', 'survey_recordip_id_seq'),
-			('survey_recorduser', 'survey_recorduser_id_seq'),
-			('survey_survey', 'survey_survey_id_seq'),
+			('polls_choice', 'polls_choice_id_seq'),
+			('polls_recordip', 'polls_recordip_id_seq'),
+			('polls_recorduser', 'polls_recorduser_id_seq'),
+			('polls_poll', 'polls_poll_id_seq'),
 			('forum_section', 'forum_section_id_seq'),
 			('hitcount_hitcount', 'hitcount_hitcount_id_seq'),
 			('auth_remember_remembertoken', ),
@@ -611,7 +611,7 @@ class Command(BaseCommand):
 		connections['default'].cursor().execute('SELECT setval(\'news_news_id_seq\', (SELECT MAX(id) FROM news_news) + 1);')
 		self.logger.finish_sub_progress()
 
-	def import_survey(self):
+	def import_polls(self):
 		all_slugs = set()
 		cols = [
 			'id',
@@ -627,50 +627,50 @@ class Command(BaseCommand):
 		self.cursor.execute('SELECT COUNT(*) FROM anketa')
 		self.logger.set_sub_progress(u"Anketa", self.cursor.fetchall()[0][0])
 		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM anketa')
-		surveys = []
-		for survey_row in self.cursor:
-			survey_dict = self.decode_cols_to_dict(cols, survey_row)
+		pollss = []
+		for polls_row in self.cursor:
+			polls_dict = self.decode_cols_to_dict(cols, polls_row)
 
-			if survey_dict['article_id']:
-				slug = 'article-' + str(survey_dict['article_id'])
+			if polls_dict['article_id']:
+				slug = 'article-' + str(polls_dict['article_id'])
 				content_type = ContentType.objects.get_for_model(Article)
-				object_id = survey_dict['article_id']
+				object_id = polls_dict['article_id']
 			else:
-				slug = create_unique_slug(slugify(survey_dict['otazka'][:45]), all_slugs, 9999)
+				slug = create_unique_slug(slugify(polls_dict['otazka'][:45]), all_slugs, 9999)
 				content_type = None
 				object_id = None
 			all_slugs.add(slug)
 
-			survey = {
-				'pk': survey_dict['id'],
-				'question': survey_dict['otazka'],
+			polls = {
+				'pk': polls_dict['id'],
+				'question': polls_dict['otazka'],
 				'slug': slug,
-				'checkbox': bool(survey_dict['checkbox']),
-				'approved': bool(survey_dict['enabled']) and survey_dict['schvalena'] == 'yes',
-				'active_from': survey_dict['od'],
-				'answer_count': sum(int(x) if x else 0 for x in survey_dict['hlasovanie'].split('/')) if survey_dict['hlasovanie'] else 0,
+				'checkbox': bool(polls_dict['checkbox']),
+				'approved': bool(polls_dict['enabled']) and polls_dict['schvalena'] == 'yes',
+				'active_from': polls_dict['od'],
+				'answer_count': sum(int(x) if x else 0 for x in polls_dict['hlasovanie'].split('/')) if polls_dict['hlasovanie'] else 0,
 				'content_type': content_type,
 				'object_id': object_id,
 			}
-			surveys.append(Survey(**survey))
-		surveys = dict([(survey.pk, survey) for survey in Survey.objects.bulk_create(surveys)])
+			pollss.append(Poll(**polls))
+		pollss = dict([(polls.pk, polls) for polls in Poll.objects.bulk_create(pollss)])
 
 		answers = []
 		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM anketa')
-		for survey_row in self.cursor:
+		for polls_row in self.cursor:
 			self.logger.step_sub_progress()
-			survey_dict = self.decode_cols_to_dict(cols, survey_row)
-			survey_answers = loads(bytes(survey_dict['odpovede'].encode('utf-8')), array_hook=OrderedDict)
-			survey_answers = [unicode(a[1], encoding='utf-8') for a in survey_answers.iteritems()]
-			survey_votes = [int(x) if x else 0 for x in survey_dict['hlasovanie'].split('/')] if survey_dict['hlasovanie'] else []
-			while (len(survey_votes) < len(survey_answers)):
-				survey_votes.append(0)
-			items = zip(survey_answers, survey_votes)
+			polls_dict = self.decode_cols_to_dict(cols, polls_row)
+			polls_choices = loads(bytes(polls_dict['odpovede'].encode('utf-8')), array_hook=OrderedDict)
+			polls_choices = [unicode(a[1], encoding='utf-8') for a in polls_choices.iteritems()]
+			polls_votes = [int(x) if x else 0 for x in polls_dict['hlasovanie'].split('/')] if polls_dict['hlasovanie'] else []
+			while (len(polls_votes) < len(polls_choices)):
+				polls_votes.append(0)
+			items = zip(polls_choices, polls_votes)
 			for item in items:
-				answers.append(SurveyAnswer(survey = surveys[survey_dict['id']], answer = item[0], votes = item[1]))
-		SurveyAnswer.objects.bulk_create(answers)
-		connections['default'].cursor().execute('SELECT setval(\'survey_survey_id_seq\', (SELECT MAX(id) FROM survey_survey) + 1);')
-		connections['default'].cursor().execute('SELECT setval(\'survey_answer_id_seq\', (SELECT MAX(id) FROM survey_answer) + 1);')
+				answers.append(PollChoice(polls = pollss[polls_dict['id']], answer = item[0], votes = item[1]))
+		PollChoice.objects.bulk_create(answers)
+		connections['default'].cursor().execute('SELECT setval(\'polls_poll_id_seq\', (SELECT MAX(id) FROM polls_poll) + 1);')
+		connections['default'].cursor().execute('SELECT setval(\'polls_choice_id_seq\', (SELECT MAX(id) FROM polls_choice) + 1);')
 		self.logger.finish_sub_progress()
 
 	def import_discussion(self):

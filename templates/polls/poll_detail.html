@@ -1,0 +1,23 @@
+{% extends "polls/poll_base.html" %}
+
+{% load breadcrumbs_tags threaded_comments %}
+{% load threaded_comments %}
+
+{% block breadcrumbs %}
+{% breadcrumb %}{{ poll }}{% endbreadcrumb %}
+{{ block.super }}
+{% endblock %}
+
+{% block title %}{{ poll }}{% endblock %}
+
+{% block content %}
+{% add_discussion_attributes poll %}
+<h1>{{ poll }}</h1>
+
+<div class="module poll">
+{% include "polls/block_poll_detail_embedded.html" %}
+</div>
+
+{% endblock %}
+
+{% block discussion %}{% render_threaded_comments_toplevel poll %}{% endblock %}

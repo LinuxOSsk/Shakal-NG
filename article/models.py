@@ -11,7 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from autoimagefield.fields import AutoImageField
 from hitcount.models import HitCount
-from shakal.survey.models import Survey
+from polls.models import Poll
 from shakal.threaded_comments.models import RootHeader
 
 
@@ -58,7 +58,7 @@ class Article(models.Model):
 	top = models.BooleanField(_('top article'))
 	image = AutoImageField(_('image'), upload_to = 'article/thumbnails', size = (512, 512), thumbnail = {'standard': (100, 100)}, blank = True, null = True)
 	hitcount = generic.GenericRelation(HitCount)
-	surveys = generic.GenericRelation(Survey)
+	polls = generic.GenericRelation(Poll)
 	comments_header = generic.GenericRelation(RootHeader)
 
 	def save(self, *args, **kwargs):
@@ -68,8 +68,8 @@ class Article(models.Model):
 		return super(Article, self).save(*args, **kwargs)
 
 	@property
-	def survey_set(self):
-		return self.surveys.filter(approved = True).order_by('pk').all()
+	def poll_set(self):
+		return self.polls.filter(approved = True).order_by('pk').all()
 
 	def display_content(self):
 		content = self.content

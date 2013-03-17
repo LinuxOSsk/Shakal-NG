@@ -1,4 +1,4 @@
-{% extends "survey/survey_base.html" %}{% load breadcrumbs_tags %}{% load url from future %}
+{% extends "polls/poll_base.html" %}{% load breadcrumbs_tags %}{% load url from future %}
 
 {% block breadcrumbs %}
 {% breadcrumb %}Navrhnúť{% endbreadcrumb %}
@@ -10,7 +10,7 @@
 {% block content %}
 <h1>Navrhnúť anketu</h1>
 
-<form action="{% url 'survey:create' %}" method="post" id="survey-form">{% csrf_token %}
+<form action="{% url 'polls:create' %}" method="post" id="polls-form">{% csrf_token %}
 	<fieldset>
 		{% include 'includes/form_loop.html' with form=form %}
 		<div class="submit-row">

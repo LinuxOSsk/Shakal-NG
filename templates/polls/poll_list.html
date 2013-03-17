@@ -1,0 +1,21 @@
+{% extends "polls/poll_base.html" %}
+
+{% load paginator_tags i18n %}
+{% load threaded_comments %}
+
+{% block title %}Zoznam ankiet{% endblock %}
+
+{% block content %}
+<h1>Ankety</h1>
+<div class="module polls compact">
+	{% autopaginate polls pagenum items_per_page=10 %}
+	{% add_discussion_attributes polls %}
+	{% for poll in polls %}
+		<div class="module-row">
+			<h3><a href="{{ poll.get_absolute_url }}">{{ poll }}</a></h3>
+			{% include "polls/block_poll_detail_embedded.html" %}
+		</div>
+	{% endfor %}
+	{% paginator polls:list-page %}
+</div>
+{% endblock %}

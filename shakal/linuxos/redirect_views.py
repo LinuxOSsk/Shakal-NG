@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponsePermanentRedirect
 from article.models import Article
 from shakal.news.models import News
-from shakal.survey.models import Survey
+from polls.models import Poll
 from shakal.wiki.models import Page as WikiPage
 
 def profile_redirect(request, pk):
@@ -24,9 +24,9 @@ def news_redirect(request, pk):
 	news = get_object_or_404(News, pk = pk)
 	return HttpResponsePermanentRedirect(reverse('news:detail-by-slug', kwargs = {'slug': news.slug}))
 
-def survey_redirect(request, pk):
-	survey = get_object_or_404(Survey, pk = pk)
-	return HttpResponsePermanentRedirect(reverse('survey:detail-by-slug', kwargs = {'slug': survey.slug}))
+def poll_redirect(request, pk):
+	poll = get_object_or_404(Poll, pk = pk)
+	return HttpResponsePermanentRedirect(reverse('polls:detail-by-slug', kwargs = {'slug': poll.slug}))
 
 def wiki_redirect(request, pk):
 	wiki = get_object_or_404(WikiPage, pk = int(pk) - 7)

@@ -123,6 +123,7 @@ INSTALLED_APPS = (
 	'django.contrib.admin',
 	'django_tools',
 	'haystack',
+	'registration',
 	'accounts',
 	'antispam',
 	'article',
@@ -137,7 +138,7 @@ INSTALLED_APPS = (
 	'maintenance',
 	'mptt',
 	'paginator',
-	'registration',
+	'polls',
 	'reversion',
 	'template_preprocessor',
 	'shakal.feeds',
@@ -145,7 +146,6 @@ INSTALLED_APPS = (
 	'shakal.linuxos',
 	'shakal.news',
 	'shakal.search',
-	'shakal.survey',
 	'shakal.template_dynamicloader',
 	'shakal.threaded_comments',
 	'shakal.wiki',
@@ -225,7 +225,7 @@ SHAKAL_DASHBOARD_APP_GROUPS = (
 				'accounts.*',
 				'django.contrib.auth.*',
 				'django.contrib.sites.*',
-				'shakal.survey.*',
+				'polls.*',
 			),
 		}
 	),
@@ -255,7 +255,7 @@ SHAKAL_DASHBOARD_APP_ICONS = {
 	'wiki/page': 'wiki.png',
 	'threaded_comments/threadedcomment': 'comments.png',
 	'forum/topic': 'topic.png',
-	'survey/survey': 'poll.png',
+	'polls/poll': 'poll.png',
 	'forum/section': 'section.png',
 }
 ADMIN_TOOLS_INDEX_DASHBOARD = 'shakal.shakal_dashboard.dashboard.ShakalIndexDashboard'
