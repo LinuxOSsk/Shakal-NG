@@ -127,8 +127,8 @@ class AccountsTest(LiveServerTestCase):
 
 		body = self.browser.find_element_by_tag_name('body')
 		self.assertIn(ugettext("User profile"), body.text)
-		self.assertIn(ugettext("John"), body.text)
-		self.assertIn(ugettext("Smith"), body.text)
+		self.assertIn("John", body.text)
+		self.assertIn("Smith", body.text)
 
 	def profile_change_email(self):
 		self.browser.get(self.live_server_url + reverse('auth_email_change'))
