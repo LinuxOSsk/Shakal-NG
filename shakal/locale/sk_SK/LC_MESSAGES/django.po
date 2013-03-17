@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-02 20:17+0100\n"
+"POT-Creation-Date: 2013-03-17 20:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,78 +19,6 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "X-Language: sk_SK\n"
 "X-Source-Language: C\n"
-
-msgid "attachment"
-msgstr "príloha"
-
-msgid "attachments"
-msgstr "prílohy"
-
-msgid "Maximum size is: "
-msgstr "Maximálna veľkosť je: "
-
-msgid "File size exceeded, maximum size is "
-msgstr "Veľkosť súboru prekročená, maximálna veľkosť je "
-
-msgid "created"
-msgstr "vytvorené"
-
-msgid "size"
-msgstr "veľkosť"
-
-msgid "^status/$"
-msgstr "^stav/$"
-
-msgid "Content management"
-msgstr "Správa obsahu"
-
-msgid "Administration"
-msgstr "Správa stránky"
-
-msgid "Forum"
-msgstr "Fórum"
-
-msgid "Applications"
-msgstr "Aplikácie"
-
-msgid "^admin/"
-msgstr "^administracia/"
-
-msgid "^accounts/"
-msgstr "^profil/"
-
-msgid "^article/"
-msgstr "^clanok/"
-
-msgid "^comments/"
-msgstr "^komentare/"
-
-msgid "^forum/"
-msgstr "^forum/"
-
-msgid "^maintenance/"
-msgstr "^maintenance/"
-
-msgid "^news/"
-msgstr "^spravy/"
-
-msgid "^survey/"
-msgstr "^anketa/"
-
-msgid "^wiki/"
-msgstr "^wiki/"
-
-msgid "^template-change/$"
-msgstr "^template-cache/$"
-
-msgid "^search/"
-msgstr "^hladat/"
-
-msgid "profile"
-msgstr "profil"
-
-msgid "profiles"
-msgstr "profily"
 
 msgid ""
 "This email address is already in use. Please supply a different email "
@@ -246,6 +174,147 @@ msgstr "článok"
 msgid "articles"
 msgstr "články"
 
+msgid "attachment"
+msgstr "príloha"
+
+msgid "attachments"
+msgstr "prílohy"
+
+msgid "Maximum size is: "
+msgstr "Maximálna veľkosť je: "
+
+msgid "File size exceeded, maximum size is "
+msgstr "Veľkosť súboru prekročená, maximálna veľkosť je "
+
+msgid "created"
+msgstr "vytvorené"
+
+msgid "size"
+msgstr "veľkosť"
+
+msgid "Registration complete"
+msgstr "Registrácia dokončená"
+
+msgid "Your account is now active!"
+msgstr "Váš účet je aktívny!"
+
+msgid "Log in"
+msgstr "Prihlásiť"
+
+msgid "User profile"
+msgstr "Používateľský profil"
+
+msgid "E-mail change request sent"
+msgstr "Požiadavka na zmenu e-mailu bola odoslaná"
+
+msgid "E-mail change complete"
+msgstr "E-mail zmenený"
+
+msgid "Logged out"
+msgstr "Odhlásený"
+
+msgid "Password change successful"
+msgstr "Zmena hesla úspešná"
+
+msgid "Password reset successful"
+msgstr "Obnovenie hesla úspešné"
+
+msgid "Password reset"
+msgstr "Obnovenie hesla"
+
+msgid "Password reset complete"
+msgstr "Obnovenie hesla ukončené"
+
+msgid "^status/$"
+msgstr "^stav/$"
+
+msgid "Minimum 2 choices are required"
+msgstr "Sú požadované minimálne 2 odpovede"
+
+msgid "Choices"
+msgstr "Odpovede"
+
+msgid "question"
+msgstr "otázka"
+
+msgid "more choices"
+msgstr "viacej odpovedí"
+
+msgid "approved"
+msgstr "schválené"
+
+msgid "active from"
+msgstr "aktívne od"
+
+msgid "content type"
+msgstr "typ obsahu"
+
+msgid "object id"
+msgstr "id objektu"
+
+msgid "Field object id is required"
+msgstr "Pole id objektu je povinné"
+
+msgid "Field content type is required"
+msgstr "Pole typ obsahu je povinné"
+
+msgid "poll"
+msgstr "anketa"
+
+msgid "polls"
+msgstr "ankety"
+
+msgid "choice"
+msgstr "odpoveď"
+
+msgid "choices"
+msgstr "odpovede"
+
+msgid "Content management"
+msgstr "Správa obsahu"
+
+msgid "Administration"
+msgstr "Správa stránky"
+
+msgid "Forum"
+msgstr "Fórum"
+
+msgid "Applications"
+msgstr "Aplikácie"
+
+msgid "^admin/"
+msgstr "^administracia/"
+
+msgid "^accounts/"
+msgstr "^profil/"
+
+msgid "^article/"
+msgstr "^clanok/"
+
+msgid "^comments/"
+msgstr "^komentare/"
+
+msgid "^forum/"
+msgstr "^forum/"
+
+msgid "^maintenance/"
+msgstr "^maintenance/"
+
+msgid "^news/"
+msgstr "^spravy/"
+
+msgid "^polls/"
+msgstr "^ankety/"
+
+msgid "^wiki/"
+msgstr "^wiki/"
+
+msgid "^template-change/$"
+msgstr "^template-cache/$"
+
+msgid "^search/"
+msgstr "^hladat/"
+
 msgid "section"
 msgstr "sekcia"
 
@@ -288,9 +357,6 @@ msgstr "dlhý text"
 msgid "user"
 msgstr "používateľ"
 
-msgid "approved"
-msgstr "schválené"
-
 msgid "news item"
 msgstr "správa"
 
@@ -300,44 +366,11 @@ msgstr "správy"
 msgid "Recent Actions"
 msgstr "Posledné akcie"
 
-msgid "Minimum 2 answers are required"
-msgstr "Sú požadované minimálne 2 odpovede"
+msgid "Return to site"
+msgstr "Návrat na stránku"
 
-msgid "Answers"
-msgstr "Odpovede"
-
-msgid "question"
-msgstr "otázka"
-
-msgid "more answers"
-msgstr "viacej odpovedí"
-
-msgid "active from"
-msgstr "aktívne od"
-
-msgid "content type"
-msgstr "typ obsahu"
-
-msgid "object id"
-msgstr "id objektu"
-
-msgid "Field object id is required"
-msgstr "Pole id objektu je povinné"
-
-msgid "Field content type is required"
-msgstr "Pole typ obsahu je povinné"
-
-msgid "survey"
-msgstr "anketa"
-
-msgid "surveys"
-msgstr "ankety"
-
-msgid "answer"
-msgstr "odpoveď"
-
-msgid "answers"
-msgstr "odpovede"
+msgid "Dashboard"
+msgstr "Dashboard"
 
 msgid "Content"
 msgstr "Obsah"
@@ -355,7 +388,7 @@ msgid "user's name"
 msgstr "používateľské meno"
 
 msgid "user's email address"
-msgstr "E-mailová adresa:"
+msgstr "e-mailová adresa užívateľa"
 
 msgid "user's URL"
 msgstr "URL adresa"
@@ -381,11 +414,17 @@ msgstr "je uzamknutý"
 msgid "comments"
 msgstr "komentáre"
 
-msgid "Shakal admin"
-msgstr "Shakal administrácia"
+msgid "flag"
+msgstr "značka"
 
-msgid "Welcome to Shakal admin interface"
-msgstr "Vitajte v administrátorskom rozhraní Shakal CMS"
+msgid "date"
+msgstr "dátum"
+
+msgid "comment flag"
+msgstr "značka komentára"
+
+msgid "comment flags"
+msgstr "značky komentára"
 
 #, python-format
 msgid "%(counter)s comment"
@@ -412,14 +451,8 @@ msgstr "Odhlásiť"
 msgid "Change password"
 msgstr "Zmeniť heslo"
 
-msgid "Log in"
-msgstr "Prihlásiť"
-
 msgid "Sign up"
 msgstr "Registrovať"
-
-msgid "Password reset"
-msgstr "Obnovenie hesla"
 
 msgid "Activation"
 msgstr "Aktivácia"
@@ -427,9 +460,6 @@ msgstr "Aktivácia"
 #, python-format
 msgid "Activation with key %(activation_key)s failed."
 msgstr "Aktivácia s kľúčom %(activation_key)s bola neúspešná."
-
-msgid "Your account is now active!"
-msgstr "Váš účet je aktívny!"
 
 msgid "Your activation key"
 msgstr "Váš aktivačný kľúč"
@@ -446,9 +476,6 @@ msgstr "Aktivujte si účet"
 msgid "Please use this link to change your e-mail"
 msgstr "Použite prosím nasledujúci odkaz pre zmenu vášho e-mailu"
 
-msgid "E-mail change complete"
-msgstr "E-mail zmenený"
-
 msgid "Your e-mail has been changed."
 msgstr "Váš e-mail bol zmenený."
 
@@ -463,9 +490,6 @@ msgstr "Odkaz na zmenu e-mailu je neplatný."
 
 msgid "E-mail change successful"
 msgstr "Zmena e-mailu úspešná"
-
-msgid "E-mail change request sent"
-msgstr "Požiadavka na zmenu e-mailu bola odoslaná"
 
 msgid ""
 "We've e-mailed you instructions for setting your new e-mail address. You "
@@ -489,14 +513,8 @@ msgstr "Zmeniť váš e-mail"
 msgid "Log in to"
 msgstr "Prihlásiť sa na"
 
-msgid "Logged out"
-msgstr "Odhlásený"
-
 msgid "Thanks for spending some quality time with the Web site today."
 msgstr "Ďakujeme za čas strávený na našich stránkach."
-
-msgid "Password change successful"
-msgstr "Zmena hesla úspešná"
 
 msgid "Your password was changed."
 msgstr "Vaše heslo bolo zmenené."
@@ -513,9 +531,6 @@ msgstr ""
 
 msgid "Change my password"
 msgstr "Zmeniť moje heslo"
-
-msgid "Password reset complete"
-msgstr "Obnovenie hesla ukončené"
 
 msgid "Your password has been set.  You may go ahead and log in now."
 msgstr "Vaše heslo bolo nastavené. Môžete pokračovať a prihlásiť sa."
@@ -542,9 +557,6 @@ msgstr ""
 "Odkaz na obnovenie hesla je neplatný, pretože už bol pravdepodobne raz "
 "použitý. Prosím, požiadajte znovu o obnovu hesla."
 
-msgid "Password reset successful"
-msgstr "Obnovenie hesla úspešné"
-
 msgid ""
 "We've e-mailed you instructions for setting your password to the e-mail "
 "address you submitted. You should be receiving it shortly."
@@ -565,9 +577,6 @@ msgstr "E-mailová adresa:"
 msgid "Reset my password"
 msgstr "Obnova môjho hesla"
 
-msgid "User profile"
-msgstr "Používateľský profil"
-
 msgid "Edit my profile"
 msgstr "Upraviť môj profil"
 
@@ -585,9 +594,6 @@ msgstr "Späť na profil"
 
 msgid "Save"
 msgstr "Uložiť"
-
-msgid "Registration complete"
-msgstr "Registrácia dokončená"
 
 msgid "Registration complete!"
 msgstr "Registrácia dokončená!"
