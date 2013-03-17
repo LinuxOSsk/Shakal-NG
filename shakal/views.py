@@ -4,7 +4,7 @@ from django.http import HttpResponseServerError
 from django.template import RequestContext, Context
 from django.template.loader import get_template
 from django.template.response import TemplateResponse
-from article.models import Article
+from article.models import Article, Category
 from forum.models import Topic as ForumTopic
 import sys
 
@@ -20,19 +20,22 @@ def error_500(request):
 
 
 def home(request):
-
 	try:
-		top_articles = [Article.objects.select_related('author', 'category').defer('content').filter(top = True).order_by('-pk')[0:1][0]]
-		articles = Article.objects.select_related('author', 'category').defer('content').exclude(pk = top_articles[0].pk).order_by('-pk')
+		top_articles = Article.objects.filter(top = True)
+		articles = Article.objects.exclude(pk = top_articles[0].pk)
 	except IndexError:
-		top_articles = []
-		articles = Article.objects.select_related('author', 'category').defer('content').order_by('-pk')
+		top_articles = Article.objects.none()
+		articles = Article.objects.all()
+
+	articles = articles.select_related('author', 'category').defer('content')
+	top_articles = top_articles.select_related('author', 'category').defer('content')
 
 	context = {
-		'top_articles': top_articles,
+		'top_articles': top_articles[:1],
 		'articles': articles[:5],
 		'forum_new': ForumTopic.topics.newest_comments()[:20],
 		'forum_no_comments': ForumTopic.topics.no_comments()[:5],
 		'forum_most_comments': ForumTopic.topics.most_commented()[:5],
+		'article_categories': Category.objects.all(),
 	}
 	return TemplateResponse(request, "home.html", RequestContext(request, context))

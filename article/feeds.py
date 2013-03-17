@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-
 from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse_lazy
 from django.utils.encoding import smart_unicode
-from shakal.article.models import Article, Category
+
+from article.models import Article, Category
 
 
 class ArticleFeed(Feed):
@@ -37,4 +37,4 @@ class ArticleFeed(Feed):
 
 class LatestArticleFeed(ArticleFeed):
 	def items(self):
-		return Article.articles.select_related('author', 'category').order_by('-pk')[:settings.FEED_SIZE]
+		return Article.objects.select_related('author', 'category').order_by('-pk')[:settings.FEED_SIZE]

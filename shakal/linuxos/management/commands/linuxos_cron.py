@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
-
-from attachment.models import TemporaryAttachment
 import datetime
-from django.core.management.base import BaseCommand
+
 from django.contrib.comments.models import Comment
+from django.core.management.base import BaseCommand
 from django.db.models import Count, F
 from shakal.accounts.models import UserRating, RATING_WEIGHTS
 from shakal.article.models import Article
+
+from attachment.models import TemporaryAttachment
 from shakal.news.models import News
 from shakal.wiki.models import Page as WikiPage
+
 
 class Command(BaseCommand):
 	args = ''
@@ -50,7 +52,7 @@ class Command(BaseCommand):
 		del(user_comments)
 		del(user_comments_changed)
 
-		user_articles = Article.objects.filter(author_id__isnull = False, published = True).values('author_id').annotate(Count('pk')).values_list('author_id', 'pk__count')
+		user_articles = Article.objects.filter(author_id__isnull = False).values('author_id').annotate(Count('pk')).values_list('author_id', 'pk__count')
 		user_articles_changed = filter(lambda c: c[0] not in ratings or c[1] != ratings[c[0]]['articles'], user_articles)
 		for user_id, comment_count in user_articles_changed:
 			rating, created = UserRating.objects.get_or_create(user_id = user_id)

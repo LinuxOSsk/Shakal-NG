@@ -46,12 +46,12 @@ class ThumbnailField(object):
 class AutoImageField(ImageField):
 	WIDTH, HEIGHT = 0, 1
 
-	def __init__(self, size = None, thumbnail = None, *args, **kwargs):
+	def __init__(self, verbose_name = None, size = None, thumbnail = None, *args, **kwargs):
 		self.size = size
 		self.thumbnail = {}
 		if thumbnail:
 			self.thumbnail = thumbnail
-		super(AutoImageField, self).__init__(*args, **kwargs)
+		super(AutoImageField, self).__init__(verbose_name, *args, **kwargs)
 
 	@staticmethod
 	def resize_image(filename, size):

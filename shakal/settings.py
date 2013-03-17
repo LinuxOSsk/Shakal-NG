@@ -76,7 +76,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 	'django.core.context_processors.request',
 	'django.contrib.auth.context_processors.auth',
 	'django.contrib.messages.context_processors.messages',
-	'shakal.article.context_processors.categories',
 	'shakal.feeds.context_processors.feeds',
 	'shakal.template_dynamicloader.context_processors.style',
 )
@@ -126,12 +125,12 @@ INSTALLED_APPS = (
 	'haystack',
 	'accounts',
 	'antispam',
+	'article',
 	'attachment',
 	'auth_remember',
 	'autoimagefield',
 	'bootstrap_toolkit',
 	'breadcrumbs',
-	'fts',
 	'hitcount',
 	'html_editor',
 	'imgcompress',
@@ -141,7 +140,6 @@ INSTALLED_APPS = (
 	'registration',
 	'reversion',
 	'template_preprocessor',
-	'shakal.article',
 	'shakal.feeds',
 	'shakal.forum',
 	'shakal.linuxos',
@@ -151,6 +149,7 @@ INSTALLED_APPS = (
 	'shakal.template_dynamicloader',
 	'shakal.threaded_comments',
 	'shakal.wiki',
+	'fts',
 )
 
 COMMENTS_APP = 'shakal.threaded_comments'
@@ -211,12 +210,12 @@ SHAKAL_DASHBOARD_APP_GROUPS = (
 	(
 		_('Content management'), {
 			'models': (
-				'shakal.article.*',
+				'article.*',
 				'shakal.news.*',
 				'shakal.wiki.models.*',
 			),
 			'exclude': (
-				'shakal.article.models.Category',
+				'article.models.Category',
 			)
 		}
 	),

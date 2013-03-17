@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-from shakal.article.feeds import ArticleFeed
+from article.feeds import ArticleFeed
 from shakal.forum.feeds import TopicFeed
 from shakal.news.feeds import NewsFeed
 from shakal.threaded_comments.feeds import ThreadedCommentFeed

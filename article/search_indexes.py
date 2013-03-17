@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-
-from shakal.article.models import Article
 from datetime import datetime
+
 from haystack import indexes
+
+from article.models import Article
 
 
 class ArticleIndex(indexes.SearchIndex, indexes.Indexable):

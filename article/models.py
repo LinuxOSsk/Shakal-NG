@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
-
 from django.conf import settings
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import permalink
-from django.db.models.signals import post_save
+from django.utils.timezone import now
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
@@ -18,9 +16,9 @@ from shakal.threaded_comments.models import RootHeader
 
 
 class Category(models.Model):
-	name = models.CharField(max_length = 255, verbose_name = _('name'))
+	name = models.CharField(_('name'), max_length = 255)
 	slug = models.SlugField(unique = True)
-	icon = models.CharField(max_length = 255, verbose_name = _('icon'))
+	icon = models.CharField(_('icon'), max_length = 255)
 
 	@permalink
 	def get_absolute_url(self):
@@ -36,32 +34,35 @@ class Category(models.Model):
 
 class ArticleManager(models.Manager):
 	def get_query_set(self):
-		return super(ArticleManager, self).get_query_set().filter(published = True).order_by('-pk')
+		return super(ArticleManager, self).get_query_set() \
+			.filter(published = True) \
+			.filter(pub_time__lte = now()) \
+			.order_by('-pk')
 
 
 class Article(models.Model):
-	objects = models.Manager()
-	articles = ArticleManager()
+	all_articles = models.Manager()
+	objects = ArticleManager()
 
-	title = models.CharField(max_length = 255, verbose_name = _('title'))
+	title = models.CharField(_('title'), max_length = 255)
 	slug = models.SlugField(unique = True)
-	category = models.ForeignKey(Category, on_delete = models.PROTECT, verbose_name = _('category'))
-	perex = models.TextField(verbose_name = _('perex'), help_text = _('Text on title page.'))
-	annotation = models.TextField(verbose_name = _('annotation'), help_text = _('Text before article body.'))
-	content = models.TextField(verbose_name = _('content'))
-	author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.SET_NULL, blank = True, null = True, verbose_name = _('author'))
-	authors_name = models.CharField(max_length = 255, verbose_name = _('authors name'))
-	pub_time = models.DateTimeField(verbose_name = _('publication time'))
+	category = models.ForeignKey(Category, verbose_name = _('category'), on_delete = models.PROTECT)
+	perex = models.TextField(_('perex'), help_text = _('Text on title page.'))
+	annotation = models.TextField(_('annotation'), help_text = _('Text before article body.'))
+	content = models.TextField(_('content'))
+	author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name = _('author'), on_delete = models.SET_NULL, blank = True, null = True)
+	authors_name = models.CharField(_('authors name'), max_length = 255)
+	pub_time = models.DateTimeField(_('publication time'))
 	updated = models.DateTimeField(editable = False)
-	published = models.BooleanField(verbose_name = _('published'))
-	top = models.BooleanField(verbose_name = _('top article'))
-	image = AutoImageField(verbose_name = _('image'), upload_to = 'article/thumbnails', size = (512, 512), thumbnail = {'standard': (100, 100)}, blank = True, null = True)
+	published = models.BooleanField(_('published'))
+	top = models.BooleanField(_('top article'))
+	image = AutoImageField(_('image'), upload_to = 'article/thumbnails', size = (512, 512), thumbnail = {'standard': (100, 100)}, blank = True, null = True)
 	hitcount = generic.GenericRelation(HitCount)
 	surveys = generic.GenericRelation(Survey)
 	comments_header = generic.GenericRelation(RootHeader)
 
 	def save(self, *args, **kwargs):
-		self.updated = datetime.now()
+		self.updated = now()
 		if not self.id and not self.pub_time:
 			self.pub_time = self.updated
 		return super(Article, self).save(*args, **kwargs)
@@ -106,12 +107,3 @@ class Article(models.Model):
 	class Meta:
 		verbose_name = _('article')
 		verbose_name_plural = _('articles')
-
-
-def create_article_hitcount(sender, **kwargs):
-	article = kwargs['instance']
-	if not article.hitcount.all():
-		hc = HitCount(content_object = article)
-		hc.save()
-
-post_save.connect(create_article_hitcount, sender = Article)

@@ -64,7 +64,6 @@ class ThreadedCommentManager(CommentManager):
 		super(ThreadedCommentManager, self).__init__()
 
 	def get_root_comment(self, ctype, object_pk):
-		print(ctype.pk, object_pk)
 		root_comment, created = self.model.objects.get_or_create(
 			parent = None,
 			content_type = ctype,

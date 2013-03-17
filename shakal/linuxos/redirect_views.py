@@ -2,7 +2,7 @@
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponsePermanentRedirect
-from shakal.article.models import Article
+from article.models import Article
 from shakal.news.models import News
 from shakal.survey.models import Survey
 from shakal.wiki.models import Page as WikiPage
