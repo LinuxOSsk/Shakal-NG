@@ -52,7 +52,7 @@ class Article(models.Model):
 	content = models.TextField(_('content'))
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name = _('author'), on_delete = models.SET_NULL, blank = True, null = True)
 	authors_name = models.CharField(_('authors name'), max_length = 255)
-	pub_time = models.DateTimeField(_('publication time'))
+	pub_time = models.DateTimeField(_('publication time'), default = now)
 	updated = models.DateTimeField(editable = False)
 	published = models.BooleanField(_('published'))
 	top = models.BooleanField(_('top article'))

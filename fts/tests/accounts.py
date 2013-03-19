@@ -5,6 +5,7 @@ from django.test import LiveServerTestCase
 from django.utils.translation import ugettext
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from common import admin_login, logout
 
 
 class AccountsTest(LiveServerTestCase):
@@ -18,14 +19,7 @@ class AccountsTest(LiveServerTestCase):
 		self.browser.quit()
 
 	def test_create_account_via_admin_site(self):
-		self.browser.get(self.live_server_url + reverse('admin:index'))
-
-		username_field = self.browser.find_element_by_name('username')
-		username_field.send_keys('admin')
-
-		password_field = self.browser.find_element_by_name('password')
-		password_field.send_keys('pass')
-		password_field.send_keys(Keys.RETURN)
+		admin_login(self)
 
 		self.browser.get(self.live_server_url + reverse('admin:accounts_user_changelist'))
 		user_rows = self.browser.find_elements_by_css_selector('#result_list tbody tr')
@@ -49,7 +43,7 @@ class AccountsTest(LiveServerTestCase):
 		self.register_user()
 		self.login_user()
 		self.change_profile()
-		self.logout()
+		logout(self)
 		self.register_duplicate_mail()
 
 	def register_user(self):
@@ -168,11 +162,6 @@ class AccountsTest(LiveServerTestCase):
 
 		errors = self.browser.find_elements_by_class_name('errorlist')
 		self.assertEqual(len(errors), 1)
-
-	def logout(self):
-		self.browser.get(self.live_server_url + reverse('auth_logout'))
-		body = self.browser.find_element_by_tag_name('body')
-		self.assertIn(ugettext("Logged out"), body.text)
 
 	def register_duplicate_mail(self):
 		self.browser.get(self.live_server_url + reverse('registration_register'))
