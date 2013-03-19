@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.utils.timezone import now, timedelta
 
@@ -21,6 +22,7 @@ class ArticleModelTest(TestCase):
 
 	def test_create_article(self):
 		article = self.create_article_instance()
+		article.full_clean()
 		article.save()
 
 		all_articles = Article.objects.all()
@@ -32,6 +34,7 @@ class ArticleModelTest(TestCase):
 	def test_article_private(self):
 		article = self.create_article_instance()
 		article.published = False
+		article.full_clean()
 		article.save()
 
 		articles = Article.objects.all()
@@ -43,6 +46,7 @@ class ArticleModelTest(TestCase):
 	def test_article_in_future(self):
 		article = self.create_article_instance()
 		article.pub_time = now() + timedelta(1)
+		article.full_clean()
 		article.save()
 
 		articles = Article.objects.all()
@@ -50,6 +54,12 @@ class ArticleModelTest(TestCase):
 
 		all_articles = Article._default_manager.all()
 		self.assertEqual(len(all_articles), 1)
+
+	def test_not_allowed_integer_slugs(self):
+		article = self.create_article_instance()
+		article.slug = 1
+		with self.assertRaises(ValidationError):
+			article.full_clean()
 
 	def create_article_instance(self):
 		article = Article()
@@ -61,4 +71,7 @@ class ArticleModelTest(TestCase):
 		article.authors_name = "author"
 		article.published = True
 		article.top = False
+		article.pub_time = now()
+		article.updated = now()
+		article.content = "content"
 		return article
