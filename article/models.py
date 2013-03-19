@@ -57,7 +57,6 @@ class Article(models.Model):
 	published = models.BooleanField(_('published'))
 	top = models.BooleanField(_('top article'))
 	image = AutoImageField(_('image'), upload_to = 'article/thumbnails', size = (512, 512), thumbnail = {'standard': (100, 100)}, blank = True, null = True)
-	hitcount = generic.GenericRelation(HitCount)
 	polls = generic.GenericRelation(Poll)
 	comments_header = generic.GenericRelation(RootHeader)
 
@@ -84,14 +83,15 @@ class Article(models.Model):
 		hit_count.save()
 	hit.alters_data = True
 
-	def clean(self):
+	def clean_fields(self, exclude = None):
 		slug_num = None
 		try:
 			slug_num = int(self.slug)
 		except:
 			pass
 		if slug_num is not None:
-			raise ValidationError(_('Numeric slug values are not allowed'))
+			raise ValidationError({'slug': [_('Numeric slug values are not allowed')]})
+		super(Article, self).clean_fields(exclude)
 
 	@permalink
 	def get_absolute_url(self):
