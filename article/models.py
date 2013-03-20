@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.contrib.contenttypes import generic
-from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import permalink
-from django.utils.timezone import now
 from django.utils.safestring import mark_safe
+from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
 from autoimagefield.fields import AutoImageField
-from hitcount.models import HitCount
+from hitcount.models import HitCountMixin
 from polls.models import Poll
 from shakal.threaded_comments.models import RootHeader
 
@@ -40,7 +39,7 @@ class ArticleManager(models.Manager):
 			.order_by('-pk')
 
 
-class Article(models.Model):
+class Article(models.Model, HitCountMixin):
 	all_articles = models.Manager()
 	objects = ArticleManager()
 
@@ -75,13 +74,6 @@ class Article(models.Model):
 		content = content.replace('<<ANOTACIA>>', '<div class="annotation">' + self.annotation + '</div>')
 		content = content.replace('{SHAKAL_PREFIX}', '/')
 		return mark_safe(content)
-
-	def hit(self):
-		article_type = ContentType.objects.get_for_model(self.__class__)
-		hit_count = HitCount.objects.get_or_create(content_type = article_type, object_id = self.pk)[0]
-		hit_count.hits += 1
-		hit_count.save()
-	hit.alters_data = True
 
 	def clean_fields(self, exclude = None):
 		slug_num = None

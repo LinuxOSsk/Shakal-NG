@@ -61,6 +61,14 @@ class ArticleModelTest(TestCase):
 		with self.assertRaises(ValidationError):
 			article.full_clean()
 
+	def test_hit_count(self):
+		article = self.create_article_instance()
+		article.save()
+
+		self.assertEqual(article.hit_count, 0)
+		article.hit()
+		self.assertEqual(article.hit_count, 1)
+
 	def create_article_instance(self):
 		article = Article()
 		article.title = "title"
