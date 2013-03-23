@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.conf import settings
 from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import LiveServerTestCase
@@ -12,11 +13,14 @@ class AccountsTest(LiveServerTestCase):
 	fixtures = ['accounts_user.json']
 
 	def setUp(self):
+		self.OLD_TEMPLATES = settings.TEMPLATES
+		settings.TEMPLATES = (('desktop', ('default',),),)
 		self.browser = webdriver.Firefox()
 		self.browser.implicitly_wait(5)
 
 	def tearDown(self):
 		self.browser.quit()
+		settings.TEMPLATES = self.OLD_TEMPLATES
 
 	def test_create_account_via_admin_site(self):
 		admin_login(self)

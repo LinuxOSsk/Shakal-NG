@@ -82,8 +82,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 MIDDLEWARE_CLASSES = (
 	'django.middleware.common.CommonMiddleware',
-	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.middleware.locale.LocaleMiddleware',
+	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.middleware.csrf.CsrfViewMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'auth_remember.middleware.AuthRememberMiddleware',
@@ -261,3 +261,9 @@ SHAKAL_DASHBOARD_APP_ICONS = {
 ADMIN_TOOLS_INDEX_DASHBOARD = 'shakal.shakal_dashboard.dashboard.ShakalIndexDashboard'
 ADMIN_TOOLS_MENU = 'shakal.shakal_dashboard.menu.ShakalMenu'
 ADMIN_TOOLS_THEMING_CSS = 'admin/css/shakal.css'
+
+import sys
+if len(sys.argv) > 1 and sys.argv[1] == 'test':
+	DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': ':memory:', }}
+	TEMPLATES = (('desktop', ('test',),),)
+
