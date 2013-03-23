@@ -267,3 +267,5 @@ if len(sys.argv) > 1 and sys.argv[1] == 'test':
 	DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': ':memory:', }}
 	TEMPLATES = (('desktop', ('test',),),)
 
+	LANGUAGE_CODE = 'en'
+	LANGUAGES = (('en', 'English'),)
