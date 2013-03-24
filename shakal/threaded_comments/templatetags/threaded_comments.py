@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
-from datetime import datetime
+from django.utils import timezone
 from shakal import threaded_comments
 from shakal.threaded_comments.models import RootHeader, UserDiscussionAttribute
 
@@ -68,11 +68,11 @@ class ThreadedCommentsListNode(ThreadedCommentsBaseNode):
 		return discussion_attribute
 
 	def update_discussion_attribute(self, discussion_attribute):
-		discussion_attribute.time = datetime.now()
+		discussion_attribute.time = timezone.now()
 		discussion_attribute.save()
 
 	def get_last_display_time(self, discussion_attribute):
-		last_display_time = datetime.now()
+		last_display_time = timezone.now()
 		if discussion_attribute.time:
 			last_display_time = discussion_attribute.time
 		return last_display_time

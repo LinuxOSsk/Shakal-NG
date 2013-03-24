@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from django.http import HttpResponseServerError
+from django.http import HttpResponseServerError, HttpResponse
 from django.template import RequestContext, Context
 from django.template.loader import get_template
 from django.template.response import TemplateResponse

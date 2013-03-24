@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
-
+from django.utils import timezone
 from haystack import indexes
 
 from article.models import Article
@@ -17,4 +16,4 @@ class ArticleIndex(indexes.SearchIndex, indexes.Indexable):
 		return Article
 
 	def index_queryset(self):
-		return self.get_model().objects.filter(pub_time__lte = datetime.now(), published = True)
+		return self.get_model().objects.filter(pub_time__lte = timezone.now(), published = True)

@@ -17,6 +17,7 @@ from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
+from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _, ugettext
 from django.views.generic import RedirectView, UpdateView
@@ -66,7 +67,7 @@ def email_change(request):
 			else:
 				signer = signing.Signer()
 				email = form.cleaned_data['email']
-				signed = signer.sign(str(request.user.pk) + '.' + str(int(mktime(datetime.now().timetuple()))) + '.' + email)
+				signed = signer.sign(str(request.user.pk) + '.' + str(int(mktime(timezone.now().timetuple()))) + '.' + email)
 				context_data = {
 					'email': signed,
 					'site': get_current_site(request)
@@ -100,7 +101,7 @@ def email_change_activate(request, email):
 		if user != request.user:
 			raise ValueError
 		time = datetime.fromtimestamp(int(timestamp))
-		if ((datetime.now() - time).days) > 14:
+		if ((timezone.now() - time).days) > 14:
 			raise UserInputError(_("Link expired."))
 		if get_user_model().objects.filter(email = email).exclude(pk = user.pk).count() > 0:
 			raise UserInputError(_("E-mail address is already in use."))

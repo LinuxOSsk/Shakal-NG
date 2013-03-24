@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
-
 import mptt
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 
 
 class Page(models.Model):
@@ -23,7 +22,7 @@ class Page(models.Model):
 
 	def save(self, *args, **kwargs):
 		if not kwargs.pop('ignore_auto_date', False):
-			self.updated = datetime.now()
+			self.updated = timezone.now()
 			if not self.id:
 				self.created = self.updated
 		super(Page, self).save(*args, **kwargs)

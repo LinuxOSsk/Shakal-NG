@@ -18,6 +18,7 @@ from django.core.management.base import BaseCommand
 from django.core.serializers.json import Deserializer
 from django.db import connections, connection, models
 from django.template.defaultfilters import slugify
+from django.utils import timezone
 from phpserialize import loads
 from progressbar import Bar, BouncingBar, ETA, FormatLabel, ProgressBar, RotatingMarker
 from subprocess import call, Popen, PIPE
@@ -912,7 +913,7 @@ class Command(BaseCommand):
 		all_slugs = set()
 		categories = {}
 		for instance in Deserializer(open('shakal/wiki/pages.json')):
-			instance.object.created = datetime.now()
+			instance.object.created = timezone.now()
 			instance.object.save()
 			categories[instance.object.title.replace('&amp;', '&')] = instance.object.id
 			all_slugs.add(instance.object.slug)

@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
-
 from django.conf import settings
 from django.contrib.contenttypes import generic
 from django.db import models
 from django.db.models import permalink
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 from shakal.threaded_comments.models import RootHeader
 
@@ -40,7 +39,7 @@ class News(models.Model):
 		verbose_name_plural = _('news items')
 
 	def save(self, *args, **kwargs):
-		self.updated = datetime.now()
+		self.updated = timezone.now()
 		if not self.id:
 			self.created = self.updated
 		return super(News, self).save(*args, **kwargs)

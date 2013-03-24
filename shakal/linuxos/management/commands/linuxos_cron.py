@@ -4,6 +4,7 @@ import datetime
 from django.contrib.comments.models import Comment
 from django.core.management.base import BaseCommand
 from django.db.models import Count, F
+from django.utils import timezone
 from shakal.accounts.models import UserRating, RATING_WEIGHTS
 from shakal.article.models import Article
 
@@ -24,7 +25,7 @@ class Command(BaseCommand):
 		self.update_user_ratings()
 
 	def delete_old_attachments(self):
-		now = datetime.datetime.now()
+		now = timezone.now()
 		old_date = now - datetime.timedelta(days = 1)
 		old_attachments = TemporaryAttachment.objects.filter(created__lt = old_date)[:]
 		for old_attachment in old_attachments:

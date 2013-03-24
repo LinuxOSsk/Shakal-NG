@@ -9,6 +9,7 @@ from django.db import models
 from django.db.models import permalink
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 from attachment.models import Attachment
 from shakal.threaded_comments.models import RootHeader, ThreadedComment
@@ -61,20 +62,20 @@ class TopicListManager(models.Manager):
 
 	def newest_comments(self):
 		queryset = self.get_query_set()
-		queryset = queryset.filter(comments_header__last_comment__gt = datetime.now() - timedelta(30))
+		queryset = queryset.filter(comments_header__last_comment__gt = timezone.now() - timedelta(30))
 		queryset = queryset.order_by("-comments_header__last_comment")
 		return queryset
 
 	def no_comments(self):
 		queryset = self.get_query_set()
 		queryset = queryset.filter(comments_header__comment_count = 0)
-		queryset = queryset.filter(comments_header__last_comment__gt = datetime.now() - timedelta(60))
+		queryset = queryset.filter(comments_header__last_comment__gt = timezone.now() - timedelta(60))
 		queryset = queryset.order_by("-id")
 		return queryset
 
 	def most_commented(self):
 		queryset = self.get_query_set()
-		queryset = queryset.filter(comments_header__last_comment__gt = datetime.now() - timedelta(30))
+		queryset = queryset.filter(comments_header__last_comment__gt = timezone.now() - timedelta(30))
 		queryset = queryset.order_by("-comments_header__comment_count")
 		return queryset
 
@@ -111,7 +112,7 @@ class Topic(models.Model):
 		return self.attachments.all()
 
 	def save(self, *args, **kwargs):
-		self.updated = datetime.now()
+		self.updated = timezone.now()
 		if not self.id:
 			self.created = self.updated
 		return super(Topic, self).save(*args, **kwargs)

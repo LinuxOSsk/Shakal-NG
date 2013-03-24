@@ -73,7 +73,7 @@ class ThreadedCommentManager(CommentManager):
 				'user_name': '',
 				'user_email': '',
 				'user_url': '',
-				'submit_date': datetime.now(),
+				'submit_date': timezone.now(),
 				'site_id': settings.SITE_ID
 			}
 		)
@@ -141,7 +141,7 @@ class ThreadedComment(BaseCommentAbstractModel):
 			return u''
 
 	def save(self, *args, **kwargs):
-		self.updated = datetime.now()
+		self.updated = timezone.now()
 		if not self.id:
 			self.submit_date = self.updated
 		if self.submit_date is None:

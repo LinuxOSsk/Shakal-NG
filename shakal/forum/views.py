@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 from django.template import RequestContext
-from datetime import datetime
+from django.utils import timezone
 from forms import TopicForm
 from models import Section, Topic
 from shakal.utils.generic import AddLoggedFormArgumentMixin, PreviewCreateView
@@ -57,7 +57,7 @@ class TopicCreateView(AddLoggedFormArgumentMixin, PreviewCreateView):
 
 	def form_valid(self, form):
 		topic = form.save(commit = False)
-		topic.created = datetime.now()
+		topic.created = timezone.now()
 		if self.request.user.is_authenticated():
 			if self.request.user.get_full_name():
 				topic.authors_name = self.request.user.get_full_name()
