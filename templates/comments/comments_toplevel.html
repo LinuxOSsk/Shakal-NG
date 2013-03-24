@@ -1,4 +1,4 @@
-{% load threaded_comments %}{% load url from future %}
+{% load threaded_comments %}
 {% get_threaded_comments_list for target as comments %}
 {% with root=comments.get_root_item %}
 {% with root_header=comments.root_header %}

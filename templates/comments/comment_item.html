@@ -1,4 +1,3 @@
-{% load url from future %}
 {% with comment_type="entry" %}{% with user=comment.user %}{% with user_name=comment.user_name %}
 {% include "comments/comment_header.html" %}
 {% endwith %}{% endwith %}{% endwith %}

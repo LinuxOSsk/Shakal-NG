@@ -1,4 +1,4 @@
-{% load i18n %}{% load url from future %}{% trans "Your activation key" %}: {{ activation_key }}
+{% load i18n %}{% trans "Your activation key" %}: {{ activation_key }}
 
 {% trans "Please use this link to activate your account" %}:
 

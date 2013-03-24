@@ -1,4 +1,4 @@
-{% extends "news/news_base.html" %}{% load breadcrumbs_tags threaded_comments %}{% load url from future %}
+{% extends "news/news_base.html" %}{% load breadcrumbs_tags threaded_comments %}
 
 {% block breadcrumbs %}
 	{% breadcrumb %}{{ news|truncatechars:80 }}{% endbreadcrumb %}

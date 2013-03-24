@@ -1,4 +1,4 @@
-{% extends "registration/user_base.html" %}{% load i18n breadcrumbs_tags %}{% load url from future %}{% load avatar %}
+{% extends "registration/user_base.html" %}{% load i18n breadcrumbs_tags %}{% load avatar %}
 
 {% block title %}{% trans 'User profile' %}{% endblock %}
 {% block breadcrumbs %}{% breadcrumb %}{% firstof user_profile.get_full_name user_profile.username %}{% endbreadcrumb %}{{ block.super }}{% endblock %}

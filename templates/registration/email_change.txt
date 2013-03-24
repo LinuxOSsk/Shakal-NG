@@ -1,3 +1,3 @@
-{% load i18n %}{% load url from future %}{% trans "Please use this link to change your e-mail" %}:
+{% trans "Please use this link to change your e-mail" %}:
 
 http://{{ site.domain }}{% url 'auth_email_change_activate' email %}
