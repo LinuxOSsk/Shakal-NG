@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.test import LiveServerTestCase
 from django.core.urlresolvers import reverse
+from django.utils import timezone
 from common import admin_login
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -55,6 +56,14 @@ class ArticleTest(LiveServerTestCase):
 
 		content_field = article_form.find_element_by_name('content')
 		content_field.send_keys('Content')
+
+		pub_date_field = article_form.find_element_by_name('pub_time_0')
+		pub_date_field.clear()
+		pub_date_field.send_keys("1970-01-01")
+
+		pub_time_field = article_form.find_element_by_name('pub_time_1')
+		pub_time_field.clear()
+		pub_time_field.send_keys("0:00:00")
 
 		authors_name_field = article_form.find_element_by_name('authors_name')
 		authors_name_field.send_keys('author')
