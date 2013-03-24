@@ -1,4 +1,7 @@
-{% extends "registration/user_base.html" %}{% load i18n breadcrumbs_tags %}
+{% extends "registration/user_base.html" %}
+
+{% load breadcrumbs_tags %}
+{% load i18n %}
 
 {% block title %}{% trans 'E-mail change successful' %}{% endblock %}
 {% block breadcrumbs %}{% breadcrumb %}{% trans 'E-mail change successful' %}{% endbreadcrumb %}{{ block.super }}{% endblock %}
