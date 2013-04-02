@@ -31,9 +31,9 @@
 {% endif %}
 
 <h1>{{ topic }}</h1>
-{% with comment_type="topic" %}{% with comment=topic %}{% with user=topic.author %}{% with user_name=topic.authors_name %}
+{% with comment_type="topic" %}{% with comment=topic %}{% with user=topic.author %}{% with user_name=topic.authors_name %}{% with single=1 %}
 {% include "forum/topic_header.html" %}
-{% endwith %}{% endwith %}{% endwith %}{% endwith %}
+{% endwith %}{% endwith %}{% endwith %}{% endwith %}{% endwith %}
 {% include "forum/topic_content.html" %}
 {% endblock %}
 
