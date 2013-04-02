@@ -23,4 +23,4 @@ def gravatar_for_email(email, size = GRAVATAR_DEFAULT_SIZE):
 
 @register.simple_tag
 def avatar_for_user(user, size = GRAVATAR_DEFAULT_SIZE):
-	return gravatar_for_email(user.email)
+	return gravatar_for_email(user.email, size)
