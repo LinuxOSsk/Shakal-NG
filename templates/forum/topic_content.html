@@ -3,9 +3,9 @@
 	{{ topic.text|safe }}
 </div>
 
-{% if topic.author.get_profile.signature %}
+{% if topic.author.signature %}
 	<div class="signature">
-		{{ topic.author.get_profile.signature|safe }}
+		{{ topic.author.signature|safe }}
 	</div>
 {% endif %}
 </div>
