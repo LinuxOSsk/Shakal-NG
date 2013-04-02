@@ -49,9 +49,7 @@ class TopicForm(AntispamModelFormMixin, forms.ModelForm, AttachmentFormMixin):
 	def __init__(self, *args, **kwargs):
 		logged = kwargs.pop('logged', False)
 		request = kwargs.pop('request')
-		files = kwargs.pop('files', {})
 		super(TopicForm, self).__init__(*args, **kwargs)
-		self.files = files
 		if logged:
 			del(self.fields['authors_name'])
 			del(self.fields['captcha'])
