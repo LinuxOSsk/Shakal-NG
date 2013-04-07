@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
-from datetime import datetime
 
 import json
 import reversion
@@ -18,7 +17,7 @@ from django.core.management.base import BaseCommand
 from django.core.serializers.json import Deserializer
 from django.db import connections, connection, models
 from django.template.defaultfilters import slugify
-from django.utils import timezone
+from django.utils import timezone, tzinfo
 from phpserialize import loads
 from progressbar import Bar, BouncingBar, ETA, FormatLabel, ProgressBar, RotatingMarker
 from subprocess import call, Popen, PIPE
@@ -26,7 +25,7 @@ from subprocess import call, Popen, PIPE
 from accounts.models import User
 from polls.models import Poll, Choice as PollChoice
 from hitcount.models import HitCount
-from shakal.article.models import Article, Category as ArticleCategory
+from article.models import Article, Category as ArticleCategory
 from shakal.forum.models import Section as ForumSection, Topic as ForumTopic
 from shakal.news.models import News
 from shakal.threaded_comments.models import RootHeader as ThreadedRootHeader, UserDiscussionAttribute
@@ -149,7 +148,7 @@ class Command(BaseCommand):
 		return self.get_default_if_null(value, '')
 
 	def first_datetime_if_null(self, dt):
-		return self.get_default_if_null(dt, datetime(1970, 1, 1))
+		return self.get_default_if_null(dt, timezone.make_aware(timezone.datetime(1970, 1, 1), tzinfo.FixedOffset(0)))
 
 	def get_default_if_null(self, value, default):
 		if value is None:
@@ -170,7 +169,7 @@ class Command(BaseCommand):
 			self.logger.step_main_progress(u"Čistenie databázy")
 			self.clean_db()
 			self.logger.step_main_progress(u"Sťahovanie starej databázy")
-			#self.download_db()
+			self.download_db()
 			self.logger.step_main_progress(u"Import užívateľov")
 			self.import_users()
 			self.logger.step_main_progress(u"Import článkov")
@@ -221,7 +220,7 @@ class Command(BaseCommand):
 			('auth_remember_remembertoken', ),
 			('reversion_version', 'reversion_version_id_seq'),
 			('reversion_revision', 'reversion_revision_id_seq'),
-			('accounts_user', 'accounts_user_id_seq'),
+			('auth_user', 'auth_user_id_seq'),
 		]
 
 		self.logger.set_sub_progress(u"Tabuľka", len(tables))
@@ -367,7 +366,7 @@ class Command(BaseCommand):
 			user_object.set_password(user['password'])
 			user_objects.append(user_object)
 		User.objects.bulk_create(user_objects)
-		connections['default'].cursor().execute('SELECT setval(\'accounts_user_id_seq\', (SELECT MAX(id) FROM accounts_user) + 1);')
+		connections['default'].cursor().execute('SELECT setval(\'auth_user_id_seq\', (SELECT MAX(id) FROM auth_user) + 1);')
 		self.logger.finish_sub_progress()
 
 	def import_articles(self):
@@ -649,14 +648,14 @@ class Command(BaseCommand):
 				'checkbox': bool(polls_dict['checkbox']),
 				'approved': bool(polls_dict['enabled']) and polls_dict['schvalena'] == 'yes',
 				'active_from': polls_dict['od'],
-				'answer_count': sum(int(x) if x else 0 for x in polls_dict['hlasovanie'].split('/')) if polls_dict['hlasovanie'] else 0,
+				'choice_count': sum(int(x) if x else 0 for x in polls_dict['hlasovanie'].split('/')) if polls_dict['hlasovanie'] else 0,
 				'content_type': content_type,
 				'object_id': object_id,
 			}
 			pollss.append(Poll(**polls))
 		pollss = dict([(polls.pk, polls) for polls in Poll.objects.bulk_create(pollss)])
 
-		answers = []
+		choices = []
 		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM anketa')
 		for polls_row in self.cursor:
 			self.logger.step_sub_progress()
@@ -668,8 +667,8 @@ class Command(BaseCommand):
 				polls_votes.append(0)
 			items = zip(polls_choices, polls_votes)
 			for item in items:
-				answers.append(PollChoice(polls = pollss[polls_dict['id']], answer = item[0], votes = item[1]))
-		PollChoice.objects.bulk_create(answers)
+				choices.append(PollChoice(poll = pollss[polls_dict['id']], choice = item[0], votes = item[1]))
+		PollChoice.objects.bulk_create(choices)
 		connections['default'].cursor().execute('SELECT setval(\'polls_poll_id_seq\', (SELECT MAX(id) FROM polls_poll) + 1);')
 		connections['default'].cursor().execute('SELECT setval(\'polls_choice_id_seq\', (SELECT MAX(id) FROM polls_choice) + 1);')
 		self.logger.finish_sub_progress()
