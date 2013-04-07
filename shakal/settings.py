@@ -48,6 +48,7 @@ STATIC_ROOT = ''
 STATIC_URL = '/static/'
 
 LOGIN_URL = '/profil/prihlasit/'
+LOGIN_REDIRECT_URL = '/profil/ja/'
 
 STATICFILES_DIRS = (
 	os.path.join(ROOT, 'static'),
