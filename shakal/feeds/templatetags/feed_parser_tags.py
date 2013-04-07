@@ -11,7 +11,8 @@ register = template.Library()
 def pull_feeds(url, max_count = 4):
 	posts = []
 	feed = feedparser.parse(url)
-	for i in range(max_count):
+	entries_count = len(feed.entries)
+	for i in range(min(max_count, entries_count)):
 		try:
 			pub_date = feed.entries[i].published_parsed
 		except AttributeError:
