@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-17 20:09+0100\n"
+"POT-Creation-Date: 2013-04-10 19:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -210,9 +210,6 @@ msgstr "Požiadavka na zmenu e-mailu bola odoslaná"
 msgid "E-mail change complete"
 msgstr "E-mail zmenený"
 
-msgid "Logged out"
-msgstr "Odhlásený"
-
 msgid "Password change successful"
 msgstr "Zmena hesla úspešná"
 
@@ -224,6 +221,9 @@ msgstr "Obnovenie hesla"
 
 msgid "Password reset complete"
 msgstr "Obnovenie hesla ukončené"
+
+msgid "Logged out"
+msgstr "Odhlásený"
 
 msgid "^status/$"
 msgstr "^stav/$"
@@ -594,6 +594,15 @@ msgstr "Späť na profil"
 
 msgid "Save"
 msgstr "Uložiť"
+
+msgid "Registration closed"
+msgstr "Registrácia zakázaná"
+
+msgid "Registration is Closed"
+msgstr "Registrácia je zakázaná"
+
+msgid "Sorry, we're not accepting new user registrations at the moment."
+msgstr "Ospravedlňujeme, ale momentálne neakceptujeme nové registrácie."
 
 msgid "Registration complete!"
 msgstr "Registrácia dokončená!"

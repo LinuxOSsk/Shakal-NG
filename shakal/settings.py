@@ -34,7 +34,7 @@ SITE_ID = 1
 
 USE_I18N = True
 USE_L10N = True
-LOCALE_PATHS = (os.path.join(ROOT, 'shakal', 'locale'), )
+LOCALE_PATHS = (os.path.join(ROOT, 'locale'), )
 USE_TZ = True
 
 MEDIA_ROOT = os.path.abspath(os.path.join(ROOT, 'media'))
