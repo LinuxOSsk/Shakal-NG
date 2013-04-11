@@ -24,9 +24,6 @@ class AttachmentWidget(ClearableFileInput):
 class AttachmentField(FileField):
 	widget = AttachmentWidget
 
-	def __init__(self, *args, **kwargs):
-		super(AttachmentField, self).__init__(**kwargs)
-
 	def clean(self, value, initial):
 		if value is None:
 			return super(AttachmentField, self).clean(value, initial)
