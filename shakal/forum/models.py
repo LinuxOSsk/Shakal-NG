@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from django.conf import settings
 from django.contrib.contenttypes import generic
@@ -12,7 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
 from attachment.models import Attachment
-from shakal.threaded_comments.models import RootHeader, ThreadedComment
+from threaded_comments.models import RootHeader, Comment
 
 
 class Section(models.Model):
@@ -144,7 +144,7 @@ class Topic(models.Model):
 
 
 def update_comments_header(sender, instance, **kwargs):
-	root, created = ThreadedComment.objects.get_root_comment(ctype = ContentType.objects.get_for_model(Topic), object_pk = instance.pk)
+	root, created = Comment.objects.get_root_comment(ctype = ContentType.objects.get_for_model(Topic), object_pk = instance.pk)
 	if created:
 		root.last_comment = instance.created
 	root.is_removed = instance.is_removed

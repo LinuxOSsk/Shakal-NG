@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from shakal.threaded_comments.models import RootHeader
+from threaded_comments.models import RootHeader
 from haystack import indexes
 
 

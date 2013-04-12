@@ -10,8 +10,9 @@ from django.template.defaultfilters import capfirst
 from django.template.response import TemplateResponse
 from django.views.decorators.http import require_POST
 from django.utils.encoding import force_unicode
-from shakal.threaded_comments.models import ThreadedComment, RootHeader, UserDiscussionAttribute, update_comments_header
-from shakal.threaded_comments import get_form
+from threaded_comments.models import Comment, CommentFlag, RootHeader, UserDiscussionAttribute, update_comments_header
+from threaded_comments import get_form
+from threaded_comments import signals
 
 
 def get_module_name(content_object):
@@ -29,7 +30,7 @@ def get_module_url(content_object):
 
 
 def reply_comment(request, parent):
-	parent_comment = ThreadedComment.objects.get(pk = parent)
+	parent_comment = Comment.objects.get(pk = parent)
 	content_object = parent_comment.content_object
 
 	if parent_comment.parent_id:
@@ -57,7 +58,6 @@ def reply_comment(request, parent):
 	if parent_comment.is_locked:
 		return TemplateResponse(request, "comments/error.html", context)
 
-
 	form = get_form()(content_object, logged = request.user.is_authenticated(), parent_comment = parent_comment, initial = {'subject': new_subject}, request = request)
 
 	context["form"] = form
@@ -83,7 +83,7 @@ def post_comment(request):
 
 	model = models.get_model(*data['content_type'].split(".", 1))
 	target = model._default_manager.get(pk = data['object_pk'])
-	parent = ThreadedComment.objects.get(pk = data['parent_pk'])
+	parent = Comment.objects.get(pk = data['parent_pk'])
 	content_object = parent.content_object
 
 	form = get_form()(target, logged = request.user.is_authenticated(), parent_comment = parent, data = data, files = request.FILES, request = request)
@@ -146,9 +146,8 @@ def comments(request, header_id):
 	return TemplateResponse(request, "comments/comments.html", context)
 
 
-
 def comment(request, comment_id, single = True):
-	comment = get_object_or_404(ThreadedComment, pk = comment_id)
+	comment = get_object_or_404(Comment, pk = comment_id)
 	object = comment.content_object
 	context = {
 		'comment': comment,
@@ -186,7 +185,7 @@ def admin(request, comment_id):
 	delete = request.GET.get('delete', None)
 	public = request.GET.get('public', None)
 	lock = request.GET.get('lock', None)
-	comment = get_object_or_404(ThreadedComment, pk = comment_id)
+	comment = get_object_or_404(Comment, pk = comment_id)
 	if delete is not None:
 		comment.is_removed = bool(delete)
 		comment.save()
@@ -195,6 +194,66 @@ def admin(request, comment_id):
 		comment.save()
 	if lock is not None:
 		comment.get_descendants(include_self = True).update(is_locked = bool(lock))
-	comment = ThreadedComment.objects.get(pk = comment_id)
-	update_comments_header(ThreadedComment, instance = comment)
+	comment = Comment.objects.get(pk = comment_id)
+	update_comments_header(Comment, instance = comment)
 	return HttpResponseRedirect(comment.content_object.get_absolute_url() + '#link_' + str(comment_id))
+
+
+def perform_action_view(action, template, request, comment_id, next):
+	comment = get_object_or_404(Comment, pk = comment_id)
+	if request.method == 'POST':
+		action(request, comment)
+		return HttpResponseRedirect(next)
+	else:
+		return TemplateResponse(request, template, {'comment': comment, 'next': next})
+
+
+@login_required
+def flag(request, comment_id, next):
+	return perform_action_view(perform_flag, "comments/flag.html", request, comment_id, next)
+
+
+@permission_required("comments.can_moderate")
+def delete(request, comment_id, next):
+	return perform_action_view(perform_delete, "comments/delete.html", request, comment_id, next)
+
+
+@permission_required("comments.can_moderate")
+def approve(request, comment_id, next):
+	return perform_action_view(perform_approve, "comments/approve.html", request, comment_id, next)
+
+
+def perform_flag_action(request, comment, comment_flag, action = None):
+	flag, created = CommentFlag.objects.get_or_create(
+		comment = comment,
+		user = request.user,
+		flag = comment_flag
+	)
+	if action:
+		action(comment)
+	signals.comment_was_flagged.send(
+		sender = comment.__class__,
+		comment = comment,
+		flag = flag,
+		created = created,
+		request = request
+	)
+
+
+def perform_flag(request, comment):
+	perform_flag_action(request, comment, CommentFlag.SUGGEST_REMOVAL)
+
+
+def perform_delete(request, comment):
+	def action(comment):
+		comment.is_removed = True
+		comment.save()
+	perform_flag_action(request, comment, CommentFlag.MODERATOR_DELETION, action)
+
+
+def perform_approve(request, comment):
+	def action(comment):
+		comment.is_removed = False
+		comment.is_public = True
+		comment.save()
+	perform_flag_action(request, comment, CommentFlag.MODERATOR_APPROVAL, action)

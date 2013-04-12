@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-
 from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse_lazy
-from django.db.models import Q
-from shakal.threaded_comments.models import ThreadedComment
+
+from threaded_comments.models import Comment
 
 
-class ThreadedCommentFeed(Feed):
+class CommentFeed(Feed):
 	title = u"Diskusné príspevky"
 	description = "Zoznam posledných diskusných príspevkov"
 	link = reverse_lazy('home')
@@ -29,4 +28,4 @@ class ThreadedCommentFeed(Feed):
 		return item.submit_date
 
 	def items(self):
-		return ThreadedComment.plain_objects.filter(level__gt = 0).select_related('user').order_by('-id')[:settings.FEED_SIZE]
+		return Comment.plain_objects.filter(level__gt = 0).select_related('user').order_by('-id')[:settings.FEED_SIZE]

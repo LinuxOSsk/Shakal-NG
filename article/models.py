@@ -11,7 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 from autoimagefield.fields import AutoImageField
 from hitcount.models import HitCountMixin
 from polls.models import Poll
-from shakal.threaded_comments.models import RootHeader
+from threaded_comments.models import RootHeader
 
 
 class Category(models.Model):

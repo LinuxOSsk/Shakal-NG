@@ -28,7 +28,7 @@ from hitcount.models import HitCount
 from article.models import Article, Category as ArticleCategory
 from shakal.forum.models import Section as ForumSection, Topic as ForumTopic
 from shakal.news.models import News
-from shakal.threaded_comments.models import RootHeader as ThreadedRootHeader, UserDiscussionAttribute
+from threaded_comments.models import RootHeader as ThreadedRootHeader, UserDiscussionAttribute
 from shakal.utils import create_unique_slug
 from shakal.wiki.models import Page as WikiPage
 

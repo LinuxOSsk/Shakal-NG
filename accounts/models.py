@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from article.models import Article
 from shakal.news.models import News
-from shakal.threaded_comments.models import ThreadedComment
+from threaded_comments.models import Comment
 from shakal.wiki.models import Page as WikiPage
 
 
@@ -58,7 +58,7 @@ class UserRating(models.Model):
 
 
 SENDERS = {
-	ThreadedComment: ('user', 'comments', lambda c: c.is_public and not c.is_removed),
+	Comment: ('user', 'comments', lambda c: c.is_public and not c.is_removed),
 	News: ('author', 'news', lambda c: c.approved),
 	WikiPage: ('last_author', 'wiki', lambda c: True),
 	Article: ('author', 'articles', lambda c: c.published),
@@ -94,11 +94,11 @@ def update_count_pre_save(sender, instance, **kwargs):
 
 
 pre_save.connect(update_count_pre_save, sender = Article)
-pre_save.connect(update_count_pre_save, sender = ThreadedComment)
+pre_save.connect(update_count_pre_save, sender = Comment)
 pre_save.connect(update_count_pre_save, sender = News)
 pre_save.connect(update_count_pre_save, sender = WikiPage)
 pre_delete.connect(update_count_pre_save, sender = Article)
-pre_delete.connect(update_count_pre_save, sender = ThreadedComment)
+pre_delete.connect(update_count_pre_save, sender = Comment)
 pre_delete.connect(update_count_pre_save, sender = News)
 pre_delete.connect(update_count_pre_save, sender = WikiPage)
 
@@ -108,6 +108,6 @@ def update_count_post_save(sender, instance, created, **kwargs):
 	update_user_rating(instance, author_property, property_name, int(count_fun(instance)))
 
 post_save.connect(update_count_post_save, sender = Article)
-post_save.connect(update_count_post_save, sender = ThreadedComment)
+post_save.connect(update_count_post_save, sender = Comment)
 post_save.connect(update_count_post_save, sender = News)
 post_save.connect(update_count_post_save, sender = WikiPage)

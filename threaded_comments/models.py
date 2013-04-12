@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
-
-import mptt
 from django.conf import settings
-from django.contrib.comments.models import BaseCommentAbstractModel, CommentManager as OrigCommentManager
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
@@ -12,6 +8,7 @@ from django.db.models import Count, Max
 from django.db.models.signals import post_save
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from mptt.models import MPTTModel, TreeForeignKey
 
 from attachment.models import Attachment
 
@@ -51,17 +48,12 @@ class HideRootQuerySet(models.query.QuerySet):
 		return item.parent_id is None
 
 
-class CommentManager(OrigCommentManager):
-	def get_query_set(self):
-		return (super(CommentManager, self).get_query_set().select_related('user__profile__pk'))
-
-
-class ThreadedCommentManager(CommentManager):
+class CommentManager(models.Manager):
 	use_for_related_fields = True
 
 	def __init__(self, qs_class = models.query.QuerySet):
 		self.__qs_class = qs_class
-		super(ThreadedCommentManager, self).__init__()
+		super(CommentManager, self).__init__()
 
 	def get_root_comment(self, ctype, object_pk):
 		root_comment, created = self.model.objects.get_or_create(
@@ -71,10 +63,7 @@ class ThreadedCommentManager(CommentManager):
 			defaults = {
 				'comment': '',
 				'user_name': '',
-				'user_email': '',
-				'user_url': '',
 				'submit_date': timezone.now(),
-				'site_id': settings.SITE_ID
 			}
 		)
 		return (root_comment, created)
@@ -84,16 +73,19 @@ class ThreadedCommentManager(CommentManager):
 		return queryset
 
 
-class ThreadedComment(BaseCommentAbstractModel):
-	objects = CommentManager()
+class Comment(MPTTModel):
+	all_comments = CommentManager()
+	objects = CommentManager(HideRootQuerySet)
+	plain_objects = models.Manager()
+
+	content_type = models.ForeignKey(ContentType, verbose_name = _('content type'), related_name = "content_type_set_for_%(class)s")
+	object_pk = models.TextField(_('object ID'))
+	content_object = generic.GenericForeignKey(ct_field = "content_type", fk_field = "object_pk")
+	parent = TreeForeignKey('self', null = True, blank = True, related_name = 'children')
 
 	subject = models.CharField(max_length = 100)
-	parent = models.ForeignKey('self', related_name = 'children', blank = True, null = True)
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name = _('user'), blank = True, null = True, related_name = "%(class)s_comments")
 	user_name = models.CharField(_("user's name"), max_length = 50, blank = True)
-	user_email = models.EmailField(_("user's email address"), blank = True)
-	user_url = models.URLField(_("user's URL"), blank = True)
-
 	comment = models.TextField(_('comment'), max_length = COMMENT_MAX_LENGTH)
 
 	submit_date = models.DateTimeField(_('date/time submitted'), default = None)
@@ -102,11 +94,8 @@ class ThreadedComment(BaseCommentAbstractModel):
 	is_removed = models.BooleanField(_('is removed'), default = False)
 
 	is_locked = models.BooleanField(_('is locked'), default = False)
-	objects = ThreadedCommentManager()
-	comment_objects = ThreadedCommentManager(HideRootQuerySet)
-	plain_objects = models.Manager()
-	attachments = generic.GenericRelation(Attachment)
 	updated = models.DateTimeField(editable = False)
+	attachments = generic.GenericRelation(Attachment)
 
 	def root_header(self):
 		header, created = RootHeader.objects.get_or_create(content_type = self.content_type, object_id = self.object_pk)
@@ -146,7 +135,7 @@ class ThreadedComment(BaseCommentAbstractModel):
 			self.submit_date = self.updated
 		if self.submit_date is None:
 			self.submit_date = timezone.now()
-		return super(ThreadedComment, self).save(*args, **kwargs)
+		return super(Comment, self).save(*args, **kwargs)
 
 	def __unicode__(self):
 		return self.subject
@@ -157,14 +146,17 @@ class ThreadedComment(BaseCommentAbstractModel):
 		verbose_name = _('comment')
 		verbose_name_plural = _('comments')
 		db_table = 'django_comments'
-mptt.register(ThreadedComment)
 
 
-class ThreadedCommentFlag(models.Model):
+class CommentFlag(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('user'), related_name="threadedcomment_flags")
-	comment = models.ForeignKey(ThreadedComment, verbose_name=_('comment'), related_name="flags")
+	comment = models.ForeignKey(Comment, verbose_name=_('comment'), related_name="flags")
 	flag = models.CharField(_('flag'), max_length=30, db_index=True)
 	flag_date = models.DateTimeField(_('date'), default=None)
+
+	SUGGEST_REMOVAL = "removal suggestion"
+	MODERATOR_DELETION = "moderator deletion"
+	MODERATOR_APPROVAL = "moderator approval"
 
 	class Meta:
 		db_table = 'django_comment_flags'
@@ -178,7 +170,7 @@ class ThreadedCommentFlag(models.Model):
 	def save(self, *args, **kwargs):
 		if self.flag_date is None:
 			self.flag_date = timezone.now()
-		super(ThreadedCommentFlag, self).save(*args, **kwargs)
+		super(CommentFlag, self).save(*args, **kwargs)
 
 
 class RootHeader(models.Model):
@@ -205,8 +197,8 @@ def update_comments_header(sender, **kwargs):
 	if instance.parent is None:
 		root = instance
 	else:
-		root = ThreadedComment.objects.get(content_type = instance.content_type, object_pk = instance.object_pk, parent = None)
-	statistics = ThreadedComment.objects
+		root = Comment.objects.get(content_type = instance.content_type, object_pk = instance.object_pk, parent = None)
+	statistics = Comment.objects
 	statistics = statistics.filter(content_type = root.content_type, object_pk = root.object_pk, is_public = True, is_removed = False)
 	statistics = statistics.exclude(pk = root.pk)
 	statistics = statistics.aggregate(Count('pk'), Max('submit_date'))
@@ -224,7 +216,7 @@ def update_comments_header(sender, **kwargs):
 	header.comment_count = statistics['pk__count']
 	header.save()
 
-post_save.connect(update_comments_header, sender = ThreadedComment)
+post_save.connect(update_comments_header, sender = Comment)
 
 
 class UserDiscussionAttribute(models.Model):

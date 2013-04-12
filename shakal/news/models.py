@@ -6,7 +6,7 @@ from django.db.models import permalink
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
-from shakal.threaded_comments.models import RootHeader
+from threaded_comments.models import RootHeader
 
 
 class NewsManager(models.Manager):

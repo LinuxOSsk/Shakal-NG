@@ -120,8 +120,8 @@ INSTALLED_APPS = (
 	'django.contrib.sites',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
-	'django.contrib.syndication',
 	'django.contrib.admin',
+	'django.contrib.syndication',
 	'django_tools',
 	'haystack',
 	'registration',
@@ -141,6 +141,7 @@ INSTALLED_APPS = (
 	'paginator',
 	'polls',
 	'reversion',
+	'threaded_comments',
 	'template_preprocessor',
 	'shakal.feeds',
 	'shakal.forum',
@@ -148,12 +149,11 @@ INSTALLED_APPS = (
 	'shakal.news',
 	'shakal.search',
 	'shakal.template_dynamicloader',
-	'shakal.threaded_comments',
 	'shakal.wiki',
 	'fts',
 )
 
-COMMENTS_APP = 'shakal.threaded_comments'
+COMMENTS_APP = 'threaded_comments'
 
 LOGGING = {
 	'version': 1,
@@ -234,7 +234,7 @@ SHAKAL_DASHBOARD_APP_GROUPS = (
 		_('Forum'), {
 			'models': (
 				'shakal.forum.*',
-				'shakal.threaded_comments.*',
+				'threaded_comments.*',
 			),
 		}
 	),
@@ -254,7 +254,7 @@ SHAKAL_DASHBOARD_APP_ICONS = {
 	'article/article': 'article.png',
 	'news/news': 'news.png',
 	'wiki/page': 'wiki.png',
-	'threaded_comments/threadedcomment': 'comments.png',
+	'threaded_comments/comment': 'comments.png',
 	'forum/topic': 'topic.png',
 	'polls/poll': 'poll.png',
 	'forum/section': 'section.png',

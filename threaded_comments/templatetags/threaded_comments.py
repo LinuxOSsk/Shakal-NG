@@ -4,19 +4,18 @@ from django import template
 from django.conf import settings
 from django.contrib.comments.templatetags.comments import BaseCommentNode
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django.utils import timezone
-from shakal import threaded_comments
-from shakal.threaded_comments.models import RootHeader, UserDiscussionAttribute
+import threaded_comments
+from threaded_comments.models import RootHeader, UserDiscussionAttribute
 
 register = template.Library()
 
 
-class ThreadedCommentsBaseNode(BaseCommentNode):
+class CommentsBaseNode(BaseCommentNode):
 	def __init__(self, *args, **kwargs):
-		super(ThreadedCommentsBaseNode, self).__init__(*args, **kwargs)
+		super(CommentsBaseNode, self).__init__(*args, **kwargs)
 		self.root_node = None
 		self.comments_model = threaded_comments.get_model()
 
@@ -50,10 +49,10 @@ class ThreadedCommentsBaseNode(BaseCommentNode):
 		return queryset
 
 
-class ThreadedCommentsListNode(ThreadedCommentsBaseNode):
+class CommentsListNode(CommentsBaseNode):
 	def highlight_new(self, query_set, context):
 		root_item = query_set.get_root_item()
-		prev_new_item = root_item;
+		prev_new_item = root_item
 		for comment in query_set:
 			if comment.is_new:
 				prev_new_item.next_new = comment.pk
@@ -95,7 +94,7 @@ class ThreadedCommentsListNode(ThreadedCommentsBaseNode):
 		return ''
 
 
-class ThreadedCommentsFormNode(ThreadedCommentsBaseNode):
+class CommentsFormNode(CommentsBaseNode):
 	def get_form(self, context):
 		ctype, object_pk = self.get_target_ctype_pk(context)
 		if object_pk:
@@ -110,7 +109,7 @@ class ThreadedCommentsFormNode(ThreadedCommentsBaseNode):
 
 @register.tag
 def get_threaded_comments_list(parser, token):
-	return ThreadedCommentsListNode.handle_token(parser, token)
+	return CommentsListNode.handle_token(parser, token)
 
 
 @register.simple_tag(takes_context = True)
