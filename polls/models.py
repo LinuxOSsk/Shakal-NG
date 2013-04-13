@@ -39,7 +39,7 @@ class Poll(models.Model):
 
 	@permalink
 	def get_list_url(self):
-		return ('poll:list', None, None)
+		return ('polls:list', None, None)
 
 	def msg_id(self):
 		return 'poll-' + str(self.pk)
