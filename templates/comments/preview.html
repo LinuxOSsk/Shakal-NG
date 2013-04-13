@@ -2,7 +2,7 @@
 
 {% block breadcrumbs %}
 {% breadcrumb %}Diskusia{% endbreadcrumb %}
-{% breadcrumb absolute_url=content_object.get_absolute_url %}{{ content_object }}{% endbreadcrumb %}
+{% breadcrumb absolute_url=content_object.get_absolute_url %}{{ content_object|truncatechars:"50" }}{% endbreadcrumb %}
 {% breadcrumb absolute_url=module_url %}{{ module_name }}{% endbreadcrumb %}
 {{ block.super }}
 {% endblock %}
