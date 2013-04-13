@@ -14,5 +14,5 @@ class NewsIndex(indexes.SearchIndex, indexes.Indexable):
 	def get_model(self):
 		return News
 
-	def index_queryset(self):
+	def index_queryset(self, using = None):
 		return self.get_model().objects.filter(approved = True)

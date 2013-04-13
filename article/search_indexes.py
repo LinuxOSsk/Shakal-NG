@@ -15,5 +15,5 @@ class ArticleIndex(indexes.SearchIndex, indexes.Indexable):
 	def get_model(self):
 		return Article
 
-	def index_queryset(self):
+	def index_queryset(self, using = None):
 		return self.get_model().objects.filter(pub_time__lte = timezone.now(), published = True)
