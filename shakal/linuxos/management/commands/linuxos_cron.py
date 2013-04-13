@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 import datetime
 
-from django.contrib.comments.models import Comment
 from django.core.management.base import BaseCommand
 from django.db.models import Count, F
 from django.utils import timezone
-from shakal.accounts.models import UserRating, RATING_WEIGHTS
-from shakal.article.models import Article
+from threaded_comments.models import Comment
+from accounts.models import UserRating, RATING_WEIGHTS
+from article.models import Article
 
 from attachment.models import TemporaryAttachment
 from shakal.news.models import News

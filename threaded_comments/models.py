@@ -56,7 +56,7 @@ class CommentManager(models.Manager):
 		super(CommentManager, self).__init__()
 
 	def get_root_comment(self, ctype, object_pk):
-		root_comment, created = self.model.objects.get_or_create(
+		root_comment, created = self.model.all_comments.get_or_create(
 			parent = None,
 			content_type = ctype,
 			object_pk = object_pk,
@@ -197,8 +197,8 @@ def update_comments_header(sender, **kwargs):
 	if instance.parent is None:
 		root = instance
 	else:
-		root = Comment.objects.get(content_type = instance.content_type, object_pk = instance.object_pk, parent = None)
-	statistics = Comment.objects
+		root = Comment.all_comments.get(content_type = instance.content_type, object_pk = instance.object_pk, parent = None)
+	statistics = Comment.all_comments
 	statistics = statistics.filter(content_type = root.content_type, object_pk = root.object_pk, is_public = True, is_removed = False)
 	statistics = statistics.exclude(pk = root.pk)
 	statistics = statistics.aggregate(Count('pk'), Max('submit_date'))

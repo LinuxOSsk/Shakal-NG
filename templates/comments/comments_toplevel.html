@@ -1,5 +1,5 @@
-{% load threaded_comments %}
-{% get_threaded_comments_list for target as comments %}
+{% load threaded_comments_tags %}
+{% get_threaded_comments_list target as comments %}
 {% with root=comments.get_root_item %}
 {% with root_header=comments.root_header %}
 {% with user_attribute=comments.user_attribute %}

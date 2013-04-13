@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
-from django.contrib.comments.forms import COMMENT_MAX_LENGTH
+from django.conf import settings
 from antispam.forms import AntispamModelFormMixin
 from html_editor.fields import HtmlField
 from models import News
+
+
+COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)
+
 
 class NewsForm(AntispamModelFormMixin, forms.ModelForm):
 	short_text = HtmlField(label = u'Krátky text', max_length = COMMENT_MAX_LENGTH)

@@ -57,7 +57,6 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 			'parent_pk',
 			'upload_session'
 		]
-		del self.fields['url']
 		if logged:
 			del self.fields['name']
 			del key_order[1]
@@ -68,7 +67,7 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 		self.process_antispam(request)
 		self.process_attachments()
 
-	def get_comment_model(self):
+	def get_model(self):
 		return Comment
 
 	def security_errors(self):
@@ -92,17 +91,17 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 
 	def clean_timestamp(self):
 		ts = self.cleaned_data["timestamp"]
-		if time.time() - ts > (2 * 60 * 60):
+		if time() - ts > (2 * 60 * 60):
 			raise forms.ValidationError("Timestamp check failed")
 		return ts
 
 	def get_comment_object(self):
 		if not self.is_valid():
 			raise ValueError("get_comment_object may only be called on valid forms")
-		comment = self.get_comment_model()(**self.get_comment_create_data())
+		comment = self.get_model()(**self.get_comment_create_data())
 		comment = self.check_for_duplicate_comment(comment)
 		parent_pk = self.cleaned_data.get('parent_pk')
-		parent_comment = Comment.objects.get(pk = parent_pk)
+		parent_comment = Comment.all_comments.get(pk = parent_pk)
 		comment.subject = self.cleaned_data['subject']
 		comment.parent = parent_comment
 		return comment
@@ -111,8 +110,6 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 		return {
 			'subject':    self.data.get('subject'),
 			'user_name':  self.data.get('name'),
-			'email':      self.data.get('email'),
-			'url':        self.data.get('url'),
 			'comment':    self.fields['comment'].to_python(self.data.get('comment')),
 			'is_public':  True,
 			'is_removed': False,
@@ -148,15 +145,13 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 			'content_type': ContentType.objects.get_for_model(self.target_object),
 			'object_pk':    self.target_object._get_pk_val(),
 			'user_name':    self.cleaned_data.get("name", ""),
-			'user_url':     "",
 			'comment':      self.cleaned_data["comment"],
 			'submit_date':  timezone.now(),
-			'site_id':      settings.SITE_ID,
 			'subject':      self.cleaned_data['subject'],
 		}
 
 	def check_for_duplicate_comment(self, new):
-		possible_duplicates = self.get_comment_model().objects.filter(
+		possible_duplicates = self.get_model().objects.filter(
 			content_type = new.content_type,
 			object_pk = new.object_pk,
 			user_name = new.user_name,

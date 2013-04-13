@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from django.contrib.comments.forms import COMMENT_MAX_LENGTH
+from django.conf import settings
 from django.forms import ChoiceField, ModelChoiceField
 from django.forms.models import ModelChoiceIterator
 from django.forms.widgets import HiddenInput, RadioSelect, RadioFieldRenderer, RadioInput
@@ -14,6 +14,9 @@ from attachment.fields import AttachmentField
 from attachment.forms import AttachmentFormMixin
 from html_editor.fields import HtmlField
 from models import Topic, Section
+
+
+COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)
 
 
 class SectionChoiceIterator(ModelChoiceIterator):

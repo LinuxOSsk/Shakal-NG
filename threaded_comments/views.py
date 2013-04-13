@@ -2,7 +2,6 @@
 
 from django import http
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.comments.views.utils import next_redirect
 from django.db import models
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -30,7 +29,7 @@ def get_module_url(content_object):
 
 
 def reply_comment(request, parent):
-	parent_comment = Comment.objects.get(pk = parent)
+	parent_comment = get_object_or_404(Comment.all_comments, pk = parent)
 	content_object = parent_comment.content_object
 
 	if parent_comment.parent_id:
@@ -83,7 +82,7 @@ def post_comment(request):
 
 	model = models.get_model(*data['content_type'].split(".", 1))
 	target = model._default_manager.get(pk = data['object_pk'])
-	parent = Comment.objects.get(pk = data['parent_pk'])
+	parent = Comment.all_comments.get(pk = data['parent_pk'])
 	content_object = parent.content_object
 
 	form = get_form()(target, logged = request.user.is_authenticated(), parent_comment = parent, data = data, files = request.FILES, request = request)
@@ -127,8 +126,7 @@ def post_comment(request):
 	form.move_attachments(comment)
 
 	data['next'] = data['next'] + '#link_' + str(comment.pk)
-
-	return next_redirect(request, data['next'])
+	return HttpResponseRedirect(data['next'])
 
 
 def done_comment(request):
@@ -194,7 +192,7 @@ def admin(request, comment_id):
 		comment.save()
 	if lock is not None:
 		comment.get_descendants(include_self = True).update(is_locked = bool(lock))
-	comment = Comment.objects.get(pk = comment_id)
+	comment = Comment.all_comments.get(pk = comment_id)
 	update_comments_header(Comment, instance = comment)
 	return HttpResponseRedirect(comment.content_object.get_absolute_url() + '#link_' + str(comment_id))
 
