@@ -49,7 +49,7 @@ class AttachmentAbstract(models.Model):
 	def save(self, *args, **kwargs):
 		if self.pk:
 			try:
-				original = Attachment.objects.get(pk = self.pk)
+				original = self.__class__.objects.get(pk = self.pk)
 				if self.attachment != original.attachment:
 					original.attachment.storage.delete(original.attachment.path)
 			except:
