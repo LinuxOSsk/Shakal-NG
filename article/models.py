@@ -11,7 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 from autoimagefield.fields import AutoImageField
 from hitcount.models import HitCountMixin
 from polls.models import Poll
-from threaded_comments.models import RootHeader
+from threaded_comments.models import RootHeader, Comment
 
 
 class Category(models.Model):
@@ -58,6 +58,7 @@ class Article(models.Model, HitCountMixin):
 	image = AutoImageField(_('image'), upload_to = 'article/thumbnails', size = (512, 512), thumbnail = {'standard': (100, 100)}, blank = True, null = True)
 	polls = generic.GenericRelation(Poll)
 	comments_header = generic.GenericRelation(RootHeader)
+	comments = generic.GenericRelation(Comment)
 
 	def save(self, *args, **kwargs):
 		self.updated = now()

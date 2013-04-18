@@ -94,6 +94,7 @@ class Topic(models.Model):
 	comments_header = generic.GenericRelation(RootHeader)
 	breadcrumb_label = _('forum')
 	attachments = generic.GenericRelation(Attachment)
+	comments = generic.GenericRelation(Comment)
 	is_removed = models.BooleanField(default = False, verbose_name = u'vymazané')
 	is_resolved = models.BooleanField(default = False, verbose_name = u'vyriešené')
 
@@ -144,7 +145,7 @@ class Topic(models.Model):
 
 
 def update_comments_header(sender, instance, **kwargs):
-	root, created = Comment.objects.get_root_comment(ctype = ContentType.objects.get_for_model(Topic), object_pk = instance.pk)
+	root, created = Comment.objects.get_root_comment(ctype = ContentType.objects.get_for_model(Topic), object_id = instance.pk)
 	if created:
 		root.last_comment = instance.created
 	root.is_removed = instance.is_removed
