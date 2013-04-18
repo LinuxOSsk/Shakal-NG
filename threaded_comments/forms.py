@@ -22,7 +22,7 @@ COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)
 
 class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 	content_type = forms.CharField(widget=forms.HiddenInput)
-	object_pk = forms.CharField(widget=forms.HiddenInput)
+	object_id = forms.CharField(widget=forms.HiddenInput)
 	timestamp = forms.IntegerField(widget=forms.HiddenInput)
 	security_hash = forms.CharField(min_length = 40, max_length = 40, widget=forms.HiddenInput)
 	parent_pk = forms.IntegerField(widget = forms.HiddenInput, required = False)
@@ -51,7 +51,7 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 			'attachment',
 			'honeypot',
 			'content_type',
-			'object_pk',
+			'object_id',
 			'timestamp',
 			'security_hash',
 			'parent_pk',
@@ -80,7 +80,7 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 	def clean_security_hash(self):
 		security_hash_dict = {
 			'content_type': self.data.get("content_type", ""),
-			'object_pk': self.data.get("object_pk", ""),
+			'object_id': self.data.get("object_id", ""),
 			'timestamp': self.data.get("timestamp", ""),
 		}
 		expected_hash = self.generate_security_hash(**security_hash_dict)
@@ -119,7 +119,7 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 		timestamp = int(time())
 		security_dict = {
 			'content_type':   str(self.target_object._meta),
-			'object_pk':      str(self.target_object._get_pk_val()),
+			'object_id':      str(self.target_object._get_pk_val()),
 			'parent_pk':      str(self.parent_comment.pk),
 			'timestamp':      str(timestamp),
 			'security_hash':  self.initial_security_hash(timestamp),
@@ -129,13 +129,13 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 	def initial_security_hash(self, timestamp):
 		initial_security_dict = {
 			'content_type': str(self.target_object._meta),
-			'object_pk': str(self.target_object._get_pk_val()),
+			'object_id': str(self.target_object._get_pk_val()),
 			'timestamp': str(timestamp),
 		}
 		return self.generate_security_hash(**initial_security_dict)
 
-	def generate_security_hash(self, content_type, object_pk, timestamp):
-		info = (content_type, object_pk, timestamp)
+	def generate_security_hash(self, content_type, object_id, timestamp):
+		info = (content_type, object_id, timestamp)
 		key_salt = "threaded_comments.forms.CommentForm"
 		value = "-".join(info)
 		return salted_hmac(key_salt, value).hexdigest()
@@ -143,7 +143,7 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 	def get_comment_create_data(self):
 		return {
 			'content_type': ContentType.objects.get_for_model(self.target_object),
-			'object_pk':    self.target_object._get_pk_val(),
+			'object_id':    self.target_object._get_pk_val(),
 			'user_name':    self.cleaned_data.get("name", ""),
 			'comment':      self.cleaned_data["comment"],
 			'submit_date':  timezone.now(),
@@ -153,7 +153,7 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 	def check_for_duplicate_comment(self, new):
 		possible_duplicates = self.get_model().objects.filter(
 			content_type = new.content_type,
-			object_pk = new.object_pk,
+			object_id = new.object_id,
 			user_name = new.user_name,
 		)
 		for old in possible_duplicates:

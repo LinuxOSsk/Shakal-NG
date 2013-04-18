@@ -77,11 +77,11 @@ def post_comment(request):
 	else:
 		data['email'] = 'no@user.no'
 
-	if not data['content_type'] or not data['object_pk'] or not data['parent_pk']:
+	if not data['content_type'] or not data['object_id'] or not data['parent_pk']:
 		return http.HttpResponseBadRequest()
 
 	model = models.get_model(*data['content_type'].split(".", 1))
-	target = model._default_manager.get(pk = data['object_pk'])
+	target = model._default_manager.get(pk = data['object_id'])
 	parent = Comment.all_comments.get(pk = data['parent_pk'])
 	content_object = parent.content_object
 

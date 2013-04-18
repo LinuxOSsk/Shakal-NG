@@ -55,11 +55,11 @@ class CommentManager(models.Manager):
 		self.__qs_class = qs_class
 		super(CommentManager, self).__init__()
 
-	def get_root_comment(self, ctype, object_pk):
+	def get_root_comment(self, ctype, object_id):
 		root_comment, created = self.model.all_comments.get_or_create(
 			parent = None,
 			content_type = ctype,
-			object_pk = object_pk,
+			object_id = object_id,
 			defaults = {
 				'comment': '',
 				'user_name': '',
@@ -79,8 +79,8 @@ class Comment(MPTTModel):
 	plain_objects = models.Manager()
 
 	content_type = models.ForeignKey(ContentType, verbose_name = _('content type'), related_name = "content_type_set_for_%(class)s")
-	object_pk = models.TextField(_('object ID'))
-	content_object = generic.GenericForeignKey(ct_field = "content_type", fk_field = "object_pk")
+	object_id = models.TextField(_('object ID'))
+	content_object = generic.GenericForeignKey("content_type", "object_id")
 	parent = TreeForeignKey('self', null = True, blank = True, related_name = 'children')
 
 	subject = models.CharField(max_length = 100)
@@ -98,7 +98,7 @@ class Comment(MPTTModel):
 	attachments = generic.GenericRelation(Attachment)
 
 	def root_header(self):
-		header, created = RootHeader.objects.get_or_create(content_type = self.content_type, object_id = self.object_pk)
+		header, created = RootHeader.objects.get_or_create(content_type = self.content_type, object_id = self.object_id)
 		if created:
 			header.pub_date = self.submit_date
 			header.save()
@@ -142,7 +142,7 @@ class Comment(MPTTModel):
 
 	class Meta:
 		ordering = ('tree_id', 'lft')
-		index_together = [['object_pk', 'content_type']]
+		index_together = [['object_id', 'content_type']]
 		verbose_name = _('comment')
 		verbose_name_plural = _('comments')
 		db_table = 'django_comments'
@@ -197,13 +197,13 @@ def update_comments_header(sender, **kwargs):
 	if instance.parent is None:
 		root = instance
 	else:
-		root = Comment.all_comments.get(content_type = instance.content_type, object_pk = instance.object_pk, parent = None)
+		root = Comment.all_comments.get(content_type = instance.content_type, object_id = instance.object_id, parent = None)
 	statistics = Comment.all_comments
-	statistics = statistics.filter(content_type = root.content_type, object_pk = root.object_pk, is_public = True, is_removed = False)
+	statistics = statistics.filter(content_type = root.content_type, object_id = root.object_id, is_public = True, is_removed = False)
 	statistics = statistics.exclude(pk = root.pk)
 	statistics = statistics.aggregate(Count('pk'), Max('submit_date'))
 
-	header, created = RootHeader.objects.get_or_create(content_type = root.content_type, object_id = root.object_pk, defaults = {'pub_date': root.submit_date})
+	header, created = RootHeader.objects.get_or_create(content_type = root.content_type, object_id = root.object_id, defaults = {'pub_date': root.submit_date})
 	header.is_locked = root.is_locked
 	header.last_comment = statistics['submit_date__max']
 	header.pub_date = root.submit_date

@@ -24,13 +24,13 @@ class DiscussionLoader:
 		return ContentType.objects.get_for_model(self.target), self.target.pk
 
 	def get_comments_query_set(self):
-		ctype, object_pk = self.get_target_ctype_pk()
-		if not object_pk:
+		ctype, object_id = self.get_target_ctype_pk()
+		if not object_id:
 			return Comment.objects.none()
 
 		queryset = Comment.objects.filter(
 			content_type = ctype,
-			object_pk = object_pk,
+			object_id = object_id,
 		)
 		queryset = queryset.select_related('user__profile', 'user__rating', )
 		queryset = queryset.prefetch_related('attachments')
@@ -39,21 +39,21 @@ class DiscussionLoader:
 
 	def get_root_node(self):
 		if self.root_node is None:
-			ctype, object_pk = self.get_target_ctype_pk()
-			self.root_node, created = Comment.objects.get_root_comment(ctype, object_pk)
+			ctype, object_id = self.get_target_ctype_pk()
+			self.root_node, created = Comment.objects.get_root_comment(ctype, object_id)
 		return self.root_node
 
 	def get_query_set(self):
-		ctype, object_pk = self.get_target_ctype_pk()
+		ctype, object_id = self.get_target_ctype_pk()
 		queryset = self.get_comments_query_set()
 		if not queryset.has_root_item():
-			self.comments_model.objects.get_root_comment(ctype, object_pk)
+			Comment.objects.get_root_comment(ctype, object_id)
 			queryset = self.get_comments_query_set()
 		return queryset
 
 	def get_discussion_attribute(self):
-		ctype, object_pk = self.get_target_ctype_pk()
-		header = RootHeader.objects.get(content_type = ctype, object_id = object_pk)
+		ctype, object_id = self.get_target_ctype_pk()
+		header = RootHeader.objects.get(content_type = ctype, object_id = object_id)
 		(discussion_attribute, created) = UserDiscussionAttribute.objects.get_or_create(user = self.context['user'], discussion = header)
 		return discussion_attribute
 

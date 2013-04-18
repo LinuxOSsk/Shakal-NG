@@ -12,7 +12,7 @@ class CommentAdmin(MPTTModelAdmin):
 	fieldsets = (
 		(
 			None,
-			{'fields': ('content_type', 'object_pk')}
+			{'fields': ('content_type', 'object_id')}
 		),
 		(
 			_('Content'),
@@ -34,7 +34,7 @@ class CommentAdmin(MPTTModelAdmin):
 
 	def get_actions(self, request):
 		actions = super(CommentAdmin, self).get_actions(request)
-		if not request.user.is_superuser():
+		if not request.user.is_superuser:
 			actions.pop("delete_selected", None)
 		if not request.user.has_perm('comments.can_moderate'):
 			actions.pop("approve_comments", None)

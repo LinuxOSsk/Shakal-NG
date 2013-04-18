@@ -756,7 +756,7 @@ class Command(BaseCommand):
 		insert_cols = [
 			'id',
 			'content_type_id',
-			'object_pk',
+			'object_id',
 			'subject',
 			'parent_id',
 			'user_id',
@@ -782,7 +782,7 @@ class Command(BaseCommand):
 
 		comments = []
 
-		for id, content_type_id, object_pk, is_locked, pub_date in headers:
+		for id, content_type_id, object_id, is_locked, pub_date in headers:
 			self.logger.step_sub_progress()
 			counter += 1
 			comment_counter += 1
@@ -790,7 +790,7 @@ class Command(BaseCommand):
 			comments.append({
 				'id': comment_counter,
 				'content_type_id': content_type_id,
-				'object_pk': object_pk,
+				'object_id': object_id,
 				'subject': '',
 				'parent_id': None,
 				'user_id': None,
@@ -809,7 +809,7 @@ class Command(BaseCommand):
 			})
 			comment_tree[0] = [comments[-1]]
 			root_comment_id = comment_counter
-			self.cursor.execute(select_query.format(object_pk, self.inverted_content_types[content_type_id]))
+			self.cursor.execute(select_query.format(object_id, self.inverted_content_types[content_type_id]))
 			comment_rows = [self.decode_cols_to_dict(cols, r) for r in list(self.cursor)]
 			for comment_dict in comment_rows:
 				comment_counter += 1
@@ -827,7 +827,7 @@ class Command(BaseCommand):
 				comment = {
 					'id': comment_dict['pk'],
 					'content_type_id': content_type_id,
-					'object_pk': object_pk,
+					'object_id': object_id,
 					'subject': comment_dict['predmet'],
 					'parent_id': parent,
 					'user_id': user_id,
