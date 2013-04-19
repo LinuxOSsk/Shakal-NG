@@ -67,13 +67,14 @@ class AttachmentAbstract(models.Model):
 				file_name = storage.save(target_name, self.attachment.file)
 				self.attachment = file_name
 
-	def clean(self):
+	def clean_fields(self, exclude = None):
 		uploaded_size = self.__class__.objects \
 			.filter(object_id = self.object_id, content_type = self.content_type) \
 			.aggregate(models.Sum('size'))["size__sum"]
 		available_size = self.get_available_size(self.content_type, uploaded_size)
 		if self.attachment.size > available_size:
-			raise ValidationError(_('File size exceeded, maximum size is ') + filesizeformat(available_size))
+			raise ValidationError({'attachment': [_('File size exceeded, maximum size is ') + filesizeformat(available_size)]})
+		return super(AttachmentAbstract, self).clean_fields(exclude)
 
 	@staticmethod
 	def get_available_size(content_type, uploaded_size):
