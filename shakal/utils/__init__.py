@@ -57,3 +57,11 @@ def create_unique_slug(slug, all_slugs, max_val):
 			if not new_slug in all_slugs:
 				return new_slug
 	return slug
+
+
+def iterify(items):
+	try:
+		iter(items)
+		return items
+	except:
+		return [items]

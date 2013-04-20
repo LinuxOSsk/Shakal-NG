@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
-
 from django import template
 from django.contrib.contenttypes.models import ContentType
+
 from hitcount.models import HitCount
+from shakal.utils import iterify
+
 
 register = template.Library()
 
 
 @register.simple_tag(takes_context = True)
 def add_hitcount(context, model):
-	try:
-		iter(model)
-	except TypeError:
-		model = [model]
+	model = iterify(model)
 	content_type = None
 	id_list = []
 	for obj in model:

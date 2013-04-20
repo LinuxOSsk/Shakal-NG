@@ -1,22 +1,16 @@
 # -*- coding: utf-8 -*-
-
 from django import template
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
-from django.utils.safestring import mark_safe
 from django.utils import timezone
+from django.utils.safestring import mark_safe
+
+from shakal.utils import iterify
 from threaded_comments.models import Comment, RootHeader, UserDiscussionAttribute
 
+
 register = template.Library()
-
-
-def iterify(items):
-	try:
-		iter(items)
-		return items
-	except:
-		return [items]
 
 
 class DiscussionLoader:
