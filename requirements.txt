@@ -5,7 +5,6 @@ git+git://github.com/mireq/django-auth-remember.git#egg=django-auth-remember
 pil
 phpserialize
 django-mptt
-django-generic-aggregation
 progressbar
 git+git://github.com/citylive/django-template-preprocessor.git
 django-bootstrap-toolkit
