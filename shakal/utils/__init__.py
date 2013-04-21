@@ -2,6 +2,7 @@
 
 from django import template
 from django.template.defaultfilters import slugify
+from django_tools.middlewares.ThreadLocal import get_current_request
 
 
 def process_template_args(rawparams, context = None):
@@ -65,3 +66,13 @@ def iterify(items):
 		return items
 	except:
 		return [items]
+
+
+def build_absolute_uri(path):
+	request = get_current_request()
+	if request:
+		return request.build_absolute_uri(path)
+	else:
+		from django.conf import settings
+		from django.contrib.sites.models import Site
+		return 'http://' + Site.objects.get(pk = settings.SITE_ID) + path
