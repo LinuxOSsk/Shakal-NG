@@ -1,16 +1,23 @@
 # -*- coding: utf-8 -*-
 import re
+
 import StringIO
 import copy
 from django.utils.html import escape
 
+
 class AttributeException(Exception):
 	pass
+
+
 class TagReadException(Exception):
 	pass
+
+
 class ParserError(object):
 	def __init__(self):
 		self.message = ''
+
 
 class HtmlTag:
 	def __init__(self, name, req = [], opt = [], req_attributes = [], opt_attributes = [], attribute_validators = {}, empty = None):
@@ -33,7 +40,12 @@ TEXT_TAGS = ['', 'b', 'u', 'i', 'em', 'strong', 'a', 'br']
 
 class HtmlParser:
 	# Typy tokenov
-	TAG = 1; ENDTAG = 2; ENTITY = 3; WHITESPACE = 4; TEXT = 5; SPECIAL = 6;
+	TAG = 1
+	ENDTAG = 2
+	ENTITY = 3
+	WHITESPACE = 4
+	TEXT = 5
+	SPECIAL = 6
 	# Tokenizer
 	xmlrx = re.compile(r"""
 		<([/]?\w+)       # 1. Tag
@@ -46,26 +58,30 @@ class HtmlParser:
 
 	# Validatory tagov
 	supported_tags = {
-		'b'          : HtmlTag('b', opt = TEXT_TAGS, empty = False),
-		'u'          : HtmlTag('u', opt = TEXT_TAGS, empty = False),
-		'i'          : HtmlTag('i', opt = TEXT_TAGS, empty = False),
-		'em'         : HtmlTag('em', opt = TEXT_TAGS, empty = False),
-		'strong'     : HtmlTag('strong', opt = TEXT_TAGS, empty = False),
-		'a'          : HtmlTag('a', opt = [''], req_attributes = ['href'], empty = False),
-		'pre'        : HtmlTag('pre', opt = [''], empty = False),
-		'p'          : HtmlTag('p', opt = TEXT_TAGS + ['span', 'code', 'cite'], empty = False),
-		'span'       : HtmlTag('span', opt = TEXT_TAGS, empty = False),
-		'br'         : HtmlTag('br', empty = True),
-		'code'       : HtmlTag('p', opt = ['', 'b', 'u', 'i', 'em', 'strong'], empty = False),
-		'blockquote' : HtmlTag('blockquote', opt = TEXT_TAGS + ['p', 'code', 'pre', 'cite', 'span', 'ol', 'ul'], empty = False),
-		'cite'       : HtmlTag('cite', opt = TEXT_TAGS, empty = False),
-		'ol'         : HtmlTag('ol', req = ['li'], empty = True),
-		'ul'         : HtmlTag('ul', req = ['li'], empty = True),
-		'li'         : HtmlTag('li', opt = TEXT_TAGS + ['ol', 'ul'], empty = None),
-		''           : HtmlTag('', opt = ['', 'a','b','u', 'br','p','i','em','code','strong','pre','blockquote','ol','ul','span','cite'])
+		'b':           HtmlTag('b', opt = TEXT_TAGS, empty = False),
+		'u':           HtmlTag('u', opt = TEXT_TAGS, empty = False),
+		'i':           HtmlTag('i', opt = TEXT_TAGS, empty = False),
+		'em':          HtmlTag('em', opt = TEXT_TAGS, empty = False),
+		'strong':      HtmlTag('strong', opt = TEXT_TAGS, empty = False),
+		'a':           HtmlTag('a', opt = [''], req_attributes = ['href'], empty = False),
+		'pre':         HtmlTag('pre', opt = [''], empty = False),
+		'p':           HtmlTag('p', opt = TEXT_TAGS + ['span', 'code', 'cite'], empty = False),
+		'span':        HtmlTag('span', opt = TEXT_TAGS, empty = False),
+		'br':          HtmlTag('br', empty = True),
+		'code':        HtmlTag('p', opt = ['', 'b', 'u', 'i', 'em', 'strong'], empty = False),
+		'blockquote':  HtmlTag('blockquote', opt = TEXT_TAGS + ['p', 'code', 'pre', 'cite', 'span', 'ol', 'ul'], empty = False),
+		'cite':        HtmlTag('cite', opt = TEXT_TAGS, empty = False),
+		'ol':          HtmlTag('ol', req = ['li'], empty = True),
+		'ul':          HtmlTag('ul', req = ['li'], empty = True),
+		'li':          HtmlTag('li', opt = TEXT_TAGS + ['ol', 'ul'], empty = None),
+		'':            HtmlTag('', opt = ['', 'a', 'b', 'u', 'br', 'p', 'i', 'em', 'code', 'strong', 'pre', 'blockquote', 'ol', 'ul', 'span', 'cite']),
 	}
 	# Stav parseru
-	TEXT_READ = 1; TAG_READ = 2; ATTRIBUTE_SEP_READ = 3; ATTRIBUTE_START_TEXT_READ = 4; ATTRIBUTE_TEXT_READ = 5;
+	TEXT_READ = 1
+	TAG_READ = 2
+	ATTRIBUTE_SEP_READ = 3
+	ATTRIBUTE_START_TEXT_READ = 4
+	ATTRIBUTE_TEXT_READ = 5
 
 	def __init__(self):
 		self.output = StringIO.StringIO()
@@ -90,14 +106,14 @@ class HtmlParser:
 			return self.__tags[-1]
 
 	def __unroll_stack(self):
-		if self.__tag_obj.empty == False:
+		if self.__tag_obj.empty is False:
 			self.__log_error("Empty tag")
 			self.output.write("&nbsp;")
 		if self.__tag_obj.req:
 			self.__log_error("Required tag")
 			for reqtag in self.__tag_obj.req:
 				self.__tag_obj = self.supported_tags[reqtag]
-				if self.__tag_obj.empty == False:
+				if self.__tag_obj.empty is False:
 					self.output.write('<' + reqtag + '/>')
 				else:
 					self.output.write('<' + reqtag + '>' + reqtag + '</' + reqtag + '>')
@@ -131,9 +147,9 @@ class HtmlParser:
 		if type == self.ENDTAG:
 			try:
 				to = self.supported_tags[self.__tagname]
-				if to.empty == False:
+				if to.empty is False:
 					self.__log_error("Empty tag")
-					raise KeyError(self.__tagname);
+					raise KeyError(self.__tagname)
 				self.__tag_str.write('/>')
 				self.output.write(self.__tag_str.getvalue())
 			except:
@@ -279,7 +295,7 @@ class HtmlParser:
 						self.output.write(self.__tag_str.getvalue())
 						self.__tag_attributes = {}
 						self.__tag_str.truncate(0)
-						self.__tag_obj= to
+						self.__tag_obj = to
 					# Nepodporovany tag
 					except:
 						self.__log_error("Unknown tag")
@@ -313,8 +329,6 @@ class HtmlParser:
 		# Atribút aktuálneho tagu
 		self.__tag_attributes = {}
 
-
-
 		# Čítanie súboru
 		self.__state = self.TEXT_READ
 		while 1:
@@ -343,9 +357,9 @@ class HtmlParser:
 				elif type == self.WHITESPACE:
 					self.output.write(token)
 				if (type == self.ENTITY) or (type == self.TEXT) or (type == self.SPECIAL):
-					if self.__tag_obj.empty == True:
+					if self.__tag_obj.empty is True:
 						self.__log_error("No content allowed")
-						while self.__tag_obj.empty == True:
+						while self.__tag_obj.empty is True:
 							self.__unroll_stack()
 							self.__tag_obj = self.__get_current_tag()
 					if type == self.ENTITY:
@@ -354,7 +368,7 @@ class HtmlParser:
 						self.output.write(token)
 					elif type == self.SPECIAL:
 						self.output.write(escape(token))
-					if self.__tag_obj != '' and self.__tag_obj.empty == False:
+					if self.__tag_obj != '' and self.__tag_obj.empty is False:
 						self.__tag_obj.empty = None
 
 			# Čítanie vnútra tagov
