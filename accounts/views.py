@@ -70,7 +70,8 @@ def email_change(request):
 				signed = signer.sign(str(request.user.pk) + '.' + str(int(mktime(timezone.now().timetuple()))) + '.' + email)
 				context_data = {
 					'email': signed,
-					'site': get_current_site(request)
+					'site': get_current_site(request),
+					'activate_link': request.build_absolute_uri(reverse('auth_email_change_activate', args = (signed,))),
 				}
 				context = RequestContext(request, context_data)
 				email_subject = render_to_string("registration/email_change_subject.txt", context).rstrip("\n")
