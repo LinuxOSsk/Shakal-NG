@@ -369,7 +369,8 @@ class HtmlParser:
 					elif type == self.SPECIAL:
 						self.output.write(escape(token))
 					if self.__tag_obj != '' and self.__tag_obj.empty is False:
-						self.__tag_obj.empty = None
+						for tag in self.__tags:
+							tag.empty = None
 
 			# Čítanie vnútra tagov
 			elif self.__state == self.TAG_READ:
