@@ -3,7 +3,24 @@ import re
 
 import StringIO
 import copy
+from django.core.exceptions import ValidationError
+from django.core.validators import URLValidator
 from django.utils.html import escape
+
+from shakal.utils import build_absolute_uri
+
+
+class HrefValidator(URLValidator):
+	def __call__(self, value):
+		print("Calling")
+		if len(value) > 0:
+			if value[0] == '#':
+				if not re.match("[0-9a-zA-Z_-]*"):
+					raise ValidationError(self.message, code = 'invalid')
+			elif value[0] == '/':
+				value = build_absolute_uri(value)
+				return super(URLValidator, self).__call__(value)
+		return super(URLValidator, self).__call__(value)
 
 
 class AttributeException(Exception):
@@ -63,7 +80,7 @@ class HtmlParser:
 		'i':           HtmlTag('i', opt = TEXT_TAGS, empty = False),
 		'em':          HtmlTag('em', opt = TEXT_TAGS, empty = False),
 		'strong':      HtmlTag('strong', opt = TEXT_TAGS, empty = False),
-		'a':           HtmlTag('a', opt = [''], req_attributes = ['href'], empty = False),
+		'a':           HtmlTag('a', opt = [''], req_attributes = ['href'], empty = False, attribute_validators = {'href': [HrefValidator()]}),
 		'pre':         HtmlTag('pre', opt = [''], empty = False),
 		'p':           HtmlTag('p', opt = TEXT_TAGS + ['span', 'code', 'cite'], empty = False),
 		'span':        HtmlTag('span', opt = TEXT_TAGS, empty = False),
@@ -283,9 +300,16 @@ class HtmlParser:
 							if (not attribute in to.req_attributes) and (not attribute in to.opt_attributes):
 								self.__log_error("Skipping attribute")
 							else:
+								av = self.__tag_attributes[attribute]
+								validators = to.attribute_validators.get(attribute, [])
+								try:
+									for validator in validators:
+										validator.__call__(av[0])
+								except ValidationError:
+									self.__log_error("Skipping non valid attribute")
+									continue
 								if attribute in to.req_attributes:
 									to.req_attributes.remove(attribute)
-								av = self.__tag_attributes[attribute]
 								self.__tag_str.write(attribute + '=' + av[1] + av[0] + av[1])
 						for attribute in to.req_attributes:
 							self.__log_error("Required attribute")
