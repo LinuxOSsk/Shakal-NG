@@ -8,11 +8,7 @@ class ParserTest(TestCase):
 		self.parser = HtmlParser()
 
 	def test_valid_html(self):
-		code = """<strong>Test</strong>
-<pre>
-Tadaaa
-</pre>
-<p>Text</p>"""
+		code = "<strong>Test</strong>\n<pre>\nTadaaa\n</pre>\n<p>Text</p>"
 		self.parser.parse(code)
 		self.assertEquals(self.parser.get_output(), code)
 
@@ -30,6 +26,11 @@ Tadaaa
 		code = """<xxx>Test</xxx>"""
 		self.parser.parse(code)
 		self.assertEquals(self.parser.get_output(), code.replace('<', '&lt;').replace('>', '&gt;'))
+
+	def test_attribute(self):
+		code = """<p><a href="#test">Test</a></p>"""
+		self.parser.parse(code)
+		self.assertEquals(self.parser.get_output(), code)
 
 	def test_missing_attribute(self):
 		code = """<p><a>Test</a></p>"""
