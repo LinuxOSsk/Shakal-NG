@@ -314,7 +314,9 @@ class HtmlParser:
 								self.__tag_str.write(attribute + '=' + av[1] + av[0] + av[1])
 						for attribute in to.req_attributes:
 							self.__log_error("Required attribute")
-							self.__tag_str.write(' ' + attribute + '=""')
+							if self.__tag_str.getvalue()[-1] != ' ':
+								self.__tag_str.write(' ')
+							self.__tag_str.write(attribute + '=""')
 						# Zápis atribútov
 						self.__tag_str.write('>')
 						self.output.write(self.__tag_str.getvalue())
