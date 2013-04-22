@@ -12,11 +12,12 @@ from shakal.utils import build_absolute_uri
 
 class HrefValidator(URLValidator):
 	def __call__(self, value):
-		print("Calling")
 		if len(value) > 0:
 			if value[0] == '#':
-				if not re.match("[0-9a-zA-Z_-]*"):
+				if not re.match("[0-9a-zA-Z_-]*", value[1:]):
 					raise ValidationError(self.message, code = 'invalid')
+				else:
+					return
 			elif value[0] == '/':
 				value = build_absolute_uri(value)
 				return super(URLValidator, self).__call__(value)
@@ -304,7 +305,7 @@ class HtmlParser:
 								validators = to.attribute_validators.get(attribute, [])
 								try:
 									for validator in validators:
-										validator.__call__(av[0])
+										validator(av[0])
 								except ValidationError:
 									self.__log_error("Skipping non valid attribute")
 									continue
