@@ -13,7 +13,7 @@ from django.utils.translation import ugettext_lazy as _
 from antispam.forms import AntispamFormMixin
 from attachment.fields import AttachmentField
 from attachment.forms import AttachmentFormMixin
-from rich_editor.fields import RichTextField
+from rich_editor.forms import RichTextField
 from threaded_comments.models import Comment
 
 

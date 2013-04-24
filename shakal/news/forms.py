@@ -3,7 +3,7 @@
 from django import forms
 from django.conf import settings
 from antispam.forms import AntispamModelFormMixin
-from rich_editor.fields import RichTextField
+from rich_editor.forms import RichTextField
 from models import News
 
 

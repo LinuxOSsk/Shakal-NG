@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.forms.models import ModelForm
-from rich_editor.fields import RichTextField
+from rich_editor.forms import RichTextField
 from shakal.wiki.models import Page
 
 

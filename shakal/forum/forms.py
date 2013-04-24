@@ -12,7 +12,7 @@ from django.utils.safestring import mark_safe
 from antispam.forms import AntispamModelFormMixin
 from attachment.fields import AttachmentField
 from attachment.forms import AttachmentFormMixin
-from rich_editor.fields import RichTextField
+from rich_editor.forms import RichTextField
 from models import Topic, Section
 
 
