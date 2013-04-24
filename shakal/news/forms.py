@@ -3,7 +3,7 @@
 from django import forms
 from django.conf import settings
 from antispam.forms import AntispamModelFormMixin
-from html_editor.fields import HtmlField
+from rich_editor.fields import RichTextField
 from models import News
 
 
@@ -11,8 +11,8 @@ COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)
 
 
 class NewsForm(AntispamModelFormMixin, forms.ModelForm):
-	short_text = HtmlField(label = u'Krátky text', max_length = COMMENT_MAX_LENGTH)
-	long_text = HtmlField(label = u'Dlhý text', max_length = COMMENT_MAX_LENGTH)
+	short_text = RichTextField(label = u'Krátky text', max_length = COMMENT_MAX_LENGTH)
+	long_text = RichTextField(label = u'Dlhý text', max_length = COMMENT_MAX_LENGTH)
 
 	def __init__(self, *args, **kwargs):
 		logged = kwargs.pop('logged', False)

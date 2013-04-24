@@ -134,7 +134,7 @@ INSTALLED_APPS = (
 	'bootstrap_toolkit',
 	'breadcrumbs',
 	'hitcount',
-	'html_editor',
+	'rich_editor',
 	'imgcompress',
 	'maintenance',
 	'mptt',

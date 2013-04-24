@@ -5,13 +5,13 @@ from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from json import dumps
 
-from html_editor.parser import ALL_TAGS
+from rich_editor.parser import ALL_TAGS
 
 
-class HtmlEditor(Textarea):
+class RichEditor(Textarea):
 	class Media:
 		js = [
-			'js/htmleditor/editor.js',
+			'js/richeditor/editor.js',
 		]
 		css = {
 			'all': ('js/wymeditor/skins/shakal/skin.css', )
@@ -20,11 +20,11 @@ class HtmlEditor(Textarea):
 	def __init__(self, attrs = {}, **kwargs):
 		self.language = settings.LANGUAGE_CODE
 		attrs.update({'class': 'wymeditor'})
-		super(HtmlEditor, self).__init__(attrs)
+		super(RichEditor, self).__init__(attrs)
 
 	def render(self, name, value, attrs = None, **kwargs):
 		supported_tags = self.attrs.pop('supported_tags', {})
-		widget = mark_safe(u'<div class="textareawrapper">') + super(HtmlEditor, self).render(name, value, attrs) + mark_safe(u'</div>')
+		widget = mark_safe(u'<div class="textareawrapper">') + super(RichEditor, self).render(name, value, attrs) + mark_safe(u'</div>')
 		self.attrs['supported_tags'] = supported_tags
 		unsupported_tags = set(ALL_TAGS) - set(supported_tags.keys()) - set(('html', 'body'))
 		defined_tags = set(supported_tags.keys()) - set('')

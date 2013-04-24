@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
-from html_editor.parser import HtmlParser
+from rich_editor.parser import HtmlParser
 
 
 class ParserTest(TestCase):

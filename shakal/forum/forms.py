@@ -12,7 +12,7 @@ from django.utils.safestring import mark_safe
 from antispam.forms import AntispamModelFormMixin
 from attachment.fields import AttachmentField
 from attachment.forms import AttachmentFormMixin
-from html_editor.fields import HtmlField
+from rich_editor.fields import RichTextField
 from models import Topic, Section
 
 
@@ -45,7 +45,7 @@ class SectionRenderer(RadioFieldRenderer):
 
 class TopicForm(AntispamModelFormMixin, forms.ModelForm, AttachmentFormMixin):
 	section = SectionModelChoiceField(Section.objects.all(), empty_label=None, widget = RadioSelect(renderer = SectionRenderer), label = capfirst(_('section')))
-	text = HtmlField(label = _("Text"), max_length = COMMENT_MAX_LENGTH)
+	text = RichTextField(label = _("Text"), max_length = COMMENT_MAX_LENGTH)
 	attachment = AttachmentField(label = _("Attachment"), required = False)
 	upload_session = forms.CharField(label = "Upload session", widget = HiddenInput, required = False)
 

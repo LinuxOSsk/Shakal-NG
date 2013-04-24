@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
-
 from django.forms import CharField
-from html_editor.parser import HtmlParser
-from widgets import HtmlEditor
 
-class HtmlField(CharField):
-	widget = HtmlEditor
+from rich_editor.parser import HtmlParser
+from widgets import RichEditor
+
+
+class RichTextField(CharField):
+	widget = RichEditor
 
 	def __init__(self, *args, **kwargs):
 		self.parser = HtmlParser()
-		super(HtmlField, self).__init__(*args, **kwargs)
+		super(RichTextField, self).__init__(*args, **kwargs)
 
 	def widget_attrs(self, widget):
-		attrs = super(HtmlField, self).widget_attrs(widget)
+		attrs = super(RichTextField, self).widget_attrs(widget)
 		attrs['supported_tags'] = self.parser.supported_tags
 		return attrs
 
