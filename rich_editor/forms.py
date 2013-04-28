@@ -8,8 +8,8 @@ from widgets import RichEditor
 class RichTextField(CharField):
 	widget = RichEditor
 
-	def __init__(self, *args, **kwargs):
-		self.parser = HtmlParser()
+	def __init__(self, parser = HtmlParser, *args, **kwargs):
+		self.parser = parser
 		super(RichTextField, self).__init__(*args, **kwargs)
 
 	def widget_attrs(self, widget):
