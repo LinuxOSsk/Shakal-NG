@@ -12,6 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
 from attachment.models import Attachment
+from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 from threaded_comments.models import RootHeader, Comment
 
 
@@ -86,7 +87,8 @@ class Topic(models.Model):
 
 	section = models.ForeignKey(Section, verbose_name = _('section'))
 	title = models.CharField(max_length = 100, verbose_name = _('subject'))
-	text = models.TextField(verbose_name = _('text'))
+	original_text = RichTextOriginalField()
+	filtered_text = RichTextFilteredField(original_field = "original_text", property_name = "text")
 	created = models.DateTimeField(verbose_name = _('time'))
 	updated = models.DateTimeField(editable = False)
 	authors_name = models.CharField(max_length = 50, blank = False, verbose_name = _('authors name'))
