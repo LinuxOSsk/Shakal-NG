@@ -105,6 +105,10 @@ class HtmlParser:
 		self.output = StringIO.StringIO()
 		self.errors = []
 
+	""" Získanie vlastností parseru pre potreby widgetu """
+	def get_attributes(self):
+		return { 'supported_tags': self.supported_tags }
+
 	""" Získanie prečisteného HTML kódu. """
 	def get_output(self):
 		return self.output.getvalue()

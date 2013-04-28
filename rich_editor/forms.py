@@ -9,12 +9,12 @@ class RichTextField(CharField):
 	widget = RichEditor
 
 	def __init__(self, parser = HtmlParser, *args, **kwargs):
-		self.parser = parser
+		self.parser = parser()
 		super(RichTextField, self).__init__(*args, **kwargs)
 
 	def widget_attrs(self, widget):
 		attrs = super(RichTextField, self).widget_attrs(widget)
-		attrs['supported_tags'] = self.parser.supported_tags
+		attrs.update(self.parser.get_attributes())
 		return attrs
 
 	def to_python(self, value):
