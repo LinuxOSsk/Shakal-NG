@@ -9,7 +9,6 @@ class RichTextOriginalField(TextField):
 	widget = RichTextField
 
 	def to_python(self, value):
-		print(type(value))
 		return value
 
 	def get_prep_value(self, value):
@@ -46,7 +45,6 @@ class RichTextFilteredField(TextField):
 		def filtered_property(self):
 			old_values = getattr(self, "old_values", {})
 			old_field_value = old_values.get(original_field, (None, ''))
-			print(getattr(self, original_field)[1])
 			if getattr(self, original_field) != old_field_value:
 				parser.parse(getattr(self, original_field)[1])
 				parsed = parser.get_output()
