@@ -16,3 +16,6 @@ class RichTextField(CharField):
 		attrs = super(RichTextField, self).widget_attrs(widget)
 		attrs.update(self.parser.get_attributes())
 		return attrs
+
+	def clean(self, value):
+		return (value[0], super(RichTextField, self).clean(value[1]))

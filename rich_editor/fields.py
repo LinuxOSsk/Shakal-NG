@@ -8,6 +8,13 @@ from .parser import HtmlParser
 class RichTextOriginalField(TextField):
 	widget = RichTextField
 
+	def to_python(self, value):
+		print(type(value))
+		return value
+
+	def get_prep_value(self, value):
+		return u":".join(value)
+
 
 class RichTextFilteredField(TextField):
 	def __init__(self, original_field, property_name, parser = HtmlParser, *args, **kwargs):
@@ -38,9 +45,10 @@ class RichTextFilteredField(TextField):
 
 		def filtered_property(self):
 			old_values = getattr(self, "old_values", {})
-			old_field_value = old_values.get(original_field, '')
+			old_field_value = old_values.get(original_field, (None, ''))
+			print(getattr(self, original_field)[1])
 			if getattr(self, original_field) != old_field_value:
-				parser.parse(getattr(self, original_field))
+				parser.parse(getattr(self, original_field)[1])
 				parsed = parser.get_output()
 				old_values[field_name] = parsed
 				setattr(self, field_name, parsed)

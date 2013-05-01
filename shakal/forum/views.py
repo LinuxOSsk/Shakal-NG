@@ -57,7 +57,6 @@ class TopicCreateView(AddLoggedFormArgumentMixin, PreviewCreateView):
 
 	def form_valid(self, form):
 		topic = form.save(commit = False)
-		print(topic.text)
 		topic.created = timezone.now()
 		if self.request.user.is_authenticated():
 			if self.request.user.get_full_name():
