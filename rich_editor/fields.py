@@ -16,11 +16,11 @@ class RichTextOriginalField(TextField):
 
 
 class RichTextFilteredField(TextField):
-	def __init__(self, original_field, property_name, parser = HtmlParser, *args, **kwargs):
+	def __init__(self, original_field, property_name, parsers = {'html': HtmlParser()}, *args, **kwargs):
 		super(RichTextFilteredField, self).__init__(*args, **kwargs)
 		self.original_field = original_field
 		self.property_name = property_name
-		self.parser = parser()
+		self.parsers = parsers
 
 	def contribute_to_class(self, cls, name):
 		signals.pre_save.connect(self.update_filtered_field, sender = cls)
@@ -29,9 +29,10 @@ class RichTextFilteredField(TextField):
 		super(RichTextFilteredField, self).contribute_to_class(cls, name)
 
 	def update_filtered_field(self, instance, **kwargs):
-		self.parser.parse(getattr(instance, self.original_field))
-		parsed_text = self.parser.get_output()
-		setattr(instance, self.name, parsed_text)
+		fmt, value = getattr(instance, self.original_field)
+		parser = self.parsers[fmt]
+		parser.parse(value)
+		setattr(instance, self.name, parser.get_output())
 
 	def save_old_value(self, instance, **kwargs):
 		old_values = getattr(instance, "old_values", {})
@@ -40,13 +41,15 @@ class RichTextFilteredField(TextField):
 
 	def create_filtered_property(self, cls, field_name):
 		original_field = self.original_field
-		parser = self.parser
+		parsers = self.parsers
 
 		def filtered_property(self):
 			old_values = getattr(self, "old_values", {})
 			old_field_value = old_values.get(original_field, (None, ''))
 			if getattr(self, original_field) != old_field_value:
-				parser.parse(getattr(self, original_field)[1])
+				fmt, value = getattr(self, original_field)
+				parser = parsers[fmt]
+				parser.parse(value)
 				parsed = parser.get_output()
 				old_values[field_name] = parsed
 				setattr(self, field_name, parsed)
