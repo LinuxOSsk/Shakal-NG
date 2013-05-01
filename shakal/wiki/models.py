@@ -4,6 +4,8 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
+from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
+
 
 class Page(models.Model):
 	TYPE_CHOICES = (
@@ -17,7 +19,8 @@ class Page(models.Model):
 	last_author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name = u'posledný autor', blank = True, null = True)
 	slug = models.SlugField(unique = True, verbose_name = u'slug')
 	parent = models.ForeignKey('self', related_name = 'children', blank = True, null = True, verbose_name = u'nadradená stránka')
-	text = models.TextField(verbose_name = u'text')
+	original_text = RichTextOriginalField()
+	filtered_text = RichTextFilteredField(original_field = "original_text", property_name = "text")
 	page_type = models.CharField(max_length = 1, choices = TYPE_CHOICES, default = 'p', verbose_name = u'typ stránky')
 
 	def save(self, *args, **kwargs):
