@@ -9,7 +9,12 @@ class RichTextOriginalField(TextField):
 	widget = RichTextField
 
 	def to_python(self, value):
-		return value
+		if value is None:
+			return (None, None)
+		if ':' in value:
+			return tuple(value.split(":", 1))
+		else:
+			return (None, value)
 
 	def get_prep_value(self, value):
 		return u":".join(value)
