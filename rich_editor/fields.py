@@ -29,10 +29,13 @@ class RichTextFilteredField(TextField):
 		super(RichTextFilteredField, self).contribute_to_class(cls, name)
 
 	def update_filtered_field(self, instance, **kwargs):
-		fmt, value = getattr(instance, self.original_field)
+		setattr(instance, self.name, self.filter_data(getattr(instance, self.original_field)))
+
+	def filter_data(self, data):
+		fmt, value = data
 		parser = self.parsers[fmt]
 		parser.parse(value)
-		setattr(instance, self.name, parser.get_output())
+		return parser.get_output()
 
 	def save_old_value(self, instance, **kwargs):
 		old_values = getattr(instance, "old_values", {})
