@@ -97,9 +97,9 @@ def post_comment(request):
 			"comments/preview.html",
 		]
 		valid = not form.errors
-		comment = form.get_comment_dict()
+		comment = form.get_comment()
 		if request.user.is_authenticated():
-			comment['user'] = request.user
+			comment.user = request.user
 		context = {
 			'next': data['next'],
 			'comment': comment,

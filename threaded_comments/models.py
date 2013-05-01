@@ -11,6 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 
 from attachment.models import Attachment
+from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
 COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)
@@ -61,7 +62,8 @@ class CommentManager(models.Manager):
 			content_type = ctype,
 			object_id = object_id,
 			defaults = {
-				'comment': '',
+				'original_comment': ('html', ''),
+				'filtered_comment': '',
 				'user_name': '',
 				'submit_date': timezone.now(),
 			}
@@ -86,7 +88,8 @@ class Comment(MPTTModel):
 	subject = models.CharField(max_length = 100)
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name = _('user'), blank = True, null = True, related_name = "%(class)s_comments")
 	user_name = models.CharField(_("user's name"), max_length = 50, blank = True)
-	comment = models.TextField(_('comment'), max_length = COMMENT_MAX_LENGTH)
+	original_comment = RichTextOriginalField()
+	filtered_comment = RichTextFilteredField(original_field = "original_comment", property_name = "comment")
 
 	submit_date = models.DateTimeField(_('date/time submitted'), default = None)
 	ip_address = models.IPAddressField(_('IP address'), blank = True, null = True)

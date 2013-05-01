@@ -31,7 +31,7 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 
 	name = forms.CharField(label = _("Name"), max_length = 50)
 	subject = forms.CharField(label = _("Subject"), max_length = 100)
-	comment = RichTextField(label = _("Comment"), max_length = COMMENT_MAX_LENGTH)
+	original_comment = RichTextField(label = _("Comment"), max_length = COMMENT_MAX_LENGTH)
 	attachment = AttachmentField(label = _("Attachment"), required = False)
 
 	def __init__(self, target_object, data = None, initial = None, *args, **kwargs):
@@ -46,7 +46,7 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 		key_order = [
 			'subject',
 			'name',
-			'comment',
+			'original_comment',
 			'captcha',
 			'attachment',
 			'honeypot',
@@ -106,14 +106,15 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 		comment.parent = parent_comment
 		return comment
 
-	def get_comment_dict(self):
-		return {
-			'subject':    self.data.get('subject'),
-			'user_name':  self.data.get('name'),
-			'comment':    self.fields['comment'].to_python(self.data.get('comment')),
-			'is_public':  True,
-			'is_removed': False,
-		}
+	def get_comment(self):
+		comment = Comment(
+			subject = self.data.get('subject'),
+			user_name = self.data.get('name'),
+			is_public = True,
+			is_removed = False,
+		)
+		comment.original_comment = (self.data.get('original_comment_format'), self.data.get('original_comment'))
+		return comment
 
 	def generate_security_data(self):
 		timestamp = int(time())
@@ -142,12 +143,12 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 
 	def get_comment_create_data(self):
 		return {
-			'content_type': ContentType.objects.get_for_model(self.target_object),
-			'object_id':    self.target_object._get_pk_val(),
-			'user_name':    self.cleaned_data.get("name", ""),
-			'comment':      self.cleaned_data["comment"],
-			'submit_date':  timezone.now(),
-			'subject':      self.cleaned_data['subject'],
+			'content_type':     ContentType.objects.get_for_model(self.target_object),
+			'object_id':        self.target_object._get_pk_val(),
+			'user_name':        self.cleaned_data.get("name", ""),
+			'original_comment': self.cleaned_data["original_comment"],
+			'submit_date':      timezone.now(),
+			'subject':          self.cleaned_data['subject'],
 		}
 
 	def check_for_duplicate_comment(self, new):
@@ -157,7 +158,7 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 			user_name = new.user_name,
 		)
 		for old in possible_duplicates:
-			if old.submit_date.date() == new.submit_date.date() and old.comment == new.comment:
+			if old.submit_date.date() == new.submit_date.date() and old.original_comment == new.original_comment:
 				return old
 		return new
 
