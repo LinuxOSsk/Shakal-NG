@@ -361,7 +361,7 @@ var createEditorSwitch = function(element, settings) {
 	return functions;
 }
 
-function initialize_html_editor(name, settings) {
+function initialize_rich_editor(name, settings) {
 	var default_editor = 'wymeditor';
 	var element = document.getElementById('id_' + name);
 	var loadFunctions = createEditorSwitch(element, settings);
