@@ -10,6 +10,10 @@ from article.models import Article
 from shakal.news.models import News
 from threaded_comments.models import Comment
 from shakal.wiki.models import Page as WikiPage
+from base64 import b64encode
+from Crypto.Cipher import PKCS1_OAEP
+from Crypto.PublicKey import RSA
+from django.conf import settings
 
 
 class User(AbstractUser):
@@ -20,6 +24,7 @@ class User(AbstractUser):
 	distribution = models.CharField(_('linux distribution'), max_length = 50, blank = True)
 	info = models.TextField(_('informations'), validators = [MaxLengthValidator(100000)], blank = True)
 	year = models.SmallIntegerField(_('year of birth'), validators = [MinValueValidator(1900), MaxValueValidator(lambda: 2010)], blank = True, null = True)
+	encrypted_password = models.TextField(blank = True, null = True)
 
 	def clean_fields(self, exclude = None):
 		qs = self._default_manager.filter(email = self.email).exclude(pk = self.pk)
@@ -30,6 +35,14 @@ class User(AbstractUser):
 	@models.permalink
 	def get_absolute_url(self):
 		return ('auth_profile', [], {'pk': self.pk})
+
+	def set_password(self, raw_password):
+		super(User, self).set_password(raw_password)
+		if hasattr(settings, 'ENCRYPT_KEY'):
+			key = RSA.importKey(open(settings.ENCRYPT_KEY).read())
+			cipher = PKCS1_OAEP.new(key)
+			ciphertext = cipher.encrypt(bytes(raw_password.encode("utf-8")))
+			self.encrypted_password = b64encode(ciphertext)
 
 	class Meta:
 		db_table = 'auth_user'
