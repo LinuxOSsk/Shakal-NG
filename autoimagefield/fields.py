@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
+import os
 
+import shutil
 from django.conf import settings
 from django.db.models import signals
 from django.db.models.fields.files import ImageField
-import os
-import shutil
 
 
 class ThumbnailField(object):
@@ -73,36 +73,45 @@ class AutoImageField(ImageField):
 		else:
 			return super(AutoImageField, self).generate_filename(instance, filename)
 
-	def __rename_image(self, instance, **kwargs):
-		field = getattr(instance, self.name)
+	def __perform_rename_file(self, src, dest):
+		if not os.path.exists(os.path.dirname(dest)):
+			os.makedirs(os.path.dirname(dest))
+		os.rename(src, dest)
+
+		# Presun / kópia náhľadov
+		for label in self.thumbnail:
+			old_tmb = self.__get_thumbnail_filename(src, label)
+			new_tmb = self.__get_thumbnail_filename(dest, label)
+			if os.path.exists(old_tmb):
+				os.rename(old_tmb, new_tmb)
+
+	def __perform_remove_file(self, path):
+		if os.path.exists(path):
+			os.remove(path)
+			for label in self.thumbnail:
+				tmb_filename = self.__get_thumbnail_filename(path, label)
+				if os.path.exists(tmb_filename):
+					os.remove(tmb_filename)
+
+	def __get_paths(self, instance):
 		new_file = None
 		# Pôvodná adresa
 		try:
-			src = os.path.abspath(field.path)
+			src = os.path.abspath(getattr(instance, self.name).path)
 			ext = os.path.splitext(src)[1].lower().replace('jpg', 'jpeg')
 			new_file = self.generate_filename(instance, "{0}_{1}{2}".format(self.name, instance.pk, ext))
 			dest = os.path.abspath(os.path.join(settings.MEDIA_ROOT, new_file))
 		except ValueError:
 			src = None
+			dest = None
+		return (src, dest, new_file)
+
+	def __rename_image(self, instance, **kwargs):
+		field = getattr(instance, self.name)
+		src, dest, new_file = self.__get_paths(instance)
 
 		if src and src != dest and os.path.exists(src):
-			if not os.path.exists(os.path.dirname(dest)):
-				os.makedirs(os.path.dirname(dest))
-			# Ak má pole atribút force_copy namiesto presunu sa kopíruje
-			if getattr(instance, 'force_copy', False):
-				shutil.copy(src, dest)
-			else:
-				os.rename(src, dest)
-
-			# Presun / kópia náhľadov
-			for label in self.thumbnail:
-				old_tmb = self.__get_thumbnail_filename(src, label)
-				new_tmb = self.__get_thumbnail_filename(dest, label)
-				if os.path.exists(old_tmb):
-					if getattr(instance, 'force_copy', False):
-						shutil.copy(old_tmb, new_tmb)
-					else:
-						os.rename(old_tmb, new_tmb)
+			self.__perform_rename_file(src, dest)
 			setattr(instance, self.name, new_file)
 			instance.save()
 
@@ -110,21 +119,18 @@ class AutoImageField(ImageField):
 		if src:
 			if self.size:
 				self.resize_image(dest, self.size)
-			self.__add_thumbnails(instance, force = True, **kwargs)
+			self.__add_thumbnails(instance, **kwargs)
 
-		# Odstránenie starého súboru pri nahradení novým s inou príponou
 		old = getattr(instance, self.name + '_old', None)
 		if old and old != new_file and os.path.exists(field.storage.path(old)):
-			oldfile = field.storage.path(old)
-			os.remove(oldfile)
-			for label in self.thumbnail:
-				tmb_filename = self.__get_thumbnail_filename(oldfile, label)
-				if os.path.exists(tmb_filename):
-					os.remove(tmb_filename)
+			self.__perform_remove_file(field.storage.path(old))
 			instance.old = new_file
-		self.__clean_dir(os.path.dirname(src))
+			self.__clean_dir(os.path.dirname(field.storage.path(old)))
+		if src:
+			self.__clean_dir(os.path.dirname(src))
 
 	def __clean_dir(self, path):
+		path = os.path.abspath(path)
 		topdir = os.path.abspath(os.path.join(settings.MEDIA_ROOT, self.get_directory_name()))
 		if not path.startswith(topdir) or path == topdir:
 			return
@@ -142,13 +148,8 @@ class AutoImageField(ImageField):
 		Vymazanie obrázka a náhľadov pri odstránení inštancie.
 		"""
 		field = getattr(instance, self.name)
-		path = os.path.abspath(field.path)
-		if os.path.exists(path):
-			os.remove(path)
-			for label in self.thumbnail:
-				tmb_filename = self.__get_thumbnail_filename(path, label)
-				if os.path.exists(tmb_filename):
-					os.remove(tmb_filename)
+		path = field.storage.path(field.path)
+		self.__perform_remove_file(path)
 		self.__clean_dir(os.path.dirname(path))
 
 	def __add_old_instance(self, instance, **kwargs):
@@ -169,7 +170,7 @@ class AutoImageField(ImageField):
 		splitted_filename.insert(1, u'_' + thumbnail_label)
 		return os.path.join(dirname, u''.join(splitted_filename))
 
-	def __add_thumbnails(self, instance, force = False, **kwargs):
+	def __add_thumbnails(self, instance, **kwargs):
 		"""
 		Pridanie polí pre náhľady
 		"""
@@ -191,27 +192,9 @@ class AutoImageField(ImageField):
 			thumbnail_file = self.__get_thumbnail_filename(filename, label)
 			setattr(field, u'thumbnail_' + label, ThumbnailField(field, thumbnail_file, size))
 
-	def __catch_rename_image(self, instance, **kwargs):
-		try:
-			return self.__rename_image(instance, **kwargs)
-		except:
-			pass
-
-	def __catch_add_thumbnails(self, instance, force = False, **kwargs):
-		try:
-			return self.__add_thumbnails(instance, force, **kwargs)
-		except:
-			pass
-
-	def __catch_delete_image(self, instance, **kwargs):
-		try:
-			return self.__delete_image(instance, **kwargs)
-		except:
-			pass
-
 	def contribute_to_class(self, cls, name):
-		signals.post_save.connect(self.__catch_rename_image, sender = cls)
+		signals.post_save.connect(self.__rename_image, sender = cls)
 		signals.post_init.connect(self.__add_old_instance, sender = cls)
-		signals.post_init.connect(self.__catch_add_thumbnails, sender = cls)
-		signals.post_delete.connect(self.__catch_delete_image, sender = cls)
+		signals.post_init.connect(self.__add_thumbnails, sender = cls)
+		signals.post_delete.connect(self.__delete_image, sender = cls)
 		super(AutoImageField, self).contribute_to_class(cls, name)
