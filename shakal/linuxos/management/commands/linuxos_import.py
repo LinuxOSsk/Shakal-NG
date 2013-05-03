@@ -169,7 +169,7 @@ class Command(BaseCommand):
 			self.logger.step_main_progress(u"Čistenie databázy")
 			self.clean_db()
 			self.logger.step_main_progress(u"Sťahovanie starej databázy")
-			self.download_db()
+			#self.download_db()
 			self.logger.step_main_progress(u"Import užívateľov")
 			self.import_users()
 			self.logger.step_main_progress(u"Import článkov")
@@ -400,7 +400,6 @@ class Command(BaseCommand):
 			category = {
 				'pk': category_dict['id'],
 				'name': category_dict['nazov'],
-				'icon': category_dict['ikona'],
 				'slug': slugify(category_dict['nazov']),
 			}
 			category_object = ArticleCategory(**category)
@@ -420,7 +419,6 @@ class Command(BaseCommand):
 			'time',
 			'published',
 			'mesiaca',
-			'file',
 		]
 		self.cursor.execute('SELECT ' + (', '.join(cols)) + ' FROM clanky')
 		articles = []
@@ -447,7 +445,7 @@ class Command(BaseCommand):
 				'updated': self.first_datetime_if_null(clanok_dict['time']),
 				'published': True if clanok_dict['published'] == 'yes' else False,
 				'top': True if clanok_dict['mesiaca'] == 'yes' else False,
-				'image': clanok_dict['file'],
+				#'image': clanok_dict['file'],
 			}
 			articles.append(Article(**clanok))
 		Article.objects.bulk_create(articles)
@@ -471,11 +469,20 @@ class Command(BaseCommand):
 		HitCount.objects.bulk_create(hitcount)
 
 	def import_article_images(self):
-		articles = Article.objects.exclude(image = '')[:]
-		self.logger.set_sub_progress(u"Obrázky", len(articles))
+		self.cursor.execute('SELECT id, file FROM clanky')
+		article_images = []
+		for article in self.cursor:
+			if not article[1]:
+				continue
+			article_images.append(article)
+
+		self.logger.set_sub_progress(u"Obrázky", len(article_images))
+
+		article_images = dict(article_images)
+		articles = Article.objects.filter(pk__in = article_images.keys)
 		for article in articles:
 			self.logger.step_sub_progress()
-			image_file = str(article.image)
+			image_file = article_images[article.pk]
 			if image_file[0] == '/':
 				image_file = 'http://www.linuxos.sk' + image_file
 
