@@ -169,7 +169,7 @@ class Command(BaseCommand):
 			self.logger.step_main_progress(u"Čistenie databázy")
 			self.clean_db()
 			self.logger.step_main_progress(u"Sťahovanie starej databázy")
-			#self.download_db()
+			self.download_db()
 			self.logger.step_main_progress(u"Import užívateľov")
 			self.import_users()
 			self.logger.step_main_progress(u"Import článkov")
@@ -445,7 +445,6 @@ class Command(BaseCommand):
 				'updated': self.first_datetime_if_null(clanok_dict['time']),
 				'published': True if clanok_dict['published'] == 'yes' else False,
 				'top': True if clanok_dict['mesiaca'] == 'yes' else False,
-				#'image': clanok_dict['file'],
 			}
 			articles.append(Article(**clanok))
 		Article.objects.bulk_create(articles)
@@ -549,7 +548,8 @@ class Command(BaseCommand):
 				'section_id': topic_dict['sekcia'],
 				'authors_name': topic_dict['username'],
 				'title': topic_dict['predmet'],
-				'text': topic_dict['text'],
+				'original_text': u'html:' + topic_dict['text'],
+				'filtered_text': topic_dict['text'],
 				'created': topic_dict['datetime'],
 				'updated': topic_dict['datetime'],
 				'is_resolved': self.get_default_if_null(topic_dict['vyriesene'], False),
