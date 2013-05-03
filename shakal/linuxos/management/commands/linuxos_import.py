@@ -960,7 +960,8 @@ class Command(BaseCommand):
 					user = User.objects.get(pk = page['userid'])
 				page_object.id = page['id'] + 7
 				page_object.title = page['nadpis']
-				page_object.text = page['text']
+				page_object.original_text = ('html', page['text'])
+				page_object.filtered_text = page['text']
 				page_object.updated = page['time']
 				page_object.parent = WikiPage.objects.get(pk = categories[page['nazov_kategorie']])
 				page_object.page_type = 'p'
