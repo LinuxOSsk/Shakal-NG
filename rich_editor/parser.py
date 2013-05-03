@@ -86,7 +86,7 @@ class HtmlParser:
 		'p':           HtmlTag('p', opt = TEXT_TAGS + ['span', 'code', 'cite'], empty = False),
 		'span':        HtmlTag('span', opt = TEXT_TAGS, empty = False),
 		'br':          HtmlTag('br', empty = True),
-		'code':        HtmlTag('p', opt = ['', 'b', 'u', 'i', 'em', 'strong'], empty = False),
+		'code':        HtmlTag('code', opt = ['', 'b', 'u', 'i', 'em', 'strong'], empty = False),
 		'blockquote':  HtmlTag('blockquote', opt = TEXT_TAGS + ['p', 'code', 'pre', 'cite', 'span', 'ol', 'ul'], empty = False),
 		'cite':        HtmlTag('cite', opt = TEXT_TAGS, empty = False),
 		'ol':          HtmlTag('ol', req = ['li'], empty = True),
