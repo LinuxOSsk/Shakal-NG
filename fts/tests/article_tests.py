@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
-from django.test import LiveServerTestCase
 from django.core.urlresolvers import reverse
-from django.utils import timezone
-from common import admin_login
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+
+from common import admin_login
 
 
 class ArticleTest(LiveServerTestCase):
@@ -27,10 +27,7 @@ class ArticleTest(LiveServerTestCase):
 
 		name_field = self.browser.find_element_by_name('name')
 		name_field.send_keys('Category')
-
-		icon_field = self.browser.find_element_by_name('icon')
-		icon_field.send_keys('category.png')
-		icon_field.send_keys(Keys.RETURN)
+		name_field.send_keys(Keys.RETURN)
 
 		self.browser.get(self.live_server_url + reverse('admin:article_article_add'))
 
@@ -40,9 +37,6 @@ class ArticleTest(LiveServerTestCase):
 		for option in category_field.find_elements_by_tag_name('option'):
 			if option.text == 'Category':
 				option.click()
-
-		published_field = article_form.find_element_by_name('published')
-		published_field.click()
 
 		title_field = article_form.find_element_by_name('title')
 		title_field.click()
@@ -56,6 +50,9 @@ class ArticleTest(LiveServerTestCase):
 
 		content_field = article_form.find_element_by_name('content')
 		content_field.send_keys('Content')
+
+		published_field = article_form.find_element_by_name('published')
+		published_field.click()
 
 		pub_date_field = article_form.find_element_by_name('pub_time_0')
 		pub_date_field.clear()

@@ -11,7 +11,6 @@ class ArticleModelTest(TestCase):
 		category = Category()
 		category.name = "Category"
 		category.slug = "category"
-		category.icon = "/icon.png"
 		category.save()
 
 		all_categories = Category.objects.all()
