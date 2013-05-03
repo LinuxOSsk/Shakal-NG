@@ -75,25 +75,25 @@ class HtmlParser:
 	""", re.VERBOSE)
 
 	# Validatory tagov
-	supported_tags = {
-		'b':           HtmlTag('b', opt = TEXT_TAGS, empty = False),
-		'u':           HtmlTag('u', opt = TEXT_TAGS, empty = False),
-		'i':           HtmlTag('i', opt = TEXT_TAGS, empty = False),
-		'em':          HtmlTag('em', opt = TEXT_TAGS, empty = False),
-		'strong':      HtmlTag('strong', opt = TEXT_TAGS, empty = False),
-		'a':           HtmlTag('a', opt = [''], req_attributes = ['href'], empty = False, attribute_validators = {'href': [HrefValidator()]}),
-		'pre':         HtmlTag('pre', opt = [''], empty = False),
-		'p':           HtmlTag('p', opt = TEXT_TAGS + ['span', 'code', 'cite'], empty = False),
-		'span':        HtmlTag('span', opt = TEXT_TAGS, empty = False),
-		'br':          HtmlTag('br', empty = True),
-		'code':        HtmlTag('code', opt = ['', 'b', 'u', 'i', 'em', 'strong'], empty = False),
-		'blockquote':  HtmlTag('blockquote', opt = TEXT_TAGS + ['p', 'code', 'pre', 'cite', 'span', 'ol', 'ul'], empty = False),
-		'cite':        HtmlTag('cite', opt = TEXT_TAGS, empty = False),
-		'ol':          HtmlTag('ol', req = ['li'], empty = True),
-		'ul':          HtmlTag('ul', req = ['li'], empty = True),
-		'li':          HtmlTag('li', opt = TEXT_TAGS + ['ol', 'ul'], empty = None),
-		'':            HtmlTag('', opt = ['', 'a', 'b', 'u', 'br', 'p', 'i', 'em', 'code', 'strong', 'pre', 'blockquote', 'ol', 'ul', 'span', 'cite']),
-	}
+	supported_tags = dict((t.name, t) for t in [
+		HtmlTag('b', opt = TEXT_TAGS, empty = False),
+		HtmlTag('u', opt = TEXT_TAGS, empty = False),
+		HtmlTag('i', opt = TEXT_TAGS, empty = False),
+		HtmlTag('em', opt = TEXT_TAGS, empty = False),
+		HtmlTag('strong', opt = TEXT_TAGS, empty = False),
+		HtmlTag('a', opt = [''], req_attributes = ['href'], empty = False, attribute_validators = {'href': [HrefValidator()]}),
+		HtmlTag('pre', opt = [''], empty = False),
+		HtmlTag('p', opt = TEXT_TAGS + ['span', 'code', 'cite'], empty = False),
+		HtmlTag('span', opt = TEXT_TAGS, empty = False),
+		HtmlTag('br', empty = True),
+		HtmlTag('code', opt = ['', 'b', 'u', 'i', 'em', 'strong'], empty = False),
+		HtmlTag('blockquote', opt = TEXT_TAGS + ['p', 'code', 'pre', 'cite', 'span', 'ol', 'ul'], empty = False),
+		HtmlTag('cite', opt = TEXT_TAGS, empty = False),
+		HtmlTag('ol', req = ['li'], empty = True),
+		HtmlTag('ul', req = ['li'], empty = True),
+		HtmlTag('li', opt = TEXT_TAGS + ['ol', 'ul'], empty = None),
+		HtmlTag('', opt = ['', 'a', 'b', 'u', 'br', 'p', 'i', 'em', 'code', 'strong', 'pre', 'blockquote', 'ol', 'ul', 'span', 'cite']),
+	])
 	# Stav parseru
 	TEXT_READ = 1
 	TAG_READ = 2
