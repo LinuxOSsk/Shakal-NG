@@ -1,2 +1,3 @@
-from accounts import AccountsTest
-from article import ArticleTest
+from accounts_tests import AccountsTest
+from article_tests import ArticleTest
+from hitcount_tests import HitCountTest
