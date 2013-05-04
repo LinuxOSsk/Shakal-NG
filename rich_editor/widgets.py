@@ -19,9 +19,23 @@ class RichEditor(Textarea):
 
 	def __init__(self, attrs = {}, **kwargs):
 		self.language = settings.LANGUAGE_CODE
-		self.formats = (('html', 'HTML'), )
+		self.formats = ()
 		attrs.update({'class': 'wymeditor'})
 		super(RichEditor, self).__init__(attrs)
+
+	def render(self, name, value, attrs = None, **kwargs):
+		supported_tags = self.attrs.pop('supported_tags', {})
+		widget = super(RichEditor, self).render(name, value, attrs)
+		self.attrs['supported_tags'] = supported_tags
+
+		context = {
+			'name': name,
+			'lang': self.language[:2],
+			'tags': dumps(self.get_tags_info()),
+			'widget': widget,
+		}
+		return mark_safe(render_to_string('widgets/editor.html', context))
+
 
 	def get_tags_info(self):
 		supported_tags = self.attrs.get('supported_tags', {})
@@ -37,6 +51,12 @@ class RichEditor(Textarea):
 			'unsupported': list(unsupported_tags),
 			'known': supported_tags.keys(),
 		}
+
+
+class RichOriginalEditor(RichEditor):
+	def __init__(self, *args, **kwargs):
+		super(RichOriginalEditor, self).__init__(*args, **kwargs)
+		self.formats = (('html', 'HTML'), )
 
 	def render(self, name, value, attrs = None, **kwargs):
 		if value is None:

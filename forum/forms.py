@@ -14,7 +14,7 @@ from antispam.forms import AntispamModelFormMixin
 from attachment.fields import AttachmentField
 from attachment.forms import AttachmentFormMixin
 from models import Topic, Section
-from rich_editor.forms import RichTextField
+from rich_editor.forms import RichOriginalField
 
 
 COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)
@@ -46,7 +46,7 @@ class SectionRenderer(RadioFieldRenderer):
 
 class TopicForm(AntispamModelFormMixin, forms.ModelForm, AttachmentFormMixin):
 	section = SectionModelChoiceField(Section.objects.all(), empty_label=None, widget = RadioSelect(renderer = SectionRenderer), label = capfirst(_('section')))
-	original_text = RichTextField(label = _("Text"), max_length = COMMENT_MAX_LENGTH)
+	original_text = RichOriginalField(label = _("Text"), max_length = COMMENT_MAX_LENGTH)
 	attachment = AttachmentField(label = _("Attachment"), required = False)
 	upload_session = forms.CharField(label = "Upload session", widget = HiddenInput, required = False)
 

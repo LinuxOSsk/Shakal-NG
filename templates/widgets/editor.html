@@ -1,12 +1,14 @@
 {% load staticfiles %}
-<div class="formatwrapper">
-	{% for format in formats %}
-		<label class="format">
-			<input type="radio" name="{{ name }}_format" value="{{ format.format }}"{% if format.checked %} checked="checked"{% endif %}/ >
-			{{ format.label }}
-		</label>
-	{% endfor %}
-</div>
+{% if formats %}
+	<div class="formatwrapper">
+		{% for format in formats %}
+			<label class="format">
+				<input type="radio" name="{{ name }}_format" value="{{ format.format }}"{% if format.checked %} checked="checked"{% endif %}/ >
+				{{ format.label }}
+			</label>
+		{% endfor %}
+	</div>
+{% endif %}
 <div class="textareawrapper">
 	{{ widget|safe }}
 </div>

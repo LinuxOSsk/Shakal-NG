@@ -2,12 +2,12 @@
 from django.db.models import signals
 from django.db.models.fields import TextField
 
-from .forms import RichTextField
+from .forms import RichOriginalField
 from .parser import HtmlParser
 
 
 class RichTextOriginalField(TextField):
-	widget = RichTextField
+	widget = RichOriginalField
 
 	def to_python(self, value):
 		# hodnota nastavená skriptom
