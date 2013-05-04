@@ -36,7 +36,6 @@ class RichEditor(Textarea):
 		}
 		return mark_safe(render_to_string('widgets/editor.html', context))
 
-
 	def get_tags_info(self):
 		supported_tags = self.attrs.get('supported_tags', {})
 		unsupported_tags = set(ALL_TAGS) - set(supported_tags.keys()) - set(('html', 'body'))

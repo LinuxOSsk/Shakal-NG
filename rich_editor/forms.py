@@ -25,5 +25,10 @@ class RichOriginalField(CharField):
 		self.parser = parser()
 		super(RichOriginalField, self).__init__(*args, **kwargs)
 
+	def widget_attrs(self, widget):
+		attrs = super(RichOriginalField, self).widget_attrs(widget)
+		attrs.update(self.parser.get_attributes())
+		return attrs
+
 	def clean(self, value):
 		return (value[0], super(RichOriginalField, self).clean(value[1]))
