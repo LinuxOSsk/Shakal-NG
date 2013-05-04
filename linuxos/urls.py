@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.conf.urls import patterns, url
-import shakal.linuxos.redirect_views as redirect_views
+import linuxos.redirect_views as redirect_views
 
 urlpatterns = patterns('',
 	url('^profil/(?P<pk>\d+)/index.html$', redirect_views.profile_redirect),

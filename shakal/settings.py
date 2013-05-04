@@ -146,7 +146,7 @@ INSTALLED_APPS = (
 	'template_preprocessor',
 	'forum',
 	'feeds',
-	'shakal.linuxos',
+	'linuxos',
 	'news',
 	'search',
 	'template_dynamicloader',

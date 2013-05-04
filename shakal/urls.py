@@ -18,7 +18,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 	url(r'^$', home, name = 'home'),
-	url(r'^', include('shakal.linuxos.urls')),
+	url(r'^', include('linuxos.urls')),
 	url(_(r'^admin/'), include(admin.site.urls)),
 	url(_(r'^accounts/'), include(accounts_urls.urlpatterns)),
 	url(_(r'^article/'), include(article_urls.urlpatterns)),
