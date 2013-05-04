@@ -63,7 +63,7 @@ STATICFILES_FINDERS = (
 SECRET_KEY = 'c)vwu21d)0!pi67*_@xyv3qp!*74w50!7795t*!d9rfdu(%8g$'
 
 TEMPLATE_LOADERS = (
-	'shakal.template_dynamicloader.loader_filesystem.Loader',
+	'template_dynamicloader.loader_filesystem.Loader',
 	'django.template.loaders.filesystem.Loader',
 	'django.template.loaders.app_directories.Loader',
 	#'django.template.loaders.eggs.Loader',
@@ -78,7 +78,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 	'django.contrib.auth.context_processors.auth',
 	'django.contrib.messages.context_processors.messages',
 	'shakal.feeds.context_processors.feeds',
-	'shakal.template_dynamicloader.context_processors.style',
+	'template_dynamicloader.context_processors.style',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -90,7 +90,7 @@ MIDDLEWARE_CLASSES = (
 	'auth_remember.middleware.AuthRememberMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django_tools.middlewares.ThreadLocal.ThreadLocalMiddleware',
-	'shakal.template_dynamicloader.middleware.TemplateSwitcherMiddleware',
+	'template_dynamicloader.middleware.TemplateSwitcherMiddleware',
 	'shakal.feeds.middleware.FeedsMiddleware',
 	'maintenance.middleware.MaintenanceMiddleware',
 )
@@ -148,7 +148,7 @@ INSTALLED_APPS = (
 	'shakal.linuxos',
 	'news',
 	'shakal.search',
-	'shakal.template_dynamicloader',
+	'template_dynamicloader',
 	'shakal.wiki',
 	'fts',
 )

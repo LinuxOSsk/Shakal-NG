@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
-
 import re
-from django.template.loader import render_to_string
+
 from django.template import RequestContext
+from django.template.loader import render_to_string
 from django.utils.encoding import smart_unicode
-from shakal.template_dynamicloader.forms import ChangeTemplateHiddenForm
-from shakal.template_dynamicloader.utils import decode_switch_template
+
+from template_dynamicloader.forms import ChangeTemplateHiddenForm
+from template_dynamicloader.utils import decode_switch_template
+
 
 class TemplateSwitcherMiddleware(object):
 	def wrap_content(self, request, content, template_data):

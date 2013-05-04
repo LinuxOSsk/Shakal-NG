@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-
-from shakal.template_dynamicloader.utils import get_template_settings
+from template_dynamicloader.utils import get_template_settings
 
 
 class StyleOptions:

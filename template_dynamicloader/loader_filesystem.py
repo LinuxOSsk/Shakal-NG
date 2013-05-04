@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+import os
 
 from django.template import TemplateDoesNotExist, loader
 from django.template.loader import BaseLoader
 from django_tools.middlewares.ThreadLocal import get_current_request
-from shakal.template_dynamicloader.utils import get_template_settings
-import os
+
+from template_dynamicloader.utils import get_template_settings
+
 
 class Loader(BaseLoader):
 	is_usable = True
@@ -41,4 +43,3 @@ class Loader(BaseLoader):
 			except AttributeError:
 				pass
 		raise TemplateDoesNotExist(visitors_template)
-
