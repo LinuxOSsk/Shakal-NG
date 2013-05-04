@@ -11,6 +11,9 @@ class NewsIndex(indexes.SearchIndex, indexes.Indexable):
 	title = indexes.CharField(model_attr = 'title')
 	text = indexes.CharField(document = True, use_template = True)
 
+	def get_updated_field(self):
+		return "updated"
+
 	def get_model(self):
 		return News
 

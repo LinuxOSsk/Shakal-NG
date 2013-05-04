@@ -6,9 +6,13 @@ from haystack import indexes
 
 class CommentIndex(indexes.SearchIndex, indexes.Indexable):
 	created = indexes.DateTimeField()
+	updated = indexes.DateTimeField(model_attr = "last_comment")
 	author = indexes.CharField()
 	title = indexes.CharField()
 	text = indexes.CharField(document = True, use_template = True)
+
+	def get_updated_field(self):
+		return "last_comment"
 
 	def get_model(self):
 		return RootHeader
