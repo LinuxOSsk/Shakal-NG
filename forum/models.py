@@ -87,8 +87,8 @@ class Topic(models.Model):
 
 	section = models.ForeignKey(Section, verbose_name = _('section'))
 	title = models.CharField(_('subject'), max_length = 100)
-	original_text = RichTextOriginalField()
-	filtered_text = RichTextFilteredField(verbose_name = _('text'), original_field = "original_text", property_name = "text")
+	original_text = RichTextOriginalField(verbose_name = _('text'))
+	filtered_text = RichTextFilteredField(original_field = "original_text", property_name = "text")
 	created = models.DateTimeField(_('time'))
 	updated = models.DateTimeField(editable = False)
 	authors_name = models.CharField(_('authors name'), max_length = 50, blank = False)
