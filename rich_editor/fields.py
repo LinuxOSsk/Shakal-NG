@@ -1,20 +1,18 @@
 # -*- coding: utf-8 -*-
-from django.db.models import signals
-from django.db.models.fields import TextField
+from django.db.models import signals, TextField, SubfieldBase
 
 from .forms import RichOriginalField
 from .parser import HtmlParser
 
 
 class RichTextOriginalField(TextField):
+	__metaclass__ = SubfieldBase
+
 	widget = RichOriginalField
 
 	def to_python(self, value):
-		# hodnota nastavená skriptom
 		if not isinstance(value, basestring):
 			return value
-		if value is None:
-			return (None, None)
 		if ':' in value:
 			return tuple(value.split(":", 1))
 		else:
