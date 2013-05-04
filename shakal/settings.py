@@ -143,8 +143,8 @@ INSTALLED_APPS = (
 	'reversion',
 	'threaded_comments',
 	'template_preprocessor',
+	'forum',
 	'shakal.feeds',
-	'shakal.forum',
 	'shakal.linuxos',
 	'shakal.news',
 	'shakal.search',
@@ -233,7 +233,7 @@ SHAKAL_DASHBOARD_APP_GROUPS = (
 	(
 		_('Forum'), {
 			'models': (
-				'shakal.forum.*',
+				'forum.*',
 				'threaded_comments.*',
 			),
 		}

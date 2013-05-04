@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-
 from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import get_object_or_404
 from django.utils.encoding import smart_unicode
-from shakal.forum.models import Topic, Section
+
+from forum.models import Topic, Section
 
 
 class TopicFeed(Feed):

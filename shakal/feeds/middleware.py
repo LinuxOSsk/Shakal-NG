@@ -2,7 +2,7 @@
 #
 from article.feeds import ArticleFeed
 from shakal.feeds import register_feed
-from shakal.forum.feeds import TopicFeed
+from forum.feeds import TopicFeed
 from shakal.news.feeds import NewsFeed
 from threaded_comments.feeds import CommentFeed
 

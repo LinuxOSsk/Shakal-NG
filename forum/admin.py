@@ -2,7 +2,7 @@
 from django.contrib import admin
 
 from attachment.admin import AttachmentInline
-from shakal.forum.models import Section, Topic
+from forum.models import Section, Topic
 
 
 class SectionAdmin(admin.ModelAdmin):

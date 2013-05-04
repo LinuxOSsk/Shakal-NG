@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-
-
-from shakal.forum.models import Topic
+from forum.models import Topic
 from haystack import indexes
 
 
