@@ -21,15 +21,15 @@ class Poll(models.Model):
 	all_objects = models.Manager()
 	objects = PollListManager()
 
-	question = models.TextField(verbose_name = _("question"))
+	question = models.TextField(_("question"))
 	slug = models.SlugField(unique = True)
-	checkbox = models.BooleanField(default = False, verbose_name = _("more choices"))
-	approved = models.BooleanField(default = False, verbose_name = _("approved"))
-	active_from = models.DateTimeField(blank = True, null = True, verbose_name = _("active from"))
+	checkbox = models.BooleanField(_("more choices"), default = False)
+	approved = models.BooleanField(_("approved"), default = False)
+	active_from = models.DateTimeField(verbose_name = _("active from"), blank = True, null = True)
 	choice_count = models.PositiveIntegerField(default = 0)
 
 	content_type = models.ForeignKey(ContentType, limit_choices_to = {"model__in": ("article",)}, null = True, blank = True, verbose_name = _("content type"))
-	object_id = models.PositiveIntegerField(null = True, blank = True, verbose_name = _("object id"))
+	object_id = models.PositiveIntegerField(verbose_name = _("object id"), null = True, blank = True)
 	content_object = generic.GenericForeignKey('content_type', 'object_id')
 
 	@property
