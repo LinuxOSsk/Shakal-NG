@@ -10,7 +10,7 @@ from django.template import RequestContext
 from django.views.decorators.http import require_POST
 from forms import PollForm
 from models import Poll, Choice, check_can_vote, record_vote
-from shakal.utils import unique_slugify
+from common_utils import unique_slugify
 
 
 @require_POST

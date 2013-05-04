@@ -2,7 +2,7 @@
 from django import template
 from django.core.urlresolvers import reverse
 
-from shakal.utils import process_template_args, process_template_kwargs
+from common_utils import process_template_args, process_template_kwargs
 
 
 register = template.Library()

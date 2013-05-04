@@ -5,8 +5,8 @@ from django.template.response import TemplateResponse
 
 from forms import NewsForm
 from models import News
-from shakal.utils import unique_slugify
-from shakal.utils.generic import AddLoggedFormArgumentMixin, PreviewCreateView
+from common_utils import unique_slugify
+from common_utils.generic import AddLoggedFormArgumentMixin, PreviewCreateView
 
 
 def news_detail_by_slug(request, slug):

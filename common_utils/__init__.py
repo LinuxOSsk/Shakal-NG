@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import os
 from django import template
 from django.template.defaultfilters import slugify
 from django_tools.middlewares.ThreadLocal import get_current_request
@@ -45,7 +46,7 @@ def unique_slugify(item, title_field, slug_field = 'slug', reserve_chars = 5):
 
 		slug_field_query = slug_field + '__startswith'
 		all_slugs = set(queryset.filter(**{slug_field_query: slug}).values_list(slug_field, flat = True))
-		max_val = 10**(reserve_chars - 1) - 1
+		max_val = 10 ** (reserve_chars - 1) - 1
 		setattr(item, slug_field, create_unique_slug(slug, all_slugs, max_val))
 
 
@@ -76,3 +77,16 @@ def build_absolute_uri(path):
 		from django.conf import settings
 		from django.contrib.sites.models import Site
 		return 'http://' + Site.objects.get(pk = settings.SITE_ID) + path
+
+
+def clean_dir(path, root_path):
+	path = os.path.abspath(path)
+	root_path = os.path.abspath(root_path)
+
+	current_dir = path
+	while len(os.path.split(current_dir)) and current_dir.startswith(root_path) and current_dir != root_path:
+		try:
+			os.rmdir(current_dir)
+		except OSError:
+			return
+		current_dir = os.path.join(*os.path.split(current_dir)[:-1])

@@ -6,7 +6,7 @@ from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 
-from shakal.utils import iterify
+from common_utils import iterify
 from threaded_comments.models import Comment, RootHeader, UserDiscussionAttribute
 
 

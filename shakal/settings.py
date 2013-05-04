@@ -123,6 +123,7 @@ INSTALLED_APPS = (
 	'django.contrib.admin',
 	'django.contrib.syndication',
 	'django_tools',
+	'common_utils',
 	'haystack',
 	'registration',
 	'accounts',

@@ -8,8 +8,8 @@ from django.template.response import TemplateResponse
 from django.utils.decorators import method_decorator
 from models import Page
 from forms import WikiEditForm
-from shakal.utils.generic import PreviewCreateView, PreviewUpdateView
-from shakal.utils import unique_slugify
+from common_utils.generic import PreviewCreateView, PreviewUpdateView
+from common_utils import unique_slugify
 import reversion
 
 

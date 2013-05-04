@@ -3,7 +3,7 @@ from django import template
 from django.contrib.contenttypes.models import ContentType
 
 from hitcount.models import HitCount
-from shakal.utils import iterify
+from common_utils import iterify
 
 
 register = template.Library()

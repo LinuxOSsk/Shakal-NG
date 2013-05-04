@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from django.utils.html import escape
 
-from shakal.utils import build_absolute_uri
+from common_utils import build_absolute_uri
 
 
 class HrefValidator(URLValidator):

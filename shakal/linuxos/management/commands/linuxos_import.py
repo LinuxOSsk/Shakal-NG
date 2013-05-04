@@ -29,7 +29,7 @@ from article.models import Article, Category as ArticleCategory
 from forum.models import Section as ForumSection, Topic as ForumTopic
 from news.models import News
 from threaded_comments.models import RootHeader as ThreadedRootHeader, UserDiscussionAttribute
-from shakal.utils import create_unique_slug
+from common_utils import create_unique_slug
 from shakal.wiki.models import Page as WikiPage
 
 

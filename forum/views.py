@@ -7,7 +7,7 @@ from django.utils import timezone
 
 from forms import TopicForm
 from models import Section, Topic
-from shakal.utils.generic import AddLoggedFormArgumentMixin, PreviewCreateView
+from common_utils.generic import AddLoggedFormArgumentMixin, PreviewCreateView
 
 
 def overview(request, section = None, page = 1):
