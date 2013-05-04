@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
+import re
 
 from admin_tools.menu import items, Menu
 from admin_tools.utils import get_admin_site_name
-from appgroups import get_application_groups
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse, resolve, NoReverseMatch
 from django.template.defaultfilters import capfirst
 from django.utils.translation import ugettext_lazy as _
-import re
+
+from appgroups import get_application_groups
 
 
 RE_CHANGE_URL = re.compile("(.+)_([^_]+)_change")
@@ -58,8 +59,7 @@ class ReturnToSiteItem(items.MenuItem):
 			return None
 
 
-
-class ShakalMenu(Menu):
+class AdminMenu(Menu):
 	def init_with_context(self, context):
 		site_name = get_admin_site_name(context)
 		self.children += [

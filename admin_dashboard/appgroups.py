@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-
 from django.conf import settings
+
 
 def get_application_groups():
 	groups = []
 	known_apps = []
-	for title, group in getattr(settings, 'SHAKAL_DASHBOARD_APP_GROUPS', ()):
+	for title, group in getattr(settings, 'ADMIN_DASHBOARD_APP_GROUPS', ()):
 		if '*' in group['models']:
 			default_module = 'AppList'
 			module_kwargs = {'exclude': known_apps + list(group.get('exclude', []))}

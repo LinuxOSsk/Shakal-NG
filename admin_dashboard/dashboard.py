@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-
 from admin_tools.dashboard import Dashboard
 from admin_tools.dashboard.modules import RecentActions
-from appgroups import get_application_groups
 from django.utils.translation import ugettext_lazy as _
-import modules
 
-class ShakalIndexDashboard(Dashboard):
+import modules
+from appgroups import get_application_groups
+
+
+class AdminIndexDashboard(Dashboard):
 	columns = 2
 
 	class Media:

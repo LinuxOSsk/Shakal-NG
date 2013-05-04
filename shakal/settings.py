@@ -109,7 +109,7 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
-	'shakal.shakal_dashboard',
+	'admin_dashboard',
 	'admin_tools',
 	'admin_tools.theming',
 	'admin_tools.menu',
@@ -207,7 +207,7 @@ GRAVATAR_URL_PREFIX = "http://sk.gravatar.com/"
 
 FEED_SIZE = 20
 
-SHAKAL_DASHBOARD_APP_GROUPS = (
+ADMIN_DASHBOARD_APP_GROUPS = (
 	(
 		_('Content management'), {
 			'models': (
@@ -247,7 +247,7 @@ SHAKAL_DASHBOARD_APP_GROUPS = (
 		}
 	),
 )
-SHAKAL_DASHBOARD_APP_ICONS = {
+ADMIN_DASHBOARD_APP_ICONS = {
 	'accounts/user': 'user.png',
 	'auth/group': 'group.png',
 	'sites/site': 'site.png',
@@ -259,8 +259,8 @@ SHAKAL_DASHBOARD_APP_ICONS = {
 	'polls/poll': 'poll.png',
 	'forum/section': 'section.png',
 }
-ADMIN_TOOLS_INDEX_DASHBOARD = 'shakal.shakal_dashboard.dashboard.ShakalIndexDashboard'
-ADMIN_TOOLS_MENU = 'shakal.shakal_dashboard.menu.ShakalMenu'
+ADMIN_TOOLS_INDEX_DASHBOARD = 'admin_dashboard.dashboard.AdminIndexDashboard'
+ADMIN_TOOLS_MENU = 'admin_dashboard.menu.AdminMenu'
 ADMIN_TOOLS_THEMING_CSS = 'admin/css/shakal.css'
 
 import sys
