@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
 
 from django import template
-from django.utils.safestring import mark_safe
-from django.template.loader import render_to_string
-from django.utils.html import escape
 from django.contrib.contenttypes.models import ContentType
-from datetime import date, timedelta
+from django.template.loader import render_to_string
+from django.utils import timezone
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
+
 
 register = template.Library()
 
@@ -13,7 +15,8 @@ register = template.Library()
 @register.filter
 def humandatetime(value, default = ''):
 	try:
-		today = date.today()
+		today = timezone.now().date()
+		value = timezone.localtime(value)
 		if value.year != today.year:
 			return mark_safe(value.strftime("%d.%m.%Y&nbsp;|&nbsp;%H:%M"))
 		else:
@@ -25,7 +28,6 @@ def humandatetime(value, default = ''):
 				return mark_safe(value.strftime("%d.%m&nbsp;|&nbsp;%H:%M"))
 	except Exception:
 		return default
-
 
 
 @register.simple_tag
@@ -40,7 +42,6 @@ def user_link(user_object, username):
 		return tpl.render(ctx)
 	else:
 		return escape(username)
-
 
 
 class MessagesNode(template.Node):
