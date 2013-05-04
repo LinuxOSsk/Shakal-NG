@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-
 from django.conf.urls import patterns, url
-import views as poll_views
+
 
 class Patterns(object):
 	def __init__(self):
@@ -10,12 +9,12 @@ class Patterns(object):
 
 	@property
 	def urls(self):
-		urlpatterns = patterns('',
-			url(r'^$', poll_views.poll_list, name = 'list'),
-			url(r'^zoznam/(?P<page>\d+)/', poll_views.poll_list, name = 'list-page'),
-			url(r'^post/(?P<pk>\d+)/$', poll_views.post, name = 'post'),
-			url(r'^vytvorit/$', poll_views.create, name = 'create'),
-			url(r'^detail/(?P<slug>[-\w]+)/$', poll_views.poll_detail_by_slug, name = "detail-by-slug"),
+		urlpatterns = patterns('polls.views',
+			url(r'^$', 'poll_list', name = 'list'),
+			url(r'^zoznam/(?P<page>\d+)/', 'poll_list', name = 'list-page'),
+			url(r'^post/(?P<pk>\d+)/$', 'post', name = 'post'),
+			url(r'^vytvorit/$', 'create', name = 'create'),
+			url(r'^detail/(?P<slug>[-\w]+)/$', 'poll_detail_by_slug', name = "detail-by-slug"),
 		)
 		return (urlpatterns, self.app_name, self.name)
 
