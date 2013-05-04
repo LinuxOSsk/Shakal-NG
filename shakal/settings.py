@@ -146,7 +146,7 @@ INSTALLED_APPS = (
 	'forum',
 	'shakal.feeds',
 	'shakal.linuxos',
-	'shakal.news',
+	'news',
 	'shakal.search',
 	'shakal.template_dynamicloader',
 	'shakal.wiki',
@@ -212,7 +212,7 @@ SHAKAL_DASHBOARD_APP_GROUPS = (
 		_('Content management'), {
 			'models': (
 				'article.*',
-				'shakal.news.*',
+				'news.*',
 				'shakal.wiki.models.*',
 			),
 			'exclude': (

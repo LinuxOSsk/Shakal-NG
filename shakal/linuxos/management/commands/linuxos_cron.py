@@ -9,7 +9,7 @@ from accounts.models import UserRating, RATING_WEIGHTS
 from article.models import Article
 
 from attachment.models import TemporaryAttachment
-from shakal.news.models import News
+from news.models import News
 from shakal.wiki.models import Page as WikiPage
 
 

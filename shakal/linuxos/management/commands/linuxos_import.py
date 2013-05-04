@@ -27,7 +27,7 @@ from polls.models import Poll, Choice as PollChoice
 from hitcount.models import HitCount
 from article.models import Article, Category as ArticleCategory
 from forum.models import Section as ForumSection, Topic as ForumTopic
-from shakal.news.models import News
+from news.models import News
 from threaded_comments.models import RootHeader as ThreadedRootHeader, UserDiscussionAttribute
 from shakal.utils import create_unique_slug
 from shakal.wiki.models import Page as WikiPage

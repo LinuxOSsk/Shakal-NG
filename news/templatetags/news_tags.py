@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django import template
-from shakal.news.models import News
+from news.models import News
 
 register = template.Library()
 

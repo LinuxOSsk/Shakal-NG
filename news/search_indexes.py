@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from shakal.news.models import News
+from news.models import News
 from haystack import indexes
 
 

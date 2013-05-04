@@ -7,7 +7,7 @@ from django.db.models.signals import post_save, pre_save, pre_delete
 from django.utils.translation import ugettext_lazy as _
 
 from article.models import Article
-from shakal.news.models import News
+from news.models import News
 from threaded_comments.models import Comment
 from shakal.wiki.models import Page as WikiPage
 from base64 import b64encode
