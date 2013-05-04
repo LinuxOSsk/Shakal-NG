@@ -11,7 +11,10 @@ from django.utils.translation import ugettext_lazy as _
 
 class PollListManager(models.Manager):
 	def get_query_set(self):
-		return super(PollListManager, self).get_query_set().filter(approved = True, active_from__lte = timezone.now(), content_type_id = None).order_by("-active_from")
+		return super(PollListManager, self) \
+			.get_query_set() \
+			.filter(approved = True, active_from__lte = timezone.now(), content_type_id = None) \
+			.order_by("-active_from")
 
 
 class Poll(models.Model):
