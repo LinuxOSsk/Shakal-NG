@@ -125,6 +125,7 @@ INSTALLED_APPS = (
 	'django_tools',
 	'common_utils',
 	'haystack',
+	'queued_search',
 	'registration',
 	'accounts',
 	'antispam',
@@ -200,6 +201,7 @@ HAYSTACK_CONNECTIONS = {
 	},
 }
 HAYSTACK_CUSTOM_HIGHLIGHTER = 'search.utils.XapianHighlighter'
+HAYSTACK_SIGNAL_PROCESSOR = 'queued_search.signals.QueuedSignalProcessor'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 

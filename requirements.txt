@@ -17,3 +17,5 @@ selenium
 mock
 pycrypto
 pytz
+git+git://github.com/toastdriven/queued_search.git
+queues
