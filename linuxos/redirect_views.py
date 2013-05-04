@@ -5,7 +5,7 @@ from django.http import HttpResponsePermanentRedirect
 from article.models import Article
 from news.models import News
 from polls.models import Poll
-from shakal.wiki.models import Page as WikiPage
+from wiki.models import Page as WikiPage
 
 def profile_redirect(request, pk):
 	return HttpResponsePermanentRedirect(reverse('auth_profile', kwargs = {'pk': pk}))

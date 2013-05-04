@@ -150,7 +150,7 @@ INSTALLED_APPS = (
 	'news',
 	'search',
 	'template_dynamicloader',
-	'shakal.wiki',
+	'wiki',
 	'fts',
 )
 
@@ -214,7 +214,7 @@ ADMIN_DASHBOARD_APP_GROUPS = (
 			'models': (
 				'article.*',
 				'news.*',
-				'shakal.wiki.models.*',
+				'wiki.models.*',
 			),
 			'exclude': (
 				'article.models.Category',

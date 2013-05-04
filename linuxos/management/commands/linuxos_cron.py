@@ -10,7 +10,7 @@ from article.models import Article
 
 from attachment.models import TemporaryAttachment
 from news.models import News
-from shakal.wiki.models import Page as WikiPage
+from wiki.models import Page as WikiPage
 
 
 class Command(BaseCommand):

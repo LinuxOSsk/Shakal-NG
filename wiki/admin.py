@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-
+import reversion
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
-from shakal.wiki.models import Page
-import reversion
+
+from wiki.models import Page
 
 
 class PageAdmin(reversion.VersionAdmin, MPTTModelAdmin):

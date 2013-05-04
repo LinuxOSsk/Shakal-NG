@@ -30,7 +30,7 @@ from forum.models import Section as ForumSection, Topic as ForumTopic
 from news.models import News
 from threaded_comments.models import RootHeader as ThreadedRootHeader, UserDiscussionAttribute
 from common_utils import create_unique_slug
-from shakal.wiki.models import Page as WikiPage
+from wiki.models import Page as WikiPage
 
 
 class SocketMaintenance(object):
@@ -914,7 +914,7 @@ class Command(BaseCommand):
 		users = set(User.objects.values_list('id', flat = True))
 		all_slugs = set()
 		categories = {}
-		for instance in Deserializer(open('shakal/wiki/pages.json')):
+		for instance in Deserializer(open('wiki/pages.json')):
 			instance.object.created = timezone.now()
 			instance.object.save()
 			categories[instance.object.title.replace('&amp;', '&')] = instance.object.id

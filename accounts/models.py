@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from article.models import Article
 from news.models import News
 from threaded_comments.models import Comment
-from shakal.wiki.models import Page as WikiPage
+from wiki.models import Page as WikiPage
 from base64 import b64encode
 from Crypto.Cipher import PKCS1_OAEP
 from Crypto.PublicKey import RSA

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-
 from django.conf.urls import patterns, url
+
 import views as wiki_views
 
 
@@ -11,7 +11,7 @@ class Patterns(object):
 
 	@property
 	def urls(self):
-		urlpatterns = patterns('',
+		urlpatterns = patterns('wiki.views',
 			url(r'^$', wiki_views.show_page, name = 'home'),
 			url(r'(?P<slug>[-\w]+)/create/$', wiki_views.PageCreateView.as_view(), {'create': True}, name = 'create'),
 			url(r'(?P<slug>[-\w]+)/edit/$', wiki_views.PageUpdateView.as_view(), {'create': False}, name = 'edit'),

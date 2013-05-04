@@ -7,7 +7,7 @@ from django.utils import timezone
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
-class Page(models.Model):
+class Page(mptt.models.MPTTModel):
 	TYPE_CHOICES = (
 		('h', u'Domovská stránka'),
 		('i', u'Interná stránka'),
@@ -43,5 +43,3 @@ class Page(models.Model):
 			return ('wiki:home', None, None)
 		else:
 			return ('wiki:page', None, {'slug': self.slug})
-
-mptt.register(Page)
