@@ -5,6 +5,7 @@ from django.db import models
 from django.db.models import permalink
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 from threaded_comments.models import RootHeader
 
@@ -25,8 +26,10 @@ class News(models.Model):
 
 	title = models.CharField(max_length = 255, verbose_name = _('title'))
 	slug = models.SlugField(unique = True)
-	short_text = models.TextField(verbose_name = _('short text'))
-	long_text = models.TextField(verbose_name = _('long text'))
+	original_short_text = RichTextOriginalField(verbose_name = _('short text'))
+	filtered_short_text = RichTextFilteredField(original_field = "original_short_text", property_name = "short_text")
+	original_long_text = RichTextOriginalField(verbose_name = _('long text'))
+	filtered_long_text = RichTextFilteredField(original_field = "original_long_text", property_name = "long_text")
 	created = models.DateTimeField(verbose_name = _('time'))
 	updated = models.DateTimeField(editable = False)
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.SET_NULL, blank = True, null = True, verbose_name = _('user'))

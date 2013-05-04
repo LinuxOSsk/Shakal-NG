@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-
 from django.conf.urls import patterns, url
+
 import feeds as news_feeds
 import views as news_views
+
 
 class Patterns(object):
 	def __init__(self):

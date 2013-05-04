@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
+from haystack import indexes
 
 from news.models import News
-from haystack import indexes
 
 
 class NewsIndex(indexes.SearchIndex, indexes.Indexable):

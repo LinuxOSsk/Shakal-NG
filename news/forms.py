@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
-
 from django import forms
 from django.conf import settings
+
 from antispam.forms import AntispamModelFormMixin
-from rich_editor.forms import RichTextField
 from models import News
+from rich_editor.forms import RichOriginalField
 
 
 COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)
 
 
 class NewsForm(AntispamModelFormMixin, forms.ModelForm):
-	short_text = RichTextField(label = u'Krátky text', max_length = COMMENT_MAX_LENGTH)
-	long_text = RichTextField(label = u'Dlhý text', max_length = COMMENT_MAX_LENGTH)
+	original_short_text = RichOriginalField(label = u'Krátky text', max_length = COMMENT_MAX_LENGTH)
+	original_long_text = RichOriginalField(label = u'Dlhý text', max_length = COMMENT_MAX_LENGTH)
 
 	def __init__(self, *args, **kwargs):
 		logged = kwargs.pop('logged', False)
@@ -26,4 +26,4 @@ class NewsForm(AntispamModelFormMixin, forms.ModelForm):
 	class Meta:
 		model = News
 		exclude = ('author', 'created', 'approved', )
-		fields = ('title', 'authors_name', 'short_text', 'long_text', )
+		fields = ('title', 'authors_name', 'original_short_text', 'original_long_text', )
