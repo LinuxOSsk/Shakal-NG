@@ -7,13 +7,14 @@ from django.forms.widgets import HiddenInput, RadioSelect, RadioFieldRenderer, R
 from django.template.defaultfilters import capfirst
 from django.utils.encoding import force_unicode
 from django.utils.html import escape
-from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext_lazy as _
+
 from antispam.forms import AntispamModelFormMixin
 from attachment.fields import AttachmentField
 from attachment.forms import AttachmentFormMixin
-from rich_editor.forms import RichTextField
 from models import Topic, Section
+from rich_editor.forms import RichTextField
 
 
 COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)

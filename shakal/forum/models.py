@@ -8,8 +8,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import permalink
 from django.db.models.signals import post_save
-from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
 from attachment.models import Attachment
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
@@ -17,9 +17,9 @@ from threaded_comments.models import RootHeader, Comment
 
 
 class Section(models.Model):
-	name = models.CharField(max_length = 255, verbose_name = _('name'))
+	name = models.CharField(_('name'), max_length = 255)
 	slug = models.SlugField(unique = True)
-	description = models.TextField(verbose_name = _('description'))
+	description = models.TextField(_('description'))
 
 	def clean(self):
 		slug_num = None
@@ -86,19 +86,19 @@ class Topic(models.Model):
 	topics = TopicListManager()
 
 	section = models.ForeignKey(Section, verbose_name = _('section'))
-	title = models.CharField(max_length = 100, verbose_name = _('subject'))
+	title = models.CharField(_('subject'), max_length = 100)
 	original_text = RichTextOriginalField()
-	filtered_text = RichTextFilteredField(original_field = "original_text", property_name = "text")
-	created = models.DateTimeField(verbose_name = _('time'))
+	filtered_text = RichTextFilteredField(verbose_name = _('text'), original_field = "original_text", property_name = "text")
+	created = models.DateTimeField(_('time'))
 	updated = models.DateTimeField(editable = False)
-	authors_name = models.CharField(max_length = 50, blank = False, verbose_name = _('authors name'))
+	authors_name = models.CharField(_('authors name'), max_length = 50, blank = False)
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, blank = True, null = True, verbose_name = _('author'))
 	comments_header = generic.GenericRelation(RootHeader)
 	breadcrumb_label = _('forum')
 	attachments = generic.GenericRelation(Attachment)
 	comments = generic.GenericRelation(Comment)
-	is_removed = models.BooleanField(default = False, verbose_name = u'vymazané')
-	is_resolved = models.BooleanField(default = False, verbose_name = u'vyriešené')
+	is_removed = models.BooleanField(_('deleted'), default = False)
+	is_resolved = models.BooleanField(_('resolved'), default = False)
 
 	def get_tags(self):
 		tags = []
