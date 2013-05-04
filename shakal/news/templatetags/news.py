@@ -7,4 +7,6 @@ register = template.Library()
 
 @register.inclusion_tag('news/block_news_list.html', takes_context = True)
 def news_frontpage(context):
-	return {'news': News.news.all()[:10] }
+	return {
+		'news': News.objects.all()[:10]
+	}

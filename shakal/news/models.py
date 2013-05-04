@@ -20,8 +20,8 @@ class NewsListManager(models.Manager):
 
 
 class News(models.Model):
-	objects = NewsManager()
-	news = NewsListManager()
+	all_news = NewsManager()
+	objects = NewsListManager()
 
 	title = models.CharField(max_length = 255, verbose_name = _('title'))
 	slug = models.SlugField(unique = True)

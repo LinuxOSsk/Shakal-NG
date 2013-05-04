@@ -28,4 +28,6 @@ class NewsFeed(Feed):
 		return item.created
 
 	def items(self):
-		return News.news.select_related('author').order_by('-pk')[:settings.FEED_SIZE]
+		return News.objects \
+			.select_related('author') \
+			.order_by('-pk')[:settings.FEED_SIZE]
