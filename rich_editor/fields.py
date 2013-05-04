@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db.models import signals
 from django.db.models.fields import TextField
+
 from .forms import RichTextField
 from .parser import HtmlParser
 
@@ -9,6 +10,9 @@ class RichTextOriginalField(TextField):
 	widget = RichTextField
 
 	def to_python(self, value):
+		# hodnota nastavená skriptom
+		if not isinstance(value, basestring):
+			return value
 		if value is None:
 			return (None, None)
 		if ':' in value:
@@ -17,7 +21,7 @@ class RichTextOriginalField(TextField):
 			return (None, value)
 
 	def get_prep_value(self, value):
-		return u":".join(value)
+		return value[0] + u":" + value[1]
 
 
 class RichTextFilteredField(TextField):
