@@ -310,14 +310,14 @@ var createEditorSwitch = function(element, settings) {
 
 	var editors = [
 		{
-			'id': 'wymeditor',
-			'name': 'WYMEditor',
-			'plugin': wymeditor_plugin
-		},
-		{
 			'id': '',
 			'name': 'Žiaden vizuálny editor',
 			'plugin': shakal_plugin
+		},
+		{
+			'id': 'wymeditor',
+			'name': 'WYMEditor',
+			'plugin': wymeditor_plugin
 		}
 	];
 	var functions = {};
@@ -362,7 +362,7 @@ var createEditorSwitch = function(element, settings) {
 }
 
 function initialize_rich_editor(name, settings) {
-	var default_editor = 'wymeditor';
+	var default_editor = '';
 	var element = document.getElementById('id_' + name);
 	var loadFunctions = createEditorSwitch(element, settings);
 	var editor = getCookie('last_editor');
