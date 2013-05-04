@@ -77,7 +77,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 	'django.core.context_processors.request',
 	'django.contrib.auth.context_processors.auth',
 	'django.contrib.messages.context_processors.messages',
-	'shakal.feeds.context_processors.feeds',
+	'feeds.context_processors.feeds',
 	'template_dynamicloader.context_processors.style',
 )
 
@@ -91,7 +91,7 @@ MIDDLEWARE_CLASSES = (
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django_tools.middlewares.ThreadLocal.ThreadLocalMiddleware',
 	'template_dynamicloader.middleware.TemplateSwitcherMiddleware',
-	'shakal.feeds.middleware.FeedsMiddleware',
+	'feeds.middleware.FeedsMiddleware',
 	'maintenance.middleware.MaintenanceMiddleware',
 )
 
@@ -145,7 +145,7 @@ INSTALLED_APPS = (
 	'threaded_comments',
 	'template_preprocessor',
 	'forum',
-	'shakal.feeds',
+	'feeds',
 	'shakal.linuxos',
 	'news',
 	'shakal.search',
