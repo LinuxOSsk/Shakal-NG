@@ -1,4 +1,4 @@
-{% load breadcrumbs_tags i18n linuxos news_tags staticfiles polls_tags %}{% load feeds_tags %}<!DOCTYPE HTML>
+{% load breadcrumbs_tags i18n linuxos news_tags staticfiles polls_tags notifications_tags %}{% load feeds_tags %}<!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"  lang="{{ LANGUAGE_CODE|default:"en-us" }}" xml:lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -84,11 +84,25 @@ html, body {
 				<div class="pull-right">
 					<div id="user_panel"class="btn{% if user.is_authenticated %} authenticated{% endif %}">
 						{% if user.is_authenticated %}
-							<span class="username"><a href="{{ request.user.get_absolute_url }}"><span class="icon-user"></span>{% firstof request.user.get_full_name request.user.username %}</a></span>
+							<span class="username">
+								<a href="{{ request.user.get_absolute_url }}">
+									<span class="icon-user"></span>
+									{% firstof request.user.get_full_name request.user.username %}
+									{% get_unread_notifications as unread_notifications %}
+									{% if unread_notifications %}
+										&nbsp;<span class="badge badge-important">{{ unread_notifications|length }}</span>
+									{% endif %}
+								</a>
+							</span>
 							<ul id="userlinks" class="dropdown menu">
 								<li>
 									<a href="{{ request.user.get_absolute_url }}" rel="nofollow">{% trans "Profile" %}</a>
 								</li>
+								{% if unread_notifications %}
+									<li>
+										<a href="{% url 'notifications:read' %}" rel="nofollow">{% trans "Notifications" %}&nbsp;<span class="badge badge-important">{{ unread_notifications|length }}</span></a>
+									</li>
+								{% endif %}
 								{% if user.is_superuser %}
 								<li>
 									<a href="{% url 'admin:index' %}" rel="nofollow">{% trans 'Site administration' %}</a>

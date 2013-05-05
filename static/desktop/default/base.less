@@ -304,6 +304,9 @@ fieldset, .module {
 .module-row {
 	padding: @row-padding;
 	border-bottom: @module-row-border;
+	.inactive {
+		color: #888;
+	}
 	.module-row {
 		padding: @row-padding*0.4;
 		border: none;
@@ -1234,7 +1237,12 @@ ul.messages {
 	border-top: 1px solid #dbdfe3;
 }
 
-.comments_tree .links {
+.module.notifications  p {
+	margin: 0.2em 0;
+	clear: none;
+}
+
+.comments_tree .links, .notifications .links {
 	float: right;
 	padding: 0 .7em .7em .7em;
 	margin: 0 -8px -2px 0;

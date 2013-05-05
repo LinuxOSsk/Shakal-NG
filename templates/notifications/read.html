@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load breadcrumbs_tags paginator_tags i18n linuxos %}
+
+{% block breadcrumbs %}
+	{% breadcrumb %}{% trans "Notifications" %}{% endbreadcrumb %}
+	{{ block.super }}
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+
+	<h1>Notifications</h1>
+
+	<div class="module notifications">
+		{% for notification in notifications %}
+			<div class="module-row{% if notification.readed %} inactive{% endif %}">
+				<div class="links">
+					{% if not notification.readed %}
+						<div class="btn"><span><a href="#">Prečítať</a></span></div>
+					{% endif %}
+				</div>
+				<p>
+					{% if notification.content_type %}
+						{% include "widgets/content_type_label.html" with content_type=notification.content_type %}
+					{% endif %}
+					{{ notification.event.message }}
+				</p>
+				<div class="info bottom">
+					<span class="label label-{{ notification.event.readed|yesno:"standard,important" }}">{{ notification.event.readed|yesno:"Prečítané,Neprečítané" }}</span>
+					{{ notification.event.time|humandatetime }}
+					{% if notification.event.author %}
+					| <a href="{{ notification.event.author.get_absolute_url }}">{{ notification.event.author }}</a>
+					{% endif %}
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+
+{% endblock %}

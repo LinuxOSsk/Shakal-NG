@@ -55,6 +55,7 @@ class Event(models.Model):
 
 	object_id = models.PositiveIntegerField(blank = True, null = True)
 	content_type = models.ForeignKey(ContentType, blank = True, null = True)
+	time = models.DateTimeField(auto_now_add = True)
 	content_object = generic.GenericForeignKey('content_type', 'object_id')
 	action = models.CharField(max_length = 1, choices = ACTION_TYPE, default = MESSAGE_ACTION)
 	level = models.IntegerField(default = messages.INFO)
@@ -65,7 +66,17 @@ class Event(models.Model):
 		index_together = [['object_id', 'content_type', 'action', 'level']]
 
 
+class InboxManager(models.Manager):
+	def user_messages(self, user):
+		return self.get_query_set() \
+			.select_related('event', 'event__content_type') \
+			.filter(recipient = user) \
+			.order_by('-pk')
+
+
 class Inbox(models.Model):
+	objects = InboxManager()
+
 	recipient = models.ForeignKey(settings.AUTH_USER_MODEL)
 	event = models.ForeignKey(Event)
 	readed = models.BooleanField(default = False)
