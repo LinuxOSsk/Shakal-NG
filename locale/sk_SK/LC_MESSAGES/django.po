@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-10 19:41+0200\n"
+"POT-Creation-Date: 2013-05-05 16:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -117,11 +117,17 @@ msgstr "Platnosť odkazu vypršala."
 msgid "E-mail address is already in use."
 msgstr "E-mailová adresa sa už používa."
 
+msgid "Recent Actions"
+msgstr "Posledné akcie"
+
+msgid "Return to site"
+msgstr "Návrat na stránku"
+
+msgid "Dashboard"
+msgstr "Dashboard"
+
 msgid "name"
 msgstr "meno"
-
-msgid "icon"
-msgstr "ikona"
 
 msgid "category"
 msgstr "kategória"
@@ -192,6 +198,45 @@ msgstr "vytvorené"
 msgid "size"
 msgstr "veľkosť"
 
+msgid "section"
+msgstr "sekcia"
+
+msgid "Text"
+msgstr "Text"
+
+msgid "Attachment"
+msgstr "Príloha"
+
+msgid "description"
+msgstr "popis"
+
+msgid "sections"
+msgstr "sekcie"
+
+msgid "subject"
+msgstr "predmet"
+
+msgid "text"
+msgstr "text"
+
+msgid "time"
+msgstr "čas"
+
+msgid "forum"
+msgstr "fórum"
+
+msgid "deleted"
+msgstr "vymazané"
+
+msgid "resolved"
+msgstr "vyriešené"
+
+msgid "topic"
+msgstr "téma fóra"
+
+msgid "topics"
+msgstr "témy fóra"
+
 msgid "Registration complete"
 msgstr "Registrácia dokončená"
 
@@ -228,6 +273,42 @@ msgstr "Odhlásený"
 msgid "^status/$"
 msgstr "^stav/$"
 
+msgid "short text"
+msgstr "krátky text"
+
+msgid "long text"
+msgstr "dlhý text"
+
+msgid "user"
+msgstr "používateľ"
+
+msgid "approved"
+msgstr "schválené"
+
+msgid "news item"
+msgstr "správa"
+
+msgid "news items"
+msgstr "správy"
+
+msgid "other"
+msgstr "iné"
+
+msgid "create"
+msgstr "vytvorenie"
+
+msgid "update"
+msgstr "aktualizácia"
+
+msgid "delete"
+msgstr "vymazanie"
+
+msgid "message"
+msgstr "správa"
+
+msgid "comment"
+msgstr "komentár"
+
 msgid "Minimum 2 choices are required"
 msgstr "Sú požadované minimálne 2 odpovede"
 
@@ -239,9 +320,6 @@ msgstr "otázka"
 
 msgid "more choices"
 msgstr "viacej odpovedí"
-
-msgid "approved"
-msgstr "schválené"
 
 msgid "active from"
 msgstr "aktívne od"
@@ -303,6 +381,9 @@ msgstr "^maintenance/"
 msgid "^news/"
 msgstr "^spravy/"
 
+msgid "^notifications/"
+msgstr "^upozornenia/"
+
 msgid "^polls/"
 msgstr "^ankety/"
 
@@ -314,117 +395,6 @@ msgstr "^template-cache/$"
 
 msgid "^search/"
 msgstr "^hladat/"
-
-msgid "section"
-msgstr "sekcia"
-
-msgid "Text"
-msgstr "Text"
-
-msgid "Attachment"
-msgstr "Príloha"
-
-msgid "description"
-msgstr "popis"
-
-msgid "sections"
-msgstr "sekcie"
-
-msgid "subject"
-msgstr "predmet"
-
-msgid "text"
-msgstr "text"
-
-msgid "time"
-msgstr "čas"
-
-msgid "forum"
-msgstr "fórum"
-
-msgid "topic"
-msgstr "téma fóra"
-
-msgid "topics"
-msgstr "témy fóra"
-
-msgid "short text"
-msgstr "krátky text"
-
-msgid "long text"
-msgstr "dlhý text"
-
-msgid "user"
-msgstr "používateľ"
-
-msgid "news item"
-msgstr "správa"
-
-msgid "news items"
-msgstr "správy"
-
-msgid "Recent Actions"
-msgstr "Posledné akcie"
-
-msgid "Return to site"
-msgstr "Návrat na stránku"
-
-msgid "Dashboard"
-msgstr "Dashboard"
-
-msgid "Content"
-msgstr "Obsah"
-
-msgid "Metadata"
-msgstr "Metadáta"
-
-msgid "Subject"
-msgstr "Predmet"
-
-msgid "Comment"
-msgstr "Komentár"
-
-msgid "user's name"
-msgstr "používateľské meno"
-
-msgid "user's email address"
-msgstr "e-mailová adresa užívateľa"
-
-msgid "user's URL"
-msgstr "URL adresa"
-
-msgid "comment"
-msgstr "komentár"
-
-msgid "date/time submitted"
-msgstr "dátum/čas odoslania"
-
-msgid "IP address"
-msgstr "IP adresa"
-
-msgid "is public"
-msgstr "je verejný"
-
-msgid "is removed"
-msgstr "je odstránený"
-
-msgid "is locked"
-msgstr "je uzamknutý"
-
-msgid "comments"
-msgstr "komentáre"
-
-msgid "flag"
-msgstr "značka"
-
-msgid "date"
-msgstr "dátum"
-
-msgid "comment flag"
-msgstr "značka komentára"
-
-msgid "comment flags"
-msgstr "značky komentára"
 
 #, python-format
 msgid "%(counter)s comment"
@@ -453,6 +423,9 @@ msgstr "Zmeniť heslo"
 
 msgid "Sign up"
 msgstr "Registrovať"
+
+msgid "Notifications"
+msgstr "Upozornenia"
 
 msgid "Activation"
 msgstr "Aktivácia"
@@ -615,3 +588,86 @@ msgstr "Vytvoriť účet"
 
 msgid "User zone"
 msgstr "Používateľská zóna"
+
+msgid "Content"
+msgstr "Obsah"
+
+msgid "Metadata"
+msgstr "Metadáta"
+
+msgid "flagged"
+msgid_plural "flagged"
+msgstr[0] "označený"
+msgstr[1] "označené"
+msgstr[2] "označených"
+
+msgid "Flag selected comments"
+msgstr "Označiť vybrané komentáre"
+
+msgid "Approve selected comments"
+msgstr "Schváliť vybrané komentáre"
+
+msgid "removed"
+msgid_plural "removed"
+msgstr[0] "odstránený"
+msgstr[1] "odstránené"
+msgstr[2] "odstránených"
+
+msgid "Remove selected comments"
+msgstr "Odstrániť vybrané komentáre"
+
+#, python-format
+msgid "1 comment was %(action)s."
+msgid_plural "%(count)s comments were %(action)s."
+msgstr[0] "1 komentár bol %(action)s."
+msgstr[1] "%(count)s komentáre boli %(action)s."
+msgstr[2] "%(count)s komentárov bolo %(action)s."
+
+msgid ""
+"If you enter anything in this field your comment will be treated as spam"
+msgstr "Ak sem zadáte čokoľvek váš komentár bude považovaný za spam"
+
+msgid "Name"
+msgstr "Meno"
+
+msgid "Subject"
+msgstr "Predmet"
+
+msgid "Comment"
+msgstr "Komentár"
+
+msgid "object ID"
+msgstr "ID objektu"
+
+msgid "user's name"
+msgstr "používateľské meno"
+
+msgid "date/time submitted"
+msgstr "dátum/čas odoslania"
+
+msgid "IP address"
+msgstr "IP adresa"
+
+msgid "is public"
+msgstr "je verejný"
+
+msgid "is removed"
+msgstr "je odstránený"
+
+msgid "is locked"
+msgstr "je uzamknutý"
+
+msgid "comments"
+msgstr "komentáre"
+
+msgid "flag"
+msgstr "značka"
+
+msgid "date"
+msgstr "dátum"
+
+msgid "comment flag"
+msgstr "značka komentára"
+
+msgid "comment flags"
+msgstr "značky komentára"
