@@ -10,7 +10,6 @@ from django.template import RequestContext
 from django.views.decorators.http import require_POST
 from forms import PollForm
 from models import Poll, Choice, check_can_vote, record_vote
-from common_utils import unique_slugify
 
 
 @require_POST
@@ -60,7 +59,6 @@ def create(request):
 		form = PollForm(request.POST)
 		if form.is_valid():
 			poll = form.save(commit = False)
-			unique_slugify(poll, title_field = 'question')
 			poll.save()
 			choices = [Choice(poll = poll, choice = a['choice']) for a in form.cleaned_data['choices']]
 			Choice.objects.bulk_create(choices)

@@ -5,7 +5,6 @@ from django.template.response import TemplateResponse
 
 from forms import NewsForm
 from models import News
-from common_utils import unique_slugify
 from common_utils.generic import AddLoggedFormArgumentMixin, PreviewCreateView
 
 
@@ -24,7 +23,6 @@ class NewsCreateView(AddLoggedFormArgumentMixin, PreviewCreateView):
 
 	def form_valid(self, form):
 		news = form.save(commit = False)
-		unique_slugify(news, title_field = 'title')
 		if self.request.user.is_authenticated():
 			if self.request.user.get_full_name():
 				news.authors_name = self.request.user.get_full_name()

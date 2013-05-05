@@ -9,7 +9,6 @@ from django.utils.decorators import method_decorator
 from models import Page
 from forms import WikiEditForm
 from common_utils.generic import PreviewCreateView, PreviewUpdateView
-from common_utils import unique_slugify
 import reversion
 
 
@@ -114,5 +113,4 @@ class PageCreateView(PreviewCreateView):
 		page = form.save(commit = False)
 		page.last_author = self.request.user
 		page.parent = self.extra_context['page']
-		unique_slugify(page, title_field = 'title')
 		return super(PageCreateView, self).form_valid(form)

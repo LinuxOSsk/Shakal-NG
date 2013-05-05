@@ -133,6 +133,7 @@ INSTALLED_APPS = (
 	'attachment',
 	'auth_remember',
 	'autoimagefield',
+	'autoslugfield',
 	'bootstrap_toolkit',
 	'breadcrumbs',
 	'hitcount',

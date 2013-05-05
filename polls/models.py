@@ -8,6 +8,8 @@ from django.db.models import permalink
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
+from autoslugfield.fields import AutoSlugField
+
 
 class PollListManager(models.Manager):
 	def get_query_set(self):
@@ -22,7 +24,7 @@ class Poll(models.Model):
 	objects = PollListManager()
 
 	question = models.TextField(_("question"))
-	slug = models.SlugField(unique = True)
+	slug = AutoSlugField(unique = True, title_field = 'question')
 	checkbox = models.BooleanField(_("more choices"), default = False)
 	approved = models.BooleanField(_("approved"), default = False)
 	active_from = models.DateTimeField(verbose_name = _("active from"), blank = True, null = True)

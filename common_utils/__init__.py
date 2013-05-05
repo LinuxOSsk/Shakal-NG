@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-
 import os
+
 from django import template
-from django.template.defaultfilters import slugify
 from django_tools.middlewares.ThreadLocal import get_current_request
 
 
@@ -32,33 +31,6 @@ def process_template_kwargs(rawparams, context = None):
 			paramvalue = template.resolve_variable(paramvalue, context)
 		kwargs[paramname] = paramvalue
 	return kwargs
-
-
-def unique_slugify(item, title_field, slug_field = 'slug', reserve_chars = 5):
-	if not getattr(item, slug_field):
-		slug_field_object = item._meta.get_field(slug_field)
-		slug_length = slug_field_object.max_length
-		slug = slugify(getattr(item, title_field))[:slug_length - reserve_chars]
-
-		queryset = item.__class__._default_manager.all()
-		if item.pk:
-			queryset = queryset.exclude(pk = item.pk)
-
-		slug_field_query = slug_field + '__startswith'
-		all_slugs = set(queryset.filter(**{slug_field_query: slug}).values_list(slug_field, flat = True))
-		max_val = 10 ** (reserve_chars - 1) - 1
-		setattr(item, slug_field, create_unique_slug(slug, all_slugs, max_val))
-
-
-def create_unique_slug(slug, all_slugs, max_val):
-	if not slug in all_slugs:
-		return slug
-	else:
-		for suffix in xrange(2, max_val):
-			new_slug = slug + '-' + str(suffix)
-			if not new_slug in all_slugs:
-				return new_slug
-	return slug
 
 
 def iterify(items):
