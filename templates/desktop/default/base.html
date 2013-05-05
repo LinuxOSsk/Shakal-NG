@@ -179,6 +179,38 @@ html, body {
 						<div id="col3">
 							<div id="aside_right">
 								{% block right %}
+									<div class="module-group">
+										<div class="module linux">
+											<h2>O Linuxe</h2>
+											<ul class="menu">
+												<li><a href="#">Čo je to Linux?</a></li>
+												<li><a href="#">Linux a internet</a></li>
+												<li><a href="#">Linux v kancelárii</a></li>
+												<li><a href="#">Linux a multimédiá</a></li>
+												<li><a href="#">Hry v Linuxe</a></li>
+												<li><a href="#">Veda, výskum a publikovanie</a></li>
+												<li><a href="#">Informačné zdroje SK/CZ</a></li>
+											</ul>
+										</div>
+										<div class="module portal">
+											<h2>Portál</h2>
+											<ul class="menu">
+												<li><a href="#">Reklama</a></li>
+												<li><a href="#">Podporte nás</a></li>
+												<li><a href="#">Export dát</a></li>
+												<li><a href="#">O nás</a></li>
+											</ul>
+										</div>
+										<div class="module odporucam">
+											<h2>Odporúčame</h2>
+											{% include "static/block-odporucame.html" %}
+											</div>
+										</div>
+										<div class="module podporte">
+											<h2>Podporte nás</h2>
+											{% include "static/block-podporte.html" %}
+										</div>
+									</div>
 									<div class="module polls">
 										<h2>Anketa</h2>
 										{% render_messages messages 'polls' %}

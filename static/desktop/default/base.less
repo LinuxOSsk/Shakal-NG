@@ -297,6 +297,10 @@ fieldset, .module {
 	margin-top: @module-margin;
 }
 
+.module-group .module {
+	margin-top: -1px;
+}
+
 .module .clearpadding {
 	margin: 0 -@module-padding;
 }
@@ -575,24 +579,41 @@ button:focus { outline: none; }
 	}
 }
 
-/* Dropdown zoznam */
-.dropdown.menu {
+.module .menu {
+	padding: @title-padding 0px;
+}
+
+.menu {
+	/* Dropdown zoznam */
+	&.dropdown {
+		position: absolute;
+		right: 0px;
+		z-index: 1;
+		display: none;
+		border-radius: 3px;
+		border: rgba(0, 0, 0, 0.4) 1px solid;
+		.module-shadow;
+		padding: 3px 0px;
+		margin: @big-btn-height 1px 0 0;
+		&:hover {
+			display: block;
+		}
+		a {
+			line-height: 32px;
+		}
+	}
 	background: @generic-background;
-	position: absolute;
-	right: 0px;
-	padding: 3px 0px;
-	margin: @big-btn-height 1px 0 0;
-	border-radius: 3px;
-	border: rgba(0, 0, 0, 0.4) 1px solid;
-	.module-shadow;
-	display: none;
-	z-index: 1;
 	a {
 		color: @link-color;
-	}
-	&:hover {
 		display: block;
+		text-decoration: none;
+		line-height: 24px;
+		&:hover {
+			border:radius: 0;
+			background: none;
+		}
 	}
+	padding: 0; margin: 0;
 	li {
 		list-style: none; padding: 0px @title-padding; margin: 0px;
 		&:hover {
