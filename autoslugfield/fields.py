@@ -34,7 +34,8 @@ class AutoSlugField(SlugField):
 		max_val = 10 ** (self.reserve_chars - 1) - 1
 		setattr(instance, self.name, self.create_unique_slug(slug, all_slugs, max_val))
 
-	def create_unique_slug(self, slug, all_slugs, max_val):
+	@staticmethod
+	def create_unique_slug(slug, all_slugs, max_val):
 		if not slug in all_slugs:
 			return slug
 		else:

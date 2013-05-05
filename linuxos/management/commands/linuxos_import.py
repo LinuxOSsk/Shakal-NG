@@ -29,7 +29,7 @@ from article.models import Article, Category as ArticleCategory
 from forum.models import Section as ForumSection, Topic as ForumTopic
 from news.models import News
 from threaded_comments.models import RootHeader as ThreadedRootHeader, UserDiscussionAttribute
-from common_utils import create_unique_slug
+from autoslugfield.fields import AutoSlugField
 from wiki.models import Page as WikiPage
 
 
@@ -970,7 +970,7 @@ class Command(BaseCommand):
 				if not page_object.created:
 					page_object.created = page['time']
 				if not page_object.slug:
-					slug = create_unique_slug(slugify(page['nadpis'])[:45], all_slugs, 9999)
+					slug = AutoSlugField.create_unique_slug(slugify(page['nadpis'])[:45], all_slugs, 9999)
 					all_slugs.add(slug)
 					page_object.slug = slug
 				page_object.save(ignore_auto_date = True)
