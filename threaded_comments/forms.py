@@ -31,7 +31,7 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 
 	name = forms.CharField(label = _("Name"), max_length = 50)
 	subject = forms.CharField(label = _("Subject"), max_length = 100)
-	original_comment = RichOriginalField(label = _("Comment"), max_length = COMMENT_MAX_LENGTH)
+	original_comment = RichOriginalField(label = _("Comment"), max_length = COMMENT_MAX_LENGTH, js = True)
 	attachment = AttachmentField(label = _("Attachment"), required = False)
 
 	def __init__(self, target_object, data = None, initial = None, *args, **kwargs):

@@ -6,8 +6,8 @@ from wiki.models import Page
 
 
 class WikiEditForm(ModelForm):
-	original_text = RichOriginalField(label = u'Text')
+	original_text = RichOriginalField(label = u'Text', js = True)
 
 	class Meta:
 		model = Page
-		exclude = ('parent', 'slug', 'page_type', 'last_author')
+		exclude = ('parent', 'slug', 'page_type', 'last_author', 'filtered_text')

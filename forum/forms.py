@@ -46,7 +46,7 @@ class SectionRenderer(RadioFieldRenderer):
 
 class TopicForm(AntispamModelFormMixin, forms.ModelForm, AttachmentFormMixin):
 	section = SectionModelChoiceField(Section.objects.all(), empty_label=None, widget = RadioSelect(renderer = SectionRenderer), label = capfirst(_('section')))
-	original_text = RichOriginalField(label = _("Text"), max_length = COMMENT_MAX_LENGTH)
+	original_text = RichOriginalField(label = _("Text"), max_length = COMMENT_MAX_LENGTH, js = True)
 	attachment = AttachmentField(label = _("Attachment"), required = False)
 	upload_session = forms.CharField(label = "Upload session", widget = HiddenInput, required = False)
 
