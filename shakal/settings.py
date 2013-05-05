@@ -123,21 +123,16 @@ INSTALLED_APPS = (
 	'django.contrib.admin',
 	'django.contrib.syndication',
 	'django_tools',
-	'common_utils',
 	'haystack',
 	'queued_search',
 	'registration',
 	'accounts',
-	'antispam',
 	'article',
 	'attachment',
 	'auth_remember',
-	'autoimagefield',
-	'autoslugfield',
 	'bootstrap_toolkit',
 	'breadcrumbs',
 	'hitcount',
-	'rich_editor',
 	'imgcompress',
 	'maintenance',
 	'mptt',
@@ -155,6 +150,8 @@ INSTALLED_APPS = (
 	'wiki',
 	'fts',
 )
+
+QUEUE_BACKEND = 'dummy'
 
 COMMENTS_APP = 'threaded_comments'
 
