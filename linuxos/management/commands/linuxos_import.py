@@ -588,7 +588,7 @@ class Command(BaseCommand):
 
 			slug = str(news_dict['id'])
 			if news_dict['predmet']:
-				slug = create_unique_slug(slugify(news_dict['predmet'])[:45], all_slugs, 9999)
+				slug = AutoSlugField.create_unique_slug(slugify(news_dict['predmet'])[:45], all_slugs, 9999)
 				all_slugs.add(slug)
 
 			news = {
@@ -645,7 +645,7 @@ class Command(BaseCommand):
 				content_type = ContentType.objects.get_for_model(Article)
 				object_id = polls_dict['article_id']
 			else:
-				slug = create_unique_slug(slugify(polls_dict['otazka'][:45]), all_slugs, 9999)
+				slug = AutoSlugField.create_unique_slug(slugify(polls_dict['otazka'][:45]), all_slugs, 9999)
 				content_type = None
 				object_id = None
 			all_slugs.add(slug)
