@@ -136,6 +136,7 @@ INSTALLED_APPS = (
 	'imgcompress',
 	'maintenance',
 	'mptt',
+	'notifications',
 	'paginator',
 	'polls',
 	'reversion',

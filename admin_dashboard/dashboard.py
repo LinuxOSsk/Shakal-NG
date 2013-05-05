@@ -11,7 +11,7 @@ class AdminIndexDashboard(Dashboard):
 	columns = 2
 
 	class Media:
-		css = ('admin/shakal_dashboard/dashboard.css', )
+		css = ('admin/dashboard/dashboard.css', )
 
 	def init_with_context(self, context):
 		appgroups = get_application_groups()
