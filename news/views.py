@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.template.response import TemplateResponse
@@ -33,6 +34,12 @@ class NewsCreateView(AddLoggedFormArgumentMixin, PreviewCreateView):
 			news.approved = True
 		news.updated = news.created
 		return super(NewsCreateView, self).form_valid(form)
+
+	def get_success_url(self):
+		if self.request.user.has_perm('news.can_change'):
+			return super(NewsCreateView, self).get_success_url()
+		else:
+			return reverse('home')
 
 
 def news_list(request, page = 1):
