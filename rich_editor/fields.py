@@ -1,14 +1,23 @@
 # -*- coding: utf-8 -*-
-from django.db.models import signals, TextField, SubfieldBase
+from django.db.models import signals, TextField, SubfieldBase, Field
 
 from .forms import RichOriginalField
 from .parser import HtmlParser
 
 
-class RichTextOriginalField(TextField):
+class RichTextOriginalField(Field):
 	__metaclass__ = SubfieldBase
 
-	widget = RichOriginalField
+	def get_internal_type(self):
+		return "TextField"
+
+	def formfield(self, **kwargs):
+		defaults = {
+			'form_class': RichOriginalField,
+			'js': False,
+		}
+		defaults.update(kwargs)
+		return super(RichTextOriginalField, self).formfield(**defaults)
 
 	def to_python(self, value):
 		if not isinstance(value, basestring):
