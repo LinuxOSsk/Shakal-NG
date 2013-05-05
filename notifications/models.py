@@ -17,13 +17,20 @@ class EventManager(models.Manager):
 		for user_id in user_ids:
 			yield Inbox(event_id = event_id, recipient_id = user_id)
 
-	def broadcast(self, message):
-		event = Event(author = None)
+	def broadcast(self, message, object_id = None, content_type = None, action = None, level = messages.INFO, author = None):
+		event = Event(author = author)
+		event.object_id = object_id
+		event.content_type = content_type
+		if action:
+			event.action = action
+		if level:
+			event.level = level
 		event.message = message
-		event.action = Event.MESSAGE_ACTION
 		event.save()
 
 		users = self.__get_active_users()
+		if author:
+			users = users.exclude(pk = author.pk)
 		Inbox.objects.bulk_create(self.__generate_inbox_objects(users, event.pk))
 
 
@@ -49,7 +56,7 @@ class Event(models.Model):
 	object_id = models.PositiveIntegerField(blank = True, null = True)
 	content_type = models.ForeignKey(ContentType, blank = True, null = True)
 	content_object = generic.GenericForeignKey('content_type', 'object_id')
-	action = models.CharField(max_length = 1, choices = ACTION_TYPE)
+	action = models.CharField(max_length = 1, choices = ACTION_TYPE, default = MESSAGE_ACTION)
 	level = models.IntegerField(default = messages.INFO)
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, blank = True, null = True)
 	message = models.TextField()
