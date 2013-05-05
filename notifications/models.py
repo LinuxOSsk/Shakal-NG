@@ -71,7 +71,7 @@ class InboxManager(models.Manager):
 		return self.get_query_set() \
 			.select_related('event', 'event__content_type') \
 			.filter(recipient = user) \
-			.order_by('-readed', '-pk')
+			.order_by('readed', '-pk')
 
 
 class Inbox(models.Model):
