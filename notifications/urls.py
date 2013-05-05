@@ -11,7 +11,7 @@ class Patterns(object):
 	@property
 	def urls(self):
 		urlpatterns = patterns('',
-			url(r'^$', views.read, name = 'read'),
+			url(r'^$', views.list, name = 'list'),
 		)
 		return (urlpatterns, self.app_name, self.name)
 

@@ -5,8 +5,8 @@ from notifications.models import Inbox
 
 
 @login_required
-def read(request):
+def list(request):
 	context = {
 		'notifications': Inbox.objects.user_messages(request.user)
 	}
-	return TemplateResponse(request, "notifications/read.html", context)
+	return TemplateResponse(request, "notifications/list.html", context)
