@@ -12,6 +12,7 @@ class Patterns(object):
 	def urls(self):
 		urlpatterns = patterns('',
 			url(r'^$', views.list, name = 'list'),
+			url(r'^r/(?P<pk>\d+)/$', views.read, name = 'read'),
 		)
 		return (urlpatterns, self.app_name, self.name)
 

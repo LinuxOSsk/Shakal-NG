@@ -18,7 +18,7 @@
 			<div class="module-row{% if notification.readed %} inactive{% endif %}">
 				<div class="links">
 					{% if not notification.readed %}
-						<div class="btn"><span><a href="#">Prečítať</a></span></div>
+						<div class="btn"><span><a href="{{ notification.get_absolute_url }}">Prečítať</a></span></div>
 					{% endif %}
 				</div>
 				<p>
@@ -28,7 +28,7 @@
 					{{ notification.event.message }}
 				</p>
 				<div class="info bottom">
-					<span class="label label-{{ notification.event.readed|yesno:"standard,important" }}">{{ notification.event.readed|yesno:"Prečítané,Neprečítané" }}</span>
+					<span class="label label-{{ notification.readed|yesno:"standard,important" }}">{{ notification.readed|yesno:"Prečítané,Neprečítané" }}</span>
 					{{ notification.event.time|humandatetime }}
 					{% if notification.event.author %}
 					| <a href="{{ notification.event.author.get_absolute_url }}">{{ notification.event.author }}</a>
