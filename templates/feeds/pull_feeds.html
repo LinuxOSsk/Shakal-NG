@@ -3,7 +3,7 @@
 	<tr><th class="title">Názov</th><th class="date">Publikované</th></tr>
 	{% for post in posts %}
 		<tr>
-			<td class="title"><a href="{{ post.link }}">{{ post.title }}</a></td>
+			<td class="title"><a href="{{ post.link }}" rel="nofollow">{{ post.title }}</a></td>
 			<td class="date">{{ post.published|date:"d.m.Y" }}</td>
 		</tr>
 	{% endfor %}
