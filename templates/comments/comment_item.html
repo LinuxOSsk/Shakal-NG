@@ -27,6 +27,7 @@
 			</div>
 		{% endif %}
 		{% if user.is_authenticated and not comment.is_locked and comment.is_public and not comment.is_removed %}
+			<!--
 			<div class="btn-group voting">
 				<div class="btn">
 					<span>
@@ -39,6 +40,7 @@
 					</span>
 				</div>
 			</div>
+			-->
 		{% endif %}
 		{% if user.is_authenticated %}
 			{% if user.is_staff and perms.threaded_comments.change_threaded_comment or not comment.is_locked %}
@@ -63,11 +65,13 @@
 						</div>
 					{% endif %}
 					{% if not comment.is_locked and comment.is_public and not comment.is_removed %}
+						<!--
 						<div class="btn">
 							<span>
 								<a href="#" class="resolved" rel="nofollow">Riešenie</a>
 							</span>
 						</div>
+						-->
 					{% endif %}
 				</div>
 			{% endif %}
