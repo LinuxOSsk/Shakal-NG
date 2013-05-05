@@ -10,6 +10,6 @@ register = template.Library()
 def get_unread_notifications(context):
 	user = context['request'].user
 	if user.is_authenticated():
-		return Inbox.objects.user_messages(user)[:99]
+		return Inbox.objects.user_messages(user).filter(readed = False)[:99]
 	else:
 		return Inbox.objects.none()
