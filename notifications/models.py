@@ -81,6 +81,11 @@ class Inbox(models.Model):
 	event = models.ForeignKey(Event)
 	readed = models.BooleanField(default = False)
 
+	def content_type(self):
+		if not self.event.content_type:
+			return None
+		return self.event.content_type.app_label + '.' + self.event.content_type.model
+
 	@models.permalink
 	def get_absolute_url(self):
 		return ('notifications:read', None, {'pk': self.pk})

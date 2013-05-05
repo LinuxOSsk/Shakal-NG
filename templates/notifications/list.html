@@ -22,13 +22,13 @@
 					{% endif %}
 				</div>
 				<p>
-					{% if notification.content_type %}
-						{% include "widgets/content_type_label.html" with content_type=notification.content_type %}
-					{% endif %}
 					{{ notification.event.message }}
 				</p>
 				<div class="info bottom">
 					<span class="label label-{{ notification.readed|yesno:"standard,important" }}">{{ notification.readed|yesno:"Prečítané,Neprečítané" }}</span>
+					{% if notification.content_type %}
+						{% include "widgets/content_type_label.html" with content_type=notification.content_type %}
+					{% endif %}
 					{{ notification.event.time|humandatetime }}
 					{% if notification.event.author %}
 					| <a href="{{ notification.event.author.get_absolute_url }}">{{ notification.event.author }}</a>
