@@ -11,7 +11,7 @@ from notifications.models import Inbox
 @login_required
 def list(request):
 	context = {
-		'notifications': Inbox.objects.user_messages(request.user)
+			'notifications': Inbox.objects.user_messages(request.user)[:99]
 	}
 	return TemplateResponse(request, "notifications/list.html", context)
 
@@ -24,6 +24,6 @@ def read(request, pk):
 	notification.save()
 
 	if event.content_object:
-		return HttpResponseRedirect(event.get_absolute_url())
+		return HttpResponseRedirect(event.content_object.get_absolute_url())
 	else:
 		return HttpResponseRedirect(reverse("notifications:list"))
