@@ -1,0 +1,775 @@
+{% extends "base.html" %}
+{% load breadcrumbs_tags %}
+{% block title %}Linux a multimédia{% endblock %}
+{% block breadcrumbs %}{% breadcrumb %}Linux a multimédia{% endbreadcrumb %}{{ block.super }}{% endblock %}
+
+{% block content %}
+<h1>Linux a multimédia</h1>
+
+<BR>
+<BR>
+
+      <img src="/media/IMG/Vmultimedia.jpg" align="left">
+      <font face="Verdana" size="2" color="#000000">Aj v tejto, pre bežného používateľa dôležitej, oblasti práce z PC má Linux mnoho softvéru: Mp3 prehrávače, DVD prehrávače, práca s audio súbormi, grafické prehliadače, grafické editory v štýle Photoshopu, vektorové grafické editory,
+      tvorba 3D grafiky, flash animácii, DVD enkódery, strihanie a editovanie videa. <br /><a href="http://linuxos.sk/mmscreens/index.html"><b>Pozrite si screenshoty multimediálnych programov pre Linux >>></b></a>  
+<br />
+<br />
+
+<font face="Verdana" size="2" color="black">V nasledujúcej tabuľke sú uvedené ekvivalenty a náhrady softvéru, ktorý poznáte z prostredia Windows. Mala by vám uľahčiť prechod na tento operačný systém.
+
+<br />Vysvetlivky:
+<ul>
+<LI><b>[Prop]</b> - Takto označené programy sú proprietárne</LI>
+<LI><b>[NF]</b> - Nie free softvér (alebo relatívne free s určitými obmedzeniami)</LI>
+<LI><b>[***]</b> - skvelý program, ktorý vám vrelo odporúčame</LI>
+</ul>
+
+<table bgcolor="#cccccc" border="0" cellpadding="3" cellspacing="1" class="tablemain" width="100%">
+
+<tbody><tr bgcolor="#6b8ec6">
+
+<td bgcolor="#6b8ec6" width="30%"><b><font size="2" color="white"><center>O p i s<BR>p r o g r a m u</center></font></b></td>
+<td bgcolor="#6b8ec6" width="30%"><b><font size="2" color="white"><center>W i n d o w s</center></font></b></td>
+<td bgcolor="#6b8ec6" width="40%"><b><font size="2" color="white"><center>L i n u x</center></font></b></td>
+</tr>
+<tr bgcolor="#9CBEE3">
+
+<td colspan="3"><b><font face="Verdana" size="2"><a name="41"></a><center>A) Audio / CD</center></font></b></td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Užitočné webstránky:</font></td>
+<td>-</td>
+<td>
+<a href="http://linux-sound.org/"><font face="Verdana" size="2">Linux MIDI &amp; Sound Applications</a>.</font><br />
+<a href="http://sound.condorow.net/"><font face="Verdana" size="2">Audio Software</a>
+ .</font></td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Hudba / mp3 / ogg prehrávače</font></td>
+<td><font face="Verdana" size="2">Winamp</font></td>
+<td><font face="Verdana" size="2">1) <a href="http://www.xmms.org/">XMMS (X multimedia system)</a> (<a href="clanok.php?clanokid=21">recenzia</a>)<br />
+2) <a href="http://noatun.kde.org/">Noatun.</a><br />
+3) <a href="http://www.zinf.org/">Zinf</a>. (former <a href="http://www.freeamp.org/">Freeamp</a>)<br />
+4) Winamp pre Linux.<br />
+5) Xamp.<br />
+6) <a href="http://gqmpeg.sourceforge.net/">GQmpeg</a>.<br />
+7) <a href="http://snackamp.sourceforge.net/">SnackAmp</a>.</font></td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Konzolová hudba / mp3 / ogg players</font></td>
+<td><font face="Verdana" size="2">mpg123 pre Windows, dosamp</font></td>
+<td>
+<p><font face="Verdana" size="2">1) Cplayer.<br />
+2) <a href="http://www.sci.fi/%7Etobo/mpg123">mpg123</a>.<br />
+3) <a href="http://www.xiph.org/">ogg123</a>.<br />
+4)
+ <a href="http://mpg321.sourceforge.net/">mpg321</a>.<br />
+5)
+<a href="http://konst.org.ua/rus/software/orpheus/info.html">Orpheus</a>.<br />
+6) <a href="http://www.stack.nl/%7Ebrama/mp3blaster.html">Mp3blaster</a>.<br />
+7) <a href="http://www.mars.org/home/rob/proj/mpeg/">Madplay</a>.<br />
+8) <a href="http://www.xmms.org/plugins_general.html">Konzolové utility pre XMMS</a>.<br />
+9) <a href="http://www.mplayerhq.hu/">Mplayer</a>.</p></font>
+</td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Programy pre napaľovanie s GUI</font></td>
+<td><font face="Verdana" size="2">Nero, Roxio Easy CD Creator, ...</font></td>
+<td><font face="Verdana" size="2">1) <a href="http://k3b.sourceforge.net/">K3b</a>. [***] (<a href="clanok.php?clanokid=25">recenzia</a>)<br />
+2) <a href="http://www.xcdroast.org/">XCDRoast</a>.<br />
+3) <a href="http://www.koncd.org/">KOnCd.</a><br />
+4) <a href="http://sourceforge.net/projects/eroaster/">Eclipt Roaster</a>.<br />
+5) <a href="http://gnometoaster.rulez.org/">Gnome Toaster</a>.<br />
+6) <a href="http://cdbakeoven.sourceforge.net/">CD Bake Oven.</a><br />
+7) KreateCD.<br />
+8) <a href="http://ogre.rocky-road.net/cdr.shtml">SimpleCDR-X</a>.
+<br />
+9) <a href="http://www.iki.fi/jmunsin/gcombust/">GCombust</a>.
+<br />
+10) <a href="http://wwwhomes.uni-bielefeld.de/jhaeger/webCDwriter/">WebCDWriter</a>. (CD napaľovací server, použiteľný z akéhokoľvek vzdialeného prehliadača s podporou Javy)<br />
+11) <a href="http://www.jump.net/%7Ebrooke/cdrtoast/">CDR Toaster.</a><br />
+12) <a href="http://arson.sourceforge.net/">Arson.</a></font></td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Prehrávače audio CD</font></td>
+<td><font face="Verdana" size="2">CD prehrávač</font></td>
+<td><font face="Verdana" size="2">1) <a href="http://zorbla.de/milliByte/index.html">KsCD</a>.<br />
+2) Gtcd (Gnome) + tcd (console).<br />
+3) <a href="http://konst.org.ua/rus/software/orpheus/info.html">Orpheus</a>. (console)<br />
+4) <a href="http://www.geocities.com/xsadp/">Sadp</a>.<br />
+5) <a href="http://www.x.org/contrib/applications/WorkMan/">WorkMan</a>.
+<br />
+6) <a href="http://www.amb.org/Xmcd/">Xmcd</a>.<br />
+7) <a href="http://www.nostatic.org/grip/">Grip</a>.
+<br />
+8) XPlayCD.<br />
+9) ccd / cccd.  (console)
+<br />
+10) <a href="http://cdp.sourceforge.net/">cdp</a>. (console)</font></td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Slowing the rotation of CD</font></td>
+<td><font face="Verdana" size="2">Slowcd, Cdslow</font></td>
+<td><font face="Verdana" size="2">1) mount -o speed=&lt;speed&gt;<br />
+2) hdparm -E &lt;speed&gt;<br />
+3) eject -x &lt;speed&gt;<br />
+4) cdspeed.</font>
+</td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td bgcolor="#fdfdfd"><font face="Verdana" size="2">CD ripping / grabbing</font></td>
+<td><font face="Verdana" size="2">Windows Media Player, AudioGrabber, Nero,<br />
+VirtualDrive, VirtualCD, CDex, ...</font></td>
+<td><font face="Verdana" size="2">1) <a href="http://www.nostatic.org/grip/">Grip.</a><br />
+2) <a href="http://audacity.sourceforge.net/">Audacity</a>.<br />
+3) <a href="http://prdownloads.sourceforge.net/riperx/">RipperX.</a><br />
+4) <a href="http://www.thekompany.com/projects/tkcoggripper/">tkcOggRipper.</a><br />
+5) A Better CD Encoder.<br />
+6) <a href="http://www.cdda2wav.de/">cdda2wav</a>.<br />
+7) <a href="http://gnometoaster.rulez.org/">Gnome Ňoaster.</a><br />
+8) <a href="http://www.xiph.org/paranoia">Cdparanoia.</a><br />
+9) <a href="http://www.jamiesdomain.org.uk/">Cd2mp3.</a><br />
+10) <a href="http://web.tiscalinet.it/marcellou/dagrab.html">Dagrab.</a><br />
+11) <a href="http://ogre.rocky-road.net/cdr.shtml">SimpleCDR-X</a>.
+<br />
+12) <a href="http://www.linuxrat.org/projects.html">RatRip</a>.
+<br />
+13) <a href="http://sourceforge.net/projects/autorip/">AutoRip.</a></font>
+</td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Tracker music prehrávač</font></td>
+<td><font face="Verdana" size="2">Winamp, Windows Media Player, ...</font></td>
+<td><font face="Verdana" size="2">1) <a href="http://www.multimania.com/miodrag/mikmod">xmms + MikMod-plugin</a><br />
+2) <a href="http://xmp.sourceforge.net/">xmms + xmp-plugin</a><br />
+3) <a href="http://mikmod.darkorb.net/">MikMod</a>. (console)<br />
+4) <a href="http://xmp.sourceforge.net/">xmp</a>. Can play tracker music with  Midi devices.<br />
+5) <a href="http://www.goice.co.jp/member/mo/timidity/">TiMidity++</a>.  Only mod files.</font></td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Midi prehrávač</font></td>
+<td><font face="Verdana" size="2">Winamp, Windows Media Player, ...</font></td>
+<td bgcolor="#fdfdfd"><font face="Verdana" size="2">1) <a href="http://ban.joh.cam.ac.uk/%7Ecr212/xmms-midi/">xmms + midi-plugin</a><br />
+2) <a href="http://benge.mybravenet.com/programming/">xmms + awemidi-plugin</a><br />
+3) <a href="http://benge.mybravenet.com/programming/">xmms + playmidi-plugin</a><br />
+4) <a href="http://www.goice.co.jp/member/mo/timidity/">TiMidity++</a>. Supports gus pathes and sf2 banks, backend to another software.<br />
+4) <a href="http://www.stardate.bc.ca/eawpatches/html/default.htm">timidity-eawpatches</a>. Gus-patches for TiMidity++.<br />
+5) <a href="http://developer.kde.org/%7Elarrosa/kmid.html">Kmid</a>.<br />
+6) <a href="http://linuxshop.ru/linuxbegin/win-lin-soft-en/http//bahamut.mm.t.u-tokyo.ac.jp/%7Eiwai/awedrv/">drvmidi / awemidi.</a><br />
+7) <a href="http://pmidi.sourceforge.net/">pmidi</a> (console, for ALSA).<br />
+8) playmidi.<br />
+9) atmidi.</font></td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Midi + karaoke prehrávač</font></td>
+<td><font face="Verdana" size="2"><a href="http://www.vanbasco.com/">VanBasco</a></font></td>
+<td><font face="Verdana" size="2">1) <a href="http://developer.kde.org/%7Elarrosa/kmid.html">Kmid</a>.<br />
+2) <a href="http://gkaraoke.sourceforge.net/">Gkaraoke.</a><br />
+3) <a href="http://www.goice.co.jp/member/mo/timidity/">TiMidity++</a>.
+</font>
+</td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Mp3 enkódery</font></td>
+<td><font face="Verdana" size="2"><a href="http://lame.sourceforge.net/">Lame</a></font></td>
+<td><font face="Verdana" size="2">1) <a href="http://lame.sourceforge.net/">Lame</a>.<br />
+2) Bladeenc.<br />
+3) <a href="http://hive.me.gu.edu.au/not_lame/">NotLame</a>.<br />
+ 4) L3enc. [Prop]<br />
+5) gogo.
+</font>
+</td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Manažovanie MP3 databázy</font></td>
+<td><font face="Verdana" size="2">?</font></td>
+<td><font face="Verdana" size="2"><a href="http://madman.sourceforge.net/">Madman</a> [***].
+</font>
+</td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">OGG enkódery</font></td>
+<td><font face="Verdana" size="2">oggenc</font></td>
+<td><font face="Verdana" size="2">oggenc.</font></td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Práca s Real protokolom</font></td>
+<td><font face="Verdana" size="2">RealPlayer [Prop]</font>
+</td>
+<td><font face="Verdana" size="2">1) <a href="http://scopes.real.com/real/player/unix/unix.html">RealPlayer pre Linux</a>. [Prop]
+<br />
+2) <a href="http://www.mplayerhq.hu/">Mplayer</a> + knižnice.</font></td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Programy na prijímanie rádio staníc</font></td>
+<td><font face="Verdana" size="2">VC Radio, FMRadio, Digband Radio</font></td>
+<td><font face="Verdana" size="2">1) <a href="http://xradio.sf.net/">xradio</a>.<br />
+2) <a href="http://www.leg.uct.ac.za/cRadio/">cRadio</a>.<br />
+3) Xmradio.<br />
+4) RDJ.<br />
+5) <a href="http://cactus.rulez.org/projects/radioactive/">RadioActive.</a><br />
+6) <a href="http://silicone.free.fr/xmms-FMRadio/">XMMS-FMRadio</a>.<br />
+7) <a href="http://gqmpeg.sourceforge.net/radio.html">Gqradio.</a></font>
+</td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Audio editory</font></td>
+<td><font face="Verdana" size="2">SoundForge, Cooledit, ...</font></td>
+<td><font face="Verdana" size="2">1) <a href="http://rezound.sf.net/">Rezound.</a><br />
+2) <a href="http://sweep.sf.net/">Sweep</a>.<br />
+3) <a href="http://www.tfm.ro/waveforge/">WaveForge</a>.<br />
+4) <a href="http://home.sprynet.com/%7Ecbagwell/sox.html">Sox</a>.<br />
+5) <a href="http://audacity.sourceforge.net/">Audacity</a>.<br />
+6) <a href="http://awacs.dhs.org/software/gnusound">GNUSound</a>.<br />
+7) <a href="http://ecasound.seul.org/">Ecasound.</a><br />
+8) <a href="http://www.elec-eng.leeds.ac.uk/staff/een6njb/Software/Studio/screens.html">SoundStudio</a>.</font></td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2"> Multitrack audio processor</font></td>
+<td><font face="Verdana" size="2">Cubase</font></td>
+<td><font face="Verdana" size="2">1) <a href="http://ecasound.seul.org/">Ecasound.</a>
+<br />
+2) <a href="http://ardour.sourceforge.net/">Ardour.</a></font>
+</td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Sound tracker</font></td>
+<td><font face="Verdana" size="2">Fasttracker, ImpulseTracker</font></td>
+<td><font face="Verdana" size="2">1) <a href="http://soundtracker.org/">Soundtracker</a>.<br />
+2) <a href="http://insotracker.sourceforge.net/">Insotracker</a>.<br />
+3) <a href="http://www.reduz.com.ar/cheesetracker/">CheeseTracker</a>.</font>
+</td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Zvukový mixer</font></td>
+<td><font face="Verdana" size="2">sndvol32</font></td>
+<td><font face="Verdana" size="2">1) <a href="http://optronic.sourceforge.net/sites/projects.php">Opmixer</a>.<br />
+2) aumix.
+<br />
+3) mix2000.<br />
+4) KMix.<br />
+5) <a href="http://www.alsa-project.org/">Alsamixer</a>.<br />
+6) <a href="http://www1.tcnet.ne.jp/fmurata/linux/down/">GMix</a>.<br />
+7) <a href="http://www.ne.jp/asahi/linux/timecop/software/">wmix</a> 
+ (for WindowMaker)
+<br />
+8) Mixer_app (for WindowMaker)
+<br />
+9) <a href="http://www.bensinclair.com/dockapp/">Aplety pre AfterStep / WindowMaker / FluxBox</a>.</font></td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Notes editors</font></td>
+<td><font face="Verdana" size="2"><a href="http://www.codamusic.com/finale/">Finale</a>, <a href="http://www.sibelius.com/products/sibelius/">Sibelius</a>, <a href="http://www.musitek.com/smartscre.html/">SmartScore</a></font></td>
+<td><font face="Verdana" size="2">1) <a href="http://lilypond.org/stable/">LilyPond.</a><br />
+2) <a href="http://rnvs.informatik.tu-chemnitz.de/%7Ejan/noteedit/noteedit.html">Noteedit</a>.<br />
+3) <a href="http://mux2d.sourceforge.net/">MuX2d</a>.</font></td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td height="117"><font face="Verdana" size="2">Midi-sequencer</font></td>
+<td height="117"><font face="Verdana" size="2">Cakewalk</font></td>
+<td height="117"><font face="Verdana" size="2">1) <a href="http://www.all-day-breakfast.com/rosegarden/">RoseGarden</a>.<br />
+2)
+<a href="http://brahms.sourceforge.net/">Brahms</a>.<br />
+3) <a href="http://anthem.sourceforge.net/">Anthem</a>.<br />
+4) <a href="http://www.parabola.demon.co.uk/melys/">Melys</a>.<br />
+5) <a href="http://muse.seh.de/">MuSE</a>.
+<br />
+6) <a href="http://www.music-community.ch/midimountain">MidiMountain</a>. (KDE)<br />
+More infrormation: <a href="http://www.tldp.org/HOWTO/MIDI-HOWTO-8.html">Midi-Howto</a>.</font></td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Tvorba hudby</font></td>
+<td><font face="Verdana" size="2">Cakewalk, FruityLoops</font></td>
+<td><font face="Verdana" size="2">1) <a href="http://www.all-day-breakfast.com/rosegarden/">RoseGarden</a>.<br />
+2) <a href="http://ardour.sf.net/">Ardour</a>.</font>
+</td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">The Synthesizer</font></td>
+<td><font face="Verdana" size="2">Virtual waves, <a href="http://www.csounds.com/whatis/index.html">Csound</a></font></td>
+<td><font face="Verdana" size="2">
+<p>1) <a href="http://www.csounds.com/whatis/index.html">Csound</a>.<br />
+2) Arts Builder (???).</p></font>
+</td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">ID3-Tag Editory</font></td>
+<td><font face="Verdana" size="2"><a href="http://mp3tag.de/">Mp3tag</a></font></td>
+<td><font face="Verdana" size="2">
+<p>1) <a href="http://madman.sourceforge.net/">Madman</a> [***].<br />
+2) <a href="http://easytag.sf.net/">EasyTAG</a>.<br />
+3) <a href="http://software.manicsadness.com/?site=project&amp;project=1">Cantus</a>.<br />
+</font>
+</td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Gitarový/Instrument Tuning softvér</font></td>
+<td><font face="Verdana" size="2">1) <a href="http://www.musicmasterworks.com/tuning_software.html">In-Tune Multi-Instrument Tuner</a><br />
+ 2) Digital Guitar Tuner<br /></font>
+</td>
+<td><font face="Verdana" size="2">
+<p>???</p></font>
+</td>
+</tr>
+<tr bgcolor="#9CBEE3">
+
+<td colspan="3"><b><font face="Verdana" size="2"><a name="42"></a><center>B) Grafika</center></font></b></td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Prehliadače grafických súborov</font></td>
+<td><font face="Verdana" size="2">1) ACDSee<br />
+2) IrfanView<br />
+3)<a href="http://www.xnview.com/"> Xnview</a><br />
+4) akýkoľvek internetový prehliadač</font>
+</td>
+<td><font face="Verdana" size="2">
+<p>
+1) <a href="http://www.mosfet.org/pixie">Pixie</a> [***]<br />
+2) <a href="http://www.xnview.com/">Xnview.</a><br />
+3) <a href="http://gqview.sourceforge.net/">GQview</a>.<br />
+4) <a href="http://www.klografx.net/qiv/">Qiv</a>.<br />
+5) CompuPic.<br />
+6) <a href="http://kuickshow.sourceforge.net/">Kuickshow.</a><br />
+7) Kview.<br />
+8) <a href="http://hotaru.clinuxworld.com/gtksee">GTKSee</a>.<br />
+9) <a href="http://www.trilon.com/xv/xv.html">xv</a>. [Prop]<br />
+10) pornview.<br />
+11) <a href="http://www.seekrut.com/toxicpulse/imgv/imgv.html">imgv</a>.<br />
+12) <a href="http://gwenview.sourceforge.net/">Gwenview.</a><br />
+13) <a href="http://gliv.tuxfamily.org/">Gliv</a>.<br />
+14) <a href="http://www.jalix.org/projects/showimg/">Showimg</a>.<br />
+15) Fbi.<br />
+16) <a href="http://gthumb.sourceforge.net/">Gthumb.</a><br />
+17) Electric Eyes (Gnome).<br />
+18) <a href="http://www.gnome.org/gnome-office/eog.shtml">Eye of Gnome</a>.<br />
+19) <a href="http://gtkmmviewer.sourceforge.net/">GImageView</a>.<br />
+20) <a href="http://www.photodex.com/">compupic</a>. [Prop]<br />
+21) akýkoľvek internetový prehliadač
+</font>
+</p>
+</td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Konzolové prehliadače grafických súborov</font></td>
+<td><font face="Verdana" size="2">QPEG</font></td>
+<td><font face="Verdana" size="2">1) zgv.<br />
+2) aalib.</font>
+</td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Jednoduché grafické editory</font></td>
+<td><font face="Verdana" size="2">Paint</font></td>
+<td><font face="Verdana" size="2">1) Kpaint.<br />
+2) <a href="http://www.newbreedsoftware.com/tuxpaint/">Tuxpaint.</a><br />
+3) <a href="http://sf-xpaint.sourceforge.net/">Xpaint.</a> <br />
+4) <a href="http://www.gnu.org/software/gpaint/">Gpaint</a>.
+<br />
+5) <a href="http://wwwiti.cs.uni-magdeburg.de/%7Esattler/killustrator.html">Killustrator.</a>
+</font>
+</td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Výkonné grafické editory v štýle Photoshopu</font></td>
+<td><font face="Verdana" size="2">1) Adobe Photoshop [Prop]<br />
+2) 
+<a href="http://www.gimp.org/win32/">Gimp pre Windows</a><br />
+3) Paint Shop Pro [Prop]<br />
+4) <a href="http://pixel32.box.sk/">Pixel32</a> [Prop]
+<br />
+5) Corel PhotoPaint [Prop]<br />
+6) Macromedia Fireworks</font>
+</td>
+<td><font face="Verdana" size="2">
+<p>1) <a href="http://www.gimp.org/">Gimp</a> [***].<br />
+2) <a href="http://www.imagemagick.org/">ImageMagick</a>.<br />
+3) <a href="http://pixel32.box.sk/">Pixel32</a>. [Prop]<br />
+4) <a href="http://filmgimp.sourceforge.net/">CinePaint</a>.<br />
+5) <a href="http://www.acc.ne.jp/%7Etam/RubyMagick/">RubyMagick</a>.<br />
+6) <a href="ftp://ftp2.corel.com/pub/linux/PhotoPaint9/CorelPHOTOPAINT9Lnx.tar.gz">Corel PhotoPaint 9 pre Linux.</a> [Prop]
+
+</p>
+</font>
+</td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Programy na prácu z vektorovou grafikou</font></td>
+<td><font face="Verdana" size="2">Adobe Illustrator, Corel Draw, Freehand, AutoSketch</font></td>
+<td>
+<p><font face="Verdana" size="2">1) <a href="http://sodipodi.sourceforge.net/">Sodipodi</a> [***] (<a href="clanok.php?clanokid=22">recenzia</a>)<br />
+2) <a href="http://www.xfig.org/">xfig.</a><br />
+3) <a href="http://sketch.sourceforge.net/">Sketch.</a><br />
+4) <a href="http://www.koffice.org/">Karbon14 and Kontour.</a><br />
+5) <a href="http://www.openoffice.org/">OpenOffice Draw.</a><br />
+6) <a href="http://www.lysator.liu.se/%7Ealla/dia/">Dia.</a><br />
+7) <a href="http://bourbon.usc.edu:8001/tgif/">Tgif.<br />
+</a>8) <a href="http://www.linotux.ch/gestalter/">Gestalter</a>.<br />
+9) <a href="http://www.ntlug.org/%7Eccox/impress/">ImPress</a>.
+<br />
+10) <a href="http://mars.netanya.ac.il/%7Esamy/tkpaint.html">Tkpaint</a>.<br />
+11) <a href="http://bourbon.cs.umd.edu:8001/tgif/">Tgif</a>.<br />
+12) Corel Draw 9 pre Linux. [Prop]
+</font>
+</p>
+</td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">SVG editor</font></td>
+<td><font face="Verdana" size="2">WebDraw [Prop]</font></td>
+<td><p><font face="Verdana" size="2">1) <a href="http://sodipodi.sourceforge.net/">Sodipodi.</a><br />
+2) <a href="http://www.lysator.liu.se/%7Ealla/dia/">Dia.</a><br />
+3) <a href="http://sketch.sourceforge.net/">Sketch.</a></p></font>
+</td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">SVG prehliadač</font></td>
+<td><font face="Verdana" size="2">1) Squiggle <br />
+2) X-Smiles<br />
+3) <a href="http://www.mozilla.org/projects/svg/">SVG podpora v Mozille</a><br /></font>
+</td>
+<td><font face="Verdana" size="2">
+<p>1) Squiggle.<br />
+2) 
+X-Smiles.<br />
+3)
+ <a href="http://www.mozilla.org/projects/svg/">SVG podpora v Mozille</a>.<br />
+4) <a href="http://svg.kde.org/">SVG podpora v Konqueror</a>.
+</p>
+</font>
+</td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Programy pre dekoráciu textu</font></td>
+<td><font face="Verdana" size="2">Wordart</font></td>
+<td><font face="Verdana" size="2"><a href="http://www.openoffice.org/">OpenOffice Draw.</a></font></td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Program pre ASCII-kreslenie</font></td>
+<td><font face="Verdana" size="2">ANSI DRAW, <a href="http://mazaika.tripod.com/">Mazaika</a></font></td>
+<td><font face="Verdana" size="2">1) <a href="http://kolos.math.uni.lodz.pl/ap/canvascii">CanvASCII</a>.<br />
+2) <a href="http://www.jave.de/">Jave</a>.<br />
+3) ANSI Draw.
+<br />
+4) <a href="http://www.naskita.com/linux/edascii/edascii.shtml">EDASCII</a>.
+</font>
+</td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Konvertovanie grafických súborov do pseudografických súborov</font></td>
+<td><font face="Verdana" size="2">???</font></td>
+<td><font face="Verdana" size="2">aalib.</font></td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Flash prehrávanie</font></td>
+<td><font face="Verdana" size="2">Flash Player</font></td>
+<td><font face="Verdana" size="2">1) <a href="http://www.openswf.org/">SWF Macromedia Flash Player</a>.<br />
+2) <a href="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Flash Player pre Linux</a>. [Prop]
+<br />
+3) Plugin pre Netscape/Mozilla (download <a href="http://www.macromedia.com/shockwave/download/alternates/">tu</a> alebo <a href="http://macromedia.mplug.org/">tu</a>).</font></td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2"> Flash tvorba</font></td>
+<td><font face="Verdana" size="2">Macromedia Flash</font></td>
+<td>
+<p><font face="Verdana" size="2">1) <a href="http://drawswf.sourceforge.net/index.html">DrawSWF</a>.<br />
+2)
+<a href="http://ming.sourceforge.net/">Ming</a>. (Tvorba flash swf výstupov z programovacích jazykov)</p></font>
+</td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">3D-grafika</font></td>
+<td><font face="Verdana" size="2">3D Studio MAX, <a href="http://www.aliaswavefront.com/en/products/maya/index.shtml">Maya</a> [Prop], <a href="http://www.povray.org/">Povray</a>, ...</font></td>
+<td><font face="Verdana" size="2">1) <a href="http://www.blender3d.org/">Blender.</a><br />
+2) <a href="http://www.aliaswavefront.com/en/products/maya/index.shtml">Maya</a>. [Prop]<br />
+3) <a href="http://www.kpovmodeler.org/">KPovModeler.</a> <br />
+4) <a href="http://k3studio.sourceforge.net/">K3Studio.</a> <br />
+5) <a href="http://www.moonlight3d.net/">Moonlight</a>.<br />
+6) <a href="http://www.gig3d.com/">GIG3DGO</a>.<br />
+7) <a href="http://www.povray.org/">Povray</a>.
+<br />
+8) <a href="http://k3d.sourceforge.net/new/">K3D</a>.
+<br />
+9) <a href="http://www.wings3d.com/">Wings 3D.</a>
+<br />
+10) <a href="http://www.softimage.com/corporate/press/pressreleases/010914_ibc_xsi_linux.htm">Softimage XSI.</a>
+[Prop]</font></td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Programy na tvorbu kvalitných fotografických scén založených na ArchiCAD 3D-modelov</font></td>
+<td><font face="Verdana" size="2">ArtLantis Render</font></td>
+<td><font face="Verdana" size="2">???</font></td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Icon editor</font></td>
+<td><font face="Verdana" size="2">Microangelo</font></td>
+<td><font face="Verdana" size="2">1) Gnome-iconedit.<br />
+2) Kiconedit.</font></td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Malé programy pre snímanie obrazovky (tvorba screenshotov)</font></td>
+<td><font face="Verdana" size="2">Integrované v systéme (PrintScreen), Snag it, ...</font></td>
+<td><font face="Verdana" size="2">1) Ksnapshot.<br />
+2) Xwpick.<br />
+3) Xwd, xgrabsc.<br />
+4) Motv (<a href="http://bytesex.org/xawtv/">xawtv</a>)<br />
+5)
+ Streamer (video)
+<br />
+6) Integrované do window manažéra</font>
+</td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Programy na tvorbu štrukturovaných databáz</font></td>
+<td><font face="Verdana" size="2">Access</font></td>
+<td>
+
+<p><font face="Verdana" size="2">1) <a href="http://www.lysator.liu.se/%7Ealla/dia/">Dia</a>.<br />
+2) <a href="http://www.cs.utwente.nl/%7Etcm">Toolkit pre Conceptual Modelling</a>.
+</p></font>
+</td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Tvorba tlačených kalendárov, pohľadníc, atď., z klipart kolekcie</font></td>
+<td><font face="Verdana" size="2">Broderbund Print Shop</font></td>
+<td><font face="Verdana" size="2">???</font></td>
+</tr>
+<tr bgcolor="#9CBEE3">
+
+<td colspan="3"><b><font face="Verdana" size="2"><a name="43"></a><center>C) Video a iné...</center></font></b></td>
+</tr>
+
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Video / mpeg4 prehrávače</font></td>
+<td bgcolor="#fdfdfd"><font face="Verdana" size="2">
+<p>1) <a href="http://www.bsplayer.com/">BSplayer</a><br />
+2)
+ Zoomplayer<br />
+3)
+ Windows Media Player<br />
+4) <a href="http://www.videolan.org/">VideoLAN</a><br />
+5)
+ Winamp3<br />
+</p></font>
+</td>
+<td bgcolor="#fdfdfd"><font face="Verdana" size="2">1) <a href="http://www.mplayerhq.hu/">Mplayer</a> [***] (Najlepší prehrávač sveta. Prehrá viac formátov ako Windows Media Player, Real Player a Quick Time dokopy!).<br />
+2) <a href="http://xine.sourceforge.net/">Xine.</a><br />
+3) <a href="http://sinek.sourceforge.net/">Sinek</a>.
+ <br />
+4) <a href="http://www.videolan.org/">VideoLAN</a>.
+<br />
+5) <a href="http://aviplay.sf.net/">Aviplay</a>.
+<br />
+6) Winamp3 for Linux.<br />
+7) <a href="http://noatun.kde.org/">Noatun</a>.<br />
+8) KDE Media Player.<br />
+9) XMovie.<br />
+10) Kaboodle.<br />
+11) <a href="http://www.mpegtv.com/player.html">MpegTV</a>.<br />
+12) <a href="http://avifile.sf.net/">Avifile</a>.
+<br />
+13) <a href="http://xmps.sourceforge.net/">Xmps</a>.
+<br />
+14) Ogg Tarkin. (???)<br />
+15)
+ Theora. (???)</font>
+</td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Konzolové video / mpeg4 prehrávače</font></td>
+<td><font face="Verdana" size="2"><a href="http://multimediaware.com/qv">QuickView</a></font></td>
+<td><font face="Verdana" size="2">
+<p>1) <a href="http://www.mplayerhq.hu/">Mplayer</a>.<br />
+2) <a href="http://linuxvideo.info/">QuickView</a>.
+</p></font>
+</td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">DVD prehrávače</font></td>
+<td><font face="Verdana" size="2">PowerDVD, WinDVD, MicroDVD, Windows Media Player, <a href="http://www.videolan.org/">VideoLAN</a></font></td>
+<td><font face="Verdana" size="2">1) <a href="http://www.dtek.chalmers.se/%7Edvd/">Ogle.</a><br />
+2) <a href="http://www.mplayerhq.hu/">Mplayer.</a>
+<br />
+3) <a href="http://xine.sourceforge.net/">Xine.</a><br />
+4) <a href="http://aviplay.sf.net/">Aviplay</a>.
+<br />
+5) <a href="http://www.videolan.org/">VideoLAN</a>.
+<br />
+6) <a href="http://www.linuxvideo.org/oms/">OMS</a>.</font>
+</td>
+</tr>
+
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">DVD rippery / enkódery</font></td>
+<td><font face="Verdana" size="2">Gordian Knot</font></td>
+<td><font face="Verdana" size="2">
+<p>1) <a href="http://drip.sourceforge.net/">Drip</a>.<br />
+2) <a href="http://www.theorie.physik.uni-goettingen.de/%7Eostreich/transcode/">Transcode</a>.<br />
+3) <a href="http://www.mplayerhq.hu/">Mencoder</a>. (z Mplayeru)<br />
+4) <a href="http://ffmpeg.sourceforge.net/">Ffmpeg</a>.
+<br />
+5) <a href="http://www.exit1.org/dvdrip/">DVD::Rip</a>.
+</p></font>
+</td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Programy na jednoduchú tvorbu a editáciu video súborov</font></td>
+<td><font face="Verdana" size="2">Windows Movie Maker</font></td>
+<td><font face="Verdana" size="2">1) <a href="http://esolutions.ulead.com/imediting/sysreq.htm">iMira Editing</a>. [Prop]<br />
+2) <a href="http://www.mainconcept.com/mainactor_v5.shtml">MainActor</a>. [Prop]<br />
+3) Broadcast 2000.</font></td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Programy pre profesionálnu tvorbu a editáciu video súborov</font></td>
+<td><font face="Verdana" size="2">Adobe Premiere, Media Studio Pro</font></td>
+<td><font face="Verdana" size="2">1) <a href="http://esolutions.ulead.com/imediting/sysreq.htm">iMira Editing</a>.<br />
+2) <a href="http://heroinewarrior.com/cinelerra.php3">Cinelerra</a>.<br />
+3) MainActor.<br />
+4) Broadcast 2000.<br />
+5) <a href="http://www.xs4all.nl/%7Esalsaman/lives">Lives</a>.
+<br />
+6) <a href="http://filmgimp.sourceforge.net/">CinePaint</a>.</font>
+</td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Strihanie video</font></td>
+<td><font face="Verdana" size="2">Virtual Dub</font></td>
+<td><font face="Verdana" size="2">1) <a href="http://fixounet.free.fr/avidemux/">Avidemux.</a><br />
+2) <a href="http://kino.schirmacher.de/">Kino.</a></font></td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Konvertovanie videa</font></td>
+<td><font face="Verdana" size="2">Virtual Dub</font></td>
+<td><font face="Verdana" size="2">
+<p>1) <a href="http://www.theorie.physik.uni-goettingen.de/%7Eostreich/transcode/">Transcode</a>.<br />
+2) <a href="http://www.mplayerhq.hu/">Mencoder</a>. (z Mplayeru)<br />
+3) <a href="http://ffmpeg.sourceforge.net/">Ffmpeg</a>.
+</p></font>
+</td>
+</tr>
+
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Práca s TV-tunerom</font></td>
+<td><font face="Verdana" size="2">AVerTV, PowerVCR 3.0, CinePlayer DVR, ...</font></td>
+<td><font face="Verdana" size="2">1) <a href="http://www.kwintv.org/">Kwintv.</a><br />
+2) <a href="http://bytesex.org/xawtv/">Xawtv</a>.<br />
+3) <a href="http://zapping.sourceforge.net/">Zapping</a>.<br />
+4) <a href="http://gnometv.sourceforge.net/">GnomeTV.</a><br />
+5) <a href="http://www.mplayerhq.hu/">Mplayer</a>.</font>
+</td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Práca s TV-tunerom v konzole</font></td>
+<td><font face="Verdana" size="2">-</font></td>
+<td><font face="Verdana" size="2">1) <a href="http://www.mplayerhq.hu/">Mplayer</a>.<br />
+2) fbtv.<br />
+3) aatv.</font></td>
+</tr>
+<tr bgcolor="#fdfdfd">
+
+<td><font face="Verdana" size="2">Programy na prácu s QuickTime formátom</font></td>
+<td><font face="Verdana" size="2">QuickTime Player</font></td>
+<td><font face="Verdana" size="2">1) <a href="http://heroinewarrior.com/quicktime.php3">QuickTime pre Linux</a>.<br />
+2) <a href="http://www.mplayerhq.hu/">Mplayer</a> + Sorenson codec.<br />
+3) <a href="http://www.openquicktime.org/">OpenQuicktime</a>.<br />
+     4) <a href="http://smurfland.cit.buffalo.edu/xanim/home.html">Xanim</a>.</font></td>
+</tr>
+<tr bgcolor="#eff3f7">
+    
+<td><font face="Verdana" size="2">Tvorba 2D a 3D efektov</font></td>
+<td><font face="Verdana" size="2">Adobe After Effects</font></td>
+<td><font face="Verdana" size="2">
+<p>1) <a href="http://www.apple.com/shake/">Shake</a>. [Proprietary, $129.95]<br />
+2) Plugins for Gimp.
+</p></font>
+</td>
+</tr>
+<tr bgcolor="#fdfdfd">
+    
+<td><font face="Verdana" size="2"> Animation</font></td>
+<td bgcolor="#fdfdfd"><font face="Verdana" size="2">Animation Shop, ...</font></td>
+<td><font face="Verdana" size="2">
+<p>1) <a href="http://filmgimp.sourceforge.net/">CinePaint</a>.<br />
+2) Pluginy pre Gimp.
+</p></font>
+</td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Generovanie krajiny, terénu</font></td>
+<td><font face="Verdana" size="2">Bryce</font></td>
+<td><font face="Verdana" size="2"><a href="http://terraform.sourceforge.net/">Terraform</a>.</font></td>
+</tr>
+<tr bgcolor="#fdfdfd">
+    
+<td><font face="Verdana" size="2">Konštrukcie sveta</font></td>
+<td><font face="Verdana" size="2">World Construction Set, Animatek<br />
+World Builder</font></td>
+<td><font face="Verdana" size="2">???</font></td>
+</tr>
+<tr bgcolor="#eff3f7">
+
+<td><font face="Verdana" size="2">Prostredia pre vývoj video aplikácii</font></td>
+<td><font face="Verdana" size="2">???</font></td>
+<td><font face="Verdana" size="2">
+<font face="Verdana" size="2">1) <a href="http://www.gstreamer.net/">Gstreamer</a>.<br />
+2) <a href="http://live.sf.net/">Live</a>.
+</font>
+</td>
+</tr>
+</tbody></table><br /><br />
+<font face="Verdana" size="2">Túto tabuľku preložil Ondrej Hučko zo stránky <a href="http://linuxshop.ru/linuxbegin/win-lin-soft-en/">http://linuxshop.ru/linuxbegin/win-lin-soft-en/.
+</a></font>
+
+{% endblock %}

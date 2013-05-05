@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-
 from django.conf.urls import patterns, url
 import linuxos.redirect_views as redirect_views
+from static_urls import urlpatterns as static_urlpatterns
 
 urlpatterns = patterns('',
 	url('^profil/(?P<pk>\d+)/index.html$', redirect_views.profile_redirect),
@@ -15,3 +15,5 @@ urlpatterns = patterns('',
 	url('^spravy_rss/index.html', redirect_views.news_rss_redirect),
 	url('^clanok_rss/index.html', redirect_views.article_rss_redirect),
 )
+
+urlpatterns += static_urlpatterns

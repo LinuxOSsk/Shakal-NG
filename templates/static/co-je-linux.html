@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load breadcrumbs_tags %}
+{% block title %}Čo je to Linux?{% endblock %}
+{% block breadcrumbs %}{% breadcrumb %}Čo je to Linux?{% endbreadcrumb %}{{ block.super }}{% endblock %}
+
+{% block content %}
+<h1>Čo je to Linux?</h1>
+
+<img src="/media/IMG/tux.jpg" align="left" alt="">
+V roku 1984 založil Richard Matthew Stallman projekt <b>GNU</b>, ktorého cieľom bolo vytvoriť plnohodnotné free softvérové vybavenie, ktoré by bolo kompatibilné s Unixom. Slovo free sa však nevzťahuje na cenu, ale na vaše práva, ktoré vám umožňujú free software slobodne používať, šíriť a meniť (anglicky free = zadarmo, ale aj slobodný). Okrem toho založil aj <a href="http://www.fsf.org">Free Software Foundation</a> a <a href="http://lpf.ai.mit.edu/">League for Programming Freedom</a>.  Richard Stallman vytvoril takisto aj licenciu GPL (General Public Licence). <b>Licencia GPL</b> umožňuje zachovať autorské práva autora, ktorý otvoril zdrojový kód svojho softvéru. Dovoľuje komukoľvek slobodne šíriť, používať a modifikovať tento softvér, ale zároveň hovorí, že každý, kto redistribuuje softvér so zmenami či bez nich, musí všetkým ostatným túto slobodu ponechať. Momentálne je vo verzii 2 (z roku 1991), ale na budúci rok (2005) sa pripravuje už verzia 3. Celé znenie licencie v českom preklade nájdete na <a href="http://gnu.cz/gpl-cz.html">GNU.cz</a>.
+<br /><br /><img src="/media/IMG/linus2.jpg" align="right" alt=""><b>Linus Torvalds</b> naprogramoval začiatkom deväťdesiatch rokov jadro Linuxu. Zaujímal sa o operačný systém Minix (malý systém Unix) a rozhodol sa vytvoriť systém, ktorý by predstihol Minix. Svoju prácu začal v roku 1991, keď vypustil verziu jadra s číslom 0.02 pod licenciou GPL. Hneď po jej uvoľnení spustil obrovskú lavínu záujmu a programátorskej mánie u programátorov na celom internete. Pracovali až do roku 1994, keď vyšlo prvé stabilné jadro Linuxu - 1.0. Zaujímavé je hlavne to, že celé toto veľké celosvetové vývojárske úsilie nebolo veľmi koordinované. Žiadna firma, žiadna moc peňazí, len ľudská ochota. Pekné na tom je, že žiadny Bill Gates nemôže zakázať zabudovanie nejakej konkurenčnej technológie do jadra, pretože ju tam môže zabudovať ktokoľvek - Linux je voľne šíriteľný operačný systém so zdrojovými kódmi.
+<br /><br />
+Termínom <i>Linux</i> (vznikol spojením slov Linus a Unix) bolo pôvodne označované len jadro, neskôr sa takto začala označovať komplexná platforma, vrátane grafických prostredí a množstva programov. Linux je v súčasnosti softvérovo plne napráskaný operačný systém so všetkým, čo k nemu patrí - grafické prostredia (KDE, Gnome, XFCE, Fluxbox, Enlightenment...), aplikácie pre prácu s internetom, grafické aplikácie, kancelárske balíky, hry či multimediálne prehrávače.
+<br /><br /> 
+Linux je multiužívateľský sieťový 32 alebo 64-bitový operačný systém s podporou skutočného multitaskingu. Linux je systém, ktorý pobeží aj na 386 DX 40 s 4MB RAM, no optimálne využije aj nadupané päťprocesorové servery. Linux je komunita užívateľov a vývojárov. Linux je predovšetkým jedna z mnohých príkladných ukážok toho, že dobré neznamená vždy drahé. Linux je určený pre ľudí, ktorí požadujú slobodu a ktorí nechcú, aby sa nazývali zlodejmi, ak zdieľajú svoj softvér s priateľmi alebo ho upravujú podľa vlastných potrieb.
+<br /><br />
+Keďže Linux je voľne šíriteľný a rôzne inštalácie väčšinou spája len rovnaké jadro, narazili sme na problém, ako zohnať funkčný Linux bez ustavičného kompilovania každého programu. Pre zjednodušenie používania mnohí užívatelia vytvorili takzvané distribúcie Linuxu, ktoré sa vyznačujú svojím inštalačným programom, štýlom nastavovania systémových parametrov, programovými balíkmi a niektoré aj cenou. Medzi najznámejšie distribúcie patrí SuSE, Mandrake, RedHat, Slackware, Debian GNU Linux, Gentoo... <a href="">Článok o výbere tej správnej distribúcie z pohľadu začínajúceho používateľa</a> priniesol aj náš portál.
+<br /><br />
+Možno už máte Windowsu dosť a aj by ste chceli prejsť na Linux, ale bojíte sa ráznej zmeny. Nemusíte hneď Windows vyhodiť z vášho počítača.
+Linux umožňuje tzv. "dualboot" tzn., že na PC budete mať nainštalované 2 (alebo aj viac) systémov - trebárs WindowsXP a Mandrake Linux. A tak zakaždým, keď zapnete počítač,
+objaví sa program - bootmanager, kde si vyberiete, aký operačný systém chcete práve používať. Možete si samozrejme nastaviť, ktorý systém bude defaultný a čas automatického spustenia defaultného systému.
+<br /><br />
+<b>Výhody Linuxu:</b><br />
+<object>
+ <ul>
+<li><font color="black">stabilita</font></li>
+<li><font color="black">bezpečnosť</font></li>
+<li><font color="black">rýchlosť</font></li>
+<li><font color="black">grafická dokonalosť</font></li>
+<li><font color="black">obrovské množstvo softvéru, ktoré je zadarmo</font></li>
+<li><font color="black">lokalizácia</font></li>
+<li><font color="black">sloboda a nezávislosť od veľkých korporácií</font></li>
+<li><font color="black">komunita</font></li>
+<li><font color="black">cena</font></li>
+</ul>
+</object>
+<br /><br />
+<b>Nevýhody Linuxu:</b><br />
+<object>
+<ul>
+<li><font color="black">mnohé úzko špecializované programy sa zatiaľ vyrábajú len pre Windows</font></li>
+<li><font color="black">užívateľ sa musí naučiť niečo nové</font></li>
+<li><font color="black">nemožnosť hrať niektoré hry pre Windows (ak sa chcete dozvedieť viac o hrách na Linuxe klinite <a href="http://linuxos.sk/hry/index.html">tu</a>).</font></li>
+</ul>
+</object>
+
+{% endblock %}
