@@ -12,4 +12,5 @@ def polls_frontpage(context):
 	return {
 		'polls': Poll.objects.all()[:1],
 		'request': context['request'],
+		'user': context['user'],
 	}
