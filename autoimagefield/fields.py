@@ -161,7 +161,8 @@ class AutoImageField(ImageField):
 		else:
 			setattr(instance, self.name + '_old', None)
 
-	def __get_thumbnail_filename(self, filename, thumbnail_label):
+	@staticmethod
+	def get_thumbnail_filename(filename, thumbnail_label):
 		"""
 		Vráti názov súboru pre zmenšený obrázok.
 		"""
@@ -170,31 +171,28 @@ class AutoImageField(ImageField):
 		splitted_filename.insert(1, u'_' + thumbnail_label)
 		return os.path.join(dirname, u''.join(splitted_filename))
 
-	def __add_thumbnails(self, instance, **kwargs):
-		"""
-		Pridanie polí pre náhľady
-		"""
+	def __add_thumbnails(self, cls, name):
 		if not self.thumbnail:
 			return
 
-		# Nastavenie prázdnych polí pre náhľady
-		field = getattr(instance, self.name)
-		storage = field.storage
-		filename = str(field)
-		# Preskakovanie prázdneho poľa
-		if not filename:
-			return
-		# Kontrola zdrojového súboru
-		if not os.path.exists(storage.path(filename)):
-			return
-		# Nastavenie jednotlivých náhľadov
 		for label, size in self.thumbnail.iteritems():
-			thumbnail_file = self.__get_thumbnail_filename(filename, label)
-			setattr(field, u'thumbnail_' + label, ThumbnailField(field, thumbnail_file, size))
+			def get_thumbnail(self):
+				field = getattr(self, name)
+				storage = field.storage
+				filename = str(field)
+				# Preskakovanie prázdneho poľa
+				if not filename:
+					return
+				# Kontrola zdrojového súboru
+				if not os.path.exists(storage.path(filename)):
+					return
+				thumbnail_file = AutoImageField.get_thumbnail_filename(filename, label)
+				return ThumbnailField(field, thumbnail_file, size)
+			setattr(cls, name + u'_' + label, property(get_thumbnail))
 
 	def contribute_to_class(self, cls, name):
+		super(AutoImageField, self).contribute_to_class(cls, name)
 		signals.post_save.connect(self.__rename_image, sender = cls)
 		signals.post_init.connect(self.__add_old_instance, sender = cls)
-		signals.post_init.connect(self.__add_thumbnails, sender = cls)
 		signals.post_delete.connect(self.__delete_image, sender = cls)
-		super(AutoImageField, self).contribute_to_class(cls, name)
+		self.__add_thumbnails(cls, name)

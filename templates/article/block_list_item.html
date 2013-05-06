@@ -11,9 +11,9 @@
 			{% endif %}
 		</div>
 		{% if thumbnail %}
-			{% if article.image.thumbnail_standard.url %}
+			{% if article.image_standard.url %}
 				<div class="article thumbnail pull-left">
-					<img src="{{ article.image.thumbnail_standard.url }}" alt="{{ article.title }}" />
+					<img src="{{ article.image_standard.url }}" alt="{{ article.title }}" />
 				</div>
 			{% endif %}
 		{% endif %}
