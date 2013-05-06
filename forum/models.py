@@ -100,6 +100,9 @@ class Topic(models.Model):
 	is_removed = models.BooleanField(_('deleted'), default = False)
 	is_resolved = models.BooleanField(_('resolved'), default = False)
 
+	def is_public(self):
+		return not self.is_removed
+
 	def get_tags(self):
 		tags = []
 		if self.is_removed:
