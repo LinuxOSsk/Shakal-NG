@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
@@ -32,6 +33,10 @@ class NewsCreateView(AddLoggedFormArgumentMixin, PreviewCreateView):
 			news.author = self.request.user
 		if self.request.user.has_perm('news.can_change'):
 			news.approved = True
+		else:
+			if 'create' in self.request.POST:
+				messages.add_message(self.request, messages.INFO, u"Správa bola uložená, počkajte prosím na schválenie administrátormi.")
+
 		news.updated = news.created
 		return super(NewsCreateView, self).form_valid(form)
 
