@@ -697,7 +697,6 @@ class Command(BaseCommand):
 			'zamknute',
 			'vyriesene',
 		]
-		connections['default'].cursor().execute('ALTER TABLE threaded_comments_rootheader ALTER last_comment DROP NOT NULL;')
 		self.cursor.execute('SELECT COUNT(*) FROM diskusia_header')
 		self.logger.set_sub_progress(u"Diskusia meta", self.cursor.fetchall()[0][0])
 		counter = 0
@@ -719,7 +718,7 @@ class Command(BaseCommand):
 			header = {
 				'id': header_dict['id'],
 				'pub_date': header_dict['time'],
-				'last_comment': header_dict['last_time'],
+				'last_comment': header_dict['time'] if header_dict['last_time'] is None else header_dict['last_time'],
 				'comment_count': self.get_default_if_null(header_dict['reakcii'], 0),
 				'is_locked': bool(header_dict['zamknute']),
 				'content_type_id': self.content_types[header_dict['kategoria']],
@@ -738,7 +737,6 @@ class Command(BaseCommand):
 					(SELECT object_id FROM threaded_comments_rootheader WHERE content_type_id = ' + str(self.content_types['forum']) + ')\
 		')
 		connections['default'].cursor().execute('UPDATE threaded_comments_rootheader SET last_comment = (SELECT created FROM forum_topic WHERE id = object_id) WHERE last_comment IS NULL AND content_type_id = ' + str(self.content_types['forum']) + ';')
-		connections['default'].cursor().execute('ALTER TABLE threaded_comments_rootheader ALTER last_comment SET NOT NULL;')
 		self.logger.finish_sub_progress()
 
 	def decode_username_for_comment(self, comment_row):
