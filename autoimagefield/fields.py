@@ -80,8 +80,8 @@ class AutoImageField(ImageField):
 
 		# Presun / kópia náhľadov
 		for label in self.thumbnail:
-			old_tmb = self.__get_thumbnail_filename(src, label)
-			new_tmb = self.__get_thumbnail_filename(dest, label)
+			old_tmb = AutoImageField.get_thumbnail_filename(src, label)
+			new_tmb = AutoImageField.get_thumbnail_filename(dest, label)
 			if os.path.exists(old_tmb):
 				os.rename(old_tmb, new_tmb)
 
@@ -89,7 +89,7 @@ class AutoImageField(ImageField):
 		if os.path.exists(path):
 			os.remove(path)
 			for label in self.thumbnail:
-				tmb_filename = self.__get_thumbnail_filename(path, label)
+				tmb_filename = AutoImageField.get_thumbnail_filename(path, label)
 				if os.path.exists(tmb_filename):
 					os.remove(tmb_filename)
 
