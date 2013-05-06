@@ -119,7 +119,6 @@ class AutoImageField(ImageField):
 		if src:
 			if self.size:
 				self.resize_image(dest, self.size)
-			self.__add_thumbnails(instance, **kwargs)
 
 		old = getattr(instance, self.name + '_old', None)
 		if old and old != new_file and os.path.exists(field.storage.path(old)):
