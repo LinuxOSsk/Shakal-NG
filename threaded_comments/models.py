@@ -138,6 +138,8 @@ class Comment(MPTTModel):
 			self.submit_date = self.updated
 		if self.submit_date is None:
 			self.submit_date = timezone.now()
+		if not self.user_name and self.user:
+			self.user_name = self.user.get_full_name()
 		return super(Comment, self).save(*args, **kwargs)
 
 	def __unicode__(self):
