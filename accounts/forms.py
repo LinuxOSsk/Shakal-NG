@@ -2,7 +2,8 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django.core.urlresolvers import reverse
-from django.forms import ValidationError, BooleanField, CharField, PasswordInput, RegexField, ModelForm, Form, EmailField
+from django.forms import ValidationError, BooleanField, CharField, PasswordInput, RegexField, ModelForm, EmailField
+from django.forms.util import ErrorDict
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from registration.forms import RegistrationForm
@@ -37,6 +38,11 @@ class LessRestrictiveUserCreationForm(UserCreationForm, LessRestrictiveUserEditF
 
 class LessRestrictiveUserChangeForm(UserChangeForm, LessRestrictiveUserEditFormMixin):
 	username = LessRestrictiveUserEditFormMixin.get_username_field()
+
+	def full_clean(self):
+		super(LessRestrictiveUserChangeForm, self).full_clean()
+		if 'username' in self._errors:
+			del self._errors['username']
 
 
 class ProfileEditForm(ModelForm):
