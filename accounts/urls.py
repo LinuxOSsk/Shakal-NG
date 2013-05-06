@@ -26,6 +26,11 @@ class Pattenrs(object):
 			url(_(r'^email/change/activate/(?P<email>.*)/$'), accounts_views.email_change_activate, name = 'auth_email_change_activate'),
 			url(r'^', include('registration.backends.default.urls')),
 		)
+		auth_patterns = urlpatterns[-1].url_patterns[-1].url_patterns
+		for i, p in enumerate(auth_patterns):
+			if p.name == 'auth_login':
+				del auth_patterns[i]
+				break
 		return urlpatterns
 
 
