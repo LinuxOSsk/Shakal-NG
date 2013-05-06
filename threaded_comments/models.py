@@ -178,7 +178,7 @@ class CommentFlag(models.Model):
 
 class RootHeader(models.Model):
 	pub_date = models.DateTimeField(null = False, blank = False, db_index = True)
-	last_comment = models.DateTimeField(null = True, blank = True, db_index = True)
+	last_comment = models.DateTimeField(null = False, blank = False, db_index = True)
 	comment_count = models.PositiveIntegerField(default = 0, db_index = True)
 	is_locked = models.BooleanField(default = False)
 	content_type = models.ForeignKey(ContentType)
