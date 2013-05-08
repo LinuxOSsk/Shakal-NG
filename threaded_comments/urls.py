@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.conf.urls import patterns, url
-from django.contrib.comments.urls import urlpatterns as original_urls
+#from django.contrib.comments.urls import urlpatterns as original_urls
 from threaded_comments import feeds as threaded_comments_feeds
 
 urlpatterns = patterns('threaded_comments.views',
@@ -16,4 +16,4 @@ urlpatterns = patterns('threaded_comments.views',
 	url(r'^feeds/latest/$', threaded_comments_feeds.CommentFeed(), name = 'comments-feed-latest'),
 )
 
-urlpatterns += original_urls
+#urlpatterns += original_urls
