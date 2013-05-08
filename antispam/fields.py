@@ -12,7 +12,7 @@ class AntispamInput(TextInput):
 		data = super(AntispamInput, self).render(name, value, attrs)
 		self.attrs['question'] = question
 		self.attrs['answer'] = answer
-		return mark_safe(question + data)
+		return mark_safe(u'<span class="question">' + question + u'</span>' + data)
 
 
 class AntispamField(CharField):

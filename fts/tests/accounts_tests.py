@@ -64,7 +64,24 @@ class AccountsTest(LiveServerTestCase):
 
 		password_field2 = self.browser.find_element_by_name('password2')
 		password_field2.send_keys('P4ssword')
-		password_field2.send_keys(Keys.RETURN)
+
+		antispam = self.browser.find_element_by_class_name("question").text.split(" ")
+		arg1 = int(antispam[0])
+		arg2 = int(antispam[2])
+		operation = antispam[1]
+		if operation == '+':
+			result = arg1 + arg2
+		elif operation == '-':
+			result = arg1 - arg2
+		elif operation == '/':
+			result = arg1 / arg2
+		elif operation == '*':
+			result = arg1 * arg2
+		result = str(result + 1000)
+
+		captcha_field = self.browser.find_element_by_name('captcha')
+		captcha_field.send_keys(result)
+		captcha_field.send_keys(Keys.RETURN)
 
 		body = self.browser.find_element_by_tag_name('body')
 		self.assertIn(ugettext("Registration complete"), body.text)
@@ -184,7 +201,8 @@ class AccountsTest(LiveServerTestCase):
 		password_field2.send_keys(Keys.RETURN)
 
 		errors = self.browser.find_elements_by_class_name('errorlist')
-		self.assertEqual(len(errors), 1)
+		# antispam + duplicita
+		self.assertEqual(len(errors), 2)
 
 	def profile_change_password(self):
 		self.browser.get(self.live_server_url + reverse('auth_password_change'))

@@ -3,13 +3,18 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django.core.urlresolvers import reverse
 from django.forms import ValidationError, BooleanField, CharField, PasswordInput, RegexField, ModelForm, EmailField
-from django.forms.util import ErrorDict
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from registration.forms import RegistrationForm
 
+from antispam.forms import AntispamFormMixin
 
-class RegistrationFormUniqueEmail(RegistrationForm):
+
+class RegistrationFormUniqueEmail(RegistrationForm, AntispamFormMixin):
+	def __init__(self, request, *args, **kwargs):
+		super(RegistrationFormUniqueEmail, self).__init__(*args, **kwargs)
+		self.process_antispam(request)
+
 	def clean_email(self):
 		if get_user_model().objects.filter(email__iexact = self.cleaned_data['email']):
 			raise ValidationError(_("This email address is already in use. Please supply a different email address."))

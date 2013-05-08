@@ -6,7 +6,7 @@ from accounts import views as accounts_views
 from forms import AuthenticationRememberForm
 
 
-class Pattenrs(object):
+class Patterns(object):
 	def __init__(self):
 		self.app_name = 'accounts'
 		self.name = 'accounts'
@@ -26,7 +26,12 @@ class Pattenrs(object):
 			url(_(r'^email/change/activate/(?P<email>.*)/$'), accounts_views.email_change_activate, name = 'auth_email_change_activate'),
 			url(r'^', include('registration.backends.default.urls')),
 		)
-		auth_patterns = urlpatterns[-1].url_patterns[-1].url_patterns
+		registration_patterns = urlpatterns[-1].url_patterns
+		for i, p in enumerate(registration_patterns):
+			if p.name == 'registration_register':
+				del registration_patterns[i]
+				break
+		auth_patterns = registration_patterns[-1].url_patterns
 		for i, p in enumerate(auth_patterns):
 			if p.name == 'auth_login':
 				del auth_patterns[i]
@@ -34,4 +39,4 @@ class Pattenrs(object):
 		return urlpatterns
 
 
-urlpatterns = Pattenrs().urls
+urlpatterns = Patterns().urls

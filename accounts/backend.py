@@ -5,4 +5,7 @@ from forms import RegistrationFormUniqueEmail
 
 class RegistrationBackend(DefaultBackend):
 	def get_form_class(self, request):
-		return RegistrationFormUniqueEmail
+		def form_class(*args, **kwargs):
+			instance = RegistrationFormUniqueEmail(request, *args, **kwargs)
+			return instance
+		return form_class
