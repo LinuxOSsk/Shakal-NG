@@ -1,6 +1,12 @@
 {% extends "registration/user_base.html" %}{% load i18n breadcrumbs_tags %}
 
 {% block title %}{% trans 'Edit user profile' %}{% endblock %}
+
+{% block extraheaders %}
+<meta name="robots" content="noindex, nofollow" />
+{{ form.media }}
+{% endblock %}
+
 {% block breadcrumbs %}
 	{% breadcrumb %}{% trans 'Edit' %}{% endbreadcrumb %}
 	{% breadcrumb url="auth_profile" pk=user.pk %}{% firstof user.get_full_name user.username %}{% endbreadcrumb %}

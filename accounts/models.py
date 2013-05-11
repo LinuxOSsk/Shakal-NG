@@ -14,6 +14,7 @@ from base64 import b64encode
 from Crypto.Cipher import PKCS1_OAEP
 from Crypto.PublicKey import RSA
 from django.conf import settings
+from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
 class User(AbstractUser):
@@ -22,7 +23,8 @@ class User(AbstractUser):
 	signature = models.CharField(_('signature'), max_length = 255, blank = True)
 	display_mail = models.BooleanField(_('display mail'), default = False)
 	distribution = models.CharField(_('linux distribution'), max_length = 50, blank = True)
-	info = models.TextField(_('informations'), validators = [MaxLengthValidator(100000)], blank = True)
+	original_info = RichTextOriginalField(verbose_name = _('informations'), validators = [MaxLengthValidator(100000)], blank = True)
+	filtered_info = RichTextFilteredField(original_field = "original_info", property_name = "info")
 	year = models.SmallIntegerField(_('year of birth'), validators = [MinValueValidator(1900), MaxValueValidator(lambda: 2010)], blank = True, null = True)
 	encrypted_password = models.TextField(blank = True, null = True)
 

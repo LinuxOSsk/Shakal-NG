@@ -74,6 +74,7 @@ class RichOriginalEditor(RichEditor):
 		js = self.attrs.pop('js', True)
 		widget = super(RichEditor, self).render(name, value, attrs)
 		self.attrs['supported_tags'] = supported_tags
+		self.attrs['js'] = js
 
 		context = {
 			'name': name,
