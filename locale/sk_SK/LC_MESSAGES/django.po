@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-05 16:46+0200\n"
+"POT-Creation-Date: 2013-05-11 14:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,6 +47,9 @@ msgstr "Krstné meno"
 
 msgid "Last name"
 msgstr "Priezvisko"
+
+msgid "Informations"
+msgstr "Informácie"
 
 msgid "E-mail address can be changed <a href=\"{0}\">this link</a>."
 msgstr "E-mailová adresa sa dá zmeniť na <a href=\"{0}\">tejto stránke</a>."
