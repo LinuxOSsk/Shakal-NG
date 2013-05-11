@@ -9,13 +9,17 @@ class RichTextField(CharField):
 	widget = RichEditor
 
 	def __init__(self, *args, **kwargs):
-		self.parser = HtmlParser()
+		self.parser = kwargs.pop('parser', HtmlParser())
 		super(RichTextField, self).__init__(*args, **kwargs)
 
 	def widget_attrs(self, widget):
 		attrs = super(RichTextField, self).widget_attrs(widget)
 		attrs.update(self.parser.get_attributes())
 		return attrs
+
+	def clean(self, value):
+		self.parser.parse(value)
+		return self.parser.get_output()
 
 
 class RichOriginalField(CharField):
