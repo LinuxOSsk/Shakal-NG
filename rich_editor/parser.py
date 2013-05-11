@@ -113,9 +113,11 @@ class HtmlParser:
 	ATTRIBUTE_START_TEXT_READ = 4
 	ATTRIBUTE_TEXT_READ = 5
 
-	def __init__(self):
+	def __init__(self, supported_tags = None):
 		self.output = StringIO.StringIO()
 		self.errors = []
+		if supported_tags is not None:
+			self.supported_tags = supported_tags
 
 	""" Získanie vlastností parseru pre potreby widgetu """
 	def get_attributes(self):
@@ -334,7 +336,7 @@ class HtmlParser:
 							self.__log_error("Required attribute")
 							if self.__tag_str.getvalue()[-1] != ' ':
 								self.__tag_str.write(' ')
-							self.__tag_str.write(name + '=""')
+							self.__tag_str.write(name + '="' + value + '"')
 						# Zápis atribútov
 						self.__tag_str.write('>')
 						self.output.write(self.__tag_str.getvalue())

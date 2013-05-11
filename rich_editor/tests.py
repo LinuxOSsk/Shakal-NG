@@ -35,7 +35,7 @@ class ParserTest(TestCase):
 	def test_missing_attribute(self):
 		code = """<p><a>Test</a></p>"""
 		self.parser.parse(code)
-		self.assertEquals(self.parser.get_output(), """<p><a href="">Test</a></p>""")
+		self.assertEquals(self.parser.get_output(), """<p><a href="#">Test</a></p>""")
 
 	def test_empty_tag(self):
 		code = """<p></p>"""
@@ -45,4 +45,4 @@ class ParserTest(TestCase):
 	def test_malicious_href(self):
 		code = """<p><a href="javascript:alert('XSS')">Test</a></p>"""
 		self.parser.parse(code)
-		self.assertEquals(self.parser.get_output(), """<p><a href="">Test</a></p>""")
+		self.assertEquals(self.parser.get_output(), """<p><a href="#">Test</a></p>""")
