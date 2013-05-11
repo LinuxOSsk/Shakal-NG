@@ -83,7 +83,7 @@ html, body {
 					<li{% ifequal section 'wiki' %} class="active"{% endifequal %}><a href="{% url 'wiki:home' %}">Wiki</a></li>
 				</ul>
 				<div class="pull-right">
-					<div id="user_panel"class="btn{% if user.is_authenticated %} authenticated{% endif %}">
+					<div id="user_panel" class="btn{% if user.is_authenticated %} authenticated{% endif %}">
 						{% if user.is_authenticated %}
 							<span class="username">
 								<a href="{{ request.user.get_absolute_url }}">
