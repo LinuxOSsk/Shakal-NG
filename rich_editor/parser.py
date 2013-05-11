@@ -166,6 +166,33 @@ class HtmlParser:
 		self.output.write('>')
 		self.__tags.pop()
 
+	def __write_attributes(self):
+		to = self.__tags[-1]
+		req_attributes = copy.deepcopy(to.req_attributes)
+		opt_attributes = copy.deepcopy(to.opt_attributes)
+		for attribute in self.__tag_attributes:
+			if (not attribute in req_attributes) and (not attribute in opt_attributes):
+				self.__log_error("Skipping attribute")
+			else:
+				av = self.__tag_attributes[attribute]
+				validators = to.attribute_validators.get(attribute, [])
+				try:
+					for validator in validators:
+						validator(av[0])
+				except ValidationError:
+					self.__log_error("Skipping non valid attribute")
+					continue
+				if attribute in req_attributes:
+					del req_attributes[attribute]
+				if self.__tag_str.getvalue()[-1] != ' ':
+					self.__tag_str.write(' ')
+				self.__tag_str.write(attribute + '=' + av[1] + av[0] + av[1])
+		for name, value in req_attributes.iteritems():
+			self.__log_error("Required attribute")
+			if self.__tag_str.getvalue()[-1] != ' ':
+				self.__tag_str.write(' ')
+			self.__tag_str.write(name + '="' + value + '"')
+
 	""" Zaznamenanie chyby """
 	def __log_error(self, error):
 		parser_error = ParserError()
@@ -194,7 +221,10 @@ class HtmlParser:
 				if to.empty is False:
 					self.__log_error("Empty tag")
 					raise KeyError(self.__tagname)
-				self.__tag_str.write('/>')
+				self.__tags.append(to)
+				self.__write_attributes()
+				self.__tags.pop()
+				self.__tag_str.write(' />')
 				self.output.write(self.__tag_str.getvalue())
 			except:
 				self.output.write(escape(self.__tag_str.getvalue() + '/>'))
@@ -323,28 +353,7 @@ class HtmlParser:
 						except KeyError:
 							pass
 						self.__tags.append(to)
-						for attribute in self.__tag_attributes:
-							if (not attribute in to.req_attributes) and (not attribute in to.opt_attributes):
-								self.__log_error("Skipping attribute")
-							else:
-								av = self.__tag_attributes[attribute]
-								validators = to.attribute_validators.get(attribute, [])
-								try:
-									for validator in validators:
-										validator(av[0])
-								except ValidationError:
-									self.__log_error("Skipping non valid attribute")
-									continue
-								if attribute in to.req_attributes:
-									del to.req_attributes[attribute]
-								if self.__tag_str.getvalue()[-1] != ' ':
-									self.__tag_str.write(' ')
-								self.__tag_str.write(attribute + '=' + av[1] + av[0] + av[1])
-						for name, value in to.req_attributes.iteritems():
-							self.__log_error("Required attribute")
-							if self.__tag_str.getvalue()[-1] != ' ':
-								self.__tag_str.write(' ')
-							self.__tag_str.write(name + '="' + value + '"')
+						self.__write_attributes()
 						# Zápis atribútov
 						self.__tag_str.write('>')
 						self.output.write(self.__tag_str.getvalue())
