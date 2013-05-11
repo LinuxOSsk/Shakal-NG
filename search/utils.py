@@ -9,6 +9,8 @@ class XapianHighlighter(Highlighter):
 		super(XapianHighlighter, self).__init__(query, **kwargs)
 
 	def highlight(self, text_block):
+		if not text_block:
+			return text_block
 		try:
 			text, xapian_text = text_block.split('<xapian>')
 		except ValueError:
