@@ -24,9 +24,9 @@
 	{% endfor %}
 </dl>
 
-{% if user.info %}
+{% if user_profile.info %}
 	<h2>Informácie o mne</h2>
-	{{ user.info|safe }}
+	{{ user_profile.info|safe }}
 {% endif %}
 
 {% endblock %}
