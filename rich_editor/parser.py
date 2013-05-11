@@ -54,6 +54,7 @@ ALL_TAGS = ['a', 'abbr', 'acronym', 'address', 'applet', 'area', 'article', 'asi
 
 
 TEXT_TAGS_LIST = ['', 'b', 'u', 'i', 'em', 'strong', 'a', 'br']
+ONELINE_TAGS_LIST = TEXT_TAGS_LIST[:-1]
 
 DEFAULT_TAGS = dict((t.name, t) for t in [
 	HtmlTag('b', opt = TEXT_TAGS_LIST, empty = False),
@@ -73,6 +74,15 @@ DEFAULT_TAGS = dict((t.name, t) for t in [
 	HtmlTag('ul', req = ['li'], empty = True),
 	HtmlTag('li', opt = TEXT_TAGS_LIST + ['ol', 'ul'], empty = None),
 	HtmlTag('', opt = ['', 'a', 'b', 'u', 'br', 'p', 'i', 'em', 'code', 'strong', 'pre', 'blockquote', 'ol', 'ul', 'span', 'cite']),
+])
+ONELINE_TAGS = dict((t.name, t) for t in [
+	HtmlTag('b', opt = ONELINE_TAGS_LIST, empty = False),
+	HtmlTag('u', opt = ONELINE_TAGS_LIST, empty = False),
+	HtmlTag('i', opt = ONELINE_TAGS_LIST, empty = False),
+	HtmlTag('em', opt = ONELINE_TAGS_LIST, empty = False),
+	HtmlTag('strong', opt = ONELINE_TAGS_LIST, empty = False),
+	HtmlTag('a', opt = [''], req_attributes = {'href': '#'}, empty = False, attribute_validators = {'href': [HrefValidator()]}),
+	HtmlTag('', opt = ['', 'a', 'b', 'u', 'i', 'em']),
 ])
 
 
