@@ -59,3 +59,9 @@ class ParserTest(TestCase):
 		parser = get_parser('signature')
 		parser.parse(code)
 		self.assertEquals(parser.get_output(), """<a href="http://www.linuxos.sk" rel="nofollow">Test</a>""")
+
+	def test_profile_parser(self):
+		code = """<img src="http://www.linuxos.sk/img.png" alt="" />"""
+		parser = get_parser('profile')
+		parser.parse(code)
+		self.assertEquals(parser.get_output(), code)
