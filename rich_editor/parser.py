@@ -207,7 +207,7 @@ class HtmlParser:
 			self.__tag_str.write(';')
 			raise TagReadException()
 		elif type == self.WHITESPACE:
-			self.__tag_str.write(token)
+			pass
 		# tutaj
 		elif type == self.TEXT:
 			attrname = token
@@ -337,6 +337,8 @@ class HtmlParser:
 									continue
 								if attribute in to.req_attributes:
 									del to.req_attributes[attribute]
+								if self.__tag_str.getvalue()[-1] != ' ':
+									self.__tag_str.write(' ')
 								self.__tag_str.write(attribute + '=' + av[1] + av[0] + av[1])
 						for name, value in to.req_attributes.iteritems():
 							self.__log_error("Required attribute")
