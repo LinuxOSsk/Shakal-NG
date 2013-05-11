@@ -11,7 +11,7 @@ def get_parser(editor_type):
 		return HtmlParser(supported_tags = supported_tags)
 	elif editor_type == 'profile':
 		supported_tags = deepcopy(DEFAULT_TAGS)
-		supported_tags['img'] = HtmlTag('img', opt = [''], req_attributes = {'src': ''}, empty = True, attribute_validators = {'src': [HrefValidator()]})
+		supported_tags['img'] = HtmlTag('img', opt = ['title'], req_attributes = {'src': '', 'alt': ''}, empty = True, attribute_validators = {'src': [HrefValidator()]})
 		supported_tags[''] = HtmlTag('', opt = ['', 'a', 'b', 'u', 'br', 'p', 'i', 'em', 'code', 'strong', 'pre', 'blockquote', 'ol', 'ul', 'span', 'cite', 'img'])
 		return HtmlParser(supported_tags = supported_tags)
 	else:
