@@ -297,7 +297,7 @@ class HtmlParser:
 							self.__unroll_stack()
 							self.__tag_obj = self.__get_current_tag()
 						self.__tag_str.truncate(0)
-					except:
+					except KeyError:
 						self.__log_error("Bad end tag")
 						self.output.write(escape(self.__tag_str.getvalue()))
 						self.__tag_str.truncate(0)
@@ -352,7 +352,7 @@ class HtmlParser:
 						self.__tag_str.truncate(0)
 						self.__tag_obj = to
 					# Nepodporovany tag
-					except:
+					except KeyError:
 						self.__log_error("Unknown tag")
 						self.__tag_str.write('>')
 						self.output.write(escape(self.__tag_str.getvalue()))
