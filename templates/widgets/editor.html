@@ -3,7 +3,7 @@
 	<div class="formatwrapper">
 		{% for format in formats %}
 			<label class="format">
-				<input type="radio" name="{{ name }}_format" value="{{ format.format }}"{% if format.checked %} checked="checked"{% endif %}/ >
+				<input type="radio" name="{{ name }}_format" value="{{ format.format }}"{% if format.checked %} checked="checked"{% endif %} />
 				{{ format.label }}
 			</label>
 		{% endfor %}
