@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
 from rich_editor.parser import HtmlParser
+from rich_editor import get_parser
 
 
 class ParserTest(TestCase):
@@ -46,3 +47,15 @@ class ParserTest(TestCase):
 		code = """<p><a href="javascript:alert('XSS')">Test</a></p>"""
 		self.parser.parse(code)
 		self.assertEquals(self.parser.get_output(), """<p><a href="#">Test</a></p>""")
+
+	def test_signature_nofollow(self):
+		code = """<a href="http://www.linuxos.sk">Test</a>"""
+		parser = get_parser('signature')
+		parser.parse(code)
+		self.assertEquals(parser.get_output(), """<a href="http://www.linuxos.sk" rel="nofollow">Test</a>""")
+
+	def test_signature_bad_nofollow(self):
+		code = """<a href="http://www.linuxos.sk" rel="follow">Test</a>"""
+		parser = get_parser('signature')
+		parser.parse(code)
+		self.assertEquals(parser.get_output(), """<a href="http://www.linuxos.sk" rel="nofollow">Test</a>""")

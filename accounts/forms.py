@@ -7,8 +7,9 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from registration.forms import RegistrationForm
 
-from rich_editor.forms import RichTextField
 from antispam.forms import AntispamFormMixin
+from rich_editor import get_parser
+from rich_editor.forms import RichTextField
 
 
 class RegistrationFormUniqueEmail(RegistrationForm, AntispamFormMixin):
@@ -56,7 +57,7 @@ class ProfileEditForm(ModelForm):
 	first_name = CharField(max_length = 30, required = False, label = _('First name'))
 	last_name = CharField(max_length = 30, required = False, label = _('Last name'))
 	email = EmailField(required = False)
-	signature = RichTextField(required = False, max_length = 150, widget = TextInput)
+	signature = RichTextField(parser = get_parser('signature'), required = False, max_length = 150, widget = TextInput)
 
 	class Meta:
 		model = get_user_model()

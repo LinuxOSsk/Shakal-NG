@@ -24,6 +24,12 @@ class HrefValidator(URLValidator):
 		return super(URLValidator, self).__call__(value)
 
 
+class NofollowValidator(object):
+	def __call__(self, value):
+		if value != "nofollow":
+			raise ValidationError("Nofollow required", code = 'invalid')
+
+
 class AttributeException(Exception):
 	pass
 
