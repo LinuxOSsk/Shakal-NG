@@ -139,6 +139,7 @@ INSTALLED_APPS = (
 	'notifications',
 	'paginator',
 	'polls',
+	'rich_editor',
 	'reversion',
 	'threaded_comments',
 	'template_preprocessor',

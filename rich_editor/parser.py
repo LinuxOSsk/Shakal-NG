@@ -38,11 +38,11 @@ class ParserError(object):
 
 
 class HtmlTag:
-	def __init__(self, name, req = [], opt = [], req_attributes = [], opt_attributes = [], attribute_validators = {}, empty = None):
+	def __init__(self, name, req = [], opt = [], req_attributes = {}, opt_attributes = [], attribute_validators = {}, empty = None):
 		self.name = name
 		self.req = set(req)
 		self.opt = set(opt)
-		self.req_attributes = set(req_attributes)
+		self.req_attributes = dict(req_attributes)
 		self.opt_attributes = set(opt_attributes)
 		self.attribute_validators = attribute_validators
 		self.empty = empty
@@ -53,7 +53,27 @@ class HtmlTag:
 ALL_TAGS = ['a', 'abbr', 'acronym', 'address', 'applet', 'area', 'article', 'aside', 'audio', 'b', 'base', 'basefont', 'bdi', 'bdo', 'big', 'blockquote', 'body', 'br', 'button', 'canvas', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'command', 'datalist', 'dd', 'del', 'details', 'dfn', 'dir', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset', 'figcaption', 'figure', 'font', 'footer', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'hr', 'html', 'i', 'iframe', 'img', 'input', 'ins', 'kbd', 'keygen', 'label', 'legend', 'li', 'link', 'map', 'mark', 'menu', 'meta', 'meter', 'nav', 'noframes', 'noscript', 'object', 'ol', 'optgroup', 'option', 'output', 'p', 'param', 'pre', 'progress', 'q', 'rp', 'rt', 'ruby', 's', 'samp', 'script', 'section', 'select', 'small', 'source', 'span', 'strike', 'strong', 'style', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'title', 'tr', 'track', 'tt', 'u', 'ul', 'var', 'video', 'wbr']
 
 
-TEXT_TAGS = ['', 'b', 'u', 'i', 'em', 'strong', 'a', 'br']
+TEXT_TAGS_LIST = ['', 'b', 'u', 'i', 'em', 'strong', 'a', 'br']
+
+DEFAULT_TAGS = dict((t.name, t) for t in [
+	HtmlTag('b', opt = TEXT_TAGS_LIST, empty = False),
+	HtmlTag('u', opt = TEXT_TAGS_LIST, empty = False),
+	HtmlTag('i', opt = TEXT_TAGS_LIST, empty = False),
+	HtmlTag('em', opt = TEXT_TAGS_LIST, empty = False),
+	HtmlTag('strong', opt = TEXT_TAGS_LIST, empty = False),
+	HtmlTag('a', opt = [''], req_attributes = {'href': '#'}, empty = False, attribute_validators = {'href': [HrefValidator()]}),
+	HtmlTag('pre', opt = [''], empty = False),
+	HtmlTag('p', opt = TEXT_TAGS_LIST + ['span', 'code', 'cite'], empty = False),
+	HtmlTag('span', opt = TEXT_TAGS_LIST, empty = False),
+	HtmlTag('br', empty = True),
+	HtmlTag('code', opt = ['', 'b', 'u', 'i', 'em', 'strong'], empty = False),
+	HtmlTag('blockquote', opt = TEXT_TAGS_LIST + ['p', 'code', 'pre', 'cite', 'span', 'ol', 'ul'], empty = False),
+	HtmlTag('cite', opt = TEXT_TAGS_LIST, empty = False),
+	HtmlTag('ol', req = ['li'], empty = True),
+	HtmlTag('ul', req = ['li'], empty = True),
+	HtmlTag('li', opt = TEXT_TAGS_LIST + ['ol', 'ul'], empty = None),
+	HtmlTag('', opt = ['', 'a', 'b', 'u', 'br', 'p', 'i', 'em', 'code', 'strong', 'pre', 'blockquote', 'ol', 'ul', 'span', 'cite']),
+])
 
 
 class HtmlParser:
@@ -75,25 +95,7 @@ class HtmlParser:
 	""", re.VERBOSE)
 
 	# Validatory tagov
-	supported_tags = dict((t.name, t) for t in [
-		HtmlTag('b', opt = TEXT_TAGS, empty = False),
-		HtmlTag('u', opt = TEXT_TAGS, empty = False),
-		HtmlTag('i', opt = TEXT_TAGS, empty = False),
-		HtmlTag('em', opt = TEXT_TAGS, empty = False),
-		HtmlTag('strong', opt = TEXT_TAGS, empty = False),
-		HtmlTag('a', opt = [''], req_attributes = ['href'], empty = False, attribute_validators = {'href': [HrefValidator()]}),
-		HtmlTag('pre', opt = [''], empty = False),
-		HtmlTag('p', opt = TEXT_TAGS + ['span', 'code', 'cite'], empty = False),
-		HtmlTag('span', opt = TEXT_TAGS, empty = False),
-		HtmlTag('br', empty = True),
-		HtmlTag('code', opt = ['', 'b', 'u', 'i', 'em', 'strong'], empty = False),
-		HtmlTag('blockquote', opt = TEXT_TAGS + ['p', 'code', 'pre', 'cite', 'span', 'ol', 'ul'], empty = False),
-		HtmlTag('cite', opt = TEXT_TAGS, empty = False),
-		HtmlTag('ol', req = ['li'], empty = True),
-		HtmlTag('ul', req = ['li'], empty = True),
-		HtmlTag('li', opt = TEXT_TAGS + ['ol', 'ul'], empty = None),
-		HtmlTag('', opt = ['', 'a', 'b', 'u', 'br', 'p', 'i', 'em', 'code', 'strong', 'pre', 'blockquote', 'ol', 'ul', 'span', 'cite']),
-	])
+	supported_tags = DEFAULT_TAGS
 	# Stav parseru
 	TEXT_READ = 1
 	TAG_READ = 2
@@ -107,7 +109,9 @@ class HtmlParser:
 
 	""" Získanie vlastností parseru pre potreby widgetu """
 	def get_attributes(self):
-		return { 'supported_tags': self.supported_tags }
+		return {
+			'supported_tags': self.supported_tags
+		}
 
 	""" Získanie prečisteného HTML kódu. """
 	def get_output(self):
@@ -314,13 +318,13 @@ class HtmlParser:
 									self.__log_error("Skipping non valid attribute")
 									continue
 								if attribute in to.req_attributes:
-									to.req_attributes.remove(attribute)
+									del to.req_attributes[attribute]
 								self.__tag_str.write(attribute + '=' + av[1] + av[0] + av[1])
-						for attribute in to.req_attributes:
+						for name, value in to.req_attributes.iteritems():
 							self.__log_error("Required attribute")
 							if self.__tag_str.getvalue()[-1] != ' ':
 								self.__tag_str.write(' ')
-							self.__tag_str.write(attribute + '=""')
+							self.__tag_str.write(name + '=""')
 						# Zápis atribútov
 						self.__tag_str.write('>')
 						self.output.write(self.__tag_str.getvalue())
