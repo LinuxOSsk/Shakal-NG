@@ -6,6 +6,10 @@
 	{{ block.super }}
 {% endblock %}
 
+{% block title %}
+{{ news }}
+{% endblock title %}
+
 {% block content %}
 {% if user.is_staff and perms.news.can_change %}
 <ul class="object-tools">
