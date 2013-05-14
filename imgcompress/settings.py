@@ -10,51 +10,6 @@ backgrounds = {
 			'mode': 'no-repeat', 'width': 240, 'height': 80
 		},
 		{
-			'name': 'header_bg',
-			'src': 'static/desktop/default/images/header_bg.png',
-			'mode': 'repeat-x', 'width': 1, 'height': 80
-		},
-		{
-			'name': 'btn_std',
-			'src': 'static/desktop/default/images/btn.png',
-			'mode': 'no-repeat', 'width': 800, 'height': 38, 'offset': (0, 0)
-		},
-		{
-			'name': 'btn_std_hover',
-			'src': 'static/desktop/default/images/btn.png',
-			'mode': 'no-repeat', 'width': 800, 'height': 38, 'offset': (0, 38)
-		},
-		{
-			'name': 'btn_act',
-			'src': 'static/desktop/default/images/btn.png',
-			'mode': 'no-repeat', 'width': 800, 'height': 38, 'offset': (0, 76)
-		},
-		{
-			'name': 'btn_act_hover',
-			'src': 'static/desktop/default/images/btn.png',
-			'mode': 'no-repeat', 'width': 800, 'height': 38, 'offset': (0, 114)
-		},
-		{
-			'name': 'btn_content_std',
-			'src': 'static/desktop/default/images/btn_content.png',
-			'mode': 'no-repeat', 'width': 800, 'height': 32, 'offset': (0, 0)
-		},
-		{
-			'name': 'btn_content_std_hover',
-			'src': 'static/desktop/default/images/btn_content.png',
-			'mode': 'no-repeat', 'width': 800, 'height': 32, 'offset': (0, 32)
-		},
-		{
-			'name': 'btn_content_act',
-			'src': 'static/desktop/default/images/btn_content.png',
-			'mode': 'no-repeat', 'width': 800, 'height': 32, 'offset': (0, 64)
-		},
-		{
-			'name': 'btn_content_act_hover',
-			'src': 'static/desktop/default/images/btn_content.png',
-			'mode': 'no-repeat', 'width': 800, 'height': 32, 'offset': (0, 96)
-		},
-		{
 			'name': 'avatar_placeholder',
 			'src': 'static/desktop/default/images/avatar_placeholder.png',
 			'mode': 'no-repeat', 'width': 56, 'height': 56
@@ -165,44 +120,89 @@ backgrounds = {
 			'mode': 'no-repeat', 'width': 16, 'height': 15
 		},
 		{
-			'name': 'breadcrumb_panel_bg',
-			'src': 'static/desktop/default/images/breadcrumb_panel_bg.png',
-			'mode': 'repeat-x', 'width': 1, 'height': 36
+			'name': 'header_bg',
+			'src': 'static/desktop/default/images/header_bg.png',
+			'mode': 'repeat-x', 'width': 1, 'height': 80
 		},
 		{
 			'name': 'user_rating_0',
 			'src': 'static/desktop/default/images/rating_0.png',
-			'mode': 'repeat-x', 'width': 20, 'height': 36
+			'mode': 'no-repeat', 'width': 20, 'height': 36
 		},
 		{
 			'name': 'user_rating_1',
 			'src': 'static/desktop/default/images/rating_1.png',
-			'mode': 'repeat-x', 'width': 20, 'height': 36
+			'mode': 'no-repeat', 'width': 20, 'height': 36
 		},
 		{
 			'name': 'user_rating_2',
 			'src': 'static/desktop/default/images/rating_2.png',
-			'mode': 'repeat-x', 'width': 20, 'height': 36
+			'mode': 'no-repeat', 'width': 20, 'height': 36
 		},
 		{
 			'name': 'user_rating_3',
 			'src': 'static/desktop/default/images/rating_3.png',
-			'mode': 'repeat-x', 'width': 20, 'height': 36
+			'mode': 'no-repeat', 'width': 20, 'height': 36
 		},
 		{
 			'name': 'user_rating_4',
 			'src': 'static/desktop/default/images/rating_4.png',
-			'mode': 'repeat-x', 'width': 20, 'height': 36
+			'mode': 'no-repeat', 'width': 20, 'height': 36
 		},
 		{
 			'name': 'user_rating_5',
 			'src': 'static/desktop/default/images/rating_5.png',
-			'mode': 'repeat-x', 'width': 20, 'height': 36
+			'mode': 'no-repeat', 'width': 20, 'height': 36
 		},
 		{
 			'name': 'user_rating_admin',
 			'src': 'static/desktop/default/images/rating_admin.png',
-			'mode': 'repeat-x', 'width': 20, 'height': 36
+			'mode': 'no-repeat', 'width': 20, 'height': 36
+		},
+		{
+			'name': 'btn_std',
+			'src': 'static/desktop/default/images/btn.png',
+			'mode': 'no-repeat', 'width': 800, 'height': 38, 'offset': (0, 0)
+		},
+		{
+			'name': 'btn_std_hover',
+			'src': 'static/desktop/default/images/btn.png',
+			'mode': 'no-repeat', 'width': 800, 'height': 38, 'offset': (0, 38)
+		},
+		{
+			'name': 'btn_act',
+			'src': 'static/desktop/default/images/btn.png',
+			'mode': 'no-repeat', 'width': 800, 'height': 38, 'offset': (0, 76)
+		},
+		{
+			'name': 'btn_act_hover',
+			'src': 'static/desktop/default/images/btn.png',
+			'mode': 'no-repeat', 'width': 800, 'height': 38, 'offset': (0, 114)
+		},
+		{
+			'name': 'btn_content_std',
+			'src': 'static/desktop/default/images/btn_content.png',
+			'mode': 'no-repeat', 'width': 800, 'height': 32, 'offset': (0, 0)
+		},
+		{
+			'name': 'btn_content_std_hover',
+			'src': 'static/desktop/default/images/btn_content.png',
+			'mode': 'no-repeat', 'width': 800, 'height': 32, 'offset': (0, 32)
+		},
+		{
+			'name': 'btn_content_act',
+			'src': 'static/desktop/default/images/btn_content.png',
+			'mode': 'no-repeat', 'width': 800, 'height': 32, 'offset': (0, 64)
+		},
+		{
+			'name': 'btn_content_act_hover',
+			'src': 'static/desktop/default/images/btn_content.png',
+			'mode': 'no-repeat', 'width': 800, 'height': 32, 'offset': (0, 96)
+		},
+		{
+			'name': 'breadcrumb_panel_bg',
+			'src': 'static/desktop/default/images/breadcrumb_panel_bg.png',
+			'mode': 'repeat-x', 'width': 1, 'height': 36
 		},
 		{
 			'name': 'breadcrumb_std',
