@@ -25,7 +25,7 @@ class RichTextOriginalField(Field):
 		if ':' in value:
 			return tuple(value.split(":", 1))
 		else:
-			return (None, value)
+			return ('html', value)
 
 	def get_prep_value(self, value):
 		return value[0] + u":" + value[1]
@@ -49,6 +49,8 @@ class RichTextFilteredField(TextField):
 
 	def filter_data(self, data):
 		fmt, value = data
+		if not fmt:
+			return data
 		parser = self.parsers[fmt]
 		parser.parse(value)
 		return parser.get_output()
@@ -64,7 +66,7 @@ class RichTextFilteredField(TextField):
 
 		def filtered_property(self):
 			old_values = getattr(self, "old_values", {})
-			old_field_value = old_values.get(original_field, (None, ''))
+			old_field_value = old_values.get(original_field, ('html', ''))
 			if getattr(self, original_field) != old_field_value:
 				fmt, value = getattr(self, original_field)
 				parser = parsers[fmt]
