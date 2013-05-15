@@ -101,7 +101,7 @@ def email_change_activate(request, email):
 		user = get_user_model().objects.get(pk = int(user_id))
 		if user != request.user:
 			raise ValueError
-		time = datetime.utcfromtimestamp(int(timestamp))
+		time = timezone.make_aware(datetime.utcfromtimestamp(int(timestamp)), timezone = timezone.utc)
 		if ((timezone.now() - time).days) > 14:
 			raise UserInputError(_("Link expired."))
 		if get_user_model().objects.filter(email = email).exclude(pk = user.pk).count() > 0:
