@@ -29,7 +29,7 @@ def poll_redirect(request, pk):
 	return HttpResponsePermanentRedirect(reverse('polls:detail-by-slug', kwargs = {'slug': poll.slug}))
 
 def wiki_redirect(request, pk):
-	wiki = get_object_or_404(WikiPage, pk = int(pk) - 7)
+	wiki = get_object_or_404(WikiPage, pk = int(pk) + 7)
 	return HttpResponsePermanentRedirect(reverse('wiki:page', kwargs = {'slug': wiki.slug}))
 def forum_rss_redirect(request):
 	return HttpResponsePermanentRedirect(reverse('forum:feed-latest'))
