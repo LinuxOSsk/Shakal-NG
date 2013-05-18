@@ -34,11 +34,8 @@ def humandatetime(value, default = ''):
 def user_link(user_object, username):
 	if user_object:
 		template_text = '<a class="url fn" href="{{ link }}">{{ label }}</a>'
-		user_label = user_object.username
-		if user_object.get_full_name():
-			user_label = user_object.get_full_name()
 		tpl = template.Template(template_text)
-		ctx = template.Context({'link': user_object.get_absolute_url(), 'label': user_label})
+		ctx = template.Context({'link': user_object.get_absolute_url(), 'label': str(user_object)})
 		return tpl.render(ctx)
 	else:
 		return escape(username)

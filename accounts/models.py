@@ -47,6 +47,13 @@ class User(AbstractUser):
 			ciphertext = cipher.encrypt(bytes(raw_password.encode("utf-8")))
 			self.encrypted_password = b64encode(ciphertext)
 
+	def __unicode__(self):
+		full_name = self.get_full_name()
+		if full_name:
+			return full_name
+		else:
+			return self.username
+
 	class Meta:
 		db_table = 'auth_user'
 
