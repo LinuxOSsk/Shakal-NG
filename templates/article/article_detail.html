@@ -8,6 +8,15 @@
 	{{ block.super }}
 {% endblock %}
 
+{% block extraheaders %}
+	{{ block.super }}
+	<meta property="og:title" content="{{ article.title }}" />
+	{% if article.image %}
+		<meta property="og:image" content="{{ article.image.url }}" />
+	{% endif %}
+	<meta property="og:description" content="{{ article.annotation }}" />
+{% endblock %}
+
 {% block content %}
 {% if user.is_staff and perms.article.can_change %}
 <ul class="object-tools">
