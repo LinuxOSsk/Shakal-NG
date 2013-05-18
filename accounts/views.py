@@ -38,6 +38,8 @@ def profile(request, pk):
 		{'name': _('linux distribution'), 'value': user.distribution, 'class': 'note'},
 		{'name': _('year of birth'), 'value': user.year},
 	)
+	if user_table[1]['value'] == ' ':
+		user_table[1]['value'] = ''
 	if user.display_mail:
 		email = user.email.replace('@', ' ' + ugettext('ROLLMOP') + ' ').replace('.', ' ' + ugettext('DOT') + ' ')
 		user_table = user_table + ({'name': _('e-mail'), 'value': email}, )
