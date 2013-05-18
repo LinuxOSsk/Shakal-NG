@@ -1,5 +1,5 @@
 {% load avatar %}{% load linuxos %}
-<div class="discussion header {{ comment_type }}{% if not single %}{% ifequal user request.user %} me{% endifequal %}{{ comment.get_tags }}{% endif %}">
+<div class="discussion header {% if user %}vcard {% endif %}{{ comment_type }}{% if not single %}{% ifequal user request.user %} me{% endifequal %}{{ comment.get_tags }}{% endif %}">
 	<div class="comment_info">
 		<span class="title">{% block comment_title %}{% endblock %}</span>
 		<span class="info">
@@ -11,14 +11,14 @@
 	</div>
 	<span class="icon">
 		{% if user %}
-			<img src="{% avatar_for_user user 48 %}" class="gravatar" alt="Avatar" />
+			<img src="{% avatar_for_user user 48 %}" class="gravatar photo" alt="Avatar" />
 		{% endif %}
 	</span>
 	<span class="user">
 		<span class="user_link">{% user_link user user_name %}</span>
 		<span class="user_rating {% if user.is_staff %}admin{% elif user.is_active %}rating_{{ user.rating.get_rating_label }}{% else %}rating_0{% endif %}"{% if user.rating %} title="Body: {{ user.rating.rating }}"{% endif %}></span>
-		<span class="distribution">{{ user.distribution }}&nbsp;</span>
-		<span class="rank">{% if user.is_staff %}Administrátor{% elif user.is_active %}Používateľ{% else %}Návštevník{% endif %}</span>
+		<span class="note distribution">{{ user.distribution }}&nbsp;</span>
+		<span class="role rank">{% if user.is_staff %}Administrátor{% elif user.is_active %}Používateľ{% else %}Návštevník{% endif %}</span>
 	</span>
 	{% if comment.is_removed and not can_display_deleted %}
 	{% elif not comment.is_public and not single %}

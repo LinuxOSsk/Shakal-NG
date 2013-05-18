@@ -33,7 +33,7 @@ def humandatetime(value, default = ''):
 @register.simple_tag
 def user_link(user_object, username):
 	if user_object:
-		template_text = '<a href="{{ link }}">{{ label }}</a>'
+		template_text = '<a class="url fn" href="{{ link }}">{{ label }}</a>'
 		user_label = user_object.username
 		if user_object.get_full_name():
 			user_label = user_object.get_full_name()
