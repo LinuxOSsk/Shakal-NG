@@ -32,11 +32,10 @@ def login(*args, **kwargs):
 def profile(request, pk):
 	user = get_object_or_404(get_user_model(), pk = pk)
 	user_table = (
-		{'name': _('user name'), 'value': user.username},
-		{'name': _('first name'), 'value': user.first_name},
-		{'name': _('last name'), 'value': user.last_name},
-		{'name': _('signature'), 'value': mark_safe(user.signature)},
-		{'name': _('linux distribution'), 'value': user.distribution},
+		{'name': _('user name'), 'value': user.username, 'class': 'nickname'},
+		{'name': _('full name'), 'value': user.first_name + ' ' + user.last_name, 'class': 'fn'},
+		{'name': _('signature'), 'value': mark_safe(user.signature), 'class': ''},
+		{'name': _('linux distribution'), 'value': user.distribution, 'class': 'note'},
 		{'name': _('year of birth'), 'value': user.year},
 	)
 	if user.display_mail:

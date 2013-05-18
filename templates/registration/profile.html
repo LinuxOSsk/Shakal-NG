@@ -12,14 +12,16 @@
 {% endif %}
 <h1>{% trans 'User profile' %}</h1>
 
+<div class="vcard">
+
 <div class="avatar-profile">
-	<img src="{% avatar_for_user user_profile 128 %}" class="gravatar" alt="Avatar" />
+	<img src="{% avatar_for_user user_profile 128 %}" class="photo gravatar" alt="Avatar" />
 </div>
 <dl class="profile">
 	{% for user_property in user_table %}
 		{% if user_property.value %}
 			<dt>{{ user_property.name|capfirst }}:</dt>
-			<dd>{% if user_property.value %}{{ user_property.value }}{% else %}&nbsp;{% endif %}</dd>
+			<dd{% if user_property.value %} class="{{ user_property.class }}"{% endif %}>{% if user_property.value %}{{ user_property.value }}{% else %}&nbsp;{% endif %}</dd>
 		{% endif %}
 	{% endfor %}
 </dl>
@@ -28,5 +30,7 @@
 	<h2>Informácie o mne</h2>
 	{{ user_profile.info|safe }}
 {% endif %}
+
+</div>
 
 {% endblock %}
