@@ -18,7 +18,7 @@
 
 <div class="info top">
 	{{ article.pub_time|date:"d.m.Y H:i" }} |
-	{{ article.category }} |
+	<a href="{{ article.category.get_absolute_url }}">{{ article.category }}</a> |
 	{% if article.author %}
 	<a href="{% url 'auth_profile' article.author.pk %}">
 			{% firstof article.author.get_full_name article.author.username %}
