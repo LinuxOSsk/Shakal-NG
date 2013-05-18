@@ -29,6 +29,11 @@
 </div>
 
 <div class="content">
+{% if article.image_standard.url %}
+	<div class="article thumbnail pull-left">
+		<img src="{{ article.image_standard.url }}" alt="{{ article.title }}" />
+	</div>
+{% endif %}
 {{ article.display_content }}
 </div>
 
