@@ -243,6 +243,9 @@ dl { .no-space(); }
 dt { .no-space(); font-weight: bold; }
 dd { .no-space(); margin-left: 4em; }
 
+pre, code { color: mix(@generic-foreground, @generic-background, 60%); }
+pre, .annotation { margin: @module-padding; padding: @module-padding; background: mix(@generic-background, @generic-foreground, 98%); border: @light-border; overflow: auto; }
+
 textarea { width: 30em; height: 10em; .input; }
 textarea.wymeditor { width: auto; height: 15em; display: block; clear: both; }
 .textareawrapper {
