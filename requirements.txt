@@ -19,3 +19,6 @@ pycrypto
 pytz
 git+git://github.com/toastdriven/queued_search.git
 queues
+python-dateutil
+django-qsstats-magic
+simplejson
