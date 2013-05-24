@@ -1,7 +1,7 @@
 {% extends "admin_tools/dashboard/module.html" %}
 
 {% block module_content %}
-<div id="comments_stats_chart" style="height: 200px;"></div>
+<div id="comments_stats_chart" style="height: 300px;"></div>
 <script type="text/javascript">
 //<![CDATA[
 (function () {
@@ -13,7 +13,7 @@
 		var loadCallback = function() {
 			var chart = new google.visualization.LineChart(document.getElementById('comments_stats_chart'));
 			jQuery.getJSON('{% url 'admin_dashboard:stats' %}', function(data) {
-				chart.draw(google.visualization.arrayToDataTable(data), {legend: {position: 'none'}, chartArea: {width: '85%'}});
+				chart.draw(google.visualization.arrayToDataTable(data), {legend: {position: 'none'}, chartArea: {width: '85%', height: '65%'}});
 			});
 		};
 		var options = {packages: ['corechart'], callback : loadCallback};
