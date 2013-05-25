@@ -3,30 +3,4 @@
 
 {% block module_content %}
 <a href="{% url 'admin_dashboard:stats' %}">{% trans 'Štatistiky' %}</a>
-<!--<div id="{{ module.id }}_stats_chart" class="stats_chart" style="height:
-	300px;"></div>-->
-<script type="text/javascript">
-//<![CDATA[
-/*
-(function () {
-	var s = document.createElement('script');
-	s.type = 'text/javascript';
-	s.async = true;
-	s.src = 'https://www.google.com/jsapi';
-	s.onload = s.onreadystatechange = function() {
-		var loadCallback = function() {
-			var chart = new google.visualization.LineChart(document.getElementById('comments_stats_chart'));
-			jQuery.getJSON('{% url 'admin_dashboard:stats' %}', function(data) {
-				chart.draw(google.visualization.arrayToDataTable(data), {legend: {position: 'none'}, chartArea: {width: '85%', height: '65%'}});
-			});
-		};
-		var options = {packages: ['corechart'], callback : loadCallback};
-		google.load('visualization', '1', options);
-	};
-	var x = document.getElementsByTagName('script')[0];
-	x.parentNode.insertBefore(s, x);
-})();
-*/
-//]]>
-</script>
 {% endblock %}
