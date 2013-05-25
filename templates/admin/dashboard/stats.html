@@ -1,9 +1,13 @@
 {% extends "admin_tools/dashboard/module.html" %}
+{% load i18n %}
 
 {% block module_content %}
-<div id="comments_stats_chart" style="height: 300px;"></div>
+<a href="{% url 'admin_dashboard:stats' %}">{% trans 'Štatistiky' %}</a>
+<!--<div id="{{ module.id }}_stats_chart" class="stats_chart" style="height:
+	300px;"></div>-->
 <script type="text/javascript">
 //<![CDATA[
+/*
 (function () {
 	var s = document.createElement('script');
 	s.type = 'text/javascript';
@@ -22,6 +26,7 @@
 	var x = document.getElementsByTagName('script')[0];
 	x.parentNode.insertBefore(s, x);
 })();
+*/
 //]]>
 </script>
 {% endblock %}

@@ -13,6 +13,7 @@ class AdminIndexDashboard(Dashboard):
 
 	class Media:
 		css = ('admin/dashboard/dashboard.css', )
+		js = ('js/admin/stats.js', )
 
 	def init_with_context(self, context):
 		appgroups = get_application_groups()

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from admin_tools.dashboard.modules import AppList, DashboardModule, Group
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 
 
 class AppIconList(AppList):
@@ -29,14 +30,9 @@ class AppIconList(AppList):
 		return getattr(settings, 'ADMIN_DASHBOARD_APP_ICONS', {}).get(app_name + '/' + model_name)
 
 
-class CommentsStats(DashboardModule):
+class Stats(DashboardModule):
+	css_classes = ['stats']
 	template = 'admin/dashboard/stats.html'
-	show_title = False
 
 	def is_empty(self):
 		return False
-
-
-class Stats(Group):
-	def init_with_context(self, context):
-		self.children.append(CommentsStats('Comments'))

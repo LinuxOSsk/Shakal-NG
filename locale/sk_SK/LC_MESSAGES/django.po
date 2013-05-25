@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-18 12:00+0200\n"
+"POT-Creation-Date: 2013-05-25 14:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -120,11 +120,68 @@ msgstr "E-mailová adresa sa už používa."
 msgid "Recent Actions"
 msgstr "Posledné akcie"
 
+msgid "Stats"
+msgstr "Štatistiky"
+
 msgid "Return to site"
 msgstr "Návrat na stránku"
 
 msgid "Dashboard"
 msgstr "Dashboard"
+
+msgid "30 days"
+msgstr "30 dní"
+
+msgid "60 days"
+msgstr "60 dní"
+
+msgid "1 year (sum 30 days)"
+msgstr "1 rok (súčet 30 dní)"
+
+msgid "1 year (weekly)"
+msgstr "1 rok (týždenne)"
+
+msgid "2 years (sum 30 days)"
+msgstr "2 roky (súčet 30 dní)"
+
+msgid "2 years (weekly)"
+msgstr "2 roky (týždenne)"
+
+msgid "2 years (sum 4 weeks)"
+msgstr "2 roky (súčet 4 týždňov)"
+
+msgid "2 years (monthly)"
+msgstr "2 roky (mesačne)"
+
+msgid "4 years (weekly)"
+msgstr "4 roky (týždenne)"
+
+msgid "4 years (sum 4 weeks)"
+msgstr "4 roky (súčet 4 týždňov)"
+
+msgid "4 years (monthly)"
+msgstr "4 roky (mesačne)"
+
+msgid "8 years (weekly)"
+msgstr "8 rokov (týždenne)"
+
+msgid "8 years (sum 4 weeks)"
+msgstr "8 rokov (súčet 4 týždňov)"
+
+msgid "8 years (monthly)"
+msgstr "8 rokov (mesačne)"
+
+msgid "Comments"
+msgstr "Komentáre"
+
+msgid "News"
+msgstr "Správy"
+
+msgid "Articles"
+msgstr "Články"
+
+msgid "Date"
+msgstr "Dátum"
 
 msgid "name"
 msgstr "meno"
@@ -363,6 +420,9 @@ msgstr "Aplikácie"
 msgid "^admin/"
 msgstr "^administracia/"
 
+msgid "^admin_dashboard/"
+msgstr "^admin_dashboard/"
+
 msgid "^accounts/"
 msgstr "^profil/"
 
@@ -395,6 +455,61 @@ msgstr "^template-cache/$"
 
 msgid "^search/"
 msgstr "^hladat/"
+
+msgid "Štatistiky"
+msgstr "Štatistiky"
+
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] "Opravte prosím chybu uvedenú nižšie."
+msgstr[1] "Opravte prosím chyby uvedené nižšie."
+msgstr[2] "Opravte prosím chyby uvedené nižšie."
+
+#, python-format
+msgid "Sorting priority: %(priority_number)s"
+msgstr ""
+
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would result in deleting "
+"related objects, but your account doesn't have permission to delete the "
+"following types of objects:"
+msgstr ""
+
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would require deleting the "
+"following protected related objects:"
+msgstr ""
+
+#, python-format
+msgid ""
+"Are you sure you want to delete the %(object_name)s \"%(escaped_object)s\"? "
+"All of the following related items will be deleted:"
+msgstr ""
+
+#, python-format
+msgid " By %(filter_title)s "
+msgstr ""
+
+#, fuzzy, python-format
+msgid "%(counter)s result"
+msgid_plural "%(counter)s results"
+msgstr[0] "%(counter)s komentár"
+msgstr[1] "%(counter)s komentáre"
+msgstr[2] "%(counter)s komentárov"
+
+#, python-format
+msgid "%(full_result_count)s total"
+msgstr ""
+
+#, python-format
+msgid "Enter a new password for the user <strong>%(username)s</strong>."
+msgstr ""
+
+#, python-format
+msgid "Add another %(verbose_name)s"
+msgstr ""
 
 #, python-format
 msgid "%(counter)s comment"
