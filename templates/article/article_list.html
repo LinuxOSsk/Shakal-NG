@@ -13,11 +13,20 @@
 	{{ block.super }}
 {% endblock %}
 
+{% block extraheaders %}
+	{% ifequal pagenum '1' %}
+		<meta name="description" lang="sk" content="{% if category %}{{ category.description }}{% else %}Portál LinuxOS.sk prináša pravidelne články zo sveta open source. Na tejto stránke môžte nájsť články zo všetkých kategórií.{% endif %}" />
+	{% endifequal %}
+{% endblock %}
+
 {% block content %}
 {% add_discussion_attributes articles %}
 {% add_hitcount articles %}
 <h1>{% if category %}{{ category }}{% else %}Články{% endif %}</h1>
-{% if not category %}
+{% if category %}
+<p class="description">{{ category.description }}</p>
+{% else %}
+<p class="description">Portál LinuxOS.sk prináša pravidelne články zo sveta open source. Na tejto stránke môžte nájsť články zo všetkých kategórií.</p>
 <ul>
 	{% for category in article_categories %}
 	<li><a href="{{ category.get_absolute_url }}">{{ category }}</a></li>

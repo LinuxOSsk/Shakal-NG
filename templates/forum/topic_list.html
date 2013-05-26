@@ -18,6 +18,12 @@
 	{{ block.super }}
 {% endblock %}
 
+{% block extraheaders %}
+	{% ifequal pagenum '1' %}
+		<meta name="description" lang="sk" content="{% if forum_section %}{{ forum_section.description }}{% else %}Diskusné fórum slúži tak začínajúcim ako aj pokročilejším užívateľom Linuxu. Tu sa môžete spýtať otázku či predložiť problém, s ktorým si sami neviete poradiť.{% endif %}" />
+	{% endifequal %}
+{% endblock %}
+
 {% block content %}
 
 <ul class="object-tools">
