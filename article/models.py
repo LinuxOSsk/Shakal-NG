@@ -17,6 +17,7 @@ from threaded_comments.models import RootHeader, Comment
 class Category(models.Model):
 	name = models.CharField(_('name'), max_length = 255)
 	slug = models.SlugField(unique = True)
+	description = models.TextField(_('description'))
 
 	@permalink
 	def get_absolute_url(self):
