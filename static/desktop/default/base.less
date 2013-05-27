@@ -1088,9 +1088,19 @@ ul.messages {
 	border-top: 1px solid #dbdfe3;
 	background: #eff3f7;
 	min-height: 56px;
-	&.me { background: #e0ebff;  }
-	&.resolved { background: mix(#eff3f7, #00ff00, 90%); }
-	&.deleted { background: mix(#eff3f7, #ff0000, 70%); }
+	position: relative;
+	&.me {
+		background: #e0ebff;
+		.user { background: #e0ebff; }
+	}
+	&.resolved {
+		background: mix(#eff3f7, #00ff00, 90%);
+		.user { background: mix(#eff3f7, #00ff00, 90%); }
+	}
+	&.deleted {
+		background: mix(#eff3f7, #ff0000, 70%);
+		.user { background: mix(#eff3f7, #ff0000, 70%); }
+	}
 	&.entry {
 		&.me { border-left-color: #1d5886; }
 		&.resolved { border-left-color: #00ff00; }
@@ -1110,6 +1120,10 @@ ul.messages {
 		text-align: right;
 		padding-right: 3px;
 		min-height: 56px;
+		position: absolute;
+		right: 56px;
+		top: 0px;
+		background: #eff3f7;
 	}
 	.user_link {
 		display: block;
@@ -1134,11 +1148,15 @@ ul.messages {
 		}
 	}
 	.comment_info {
-		float: left;
 		margin-left: 5px;
+		margin-right: 180px;
 		.subject {
 			display: block;
 			line-height: 25px;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			width: 100%;
 		}
 		.info {
 			line-height: 25px;
@@ -1163,7 +1181,9 @@ ul.messages {
 		width: 48px;
 		height: 48px;
 		padding: 4px;
-		background: red;
+		position: absolute;
+		right: 0px;
+		top: 0px;
 		.sprite(@backgrounds_avatar_placeholder_imgpos);
 	}
 }
