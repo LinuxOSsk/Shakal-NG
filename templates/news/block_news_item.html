@@ -4,7 +4,11 @@
 	<span class="time">{{ item.created|humandatetime }}</span> |
 	<span class="user">{% user_link item.author item.authors_name %}</span>
 </div>
+{% if long %}
+<p>{{ item.long_text|safe }}</p>
+{% else %}
 <p>{{ item.short_text|safe }}</p>
+{% endif %}
 <div class="info bottom">
 	<span class="comments">
 		{% get_comments_for_item item %}
