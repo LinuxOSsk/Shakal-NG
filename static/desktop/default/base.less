@@ -1101,6 +1101,10 @@ ul.messages {
 		background: mix(#eff3f7, #ff0000, 70%);
 		.user { background: mix(#eff3f7, #ff0000, 70%); }
 	}
+	&.new, &.highlight {
+		background-color: #fffae0;
+		.user { background: #fffae0; }
+	}
 	&.entry {
 		&.me { border-left-color: #1d5886; }
 		&.resolved { border-left-color: #00ff00; }
@@ -1236,7 +1240,6 @@ ul.messages {
 
 .discussion.header.new, .discussion.header.highlight {
 	border-left-color: #ffee55;
-	background-color: #fffae0;
 }
 
 .discussion.header {
