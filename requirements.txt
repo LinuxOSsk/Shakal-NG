@@ -22,3 +22,4 @@ queues
 python-dateutil
 django-qsstats-magic
 simplejson
+django-static-sitemaps

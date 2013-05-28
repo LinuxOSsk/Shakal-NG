@@ -44,6 +44,8 @@ MEDIA_CACHE_DIR = os.path.join(MEDIA_ROOT, 'cache')
 MEDIA_CACHE_URL = MEDIA_URL + 'cache/'
 TEMPLATE_CACHE_DIR = os.path.join(ROOT, 'templates', 'cache')
 
+STATICSITEMAPS_ROOT_SITEMAP = 'shakal.sitemaps.sitemaps'
+
 STATIC_ROOT = ''
 STATIC_URL = '/static/'
 
@@ -122,6 +124,7 @@ INSTALLED_APPS = (
 	'django.contrib.staticfiles',
 	'django.contrib.admin',
 	'django.contrib.syndication',
+	'django.contrib.sitemaps',
 	'django_tools',
 	'haystack',
 	'queued_search',
@@ -151,6 +154,7 @@ INSTALLED_APPS = (
 	'template_dynamicloader',
 	'wiki',
 	'fts',
+	'static_sitemaps',
 )
 
 QUEUE_BACKEND = 'dummy'
