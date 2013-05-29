@@ -30,9 +30,10 @@ class User(AbstractUser):
 	encrypted_password = models.TextField(blank = True, null = True)
 
 	def clean_fields(self, exclude = None):
-		qs = self._default_manager.filter(email = self.email).exclude(pk = self.pk)
-		if qs.exists():
-			raise ValidationError({'email': [self.unique_error_message(self.__class__, ['email'])]})
+		if self.email:
+			qs = self._default_manager.filter(email = self.email).exclude(pk = self.pk)
+			if qs.exists():
+				raise ValidationError({'email': [self.unique_error_message(self.__class__, ['email'])]})
 		super(User, self).clean_fields(exclude)
 
 	@models.permalink

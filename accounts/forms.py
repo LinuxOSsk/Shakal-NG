@@ -30,6 +30,11 @@ class AuthenticationRememberForm(AuthenticationForm):
 class LessRestrictiveUserEditFormMixin:
 	@staticmethod
 	def get_username_field():
+		#return CharField(
+		#	label = _('Username'),
+		#	max_length = 30,
+		#	min_length = 3,
+		#	help_text = _('Required. Length 3 - 30 characters.'))
 		return RegexField(
 			label = _('Username'),
 			max_length = 30,
