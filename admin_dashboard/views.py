@@ -4,6 +4,9 @@ from django.http.response import HttpResponse
 from article.models import Article
 from news.models import News
 from threaded_comments.models import Comment
+import cStringIO
+import csv
+import codecs
 import qsstats
 import datetime
 from django.core.urlresolvers import reverse
@@ -111,4 +114,12 @@ def stats(request):
 	else:
 		for obj in data:
 			del obj[1]['qs']
-	return HttpResponse(dumps(data))
+	fmt = request.GET.get('format', 'json')
+	if fmt == 'json':
+		return HttpResponse(dumps(data))
+	elif fmt == 'csv':
+		f = cStringIO.StringIO()
+		writer = csv.writer(f, delimiter = ',')
+		for row in data:
+			writer.writerow([unicode(s).encode("utf-8") for s in row])
+		return HttpResponse(f.getvalue())
