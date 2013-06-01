@@ -2,216 +2,196 @@
 {% load breadcrumbs_tags %}
 {% block title %}Linux v kancelárii{% endblock %}
 {% block breadcrumbs %}{% breadcrumb %}Linux v kancelárii{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block extraheaders %}
+<meta name="description" lang="sk" content="Prehľad linuxových nástrojov vhodných na kancelárske práce." />
+{% endblock %}
 
 {% block content %}
 <h1>Linux v kancelárii</h1>
 
-<BR>
-<BR>
-<table border="0" cellspacing="0" width="95%" align="center">
-    <tbody>
-    <tr>
-      <td bgcolor="white" valign="top" width="10"><br /></td>
-      <td bgcolor="white" valign="center" width="20"><img src="/media/IMG/vujec.jpg" align="top"></td>
-      <td bgcolor="white" valign="top" width="10"><br /></td>
-      <td bgcolor="white" valign="center" width="*">
-      <font face="Verdana" size="2" color="#000000">Možno rozhodujúcim argumentom používateľov Windowsu je, že v Linuxe nie je MS Office.
-      My si však ukážeme, že v Linuxe je niekoľko kvalitných kancelárskych balíkov s dobrou kompatibilitou s dokumentmi MS Office, ktoré sú zadarmo.
-      Asi najznámejší a najlepší kancelársky balík v linuxe je <a href="http://www.openoffice.org">OpenOffice</a>. Stránku slovenského OpenOfficu nájdete <a href="http://oo-sk.linux.sk/">tu</a>.
-      Slovenský Open Office so slovenským pomocníkom si môžete stiahnuť <a href="ftp://ftp.linux.cz/pub/localization/OpenOffice.org/">tu</a>.<br /><a href="http://linuxos.sk/officescreens/index.html">Pozrite si screenshoty kancelárskych programov pre Linux >>></a></font>
-  </td>
-</tr>
-</tbody>
-</table>
-<br /><br />
+<img src="/media/IMG/vujec.jpg" class="pull-left" alt="Linux v kancelárii" />
+<p>
+Možno rozhodujúcim argumentom používateľov Windowsu je, že v Linuxe nie je MS Office. My si však ukážeme, že v Linuxe je niekoľko kvalitných kancelárskych balíkov s dobrou kompatibilitou s dokumentmi MS Office, ktoré sú zadarmo. Asi najznámejší a najlepší kancelársky balík v linuxe je <a href="http://www.libreoffice.org/">LibreOffice</a> / <a href="http://www.openoffice.org">OpenOffice</a>. Stránku slovenského LibreOffice nájdete <a href="http://sk.libreoffice.org/">tu</a>. Slovenský LibreOffice so slovenským pomocníkom si môžete stiahnuť <a href="http://sk.libreoffice.org/stiahnu/">tu</a>.<br /><a href="http://linuxos.sk/officescreens/index.html">Pozrite si screenshoty kancelárskych programov pre Linux</a>
+</p>
+
+<p style="clear: both">
 <!-- ROOT.cz: ikonka LVK 88x31 -->
-<a href="http://www.root.cz/tutorialy/linux_v_kancelari/"
-target="_top"><img alt="Linux v kancelárii"
-src="http://i.iinfo.cz/r/t/linux-v-kancelari.gif"
-title="Poznejte výhody nasazení Linuxu pro kancelářské použití"
-height="31" width="88" border="0"></a>
+<a href="http://www.root.cz/specialy/linux-v-kancelari/"><img alt="Linux v kancelárii" src="http://i.iinfo.cz/r/t/linux-v-kancelari.gif" title="Poznejte výhody nasazení Linuxu pro kancelářské použití" style="vertical-align: middle" /></a>
 <!-- ROOT.cz: ikonka LVK 88x31 -->
-<font face="Verdana" size="2">Zaujímavý tutoriál o nasadení Linuxu do kancelárie bol uverejnený na známej stránke <a href="http://www.root.cz">www.root.cz</a>.</font>
-<br /><br />
-<font face="Verdana" size="2" color="black">V nasledujúcej tabuľke sú uvedené ekvivalenty a náhrady softvéru, ktorý poznáte z prostredia Windows.
-<br />Vysvetlivky:
-<ul>
-<LI><b>[Prop]</b> - Takto označené programy sú proprietárne</LI>
-<LI><b>[NF]</b> - Nie free softvér (alebo relatívne free s určitými obmedzeniami)</LI>
-<LI><b>[***]</b> - skvelý program, ktorý vám vrelo odporúčame</LI>
-</ul>
 
+Zaujímavý tutoriál o nasadení Linuxu do kancelárie bol uverejnený na známej stránke <a href="http://www.root.cz">www.root.cz</a>.
+</p>
 
-<table bgcolor="#cccccc" border="0" cellpadding="3" cellspacing="1" class="tablemain" width="100%">
+<p>V nasledujúcej tabuľke sú uvedené ekvivalenty a náhrady softvéru, ktorý poznáte z prostredia Windows.</p>
 
-<tbody><tr bgcolor="#6b8ec6">
+<section>
+<h3>Vysvetlivky</h3>
+<dl>
+	<dt>[Prop]</dt><dd>Takto označené programy sú proprietárne</dd>
+	<dt>[NF]</dt><dd>Nie free softvér (alebo relatívne free s určitými obmedzeniami)</dd>
+	<dt>[***]</dt><dd>Skvelý program, ktorý vám vrelo odporúčame</dd>
+</dl>
+</section>
 
-<td bgcolor="#6b8ec6" width="30%"><b><font size="2" color="white"><center>O p i s<BR>p r o g r a m u</center></font></b></td>
-<td bgcolor="#6b8ec6" width="30%"><b><font size="2" color="white"><center>W i n d o w s</center></font></b></td>
-<td bgcolor="#6b8ec6" width="40%"><b><font size="2" color="white"><center>L i n u x</center></font></b></td>
-</tr>
+<h3>Prehľad</h3>
 
+<table class="module bigheader">
 
-<tr bgcolor="#fdfdfd">
+	<tr>
+		<th>Opis programu</th>
+		<th>Windows</th>
+		<th>Linux</th>
+	</tr>
 
-<td><font face="Verdana" size="2">Kancelársky balík</font></td>
-<td><font face="Verdana" size="2">MS Office, <a href="http://www.sun.com/products/staroffice/">StarOffice</a> / <a href="http://www.openoffice.org/">OpenOffice</a>, 602Software</font></td>
-<td>
-<font face="Verdana" size="2">
-<p>1) <a href="http://www.openoffice.org/">Openoffice</a> [***]<br />
-2) <a href="http://www.sun.com/products/staroffice/">Staroffice</a>. [Prop]<br />
-3) <a href="http://www.koffice.org/">Koffice.</a><br />
-4) <a href="http://www.hancom.com/">HancomOffice</a>.
-[Prop]<br />
-5) <a href="http://www.gnome.org/gnome-office/">Gnome Office</a>.<br />
-6) Applixware Office. [Prop]<br />
-7) <a href="http://siag.nu/">Siag Office</a>.</p></font>
-</td>
-</tr>
+	<tr>
+		<td>Kancelársky balík</td>
+		<td>MS Office,<br /><a href="http://www.sun.com/products/staroffice/">StarOffice</a> / <a href="http://www.openoffice.org/">OpenOffice</a>,<br />602Software</td>
+		<td>
+			1) <a href="http://www.openoffice.org/">OpenOffice.</a> [***]<br />
+			2) <a href="http://www.sun.com/products/staroffice/">StarOffice</a>. [Prop]<br />
+			3) <a href="http://www.koffice.org/">Koffice.</a><br />
+			4) <a href="http://www.hancom.com/">HancomOffice</a>.
+			[Prop]<br />
+			5) <a href="http://www.gnome.org/gnome-office/">Gnome Office</a>.<br />
+			6) Applixware Office. [Prop]<br />
+			7) <a href="http://siag.nu/">Siag Office</a>.<br />
+			8) TeX, <a href="http://www.latex-project.org/">LaTeX</a>, …
+		</td>
+	</tr>
 
-<tr bgcolor="#eff3f7">
+	<tr>
+		<td>Kancelársky balík</td>
+		<td>WordPerfect Office 2000</td>
+		<td>WordPerfect Office 2000 for Linux. (No longer available at Corel website. It was Windows version, running under <a href="http://www.winehq.com/">Wine</a> :).</td>
+	</tr>
 
-<td><font face="Verdana" size="2">Kancelársky balík</font></td>
-<td><font face="Verdana" size="2">WordPerfect Office 2000</font></td>
-<td><font face="Verdana" size="2">WordPerfect Office 2000 pre Linux. (Už nie je dostupný na stránke Corelu. Bola to verzia pre Windows bežiaca pod <a href="http://www.winehq.com/">Wine</a> :).</td>
-</tr>
+	<tr>
+		<td>Textový editor</td>
+		<td>Word,<br /><a href="http://www.sun.com/products/staroffice/">StarOffice</a> / <a href="http://www.openoffice.org/">OpenOffice</a> Writer,<br />602Text,<br /><a href="http://www.abisource.com">Abiword</a></td>
+		<td>
+			1) <a href="http://www.abisource.com/">Abiword.</a><br />
+			2) <a href="http://www.softmaker.de/tm_en.htm">TextMaker</a> [Prop]<br />
+			3) <a href="http://linux.corel.com/products/wpo2000_linux/">WordPerfect</a>.<br />
+			4) <a href="http://www.nllgg.nl/Ted/">Ted</a>.<br />
+			5) <a href="http://www.sun.com/products/staroffice/">StarOffice</a> / <a href="http://www.openoffice.org/">OpenOffice</a> Writer. <br />
+			6) <a href="http://www.koffice.org/kword/">Kword.</a><br />
+			7) <a href="http://www.lyx.org/">LyX</a>.<br />
+			8) <a href="http://perso.club-internet.fr/pascal.brachet/kile/">Kile (KDE Integrated LaTeX Environment)</a>.
+		</td>
+	</tr>
 
-<tr bgcolor="#fdfdfd">
+	<tr>
+		<td>Tabuľkové kalkulátory</td>
+		<td>Excel,<br /><a href="http://www.sun.com/products/staroffice/">StarOffice</a> / <a href="http://www.openoffice.org/">OpenOffice</a> Calc,<br />602Tab</td>
+		<td>
+			1) <a href="http://www.gnome.org/projects/gnumeric/">Gnumeric.</a><br />
+			2) Abacus.<br />
+			3) <a href="http://www.sun.com/products/staroffice/">StarOffice</a> / <a href="http://www.openoffice.org/">OpenOffice</a> Calc. <br />
+			4) <a href="http://www.koffice.org/kspread/">Kspread.</a>
+		</td>
+	</tr>
 
-<td><font face="Verdana" size="2">Textový editor</font></td>
-<td><font face="Verdana" size="2">Word, <a href="http://www.sun.com/products/staroffice/">StarOffice</a> / <a href="http://www.openoffice.org/">OpenOffice</a> Writer, 602Text</font></td>
-<td><font face="Verdana" size="2">1) <a href="http://www.abisource.com/">Abiword.</a><br />
-2) <a href="http://linux.corel.com/products/wpo2000_linux/">WordPerfect</a>.<br />
-3) <a href="http://www.nllgg.nl/Ted/">Ted</a>.<br />
-4) <a href="http://www.sun.com/products/staroffice/">StarOffice</a> / <a href="http://www.openoffice.org/">OpenOffice</a> Writer. <br />
-5) <a href="http://www.koffice.org/kword/">Kword.</a><br />
-6) <a href="http://www.lyx.org/">LyX</a>.
-<br />
-7) <a href="http://perso.club-internet.fr/pascal.brachet/kile/">Kile</a>.</font></td>
-</tr>
+	<tr>
+		<td>Tvorba grafov / usporadúvanie dát</td>
+		<td>Excel,<br />MicroCall Origin,<br />…</td>
+		<td>
+			1) <a href="http://www.koffice.org/">Kivio.</a><br />
+			2) <a href="http://www.lysator.liu.se/~alla/dia/">Dia.</a><br />
+			3) KChart.<br />
+			4) <a href="http://www.xfig.org">xfig.</a><br />
+			5) <a href="http://www.gnuplot.info/">Gnuplot</a>.<br />
+			6) GtkGraph.<br />
+			7) <a href="http://www.gnu.org/software/plotutils/">GNU Plotutils</a>.<br />
+			8) <a href="http://ploticus.sf.net/">Ploticus</a>.
+		</td>
+	</tr>
 
-<tr bgcolor="#eff3f7">
+	<tr>
+		<td>Tvorba prezentácií</td>
+		<td>MS PowerPoint,<br /><a href="http://www.sun.com/products/staroffice/">StarOffice</a> Presentation,<br /><a href="http://www.openoffice.org/">OpenOffice</a> Impress</td>
+		<td>
+			1) <a href="http://www.sun.com/products/staroffice/">StarOffice</a> Presentation.<br />
+			2) <a href="http://www.openoffice.org/">OpenOffice</a> Impress.<br />
+			3) <a href="http://koffice.kde.org/kpresenter/">Kpresenter</a>.<br />
+			4) <a href="http://www.mew.org/mgp/">MagicPoint</a>.<br />
+			5) Kuickshow &amp; gimp  :).
+		</td>
+	</tr>
 
-<td><font face="Verdana" size="2">Tabuľkové kalkulátory</font></td>
-<td><font face="Verdana" size="2">Excel, <a href="http://www.sun.com/products/staroffice/">StarOffice</a> / <a href="http://www.openoffice.org/">OpenOffice</a> Calc, 602Tab</font></td>
-<td><font face="Verdana" size="2">
+	<tr>
+		<td>Tvorba databáz</td>
+		<td>MS Access,<br /><a href="http://info.borland.com/devsupport/interbase/opensource/">InterBase6</a>,<br /><a href="http://www.openoffice.org/">OpenOffice</a> + <a href="http://www.mysql.com/">MySQL</a>.</td>
+		<td>
+			1) <a href="http://knoda.sourceforge.net/">KNoda.</a><br />
+			2) <a href="http://www.gnome-db.org/">Gnome DB Manager</a>.<br />
+			3) <a href="http://www.openoffice.org/">OpenOffice</a> + <a href="http://www.mysql.com/">MySQL</a>.<br />
+			4) <a href="http://www.borland.com/interbase/">InterBase7</a>. [Prop]<br />
+			5) <a href="http://info.borland.com/devsupport/interbase/opensource/">InterBase6</a>.<br />
+			6) <a href="http://www.sleepycat.com/">Berkley DB</a>.<br />
+			7) <a href="http://www.thekompany.com/products/rekall/">Rekall</a>.[Prop]<br />
+			8) <a href="http://www.sun.com/products/staroffice/">StarOffice</a> Adabase.
+		</td>
+	</tr>
 
-<p>1) <a href="http://www.gnome.org/projects/gnumeric/">Gnumeric.</a><br />
-2) Abacus.<br />
-3) <a href="http://www.sun.com/products/staroffice/">StarOffice</a> / <a href="http://www.openoffice.org/">OpenOffice</a> Calc. <br />
-4) <a href="http://www.koffice.org/kspread/">Kspread.</a></p></font>
-</td>
-</tr>
+	<tr>
+		<td>Príjem burzových správ, noviniek, tvorba grafov a analyzovanie financií.</td>
+		<td>Omega Research Trade Station 2000</td>
+		<td>1) <a href="http://eiffel-mas.sourceforge.net/">The Market Analysis System (MAS)</a></td>
+	</tr>
 
-<tr bgcolor="#fdfdfd">
+	<tr>
+		<td>Software pre e-podnikanie a web biznis</td>
+		<td>
+			1) Weblogic [Prop]<br />
+			2) <a href="http://www-3.ibm.com/software/info1/websphere/index.jsp">IBM WebSphere Application Server</a> [Prop]<br />
+			3) iPlanet<br />
+			4) <a href="http://www.oscommerce.com">osCommerce</a><br />
+			5) <a href="http://jonas.objectweb.org/">JOnAS</a><br />
+			6) <a href="http://cocoon.apache.org/2.0/">COCOON</a></td>
+		<td>
+			1) <a href="http://www.bea.com/">Weblogic</a>. [Prop]<br />
+			2) <a href="http://www.jboss.org/">JBoss</a>.<br />
+			3) <a href="http://www-3.ibm.com/software/info1/websphere/index.jsp">IBM WebSphere Application Server</a>. [Prop]<br />
+			4) <a href="http://www.oscommerce.com">osCommerce</a>.<br />
+			5) <a href="http://jonas.objectweb.org/">JOnAS</a>.<br />
+			6) <a href="http://cocoon.apache.org/2.0/">COCOON</a>.
+		</td>
+	</tr>
 
-<td><font face="Verdana" size="2">Tvorba grafov / usporadúvanie dát</font></td>
-<td><font face="Verdana" size="2">Microsoft Visio, Microsoft Excel ...</font></td>
-<td>
-<font face="Verdana" size="2">
-<p>1) <a href="http://www.koffice.org/">Kivio.</a><br />
-2) <a href="http://www.lysator.liu.se/%7Ealla/dia/">Dia.</a><br />
-3) KChart.<br />
-4) <a href="http://www.xfig.org/">xfig.</a>
-<br />
-5) <a href="http://www.gnuplot.info/">Gnuplot</a>.<br />
-6) GtkGraph.<br />
-7) <a href="http://www.gnu.org/software/plotutils/">GNU Plotutils</a>.<br />
-8) <a href="http://ploticus.sf.net/">Ploticus</a>.
-</p></font>
-</td>
-</tr>
+	<tr>
+		<td>Osobný finančný manažér</td>
+		<td>
+			1) MS Money<br />
+			2) Quicken<br />
+			3) <a href="http://www.moneydance.com">Moneydance</a>  [Prop]</td>
+		<td>
+			1) <a href="http://www.gnucash.org/">GNUcash.</a><br />
+			2) <a href="http://gnofin.sourceforge.net">GnoFin</a>.<br />
+			3) <a href="http://kmymoney2.sourceforge.net">Kmymoney</a>.<br />
+			4) <a href="http://www.grisbi.org">Grisbi</a>.<br />
+			5) <a href="http://www.moneydance.com">Moneydance</a>. [Prop]
+		</td>
+	</tr>
 
-<tr bgcolor="#eff3f7">
+	<tr>
+		<td>Manažment projektov</td>
+		<td>MS Project,<br />Project Expert 7</td>
+		<td>
+			1) <a href="http://mrproject.codefactory.se/">Mr Project</a>.<br />
+			2) <a href="http://outreach.sourceforge.net">Outreach</a>.
+		</td>
+	</tr>
 
-<td><font face="Verdana" size="2">Tvorba prezentácií</font></td>
-<td><font face="Verdana" size="2">MS PowerPoint, <a href="http://www.sun.com/products/staroffice/">StarOffice</a> Presentation, <a href="http://www.openoffice.org/">OpenOffice</a> Impress</font></td>
-<td><font face="Verdana" size="2">
-<p>1) <a href="http://www.sun.com/products/staroffice/">StarOffice</a> Presentation.<br />
-2)
-<a href="http://www.openoffice.org/">OpenOffice</a> Impress.<br />
-3) <a href="http://koffice.kde.org/kpresenter/">Kpresenter</a>.<br />
-4) <a href="http://www.mew.org/mgp/">MagicPoint</a>.
-<br />
-5) Kuickshow &amp; gimp  :).</p></font>
-</td>
-</tr>
+	<tr>
+		<td>Finančná správa účtu (pre celý svet)</td>
+		<td>???</td>
+		<td>
+			1) <a href="http://www.hansaworld.com/">Hansa Business Solutions</a>. [Prop]<br />
+			2) Quickbooks.
+		</td>
+	</tr>
+ </table>
 
-<tr bgcolor="#fdfdfd">
+<p>Túto tabuľku preložil Ondrej Hučko, upravil Miroslav Bendík zo stránky <a href="http://www.linuxrsp.ru/win-lin-soft/table-eng.html">http://www.linuxrsp.ru/win-lin-soft/table-eng.html</a>.</p>
 
-<td><font face="Verdana" size="2">Tvorba databáz</font></td>
-<td><font face="Verdana" size="2">MS SQL, MS Access, Oracle, MySQL</font></td>
-<td>
-<font face="Verdana" size="2">
-<p>1) <a href="http://knoda.sourceforge.net/">KNoda.</a><br />
-2) <a href="http://www.gnome-db.org/">Gnome DB Manager</a>.<br />
-3) <a href="http://www.openoffice.org/">OpenOffice</a> + <a href="http://www.mysql.com/">MySQL</a>.<br />
-4) <a href="http://www.borland.com/interbase/">InterBase7</a>. [Prop]<br />
-5) <a href="http://info.borland.com/devsupport/interbase/opensource/">InterBase6</a>.
-<br />
-6) <a href="http://www.sleepycat.com/">Berkley DB</a>.<br />
-7) <a href="http://www.thekompany.com/products/rekall/">Rekall</a>.
-
-[Prop]<br />
-8) <a href="http://www.sun.com/products/staroffice/">StarOffice</a> Adabase.
-</p></font>
-</td>
-</tr>
-<tr bgcolor="#eff3f7">
-    
-<td><font face="Verdana" size="2">Príjem burzových správ, noviniek, tvorba grafov a analyzovanie financií.</font></td>
-<td><font face="Verdana" size="2">Omega Research Trade Station 2000</font></td>
-<td><font face="Verdana" size="2">???</font></td>
-</tr>
-<tr bgcolor="#fdfdfd">
-
-<td><font face="Verdana" size="2">Software pre e-podnikanie a web biznis</font></td>
-<td><font face="Verdana" size="2">1) Weblogic [Prop]<br />
-2) <a href="http://www-3.ibm.com/software/info1/websphere/index.jsp">IBM WebSphere Application Server</a> [Prop]<br />
-3) 
-iPlanet<br />
-4)
-<a href="http://www.oscommerce.com/">osCommerce</a></font></td>
-<td><font face="Verdana" size="2">1) <a href="http://www.bea.com/">Weblogic pre Linux</a>. [Prop]<br />
-2) <a href="http://www.jboss.org/">JBoss</a>.<br />
-3) <a href="http://www-3.ibm.com/software/info1/websphere/index.jsp">IBM WebSphere Application Server</a>. [Prop]<br />
-4) <a href="http://www.oscommerce.com/">osCommerce</a>.</font>
-</td>
-</tr>
-<tr bgcolor="#eff3f7">
-
-<td><font face="Verdana" size="2">Osobný finančný manažér</font></td>
-<td><font face="Verdana" size="2">MS Money, Quicken</font></td>
-<td>
-<font face="Verdana" size="2">
-<p>1) <a href="http://www.gnucash.org/">GNUcash.</a><br />
-2) <a href="http://gnofin.sourceforge.net/">GnoFin</a>.<br />
-3) <a href="http://kmymoney2.sourceforge.net/">Kmymoney</a>.<br />
-4) <a href="http://www.grisbi.org/">Grisbi</a>.
-</p></font>
-</td>
-</tr>
-<tr bgcolor="#fdfdfd">
-
-<td><font face="Verdana" size="2">Manažment projektov</font>t</td>
-<td><font face="Verdana" size="2">MS Project, Project Expert 7</font></td>
-<td>
-<font face="Verdana" size="2">
-<p><a href="http://mrproject.codefactory.se/">Mr Project</a>.</p></font>
-</td>
-</tr>
-<tr bgcolor="#eff3f7">
-    
-<td><font face="Verdana" size="2">Finančná správa účtu (pre celý svet)<br /></font>
-</td>
-<td><font face="Verdana" size="2">???</font></td>
-<td><font face="Verdana" size="2">1)
-<a href="http://www.hansaworld.com/">Hansa Business Solutions</a>. [Prop]<br />
-2) Quickbooks.</font></td>
-</tr>
-</tbody>
-</table>
-<br /><br />
-<font face="Verdana" size="2">Túto tabuľku preložil Ondrej Hučko zo stránky <a href="http://linuxshop.ru/linuxbegin/win-lin-soft-en/">http://linuxshop.ru/linuxbegin/win-lin-soft-en/.
-</a></font>
 {% endblock %}
