@@ -14,6 +14,7 @@
 {% endblock %}
 
 {% block extraheaders %}
+	{{ block.super }}
 	{% ifequal pagenum '1' %}
 		<meta name="description" lang="sk" content="{% if category %}{{ category.description }}{% else %}Portál LinuxOS.sk prináša pravidelne články zo sveta open source. Na tejto stránke môžte nájsť články zo všetkých kategórií.{% endif %}" />
 	{% endifequal %}

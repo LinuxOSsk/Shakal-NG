@@ -16,6 +16,8 @@ sites = (
 	('portal_podporte_nas', 'portal-podporte-nas'),
 	('export', 'export'),
 	('team', 'team'),
+
+	('netscreens', 'netscreens'),
 )
 
 sites_urls = map(lambda u: url('^' + u[1] + '/$', TemplateView.as_view(template_name = 'static/' + u[1] + '.html'), name = "page_" + u[1]), sites)

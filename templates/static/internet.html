@@ -2,658 +2,812 @@
 {% load breadcrumbs_tags %}
 {% block title %}Linux a Internet{% endblock %}
 {% block breadcrumbs %}{% breadcrumb %}Linux a Internet{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block extraheaders %}
+<meta name="description" lang="sk" content="Ucelený prehľad nástrojov pre prácu s internetom pod linuxom." />
+{% endblock %}
 
 {% block content %}
+
 <h1>Linux a Internet</h1>
 
-
-<BR>
-      <img src="/media/IMG/Vsiet.jpg" align="left">
-      <font face="Verdana" size="2" color="#000000">Overeným faktom je, že Linux pracuje oveľa lepšie so sieťou a internetom ako Windows. Zaisto poznáte ten pocit, keď chcete v prieskumníku prezrieť zdieľanú zložku niekoho, kto práve nie je pripojený. Prieskumník začne mrznúť, vy nemôžete túto operáciu nijako prerušiť, zostáva vám ju násilne ukončiť. Ukončíte Prieskumník a zmizne vám spodná lišta a Systray... V Linuxe nič také neexistuje. Linux veľmi rýchlo pracuje so sieťou (samozrejme, že tu nie je ani najmenší náznak mrznutia) a inteligentne rozdeľuje rýchlosť internetu medzi jednotlivé procesy.<br />
-      Samozrejme, aj v tejto oblasti práce s PC má Linux mnoho kvalitného softvéru. S prehliadačov určite poznáte z prostredia Windows <a href="http://www.mozilla.org">Mozillu</a>, Netscape, Operu. Z emailových klientov vám odporúčame najmä <a href="http://ximian.com/products/evolution/">Evolution</a>. Má mnoho užitočných funkcií, aké nenájdete v žiadnom emailovom klientovi pre Windows a je veľmi pekne graficky spracovaný.<br /><font color="#003399"><a href="http://linuxos.sk/netscreens/index.html"><b>Pozrite si screenshoty internetových programov pre Linux >>></a>
- 
-<br />
-<br />
-
-<font face="Verdana" size="2" color="black">V nasledujúcej tabuľke sú uvedené ekvivalenty a náhrady softvéru, ktorý poznáte z prostredia Windows. Mala by vám uľahčiť prechod na tento operačný systém.
-<br />Vysvetlivky: 
-<ul>
-<LI><b>[Prop]</b> - Takto označené programy sú proprietárne</LI>
-<LI><b>[NF]</b> - Nie free softvér (alebo relatívne free s určitými obmedzeniami)</LI>
-<LI><b>[***]</b> - skvelý program, ktorý vám vrelo odporúčame</LI>
-</ul>
-<table bgcolor="#cccccc" border="0" cellpadding="3" cellspacing="1" class="tablemain" width="100%">
-
-<tbody><tr bgcolor="#6b8ec6">
-
-<td bgcolor="#6b8ec6" width="30%"><b><font size="2" color="white"><center>O p i s<BR>p r o g r a m u</center></font></b></td>
-<td bgcolor="#6b8ec6" width="30%"><b><font size="2" color="white"><center>W i n d o w s</center></font></b></td>
-<td bgcolor="#6b8ec6" width="40%"><b><font size="2" color="white"><center>L i n u x</center></font></b></td>
-</tr>
-<tr bgcolor="#fdfdfd">
-    
-<td><font face="Verdana" size="2">Web prehliadač</td>
-<td><font face="Verdana" size="2">Internet Explorer, Netscape / Mozilla pre Windows, Opera [Prop], <a href="http://komodo.mozilla.org/pub/phoenix/nightly/latest-trunk/phoenix-win32.zip">Phoenix pre Windows</a>, ...</td>
-<td><font face="Verdana" size="2">1) <a href="http://www.netscape.com/">Netscape</a> /  <a href="http://www.mozilla.org/">Mozilla</a>.<br />
-2) <a href="http://galeon.sourceforge.net/">Galeon.</a>
-<br />
-3) <a href="http://www.konqueror.org/">Konqueror.</a><br />
-4) <a href="http://www.opera.com/products/desktop/index.dml?platprem=linux">Opera.</a> [Prop]<br />
-5) <a href="http://www.mozilla.org/projects/phoenix/">Phoenix.</a>
-<br />
-6) <a href="http://www.gnome.org/projects/nautilus/">Nautilus</a>.<br />
-7) <a href="http://epiphany.mozdev.org/">Epiphany</a>.
-<br />
-8) <a href="http://atrey.karlin.mff.cuni.cz/%7Eclock/twibright/links/">Links</a>.<br />
-9) <a href="http://dillo.sourceforge.net/">Dillo</a>. (Ruské jazykové balíčky nájdete <a href="http://stuphead.asplinux.ru/dillo/">tu</a>).
-</td>
-</tr>
-<tr bgcolor="#eff3f7">
-
-<td><font face="Verdana" size="2">Konzolový web prehliadač</td>
-<td><font face="Verdana" size="2">Lynx pre Windows</td>
-<td><font face="Verdana" size="2">1) <a href="http://atrey.karlin.mff.cuni.cz/%7Eclock/twibright/links/">Links</a>.<br />
-2) <a href="http://elinks.or.cz/">ELinks</a>.<br />
-3)
-<a href="http://lynx.browser.org/">Lynx.</a><br />
-4) <a href="http://w3m.sourceforge.net/">w3m</a>.<br />
-5) <a href="http://www.xemacs.org/">Xemacs</a> + w3.</td>
-</tr>
-
-<tr bgcolor="#fdfdfd">
-
-<td><font face="Verdana" size="2">Emailové klienty</td>
-<td><font face="Verdana" size="2">Outlook Express, Netscape / Mozilla pre Windows, The Bat, Eudora, Becky, Datula, <a href="http://sylpheed.good-day.net/">Sylpheed pre Windows</a></td>
-<td><font face="Verdana" size="2">1) <a href="http://ximian.com/products/evolution/">Evolution</a> [***].<br />
-2) <a href="http://www.netscape.com/">Netscape</a> /  <a href="http://www.mozilla.org/">Mozilla</a> messenger.<br />
-3) <a href="http://sylpheed.good-day.net/">Sylpheed</a>, <a href="http://sylpheed-claws.sourceforge.net/">Sylpheed-claws.</a>
-<br />
-4) <a href="http://kmail.kde.org/">Kmail.</a><br />
-5) <a href="http://www.gnus.org/">Gnus.</a><br />
-6) <a href="http://balsa.gnome.org/">Balsa</a>.<br />
-7) <a href="http://www.bynari.net/">Bynari Insight GroupWare Suite</a>. [Prop]<br />
-8) <a href="http://www.newplanetsoftware.com/arrow/">Arrow.</a><br />
-9) <a href="http://www.collaboration-world.com/gnumail/">Gnumail.</a>
-<br />
-10) <a href="http://althea.sourceforge.net/">Althea.</a><br />
-11) <a href="http://www.liamail.org/">Liamail.</a>
-<br />
-12) <a href="http://sourceforge.net/projects/aethera/">Aethera.</a>
-
-</td>
-</tr>
-
-<tr bgcolor="#eff3f7">
-
-<td><font face="Verdana" size="2">Emailové klienty / PIM v štýle MS Outlook</td>
-<td><font face="Verdana" size="2">Outlook</td>
-<td><font face="Verdana" size="2">1) <a href="http://ximian.com/products/evolution/">Evolution</a> [***].<br />
-2) <a href="http://www.bynari.net/">Bynari Insight GroupWare Suite</a>. [Prop]<br />
-3) <a href="http://sourceforge.net/projects/aethera/">Aethera.</a>
-<br />
-4) <a href="http://sylpheed.good-day.net/">Sylpheed.</a><br />
-5) <a href="http://sylpheed-claws.sourceforge.net/">Sylpheed-claws.</a>
-</td>
-</tr>
-
-<tr bgcolor="#fdfdfd">
-
-<td><font face="Verdana" size="2">Emailové klienty v štýle The Bat</td>
-<td><font face="Verdana" size="2">The Bat</td>
-<td><font face="Verdana" size="2">1) <a href="http://sylpheed.good-day.net/">Sylpheed.</a><br />
-2) <a href="http://sylpheed-claws.sourceforge.net/">Sylpheed-claws.</a><br />
-3) <a href="http://kmail.kde.org/">Kmail.</a><br />
-4) <a href="http://www.gnus.org/">Gnus.</a><br />
-5) <a href="http://balsa.gnome.org/">Balsa</a>.</td>
-</tr>
-
-<tr bgcolor="#eff3f7">
-
-<td><font face="Verdana" size="2">Konzolové emailové klienty</td>
-<td><font face="Verdana" size="2"><a href="http://www.geocities.com/win32mutt/win32.html">Mutt pre Windows</a> [<a href="http://www.math.fu-berlin.de/%7Eguckes/mutt/windows.php3">de</a>], Pine pre Windows, Pegasus</td>
-<td><font face="Verdana" size="2">1) <a href="http://www.washington.edu/pine/">Pine</a>. [NF]<br />
-2) <a href="http://mutt.org/">Mutt</a>.<br />
-3) <a href="http://www.gnus.org/">Gnus.</a><br />
-4) <a href="http://www.instinct.org/elm/">Elm</a>.
-
-<br />
-5) <a href="http://www.xemacs.org/">Xemacs</a>.
-</td>
-</tr>
-
-<tr bgcolor="#fdfdfd">
-
-<td><font face="Verdana" size="2">Sledovač správ</td>
-<td><font face="Verdana" size="2"><a href="http://xnews.newsguy.com/">Xnews</a>, Outlook, Netscape / Mozilla</td>
-<td><font face="Verdana" size="2">1) <a href="http://knode.sourceforge.net/">Knode.</a><br />
-2) <a href="http://pan.rebelbase.com/">Pan.
-</a><br />
-3) <a href="http://home.wanadoo.nl/bram_s/newsleader">NewsReader</a>.
-<br />
-4) <a href="http://www.netscape.com/">Netscape</a> /  <a href="http://www.mozilla.org/">Mozilla</a>.<br />
-5) <a href="http://sylpheed.good-day.net/">Sylpheed</a> / <a href="http://sf.net/projects/sylpheed-claws/">Sylpheed-claws.</a>
-<br />
-Console:<br />
-6) <a href="http://www.washington.edu/pine/">Pine</a>. [NF]<br />
-7) <a href="http://mutt.org/">Mutt</a>.<br />
-8) <a href="http://www.gnus.org/">Gnus</a>.<br />
-9) <a href="http://www.tin.org/">tin</a>. <br />
-10)
-<a href="http://www.slrn.org/">slrn</a>.
-<br />
-11) <a href="http://www.xemacs.org/">Xemacs</a>.
-
-</td>
-</tr>
-
-<tr bgcolor="#eff3f7">
-
-<td><font face="Verdana" size="2">Download súborov</td>
-<td><font face="Verdana" size="2">Flashget, Go!zilla, Reget, Getright, <a href="http://unxutils.sourceforge.net/">Wget pre Windows</a>, ...</td>
-<td><font face="Verdana" size="2">1) <a href="http://www.krasu.ru/soft/chuchelo/">Downloader pre X.</a><br />
-2) <a href="http://devel-home.kde.org/%7Ecaitoo/index.html">Caitoo (premer Kget).</a> <br />
-3) <a href="http://prozilla.delrom.ro/prozilla.html">Prozilla</a>.
-<br />
-
-4) <a href="http://wget.sunsite.dk/">Wget</a> (console, standard).
-<br />
-5) 
-GUI pre Wget: <a href="http://kmago.sourceforge.net/">Kmago</a>, <a href="http://gtm.sf.net/">Gnome Transfer Manager</a>, QTget, Xget, ...<br />
-6) <a href="http://aria.rednoah.com/">Aria.</a> <br />
-7) <a href="http://www.lintux.cx/axel.html">Axel</a>.<br />
-8) Download Accelerator Plus.<br />
-9) <a href="http://personal1.iddeo.es/andresgarci/getleft/english/download.html">GetLeft</a>.
-<br />
-10) <a href="http://lftp.yar.ru/">Lftp</a>.
-</td>
-</tr>
-
-<tr bgcolor="#fdfdfd">
-
-<td><font face="Verdana" size="2">Download stránok (umožňuje neskoršie prezeranie obsahu celého serveru offline)</td>
-<td><font face="Verdana" size="2">Teleport Pro, <a href="http://www.httrack.com/">Httrack</a>, ...</td>
-<td><font face="Verdana" size="2">
-<p>1) <a href="http://www.httrack.com/">Httrack.</a><br />
-2) WWW Offline Explorer.
-<br />
-3) <a href="http://wget.sunsite.dk/">Wget</a> (console, standard). GUI: <a href="http://kmago.sourceforge.net/">Kmago</a>, QTget, Xget, ...<br />
-4) <a href="http://www.krasu.ru/soft/chuchelo/">Downloader pre X.</a> <br />
-5) <a href="http://www.idata.sk/%7Eondrej/pavuk/">Pavuk.</a> <br />
-6) <a href="http://www.lyra.org/sitecopy/">XSiteCopy.</a>
-<br />
-7) <a href="http://personal1.iddeo.es/andresgarci/getleft/english/download.html">GetLeft</a>.
-<br />
-8) <a href="http://curl.haxx.se/">Curl</a> (console).</p>
-</td>
-</tr>
-
-<tr bgcolor="#eff3f7">
-
-<td><font face="Verdana" size="2">FTP-klienti</td>
-<td><font face="Verdana" size="2">Bullet Proof FTP, CuteFTP, WSFTP, ...</td>
-<td><font face="Verdana" size="2">1) <a href="http://gftp.seul.org/">Gftp.</a><br />
-2) <a href="http://www.konqueror.org/">Konqueror.</a>
-<br />
-3) <a href="http://dpsftp.sourceforge.net/">Dpsftp</a>.<br />
-4) <a href="http://kbear.sourceforge.net/">KBear.</a><br />
-5) <a href="http://www.iglooftp.com/unix/download.html">IglooFTP</a>. [Prop]<br />
-6) <a href="http://www.ayukov.com/nftp/index.html">Nftp</a>.<br />
-7) <a href="http://www.wxftp.seul.org/">Wxftp</a>.<br />
-8) AxyFTP.
-<br />
-9) <a href="http://www.ibiblio.org/mc/">mc</a>. (cd ftp://...)
-
-</td>
-</tr>
-<tr bgcolor="#fdfdfd">
-
-<td><font face="Verdana" size="2">Konzoloví FTP-klienti</td>
-<td><font face="Verdana" size="2">FTP in Far, ftp.exe</td>
-<td><font face="Verdana" size="2">1) <a href="http://www.ncftpd.com/ncftp/">Ncftp.</a><br />
-2) <a href="http://lftp.yar.ru/">Lftp.</a><br />
-3) <a href="http://sourceforge.net/projects/avf/">Avfs.</a>  (Z akéhokoľvek programu: /#ftp:...)
-
-</td>
-</tr>
-
-<tr bgcolor="#eff3f7">
-
-<td><font face="Verdana" size="2">IRC-Klienti</td>
-<td><font face="Verdana" size="2">Mirc, Klient, VIRC, Xircon, Pirch, <a href="http://www.xchat.org/">XChat pre Windows</a></td>
-<td><font face="Verdana" size="2"><p>1) <a href="http://xchat.org/">Xchat.</a><br />
-2) <a href="http://www.kvirc.net/">KVirc.</a> <br />
-3) <a href="http://www.irssi.org/">Irssi</a>.<br />
-4) <a href="http://www.bitchx.org/">BitchX.</a><br />
-5) Ksirc.
-<br />
-6) <a href="http://www.epicsol.org/">Epic</a>.<br />
-7) <a href="http://www.iagora.com/%7Eespel/sirc.html">Sirc</a>.</p>
-</td>
-</tr>
-<tr bgcolor="#fdfdfd">
-
-<td><font face="Verdana" size="2">Lokálni sieťoví chat-klienti bez serveru</td>
-<td><font face="Verdana" size="2">QuickChat</td>
-<td><font face="Verdana" size="2">1) talk (console), ktalk.<br />
-2) Echat.<br />
-3) write, wall (chat medzi používateľmi na jednom stroji)</td>
-</tr>
-<tr bgcolor="#eff3f7">
-    
-<td><font face="Verdana" size="2">Lokálny chat s Windows klientmi</td>
-<td><font face="Verdana" size="2">WinPopUp</td>
-<td><font face="Verdana" size="2">smbclient (console). GUI:<br />
-1) <a href="http://w1.894.telia.com/%7Eu89404340/linpopup/">LinPopUp</a>.<br />
-2) <a href="http://www.henschelsoft.de/kpopup_en.html">Kpopup</a>.<br />
-3) Kopete.</td>
-</tr>
-
-
-
-<tr bgcolor="#fdfdfd">
-
-<td><font face="Verdana" size="2">Instant Messaging klienti</td>
-<td><font face="Verdana" size="2">ICQ, MSN, AIM, <a href="http://www.yahoo.com/">Yahoo</a>, ...<br />
-Trillian ICQ (freeware, môže nahradiť všetky klienty), <a href="http://miranda-icq.sourceforge.net/">Miranda</a></td>
-<td><font face="Verdana" size="2">1) <a href="http://licq.org/">Licq</a> (ICQ).<br />
-2) <a href="http://konst.org.ua/centericq/">Centericq</a> (ICQ, konzola).<br />
-3) <a href="http://alicq.sourceforge.net/">Alicq</a> (ICQ).<br />
-4) <a href="http://www.micq.org/">Micq</a> (ICQ).<br />
-5) GnomeICU (ICQ).<br />
-6) <a href="http://gaim.sourceforge.net/">Gaim.</a><br />
-7) <a href="http://kopete.kde.org/">Kopete</a>.<br />
-8) <a href="http://www.everybuddy.com/">Everybuddy</a>.<br />
-9) <a href="http://sim-icq.sourceforge.net/">Simple Instant Messenger.</a><br />
-10) <a href="http://download.cnet.com/downloads/0,10152,0-10145-110-8786881,00.html?gid=104653&amp;tag=dlntl">Imici Messenger</a>.
-<br />
-11) <a href="http://ickle.sourceforge.net/">Ickle</a> (ICQ).<br />
-12) <a href="http://amsn.sourceforge.net/">aMSN</a> (MSN).<br />
-13) Kmerlin (MSN).
-<br />
-14) <a href="http://kicq.sourceforge.net/kicq.shtml">Kicq</a> (ICQ).
-<br />
-15) <a href="http://ysmv7.sourceforge.net/">YSM</a>. (ICQ, console).
-<br />
-16) <a href="http://www.kxicq.org/">kxicq.</a>
-<br />
-17) <a href="http://messenger.yahoo.com/messenger/download/unix.html">Yahoo Messenger pre Unix</a>.<br />
-18) <a href="http://kmess.sourceforge.net/">Kmess</a> (MSN).
-</td>
-</tr>
-<tr bgcolor="#eff3f7">
-    
-<td><font face="Verdana" size="2">Jabber IM klienti</td>
-<td><font face="Verdana" size="2"><a href="http://www.jabber.ru/projects/jajc/">JAJC</a>, <a href="http://www.jabber.ru/projects/tkabber/">Tkabber (+activestate tcl)</a>, <a href="http://psi.sourceforge.net/">Psi</a>, <a href="http://exodus.sourceforge.net/">Exodus</a>, <a href="http://winjab.sourceforge.net/">WinJab</a>, myJabber, RhymBox, Rival, Skabber, TipicIM, Vista, Yabber, <a href="http://miranda-icq.sourceforge.net/">Miranda</a></td>
-<td><font face="Verdana" size="2">1) <a href="http://www.jabber.ru/projects/tkabber/">Tkabber</a>.<br />
-2) <a href="http://gabber.sourceforge.net/">Gabber</a>.<br />
-3) <a href="http://psi.sourceforge.net/">Psi</a>.<br />
-4) <a href="http://gaim.sourceforge.net/">Gaim</a>.
-</td>
-</tr>
-<tr bgcolor="#fdfdfd">
-    
-<td><font face="Verdana" size="2">Monitorovanie stránok a mailboxov, ukazovanie hlavičiek mailov alebo celých článkov</td>
-<td><font face="Verdana" size="2"><a href="http://www.watznew.com/">WatzNew</a></td>
-<td><font face="Verdana" size="2">1) <a href="http://homemade.hypermart.net/websec/">Web Secretary</a>.<br />
-2) <a href="http://apps.kde.com/rf/2/info/id/999">Knewsticker</a> &amp; korn.<br />
-3) <a href="http://www.mozilla.org/">Mozilla</a> (???).<br />
-4) watch -n seconds lynx -dump
-</td>
-</tr>
-<tr bgcolor="#eff3f7">
-    
-<td><font face="Verdana" size="2">Video/audio konferencie</td>
-<td><font face="Verdana" size="2">NetMeeting</td>
-<td><font face="Verdana" size="2">
-<p>1) <a href="http://www.gnomemeeting.org/">GnomeMeeting</a>.<br />
-2) <a href="http://www-nrg.ee.lbl.gov/">vat/vic/wb</a>.<br />
-3) <a href="http://www-mice.cs.ucl.ac.uk/multimedia/software/">rat/wbd/nte</a>.<br />
-4) <a href="http://www.cs.columbia.edu/IRT/software/nevot/">NeVoT</a>.<br />
-5) <a href="http://www-sop.inria.fr/rodeo/ivs.html">IVS</a>.</p>
-</td>
-</tr>
-<tr bgcolor="#fdfdfd">
-
-<td><font face="Verdana" size="2">Zvuková komunikácia</td>
-<td><font face="Verdana" size="2">Speak Freely</td>
-<td><font face="Verdana" size="2">
-<p>1) <a href="http://www.fourmilab.ch/speakfree/unix/">Speak Freely pre Unix</a>.<br />
-2) <a href="http://www.teamspeak.org/">TeamSpeak</a>.</p>
-</td>
-</tr>
-
-<tr bgcolor="#eff3f7">
-
-<td><font face="Verdana" size="2">Firewall (filtrovanie paketov)</td>
-<td><font face="Verdana" size="2">BlackICE, ATGuard, ZoneAlarm, Agnitum Outpost Firewall,  <a href="http://www.kerio.com/">WinRoute Pro</a>, Norton Internet Security, <a href="http://soho.sygate.com/products/pspf_ov.htm">Sygate Personal Firewall PRO</a>,
-...</td>
-<td><font face="Verdana" size="2">
-1) <a href="http://kmyfirewall.sourceforge.net/">Kmyfirewall.</a><br />
-2) <a href="http://morizot.net/firewall/">Easy Firewall Generator</a>.<br />
-3) <a href="http://www.fwbuilder.org/">Firewall Builder</a>.<br />
-4) <a href="http://shorewall.sf.net/">Shorewall</a>.
-<br />
-5) <a href="http://www.simonzone.com/software/guarddog/">Guarddog</a>.<br />
-6) <a href="http://firestarter.sourceforge.net/">FireStarter</a>.
-<br />
-7) <a href="http://www.smoothwall.org/">Smoothwall</a>.
- [Prop]<br />
-8) <a href="http://www.ipcop.org/">IPCop.</a><br />
-9) <a href="http://www.balabit.com/">Zorp.</a>
-
-</td>
-</tr>
-<tr bgcolor="#fdfdfd">
-    
-<td><font face="Verdana" size="2">IDS (Intrusion Detection System)</td>
-<td><font face="Verdana" size="2">1) BlackICE<br />
-2)
- Agnitum Outpost Firewall<br />
-3) Tripwire [prop]</td>
-<td><font face="Verdana" size="2">1) <a href="http://www.snort.org/">Snort</a>.<br />
-2) <a href="http://www.psionic.com/">Portsentry / Hostsentry / Logsentry</a>.<br />
-3) Tripwire [GPL].<br />
-4)
- Tripwall.<br />
-5)
- AIDE.<br />
-6)
- ViperDB.<br />
-7)
- Integrit.
-</td>
-</tr>
-
-<tr bgcolor="#eff3f7">
-
-<td><font face="Verdana" size="2">Visual route</td>
-<td><font face="Verdana" size="2">VisualRoute [Prop]
-</td>
-<td><font face="Verdana" size="2">1) <a href="http://www.dtek.chalmers.se/%7Ed3august/xt">Xtraceroute.</a> <br />
-2) <a href="ftp://ftp.visualware.com/pub/vr/vr.tar.gz">VisualRoute pre Linux.</a>  [Prop]
-<br />
-3) <a href="http://www.bitwizard.nl/mtr/">Mtr.</a> <br />
-4) <a href="http://geotrace.sourceforge.net/">Geotrace.</a>
-
-</td>
-</tr>
-
-<tr bgcolor="#fdfdfd">
-
-<td><font face="Verdana" size="2">Peer-to-peer klienti / servery, zdieľanie súborov</td>
-<td><font face="Verdana" size="2">Morpheus (Gnutella), WinMX, Napster, KaZaA (Fasttrack), <a href="http://www.edonkey2000.com/">eDonkey</a> [Prop], <a href="http://www.emule-project.net/">eMule</a>, <a href="http://thecircle.org.au/">TheCircle</a>, <a href="http://bitconjurer.org/BitTorrent/">Bittorrent</a>, SoulSeek</td>
-<td><font face="Verdana" size="2">1) <a href="http://www.limewire.com/">LimeWire pre Linux</a>. (Gnutella)<br />
-2) <a href="http://lopster.sourceforge.net/">Lopster</a>. (OpenNAP)<br />
-3) <a href="http://jasta.gotlinux.org/gnapster.html">Gnapster</a>. (OpenNAP)<br />
-4) <a href="http://www.freesoftware.fsf.org/mldonkey/">Mldonkey</a>. (eDonkey)<br />
-5) <a href="http://www.edonkey2000.com/">eDonkey pre Linux.</a> (eDonkey) [Prop]
-<br />
-6) <a href="http://cdonkey.suche.org/">cDonkey.</a> (eDonkey)<br />
-7) <a href="http://giftcurs.sourceforge.net/">Gift client</a> / <a href="http://gift.sourceforge.net/">server</a> (Fasttrack)
-<br />
-     8) ed2k_gui.<br />
-9) <a href="http://gtk-gnutella.sourceforge.net/">Gtk-Gnutella</a>. (Gnutella)<br />
-10) <a href="http://www.qtella.net/">Qtella</a>.
- (Gnutella)<br />
-11) <a href="http://mutella.sourceforge.net/">Mutella</a>.
-
- (Gnutella, console)<br />
-12) <a href="http://thecircle.org.au/">TheCircle</a>.
-<br />
-13) <a href="http://freenet.sourceforge.net/">Freenet</a>.<br />
-14) <a href="http://www.gnu.org/software/GNUnet/gnunet.html">GNUnet</a>.<br />
-15) <a href="http://lmule.sf.net/">Lmule</a>.
- (eDonkey)
-<br />
-16) 
-<a href="http://bitconjurer.org/BitTorrent/">Bittorrent.</a><br />
-17) PySoulSeek.<br />
-18) <a href="http://www.loopholesoftware.com/">Loophole.</a> (WinMX) [Prop]
-</td>
-</tr>
-<tr bgcolor="#eff3f7">
-
-<td><font face="Verdana" size="2">Práca s faxom</td>
-<td><font face="Verdana" size="2">WinFax</td>
-<td><font face="Verdana" size="2">1) <a href="http://www.hylafax.org/">HylaFax</a>.<br />
-2) <a href="http://www.fax2send.com/">Fax2Send.</a>  [Prop]
-<br />
-3) <a href="http://www.cvine.freeserve.co.uk/efax-gtk/">Efax</a>.</td>
-</tr>
-
-<tr bgcolor="#fdfdfd">
-
-<td><font face="Verdana" size="2">Dialup</td>
-<td><font face="Verdana" size="2">Vdialer, etń</td>
-<td><font face="Verdana" size="2">1) <a href="http://www.kde.org/">Kppp</a>.<br />
-2) <a href="http://xisp.hellug.gr/">X-isp</a>.<br />
-3) <a href="http://www.worldvisions.ca/wvdial/">wvdial</a>. (Front ends: <a href="http://console-newsletter.hypermart.net/x-wvdial">X-wvdial</a>, kvdial, gtkdial).<br />
-4) <a href="http://mfcn.ilo.de/gppp">Gppp</a>.<br />
-5) Kinternet.<br />
-6) Rp3.<br />
-7) pppconfig  + pon + poff.
-</td>
-</tr>
-
-<tr bgcolor="#eff3f7">
-
-<td><font face="Verdana" size="2">FTN editor</td>
-<td><font face="Verdana" size="2">Golded</td>
-<td><font face="Verdana" size="2">1) <a href="http://www.goldware.dk/">Golded.</a><br />
-     2) <a href="http://golded-plus.sourceforge.net/">Golded+.</a><br />
-3) <a href="http://husky.sf.net/">Msged</a>.<br />
-4) <a href="http://www.qecho.qded.da.ru/">Qded</a>.
-</td>
-</tr>
-
-<tr bgcolor="#fdfdfd">
-
-<td><font face="Verdana" size="2">FTN tosser</td>
-<td><font face="Verdana" size="2">FastEcho, hpt</td>
-<td><font face="Verdana" size="2">1) <a href="http://husky.sf.net/">hpt.</a><br />
-     2) <a href="ftp://hell.binec.ru/pub/ftn/crashecho">CrashEcho.</a><br />
-3) <a href="http://www.qecho.qded.da.ru/">Qecho</a>.
-<br />
-4) <a href="http://www.df.lth.se/%7Ebilling/crashmail.html">CrashMail II</a>.<br />
-5) <a href="http://www.fidogate.org/">Fidogate</a> - gate to news.<br />
-6) <a href="ftp://ftp.average.org/pub/ifmail/">ifmail</a> - gate to news.</td>
-</tr>
-
-<tr bgcolor="#eff3f7">
-
-<td><font face="Verdana" size="2">FTN mailer</td>
-<td><font face="Verdana" size="2">SF-Mail, T-Mail</td>
-<td><font face="Verdana" size="2">1) <a href="ftp://oskin.macomnet.ru/">ifcico.</a><br />
-2) <a href="http://lev.serebryakov.spb.ru/download">qico.</a><br />
-3) <a href="http://kst.spb.ru/">Bprece</a>.<br />
-4) <a href="http://2f.ru/binkd/">Binkd</a>.
-</td>
-</tr>
-
-<tr bgcolor="#fdfdfd">
-
-<td><font face="Verdana" size="2">Vzdialený prístup</td>
-<td><font face="Verdana" size="2">VNC, Remote Administrator, Remote Assistance, Symantec pcAnywhere, Windows Terminal Server, <a href="http://www.rdesktop.org/">Rdesktop</a>, <a href="http://www.famatech.com/default.html">Radmin</a></td>
-<td><font face="Verdana" size="2">1) <a href="http://www.uk.research.att.com/vnc/">VNC.</a><br />
-2) <a href="http://www.ssh.com/">ssh</a> / <a href="http://www.openssh.org/">openssh</a>.<br />
-3) <a href="http://www.rdesktop.org/">Rdesktop Client</a>.<br />
-4) rsh / rlogin. <br />
-5)
-telnet.
-<br />
-6) Gtelnet.
-</td>
-</tr>
-<tr bgcolor="#fdfdfd">
-    
-<td><font face="Verdana" size="2">Vzdialený prístup</td>
-<td bgcolor="#fdfdfd"><font face="Verdana" size="2">1) <a href="http://www.realvnc.com/">VNC, Virtual Network Computing</a><br />
-2)
- <a href="http://www.famatech.com/">Remote Administrator (Radmin)</a> [Prop]<br />
-3)
- Remote Assistance [Prop]<br />
-4)
- Symantec pcAnywhere [Prop]<br />
-5)
- Windows Terminal Server [Prop]<br />
-6) 
-<a href="http://www.rdesktop.org/">Rdesktop</a> [Prop]<br />
-7)
-<a href="http://www.famatech.com/default.html">Radmin</a> [Prop]<br />
-8) <a href="http://www.vector-networks.com/pcduo/">PC-Duo</a> [Prop]<br />
-9) <a href="http://www.gidsoftware.com/">Huey PC Remote Control (only pre NT)</a> [Prop]<br />
-10) <a href="http://www.netopia.com/">Timbuktu Pro</a> [Prop]<br />
-11) <a href="http://www.laplink.com/">LapLink</a> [Prop]<br />
-12) <a href="http://www.gotomypc.com/">GoToMyPC</a> [Prop]<br />
-13) <a href="http://bo2k.sourceforge.net/">Bo2k</a> and other trojans</td>
-<td><font face="Verdana" size="2">1) <a href="http://www.realvnc.com/">VNC, Virtual Network Computing</a>.<br />
-2) <a href="http://www.ssh.com/">ssh</a> / <a href="http://www.openssh.org/">openssh</a>.<br />
-3) <a href="http://www.rdesktop.org/">Rdesktop Client</a>.<br />
-4) rsh / rlogin. <br />
-5)
-telnet.
-<br />
-6) Gtelnet.
-</td>
-</tr>
-
-<tr bgcolor="#eff3f7">
-
-<td bgcolor="#eff3f7"><font face="Verdana" size="2">Nástroje na monitorovanie siete</td>
-<td><font face="Verdana" size="2">Dumeter, Netmedic</td>
-<td><font face="Verdana" size="2">1) <a href="http://web.wt.net/%7Ebillw/gkrellm/gkrellm.html">Gkrellm</a>.<br />
-2) <a href="http://www.bb4.com/">Big Brother</a>.
-<br />
-3) <a href="http://etherape.sourceforge.net/">Etherape</a>.
-<br />
-4) <a href="http://www.nagios.org/">Nagios</a>.
-<br />
-5) <a href="http://wwwhome.cs.utwente.nl/%7Eschoenw/scotty/">Tkined</a>.<br />
-6) <a href="http://people.ee.ethz.ch/%7Eoetiker/webtools/mrtg/">MRTG</a>.<br />
-7)
- Rrdtool.<br />
-8) <a href="http://pikt.org/">PIKT</a>.<br />
-9) <a href="http://www.angio.net/consult/autostatus/">Autostatus</a>.<br />
-10) <a href="http://bcnu.sourceforge.net/">bcnu</a>.<br />
-11) <a href="http://ftp.kernel.org/software/mon/">mon</a>.<br />
-12) <a href="http://www.sysmon.org/">Sysmon</a>.<br />
-13) <a href="http://spong.sourceforge.net/">Spong</a>.<br />
-14) <a href="http://www.netplex-tech.com/snips/">SNIPS</a>.<br />
-15) <a href="http://cebu.mozcom.com/riker/iptraf/">iptraf</a> (console).
-<br />
-16) Ksysguard.
-<br />
-17) <a href="http://www.opennms.org/">OpenNMS</a>.
-<br />
-18) tcpdump.
-</td>
-</tr>
-<tr bgcolor="#fdfdfd">
-
-<td><font face="Verdana" size="2">Nástroje na obsluhu siete.</td>
-<td><font face="Verdana" size="2">HP OpenView, MS SMS, Tivoli</td>
-<td><font face="Verdana" size="2">1) HP OpenView agents for Linux. [Prop]<br />
-2) <a href="http://www.bb4.com/">Big Brother</a>.<br />
-3) <a href="http://www.marko.net/cheops">Cheops</a>.<br />
-4) <a href="http://wwwhome.cs.utwente.nl/%7Eschoenw/scotty/">Tkined</a>.<br />
-5) <a href="http://www.opennms.org/">OpenNMS</a>.
-
-</td>
-</tr>
-
-<tr bgcolor="#eff3f7">
-    
-<td><font face="Verdana" size="2">Bezpečnostné skenery</td>
-<td><font face="Verdana" size="2">ShadowScan, ISS, Retina, Internet Scanner</td>
-<td><font face="Verdana" size="2">1) <a href="http://www.nessus.org/">Nessus</a>.<br />
-2) <a href="http://www.insecure.org/nmap/">Nmap</a>.
-
-</td>
-</tr>
-<tr bgcolor="#fdfdfd">
-    
-<td><font face="Verdana" size="2">Routing</td>
-<td><font face="Verdana" size="2">MS RRAS</td>
-<td><font face="Verdana" size="2">1) iproute2 + iptables. <br />
-2) <a href="http://www.nexthop.com/products/gated.shtml">GateD</a>.
-[Prop]<br />
-3) <a href="http://www.zebra.org/">GNU Zebra</a>.
-</td>
-</tr>
-<tr bgcolor="#eff3f7">
-    
-<td><font face="Verdana" size="2">Utility a knižnice pre testovanie Ethernet/IP</td>
-<td><font face="Verdana" size="2"><a href="http://www.laurentconstantin.com/en/">lcrzo</a></td>
-<td><font face="Verdana" size="2"><a href="http://www.laurentconstantin.com/en/">lcrzo</a></td>
-</tr>
-<tr bgcolor="#fdfdfd">
-    
-<td><font face="Verdana" size="2">IP-telefónovanie</td>
-<td><font face="Verdana" size="2">Buddyphone [Prop], Cisco SoftPhone</td>
-<td><font face="Verdana" size="2">1) <a href="http://www.gnu.org/software/bayonne/bayonne.html">GNU Bayonne</a>.<br />
-2) <a href="http://www.openh323.org/">Openh323</a>.<br />
-3) <a href="http://www.openphone.org/">OpenPhone</a>.
-<br />
-4) <a href="http://www.thekompany.com/products/tkphone/">tkPhone</a>.
-<br />
-5) <a href="http://www.naumen.ru/">NauPhone</a>.
-</td>
-</tr>
-<tr bgcolor="#eff3f7">
-
-<td><font face="Verdana" size="2">Zdieľanie dát/súborov</td>
-<td><font face="Verdana" size="2">Windows shares</td>
-<td><font face="Verdana" size="2">1) NFS.<br />
-2) <a href="http://www.samba.org/">Samba</a>.<br />
-3) <a href="http://www.samba-tng.org/">Samba-TNG</a>.<br />
-4)
- FTP.
-</td>
-</tr>
-<tr bgcolor="#fdfdfd">
-    
-<td><font face="Verdana" size="2"></td>
-<td><font face="Verdana" size="2">Windows Domain, Active Directory</td>
-<td><font face="Verdana" size="2">1) Samba. <br />
-2)
-<a href="http://www.openldap.org/">Ldap</a>. <br />
-3) 
-yp.</td>
-</tr>
-<tr bgcolor="#eff3f7">
-
-<td><font face="Verdana" size="2">Prezeranie Windowsovej siete</td>
-<td><font face="Verdana" size="2">Network neighborhood</td>
-<td><font face="Verdana" size="2">1) Samba. <br />
-2) KDE Lan Browser, lisa<br />
-3) LinNeighborhood.<br />
-4) <a href="http://www.public.iastate.edu/%7Echadspen/homepage.html">xSMBrowser</a>.<br />
-5) <a href="http://sourceforge.net/projects/komba">Komba2</a>.
-<br />
-6) <a href="http://www.konqueror.org/">Konqueror.</a>
-
-</td>
-</tr>
-<tr bgcolor="#fdfdfd">
-    
-<td><font face="Verdana" size="2">ADSL</td>
-<td><font face="Verdana" size="2">-</td>
-<td><font face="Verdana" size="2">1) rp-pppoe.<br />
-2) <a href="http://pptpclient.sourceforge.net/">Pptp client</a>.
-</td>
-</tr>
-
-<tr bgcolor="#eff3f7">
-
-<td><font face="Verdana" size="2">IPSEC protokol</td>
-<td><font face="Verdana" size="2">-</td>
-<td><font face="Verdana" size="2"><a href="http://freeswan.org/">FreeSWAN</a>.
-</td>
-</tr>
-</tbody></table>
-<br /><br />
-<font face="Verdana" size="2">Túto tabuľku preložil Ondrej Hučko zo stránky <a href="http://linuxshop.ru/linuxbegin/win-lin-soft-en/">http://linuxshop.ru/linuxbegin/win-lin-soft-en/.
-</a></font>
+<img src="/media/IMG/Vsiet.jpg" class="pull-left" alt="Linux a internet" />
+<p>Overeným faktom je, že Linux pracuje oveľa lepšie so sieťou a internetom ako Windows. Zaisto poznáte ten pocit, keď chcete v prieskumníku prezrieť zdieľanú zložku niekoho, kto práve nie je pripojený. Prieskumník začne mrznúť, vy nemôžete túto operáciu nijako prerušiť, zostáva vám ju násilne ukončiť. Ukončíte Prieskumník a zmizne vám spodná lišta a Systray… V Linuxe nič také neexistuje. Linux veľmi rýchlo pracuje so sieťou (samozrejme, že tu nie je ani najmenší náznak mrznutia) a inteligentne rozdeľuje rýchlosť internetu medzi jednotlivé procesy.</p>
+<p>Samozrejme, aj v tejto oblasti práce s PC má Linux mnoho kvalitného softvéru. S prehliadačov určite poznáte z prostredia Windows <a href="http://www.mozilla.org">Mozillu Firefox</a>, <a href="http://www.chromium.org/">Chromium / Chrome</a>, <a href="http://www.opera.com/">Operu</a>. Z emailových klientov vám odporúčame najmä <a href="http://projects.gnome.org/evolution/">Evolution</a>. Má mnoho užitočných funkcií, aké nenájdete v žiadnom emailovom klientovi pre Windows a je veľmi pekne graficky spracovaný.
+<a href="/netscreens/">Pozrite si screenshoty internetových programov pre Linux</a></p>
+
+<h2>Prehľad programov</h2>
+
+<p>V nasledujúcej tabuľke sú uvedené ekvivalenty a náhrady softvéru, ktorý poznáte z prostredia Windows. Mala by vám uľahčiť prechod na tento operačný systém.</p>
+<section>
+<h3>Vysvetlivky</h3>
+<dl>
+	<dt>[Prop]</dt><dd>Takto označené programy sú proprietárne</dd>
+	<dt>[NF]</dt><dd>Nie free softvér (alebo relatívne free s určitými obmedzeniami)</dd>
+	<dt>[***]</dt><dd>Skvelý program, ktorý vám vrelo odporúčame</dd>
+</dl>
+</section>
+
+<h3>Prehľad</h3>
+
+<table class="module bigheader">
+
+	<tr>
+		<th>Opis programu</th>
+		<th>Windows</th>
+		<th>Linux</th>
+	</tr>
+
+	<tr>
+		<td>Web prehliadač</td>
+		<td>Internet Explorer, <a href="http://www.opera.com/">Opera</a> [Prop], <a href="http://www.mozilla.org/projects/firefox/">Firefox</a>, Safari, Google Chrome …</td>
+		<td>
+			1) <a href="http://www.mozilla.org/projects/firefox/">Firefox</a>.<br />
+			2) <a href="http://www.chromium.org/">Chromium </a> / <a href="http://www.google.com/chrome">Google Chrome</a><br />
+			3) <a href="http://www.konqueror.org">Konqueror.</a><br />
+			4) <a href="http://www.opera.com/browser/index.dml?platform=linux">Opera.</a> [Prop]<br />
+			5) <a href="http://www.twotoasts.de/index.php?/pages/midori_summary.html">Midori.</a><br />
+			6) <a href="http://www.seamonkey-project.org/">SeaMonkey.</a><br />
+			7) <a href="http://www.gnome.org/projects/epiphany/">Epiphany</a>.<br />
+			8) <a href="http://atrey.karlin.mff.cuni.cz/%7Eclock/twibright/links/">Links</a>. (s prepínačom <code>-g</code>).<br />
+			9) <a href="http://www.dillo.org/">Dillo</a>.<br />
+			10) <a href="http://galeon.sourceforge.net">Galeon.</a><br />
+		</td>
+	</tr>
+
+	<tr>
+		<td>Konzolový web prehliadač</td>
+		<td>
+			1) Links<br />
+			2) Lynx<br />
+			3) <a href="http://www.xemacs.org">Xemacs</a> + w3.
+		</td>
+		<td>
+			1) <a href="http://atrey.karlin.mff.cuni.cz/%7Eclock/twibright/links/">Links</a>.<br />
+			2) <a href="http://elinks.or.cz/">ELinks</a>.<br />
+			3) <a href="http://lynx.browser.org/">Lynx.</a><br />
+			4) <a href="http://w3m.sourceforge.net/">w3m</a>.<br />
+			5) <a href="http://www.xemacs.org">Xemacs</a> + w3.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Emailové klienty</td>
+		<td>Outlook Express,<br />Thunderbird,<br />The Bat,<br />Eudora,<br />Becky,<br />Datula,<br /><a href="http://sylpheed.good-day.net/">Sylpheed</a> / <a href="http://www.claws-mail.org/">Claws Mail</a>,<br />Opera</td>
+		<td>
+			1) <a href="http://projects.gnome.org/evolution/">Evolution</a>[***].<br />
+			2) <a href="http://www.mozilla.org/products/thunderbird/">Thunderbird</a>.<br />
+			3) <a href="http://sylpheed.good-day.net/">Sylpheed</a>.<br />
+			4) <a href="http://www.claws-mail.org/">Claws Mail.</a><br />
+			5) <a href="http://kmail.kde.org/">Kmail.</a><br />
+			6) <a href="http://www.gnus.org/">Gnus.</a><br />
+			7) <a href="http://balsa.gnome.org">Balsa</a>.<br />
+			8) <a href="http://www.opera.com/mail/">Opera Mail</a>.<br />
+			9) <a href="http://www.newplanetsoftware.com/arrow/">Arrow.</a><br />
+			10) <a href="http://www.collaboration-world.com/gnumail/">Gnumail.</a><br />
+			11) <a href="http://althea.sourceforge.net/">Althea.</a><br />
+			12) <a href="http://sourceforge.net/projects/aethera/">Aethera.</a><br />
+			13) MailWarrior.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Emailové klienty / PIM v štýle MS Outlook</td>
+		<td>Outlook</td>
+		<td>
+			1) <a href="http://www.gnome.org/projects/evolution/">Evolution</a>[***].<br />
+			2) <a href="http://www.bynari.net/">Bynari Insight GroupWare Suite</a>. [Prop]<br />
+			3) <a href="http://sourceforge.net/projects/aethera/">Aethera.</a><br />
+			4) <a href="http://sylpheed.good-day.net/">Sylpheed.</a><br />
+			5) <a href="http://www.claws-mail.org/">Claws Mail</a>
+		</td>
+	</tr>
+
+	<tr>
+		<td>Emailové klienty v štýle The Bat</td>
+		<td>The Bat</td>
+		<td>
+			1) <a href="http://sylpheed.good-day.net/">Sylpheed.</a><br />
+			2) <a href="http://www.claws-mail.org/">Claws Mail</a><br />
+			3) <a href="http://kmail.kde.org/">Kmail.</a><br />
+			4) <a href="http://www.gnus.org/">Gnus.</a><br />
+			5) <a href="http://balsa.gnome.org">Balsa</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Konzolové emailové klienty</td>
+		<td><a href="http://www.geocities.com/win32mutt/win32.html">Mutt</a> [<a href="http://www.math.fu-berlin.de/%7Eguckes/mutt/windows.php3">de</a>],<br />Pine,<br />Pegasus,<br /><a href="http://www.gnu.org/software/emacs/">Emacs</a></td>
+		<td>
+			1) <a href="http://www.washington.edu/pine/">Pine</a>. [NF]<br />
+			2) <a href="http://mutt.org/">Mutt</a>.<br />
+			3) <a href="http://www.gnus.org/">Gnus.</a><br />
+			4) <a href="http://www.instinct.org/elm/">Elm</a>.<br />
+			5) <a href="http://www.gnu.org/software/emacs/">Emacs</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Sledovač správ</td>
+		<td>
+			1) <a href="http://forteinc.com/agent/index.php">Agent</a> [Prop]<br />
+			2) Free Agent<br />
+			3) <a href="http://xnews.newsguy.com/">Xnews</a><br />
+			4) Outlook<br />
+			5)  Netscape / Mozilla<br />
+			6) <a href="http://www.opera.com/">Opera</a> [Prop]<br />
+			7) <a href="http://sylpheed.good-day.net/">Sylpheed</a> / <a href="http://www.claws-mail.org/">Claws Mail</a><br />
+			8) Dialog<br />
+			9) Gravity<br />
+			10) <a href="http://bnr2.org">BNR2</a>
+		</td>
+		<td>
+			1) <a href="http://knode.sourceforge.net/">Knode.</a><br />
+			2) <a href="http://pan.rebelbase.com/">Pan.</a><br />
+			3) <a href="http://home.wanadoo.nl/bram_s/newsleader">NewsReader</a>.<br />
+			4) <a href="http://www.netscape.com">Netscape</a> /  <a href="http://www.mozilla.org/">Mozilla Thunderbird</a>.<br />
+			5) <a href="http://www.opera.com/products/desktop/index.dml?platform=linux">Opera</a> [Prop]<br />
+			6) <a href="http://sylpheed.good-day.net/">Sylpheed</a> / <a href="http://sf.net/projects/sylpheed-claws/">Claws Mail.</a><br />
+			Konzola:<br />
+			7) <a href="http://www.washington.edu/pine/">Pine</a>.  [NF]<br />
+			8) <a href="http://mutt.org/">Mutt</a>.<br />
+			9) <a href="http://www.gnus.org">Gnus</a>.<br />
+			10) <a href="http://www.tin.org">tin</a>. <br />
+			11)<a href="http://www.slrn.org">slrn</a>.<br />
+			12) <a href="http://www.xemacs.org">Xemacs</a>.<br />
+			13) <a href="http://bnr2.org">BNR2</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Zoznam kontaktov</td>
+		<td>Outlook</td>
+		<td>1) <a href="http://icewalkers.com/jump.php?AID=1406&amp;src=home">Rubrica</a></td>
+	</tr>
+
+	<tr>
+		<td>Sťahovanie súborov</td>
+		<td>Flashget,<br />Go!zilla,<br />Reget,<br />Getright,<br />DAP,<br /><a href="http://unxutils.sourceforge.net/">Wget</a>,<br /><a href="http://millweed.com/projects/wackget/">WackGet</a>,<br /><a href="http://www.geocities.com/SiliconValley/Vista/2865/md.htm">Mass Downloader</a>,<br />…</td>
+		<td>
+			1) <a href="http://www.krasu.ru/soft/chuchelo/">Downloader for X.</a><br />
+			2) <a href="http://devel-home.kde.org/~caitoo/index.html">Caitoo (former Kget).</a> <br />
+			3) <a href="http://prozilla.delrom.ro/prozilla.html">Prozilla</a>.<br />
+			4) <a href="http://wget.sunsite.dk">Wget</a> (console, standard).<br />
+			5) GUI for Wget: <a href="http://kmago.sourceforge.net/">Kmago</a>, <a href="http://gtm.sf.net/">Gnome Transfer Manager</a>, QTget, Xget, …<br />
+			6) <a href="http://aria.rednoah.com/">Aria.</a> <br />
+			7) <a href="http://www.lintux.cx/axel.html">Axel</a>.<br />
+			8) Download Accelerator Plus.<br />
+			9) <a href="http://personal1.iddeo.es/andresgarci/getleft/english/download.html">GetLeft</a>.<br />
+			10) <a href="http://lftp.yar.ru/">Lftp</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Download stránok (umožňuje neskoršie prezeranie obsahu celého serveru offline)</td>
+		<td>Teleport Pro,<br /><a href="http://www.httrack.com/">Httrack</a>,<br /><a href="http://unxutils.sourceforge.net/">Wget</a>,<br />…</td>
+		<td>
+			1) <a href="http://www.httrack.com/">Httrack.</a><br />
+			2) WWW Offline Explorer.<br />
+			3) <a href="http://wget.sunsite.dk">Wget</a> (konzolový, štandardný). GUI: <a href="http://kmago.sourceforge.net/">Kmago</a>, QTget, Xget, …<br />
+			4) <a href="http://www.krasu.ru/soft/chuchelo/">Downloader for X.</a> <br />
+			5) <a href="http://www.idata.sk/~ondrej/pavuk/">Pavuk.</a> <br />
+			6) <a href="http://www.lyra.org/sitecopy/">XSiteCopy.</a><br />
+			7) <a href="http://personal1.iddeo.es/andresgarci/getleft/english/download.html">GetLeft</a>.<br />
+			8) <a href="http://curl.haxx.se/">Curl</a> (konzolový).<br />
+			9) <a href="http://icewalkers.com/jump.php?AID=1941&amp;src=home">Khttrack</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>FTP-klienti</td>
+		<td>Bullet Proof FTP,<br />CuteFTP,<br />WSFTP,<br />SmartFTP,<br /><a href="http://sourceforge.net/projects/filezilla/">FileZilla</a>,<br />…</td>
+		<td>
+			1) <a href="http://gftp.seul.org/">Gftp.</a><br />
+			2) <a href="http://www.konqueror.org/">Konqueror.</a><br />
+			3) <a href="http://kbear.sourceforge.net/">KBear.</a><br />
+			4) <a href="http://www.iglooftp.com/unix/download.html">IglooFTP</a>. [Prop]<br />
+			5) <a href="http://www.ayukov.com/nftp/index.html">Nftp</a>.<br />
+			6) <a href="http://www.wxftp.seul.org/">Wxftp</a>.<br />
+			7) AxyFTP.<br />
+			8) <a href="http://www.ibiblio.org/mc/">mc</a>. (cd ftp://…)<br />
+			9) <a href="http://tkftp.firebird.cx/">tkFTP</a>.<br />
+			10) <a href="http://yafc.sourceforge.net/">Yafc</a>.<br />
+			11) <a href="http://dpsftp.sourceforge.net/">Dpsftp</a>.
+			(dead project)
+		</td>
+	</tr>
+
+	<tr>
+		<td>Konzoloví FTP-klienti</td>
+		<td>FTP in Far,<br />ftp.exe,<br /><a href="http://www.ncftpd.com/ncftp/">Ncftp</a></td>
+		<td>
+			1) <a href="http://www.ncftpd.com/ncftp/">Ncftp.</a><br />
+			2) <a href="http://lftp.yar.ru/">Lftp.</a><br />
+			3) <a href="http://sourceforge.net/projects/avf/">Avfs.</a>  (Z ľubovoľného programu: /#ftp:…)
+		</td>
+	</tr>
+
+	<tr>
+		<td>IRC-Klienti</td>
+		<td>Mirc,<br />Klient,<br />VIRC,<br />Xircon,<br />Pirch,<br /><a href="http://www.xchat.org">XChat</a></td>
+		<td>
+			1) <a href="http://xchat.org/">Xchat.</a><br />
+			2) <a href="http://www.kvirc.net/">KVirc.</a> <br />
+			3) <a href="http://www.irssi.org">Irssi</a>.<br />
+			4) <a href="http://www.bitchx.org/">BitchX.</a><br />
+			5) Ksirc.<br />
+			6) <a href="http://www.epicsol.org/">Epic</a>.<br />
+			7) <a href="http://www.iagora.com/~espel/sirc.html">Sirc</a>.<br />
+			8) <a href="http://www.pjirc.com">PJIRC</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Lokálni sieťoví chat-klienti bez serveru</td>
+		<td>
+			1) QuickChat<br />
+			2) <a href="http://www.akeni.com/product/lan.php">Akeni</a><br />
+			3) PonyChat<br />
+			4) iChat
+		</td>
+		<td>
+			1) talk (konzolový), ktalk.<br />
+			2) <a href="http://www.akeni.com/product/lan.php">Akeni</a>.<br />
+			3) <a href="http://freshmeat.net/redir/echat/41626/url_homepage/echat">Echat</a>.<br />
+			4) write, wall (chat medzi užívateľmi na jednom stroji)
+		</td>
+	</tr>
+
+	<tr>
+		<td>Lokálne systémy správ medzi windows klientmi</td>
+		<td>WinPopUp</td>
+		<td>
+			smbclient (konzolový). GUI:<br />
+			1) <a href="http://linpopup2.sourceforge.net">LinPopUp 2</a>.<br />
+			2) <a href="http://www.henschelsoft.de/kpopup_en.html">Kpopup</a>.<br />
+			3) Kopete.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Instant Messaging klienti</td>
+		<td>
+			ICQ Lite,<br />ICQ Corp,<br />MSN,<br /><a href="http://www.aim.com">AIM</a>,<br /><a href="http://www.yahoo.com">Yahoo</a>,<br />…<br />
+			Trillian ICQ (freeware,<br />dokáže nahradiť všetkých bežných IM klientov),<br /><a href="http://miranda-icq.sourceforge.net/">Miranda</a>,<br /><a href="http://www.pidgin.im/">Pidgin</a>
+		</td>
+		<td>
+			1) <a href="http://licq.org/">Licq</a> (ICQ).<br />
+			2) <a href="http://konst.org.ua/centericq/">Centericq</a> (Všetky bežné IM protokoly, konzolový).<br />
+			3) <a href="http://alicq.sourceforge.net/">Alicq</a> (ICQ).<br />
+			4) <a href="http://www.micq.org">Micq</a> (ICQ).<br />
+			5) GnomeICU (ICQ).<br />
+			6) <a href="http://www.pidgin.im/">Pidgin.</a> (Všetky bežné IM protokoly)<br />
+			7) <a href="http://freshmeat.net/projects/ayttm/">Ayttm.</a> (Všetky bežné IM protokoly)<br />
+			8) <a href="http://kopete.kde.org/">Kopete</a>.<br />
+			9) <a href="http://www.everybuddy.com/">Everybuddy</a>.<br />
+			10) <a href="http://sim-icq.sourceforge.net/">Simple Instant Messenger.</a><br />
+			11) <a href="http://download.cnet.com/downloads/0,10152,0-10145-110-8786881,00.html?gid=104653&amp;tag=dlntl">Imici Messenger</a>.<br />
+			12) <a href="http://ickle.sourceforge.net/">Ickle</a> (ICQ).<br />
+			13) <a href="http://amsn.sourceforge.net">aMSN</a> (MSN).<br />
+			14) Kmerlin (MSN).<br />
+			15) <a href="http://kicq.sourceforge.net/kicq.shtml">Kicq</a> (ICQ).<br />
+			16) <a href="http://ysmv7.sourceforge.net/">YSM</a>. (ICQ, konzolový).<br />
+			17) <a href="http://www.kxicq.org/">kxicq.</a><br />
+			18) <a href="http://messenger.yahoo.com/messenger/download/unix.html">Yahoo Messenger for Unix</a>.<br />
+			19) <a href="http://kmess.sourceforge.net">Kmess</a> (MSN).<br />
+			20) <a href="http://www.aim.com">AIM</a>.<br />
+			21) <a href="http://freshmeat.net/redir/msnre/41829/url_homepage/msnre">MSNre</a>. (konzolový)
+		</td>
+	</tr>
+
+	<tr>
+		<td>Jabber IM klienti</td>
+		<td><a href="http://www.jabber.ru/projects/jajc/">JAJC</a>,<br /><a href="http://www.jabber.ru/projects/tkabber/">Tkabber (+activestate tcl)</a>,<br /><a href="http://psi.sourceforge.net/">Psi</a>,<br /><a href="http://exodus.sourceforge.net/">Exodus</a>,<br /><a href="http://winjab.sourceforge.net/">WinJab</a>,<br />myJabber,<br />RhymBox,<br />Rival,<br />Skabber,<br />TipicIM,<br />Vista,<br />Yabber,<br /><a href="http://miranda-icq.sourceforge.net/">Miranda</a>,<br /><a href="http://www.pidgin.im/">Pidgin.</a>,<br /><a href="http://www.akeni.com/product/jabber.php">Akeni Messenger Jabber Edition</a></td>
+		<td>
+			1) <a href="http://www.jabber.ru/projects/tkabber/">Tkabber</a>.<br />
+			2) <a href="http://gabber.sourceforge.net/">Gabber</a>.<br />
+			3) <a href="http://psi.sourceforge.net/">Psi</a>.<br />
+			4) <a href="http://www.pidgin.im/">Pidgin.</a>.<br />
+			5) <a href="http://konst.org.ua/centericq/">Centericq</a> (konzolový).<br />
+			6) <a href="http://freshmeat.net/projects/ayttm/">Ayttm.</a><br />
+			7) <a href="http://www.akeni.com/product/jabber.php">Akeni Messenger Jabber Edition.</a>
+		</td>
+	</tr>
+
+	<tr>
+		<td>Monitorovanie stránok a mailboxov, ukazovanie hlavičiek mailov alebo celých článkov</td>
+		<td><a href="http://www.watznew.com">WatzNew</a></td>
+		<td>
+			1) <a href="http://homemade.hypermart.net/websec/">Web Secretary</a>.<br />
+			2) <a href="http://apps.kde.com/rf/2/info/id/999">Knewsticker</a> &amp; korn.<br />
+			3) <a href="http://www.mozilla.org">Mozilla</a> (???).<br />
+			4) watch -n seconds lynx -dump
+		</td>
+	</tr>
+
+	<tr>
+		<td>Video/audio konferencie</td>
+		<td>NetMeeting</td>
+		<td>
+			1) <a href="http://www.gnomemeeting.org/">GnomeMeeting (Ekiga Now)</a>.<br />
+			2) <a href="http://www-nrg.ee.lbl.gov/">vat/vic/wb</a>.<br />
+			3) <a href="http://www-mice.cs.ucl.ac.uk/multimedia/software/">rat/wbd/nte</a>.<br />
+			4) <a href="http://www.cs.columbia.edu/IRT/software/nevot/">NeVoT</a>.<br />
+			5) <a href="http://www-sop.inria.fr/rodeo/ivs.html">IVS</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Zvuková komunikácia</td>
+		<td>Speak Freely</td>
+		<td>
+			1) <a href="http://www.fourmilab.ch/speakfree/unix/">Speak Freely for Unix</a>.<br />
+			2) <a href="http://www.teamspeak.org">TeamSpeak</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Firewall (filtrovanie paketov)</td>
+		<td>BlackICE,<br />ATGuard,<br />ZoneAlarm,<br />Agnitum Outpost Firewall,<br /> <a href="http://www.kerio.com">WinRoute Pro</a>,<br />Norton Internet Security,<br /><a href="http://soho.sygate.com/products/pspf_ov.htm">Sygate Personal Firewall PRO</a>,<br />Kerio Personal Firewall,<br />…</td>
+		<td>
+			iptables alebo zastaralý ipchains (konzolový, štandardný). Frontendy:<br />
+			1) <a href="http://kmyfirewall.sourceforge.net/">Kmyfirewall.</a><br />
+			2) <a href="http://morizot.net/firewall/">Easy Firewall Generator</a>.<br />
+			3) <a href="http://www.fwbuilder.org/">Firewall Builder</a>.<br />
+			4) <a href="http://shorewall.sf.net">Shorewall</a>.<br />
+			5) <a href="http://www.simonzone.com/software/guarddog/">Guarddog</a>.<br />
+			6) <a href="http://firestarter.sourceforge.net/">FireStarter</a>.<br />
+			7) <a href="http://www.smoothwall.org/">Smoothwall</a>. [Prop]<br />
+			8) <a href="http://www.ipcop.org">IPCop.</a><br />
+			9) <a href="http://www.balabit.com">Zorp.</a>
+		</td>
+	</tr>
+
+	<tr>
+		<td>IDS (Intrusion Detection System)</td>
+		<td>
+			1) BlackICE<br />
+			2) Agnitum Outpost Firewall<br />
+			3) Tripwire [prop]<br />
+			4) Kerio Personal Firewall
+		</td>
+		<td>1) <a href="http://www.snort.org">Snort</a>.<br />
+			2) <a href="http://www.psionic.com">Portsentry / Hostsentry / Logsentry</a>.<br />
+			3) Tripwire [GPL].<br />
+			4) Tripwall.<br />
+			5) AIDE.<br />
+			6) ViperDB.<br />
+			7) Integrit.<br />
+			8) <a href="http://freshmeat.net/redir/cids/40689/url_homepage/cids">Cerberus Intrusion Detection System</a>.<br />
+			9) <a href="http://midas-nms.sourceforge.net">MIDAS NMS</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Detekcia skenovania portov</td>
+		<td>???</td>
+		<td>1) <a href="http://pkdump.sourceforge.net/pkdumpage.html">Pkdump</a>.</td>
+	</tr>
+
+	<tr>
+		<td>Pokročilejšie zabezpečenie systému</td>
+		<td>???</td>
+		<td>
+			1) <a href="http://www.bastille-linux.org/">Bastille</a>.<br />
+			2) <a href="http://usat.sourceforge.net/">Linux Security Auditing Tool</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Trasovanie sieťových paketov</td>
+		<td>VisualRoute [Prop]</td>
+		<td>
+			1) <a href="http://www.dtek.chalmers.se/~d3august/xt">Xtraceroute.</a> <br />
+			2) <a href="ftp://ftp.visualware.com/pub/vr/vr.tar.gz">VisualRoute.</a>  [Prop]<br />
+			3) <a href="http://www.bitwizard.nl/mtr/">Mtr.</a> <br />
+			4) <a href="http://geotrace.sourceforge.net/">Geotrace.</a>
+		</td>
+	</tr>
+
+	<tr>
+		<td>Filtrovanie obsahu (reklamy / popup okná)</td>
+		<td>Proxomitron,<br />ATGuard,<br />Agnitum Outpost Firewall,<br /><a href="http://www.privoxy.org">Privoxy</a>,<br />MS ISA server,<br /><a href="http://www.guidescope.com">Guidescope</a>,<br />…</td>
+		<td>
+			1) <a href="http://www.dansguardian.org">DansGuardian.</a><br />
+			2) Squid.<br />
+			3) <a href="http://www.squidguard.org/">Squidguard</a>.<br />
+			4) <a href="http://www.privoxy.org">Privoxy</a>.<br />
+			5) <a href="http://www.junkbusters.com/ijb.html">JunkBuster</a>.<br />
+			6) <a href="http://www.balabit.com">Zorp.</a><br />
+			7) <a href="http://www.fork.kiev.ua">Fork</a>.<br />
+			8) <a href="http://linuxnews.ru/redirector">Redirector</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Kontrola prenesených dát / shaping</td>
+		<td><a href="http://www.kerio.com">WinRoute Pro</a>, …</td>
+		<td>
+			1) <a href="http://www.stewart.com.au/ip_relay">IP Relay</a>.<br />
+			2) CBQ (from iproute2 package).<br />
+			3) tc (from iproute2 package).<br />
+			4) <a href="http://www.lartc.org">LARTC</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Účtovanie prenesených dát</td>
+		<td>
+		Netstat, <a href="http://www.tmeter.ru">Tmeter</a>, …
+		</td>
+		<td>
+			1) <a href="http://www.tcp4me.com">Tcp4me</a>.<br />
+			2) <a href="http://www.opennet.ru/getstatd/">Getstatd</a>.<br />
+			3) <a href="http://www2.empnet.com/ipacct/">Ipacct</a>.<br />
+			4) <a href="http://sf.net/projects/ipac-ng">Ipac-ng</a>.<br />
+			5) <a href="http://ipaudit.sf.net/ipaudit-web/">Ipaudit</a>.<br />
+			6) <a href="http://www.lanbilling.ru/">Lanbilling</a>.<br />
+			7) <a href="http://web.onda.com.br/orso/sarg.html">SARG</a>.<br />
+			8) <a href="http://talinux.sourceforge.net/">Talinux</a>.<br />
+			9) <a href="http://www.netup.ru">NetUP UserTrafManager.</a><br />
+			10) <a href="http://people.ee.ethz.ch/%7Eoetiker/webtools/mrtg/">MRTG</a>.<br />
+			11) <a href="http://srparish.net/scripts/">NetTop</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Peer-to-peer klienti / servery, zdieľanie súborov</td>
+		<td>Morpheus (Gnutella),<br />WinMX,<br />Napster,<br />KaZaA (Fasttrack),<br /><a href="http://www.edonkey2000.com">eDonkey</a> [Prop],<br /><a href="http://www.emule-project.net/">eMule</a>,<br /><a href="http://thecircle.org.au">TheCircle</a>,<br /><a href="http://bitconjurer.org/BitTorrent/">Bittorrent</a>,<br />SoulSeek,<br /><a href="http://www.neo-modus.com/">Direct Connect</a></td>
+		<td>
+			1) <a href="http://www.freesoftware.fsf.org/mldonkey/">Mldonkey</a>. (eDonkey, Soulseek, Fasttrack, Gnutella,  Open Napster, Direct Connect, BitTorrent)<br />
+			2) <a href="http://www.limewire.com">LimeWire</a>. (Gnutella)<br />
+			3) <a href="http://lopster.sourceforge.net/">Lopster</a>. (OpenNAP)<br />
+			4) <a href="http://jasta.gotlinux.org/gnapster.html">Gnapster</a>. (OpenNAP)<br />
+			5) <a href="http://ed2k-gtk-gui.sourceforge.net/download.shtml">eDonkey.</a> (eDonkey) [Prop]<br />
+			6) <a href="http://cdonkey.suche.org">cDonkey.</a> (eDonkey)<br />
+			7) <a href="http://giftcurs.sourceforge.net/">Gift client</a> / <a href="http://gift.sourceforge.net/">server</a> / <a href="http://developer.berlios.de/projects/gift-fasttrack">fasttrack plugin</a> (Fasttrack)<br />
+			8) ed2k_gui.<br />
+			9) <a href="http://gtk-gnutella.sourceforge.net">Gtk-Gnutella</a>. (Gnutella)<br />
+			10) <a href="http://www.qtella.net/">Qtella</a>. (Gnutella)<br />
+			11) <a href="http://mutella.sourceforge.net">Mutella</a>. (Gnutella, konzolový)<br />
+			12) <a href="http://thecircle.org.au">TheCircle</a>.<br />
+			13) <a href="http://freenet.sourceforge.net/">Freenet</a>. (fully anonymous p2p)<br />
+			14) <a href="http://www.gnu.org/software/GNUnet/gnunet.html">GNUnet</a>.<br />
+			15) <a href="http://lmule.sf.net">Lmule</a>. (eDonkey)<br />
+			16) <a href="http://www.xmule.org">Xmule</a>. (eDonkey)<br />
+			17) <a href="http://bitconjurer.org/BitTorrent/">Bittorrent.</a><br />
+			18) <a href="http://www.sensi.org/%7Eak/pyslsk/">PySoulSeek</a> (Soulseek).<br />
+			19) <a href="http://www.loopholesoftware.com/">Loophole.</a> (WinMX) [Prop]<br />
+			20) <a href="http://dc.ketelhot.de/">Direct Connect</a>.<br />
+			21) <a href="http://quickdc.sourceforge.net">QuickDC</a>. (Direct Connect).<br />
+			22) <a href="http://www.overnet.com/download.html">OverNet</a>.<br />
+			23) <a href="http://apollon.sf.net">Apollon</a>.<br />
+			24) <a href="http://www.grapevineproject.org/">GrapeWine</a>. (fully anonymous p2p)<br />
+			25) <a href="http://freshmeat.net/projects/snark/">Snark</a>. (Bittorrent)<br />
+			26) Sancho (mldonkey frontend)<br />
+			27) <a href="http://ktorrent.org/">ktorrent </a><br />
+			28) <a href="http://azureus.sourceforge.net/">azureus</a> <br />
+		</td>
+	</tr>
+
+	<tr>
+		<td>&quot;Hotline&quot; p2p klienti / servery</td>
+		<td>???</td>
+		<td>
+			Clients:<br />
+			1) <a href="http://gtkhx.sourceforge.net/">Gtkhx</a>.<br />
+			2) <a href="http://fidelio.sourceforge.net/">Fidelio</a>.<br />
+			3) <a href="http://ac2i.tzo.com/ghx_e.html">GHX</a>. [Prop]<br />
+			Servers:<br />
+			1) <a href="http://synhxd.sourceforge.net/">Synapse</a>.<br />
+			2) <a href="http://ac2i.tzo.com/hsx_e.html">HSX</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Práca so zvukovým modemom</td>
+		<td>Venta Fax,<br /><a href="http://www.cds-inc.com/prod/primafaxlinux.html">PrimaFax</a></td>
+		<td>
+			1) <a href="http://www.cowlug.org/gfax">Gfax.</a> (???)<br />
+			2) <a href="http://www.cds-inc.com/prod/primafaxlinux.html">PrimaFax</a>. [Prop, 99$]<br />
+			3) mgetty + voice + sendfax.<br />
+			4) vgetty.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Práca s faxom</td>
+		<td>WinFax</td>
+		<td>
+			1) <a href="http://www.hylafax.org/">HylaFax</a>.<br />
+			2) <a href="http://www.fax2send.com/">Fax2Send.</a>  [Prop]<br />
+			3) <a href="http://www.cvine.freeserve.co.uk/efax-gtk/">Efax</a>.<br />
+			4) <a href="http://www.esker.com/esker_com/products/vsifax_home.html">VSI-FAX</a>. [Prop]
+		</td>
+	</tr>
+
+	<tr>
+		<td>Dialup</td>
+		<td>Vdialer, …</td>
+		<td>
+			1) <a href="http://www.kde.org/">Kppp</a>.<br />
+			2) <a href="http://xisp.hellug.gr/">X-isp</a>.<br />
+			3) <a href="http://www.worldvisions.ca/wvdial/">wvdial</a>. (Frontendy: <a href="http://console-newsletter.hypermart.net/x-wvdial">X-wvdial</a>, kvdial, gtkdial).<br />
+			4) <a href="http://mfcn.ilo.de/gppp">Gppp</a>.<br />
+			5) Kinternet.<br />
+			6) Rp3.<br />
+			7) pppconfig  + pon + poff.<br />
+			8) Modem Lights.<br />
+			9) <a href="http://freshmeat.net/projects/netcount/">Netcount</a>. (konzolový)
+		</td>
+	</tr>
+
+	<tr>
+		<td>FTN editor</td>
+		<td>Golded</td>
+		<td>
+			1) <a href="http://www.goldware.dk">Golded.</a><br />
+			2) <a href="http://golded-plus.sourceforge.net">Golded+.</a><br />
+			3) <a href="http://husky.sf.net/">Msged</a>.<br />
+			4) <a href="http://www.qecho.qded.da.ru/">Qded</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>FTN tosser</td>
+		<td>FastEcho, hpt</td>
+		<td>
+			1) <a href="http://husky.sf.net/">hpt.</a><br />
+			2) <a href="ftp://hell.binec.ru/pub/ftn/crashecho">CrashEcho.</a><br />
+			3) <a href="http://www.qecho.qded.da.ru/">Qecho</a>.<br />
+			4) <a href="http://www.df.lth.se/%7Ebilling/crashmail.html">CrashMail II</a>.<br />
+			5) <a href="http://www.fidogate.org/">Fidogate</a> - gate to news.<br />
+			6) <a href="ftp://ftp.average.org/pub/ifmail/">ifmail</a> - gate to news.
+		</td>
+	</tr>
+
+	<tr>
+		<td>FTN mailer</td>
+		<td>SF-Mail, T-Mail</td>
+		<td>
+			1) <a href="ftp://oskin.macomnet.ru">ifcico.</a><br />
+			2) <a href="http://lev.serebryakov.spb.ru/download">qico.</a><br />
+			3) <a href="http://kst.spb.ru/">Bforce</a>.<br />
+			4) <a href="http://2f.ru/binkd/">Binkd</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Vzdialený prístup</td>
+		<td>
+			1) <a href="http://www.realvnc.com/">VNC, Virtual Network Computing</a><br />
+			2) <a href="http://www.famatech.com">Remote Administrator (Radmin)</a> [Prop]<br />
+			3) Remote Assistance [Prop]<br />
+			4) Symantec pcAnywhere [Prop]<br />
+			5) Windows Terminal Server [Prop]<br />
+			6) <a href="http://www.rdesktop.org">Rdesktop</a> [Prop]<br />
+			7) <a href="http://www.famatech.com/default.html">Radmin</a> [Prop]<br />
+			8) <a href="http://www.vector-networks.com/pcduo/">PC-Duo</a> [Prop]<br />
+			9) <a href="http://www.gidsoftware.com/">Huey PC Remote Control (only for NT)</a> [Prop]<br />
+			10) <a href="http://www.netopia.com/">Timbuktu Pro</a> [Prop]<br />
+			11) <a href="http://www.laplink.com/">LapLink</a> [Prop]<br />
+			12) <a href="http://www.gotomypc.com">GoToMyPC</a> [Prop]<br />
+			13) <a href="http://bo2k.sourceforge.net">Bo2k</a> a ostatné tójske kone
+		</td>
+		<td>
+			1) <a href="http://www.realvnc.com/">VNC, Virtual Network Computing</a>.<br />
+			2) <a href="http://www.ssh.com">ssh</a>.<br />
+			3) Remote management is built-in in <a href="http://www.xfree86.org/">XFree86</a>.<br />
+			4) Remote management is built-in in <a href="http://www.kde.org/info/3.1/feature_guide_flat.html#section3">KDE 3.1</a>. (&quot;desktop sharing&quot;).<br />
+			5) <a href="http://www.rdesktop.org">Rdesktop Client</a>.<br />
+			6) rsh / rlogin.<br />
+			7) telnet.<br />
+			8) Gtelnet.<br />
+			9) <a href="http://freshmeat.net/projects/x0rfbserver/">x0rfbserver</a>.<br />
+			10) <a href="http://kurd.sourceforge.net/">KDE Universal Remote Desktop</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Prenos súborov cez modem</td>
+		<td>HyperTerminal, Terminate, etc</td>
+		<td>
+			1) <a href="http://www.netsonic.fi/%7Ewalker/minicom.html">Minicom</a> + <a href="http://www.ohse.de/uwe/software/lrzsz.html">lrzcz</a> + <a href="http://www.columbia.edu/kermit/">Kermit.</a><br />
+			2) <a href="http://www.moxa.com/">Msterm.</a><br />
+			3) <a href="http://pficheux.free.fr/xtel/">Xtel</a>.<br />
+			4) uucp.<br />
+			5) <a href="http://www.ohse.de/uwe/software/lrzsz.html">lrzsz</a> + cu z uucp.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Práca s ssh</td>
+		<td>Putty,<br />Irlex,<br />cygwin + <a href="http://www.ssh.com">ssh</a></td>
+		<td>
+			1) Kssh.<br />
+			2) <a href="http://www.ssh.com">ssh</a> / <a href="http://www.openssh.org">openssh</a>.<br />
+			3) <a href="http://www.gnome.org/softwaremap/projects/gtelnet/">GTelnet</a>. (Telnet, SSH, Rlogin)
+		</td>
+	</tr>
+
+	<tr>
+		<td>Nástroje na monitorovanie siete</td>
+		<td>Dumeter,<br />Netmedic</td>
+		<td>
+			1) <a href="http://web.wt.net/%7Ebillw/gkrellm/gkrellm.html">Gkrellm</a>.<br />
+			2) <a href="http://www.bb4.com">Big Brother</a>.<br />
+			3) <a href="http://etherape.sourceforge.net/">Etherape</a>.<br />
+			4) <a href="http://www.nagios.org/">Nagios</a>.<br />
+			5) <a href="http://wwwhome.cs.utwente.nl/%7Eschoenw/scotty/">Tkined</a>.<br />
+			6) <a href="http://people.ee.ethz.ch/%7Eoetiker/webtools/mrtg/">MRTG</a>.<br />
+			7) Rrdtool.<br />
+			8) <a href="http://pikt.org/">PIKT</a>.<br />
+			9) <a href="http://www.angio.net/consult/autostatus/">Autostatus</a>.<br />
+			10) <a href="http://bcnu.sourceforge.net/">bcnu</a>.<br />
+			11) <a href="http://ftp.kernel.org/software/mon/">mon</a>.<br />
+			12) <a href="http://www.sysmon.org/">Sysmon</a>.<br />
+			13) <a href="http://spong.sourceforge.net/">Spong</a>.<br />
+			14) <a href="http://www.netplex-tech.com/snips/">SNIPS</a>.<br />
+			15) <a href="http://cebu.mozcom.com/riker/iptraf/">iptraf</a> (konzolový).<br />
+			16) Ksysguard.<br />
+			17) <a href="http://www.opennms.org">OpenNMS</a>.<br />
+			18) tcpdump.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Nástroje na obsluhu siete.</td>
+		<td>HP OpenView,<br />MS SMS,<br />Tivoli</td>
+		<td>
+			1) HP OpenView agents. [Prop]<br />
+			2) <a href="http://www.bb4.com">Big Brother</a>.<br />
+			3) <a href="http://www.marko.net/cheops">Cheops</a>.<br />
+			4) <a href="http://wwwhome.cs.utwente.nl/%7Eschoenw/scotty/">Tkined</a>.<br />
+			5) <a href="http://www.opennms.org">OpenNMS</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Analýza protokolov, odpočúvanie</td>
+		<td>
+			<a href="http://www.asl-sniffer.co.uk/">Sniffer Pro</a>,<br />EtherPeek (TokenPeek,<br />AiroPeek),<br /><a href="http://windump.polito.it/">Windump</a>,<br /><a href="http://www.ethereal.com/">Ethereal</a>,<br />MS Network Monitor,<br />Iris,<br /><a href="http://www.sunrisetelecom.com/lansoftware/lanexplorer.shtml">Lan Explorer</a>,<br /><a href="http://www.tmeter.ru/netsniffer/">NetSniffer</a>,<br />Snort,<br />…
+		</td>
+		<td>
+			1) <a href="http://www.ethereal.com/">Ethereal</a>.<br />
+			2) <a href="http://www.tcpdump.org/">Tcpdump</a>.<br />
+			3) <a href="http://etherape.sourceforge.net/">Etherape</a>.<br />
+			4) <a href="http://www.ntop.org">Ntop</a>.<br />
+			5) ipxdump. (+ipxparse for parsing)<br />
+			6) Snort.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Bezpečnostné skenery</td>
+		<td>ShadowScan,<br />ISS,<br />Retina,<br />Internet Scanner</td>
+		<td>
+			1) <a href="http://www.nessus.org/">Nessus</a>.<br />
+			2) <a href="http://www.insecure.org/nmap/">Nmap</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Routing</td>
+		<td>MS RRAS</td>
+		<td>
+			1) iproute2 + iptables. <br />
+			2) <a href="http://www.nexthop.com/products/gated.shtml">GateD</a>.[Prop]<br />
+			3) <a href="http://www.zebra.org/">GNU Zebra</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Utility a knižnice pre testovanie Ethernet/IP</td>
+		<td><a href="http://www.laurentconstantin.com/en/">lcrzo</a></td>
+		<td><a href="http://www.laurentconstantin.com/en/">lcrzo</a></td>
+	</tr>
+
+	<tr>
+		<td>IP-telefonovanie</td>
+		<td>Buddyphone [Prop],<br />Cisco SoftPhone,<br />Skype</td>
+		<td>
+			1) <a href="http://www.gnu.org/software/bayonne/bayonne.html">GNU Bayonne</a>.<br />
+			2) <a href="http://www.openh323.org/">Openh323</a>.<br />
+			3) <a href="http://www.openphone.org/">OpenPhone</a>.<br />
+			4) <a href="http://www.thekompany.com/products/tkphone/">tkPhone</a>.<br />
+			5) <a href="http://www.naumen.ru">NauPhone</a>.<br />
+			6) <a href="http://www.twinklephone.com/">Twinkle</a><br />
+			7) <a href="http://ekiga.org/">Ekiga (formely known as GnomeMeeting)</a><br />
+			8) <a href="http://www.gizmoproject.com">Gizmo </a> [NF?] (win+mac version also)<br />
+			9) <a href="http://sourceforge.net/projects/kphone">Kphone</a><br />
+			11) <a href="http://www.linphone.org/">Linphone</a><br />
+			12) Skype [NF]
+		</td>
+	</tr>
+
+	<tr>
+		<td>Zdieľanie dát/súborov</td>
+		<td>Windows shares</td>
+		<td>
+			1) NFS.<br />
+			2) <a href="http://www.samba.org/">Samba</a>.<br />
+			3) <a href="http://www.samba-tng.org/">Samba-TNG</a>.<br />
+			4) FTP.
+		</td>
+	</tr>
+
+	<tr>
+		<td>&nbsp;</td>
+		<td>Windows Domain, Active Directory</td>
+		<td>
+			1) Samba. <br />
+			2) <a href="http://www.openldap.org/">Ldap</a>. <br />
+			3) yp.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Prezeranie Windowsovej siete</td>
+		<td>Network neighborhood</td>
+		<td>
+			1) Samba. <br />
+			2) KDE Lan Browser, lisa<br />
+			3) LinNeighborhood.<br />
+			4) <a href="http://www.public.iastate.edu/~chadspen/homepage.html">xSMBrowser</a>.<br />
+			5) <a href="http://sourceforge.net/projects/komba">Komba2</a>.<br />
+			6) <a href="http://www.konqueror.org/">Konqueror.</a>
+		</td>
+	</tr>
+
+	<tr>
+		<td>ADSL</td>
+		<td>1) <a href="http://www.raspppoe.com/">RASPPPOE</a></td>
+		<td>
+			1) rp-pppoe.<br />
+			2) <a href="http://pptpclient.sourceforge.net/">Pptp client</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Distribuované výpočtý</td>
+		<td>
+			<a href="http://www.aspenleaf.com/distributed/distrib-projects.html">Všetky projekty</a>.<br />
+			1) <a href="http://www.grid.org">United Devices.</a><br />
+			2) <a href="http://setiathome.ssl.berkeley.edu/">Seti @ Home.</a><br />
+			3) <a href="http://folding.stanford.edu/">Folding @ Home</a>.<br />
+			4) <a href="http://genomeathome.stanford.edu">Genome @ Home</a>.
+		</td>
+		<td>
+			<a href="http://www.aspenleaf.com/distributed/distrib-projects.html">Všetky projekty</a>.<br />
+			1) <a href="http://www.distributed.net/">Distributed.net</a>.<br />
+			2) <a href="http://setiathome.ssl.berkeley.edu/">Seti @ Home.</a><br />
+			3) <a href="http://folding.stanford.edu/">Folding @ Home</a>.<br />
+			4) <a href="http://genomeathome.stanford.edu">Genome @ Home</a>.<br />
+			5) <a href="http://www.d2ol.com/">D2ol</a>.<br />
+			* Niektoré verzie pre Linux bežia len v konzolovom režime.
+		</td>
+	</tr>
+
+	<tr>
+		<td>IPSEC protokol</td>
+		<td>-</td>
+		<td> <a href="http://freeswan.org/">FreeSWAN</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>VRML prehliadač a editor</td>
+		<td>???</td>
+		<td>1) <a href="http://freshmeat.net/redir/whitedune/28252/url_homepage/dune">White Dune</a>.</td>
+	</tr>
+
+	<tr>
+		<td>Práca s E-bay</td>
+		<td>???</td>
+		<td>1) <a href="http://bidwatcher.sourceforge.net">Bidwatcher</a>.</td>
+	</tr>
+</table>
+
+<p>Túto tabuľku preložil Ondrej Hučko, upravil Miroslav Bendík zo stránky <a href="http://www.linuxrsp.ru/win-lin-soft/table-eng.html">http://www.linuxrsp.ru/win-lin-soft/table-eng.html</a>.</p>
 
 
 {% endblock %}
