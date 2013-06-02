@@ -19,6 +19,7 @@ sites = (
 
 	('netscreens', 'internet/screenshoty'),
 	('officescreens', 'kancelaria/screenshoty'),
+	('mmscreens', 'multimedia/screenshoty'),
 )
 
 sites_urls = map(lambda u: url('^' + u[1] + '/$', TemplateView.as_view(template_name = 'static/' + u[1] + '.html'), name = "page_" + u[1]), sites)

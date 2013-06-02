@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load breadcrumbs_tags %}
+{% block title %}Screenshoty multimediálnych programov{% endblock %}
+{% block breadcrumbs %}
+{% breadcrumb %}Screenshoty multimediálnych programov{% endbreadcrumb %}
+{% breadcrumb url='page_multimedia' %}Linux a multimédia{% endbreadcrumb %}{{ block.super }}
+{% endblock %}
+
+{% block content %}
+<h1>Screenshoty multimediálnych programov</h1>
+
+<table>
+<tr>
+<td align='center' style="padding: 1em">
+<a href="/media/IMG/audacity.png"><img border="0" src="/media/IMG/thumbs/audacity.png" width="140" height="105" alt="thumbs/audacity.png"/></a>
+<div><font face="Verdana" size="2">Audacity</div>
+</td>
+<td align='center' style="padding: 1em">
+<a href="/media/IMG/audiolinux.png"><img border="0" src="/media/IMG/thumbs/audiolinux.png" width="140" height="105" alt="thumbs/audiolinux.png"/></a>
+<div><font face="Verdana" size="2">XMMS, KsCD</div>
+</td>
+<td align='center' style="padding: 1em">
+<a href="/media/IMG/avidemux.png"><img border="0" src="/media/IMG/thumbs/avidemux.png" width="140" height="105" alt="thumbs/avidemux.png"/></a>
+<div><font face="Verdana" size="2">Avidemux</div>
+</td>
+</tr>
+<tr>
+<td align='center'>
+<a href="/media/IMG/blender225.png"><img border="0" src="/media/IMG/thumbs/blender225.png" width="140" height="108" alt="thumbs/blender225.png"/></a>
+<div><font face="Verdana" size="2">Blender 2.25</div>
+</td>
+<td align='center'>
+<a href="/media/IMG/gimp.jpg"><img border="0" src="/media/IMG/thumbs/gimp.png" width="140" height="105" alt="thumbs/gimp.png"/></a>
+<div><font face="Verdana" size="2">Gimp 1.3</div>
+</td>
+<td align='center'>
+<a href="/media/IMG/gimp2.jpg"><img border="0" src="/media/IMG/thumbs/gimp2.png" width="140" height="98" alt="thumbs/gimp2.png"/></a>
+<div><font face="Verdana" size="2">Gimp 1.3</div>
+</td>
+</tr>
+<tr>
+<td align='center'>
+<a href="/media/IMG/k3b_superkaramba.png"><img border="0" src="/media/IMG/thumbs/k3b_superkaramba.png" width="140" height="105" alt="thumbs/k3b + superkaramba.png"/></a>
+<div><font face="Verdana" size="2">K3b</div>
+</td>
+<td align='center'>
+<a href="/media/IMG/madman.jpg"><img border="0" src="/media/IMG/thumbs/madman.png" width="140" height="100" alt="thumbs/madman.png"/></a>
+<div><font face="Verdana" size="2">Madman</div>
+</td>
+<td align='center'>
+<a href="/media/IMG/mplayerblue.png"><img border="0" src="/media/IMG/thumbs/mplayerblue.png" width="140" height="105" alt="thumbs/mplayerblue.png"/></a>
+<div><font face="Verdana" size="2">Mplayer</div>
+</td>
+</tr>
+<tr>
+<td align='center'>
+<a href="/media/IMG/pixie.jpg"><img border="0" src="/media/IMG/thumbs/pixie.png" width="140" height="99" alt="thumbs/pixie.png"/></a>
+<div><font face="Verdana" size="2">Pixie</div>
+</td>
+<td align='center'>
+<a href="/media/IMG/sodipodi-0.32.jpg"><img border="0" src="/media/IMG/thumbs/sodipodi-0.32.png" width="140" height="105" alt="thumbs/sodipodi-0.32.png"/></a>
+<div><font face="Verdana" size="2">Sodipodi 0.32</div>
+</td>
+<td align='center'>
+<a href="/media/IMG/xine.jpg"><img border="0" src="/media/IMG/thumbs/xine.png" width="140" height="105" alt="thumbs/xine.png"/></a>
+<div><font face="Verdana" size="2">Xine</div>
+</td>
+</tr>
+<tr>
+<td align='center'>
+<a href="/media/IMG/xmmskalak.png"><img border="0" src="/media/IMG/thumbs/xmmskalak.png" width="140" height="59" alt="thumbs/xmmskalak.png"/></a>
+<div><font face="Verdana" size="2">XMMS</div>
+</td>
+</tr>
+</table>
+
+{% endblock %}
