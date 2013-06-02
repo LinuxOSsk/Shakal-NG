@@ -1,16 +1,27 @@
 {% extends "base.html" %}
+{% load threaded_comments_tags %}
+{% load hitcount_tags %}
 
 {% block title %}LinuxOS.sk - slovenský linuxový portál{% endblock %}
+{% block extraheaders %}
+<meta name="description" lang="sk" content="Slovenský linuxový portál: linux, open source, BSD, komunita, fórum, pomoc nováčikom." />
+{% endblock %}
 
 {% block content %}
+{% add_discussion_attributes articles %}
+{% add_discussion_attributes top_articles %}
+{% add_hitcount articles %}
+{% add_hitcount top_articles %}
 <h1 style="display: none">LinuxOS.sk - slovenský linuxový portál</h1>
-<div class="module article hero-unit">
+<div class="module article">
 	<h2>Články</h2>
-	<div class="article top">
-		{% with article=top_article %}
-		{% include 'article/block_list_item.html' with thumbnail=1 %}
-		{% endwith %}
-	</div>
+	{% for top_article in top_articles %}
+		<div class="article top">
+			{% with article=top_article %}
+			{% include 'article/block_list_item.html' with thumbnail=1 %}
+			{% endwith %}
+		</div>
+	{% endfor %}
 	{% for article in articles %}
 		{% include 'article/block_list_item.html' with thumbnail=0 %}
 	{% endfor %}
@@ -19,10 +30,6 @@
 			<a class="btn" href="{{ category.get_absolute_url }}">{{ category }}</a>
 		{% endfor %}
 	</div>
-	<div class="pull-right">
-		<a class="btn" href="{% url 'article:article-list' %}" class="next">Ďalšie</a>
-	</div>
-	<div style="clear: both"></div>
 </div>
 
 <div class="module forum">

@@ -1,6 +1,7 @@
 {% load breadcrumbs_tags i18n linuxos news_tags staticfiles polls_tags notifications_tags %}{% load feeds_tags %}<!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"  lang="{{ LANGUAGE_CODE|default:"en-us" }}" xml:lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
+	<title>{% block title %}{% endblock %}</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Script-Type" content="text/javascript" />
 	<link rel="stylesheet" type="text/css" href="{% static 'desktop/default/base.css' %}" />
@@ -11,7 +12,6 @@
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-	<title>{% block title %}{% endblock %}</title>
 {% if style_options.small %}
 <style type="text/css" media="screen">
 html, body {
@@ -71,20 +71,7 @@ html, body {
 	{% block extrastyle %}{% endblock %}{% block extraheaders %}{% endblock %}
 </head>
 <body>
-
-<script type="text/javascript">
-
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-2269543-2']);
-_gaq.push(['_trackPageview']);
-
-(function() {
-	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
-</script>
-
+	{% include 'includes/analytics.html' %}
 	<header>
 	{% block site_header %}
 		<div id="top_header">
