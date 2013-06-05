@@ -2,152 +2,144 @@
 {% load breadcrumbs_tags %}
 {% block title %}Hry v Linuxe{% endblock %}
 {% block breadcrumbs %}{% breadcrumb %}Hry v Linuxe{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block extraheaders %}
+<meta name="description" lang="sk" content="Prehľad hier fungujúcich pod Linuxom technológií umožňujúcich spúšťanie hier určených pre iné platformy." />
+{% endblock %}
 
 {% block content %}
 <h1>Hry v Linuxe</h1>
 
 <p>
-Pre mnohých používateľov Windowsu, ktorí by chceli prejsť na Linux, je veľkou prekážkou absencia ich obľúbených hier ako sú Battlefield, Call of Duty, GTA, NHL či MS Flight Simulator. Avšak ani používateľ Linuxu nemusí byť úplne bez týchto hier. Množstvo hier funguje pod emulátorom (komerčným) <a href="http://www.transgaming.com/products_linux.php">Cedega</a> (pôvodne WineX), ktorý je vyvíjaný špeciálne na tento účel. Úplný zoznam hier fungujúcich pod Cedegou nájdete na <a href="http://www.transgaming.com/dogamesearch.php?order=working&amp;showall=1">jej domovskej stránke</a>. </p>
+Pre mnohých používateľov Windowsu, ktorí by chceli prejsť na Linux, je veľkou prekážkou absencia ich obľúbených hier ako sú Battlefield, Call of Duty, GTA, NHL či MS Flight Simulator. Avšak ani používateľ Linuxu nemusí byť úplne bez týchto hier. Množstvo hier funguje pod emulátorom (komerčným) <a href="http://www.cedegawiki.net/Welcome_to_the_GameTree_Linux_Wiki">Cedega</a> (pôvodne WineX), ktorý je vyvíjaný špeciálne na tento účel. Úplný zoznam hier fungujúcich pod Cedegou nájdete na <a href="http://www.cedegawiki.net/Category:Working">jej domovskej stránke</a>.Veľké množstvo prevažne komerčných hier pre Linux je dostupné cez distribučnú platformu <a href="http://store.steampowered.com/">Steam</a>. Zoznam hier dostupných pre Linux sa nachádza na <a href="http://store.steampowered.com/browse/linux/">tejto stránke</a>.</p>
 
 <p>Niekoľko hier má svoje ekvivalenty pre Linux (napríklad MS Flight Simulator má svojho brata v hre <a href="http://www.flightgear.org">FlightGear</a>) a zopár hier je programovaných na oba operačné systémy (<a href="http://americasarmy.com/">America's Army</a>, Return to Castle Wolfenstein, Unreal Tournament, <a href="http://www.idsoftware.com/games/quake/quake4/">Quake</a>...).
-Sú aj hry primárne programované pre Linux (často však majú aj svoju Windows verziu). Medzi ne patrí veľmi obľúbený <a href="clanok.php?clanokid=4">Tuxracer</a> alebo ťahová stratégia <a href="http://www.wesnoth.org">Battle for Wesnoth</a>.<br />
+Sú aj hry primárne programované pre Linux (často však majú aj svoju Windows verziu). Medzi ne patrí veľmi obľúbený <a href="/clanok/tuxracer-vlajkova-lod-linuxovych-hier/">Tuxracer</a> alebo ťahová stratégia <a href="http://www.wesnoth.org">Battle for Wesnoth</a>.
 </p>
-
-
-
-
-<p>
 
 <table>
 <tr>
-<td><img src="/media/IMG/hry/graph.png" alt="Logos" align="left"></td>
+<td><img src="/media/IMG/hry/graph.png" alt="Logos" /></td>
 <td>
-Pre hranie hier v Linuxe sa odporúčajú skôr grafické karty s čipmi <a href="http://www.nvidia.com">NVIDIA</a> ako <a href="http://www.ati.com">ATI</a>, pretože firma NVIDIA vydáva pravidelne kvalitné <a href="http://www.nvidia.com/object/unix.html">ovládače pre Linux</a>, podporujúce jej najnovšie technológie, zatiaľ čo s <a href="http://www.ati.com/support/driver.html">ovládačmi ATI</a> nie je prílišná spokojnosť medzi linuxovými hráčmi.</td>
+Pre hranie hier v Linuxe sa odporúčajú skôr grafické karty s čipmi <a href="http://www.nvidia.com">NVIDIA</a> ako <a href="http://www.amd.com/">AMD</a>, pretože firma NVIDIA vydáva pravidelne kvalitné <a href="http://www.nvidia.com/object/unix.html">ovládače pre Linux</a>, podporujúce jej najnovšie technológie, zatiaľ čo s <a href="http://support.amd.com/us/gpudownload/Pages/index.aspx">ovládačmi AMD</a> nie je prílišná spokojnosť medzi linuxovými hráčmi.</td>
 </tr>
 </table>
 
-</p>
+<h2>Prehľad hier</h2>
 
-
-
-<center><h2>Prehľad hier</h2></center>
-<table width="100%">
+<table>
 
 <!--   Zaznam   -->
 <tr>
-	<td bgcolor="#eff3f7" width="200" align="center"><a href="/media/IMG/hry/tuxracer.jpg"><img src="/media/IMG/hry/thumbs/tuxracer.jpg" alt="Tuxracer"  style="border: solid 1px black;"></a></td>
-	<td bgcolor="#eff3f7" valign="top"><h3>Tuxracer</h3><p><b>Žáner</b>: arkáda<br /><b>Licencia</b>: GNU/GPL<br />Obľúbená hra, v ktorej sa maskot Linuxu - tučniak Tux obrovskou rýchlosťou spúšťa zasneženými svahmi. Body získavate za čas a za ryby, ktoré cestou dole zachytíte. Svahmi sa môžete spúšťať len tak voľne alebo aj súťažne, kde v každom kole musíte splniť určité limity pre postup ďalej. Originálny Tuxracer sa už niekoľko rokov nevyvíja, v jeho šlapajách pokračuje <a href="http://projects.planetpenguin.de/racer/">PPRacer</a>.</p><a href="http://tuxracer.sourceforge.net/">Domovská stránka</a> | <a href="http://tuxracer.sourceforge.net/download.html">Download</a></td>
-</tr>
-<tr>
-	<td height="20"></td>
+	<td><a href="/media/IMG/hry/tuxracer.jpg"><img src="/media/IMG/hry/thumbs/tuxracer.jpg" alt="Tuxracer" /></a></td>
+	<td><h3>Tuxracer</h3><p><b>Žáner</b>: arkáda<br /><b>Licencia</b>: GNU/GPL<br />Obľúbená hra, v ktorej sa maskot Linuxu - tučniak Tux obrovskou rýchlosťou spúšťa zasneženými svahmi. Body získavate za čas a za ryby, ktoré cestou dole zachytíte. Svahmi sa môžete spúšťať len tak voľne alebo aj súťažne, kde v každom kole musíte splniť určité limity pre postup ďalej. Originálny Tuxracer sa už niekoľko rokov nevyvíja, v jeho šlapajách pokračuje <a href="http://developer.berlios.de/projects/ppracer/">PPRacer</a>.</p><a href="http://tuxracer.sourceforge.net/">Domovská stránka</a> | <a href="http://tuxracer.sourceforge.net/download.html">Download</a></td>
 </tr>
 <!--  #Zaznam   -->
+
 <!--   Zaznam   -->
 <tr>
-	<td bgcolor="white" width="200" align="center"><img src="/media/IMG/hry/aa.jpg" alt="America's Army"  style="border: solid 1px black;"></td>
-	<td bgcolor="white" valign="top"><h3>America's Army</h3><p><b>Žáner</b>: FPS<br /><b>Licencia</b>: freeware<br />Táto multiplayerová online hra je vyvíjaná americkou armádou a je dostupná zadarmo. Jej základom je snaha o čo najväčšiu reálnosť, nutná tímová spolupráca a systém hodností. Na to, aby ste mohli hrať online misie, musíte mať vytvorený účet a zvládnuté základné výcviky. Výhodou je, že profil svojho vojaka máte dostupný kdekoľvek. Do profilu sa vám budú zapisovať úspešne zvládnuté výcviky a pri hraní pripočítavať body a tým zvyšovať hodnosť. Registrovaných je viac ako 6,5 milióna hráčov, 2000 serverov a dostupných je viac ako 30 <a href="http://www.americasarmy.com/intel/missions.php">misií</a>, ktorých počet sa s každou novou verziou zvyšuje.</p><a href="http://www.americasarmy.com">Domovská stránka</a> | <a href="http://www.americasarmy.com/downloads/">Download</a></td>
-</tr>
-<tr>
-	<td height="20"></td>
+	<td><img src="/media/IMG/hry/aa.jpg" alt="America's Army" /></td>
+	<td><h3>America's Army</h3><p><b>Žáner</b>: FPS<br /><b>Licencia</b>: freeware<br />Táto multiplayerová online hra je vyvíjaná americkou armádou a je dostupná zadarmo. Jej základom je snaha o čo najväčšiu reálnosť, nutná tímová spolupráca a systém hodností. Na to, aby ste mohli hrať online misie, musíte mať vytvorený účet a zvládnuté základné výcviky. Výhodou je, že profil svojho vojaka máte dostupný kdekoľvek. Do profilu sa vám budú zapisovať úspešne zvládnuté výcviky a pri hraní pripočítavať body a tým zvyšovať hodnosť. Registrovaných je viac ako 6,5 milióna hráčov, 2000 serverov a dostupných je viac ako 30 <a href="http://www.americasarmy.com/intel/missions.php">misií</a>, ktorých počet sa s každou novou verziou zvyšuje.</p><a href="http://www.americasarmy.com">Domovská stránka</a> | <a href="http://www.americasarmy.com/downloads/">Download</a></td>
 </tr>
 <!--  #Zaznam   -->
+
 <!--   Zaznam   -->
 <tr>
-	<td bgcolor="#eff3f7" width="200" align="center"><img src="/media/IMG/hry/racer.jpg" alt="Racer" style="border: solid 1px black;"></td>
-	<td bgcolor="#eff3f7" valign="top"><h3>Racer</h3><p><b>Žáner</b>: simulácia<br /><b>Licencia</b>: GNU/GPL<br />
+	<td><img src="/media/IMG/hry/racer.jpg" alt="Racer" /></td>
+	<td><h3>Racer</h3><p><b>Žáner</b>: simulácia<br /><b>Licencia</b>: GNU/GPL<br />
 Automobilový simulátor so slušnou grafikou a veľmi dobrou fyzikou a ovládaním. Dá sa hrať ako multiplayer po sieti, aj ako singleplayer,  počítačoví protivníci sú však zatiaľ vo vývoji. Po inštalácii máte k dispozícii iba jedno auto a trať, mnoho ďalších, ktoré vytvára komunita naokolo, si však môžete stiahnuť a doinštalovať.
 </p><a href="http://www.racer.nl">Domovská stránka</a> | <a href="http://liflg.org/?catid=6&amp;gameid=13">Download</a> | <a href="http://www.racer-xtreme.com">Autá &amp; trate</a></td>
 </tr>
-<tr>
-	<td height="20"></td>
-</tr>
 <!--  #Zaznam   -->
+
 <!--   Zaznam   -->
 <tr>
-	<td bgcolor="white" width="200" align="center"><a href="/media/IMG/hry/fg.jpg"><img src="/media/IMG/hry/thumbs/fg.jpg" alt="FlightGear" style="border: solid 1px black;"></a></td>
-	<td bgcolor="white" valign="top"><h3>FlightGear</h3><p><b>Žáner</b>: simulácia<br /><b>Licencia</b>: GNU/GPL<br />
-Vynikajúci (avšak náročný na ovládanie) realistický letecký simulátor s množstvom <a href="http://www.flightgear.org/Downloads/aircraft/index.shtml">lietadiel</a> a scenérií, vďaka ktorým môžete lietať doslova  <a href="http://www.flightgear.org/Downloads/scenery-0.9.10.html">po celom svete</a>. Hra je dostupná zadarmo, ale je možné si objednať aj set troch DVD so všetkými mapami, ak chcete mať všetky scenérie a nechce sa vám všetko ťahať z internetu :).
-</p><a href="http://www.flightgear.org/">Domovská stránka</a> | <a href="http://www.flightgear.org/Downloads/binary.shtml">Download</a> | <a href="http://www.flightgear.org/Downloads/aircraft/index.shtml">Lietadlá</a> | <a href="http://www.flightgear.org/Downloads/scenery-0.9.10.html">Scenérie</a></td>
-</tr>
-<tr>
-	<td height="20"></td>
+	<td><a href="/media/IMG/hry/fg.jpg"><img src="/media/IMG/hry/thumbs/fg.jpg" alt="FlightGear" /></a></td>
+	<td><h3>FlightGear</h3><p><b>Žáner</b>: simulácia<br /><b>Licencia</b>: GNU/GPL<br />
+Vynikajúci (avšak náročný na ovládanie) realistický letecký simulátor s množstvom <a href="http://www.flightgear.org/download/aircraft-2-10-filterable/">lietadiel</a> a scenérií, vďaka ktorým môžete lietať doslova  <a href="http://www.flightgear.org/about/gallery-v2-10/">po celom svete</a>. Hra je dostupná zadarmo, ale je možné si objednať aj set troch DVD so všetkými mapami, ak chcete mať všetky scenérie a nechce sa vám všetko ťahať z internetu :).
+</p><a href="http://www.flightgear.org/">Domovská stránka</a> | <a href="http://www.flightgear.org/download/main-program/">Download</a> | <a href="http://www.flightgear.org/download/aircraft-2-10-filterable/">Lietadlá</a> | <a href="http://www.flightgear.org/download/scenery/">Scenérie</a></td>
 </tr>
 <!--  #Zaznam   -->
 
 <!--   Zaznam   -->
 <tr>
-	<td bgcolor="#eff3f7" width="200" align="center"><a href="/media/IMG/hry/foobillard.png"><img src="/media/IMG/hry/thumbs/foobillard.jpg" alt="Foobillard" style="border: solid 1px black;"></a></td>
-	<td bgcolor="#eff3f7" valign="top"><h3>Foobillard</h3><p><b>Žáner</b>: simulácia<br /><b>Licencia</b>: GNU/GPL<br />
+	<td><a href="/media/IMG/hry/foobillard.png"><img src="/media/IMG/hry/thumbs/foobillard.jpg" alt="Foobillard" /></a></td>
+	<td><h3>Foobillard</h3><p><b>Žáner</b>: simulácia<br /><b>Licencia</b>: GNU/GPL<br />
 Simulátor biliardu, podľa mnohých jedna z mála dokonalých hier. Vynikajúca fyzika, grafika, textúry, svetelné efekty, zvuky a hrateľnosť. Foobillard sa dá hrať medzi dvoma hráčmi ako multiplayer (aj po sieti), proti počítaču (aj celý turnaj), alebo ako voľný tréning. Obsahuje 4 typy hier (carambol, snooker, 8ball, 9ball).
-</p><a href="http://foobillard.sunsite.dk/">Domovská stránka</a> | <a href="http://foobillard.sunsite.dk">Download</a></td>
-</tr>
-<tr>
-	<td height="20"></td>
+</p><a href="http://foobillard.sourceforge.net/">Domovská stránka</a> | <a href="http://foobillard.sourceforge.net/">Download</a></td>
 </tr>
 <!--  #Zaznam   -->
+
 <!--   Zaznam   -->
 <tr>
-	<td bgcolor="white" width="200" align="center"><a href="/media/IMG/hry/wesnoth.jpg"><img src="/media/IMG/hry/thumbs/wesnoth.jpg" alt="Battle for Wesnoth" style="border: solid 1px black;"></a></td>
-	<td bgcolor="white" valign="top"><h3>Battle for Wesnoth</h3><p><b>Žáner</b>: TBS (ťahová stratégia)<br /><b>Licencia</b>: GNU/GPL<br />Battle for Wesnoth je ťahová stratégia zasadená do fantasy prostredia. Obsahuje 4 oficiálne kampane. Každý hráč má počas jedného ťahu obmedzený počet pohybov. Úlohy sú v jednotlivých kampaniach odlišné, niekde musíte ochrániť hlavného hrdinu, obsadiť dedinu, či udržať sa niekoľko kôl. Hra je vynikajúco prepracovaná, je to jedna z najlepších strategických hier pre Linux, čo do hrateľnosti. Hudba je vynikajúca, grafika však mierne zaostáva za svojimi komerčnými príbuznými, ale aj napriek tomu je pomerne kvalitná.</p><a href="http://www.wesnoth.org">Domovská stránka</a> | <a href="http://sourceforge.net/project/showfiles.php?group_id=89495">Download</a></td>
-</tr>
-<tr>
-	<td height="20"></td>
+	<td><a href="/media/IMG/hry/wesnoth.jpg"><img src="/media/IMG/hry/thumbs/wesnoth.jpg" alt="Battle for Wesnoth" /></a></td>
+	<td><h3>Battle for Wesnoth</h3><p><b>Žáner</b>: TBS (ťahová stratégia)<br /><b>Licencia</b>: GNU/GPL<br />Battle for Wesnoth je ťahová stratégia zasadená do fantasy prostredia. Obsahuje 4 oficiálne kampane. Každý hráč má počas jedného ťahu obmedzený počet pohybov. Úlohy sú v jednotlivých kampaniach odlišné, niekde musíte ochrániť hlavného hrdinu, obsadiť dedinu, či udržať sa niekoľko kôl. Hra je vynikajúco prepracovaná, je to jedna z najlepších strategických hier pre Linux, čo do hrateľnosti. Hudba je vynikajúca, grafika však mierne zaostáva za svojimi komerčnými príbuznými, ale aj napriek tomu je pomerne kvalitná.</p><a href="http://www.wesnoth.org">Domovská stránka</a> | <a href="http://sourceforge.net/project/showfiles.php?group_id=89495">Download</a></td>
 </tr>
 <!--  #Zaznam   -->
+
 <!--   Zaznam   -->
 <tr>
-	<td bgcolor="#eff3f7" width="200" align="center"><a href="/media/IMG/hry/dark_oberon.png"><img src="/media/IMG/hry/thumbs/dark_oberon.jpg" alt="Dark Oberon" style="border: solid 1px black;"></a></td>
-	<td bgcolor="#eff3f7" valign="top"><h3>Dark Oberon</h3><p><b>Žáner</b>: RTS (real-time stratégia)<br /><b>Licencia</b>: GNU/GPL<br />
+	<td><a href="/media/IMG/hry/dark_oberon.png"><img src="/media/IMG/hry/thumbs/dark_oberon.jpg" alt="Dark Oberon" /></a></td>
+	<td><h3>Dark Oberon</h3><p><b>Žáner</b>: RTS (real-time stratégia)<br /><b>Licencia</b>: GNU/GPL<br />
 Česká stratégia Dark Oberon je podobná druhému dielu Warcraft. Vašou úlohou je v čo najkratšej dobe vybudovať silnú armádu a s jej pomocou zničiť všetkých nepriateľov. Budovy a jednotky sú z plastelíny, čo dodáva hre neobyčajný efekt :). Dark Oberon je možné hrať ako singleplayer, ale aj po sieti v multiplayer móde.
 </p><a href="http://dark-oberon.sourceforge.net">Domovská stránka</a> | <a href="http://dark-oberon.sourceforge.net/?page=download">Download</a></td>
 </tr>
-<tr>
-	<td height="20"></td>
-</tr>
 <!--  #Zaznam   -->
+
 <!--   Zaznam   -->
 <tr>
-	<td bgcolor="white" width="200" align="center"><a href="/media/IMG/hry/simutrans.jpg"><img src="/media/IMG/hry/thumbs/simutrans.jpg" alt="Simutrans" style="border: solid 1px black;"></a></td>
-	<td bgcolor="white" valign="top"><h3>Simutrans</h3><p><b>Žáner</b>: simulátor<br /><b>Licencia</b>: freeware<br />
-Simutrans je ekonomický a dopravný simulátor. Za úlohu máte s malým počiatočným kapitálom vytvárať autobusové, vlakové, električkové, lodné a letecké spojenia, prepravovať pasažierov a tovar od výmyslu sveta a tým budovať spojenia miest a priemyselných objektov. Simutrans môžete hrať sami alebo proti počítaču. 
-</p><a href="http://128.simutrans.com/cz.php">Domovská stránka</a> | <a href="http://128.simutrans.com/cz.php">Download</a></td>
-</tr>
-<tr>
-	<td height="20"></td>
+	<td><a href="/media/IMG/hry/simutrans.jpg"><img src="/media/IMG/hry/thumbs/simutrans.jpg" alt="Simutrans" /></a></td>
+	<td><h3>Simutrans</h3><p><b>Žáner</b>: simulátor<br /><b>Licencia</b>: freeware<br />
+Simutrans je ekonomický a dopravný simulátor. Za úlohu máte s malým počiatočným kapitálom vytvárať autobusové, vlakové, električkové, lodné a letecké spojenia, prepravovať pasažierov a tovar od výmyslu sveta a tým budovať spojenia miest a priemyselných objektov. Simutrans môžete hrať sami alebo proti počítaču.
+</p><a href="http://www.simutrans.com/">Domovská stránka</a> | <a href="http://www.simutrans.com/en/download">Download</a></td>
 </tr>
 <!--  #Zaznam   -->
+
 <!--   Zaznam   -->
 <tr>
-	<td bgcolor="#eff3f7" width="200" align="center"><a href="/media/IMG/hry/boson.jpg"><img src="/media/IMG/hry/thumbs/boson.jpg" alt="Boson" style="border: solid 1px black;"></a></td>
-	<td bgcolor="#eff3f7" valign="top"><h3>Boson</h3><p><b>Žáner</b>: RTS<br /><b>Licencia</b>: GNU/GPL<br />
-Boson je real-time strategická hra, ktorá je veľmi podobná svojim 
-komerčným bratom. Hra sa odohráva na ostrove podľa vymysleného príbehu. 
-Vašou úlohou je, ako býva zvykom, zničiť nepriateľa. Na výber máte z 
+	<td><a href="/media/IMG/hry/boson.jpg"><img src="/media/IMG/hry/thumbs/boson.jpg" alt="Boson" /></a></td>
+	<td><h3>Boson</h3><p><b>Žáner</b>: RTS<br /><b>Licencia</b>: GNU/GPL<br />
+Boson je real-time strategická hra, ktorá je veľmi podobná svojim
+komerčným bratom. Hra sa odohráva na ostrove podľa vymysleného príbehu.
+Vašou úlohou je, ako býva zvykom, zničiť nepriateľa. Na výber máte z
 pomerne veľkého množstva tankov a lietadiel.
-</p><a href="http://boson.eu.org">Domovská stránka</a> | <a href="http://boson.eu.org/download.php">Download</a></td>
-</tr>
-<tr>
-	<td height="20"></td>
+</p><a href="http://boson.sourceforge.net/">Domovská stránka</a> | <a href="http://boson.sourceforge.net/download.php">Download</a></td>
 </tr>
 <!--  #Zaznam   -->
+
 <!--   Zaznam   -->
 <tr>
-	<td bgcolor="white" width="200" align="center"><a href="/media/IMG/hry/cw1.jpg"><img src="/media/IMG/hry/thumbs/cw1.jpg" alt="Cold War"  style="border: solid 1px black;"></a></td>
-	<td bgcolor="white" valign="top"><h3>Cold War</h3><p><b>Žáner</b>: akčná<br /><b>Licencia</b>: komerčná<br />
-Komerčná hra od českej firmy Mindware Studios síce ešte na trhu nie je, ale jej demo (2 plné misie hry) si môžete stiahnuť už teraz. Hlavnou postavou je americký novinár, ktorý počas studenej vojny plní tajnú misiu v ZSSR. Vynikajúca grafika a hrateľnosť predpovedajú tejto hre veľký úspech na linuxovom hernom poli. 
-</p><a href="http://www.coldwar-game.com">Domovská stránka</a> | <a href="http://files.filefront.com/Cold+War+Playable+Demo+2+Linux/;4319104;/fileinfo.html">Stiahnuť demo</a></td>
-</tr>
-<tr>
-	<td height="20"></td>
+	<td><a href="/media/IMG/hry/cw1.jpg"><img src="/media/IMG/hry/thumbs/cw1.jpg" alt="Cold War" /></a></td>
+	<td><h3>Cold War</h3><p><b>Žáner</b>: akčná<br /><b>Licencia</b>: komerčná<br />
+Komerčná hra od českej firmy Mindware Studios síce ešte na trhu nie je, ale jej demo (2 plné misie hry) si môžete stiahnuť už teraz. Hlavnou postavou je americký novinár, ktorý počas studenej vojny plní tajnú misiu v ZSSR. Vynikajúca grafika a hrateľnosť predpovedajú tejto hre veľký úspech na linuxovom hernom poli.
+</p><a href="http://www.desura.com/games/cold-war-linux">Domovská stránka</a></td>
 </tr>
 <!--  #Zaznam   -->
+
+<!--   Zaznam   -->
+<tr>
+	<td><a href="/media/IMG/hry/neverball.png"><img src="/media/IMG/hry/thumbs/neverball.png" alt="Neverball" /></a></td>
+	<td><h3>Neverball</h3><p><b>Žáner</b>: arkáda<br /><b>Licencia</b>: GNU/GPL<br />
+Jednoduchá hra, v ktorej je účelom hráča pozbierať dostatok mincí a dostať guličku cez bludisko do cieľa. Ovládanie guličky je vyriešené netradične nahláňaním samotného bludiska. Pozor: pri dlhšom hraní môže hra spôsobiť žalúdočné problémy, alebo závislosť ;).
+	</p><a href="http://neverball.org/">Domovská stránka</a> | <a href="http://neverball.org/download.php">Download</a></td>
+</tr>
+<!--  #Zaznam   -->
+
+<!--   Zaznam   -->
+<tr>
+	<td><a href="/media/IMG/hry/xmoto.png"><img src="/media/IMG/hry/thumbs/xmoto.png" alt="X-Moto" /></a></td>
+	<td><h3>X-Moto</h3><p><b>Žáner</b>: simulátor<br /><b>Licencia</b>: GNU/GPL<br />
+X-Moto je 2D motokrosová hra. Úlohou hráča je najskôr pozbierať všetky jahody (alebo iné predmety) a dostať sa do cieľa. Hra je založená na reálnom fyzikálnom modeli. K dispozícii je niekoľko tisíc levelov, ktoré je možné hrať aj v multiplayer režime.
+	</p><a href="http://xmoto.tuxfamily.org/">Domovská stránka</a> | <a href="http://xmoto.tuxfamily.org/">Download</a></td>
+</tr>
+<!--  #Zaznam   -->
+
 </table>
 
 <p>V Linuxe je, samozrejme, oveľa väčšie množstvo hier. Ešte by sme vám chceli odporúčať niekoľko jednoduchých hier vhodných na dlhé zimné večery:</p>
 <ul>
 <li><a href="http://kde-apps.org/content/show.php?content=10019">Atlantik</a> - hry typu monopoly hrateľné po sieti</li>
 <li><a href="http://knights.sourceforge.net/">Knights</a> - vynikajúci šach, s rôznymi témami šachovníc a figúrok</li>
-<li><a href="http://www.azweb.de/kspaceduel/">KSpaceDuel</a> - vesmírna arkádovka, kde sa dve vesmírne lode snažia navzájom zničiť</li>
+<li><a href="http://www.kde.org/applications/games/kspaceduel">KSpaceDuel</a> - vesmírna arkádovka, kde sa dve vesmírne lode snažia navzájom zničiť</li>
 <li>KPatience - sada obľúbených kartových hier, štandardná hra v KDE</li>
 <li>Kolf - jednoduchý, veľmi dobre hrateľný 2D golf, takisto ho nájdete medzi KDE hrami</li>
 <li><a href="http://www.frozen-bubble.org/">Frozen Bubble</a> - obľúbená logická hra s peknou grafikou</li>
