@@ -2,24 +2,16 @@
 {% load breadcrumbs_tags %}
 {% block title %}Veda a Linux{% endblock %}
 {% block breadcrumbs %}{% breadcrumb %}Veda a Linux{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block extraheaders %}
+<meta name="description" lang="sk" content="Prehľad vedeckých programov pre Linux pochádzajúcich prevažne z vysokoškolského prostredia." />
+{% endblock %}
 
 {% block content %}
 <h1>Veda a Linux</h1>
 
-<br />
-<br />
-<table border="0" cellspacing="0" width="95%" align="center">
-  <tbody>
-    <tr>
-      <td bgcolor="white" valign="top" width="10"><br />
-      </td>
-      <td bgcolor="white" valign="center" width="20"><img
- src="/media/IMG/vveda.png" title="" alt="" style="width: 96px; height: 96px;"><br />
-      </td>
-      <td bgcolor="white" valign="top" width="10"><br />
-      </td>
-      <td bgcolor="white" valign="center" width=""><font
- face="sans-serif" size="2" color="#000000">Linux sa vďaka svojej
+<p>
+<img src="/media/IMG/vveda.png" class="pull-left" alt="Veda a Linux" style="width: 96px; height: 96px" />
+Linux sa vďaka svojej
 otvorenosti a cene stat obľúbeným systémom na rôznych univerzitách po
 celom svete. Niet div, že preň existujú množstvá vedeckých programov,
 ktoré pochádzajú priamo z vysokoškolského prostredia. Mnohé z týchto
@@ -27,388 +19,456 @@ programov už v súčasnosti existujú aj pre iné komerčné operačné
 systémy. To len dokazuje silu a dokonalosť Linuxu a UNIX-u obecne.
 Medzi najznámejšie patria Matlab, TeX a štutgartský simulátor
 neurónových sietí, ktoré v súčasnosti predstavujú špičku vo svojej
-oblasti.<br />
-      <a href="http://linuxos.sk/vedascreens/index.html">Pozrite si screenshoty vedeckých
-programov pre Linux &gt;&gt;&gt;</a></font> </td>
-    </tr>
-  </tbody>
-</table>
-<br />
-<br />
-<br />
-<font face="sans-serif" size="2" color="black">V nasledujúcej tabuľke sú
+oblasti.<br /><a href="/veda/screenshoty/">Pozrite si screenshoty vedeckých programov pre Linux</a>
+</p>
+
+<p>V nasledujúcej tabuľke sú
 uvedené ekvivalenty a náhrady softvéru, ktorý poznáte z prostredia
-Windows.<br />
-<br />Vysvetlivky:
-<ul>
-<LI><b>[Prop]</b> - Takto označené programy sú proprietárne</LI>
-<LI><b>[NF]</b> - Nie free softvér (alebo relatívne free s určitými obmedzeniami)</LI>
-<LI><b>[***]</b> - skvelý program, ktorý vám vrelo odporúčame</LI>
-</ul>
-</font>
-<br />
-<table bgcolor="#cccccc" border="0" cellpadding="3" cellspacing="1"
- class="tablemain" width="100%">
-  <tbody>
-    <tr bgcolor="#6b8ec6">
-      <td bgcolor="#6b8ec6" width="30%"><b><font size="2" color="white">
-      <center>O p i s<br />
-p r o g r a m u</center>
-      </font></b></td>
-      <td bgcolor="#6b8ec6" width="30%"><b><font size="2" color="white">
-      <center>W i n d o w s</center>
-      </font></b></td>
-      <td bgcolor="#6b8ec6" width="40%"><b><font size="2" color="white">
-      <center>L i n u x</center>
-      </font></b></td>
-    </tr>
-    <tr bgcolor="#eff3f7">
-      <td><font face="sans-serif" size="2">Matematický systém v MathCad štýle</td>
-      <td><font face="sans-serif" size="2">Mathcad</td>
-      <td><font face="sans-serif" size="2">Gap</td>
-      </font>
-    </tr>
-    <tr bgcolor="#fdfdfd">
-      <td><font face="sans-serif" size="2">Matematický systém v Matlab štýle</td>
-      <td><font face="sans-serif" size="2"><a
- href="http://www.mathworks.com/products/matlab/requirements.shtml">Matlab</a></td>
-      <td><font face="sans-serif" size="2">1) <a
- href="http://www.mathworks.com/products/matlab/requirements.shtml">Matlab.</a>
-[<a href="ftp://ftp.uni-mainz.de/pub/software/Linux/ZDV/matlab/R13/">FTP</a>]<br />
-2) <a href="http://www.octave.org/">Octave</a>. (+ Gnuplot)<br />
-3) <a href="http://www-rocq.inria.fr/scilab/">Scilab.</a><br />
-4) R.<br />
-5) <a href="http://wuarchive.wustl.edu/languages/yorick/doc/">Yorick</a>.<br />
-6) rlab.<br />
-7) <a href="http://www.xs4all.nl/%7Eapinkus/">Yacas</a>.<br />
-8) <a href="http://euler.sf.net/">Euler.</a> </td>
-    </tr>
-    <tr bgcolor="#eff3f7">
-      <td><font face="sans-serif" size="2">Matematický systém v Mathematica štýle</td>
-      <td><font face="sans-serif" size="2"><a href="http://www.wolfram.com/products/mathematica/">Mathematica</a></td>
-      <td><font face="sans-serif" size="2">1) <a href="http://www.wolfram.com/products/mathematica/">Mathematica.</a>
-[Prop]<br />
-2) Maxima.<br />
-3) MuPad.<br />
-4) NumExp.
-      <br />
-5) <a href="http://www.lightlink.com/computer/math/">Mathomatic</a>.
-      </td>
-    </tr>
-    <tr bgcolor="#fdfdfd">
-      <td><font face="sans-serif" size="2">Matematický systém v Maple štýle</td>
-      <td><font face="sans-serif" size="2">Maple</td>
-      <td><font face="sans-serif" size="2">1) <a href="http://www.maplesoft.com/">Maple</a>. [Prop]<br />
-2) <a href="http://maxima.sourceforge.net/">Maxima</a>.<br />
-3) <a href="http://www.mupad.de/">MuPad</a>.
-      </td>
-    </tr>
-    <tr bgcolor="#eff3f7">
-      <td><font face="sans-serif" size="2">Rovnicový / matematický editor</td>
-      <td><font face="sans-serif" size="2">Mathtype, MS Equation Editor, <a
- href="http://www.openoffice.org">OpenOffice Math</a></td>
-      <td><font face="sans-serif" size="2">1) <a href="http://www.openoffice.org">OpenOffice Math.</a><br />
-2) <a href="http://www.newmexico.mackichan.com/mathml/mathmled.htm">MathMLed</a>.
-      <br />
-3) <a href="http://www.koffice.org/">Kformula (Koffice)</a>.
-      <br />
-4) <a href="http://www.lyx.org/">LyX</a>.<br />
-5) <a href="http://www.texmacs.org/">Texmacs.</a></td>
-    </tr>
-    <tr bgcolor="#fdfdfd">
-      <td><font face="sans-serif" size="2">Programy pre 3D modelovanie<br />
-      </td>
-      <td><font face="sans-serif" size="2">SolidWorks, CATIA, SolidEdge</td>
-      <td><font face="sans-serif" size="2">1) <a href="http://www.ptc.com">ProEngineer Linux.</a> [Prop]<br />
-2) CATIA. Bola vyvíjaná pod Unixom, a od verzie 4 (2000) bola portovaná
-pod Windows (nie veľmi úspešne)<br />
-3) SolidEdge (časť veľmi výkonného balíka Unigraphics).</td>
-    </tr>
-    <tr bgcolor="#eff3f7">
-      <td><font face="sans-serif" size="2">Strojníctvo</td>
-      <td><font face="sans-serif" size="2">ANSYS</td>
-      <td><font face="sans-serif" size="2">ANSYS</td>
-    </tr>
-    <tr bgcolor="#fdfdfd">
-      <td><font face="sans-serif" size="2">CAD/CAM/CAE</td>
-      <td><font face="sans-serif" size="2">AutoCAD, Microstation, ArchiCAD</td>
-      <td><font face="sans-serif" size="2">1) <a href="http://www.tech.oru.se/cad/varkon/">Varkon</a>.<br />
-2) <a href="http://www.linuxcad.com/">Linuxcad</a>. [Prop, ~100$]<br />
-3) <a href="http://www.varicad.com/">Varicad.</a> [Prop]<br />
-4) <a href="http://www.cycas.de">Cycas</a>. [Prop]<br />
-5) <a href="http://www.tomcad.org">Tomcad</a>.<br />
-6) <a href="http://thancad.sourceforge.net">Thancad</a>.<br />
-7) <a href="http://www.soffernet.com/jaime/fandango/">Fandango</a>
-(alpha-version).<br />
-8) <a href="http://lignumcad.sourceforge.net/doc/en/HTML/index.html">Lignumcad</a>.<br />
-9) <a href="http://www.giram.org">Giram</a>.<br />
-10) <a href="http://jcad.gnuchina.org">Jcad</a>.
-      <br />
-11) <a href="http://qs.co.nz/Tcl/QSCad/">QSCad</a>.<br />
-12) <a href="http://freeengineer.org">FreeEngineer</a>.<br />
-13) <a href="http://www.nocrew.org/software/ocadis/">Ocadis</a>.<br />
-14) <a href="http://www.pythoncad.org/">PythonCAD.</a>
-      <br />
-15) <a href="http://www.opencascade.org/">OpenCascade</a>.
-      </td>
-    </tr>
-    <tr bgcolor="#eff3f7">
-      <td><font face="sans-serif" size="2">CAD/CAM/CAE, zjednodušené<br />
-      </td>
-      <td><font face="sans-serif" size="2">AutoCAD Lite</td>
-      <td><font face="sans-serif" size="2"><a href="http://www.qcad.org/">Qcad</a>.</td>
-    </tr>
-    <tr bgcolor="#fdfdfd">
-      <td><font face="sans-serif" size="2">Desktop Publishing systémy</td>
-      <td><font face="sans-serif" size="2">Adobe PageMaker, QuarkXPress</td>
-      <td><font face="sans-serif" size="2">1) <a
- href="http://www.adobe.com/products/framemaker/fmlinux.html">Adobe
-Framemaker</a>. [Proprietárne, zrušené]<br />
-2) <a href="http://scribus.planetmirror.com/">Scribus</a></td>
-    </tr>
-    <tr bgcolor="#eff3f7">
-      <td><font face="sans-serif" size="2">Malé desktop publishing systémy</td>
-      <td><font face="sans-serif" size="2">MS Publisher</td>
-      <td><font face="sans-serif" size="2">1) <a href="http://scribus.planetmirror.com/">Scribus -
-Desktop Publishing pre Linux</a>.<br />
-2) <a href="http://www.koffice.org/">KWord.</a></td>
-    </tr>
-    <tr bgcolor="#fdfdfd">
-      <td><font face="sans-serif" size="2">Tvorba diagramov a grafov<br />
-      </td>
-      <td><font face="sans-serif" size="2">Microsoft Visio</td>
-      <td><font face="sans-serif" size="2">1) <a href="http://www.koffice.org/">Kivio (Koffice).</a><br />
-2) <a href="http://www.lysator.liu.se/%7Ealla/dia/">Dia.</a><br />
-3) KChart.<br />
-4) <a href="http://www.xfig.org">xfig.</a>
-      <br />
-5) Tgif + dotty.<br />
-6) Tulip.<br />
-7) <a href="http://www.gentleware.com/">Poseidon for UML</a>. [Prop
-&amp; free verzia]<br />
-8) <a href="http://sourceforge.net/projects/jgraph/">JGraph + JGraphPad</a>.
-(Java)</td>
-    </tr>
-    <tr bgcolor="#eff3f7">
-      <td><font face="sans-serif" size="2">Geographic image processing software</td>
-      <td><font face="sans-serif" size="2">Erdas Imagine, <a href="http://www.ermapper.com/">ER Mapper</a>,
-ENVI</td>
-      <td><font face="sans-serif" size="2">ENVI.</td>
-    </tr>
-    <tr bgcolor="#fdfdfd">
-      <td><font face="sans-serif" size="2">GIS (Geografický informačný systém)</td>
-      <td><font face="sans-serif" size="2">ArcView</td>
-      <td><font face="sans-serif" size="2">Všetky projekty: <a href="http://freegis.org/">FreeGIS
-Project</a>.<br />
-1) <a href="http://grass.baylor.edu/download.html">Grass</a>.<br />
-2) <a href="http://qgis.sourceforge.net/">Quantum GIS.</a>
-      <br />
-3) PostGIS.
-      <br />
-4) <a href="http://www.freegis.org/index.en.html">FreeGIS</a>.
-      <br />
-5) MapQuest.<br />
-6) MapBlast.</td>
-    </tr>
-    <tr bgcolor="#eff3f7">
-      <td><font face="sans-serif" size="2">Interaktívny prezerač geografických dát</td>
-      <td><font face="sans-serif" size="2">1) <a href="http://thuban.intevation.org/">Thuban</a>.</td>
-      <td><font face="sans-serif" size="2">1) <a href="http://thuban.intevation.org/">Thuban</a>.</td>
-    </tr>
-    <tr bgcolor="#fdfdfd">
-      <td><font face="sans-serif" size="2">Vectorizácia bitmapových obrázkov<br />
-      </td>
-      <td><font face="sans-serif" size="2">MapEdit, Easy Trace</td>
-      <td><font face="sans-serif" size="2">1) <a href="http://autotrace.sourceforge.net/">Autotrace.</a></td>
-    </tr>
-    <tr bgcolor="#eff3f7">
-      <td><font face="sans-serif" size="2">Softvérové CNC, nástroje na riadenie strojov<br />
-      </td>
-      <td><font face="sans-serif" size="2"><a href="http://www.mdsi2.com/products/opencnc.htm">OpenCNC</a>
-[Prop]</td>
-      <td><font face="sans-serif" size="2">
-      <p><a href="http://linuxcnc.org">EMC</a>.</p>
-      </td>
-    </tr>
-    <tr bgcolor="#fdfdfd">
-      <td><font face="sans-serif" size="2">Zdokonalený text processing systém v TeX štýle</td>
-      <td><font face="sans-serif" size="2">MikTex, emTeX (DOS)</td>
-      <td><font face="sans-serif" size="2">1) TeX.<br />
-2)
-TeTeX / <a href="http://www.latex-project.org/">LaTeX</a> <br />
-3) <a href="http://www.lyx.org/">LyX</a> (WYSIWYM).<br />
-4) <a href="http://perso.club-internet.fr/pascal.brachet/kile/">Kile</a>.
-      </td>
-    </tr>
-    <tr bgcolor="#eff3f7">
-      <td><font face="sans-serif" size="2">Konvenkčný, funkčný a user-friendly editor TeX / dvi súborov<br />
-      </td>
-      <td><font face="sans-serif" size="2">WinEdt</td>
-      <td><font face="sans-serif" size="2">1) <a
- href="http://perso.club-internet.fr/pascal.brachet/kile/">Kile (KDE
-Integrated LaTeX Environment)</a>.<br />
-2) Ktexmaker2.<br />
-3) <a href="http://conero.lrn.ru">Tk LaTeX Editor</a>.
-      </td>
-    </tr>
-    <tr bgcolor="#fdfdfd">
-      <td><font face="sans-serif" size="2">Jazyk a prostredie na štatistické výpočty<br />
-      </td>
-      <td><font face="sans-serif" size="2"><a href="http://www.insightful.com/">S-PLUS</a></td>
-      <td><font face="sans-serif" size="2"><a href="http://www.r-project.org/">R</a>.</td>
-    </tr>
-    <tr bgcolor="#eff3f7">
-      <td><font face="sans-serif" size="2">Štatistická analýza<br />
-      </td>
-      <td><font face="sans-serif" size="2">SPSS, Statistica, <a href="http://salstat.sunsite.dk">SalStat</a></td>
-      <td><font face="sans-serif" size="2">
-      <p>Many links - <a
- href="http://sal.kachinatech.com/A/3/index.shtml">here</a>.<br />
-1) <a href="ftp://alpha.gnu.org/gnu/pspp/">PSPP</a>.<br />
-2) <a href="http://openstat.homestead.com/OpenStatMain.html">OpenStat2</a>.<br />
-3)
-      <a href="http://www.geocities.com/SiliconValley/Network/6885/">"Probability
-and Statistics Utilities for Linux users"</a><br />
-4) <a href="http://salstat.sunsite.dk">SalStat</a>.
-      </p>
-      </td>
-    </tr>
-    <tr bgcolor="#fdfdfd">
-      <td><font face="sans-serif" size="2">Ekonometrický softvér </td>
-      <td><font face="sans-serif" size="2">Eviews, Gretl</td>
-      <td><font face="sans-serif" size="2">
-      <p>1) <a href="http://gretl.sourceforge.net/">Gretl</a>.</p>
-      </td>
-    </tr>
-    <tr bgcolor="#eff3f7">
-      <td><font face="sans-serif" size="2">Emulácia elektronických obvodov<br />
-      </td>
-      <td><font face="sans-serif" size="2">1) Electronic Workbench<br />
-2) Altera MaxPlus+</td>
-      <td><font face="sans-serif" size="2">1) <a href="http://geda.seul.org/">Geda</a>.<br />
-2) <a href="http://oregano.codefactory.se/">Oregano</a>.<br />
-3) <a href="http://bach.ece.jhu.edu/%7Etim/programs/xcircuit/">Xcircuit</a>.
-      <br />
-4) <a href="http://gael.sourceforge.net/">Gnome Assisted Electronics</a>.<br />
-5) <a href="http://www.gigascale.org/pubs/downloads/spice/index.htm">SPICE</a>.
-      <br />
-6) <a href="http://www.fe.uni-lj.si/%7Espice/welcome.html">SPICE OPUS</a>.
-      <br />
-7) <a href="http://ngspice.sourceforge.net/">NG-SPICE</a>.
-      </td>
-    </tr>
-    <tr bgcolor="#fdfdfd">
-      <td><font face="sans-serif" size="2">Program na kreslenie chemických štruktúr<br />
-      </td>
-      <td><font face="sans-serif" size="2"><a href="http://www.cambridgesoft.com">Chemdraw</a>, <a
- href="http://www.mdli.com/downloads/isis.draw/isisdrawreg.html">Isisdraw</a></td>
-      <td><font face="sans-serif" size="2"><a href="http://www.prism.gatech.edu/%7Egte067k/xdrawchem/">Xdrawchem</a>.</td>
-    </tr>
-    <tr bgcolor="#eff3f7">
-      <td><font face="sans-serif" size="2">Analýza trhu<br />
-      </td>
-      <td><font face="sans-serif" size="2"><a href="http://www.equis.com">MetaStock</a></td>
-      <td><font face="sans-serif" size="2">???</td>
-    </tr>
-    <tr bgcolor="#fdfdfd">
-      <td><font face="sans-serif" size="2">Návrh elektronických schém<br />
-      </td>
-      <td><font face="sans-serif" size="2">1) PCAD<br />
-2) OrCad<br />
-3) Visio</td>
-      <td><font face="sans-serif" size="2">1) <a href="http://www.cadsoft.de">Eagle</a>.<br />
-2) Geda.</td>
-    </tr>
-    <tr bgcolor="#eff3f7">
-      <td><font face="sans-serif" size="2">Emulácia osciloskopu<br />
-      </td>
-      <td><font face="sans-serif" size="2">Winoscillo</td>
-      <td><font face="sans-serif" size="2"><a href="http://xoscope.sourceforge.net/">Xoscope</a>.</td>
-    </tr>
-    <tr bgcolor="#fdfdfd">
-      <td><font face="sans-serif" size="2">Kontrola pamäte<br />
-      </td>
-      <td><font face="sans-serif" size="2">SiSoft SANDRA</td>
-      <td><font face="sans-serif" size="2"><a href="http://www.memtest86.com">Memtest86</a>.</td>
-    </tr>
-    <tr bgcolor="#eff3f7">
-      <td><font face="sans-serif" size="2">Program na sledovanie teploty, otáčok, atď.</td>
-      <td><font face="sans-serif" size="2">SiSoft SANDRA, SiSoft SAMANTHA</td>
-      <td><font face="sans-serif" size="2">1) <a href="http://ksensors.sourceforge.net/">Ksensors</a>.<br />
-2) <a href="http://secure.netroedge.com/%7Elm78/">Lm_sensors</a>.<br />
-3) <a href="http://www.linuxhardware.org/">xsensors</a>. <br />
-4) <a href="http://www.bensinclair.com/dockapp/">wmsensormon and other
-applets for AfterStep / WindowMaker / FluxBox</a>.</td>
-    </tr>
-    <tr bgcolor="#fdfdfd">
-      <td><font face="sans-serif" size="2">Riadenie v reálnom čase<br />
-      </td>
-      <td><font face="sans-serif" size="2"><a href="http://www.sybera.de/english/e_sybera.htm">SHA
-Sybera Hardware Access</a></td>
-      <td><font face="sans-serif" size="2"><a href="http://www.aero.polimi.it/%7Ertai/index.html">DIAPM
-RTAI - Realtime Application Interface.</a></td>
-    </tr>
-    <tr bgcolor="#eff3f7">
-      <td><font face="sans-serif" size="2">Simulátor sietí<br />
-      </td>
-      <td><font face="sans-serif" size="2">???<br />
-      </td>
-      <td><font face="sans-serif" size="2">1) <a href="http://www.isi.edu/nsnam/ns/index.html">NS</a>.</td>
-    </tr>
-    <tr bgcolor="#fdfdfd">
-      <td><font face="sans-serif" size="2">Silmulátor neurónových sietí<br />
-      </td>
-      <td><font face="sans-serif" size="2">???<br />
-      </td>
-      <td><font face="sans-serif" size="2">1) <a href="http://www.b3e.jussieu.fr/xnbc/">Xnbc.</a><br />
-2) <a href="http://www-ra.informatik.uni-tuebingen.de/SNNS/">Stuttgart
-Neural Network Simulator (SNNS</a>).
-      </td>
-    </tr>
-    <tr bgcolor="#eff3f7">
-      <td><font face="sans-serif" size="2">Zobrazovač elektrokardiogramov<br />
-      </td>
-      <td><font face="sans-serif" size="2">???<br />
-      </td>
-      <td><font face="sans-serif" size="2">1) <a href="http://www.cardiothink.com/downloads/ecg2png/">ecg2png.</a></td>
-    </tr>
-    <tr bgcolor="#fdfdfd">
-      <td><font face="sans-serif" size="2">Katalóg vzdelávacieho softéru</td>
-      <td><font face="sans-serif" size="2">
-      <p>-</p>
-      </td>
-      <td><font face="sans-serif" size="2">1) <a href="http://schoolforge.net/">SchoolForge</a>.<br />
-2) <a href="http://richtech.ca/seul/">Seul / EDU</a>.
-      </td>
-    </tr>
-    <tr bgcolor="#eff3f7">
-      <td><font face="sans-serif" size="2">Návrh a prezeranie DTD</td>
-      <td><font face="sans-serif" size="2">
-      <p>NearFar Designer [Prop]</p>
-      </td>
-      <td><font face="sans-serif" size="2">???</td>
-    </tr>
-    <tr bgcolor="#fdfdfd">
-      <td><font face="sans-serif" size="2">Finity Element Analysis</td>
-      <td><font face="sans-serif" size="2">
-      <p>&nbsp;</p>
-      </td>
-      <td><font face="sans-serif" size="2">1) <a href="http://felt.sourceforge.net">FELT (Finity
-Element Analysis)</a></td>
-    </tr>
-     <tr bgcolor="#eff3f7">
-      <td><font face="sans-serif" size="2">Astronómia</td>
-      <td><font face="sans-serif" size="2">
-      <p>???</p>
-      </td>
-      <td><font face="sans-serif" size="2">1) <a href="http://celestia.sourceforge.net/">Celestia</a> (3D planetárium)
-      <br />2) <a href="http://edu.kde.org/kstars/">KStars</a></td>
-    </tr>
-  </tbody>
+Windows.</p>
+
+<section>
+<h3>Vysvetlivky</h3>
+<dl>
+	<dt>[Prop]</dt><dd>Takto označené programy sú proprietárne</dd>
+	<dt>[NF]</dt><dd>Nie free softvér (alebo relatívne free s určitými obmedzeniami)</dd>
+	<dt>[***]</dt><dd>Skvelý program, ktorý vám vrelo odporúčame</dd>
+</dl>
+</section>
+
+<table class="module bigheader">
+	<tr>
+		<th>Opis&nbsp;programu</th>
+		<th>Windows</th>
+		<th>Linux</th>
+	</tr>
+
+	<tr>
+		<td>Užitočné odkazy:</td>
+		<td>-</td>
+		<td><a href="http://sal.kachinatech.com/">Vedecké aplikácie na Linuxe</a></td>
+	</tr>
+
+	<tr>
+		<td>Matematický systém v MathCad štýle</td>
+		<td>Mathcad</td>
+		<td>Gap</td>
+	</tr>
+
+	<tr>
+		<td>Matematický systém v Matlab štýle</td>
+		<td><a href="http://www.mathworks.com/products/matlab/requirements.shtml">Matlab</a></td>
+		<td>
+			1) <a href="http://www.mathworks.com/products/matlab/requirements.shtml">Matlab.</a> [<a href="ftp://ftp.uni-mainz.de/pub/software/Linux/ZDV/matlab/R13/">FTP</a>]<br />
+			2) <a href="http://www.octave.org/">Octave</a>. (+ Gnuplot)<br />
+			3) <a href="http://www-rocq.inria.fr/scilab/">Scilab.</a><br />
+			4) R.<br />
+			5) <a href="http://wuarchive.wustl.edu/languages/yorick/doc/">Yorick</a>.<br />
+			6) rlab.<br />
+			7) <a href="http://www.xs4all.nl/~apinkus/">Yacas</a>.<br />
+			8) <a href="http://euler.sf.net/">Euler.</a>
+		</td>
+	</tr>
+
+	<tr>
+		<td>Matematický systém v Mathematica štýle</td>
+		<td><a href="http://www.wolfram.com/products/mathematica/">Mathematica</a></td>
+		<td>
+			1) <a href="http://www.wolfram.com/products/mathematica/">Mathematica.</a> [Prop]<br />
+			2) Maxima.<br />
+			3) MuPad.<br />
+			4) NumExp.<br />
+			5) <a href="http://www.lightlink.com/computer/math/">Mathomatic</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Matematický systém v Maple štýle</td>
+		<td>Maple</td>
+		<td>
+			1) <a href="http://www.maplesoft.com/">Maple</a>. [Prop]<br />
+			2) <a href="http://maxima.sourceforge.net/">Maxima</a>.<br />
+			3) <a href="http://www.mupad.de/">MuPad</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Rovnicový / matematický editor</td>
+		<td>Mathtype,<br />MS Equation Editor,<br /><a href="http://www.openoffice.org">OpenOffice Math</a></td>
+		<td>
+			1) <a href="http://www.openoffice.org">OpenOffice Math.</a><br />
+			2) <a href="http://www.newmexico.mackichan.com/mathml/mathmled.htm">MathMLed</a>.<br />
+			3) <a href="http://www.koffice.org/">Kformula (Koffice)</a>.<br />
+			4) <a href="http://www.lyx.org/">LyX</a>.<br />
+			5) <a href="http://www.texmacs.org/">Texmacs.</a>
+		</td>
+	</tr>
+
+	<tr>
+		<td>Programy pre 3D modelovanie</td>
+		<td>SolidWorks,<br />CATIA,<br />SolidEdge</td>
+		<td>
+			1) <a href="http://www.ptc.com/">ProEngineer Linux.</a> [Prop]<br />
+			2) CATIA. Bola vyvíjaná pod Unixom, a od verzie 4 (2000) bola portovaná pod Windows (nie veľmi úspešne)
+			3) SolidEdge (časť veľmi výkonného balíka Unigraphics).
+		</td>
+	</tr>
+
+	<tr>
+		<td>Strojníctvo</td>
+		<td>ANSYS</td>
+		<td>ANSYS.</td>
+	</tr>
+
+	<tr>
+		<td>CAD/CAM/CAE</td>
+		<td>AutoCAD,<br />Microstation,<br />ArchiCAD</td>
+		<td>
+			1) <a href="http://www.tech.oru.se/cad/varkon/">Varkon</a>.<br />
+			2) <a href="http://www.linuxcad.com/">Linuxcad</a>. [Prop, ~100$]<br />
+			3) <a href="http://www.varicad.com/">Varicad.</a> [Prop]<br />
+			4) <a href="http://www.cycas.de">Cycas</a>. [Prop]<br />
+			5) <a href="http://www.tomcad.org">Tomcad</a>.<br />
+			6) <a href="http://thancad.sourceforge.net">Thancad</a>.<br />
+			7) <a href="http://www.soffernet.com/jaime/fandango/">Fandango</a> (alpha-verzia).<br />
+			8) <a href="http://lignumcad.sourceforge.net/doc/en/HTML/index.html">Lignumcad</a>.<br />
+			9) <a href="http://www.giram.org">Giram</a>.<br />
+			10) <a href="http://jcad.gnuchina.org">Jcad</a>.<br />
+			11) <a href="http://qs.co.nz/Tcl/QSCad/">QSCad</a>.<br />
+			12) <a href="http://freeengineer.org">FreeEngineer</a>.<br />
+			13) <a href="http://www.nocrew.org/software/ocadis/">Ocadis</a>.<br />
+			14) <a href="http://www.pythoncad.org/">PythonCAD.</a><br />
+			15) <a href="http://www.opencascade.org/">OpenCascade</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>CAD/CAM/CAE, zjednodušené</td>
+		<td>AutoCAD Lite</td>
+		<td><a href="http://www.qcad.org/">Qcad</a>.</td>
+	</tr>
+
+	<tr>
+		<td>Desktop Publishing systémy</td>
+		<td>Adobe PageMaker,<br />QuarkXPress</td>
+		<td><a href="http://www.adobe.com/products/framemaker/fmlinux.html">Adobe Framemaker</a>. [Proprietary, zrušené]</td>
+	</tr>
+
+	<tr>
+		<td>Malé desktop publishing systémy</td>
+		<td>MS Publisher</td>
+		<td>
+			1) <a href="http://web2.altmuehlnet.de/fschmid">Scribus - Desktop Publishing for Linux</a>.<br />
+			2) <a href="http://www.koffice.org/">KWord.</a>
+		</td>
+	</tr>
+
+	<tr>
+		<td>Tvorba diagramov a grafov</td>
+		<td>Microsoft Visio</td>
+		<td>
+			1) <a href="http://www.koffice.org/">Kivio (Koffice).</a><br />
+			2) <a href="http://www.lysator.liu.se/~alla/dia/">Dia.</a><br />
+			3) KChart.<br />
+			4) <a href="http://www.xfig.org">xfig.</a><br />
+			5) Tgif + dotty.<br />
+			6) Tulip.<br />
+			7) <a href="http://www.gentleware.com/">Poseidon for UML</a>. [Prop &amp; free versions]<br />
+			8) <a href="http://sourceforge.net/projects/jgraph/">JGraph + JGraphPad</a>. (Java)
+		</td>
+	</tr>
+
+	<tr>
+		<td>Geographic image processing software</td>
+		<td>Erdas Imagine,<br /><a href="http://www.ermapper.com/">ER Mapper</a>,<br />ENVI</td>
+		<td>ENVI.</td>
+	</tr>
+
+	<tr>
+		<td>GIS (Geografický informačný systém)</td>
+		<td>ArcView</td>
+		<td>
+			All projects: <a href="http://freegis.org/">FreeGIS Project</a>.<br />
+			1) <a href="http://grass.baylor.edu/download.html">Grass</a>.<br />
+			2) <a href="http://qgis.sourceforge.net/">Quantum GIS.</a><br />
+			3) PostGIS.<br />
+			4) <a href="http://www.freegis.org/index.en.html">FreeGIS</a>.<br />
+			5) MapQuest.<br />
+			6) MapBlast.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Interaktívny prezerač geografických dát</td>
+		<td>1) <a href="http://thuban.intevation.org/">Thuban</a>.</td>
+		<td>1) <a href="http://thuban.intevation.org/">Thuban</a>.</td>
+	</tr>
+
+	<tr>
+		<td>Vectorizácia bitmapových obrázkov</td>
+		<td>MapEdit,<br />Easy Trace</td>
+		<td>1) <a href="http://autotrace.sourceforge.net/">Autotrace.</a></td>
+	</tr>
+
+	<tr>
+		<td>Softvérové CNC, nástroje na riadenie strojov</td>
+		<td><a href="http://www.mdsi2.com/products/opencnc.htm">OpenCNC</a> [Prop]</td>
+		<td><a href="http://linuxcnc.org">EMC</a>.</td>
+	</tr>
+
+	<tr>
+		<td>Zdokonalený text processing systém v TeX štýle</td>
+		<td>MikTex,<br />emTeX (DOS)</td>
+		<td>
+			1) TeX.<br />
+			2) TeTeX / <a href="http://www.latex-project.org/">LaTeX</a> <br />
+			3) <a href="http://www.lyx.org/">LyX</a> (WYSIWYM).<br />
+			4) <a href="http://perso.club-internet.fr/pascal.brachet/kile/">Kile</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Konvenkčný, funkčný a user-friendly editor TeX / dvi súborov</td>
+		<td>WinEdt</td>
+		<td>
+			1) <a href="http://perso.club-internet.fr/pascal.brachet/kile/">Kile (KDE Integrated LaTeX Environment)</a>.<br />
+			2) Ktexmaker2.<br />
+			3) <a href="http//conero.lrn.ru">Tk LaTeX Editor</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Jazyk a prostredie na štatistické výpočty</td>
+		<td><a href="http://www.insightful.com/">S-PLUS</a></td>
+		<td><a href="http://www.r-project.org/">R</a>.</td>
+	</tr>
+
+	<tr>
+		<td>Štatistická analýza</td>
+		<td>SPSS,<br />Statistica,<br /><a href="http://salstat.sunsite.dk">SalStat</a></td>
+		<td>
+			Množstvo odkazov- <a href="http://sal.kachinatech.com/A/3/index.shtml">tu</a>.<br />
+			1) <a href="ftp://alpha.gnu.org/gnu/pspp/">PSPP</a>.<br />
+			2) <a href="http://openstat.homestead.com/OpenStatMain.html">OpenStat2</a>.<br />
+			3) <a href="http://www.geocities.com/SiliconValley/Network/6885/">"Probability and Statistics Utilities for Linux users"</a><br />
+			4) <a href="http://salstat.sunsite.dk">SalStat</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Ekonometrický softvér</td>
+		<td>Eviews,<br />Gretl</td>
+		<td>1) <a href="http://gretl.sourceforge.net/">Gretl</a>.</td>
+	</tr>
+
+	<tr>
+		<td>Emulácia elektronických obvodov</td>
+		<td>
+			1) Electronic Workbench<br />
+			2) Altera MaxPlus+
+		</td>
+		<td>
+			1) <a href="http://geda.seul.org/">Geda</a>.<br />
+			2) <a href="http://oregano.codefactory.se/">Oregano</a>.<br />
+			3) <a href="http://bach.ece.jhu.edu/%7Etim/programs/xcircuit/">Xcircuit</a>.<br />
+			4) <a href="http://gael.sourceforge.net/">Gnome Assisted Electronics</a>.<br />
+			5) <a href="http://www.gigascale.org/pubs/downloads/spice/index.htm">SPICE</a>.<br />
+			6) <a href="http://www.fe.uni-lj.si/%7Espice/welcome.html">SPICE OPUS</a>.<br />
+			7) <a href="http://ngspice.sourceforge.net/">NG-SPICE</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Program na kreslenie chemických štruktúr</td>
+		<td><a href="http://www.cambridgesoft.com">Chemdraw</a>,<br /><a href="http://www.mdli.com/downloads/isis.draw/isisdrawreg.html">Isisdraw</a></td>
+		<td><a href="http://www.prism.gatech.edu/%7Egte067k/xdrawchem/">Xdrawchem</a>.</td>
+	</tr>
+
+	<tr>
+		<td>Analýza trhu</td>
+		<td><a href="http://www.equis.com">MetaStock</a></td>
+		<td>???</td>
+	</tr>
+
+	<tr>
+		<td>Návrh elektronických schém</td>
+		<td>
+			1) PCAD<br />
+			2) OrCad<br />
+			3) Visio
+		</td>
+		<td>
+			1) <a href="http://www.cadsoft.de">Eagle</a>.<br />
+			2) Geda<br />
+			3) Kicad.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Emulácia osciloskopu</td>
+		<td>Winoscillo</td>
+		<td><a href="http://xoscope.sourceforge.net/">Xoscope</a>.</td>
+	</tr>
+
+	<tr>
+		<td>Program na sledovanie teploty a napätí na matičnej doske</td>
+		<td>MBMonitor,<br />PCAlert,<br />Speedfan</td>
+		<td>
+			1) KSensors.<br />
+			2) <a href="http://homepages.fh-giessen.de/%7Ehg7229/khealthcare/main.html">KHealthCare</a> (KDE).<br />
+			3) <a href="http://web.wt.net/%7Ebillw/gkrellm/gkrellm.html">Gkrellm</a> +  plugins + blackbox addons.
+		</td>
+	</tr>
+
+	<tr>
+		<td>S.M.A.R.T - monitorovanie atribútov pevného disku</td>
+		<td>Dodávané na CD s matičnou doskou,<br /><a href="http://www.ariolic.ru/activesmart/index.html">Active SMART</a></td>
+		<td>
+			1) smartctl.<br />
+			2) <a href="http://coredump.free.fr/linux/harddrive.html">Hddtemp-0.3.</a><br />
+			3) <a href="http://coredump.free.fr/linux/harddrive.html">IDEload-0.2.</a><br />
+			4) <a href="http://www.linux-ide.org/smart.html">Smartsuite-2.1.</a><br />
+			5) <a href="http://smartmontools.sourceforge.net/">Smartmontools.</a><br />
+			6) <a href="http://lightside.eresmas.com">Ide-smart.</a><br />
+			7) <a href="http://sourceforge.net/projects/smartsuite/">Smartsuite.</a>
+		</td>
+	</tr>
+
+	<tr>
+		<td>Kontrola pamäte</td>
+		<td>SiSoft SANDRA</td>
+		<td><a href="http://www.memtest86.com">Memtest86</a>.</td>
+	</tr>
+
+	<tr>
+		<td>Program na sledovanie teploty, otáčok, atď.</td>
+		<td>SiSoft SANDRA,<br />SiSoft SAMANTHA</td>
+		<td>
+			1) <a href="http://ksensors.sourceforge.net/">Ksensors</a>.<br />
+			2) <a href="http://secure.netroedge.com/%7Elm78/">Lm_sensors</a>.<br />
+			3) <a href="http://www.linuxhardware.org/">xsensors</a>. <br />
+			4) <a href="http://www.bensinclair.com/dockapp/">wmsensormon ostatné applety pre AfterStep / WindowMaker / FluxBox</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Testovanie HDD / behcmarking</td>
+		<td>SiSoft SANDRA,<br />SiSoft SAMANTHA,<br /><a href="http://www.iozone.org/">IOzone</a></td>
+		<td>
+			1) hdparm.<br />
+			2) <a href="http://www.coker.com.au/bonnie%2B%2B/">Bonnie++.</a><br />
+			3) <a href="http://www.iozone.org/">IOzone</a>.<br />
+			4) <a href="http://freshmeat.net/projects/dbench/?topic_id=836%2C138">Dbench</a>.<br />
+			5) <a href="http://www.textuality.com/bonnie/">Bonnie</a>.<br />
+			6) <a href="http://www.sdsc.edu/PMaC/Benchmark/iobench/">IO Bench</a>.<br />
+			7) <a href="http://nfs.sourceforge.net/">Nhfsstone</a>.<br />
+			8) <a href="http://www.spec.org/osg/sfs97r1/">SPEC SFS.</a> [Prop]
+		</td>
+	</tr>
+
+	<tr>
+		<td>Testovanie videa / benchmarking</td>
+		<td>Final Reality<br /></td>
+		<td>
+			1) X11perf.<br />
+			2) Viewperf.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Riadenie v reálnom čase</td>
+		<td><a href="http://www.sybera.de/english/e_sybera.htm">SHA  Sybera Hardware Access</a></td>
+		<td><a href="http://www.aero.polimi.it/%7Ertai/index.html">DIAPM RTAI - Realtime Application Interface.</a></td>
+	</tr>
+
+	<tr>
+		<td>Simulátor sietí</td>
+		<td>???<br /></td>
+		<td>1) <a href="http://www.isi.edu/nsnam/ns/index.html">NS</a>.</td>
+	</tr>
+
+	<tr>
+		<td>Silmulátor neurónových </td>
+		<td>???<br /></td>
+		<td>
+			1) <a href="http://www.b3e.jussieu.fr/xnbc/">Xnbc.</a><br />
+			2) <a href="http://www-ra.informatik.uni-tuebingen.de/SNNS/">Stuttgart Neural Network Simulator (SNNS</a>).
+		</td>
+	</tr>
+
+	<tr>
+		<td>Senzory pre LCD</td>
+		<td>???</td>
+		<td>1) <a href="http://sensors-lcd.ath.cx/">Sensors-lcd.</a></td>
+	</tr>
+
+	<tr>
+		<td>Zobrazovač elektrokardiogramov</td>
+		<td>???<br /></td>
+		<td>1) <a href="http://www.cardiothink.com/downloads/ecg2png/">ecg2png.</a></td>
+	</tr>
+
+	<tr>
+		<td>Softvérová technológia, ktorá premení počítač na plne funkčný PLC kontrolér</td>
+		<td><a href="http://www.softplc.com/splcdata.php">SoftPLC</a></td>
+		<td>1) <a href="http://mat.sourceforge.net/">MatPLC</a>.</td>
+	</tr>
+
+	<tr>
+		<td>Softvér pre prekladateľov</td>
+		<td>-</td>
+		<td><a href="http://www.marcprior.de/linux/linux.html">Linux for translators</a>.</td>
+	</tr>
+
+	<tr>
+		<td>Katelóg prekladov</td>
+		<td>
+			1) Trados Translators Workbench<br />
+			2) Deja Vu<br />
+			3) Star Transit<br />
+			4) SDLX<br />
+			5) <a href="http://www.marcprior.de/OmegaT/OmegaT.html">OmegaT</a>
+		</td>
+		<td>1) <a href="http://www.marcprior.de/OmegaT/OmegaT.html">OmegaT.</a></td>
+	</tr>
+
+	<tr>
+		<td>Katalóg vzdelávacieho softéru</td>
+		<td>-</td>
+		<td>
+			1) <a href="http://schoolforge.net/">SchoolForge</a>.<br />
+			2) <a href="http://richtech.ca/seul/">Seul / EDU</a>.
+		</td>
+	</tr>
+
+	<tr>
+		<td>Návrh a prezeranie DTD</td>
+		<td>NearFar Designer [Prop]</td>
+		<td>???</td>
+	</tr>
+
+	<tr>
+		<td>Finity Element Analysis</td>
+		<td>-</td>
+		<td>1) <a href="http://felt.sourceforge.net">FELT (Finity Element Analysis)</a></td>
+	</tr>
+
+	<tr>
+		<td>Astronómia</td>
+		<td>
+			1) <a href="http://www.openuniverse.org/">Openuniverse.</a><br />
+			2) <a href="http://ennui.shatters.net/celestia/">Celestia.</a><br />
+			3) <a href="http://www.spacesimulator.net/zetadeck/index.html">Zetadeck</a>.
+		</td>
+		<td>
+			1) <a href="http://www.openuniverse.org/">Openuniverse.</a><br />
+			2) <a href="http://ennui.shatters.net/celestia/">Celestia.</a><br />
+			3) Kstars.<br />
+			4) <a href="http://www.spacesimulator.net/zetadeck/index.html">Zetadeck</a>.
+		</td>
+	</tr>
+
 </table>
-<br />
-<font face="sans-serif" size="2">Túto tabuľku preložil Štefan Tomečko zo
-stránky <a href="http://linuxshop.ru/linuxbegin/win-lin-soft-en/">http://linuxshop.ru/linuxbegin/win-lin-soft-en/.
-</a></font>
+
+<p>Túto tabuľku preložil Ondrej Hučko, upravil Miroslav Bendík zo stránky <a href="http://www.linuxrsp.ru/win-lin-soft/table-eng.html">http://www.linuxrsp.ru/win-lin-soft/table-eng.html</a>.</p>
 
 {% endblock %}

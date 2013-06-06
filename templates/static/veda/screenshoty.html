@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load breadcrumbs_tags %}
+{% block title %}Screenshoty vedeckých programov{% endblock %}
+{% block breadcrumbs %}
+{% breadcrumb %}Screenshoty vedeckých programov{% endbreadcrumb %}
+{% breadcrumb url='page_veda' %}Veda a Linux{% endbreadcrumb %}{{ block.super }}
+{% endblock %}
+
+{% block content %}
+<h1>Screenshoty vedeckých programov</h1>
+
+<table>
+<tr>
+<td align='center' style="padding: 1em">
+<a href="/media/IMG/celestia.jpg"><img border="0" src="/media/IMG/thumbs/celestia.png" width="140" height="105" alt="thumbs/celestia.png"/></a>
+<div><font face="Verdana" size="2">Celestia</div>
+</td>
+<td align='center' style="padding: 1em">
+<a href="/media/IMG/celestia2.jpg"><img border="0" src="/media/IMG/thumbs/celestia2.png" width="140" height="112" alt="thumbs/celestia2.png"/></a>
+<div><font face="Verdana" size="2">Celestia</div>
+</td>
+<td align='center' style="padding: 1em">
+<a href="/media/IMG/kalzium.png"><img border="0" src="/media/IMG/thumbs/kalzium.png" width="140" height="105" alt="thumbs/kalzium.png"/></a>
+<div><font face="Verdana" size="2">Kalzium</div>
+</td>
+</tr>
+<tr>
+<td align='center'>
+<a href="/media/IMG/kile.png"><img border="0" src="/media/IMG/thumbs/kile.png" width="140" height="107" alt="thumbs/kile.png"/></a>
+<div><font face="Verdana" size="2">Kile</div>
+</td>
+<td align='center'>
+<a href="/media/IMG/kivio.png"><img border="0" src="/media/IMG/thumbs/kivio.png" width="140" height="107" alt="thumbs/kivio.png"/></a>
+<div><font face="Verdana" size="2">Kivio</div>
+</td>
+<td align='center'>
+<a href="/media/IMG/kmplot.png"><img border="0" src="/media/IMG/thumbs/kmplot.png" width="140" height="107" alt="thumbs/kmplot.png"/></a>
+<div><font face="Verdana" size="2">Kmplot</div>
+</td>
+</tr>
+<tr>
+<td align='center'>
+<a href="/media/IMG/kstars.png"><img border="0" src="/media/IMG/thumbs/kstars.png" width="140" height="98" alt="thumbs/kstars.png"/></a>
+<div><font face="Verdana" size="2">KStars</div>
+</td>
+<td align='center'>
+<a href="/media/IMG/oregano.png"><img border="0" src="/media/IMG/thumbs/oregano.png" width="140" height="115" alt="thumbs/oregano.png"/></a>
+<div><font face="Verdana" size="2">Oregano</div>
+</td>
+<td align='center'>
+<a href="/media/IMG/varicad.png"><img border="0" src="/media/IMG/thumbs/varicad.png" width="140" height="107" alt="thumbs/varicad.png"/></a>
+<div><font face="Verdana" size="2">VariCAD</div>
+</td>
+</tr>
+</table>
+
+{% endblock %}
+
