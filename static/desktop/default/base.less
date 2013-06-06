@@ -1510,3 +1510,20 @@ td.status, td.comments, td.date {
 	border-top: #c4d1e3 solid 1px;
 	text-align: center;
 }
+
+.gallery {
+	.image {
+		margin: @td-padding;
+		display: inline-block;
+		position: relative;
+		.title {
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+			background: rgba(0, 0, 0, 0.5);
+			padding: 5px 0;
+			text-align: center;
+			color: @generic-background;
+		}
+	}
+}
