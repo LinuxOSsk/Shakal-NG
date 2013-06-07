@@ -234,8 +234,8 @@ p { margin: 2em 0; }
 ul { padding-left: 2em; }
 img { border: none; }
 
-li    { list-style: square; }
-li li { list-style: circle; }
+ul > li { list-style: square; }
+li ul > li { list-style: circle; }
 
 a       { color: @link-color; text-decoration: underline; }
 a:hover { color: @link-color-hover; background-color: rgba(215, 228, 239, 0.5); border-radius: 3px; }
