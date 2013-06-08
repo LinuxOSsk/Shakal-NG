@@ -84,7 +84,7 @@ class AttachmentFormMixin:
 		if self.data and 'upload_session' in self.data:
 			try:
 				session = UploadSession.objects.get(uuid = self.data['upload_session'])
-				return TemporaryAttachment.objects.filter(session = session)
+				return TemporaryAttachment.objects.filter(session = session).order_by('pk')
 			except UploadSession.DoesNotExist:
 				return []
 		else:
