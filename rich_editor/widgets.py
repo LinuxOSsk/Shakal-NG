@@ -55,9 +55,9 @@ class RichEditor(Textarea):
 
 
 class RichOriginalEditor(RichEditor):
-	def __init__(self, *args, **kwargs):
+	def __init__(self, formats = (('html', 'HTML'), ), *args, **kwargs):
 		super(RichOriginalEditor, self).__init__(*args, **kwargs)
-		self.formats = (('html', 'HTML'), )
+		self.formats = formats
 
 	def render(self, name, value, attrs = None, **kwargs):
 		if value is None:
@@ -93,3 +93,9 @@ class RichOriginalEditor(RichEditor):
 			return ('html', text)
 		fmt = data.get(name + "_format")
 		return (fmt, text)
+
+
+class AdminRichOriginalEditor(RichOriginalEditor):
+	def __init__(self, *args, **kwargs):
+		super(AdminRichOriginalEditor, self).__init__(*args, **kwargs)
+		self.formats = self.formats + (('raw', 'RAW'), )

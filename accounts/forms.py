@@ -63,7 +63,7 @@ class ProfileEditForm(ModelForm):
 	last_name = CharField(max_length = 30, required = False, label = _('Last name'))
 	email = EmailField(required = False)
 	signature = RichTextField(parser = get_parser('signature'), required = False, max_length = 150, widget = TextInput)
-	original_info = RichOriginalField(label = _("Informations"), max_length = 10000, js = True, required = False)
+	original_info = RichOriginalField(parsers = get_user_model()._meta.get_field('original_info').parsers, label = _("Informations"), max_length = 10000, js = True, required = False)
 
 	class Meta:
 		model = get_user_model()

@@ -11,6 +11,5 @@ class NewsAdmin(admin.ModelAdmin):
 	ordering = ('-id', )
 	raw_id_fields = ('author', )
 	prepopulated_fields = {'slug': ('title', )}
-	exclude = ('filtered_short_text', 'filtered_long_text', )
 
 admin.site.register(News, NewsAdmin)

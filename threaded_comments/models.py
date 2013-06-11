@@ -88,8 +88,8 @@ class Comment(MPTTModel):
 	subject = models.CharField(max_length = 100)
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name = _('user'), blank = True, null = True, related_name = "%(class)s_comments")
 	user_name = models.CharField(_("user's name"), max_length = 50, blank = True)
-	original_comment = RichTextOriginalField()
-	filtered_comment = RichTextFilteredField(original_field = "original_comment", property_name = "comment")
+	original_comment = RichTextOriginalField(filtered_field = "filtered_comment", property_name = "comment")
+	filtered_comment = RichTextFilteredField()
 
 	submit_date = models.DateTimeField(_('date/time submitted'), default = None)
 	ip_address = models.IPAddressField(_('IP address'), blank = True, null = True)

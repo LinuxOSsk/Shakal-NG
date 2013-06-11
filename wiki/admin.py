@@ -8,8 +8,7 @@ from wiki.models import Page
 
 class PageAdmin(reversion.VersionAdmin, MPTTModelAdmin):
 	list_display = ('title', 'slug', )
-	search_fields = ('title', 'filtered_text', )
-	exclude = ('filtered_text', )
+	search_fields = ('title', 'original_text', )
 	ordering = ('-id', )
 	prepopulated_fields = {'slug': ('title', )}
 	raw_id_fields = ('parent', 'last_author',)

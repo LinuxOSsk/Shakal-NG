@@ -449,3 +449,14 @@ class HtmlParser:
 			self.__log_error("Tag not closed")
 			self.__unroll_stack()
 			self.__tag_obj = self.__get_current_tag()
+
+
+class RawParser:
+	def parse(self, text):
+		self.output = text
+
+	def get_output(self):
+		return self.output
+
+	def get_attributes(self):
+		return {}
