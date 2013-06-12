@@ -11,7 +11,7 @@ from notifications.models import Inbox
 @login_required
 def list(request):
 	context = {
-		'notifications': Inbox.objects.filter(event__level__gt = 0).user_messages(request.user)[:99]
+		'notifications': Inbox.objects.user_messages(request.user).filter(event__level__gt = 0)[:99]
 	}
 	return TemplateResponse(request, "notifications/list.html", context)
 

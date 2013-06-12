@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Permission
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
-from django.contrib import messages
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -17,10 +19,11 @@ class EventManager(models.Manager):
 		for user_id in user_ids:
 			yield Inbox(event_id = event_id, recipient_id = user_id)
 
-	def broadcast(self, message, object_id = None, content_type = None, action = None, level = messages.INFO, author = None):
+	def broadcast(self, message, content_object = None, action = None, level = messages.INFO, author = None, is_staff = None, is_superuser = None, permissions = None):
 		event = Event(author = author)
-		event.object_id = object_id
-		event.content_type = content_type
+		if content_object is not None:
+			event.object_id = content_object.pk
+			event.content_type = ContentType.objects.get_for_model(content_object)
 		if action:
 			event.action = action
 		if level:
@@ -31,7 +34,21 @@ class EventManager(models.Manager):
 		users = self.__get_active_users()
 		if author:
 			users = users.exclude(pk = author.pk)
+		if is_staff is not None:
+			users = users.filter(is_staff = is_staff)
+		if is_superuser is not None:
+			users = users.filter(is_superuser = is_superuser)
+		if permissions is not None:
+			ct = ContentType.objects.get_for_model(permissions[0])
+			perm = Permission.objects.get(content_type = ct, codename = permissions[1])
+			users = users.filter(Q(user_permissions = perm) | Q(groups__permissions = perm) | Q(is_superuser = True)).distinct()
 		Inbox.objects.bulk_create(self.__generate_inbox_objects(users, event.pk))
+
+	def deactivate(self, content_object, action_type = None):
+		events = Event.objects.filter(object_id = content_object.pk, content_type = ContentType.objects.get_for_model(content_object))
+		if action_type is not None:
+			events = events.filter(action = action_type)
+		events.update(level = 0)
 
 
 class Event(models.Model):
