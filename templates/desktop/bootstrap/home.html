@@ -39,11 +39,13 @@
 		{% include "forum/block_topics_table.html" with forum=forum_new %}
 		{% endwith %}
 	</div>
+	{% if forum_no_comments %}
 	<div class="module-row">
 		{% with caption="Nediskutované témy" %}
 		{% include "forum/block_topics_table.html" with forum=forum_no_comments %}
 		{% endwith %}
 	</div>
+	{% endif %}
 	<div class="module-row">
 		{% with caption="Najdiskutovanejšie témy" %}
 		{% include "forum/block_topics_table.html" with forum=forum_most_comments %}
