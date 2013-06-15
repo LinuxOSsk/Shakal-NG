@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
@@ -11,6 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 
 from attachment.models import Attachment
+from notifications.models import Event
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
@@ -222,6 +224,20 @@ def update_comments_header(sender, **kwargs):
 	header.save()
 
 post_save.connect(update_comments_header, sender = Comment)
+
+
+def send_notifications(sender, instance, created, **kwargs):
+	if not created:
+		return
+	watchers = get_user_model().objects.filter(userdiscussionattribute__discussion = instance.root_header(), userdiscussionattribute__watch = True).distinct()
+	title = u"Pridaný komentár v diskusii " + unicode(instance.content_object)
+	author = None
+	if instance.user:
+		author = instance.user
+	Event.objects.broadcast(title, instance.content_object, action = Event.CREATE_ACTION, author = author, users = watchers)
+
+
+post_save.connect(send_notifications, sender = Comment)
 
 
 class UserDiscussionAttribute(models.Model):
