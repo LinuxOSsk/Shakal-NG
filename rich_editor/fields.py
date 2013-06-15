@@ -81,7 +81,9 @@ class RichTextOriginalField(Field):
 
 
 class RichTextFilteredField(TextField):
-	pass
+	def __init__(self, *args, **kwargs):
+		kwargs['editable'] = False
+		super(RichTextFilteredField, self).__init__(*args, **kwargs)
 
 
 from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
