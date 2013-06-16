@@ -1,41 +1,31 @@
 # -*- coding: utf-8 -*-
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
-from django.template import RequestContext
-from django.template.response import TemplateResponse
 from django.utils import timezone
 
+from common_utils.generic import AddLoggedFormArgumentMixin, PreviewCreateView, DetailUserProtectedView, ListView
 from forms import TopicForm
 from models import Section, Topic
-from common_utils.generic import AddLoggedFormArgumentMixin, PreviewCreateView
 
 
-def overview(request, section = None, page = 1):
-	if section is not None:
-		section = get_object_or_404(Section, slug = section)
-		topics = Topic.topics.newest_topics(section = section.pk)
-	else:
-		topics = Topic.topics.newest_topics()
-
-	context = {
-		'forum': topics,
-		'forum_section': section,
-		'pagenum': page,
-		'sections': Section.objects.all()
-	}
-	return TemplateResponse(request, "forum/topic_list.html", RequestContext(request, context))
+class TopicListView(ListView):
+	queryset = Topic.topics.newest_topics()
+	category = Section
+	category_field = 'section'
 
 
-def topic_detail(request, pk):
-	delete_perm = request.user.has_perm('forum.delete_topic')
-	if delete_perm:
-		topic = get_object_or_404(Topic.objects.all(), pk = pk)
-	else:
-		topic = get_object_or_404(Topic.objects.topics(), pk = pk)
-	topic.resolved_perm = request.user.has_perm('forum.change_topic') or (topic.author and topic.author == request.user)
-	topic.delete_perm = delete_perm
+class TopicDetailView(DetailUserProtectedView):
+	superuser_perm = 'forum.delete_topic'
+	queryset = Topic.objects.all()
+	unprivileged_queryset = Topic.objects.topics()
 
-	if request.GET:
+	def get_object(self, queryset = None):
+		topic = super(TopicDetailView, self).get_object(queryset)
+		topic.resolved_perm = self.request.user.has_perm('forum.change_topic') or (topic.author and topic.author == self.request.user)
+		topic.delete_perm = self.request.user.has_perm('forum.delete_topic')
+		return topic
+
+	def get(self, request, *args, **kwargs):
+		topic = self.get_object()
 		if 'resolved' in request.GET and topic.resolved_perm:
 			topic.is_resolved = bool(request.GET['resolved'])
 			topic.save()
@@ -44,11 +34,7 @@ def topic_detail(request, pk):
 			topic.is_removed = bool(request.GET['removed'])
 			topic.save()
 			return HttpResponseRedirect(topic.get_absolute_url())
-
-	context = {
-		'topic': topic
-	}
-	return TemplateResponse(request, "forum/topic_detail.html", RequestContext(request, context))
+		return super(TopicDetailView, self).get(request, *args, **kwargs)
 
 
 class TopicCreateView(AddLoggedFormArgumentMixin, PreviewCreateView):

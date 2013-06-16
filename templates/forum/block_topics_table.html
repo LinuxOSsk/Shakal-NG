@@ -1,5 +1,5 @@
 {% load linuxos %}{% load threaded_comments_tags %}
-{% add_discussion_attributes forum %}
+{% add_discussion_attributes topic_list %}
 <table class="table table-striped table-condensed table-topics">
 	<caption>{{ caption }}</caption>
 	<tr>
@@ -8,7 +8,7 @@
 		<th>Reakcií</th>
 		<th>Posledná</th>
 	</tr>
-	{% for topic in forum %}
+	{% for topic in topic_list %}
 	<tr>
 		<td class="title"><a href="{% url 'forum:topic-detail' topic.id %}">{{ topic.title }}</a></td>
 		<td class="status">{% spaceless %}

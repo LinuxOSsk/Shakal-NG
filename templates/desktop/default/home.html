@@ -24,19 +24,19 @@
 	<h2>Diskusné fórum</h2>
 	<div class="module-row">
 		{% with caption="Najnovšie komentáre" %}
-		{% include "forum/block_topics_table.html" with forum=forum_new %}
+		{% include "forum/block_topics_table.html" with topic_list=forum_new %}
 		{% endwith %}
 	</div>
 	{% if forum_no_comments %}
 	<div class="module-row">
 		{% with caption="Nediskutované témy" %}
-		{% include "forum/block_topics_table.html" with forum=forum_no_comments %}
+		{% include "forum/block_topics_table.html" with topic_list=forum_no_comments %}
 		{% endwith %}
 	</div>
 	{% endif %}
 	<div class="module-row">
 		{% with caption="Najdiskutovanejšie témy" %}
-		{% include "forum/block_topics_table.html" with forum=forum_most_comments %}
+		{% include "forum/block_topics_table.html" with topic_list=forum_most_comments %}
 		{% endwith %}
 	</div>
 	<div class="module-links bottom">
