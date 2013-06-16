@@ -15,14 +15,14 @@
 
 {% block extraheaders %}
 	{{ block.super }}
-	{% ifequal pagenum '1' %}
+	{% ifequal page '1' %}
 		<meta name="description" lang="sk" content="{% if category %}{{ category.description }}{% else %}Portál LinuxOS.sk prináša pravidelne články zo sveta open source. Na tejto stránke môžte nájsť články zo všetkých kategórií.{% endif %}" />
 	{% endifequal %}
 {% endblock %}
 
 {% block content %}
-{% add_discussion_attributes articles %}
-{% add_hitcount articles %}
+{% add_discussion_attributes article_list %}
+{% add_hitcount article_list %}
 <h1>{% if category %}{{ category }}{% else %}Články{% endif %}</h1>
 {% if category %}
 <p class="description">{{ category.description }}</p>
@@ -35,14 +35,14 @@
 </ul>
 {% endif %}
 <div class="module">
-	{% autopaginate articles pagenum items_per_page=10 %}
-	{% for article in articles %}
+	{% autopaginate article_list page items_per_page=10 %}
+	{% for article in article_list %}
 		{% include 'article/block_list_item.html' with thumbnail=0 %}
 	{% endfor %}
 	{% if category %}
-		{% paginator article:list-category-page category=category.slug %}
+		{% paginator article:list-category category=category.slug %}
 	{% else %}
-		{% paginator article:article-list-page %}
+		{% paginator article:article-list %}
 	{% endif %}
 </div>
 {% endblock %}
