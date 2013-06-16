@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from django.shortcuts import get_object_or_404
 from django.db.models import Q
-from django.views.generic import CreateView, UpdateView, DetailView
-from hitcount.models import HitCountField
+from django.views.generic import CreateView, UpdateView, DetailView, ListView as OriginalListView
 
 
 class AddLoggedFormArgumentMixin(object):
@@ -50,3 +50,31 @@ class DetailUserProtectedView(DetailView):
 		if hasattr(obj, 'hit'):
 			obj.hit()
 		return obj
+
+
+class ListView(OriginalListView):
+	category = None
+	category_key = 'slug'
+
+	def get_queryset(self):
+		queryset = super(ListView, self).get_queryset()
+		if self.category is not None:
+			category_object = None
+			if 'category' in self.kwargs:
+				category_object = get_object_or_404(self.category, **{self.category_key: self.kwargs['category']})
+				queryset = queryset.filter(category = category_object)
+			self.kwargs['category_object'] = category_object
+		return queryset
+
+	def get_context_data(self, **kwargs):
+		queryset = kwargs.pop('object_list')
+		context_object_name = self.get_context_object_name(queryset)
+		context = {'object_list': queryset}
+		if context_object_name is not None:
+			context[context_object_name] = queryset
+		if 'category_object' in self.kwargs:
+			context['category'] = self.kwargs['category_object']
+		context.update(kwargs)
+		page = self.kwargs.get(self.page_kwarg) or self.request.GET.get(self.page_kwarg) or 1
+		context['page'] = page
+		return context
