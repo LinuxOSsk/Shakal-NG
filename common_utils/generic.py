@@ -6,8 +6,23 @@ from django.views.generic import CreateView, UpdateView, DetailView, ListView as
 
 
 class AddLoggedFormArgumentMixin(object):
+	author_field = 'author'
+	authors_name_field = 'authors_name'
+
 	def get_form(self, form_class):
 		return form_class(logged = self.request.user.is_authenticated(), request = self.request, **self.get_form_kwargs())
+
+	def form_valid(self, form):
+		obj = form.save(commit = False)
+		if hasattr(obj, self.authors_name_field):
+			if self.request.user.is_authenticated():
+				if self.request.user.get_full_name():
+					setattr(obj, self.authors_name_field, self.request.user.get_full_name())
+				else:
+					setattr(obj, self.authors_name_field, self.request.user.username)
+		if hasattr(obj, self.author_field):
+			setattr(obj, self.author_field, self.request.user)
+		return super(AddLoggedFormArgumentMixin, self).form_valid(form)
 
 
 class PreviewCreateView(CreateView):
