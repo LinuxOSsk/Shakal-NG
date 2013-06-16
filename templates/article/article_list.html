@@ -29,7 +29,7 @@
 {% else %}
 <p class="description">Portál LinuxOS.sk prináša pravidelne články zo sveta open source. Na tejto stránke môžte nájsť články zo všetkých kategórií.</p>
 <ul>
-	{% for category in article_categories %}
+	{% for category in category_list %}
 	<li><a href="{{ category.get_absolute_url }}">{{ category }}</a></li>
 	{% endfor %}
 </ul>
