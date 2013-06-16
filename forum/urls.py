@@ -14,9 +14,9 @@ class Patterns(object):
 	def urls(self):
 		urlpatterns = patterns('',
 			url(r'^prehlad/(?:(?P<page>\d+)/)?$', forum_views.TopicListView.as_view(), name = 'overview'),
+			url('^pridat/$', forum_views.TopicCreateView.as_view(), name = 'create'),
 			url('^(?P<pk>\d+)/$', forum_views.TopicDetailView.as_view(), name = 'topic-detail'),
 			url(r'^(?P<category>[-\w]+)/(?:(?P<page>\d+)/)?$', forum_views.TopicListView.as_view(), name = 'section'),
-			url('^pridat/$', forum_views.TopicCreateView.as_view(), name = 'create'),
 			url(r'^feeds/latest/$', forum_feeds.TopicFeed(), name = 'feed-latest'),
 		)
 		return (urlpatterns, self.app_name, self.name)
