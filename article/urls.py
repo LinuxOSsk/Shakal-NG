@@ -15,7 +15,7 @@ class Patterns(object):
 		urlpatterns = patterns('',
 			url(r'^$', views.article_list, name = 'article-list'),
 			url(r'^(?P<page>\d+)/$', views.article_list, name = 'article-list-page'),
-			url(r'^(?P<slug>[-\w]+)/$', views.article_detail_by_slug, name = "detail-by-slug"),
+			url(r'^(?P<slug>[-\w]+)/$', views.ArticleDetailView.as_view(), name = "detail-by-slug"),
 			url(r'^kategoria/(?P<category>[-\w]+)/$', views.article_list, name = 'list-category'),
 			url(r'^kategoria/(?P<category>[-\w]+)/(?P<page>\d+)/$', views.article_list, name = 'list-category-page'),
 			url(r'^feeds/latest/$', feeds.LatestArticleFeed(), name = 'feed-latest'),

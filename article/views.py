@@ -2,17 +2,15 @@
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.template.response import TemplateResponse
+from common_utils.generic import DetailUserProtectedView
 
 from models import Article, Category
 
 
-def article_detail_by_slug(request, slug):
-	article = get_object_or_404(Article, slug = slug)
-	article.hit()
-	context = {
-		'article': article,
-	}
-	return TemplateResponse(request, "article/article_detail.html", RequestContext(request, context))
+class ArticleDetailView(DetailUserProtectedView):
+	published_field = 'published'
+	author_field = 'author'
+	queryset = Article.all_articles.all()
 
 
 def article_list(request, category = None, page = 1):
