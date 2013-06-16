@@ -30,20 +30,29 @@ class DetailUserProtectedView(DetailView):
 	published_field = None
 	author_field = None
 	superuser_perm = None
+	unprivileged_queryset = None
+
+	def get_unprivileged_queryset(self):
+		if self.unprivileged_queryset:
+			return self.unprivileged_queryset
+		q = []
+		if self.published_field:
+			q.append(Q(**{self.published_field: True}))
+		if self.author_field and self.request.user.is_authenticated():
+			q.append(Q(**{self.author_field: self.request.user}))
+		qs = super(DetailView, self).get_queryset()
+		if q:
+			return qs.filter(reduce(lambda a, b: a | b, q))
+		else:
+			return qs
 
 	def get_queryset(self):
 		qs = super(DetailView, self).get_queryset()
-		q = []
-		if not self.request.user.is_superuser:
-			if not self.superuser_perm or not self.user.has_perm(self.superuser_perm):
-				if self.published_field:
-					q.append(Q(**{self.published_field: True}))
-				if self.author_field and self.request.user.is_authenticated():
-					q.append(Q(**{self.author_field: self.request.user}))
-		if q:
-			qs = qs.filter(reduce(lambda a, b: a | b, q))
-
-		return qs
+		if self.superuser_perm and self.request.user.has_perm(self.superuser_perm):
+			return qs
+		if self.request.user.is_superuser:
+			return qs
+		return self.get_unprivileged_queryset()
 
 	def get_object(self, queryset = None):
 		obj = super(DetailUserProtectedView, self).get_object(queryset)
