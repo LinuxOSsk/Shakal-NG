@@ -43,15 +43,6 @@ class TopicCreateView(AddLoggedFormArgumentMixin, PreviewCreateView):
 	form_class = TopicForm
 
 	def form_valid(self, form):
-		topic = form.save(commit = False)
-		topic.created = timezone.now()
-		if self.request.user.is_authenticated():
-			if self.request.user.get_full_name():
-				topic.authors_name = self.request.user.get_full_name()
-			else:
-				topic.authors_name = self.request.user.username
-			topic.author = self.request.user
-		topic.updated = topic.created
 		ret = super(TopicCreateView, self).form_valid(form)
 		if self.object:
 			form.move_attachments(self.object)
