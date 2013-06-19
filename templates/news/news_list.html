@@ -14,13 +14,13 @@
 {% block content %}
 <h1>Správy</h1>
 <div class="module">
-	{% autopaginate news pagenum items_per_page=20 %}
-	{% add_discussion_attributes news %}
+	{% autopaginate news_list page items_per_page=20 %}
+	{% add_discussion_attributes news_list %}
 	{% with long=1 %}
-		{% for item in news %}
+		{% for item in news_list %}
 			<div class="module-row">{% include "news/block_news_item.html" %}</div>
 		{% endfor %}
 	{% endwith %}
-	{% paginator news:list-page %}
+	{% paginator news:list %}
 </div>
 {% endblock %}

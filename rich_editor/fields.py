@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from django.db.models import signals, TextField, SubfieldBase, Field, FieldDoesNotExist
+from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
+from django.db.models import signals, TextField, SubfieldBase, Field
 
 from .forms import RichOriginalField, AdminRichOriginalField
 from .parser import HtmlParser
@@ -44,7 +45,8 @@ class RichTextOriginalField(Field):
 		super(RichTextOriginalField, self).contribute_to_class(cls, name)
 
 	def update_filtered_field(self, instance, **kwargs):
-		setattr(instance, self.filtered_field, self.filter_data(getattr(instance, self.name)))
+		if getattr(instance, "old_values", {})[self.name] != getattr(instance, self.name):
+			setattr(instance, self.filtered_field, self.filter_data(getattr(instance, self.name)))
 
 	def save_old_value(self, instance, **kwargs):
 		old_values = getattr(instance, "old_values", {})
@@ -86,5 +88,4 @@ class RichTextFilteredField(TextField):
 		super(RichTextFilteredField, self).__init__(*args, **kwargs)
 
 
-from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
 FORMFIELD_FOR_DBFIELD_DEFAULTS[RichTextOriginalField] = {'form_class': AdminRichOriginalField}
