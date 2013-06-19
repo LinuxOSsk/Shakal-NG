@@ -20,7 +20,7 @@ class AddLoggedFormArgumentMixin(object):
 					setattr(obj, self.authors_name_field, self.request.user.get_full_name())
 				else:
 					setattr(obj, self.authors_name_field, self.request.user.username)
-		if hasattr(obj, self.author_field):
+		if hasattr(obj, self.author_field) and self.request.user.is_authenticated():
 			setattr(obj, self.author_field, self.request.user)
 		return super(AddLoggedFormArgumentMixin, self).form_valid(form)
 
