@@ -14,6 +14,7 @@ class AttachmentInline(GenericStackedInline):
 	ct_fk_field = 'object_id'
 	exclude = ('size', )
 	can_delete = True
+	template = "admin/edit_inline/stacked_collapse.html"
 
 
 class AttachmentAdmin(admin.ModelAdmin):

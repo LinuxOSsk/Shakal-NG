@@ -44,3 +44,7 @@ body.login .form-row label {
 body.login .form-row #id_username, body.login .form-row #id_password {
 	width: 12em;
 }
+
+.collapsed .inline-related, .collapsed .add-row {
+	display: none;
+}

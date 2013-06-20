@@ -1,0 +1,48 @@
+{% include "admin/edit_inline/stacked.html" %}
+<script type="text/javascript" charset="utf-8">
+(function($) {
+	$(document).ready(function() {
+		/*
+		$('#{{ inline_admin_formset.formset.prefix }}-group div.inline-related:not(.tabular)').each(function() {
+			var fs = $(this).find('fieldset');
+			var h3 = $(this).find('h3:first');
+
+			if (fs.find('div').hasClass('errors')) {
+				fs.addClass('stacked_collapse');
+			}
+			else {
+				fs.addClass('stacked_collapse collapsed');
+			}
+
+			h3.prepend('<a class="stacked_collapse-toggle" href="#">(' + gettext('Show') + ')</a> ');
+			h3.find('a.stacked_collapse-toggle').bind("click", function(){
+				fs = $(this).parent('h3').next('fieldset');
+				if (!fs.hasClass('collapsed')) {
+					fs.addClass('collapsed');
+					$(this).html('(' + gettext('Show') + ')');
+				}
+				else {
+					fs.removeClass('collapsed');
+					$(this).html('(' + gettext('Hide') + ')');
+				}
+			}).removeAttr('href').css('cursor', 'pointer');
+		});*/
+
+		var hdr = $('#{{ inline_admin_formset.formset.prefix }}-group h2');
+		hdr.parent().addClass("collapsed");
+		hdr.append(" (<a class=\"collapse-toggle\" id=\"{{ inline_admin_formset.formset.prefix }}-collapser\" href=\"#\"> " + gettext('Show') + " </a>)");
+		$("#{{ inline_admin_formset.formset.prefix }}-collapser").click(function() {
+			hdr.parent().toggleClass('collapsed');
+			if (hdr.parent().hasClass('collapsed')) {
+				$('#{{ inline_admin_formset.formset.prefix }}-collapser').text(' ' + gettext('Show') + ' ');
+			}
+			else {
+				$('#{{ inline_admin_formset.formset.prefix }}-collapser').text(' ' + gettext('Hide') + ' ');
+			}
+			return false;
+		});
+
+
+	});
+})(django.jQuery);
+</script>
