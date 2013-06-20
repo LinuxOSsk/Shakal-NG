@@ -926,6 +926,16 @@ ul#main_menu {
 		&:hover #userlinks {
 			display: block;
 		}
+		.username a {
+			max-width: 200px;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+		@media only screen and (max-width: 1024px) {
+			.username a {
+				max-width: 100px;
+			}
+		}
 	}
 	#rss_panel {
 		float: right;
