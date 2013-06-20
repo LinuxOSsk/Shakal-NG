@@ -45,7 +45,7 @@ class RichTextOriginalField(Field):
 		super(RichTextOriginalField, self).contribute_to_class(cls, name)
 
 	def update_filtered_field(self, instance, **kwargs):
-		if not hasattr(instance, "old_values") or instance.old_values[self.name] != getattr(instance, self.name):
+		if not hasattr(instance, "old_values") or not self.name in instance.old_values or instance.old_values[self.name] != getattr(instance, self.name) or not instance.pk:
 			setattr(instance, self.filtered_field, self.filter_data(getattr(instance, self.name)))
 
 	def save_old_value(self, instance, **kwargs):
