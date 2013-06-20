@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 
+from attachment.admin import AttachmentInline
 from article.models import Category, Article
 
 
@@ -17,6 +18,7 @@ class ArticleAdmin(admin.ModelAdmin):
 	raw_id_fields = ('author', )
 	list_filter = ('published', 'top', 'category', )
 	ordering = ('-id', )
+	inlines = [AttachmentInline]
 
 	def queryset(self, request):
 		qs = super(ArticleAdmin, self).queryset(request)

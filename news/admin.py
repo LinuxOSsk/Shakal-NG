@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 
+from attachment.admin import AttachmentInline
 from news.models import News
 
 
@@ -11,5 +12,6 @@ class NewsAdmin(admin.ModelAdmin):
 	ordering = ('-id', )
 	raw_id_fields = ('author', )
 	prepopulated_fields = {'slug': ('title', )}
+	inlines = [AttachmentInline]
 
 admin.site.register(News, NewsAdmin)
