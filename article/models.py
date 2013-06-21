@@ -9,6 +9,7 @@ from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
 from autoimagefield.fields import AutoImageField
+from attachment.models import Attachment
 from hitcount.models import HitCountField
 from polls.models import Poll
 from threaded_comments.models import RootHeader, Comment
@@ -59,6 +60,7 @@ class Article(models.Model):
 	polls = generic.GenericRelation(Poll)
 	comments_header = generic.GenericRelation(RootHeader)
 	comments = generic.GenericRelation(Comment)
+	attachments = generic.GenericRelation(Attachment)
 	hit = HitCountField()
 
 	def save(self, *args, **kwargs):

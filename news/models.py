@@ -8,6 +8,7 @@ from django.utils import timezone
 from autoslugfield.fields import AutoSlugField
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
+from attachment.models import Attachment
 from threaded_comments.models import RootHeader
 
 
@@ -37,6 +38,7 @@ class News(models.Model):
 	authors_name = models.CharField(max_length = 255, verbose_name = _('authors name'))
 	approved = models.BooleanField(default = False, verbose_name = _('approved'))
 	comments_header = generic.GenericRelation(RootHeader)
+	attachments = generic.GenericRelation(Attachment)
 
 	class Meta:
 		verbose_name = _('news item')
