@@ -6,7 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Count, Max
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
@@ -224,6 +224,7 @@ def update_comments_header(sender, **kwargs):
 	header.save()
 
 post_save.connect(update_comments_header, sender = Comment)
+post_delete.connect(update_comments_header, sender = Comment)
 
 
 def send_notifications(sender, instance, created, **kwargs):
