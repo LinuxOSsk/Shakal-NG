@@ -31,7 +31,7 @@ class AutoSlugField(SlugField):
 			queryset = queryset.exclude(pk = instance.pk)
 		slug_field_query = self.name + '__startswith'
 
-		filter_fields = dict([(f, getattr(instance, f))] for f in self.filter_fields)
+		filter_fields = dict([(f, getattr(instance, f)) for f in self.filter_fields])
 		filter_fields[slug_field_query] = slug
 
 		all_slugs = set(queryset.filter(**filter_fields).values_list(self.name, flat = True))
