@@ -7,6 +7,7 @@ from views import home
 from accounts import urls as accounts_urls
 from admin_dashboard import urls as admin_dashboard_urls
 from article import urls as article_urls
+from blog import urls as blog_urls
 from threaded_comments import urls as comments_urls
 from forum import urls as forum_urls
 from news import urls as news_urls
@@ -25,6 +26,7 @@ urlpatterns = patterns('',
 	url(_(r'^admin_dashboard/'), include(admin_dashboard_urls.urlpatterns)),
 	url(_(r'^accounts/'), include(accounts_urls.urlpatterns)),
 	url(_(r'^article/'), include(article_urls.urlpatterns)),
+	url(_(r'^blog/'), include(blog_urls.urlpatterns)),
 	url(_(r'^comments/'), include(comments_urls.urlpatterns)),
 	url(_(r'^forum/'), include(forum_urls.urlpatterns)),
 	url(_(r'^maintenance/'), include(maintenance_urls.urlpatterns)),

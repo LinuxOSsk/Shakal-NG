@@ -133,6 +133,7 @@ INSTALLED_APPS = (
 	'article',
 	'attachment',
 	'auth_remember',
+	'blog',
 	'bootstrap_toolkit',
 	'breadcrumbs',
 	'hitcount',
@@ -197,6 +198,7 @@ ATTACHMENT_MAX_SIZE = 1024 * 1024 * 50
 ATTACHMENT_SIZE_FOR_CONTENT = {
 	'django_comments': 1024 * 1024 * 2,
 	'forum_topic': 1024 * 1024 * 2,
+	'blog_post': 1024 * 1024 * 8,
 }
 
 HAYSTACK_CONNECTIONS = {
