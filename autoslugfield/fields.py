@@ -4,10 +4,11 @@ from django.template.defaultfilters import slugify
 
 
 class AutoSlugField(SlugField):
-	def __init__(self, reserve_chars = 5, title_field = None, *args, **kwargs):
+	def __init__(self, reserve_chars = 5, title_field = None, filter_fields = (), *args, **kwargs):
 		super(AutoSlugField, self).__init__(*args, **kwargs)
 		self.reserve_chars = reserve_chars
 		self.title_field = title_field
+		self.filter_fields = filter_fields
 
 	def contribute_to_class(self, cls, name):
 		signals.pre_save.connect(self.unique_slugify, sender = cls)
@@ -28,9 +29,12 @@ class AutoSlugField(SlugField):
 		queryset = instance.__class__._default_manager.all()
 		if instance.pk:
 			queryset = queryset.exclude(pk = instance.pk)
-
 		slug_field_query = self.name + '__startswith'
-		all_slugs = set(queryset.filter(**{slug_field_query: slug}).values_list(self.name, flat = True))
+
+		filter_fields = dict([(f, getattr(instance, f))] for f in self.filter_fields)
+		filter_fields[slug_field_query] = slug
+
+		all_slugs = set(queryset.filter(**filter_fields).values_list(self.name, flat = True))
 		max_val = 10 ** (self.reserve_chars - 1) - 1
 		setattr(instance, self.name, self.create_unique_slug(slug, all_slugs, max_val))
 
