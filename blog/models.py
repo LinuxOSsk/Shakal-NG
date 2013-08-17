@@ -17,6 +17,9 @@ class Blog(models.Model):
 	title = models.CharField(max_length = 255, verbose_name = _('title'))
 	slug = AutoSlugField(title_field = "title", unique = True)
 
+	def __unicode__(self):
+		return self.title
+
 
 class Post(models.Model):
 	blog = models.ForeignKey(Blog)
@@ -43,6 +46,9 @@ class Post(models.Model):
 	def author(self):
 		return self.blog.author
 	author.admin_order_field = 'blog__author'
+
+	def __unicode__(self):
+		return self.title
 
 	class Meta:
 		unique_together = (('blog', 'slug'),)
