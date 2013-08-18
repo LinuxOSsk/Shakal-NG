@@ -9,7 +9,9 @@ def get_parser(editor_type):
 		supported_tags['a'] = deepcopy(supported_tags['a'])
 		supported_tags['a'].req_attributes['rel'] = 'nofollow'
 		supported_tags['a'].attribute_validators = {'rel': [NofollowValidator()]}
-		return HtmlParser(supported_tags = supported_tags)
+		parser = HtmlParser(supported_tags = supported_tags)
+		parser.auto_paragraphs = False
+		return parser
 	elif editor_type == 'profile':
 		supported_tags = copy(DEFAULT_TAGS)
 		supported_tags['img'] = HtmlTag('img', opt = ['title'], req_attributes = {'src': '', 'alt': ''}, empty = True, attribute_validators = {'src': [HrefValidator()]})

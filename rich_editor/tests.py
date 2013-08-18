@@ -7,11 +7,17 @@ from rich_editor import get_parser
 class ParserTest(TestCase):
 	def setUp(self):
 		self.parser = HtmlParser()
+		self.parser.auto_paragraphs = True
+
+	def test_auto_paragraph(self):
+		code = """Test"""
+		self.parser.parse(code)
+		self.assertEquals(self.parser.get_output(), "<p>" + code + "</p>")
 
 	def test_valid_html(self):
-		code = "<strong>Test</strong>\n<pre>\nTadaaa\n</pre>\n<p>Text</p>"
+		code = "<p><strong>Test</strong></p>\n<pre>\nTadaaa\n\n</pre><p>Text</p>"
 		self.parser.parse(code)
-		self.assertEquals(self.parser.get_output(), code)
+		self.assertEquals(self.parser.get_output(), "<p><strong>Test</strong></p>\n<pre>\nTadaaa\n\n</pre><p>Text</p>")
 
 	def test_opened_tag(self):
 		code = """<p>Test"""
@@ -38,11 +44,6 @@ class ParserTest(TestCase):
 		self.parser.parse(code)
 		self.assertEquals(self.parser.get_output(), """<p><a href="#">Test</a></p>""")
 
-	def test_empty_tag(self):
-		code = """<p></p>"""
-		self.parser.parse(code)
-		self.assertEquals(self.parser.get_output(), """<p>&nbsp;</p>""")
-
 	def test_malicious_href(self):
 		code = """<p><a href="javascript:alert('XSS')">Test</a></p>"""
 		self.parser.parse(code)
@@ -61,7 +62,17 @@ class ParserTest(TestCase):
 		self.assertEquals(parser.get_output(), """<a href="http://www.linuxos.sk" rel="nofollow">Test</a>""")
 
 	def test_profile_parser(self):
-		code = """<img src="http://www.linuxos.sk/img.png" alt="" />"""
+		code = """<p><img src="http://www.linuxos.sk/img.png" alt="" /></p>"""
 		parser = get_parser('profile')
 		parser.parse(code)
 		self.assertEquals(parser.get_output(), code)
+
+	def test_auto_paragraphs(self):
+		code = "Paragraph1\n\nParagraph2"
+		self.parser.parse(code)
+		self.assertEquals(self.parser.get_output(), "<p>Paragraph1</p>\n\n<p>Paragraph2</p>")
+
+	def test_auto_paragraphs_between(self):
+		code = "<blockquote>BQ</blockquote>Paragraph"
+		self.parser.parse(code)
+		self.assertEquals(self.parser.get_output(), "<blockquote>BQ</blockquote><p>Paragraph</p>")

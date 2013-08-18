@@ -20,8 +20,8 @@ class HrefValidator(URLValidator):
 					return
 			elif value[0] == '/':
 				value = build_absolute_uri(value)
-				return super(URLValidator, self).__call__(value)
-		return super(URLValidator, self).__call__(value)
+				return super(HrefValidator, self).__call__(value)
+		return super(HrefValidator, self).__call__(value)
 
 
 class NofollowValidator(object):
@@ -44,14 +44,16 @@ class ParserError(object):
 
 
 class HtmlTag:
-	def __init__(self, name, req = [], opt = [], req_attributes = {}, opt_attributes = [], attribute_validators = {}, empty = None):
+	def __init__(self, name, req = None, opt = None, req_attributes = None, opt_attributes = None, attribute_validators = None, empty = None, trim_empty = False): #pylint: disable=R0913
 		self.name = name
-		self.req = set(req)
-		self.opt = set(opt)
-		self.req_attributes = dict(req_attributes)
-		self.opt_attributes = set(opt_attributes)
-		self.attribute_validators = attribute_validators
+		self.req = set(req or [])
+		self.opt = set(opt or [])
+		self.req_attributes = dict(req_attributes or {})
+		self.opt_attributes = set(opt_attributes or [])
+		self.attribute_validators = attribute_validators or {}
 		self.empty = empty
+		self.trim_empty = trim_empty
+		self.pos = None
 
 	def get_child_tags(self):
 		return self.req.union(self.opt)
@@ -92,7 +94,7 @@ ONELINE_TAGS = dict((t.name, t) for t in [
 ])
 
 
-class HtmlParser:
+class HtmlParser: #pylint: disable=R0902
 	# Typy tokenov
 	TAG = 1
 	ENDTAG = 2
@@ -109,6 +111,7 @@ class HtmlParser:
 		|([^&<>'"=\s]+)  # 5. Text
 		|(.)             # 6. Ostatne
 	""", re.VERBOSE)
+	whitespace_rx = re.compile(r"^\s*$")
 
 	# Validatory tagov
 	supported_tags = DEFAULT_TAGS
@@ -119,40 +122,43 @@ class HtmlParser:
 	ATTRIBUTE_START_TEXT_READ = 4
 	ATTRIBUTE_TEXT_READ = 5
 
+	auto_paragraphs = True
+
 	def __init__(self, supported_tags = None):
 		self.output = StringIO.StringIO()
 		self.errors = []
 		if supported_tags is not None:
 			self.supported_tags = supported_tags
 
-	""" Získanie vlastností parseru pre potreby widgetu """
 	def get_attributes(self):
+		""" Získanie vlastností parseru pre potreby widgetu """
 		return {
 			'supported_tags': self.supported_tags
 		}
 
-	""" Získanie prečisteného HTML kódu. """
 	def get_output(self):
+		""" Získanie prečisteného HTML kódu. """
 		return self.output.getvalue()
 
-	""" Ziskanie nasledujúceho tokenu, alebo None. """
 	def __get_token(self):
+		""" Ziskanie nasledujúceho tokenu, alebo None. """
 		match = self.__tokens.match()
 		if not match:
 			return None
 		return match
 
-	""" Získanie aktuálneho tagu (posledný tag vo vnorení, alebo rootovský tag). """
 	def __get_current_tag(self):
+		""" Získanie aktuálneho tagu (posledný tag vo vnorení, alebo rootovský tag). """
 		if len(self.__tags) == 0:
 			return self.supported_tags['']
 		else:
 			return self.__tags[-1]
 
 	def __unroll_stack(self):
+		if len(self.__tags) < 2:
+			return
 		if self.__tag_obj.empty is False:
 			self.__log_error("Empty tag")
-			self.output.write("&nbsp;")
 		if self.__tag_obj.req:
 			self.__log_error("Required tag")
 			for reqtag in self.__tag_obj.req:
@@ -193,186 +199,229 @@ class HtmlParser:
 				self.__tag_str.write(' ')
 			self.__tag_str.write(name + '="' + value + '"')
 
-	""" Zaznamenanie chyby """
 	def __log_error(self, error):
+		""" Zaznamenanie chyby """
 		parser_error = ParserError()
-		parser_error.error = error
+		parser_error.message = error
 		self.errors.append(parser_error)
+
+	def __tag_start_tag(self, token):
+		self.output.write(escape(self.__tag_str.getvalue()))
+		self.__tag_str.truncate(0)
+		if token[0] == '/':
+			self.__endtag = True
+			token = token[1:]
+			self.__tagname = token
+			self.__tag_str.write('</')
+			self.__tag_str.write(token)
+		else:
+			self.__endtag = False
+			self.__tagname = token
+			self.__tag_str.write('<')
+			self.__tag_str.write(token)
+
+	def __tag_end_tag(self, token): #pylint: disable=W0613
+		try:
+			to = self.supported_tags[self.__tagname]
+			if to.empty is False:
+				self.__log_error("Empty tag")
+				raise KeyError(self.__tagname)
+			self.__tags.append(to)
+			self.__write_attributes()
+			self.__tags.pop()
+			self.__tag_str.write(' />')
+			self.output.write(self.__tag_str.getvalue())
+		except KeyError:
+			self.output.write(escape(self.__tag_str.getvalue() + '/>'))
+		self.__tag_str.truncate(0)
+		self.__state = self.TEXT_READ
+		self.__tagname = ''
+
+	def __tag_entity(self, token):
+		self.__tag_str.write('&')
+		self.__tag_str.write(token)
+		self.__tag_str.write(';')
+		raise TagReadException()
+
+	def __tag_whitespace(self, token):
+		pass
+
+	def __tag_text(self, token):
+		attrname = token
+		separator = ''
+		attrquot = ''
+		attrvalue = ''
+		attrquotend = ''
+		try:
+			self.__state = self.ATTRIBUTE_SEP_READ
+			while 1:
+				match = self.__get_token()
+				if not match:
+					break
+				token_type, token = match.lastindex, match.group(match.lastindex)
+
+				if token_type == self.ENDTAG:
+					raise AttributeException()
+				elif token_type == self.ENTITY:
+					if self.__state == self.ATTRIBUTE_TEXT_READ:
+						attrvalue += token
+					else:
+						raise AttributeException()
+				elif token_type == self.WHITESPACE:
+					if self.__state == self.ATTRIBUTE_SEP_READ or self.ATTRIBUTE_START_TEXT_READ:
+						separator += token
+					elif self.__state == self.ATTRIBUTE_TEXT_READ:
+						attrvalue += token
+				elif token_type == self.TEXT:
+					if self.__state == self.ATTRIBUTE_TEXT_READ:
+						attrvalue += token
+					elif self.__state == self.ATTRIBUTE_SEP_READ:
+						raise AttributeException()
+				elif token_type == self.SPECIAL:
+					if self.__state == self.ATTRIBUTE_SEP_READ:
+						if token == '=':
+							separator += token
+							self.__state = self.ATTRIBUTE_START_TEXT_READ
+						else:
+							raise AttributeException()
+					elif self.__state == self.ATTRIBUTE_START_TEXT_READ:
+						if token == '"' or token == '"':
+							attrquot = token
+							self.__state = self.ATTRIBUTE_TEXT_READ
+						else:
+							raise AttributeException()
+					elif self.__state == self.ATTRIBUTE_TEXT_READ:
+						if token == attrquot:
+							attrquotend = token
+							break
+						elif token == '<' or token == '>' or token == '&':
+							attrvalue += escape(token)
+						else:
+							attrvalue += token
+		except AttributeException:
+			self.__tag_str.write(separator)
+			self.__tag_str.write(attrquot)
+			self.__tag_str.write(attrvalue)
+			self.__tag_str.write(attrquotend)
+			raise TagReadException()
+
+		self.__state = self.TAG_READ
+		if attrname in self.__tag_attributes:
+			self.__log_error("Duplicate attribute")
+		self.__tag_attributes[attrname] = (attrvalue, attrquot)
+
+	def __tag_special(self, token):
+		if token == '>':
+			if self.__endtag:
+				self.__tag_str.write('>')
+				try:
+					oldtag = self.__tags[-1].name
+					if oldtag == self.__tagname:
+						self.__unroll_stack()
+						self.__tag_obj = self.__get_current_tag()
+					else:
+						self.__log_error("Bad end tag")
+						can_unroll = False
+						for tag in self.__tags:
+							if self.__tagname == tag.name:
+								can_unroll = True
+								break
+						if not can_unroll:
+							raise KeyError(self.__tagname)
+						while self.__tagname != self.__tag_obj.name:
+							self.__unroll_stack()
+							self.__tag_obj = self.__get_current_tag()
+						self.__unroll_stack()
+						self.__tag_obj = self.__get_current_tag()
+					self.__tag_str.truncate(0)
+				except KeyError:
+					self.__log_error("Bad end tag")
+					self.output.write(escape(self.__tag_str.getvalue()))
+					self.__tag_str.truncate(0)
+					self.__tagname = ''
+				if len(self.__tags) == 1 and self.auto_paragraphs:
+					self.__add_auto_paragraph()
+			else:
+				if self.__tagname not in TEXT_TAGS_LIST:
+					self.__trim_empty_tags()
+				try:
+					to = copy.deepcopy(self.supported_tags[self.__tagname])
+					if (not self.__tagname in self.__tag_obj.req) and (not self.__tagname in self.__tag_obj.opt):
+						self.__log_error("Missing end tag")
+						can_unroll = False
+						for tag in self.__tags:
+							if (self.__tagname in tag.req) or (self.__tagname in tag.opt):
+								can_unroll = True
+								break
+						if not can_unroll:
+							raise KeyError(self.__tagname)
+						while (not self.__tagname in self.__tag_obj.req) and (not self.__tagname in self.__tag_obj.opt):
+							self.__unroll_stack()
+							self.__tag_obj = self.__get_current_tag()
+					try:
+						self.__tag_obj.req.remove(self.__tagname)
+						self.__tag_obj.opt.add(self.__tagname)
+					except KeyError:
+						pass
+					self.__tags.append(to)
+					self.__write_attributes()
+					# Zápis atribútov
+					self.__tag_str.write('>')
+					self.output.write(self.__tag_str.getvalue())
+					self.__tag_attributes = {}
+					self.__tag_str.truncate(0)
+					self.__tag_obj = to
+				# Nepodporovany tag
+				except KeyError:
+					self.__log_error("Unknown tag")
+					self.__tag_str.write('>')
+					self.output.write(escape(self.__tag_str.getvalue()))
+					self.__tag_str.truncate(0)
+					self.__state = self.TEXT_READ
+			self.__tag_obj = self.__get_current_tag()
+		else:
+			self.__log_error("Bad token")
+			raise TagReadException()
+		self.__state = self.TEXT_READ
+		self.__tagname = ''
 
 	def __read_tag(self, match):
 		type, token = match.lastindex, match.group(match.lastindex)
 		if type == self.TAG:
-			self.output.write(escape(self.__tag_str.getvalue()))
-			self.__tag_str.truncate(0)
-			if token[0] == '/':
-				self.__endtag = True
-				token = token[1:]
-				self.__tagname = token
-				self.__tag_str.write('</')
-				self.__tag_str.write(token)
-			else:
-				self.__endtag = False
-				self.__tagname = token
-				self.__tag_str.write('<')
-				self.__tag_str.write(token)
-		if type == self.ENDTAG:
-			try:
-				to = self.supported_tags[self.__tagname]
-				if to.empty is False:
-					self.__log_error("Empty tag")
-					raise KeyError(self.__tagname)
-				self.__tags.append(to)
-				self.__write_attributes()
-				self.__tags.pop()
-				self.__tag_str.write(' />')
-				self.output.write(self.__tag_str.getvalue())
-			except:
-				self.output.write(escape(self.__tag_str.getvalue() + '/>'))
-			self.__tag_str.truncate(0)
-			self.__state = self.TEXT_READ
-			self.__tagname = ''
+			self.__tag_start_tag(token)
+		elif type == self.ENDTAG:
+			self.__tag_end_tag(token)
 		elif type == self.ENTITY:
-			self.__tag_str.write('&')
-			self.__tag_str.write(token)
-			self.__tag_str.write(';')
-			raise TagReadException()
+			self.__tag_entity(token)
 		elif type == self.WHITESPACE:
-			pass
-		# tutaj
+			self.__tag_whitespace(token)
 		elif type == self.TEXT:
-			attrname = token
-			separator = ''
-			attrquot = ''
-			attrvalue = ''
-			attrquotend = ''
-			try:
-				self.__state = self.ATTRIBUTE_SEP_READ
-				while 1:
-					match = self.__get_token()
-					if not match:
-						break
-					type, token = match.lastindex, match.group(match.lastindex)
-
-					if type == self.ENDTAG:
-						raise AttributeException()
-					elif type == self.ENTITY:
-						if self.__state == self.ATTRIBUTE_TEXT_READ:
-							attrvalue += token
-						else:
-							raise AttributeException()
-					elif type == self.WHITESPACE:
-						if self.__state == self.ATTRIBUTE_SEP_READ or self.ATTRIBUTE_START_TEXT_READ:
-							separator += token
-						elif self.__state == self.ATTRIBUTE_TEXT_READ:
-							attrvalue += token
-					elif type == self.TEXT:
-						if self.__state == self.ATTRIBUTE_TEXT_READ:
-							attrvalue += token
-						elif self.__state == self.ATTRIBUTE_SEP_READ:
-							raise AttributeException()
-					elif type == self.SPECIAL:
-						if self.__state == self.ATTRIBUTE_SEP_READ:
-							if token == '=':
-								separator += token
-								self.__state = self.ATTRIBUTE_START_TEXT_READ
-							else:
-								raise AttributeException()
-						elif self.__state == self.ATTRIBUTE_START_TEXT_READ:
-							if token == '"' or token == '"':
-								attrquot = token
-								self.__state = self.ATTRIBUTE_TEXT_READ
-							else:
-								raise AttributeException()
-						elif self.__state == self.ATTRIBUTE_TEXT_READ:
-							if token == attrquot:
-								attrquotend = token
-								break
-							elif token == '<' or token == '>' or token == '&':
-								attrvalue += escape(token)
-							else:
-								attrvalue += token
-			except AttributeException:
-				self.__tag_str.write(separator)
-				self.__tag_str.write(attrquot)
-				self.__tag_str.write(attrvalue)
-				self.__tag_str.write(attrquotend)
-				raise TagReadException()
-
-			self.__state = self.TAG_READ
-			if attrname in self.__tag_attributes:
-				self.__log_error("Duplicate attribute")
-			self.__tag_attributes[attrname] = (attrvalue, attrquot)
-
+			self.__tag_text(token)
 		elif type == self.SPECIAL:
-			if token == '>':
-				if self.__endtag:
-					self.__tag_str.write('>')
-					try:
-						oldtag = self.__tags[-1].name
-						if oldtag == self.__tagname:
-							self.__unroll_stack()
-							self.__tag_obj = self.__get_current_tag()
-						else:
-							self.__log_error("Bad end tag")
-							can_unroll = False
-							for tag in self.__tags:
-								if self.__tagname == tag.name:
-									can_unroll = True
-									break
-							if not can_unroll:
-								raise KeyError(self.__tagname)
-							while self.__tagname != self.__tag_obj.name:
-								self.__unroll_stack()
-								self.__tag_obj = self.__get_current_tag()
-							self.__unroll_stack()
-							self.__tag_obj = self.__get_current_tag()
-						self.__tag_str.truncate(0)
-					except KeyError:
-						self.__log_error("Bad end tag")
-						self.output.write(escape(self.__tag_str.getvalue()))
-						self.__tag_str.truncate(0)
-						self.__tagname = ''
-				else:
-					try:
-						to = copy.deepcopy(self.supported_tags[self.__tagname])
-						if (not self.__tagname in self.__tag_obj.req) and (not self.__tagname in self.__tag_obj.opt):
-							self.__log_error("Missing end tag")
-							can_unroll = False
-							for tag in self.__tags:
-								if (self.__tagname in tag.req) or (self.__tagname in tag.opt):
-									can_unroll = True
-									break
-							if not can_unroll:
-								raise KeyError(self.__tagname)
-							while (not self.__tagname in self.__tag_obj.req) and (not self.__tagname in self.__tag_obj.opt):
-								self.__unroll_stack()
-								self.__tag_obj = self.__get_current_tag()
-						try:
-							self.__tag_obj.req.remove(self.__tagname)
-							self.__tag_obj.opt.add(self.__tagname)
-						except KeyError:
-							pass
-						self.__tags.append(to)
-						self.__write_attributes()
-						# Zápis atribútov
-						self.__tag_str.write('>')
-						self.output.write(self.__tag_str.getvalue())
-						self.__tag_attributes = {}
-						self.__tag_str.truncate(0)
-						self.__tag_obj = to
-					# Nepodporovany tag
-					except KeyError:
-						self.__log_error("Unknown tag")
-						self.__tag_str.write('>')
-						self.output.write(escape(self.__tag_str.getvalue()))
-						self.__tag_str.truncate(0)
-						self.__state = self.TEXT_READ
-				self.__tag_obj = self.__get_current_tag()
-			else:
-				self.__log_error("Bad token")
-				raise TagReadException()
-			self.__state = self.TEXT_READ
-			self.__tagname = ''
+			self.__tag_special(token)
+
+	def __add_auto_paragraph(self):
+		if self.auto_paragraphs:
+			paragraph = copy.deepcopy(self.supported_tags['p'])
+			paragraph.trim_empty = True
+			paragraph.pos = self.output.pos
+			self.__tags.append(paragraph)
+			self.output.write("<p>")
+
+	def __trim_empty_tags(self):
+		if self.__tags and self.__tags[-1].trim_empty:
+			self.output.seek(self.__tags[-1].pos)
+			part = self.output.read()
+			if not self.whitespace_rx.match(part[3:]):
+				return
+			self.output.truncate(self.__tags[-1].pos)
+			self.output.write(part[3:])
+			self.__tags.pop()
+
+	def __set_tag_stack_noempty(self):
+		if self.__tag_obj != '' and self.__tag_obj.empty is False:
+			for tag in self.__tags:
+				tag.empty = None
 
 	""" Spracovanie HTML kódu. """
 	def parse(self, code):
@@ -395,6 +444,7 @@ class HtmlParser:
 
 		# Čítanie súboru
 		self.__state = self.TEXT_READ
+		self.__add_auto_paragraph()
 		while 1:
 			match = self.__get_token()
 			if not match:
@@ -419,7 +469,13 @@ class HtmlParser:
 				if type == self.ENDTAG:
 					self.output.write('/&gt;')
 				elif type == self.WHITESPACE:
+					auto_paragraph = False
+					if self.auto_paragraphs and len(self.__tags) == 2 and self.__tags[1].trim_empty and token == "\n\n":
+						auto_paragraph = True
+						self.__unroll_stack()
 					self.output.write(token)
+					if auto_paragraph:
+						self.__add_auto_paragraph()
 				if (type == self.ENTITY) or (type == self.TEXT) or (type == self.SPECIAL):
 					if self.__tag_obj.empty is True:
 						self.__log_error("No content allowed")
@@ -432,9 +488,7 @@ class HtmlParser:
 						self.output.write(token)
 					elif type == self.SPECIAL:
 						self.output.write(escape(token))
-					if self.__tag_obj != '' and self.__tag_obj.empty is False:
-						for tag in self.__tags:
-							tag.empty = None
+					self.__set_tag_stack_noempty()
 
 			# Čítanie vnútra tagov
 			elif self.__state == self.TAG_READ:
@@ -444,6 +498,7 @@ class HtmlParser:
 					self.output.write(escape(self.__tag_str.getvalue()))
 					self.__tag_str.truncate(0)
 					self.__state = self.TEXT_READ
+		self.__trim_empty_tags()
 		# Uzatvorenie neuzatvorenych tagov
 		while len(self.__tags) > 1:
 			self.__log_error("Tag not closed")
