@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.shortcuts import get_object_or_404
-from django.db.models import Q
+from django.db.models import Q, Manager
 from django.views.generic import CreateView, UpdateView, DetailView, ListView as OriginalListView
 
 
@@ -97,6 +97,8 @@ class ListView(OriginalListView):
 
 	def get_queryset(self):
 		queryset = super(ListView, self).get_queryset()
+		if isinstance(queryset, Manager):
+			queryset = queryset.all()
 		if self.category is not None:
 			category_object = None
 			view_kwargs = getattr(self, 'kwargs')
@@ -108,6 +110,8 @@ class ListView(OriginalListView):
 
 	def get_context_data(self, **kwargs):
 		queryset = kwargs.pop('object_list')
+		if isinstance(queryset, Manager):
+			queryset = queryset.all()
 		context_object_name = self.get_context_object_name(queryset)
 		context = {'object_list': queryset}
 		if context_object_name is not None:
