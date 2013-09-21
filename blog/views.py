@@ -10,10 +10,6 @@ from django.shortcuts import get_object_or_404
 
 class BlogListView(ListView):
 	queryset = Post.objects.all()
-
-
-class BlogCategoryView(BlogListView):
-	queryset = Post.objects.all()
 	category_key = "slug"
 	category_field = "blog"
 	category_context = "blog"
@@ -38,13 +34,13 @@ class BlogUpdateView(UpdateView):
 	form_class = BlogForm
 
 
-class BlogDetailView(DetailUserProtectedView):
+class PostDetailView(DetailUserProtectedView):
 	published_field = 'published'
 	author_field = 'author'
 	queryset = Post.all_objects.all()
 
 	def get_queryset(self):
-		return super(BlogDetailView, self).get_queryset().filter(blog__slug=self.kwargs['category']) #pylint: disable=E1101
+		return super(PostDetailView, self).get_queryset().filter(blog__slug=self.kwargs['category']) #pylint: disable=E1101
 
 
 @login_required
