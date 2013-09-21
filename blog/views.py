@@ -10,7 +10,7 @@ from common_utils.generic import DetailUserProtectedView, ListView, CreateView, 
 
 
 class BlogListView(ListView):
-	queryset = Post.objects.all()
+	queryset = Post.objects
 	category_key = "slug"
 	category_field = "blog"
 	category_context = "blog"
