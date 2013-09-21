@@ -32,7 +32,7 @@ class Section(models.Model):
 
 	@permalink
 	def get_absolute_url(self):
-		return ('forum:section', None, {'section': self.slug})
+		return ('forum:section', None, {'category': self.slug})
 
 	def __unicode__(self):
 		return self.name
