@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-25 14:54+0200\n"
+"POT-Creation-Date: 2013-09-21 07:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -186,6 +186,9 @@ msgstr "Dátum"
 msgid "name"
 msgstr "meno"
 
+msgid "description"
+msgstr "popis"
+
 msgid "category"
 msgstr "kategória"
 
@@ -255,6 +258,18 @@ msgstr "vytvorené"
 msgid "size"
 msgstr "veľkosť"
 
+msgid "sidebar"
+msgstr ""
+
+msgid "publication date"
+msgstr "čas publikácie"
+
+msgid "linux blog"
+msgstr "linuxový blog"
+
+msgid "is published"
+msgstr "publikovaný"
+
 msgid "section"
 msgstr "sekcia"
 
@@ -263,9 +278,6 @@ msgstr "Text"
 
 msgid "Attachment"
 msgstr "Príloha"
-
-msgid "description"
-msgstr "popis"
 
 msgid "sections"
 msgstr "sekcie"
@@ -429,6 +441,9 @@ msgstr "^profil/"
 msgid "^article/"
 msgstr "^clanok/"
 
+msgid "^blog/"
+msgstr "^blog/"
+
 msgid "^comments/"
 msgstr "^komentare/"
 
@@ -459,58 +474,6 @@ msgstr "^hladat/"
 msgid "Štatistiky"
 msgstr "Štatistiky"
 
-msgid "Please correct the error below."
-msgid_plural "Please correct the errors below."
-msgstr[0] "Opravte prosím chybu uvedenú nižšie."
-msgstr[1] "Opravte prosím chyby uvedené nižšie."
-msgstr[2] "Opravte prosím chyby uvedené nižšie."
-
-#, python-format
-msgid "Sorting priority: %(priority_number)s"
-msgstr ""
-
-#, python-format
-msgid ""
-"Deleting the %(object_name)s '%(escaped_object)s' would result in deleting "
-"related objects, but your account doesn't have permission to delete the "
-"following types of objects:"
-msgstr ""
-
-#, python-format
-msgid ""
-"Deleting the %(object_name)s '%(escaped_object)s' would require deleting the "
-"following protected related objects:"
-msgstr ""
-
-#, python-format
-msgid ""
-"Are you sure you want to delete the %(object_name)s \"%(escaped_object)s\"? "
-"All of the following related items will be deleted:"
-msgstr ""
-
-#, python-format
-msgid " By %(filter_title)s "
-msgstr ""
-
-#, fuzzy, python-format
-msgid "%(counter)s result"
-msgid_plural "%(counter)s results"
-msgstr[0] "%(counter)s komentár"
-msgstr[1] "%(counter)s komentáre"
-msgstr[2] "%(counter)s komentárov"
-
-#, python-format
-msgid "%(full_result_count)s total"
-msgstr ""
-
-#, python-format
-msgid "Enter a new password for the user <strong>%(username)s</strong>."
-msgstr ""
-
-#, python-format
-msgid "Add another %(verbose_name)s"
-msgstr ""
-
 #, python-format
 msgid "%(counter)s comment"
 msgid_plural "%(counter)s commens"
@@ -527,6 +490,9 @@ msgstr "Žiadne komentáre"
 msgid "Profile"
 msgstr "Profil"
 
+msgid "Notifications"
+msgstr "Upozornenia"
+
 msgid "Site administration"
 msgstr "Správa stránky"
 
@@ -539,8 +505,11 @@ msgstr "Zmeniť heslo"
 msgid "Sign up"
 msgstr "Registrovať"
 
-msgid "Notifications"
-msgstr "Upozornenia"
+msgid "Blog"
+msgstr "Blog"
+
+msgid "Create blog"
+msgstr "Vytvoriť blog"
 
 msgid "Activation"
 msgstr "Aktivácia"
@@ -786,3 +755,15 @@ msgstr "značka komentára"
 
 msgid "comment flags"
 msgstr "značky komentára"
+
+#~ msgid "Please correct the error below."
+#~ msgid_plural "Please correct the errors below."
+#~ msgstr[0] "Opravte prosím chybu uvedenú nižšie."
+#~ msgstr[1] "Opravte prosím chyby uvedené nižšie."
+#~ msgstr[2] "Opravte prosím chyby uvedené nižšie."
+
+#~ msgid "%(counter)s result"
+#~ msgid_plural "%(counter)s results"
+#~ msgstr[0] "%(counter)s komentár"
+#~ msgstr[1] "%(counter)s komentáre"
+#~ msgstr[2] "%(counter)s komentárov"

@@ -113,6 +113,15 @@ html, body {
 								<li>
 									<a href="{% url 'auth_logout' %}" rel="nofollow">{% trans 'Log out' %}</a>
 								</li>
+								{% if user.blog %}
+									<li>
+										<a rel="nofollow" href="{{ user.blog.get_absolute_url }}">{% trans 'Blog' %}</a>
+									</li>
+								{% else %}
+									<li>
+										<a rel="nofollow" href="{% url 'blog:edit' %}">{% trans 'Create blog' %}</a>
+									</li>
+								{% endif %}
 								<li>
 									<a href="{% url 'auth_password_change' %}" rel="nofollow">{% trans "Change password" %}</a>
 								</li>

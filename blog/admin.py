@@ -15,7 +15,6 @@ class BlogAdmin(admin.ModelAdmin):
 
 class PostAdmin(admin.ModelAdmin):
 	list_display = ('title', 'published', 'author')
-	list_filter = ('published', )
 	search_fields = ('title', 'slug', )
 	ordering = ('-id',)
 	raw_id_fields = ('blog', )
