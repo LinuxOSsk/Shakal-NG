@@ -16,6 +16,7 @@ class BlogCategoryView(BlogListView):
 	queryset = Post.objects.all()
 	category_key = "slug"
 	category_field = "blog"
+	category_context = "blog"
 	category = Blog
 
 
