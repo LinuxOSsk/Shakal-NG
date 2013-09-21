@@ -36,7 +36,6 @@ class BlogUpdateView(UpdateView):
 
 
 class PostDetailView(DetailUserProtectedView):
-	published_field = 'published'
 	author_field = 'author'
 	queryset = Post.all_objects.all()
 
