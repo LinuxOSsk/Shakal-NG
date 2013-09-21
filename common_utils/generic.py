@@ -55,14 +55,14 @@ class DetailUserProtectedView(DetailView):
 			q.append(Q(**{self.published_field: True}))
 		if self.author_field and self.request.user.is_authenticated():
 			q.append(Q(**{self.author_field: self.request.user}))
-		qs = super(DetailView, self).get_queryset()
+		qs = super(DetailUserProtectedView, self).get_queryset()
 		if q:
 			return qs.filter(reduce(lambda a, b: a | b, q))
 		else:
 			return qs
 
 	def get_queryset(self):
-		qs = super(DetailView, self).get_queryset()
+		qs = super(DetailUserProtectedView, self).get_queryset()
 		if self.superuser_perm and self.request.user.has_perm(self.superuser_perm):
 			return qs
 		if self.request.user.is_superuser:
@@ -86,10 +86,11 @@ class ListView(OriginalListView):
 		queryset = super(ListView, self).get_queryset()
 		if self.category is not None:
 			category_object = None
-			if 'category' in self.kwargs:
-				category_object = get_object_or_404(self.category, **{self.category_key: self.kwargs['category']})
+			view_kwargs = getattr(self, 'kwargs')
+			if 'category' in view_kwargs:
+				category_object = get_object_or_404(self.category, **{self.category_key: view_kwargs['category']})
 				queryset = queryset.filter(**{self.category_field: category_object})
-			self.kwargs['category_object'] = category_object
+			view_kwargs['category_object'] = category_object
 		return queryset
 
 	def get_context_data(self, **kwargs):
@@ -100,9 +101,10 @@ class ListView(OriginalListView):
 			context[context_object_name] = queryset
 		if self.category:
 			context['category_list'] = self.category.objects.all()
-		if 'category_object' in self.kwargs:
-			context[self.category_context] = self.kwargs['category_object']
+		view_kwargs = getattr(self, 'kwargs')
+		if 'category_object' in view_kwargs:
+			context[self.category_context] = view_kwargs['category_object']
 		context.update(kwargs)
-		page = self.kwargs.get(self.page_kwarg) or self.request.GET.get(self.page_kwarg) or 1
+		page = view_kwargs.get(self.page_kwarg) or self.request.GET.get(self.page_kwarg) or 1
 		context['page'] = page
 		return context
