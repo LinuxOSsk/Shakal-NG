@@ -11,6 +11,13 @@
 {% endblock %}
 
 {% block content %}
+
+{% with blog=object.blog %}
+{% with post=object %}
+	{% include "blog/block_informations.html" %}
+{% endwith %}
+{% endwith %}
+
 <h1>{{ object }}</h1>
 
 <div class="info">

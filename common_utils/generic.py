@@ -41,6 +41,19 @@ class PreviewUpdateView(UpdateView):
 		return super(PreviewUpdateView, self).form_valid(form)
 
 
+class UpdateProtectedView(UpdateView):
+	author_field = None
+	unprivileged_queryset = None
+
+	def get_queryset(self):
+		if self.unprivileged_queryset:
+			return self.unprivileged_queryset
+		if self.request.user.is_authenticated():
+			return super(UpdateProtectedView, self).get_queryset().filter(**{self.author_field: self.request.user})
+		else:
+			return super(UpdateProtectedView, self).get_queryset().none()
+
+
 class DetailUserProtectedView(DetailView):
 	published_field = None
 	author_field = None

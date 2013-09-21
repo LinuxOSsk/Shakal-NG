@@ -1,0 +1,18 @@
+<div class="module sidebar">
+	<h2>Informácie</h2>
+	<div class="module-row">
+		<div class="info top">Autor: <a href="{{ blog.author.get_absolute_url }}">{{ blog.author }}</a></div>
+		{% if blog.author == user %}
+			<hr />
+			<ul>
+				{% if post %}
+					<li><a href="{% url "blog:post_edit" blog.slug post.slug %}">Upraviť zápis</a></li>
+				{% endif %}
+				<li><a href="{% url "blog:edit" %}">Upraviť informácie</a></li>
+				<li>Pridať blog</li>
+			</ul>
+		{% endif %}
+		<hr />
+		{{ blog.sidebar|safe }}
+	</div>
+</div>

@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-from common_utils.generic import AddLoggedFormArgumentMixin, PreviewCreateView, DetailUserProtectedView, ListView, CreateView, UpdateView
-from blog.models import Blog, Post
-from blog.forms import BlogForm
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse_lazy
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
+
+from blog.forms import BlogForm, PostForm
+from blog.models import Blog, Post
+from common_utils.generic import DetailUserProtectedView, ListView, CreateView, UpdateView, UpdateProtectedView
 
 
 class BlogListView(ListView):
@@ -41,6 +42,15 @@ class PostDetailView(DetailUserProtectedView):
 
 	def get_queryset(self):
 		return super(PostDetailView, self).get_queryset().filter(blog__slug=self.kwargs['category']) #pylint: disable=E1101
+
+
+class PostUpdateView(UpdateProtectedView):
+	author_field = 'blog__author'
+	queryset = Post.all_objects.all()
+	form_class = PostForm
+
+	def get_queryset(self):
+		return super(PostUpdateView, self).get_queryset().filter(blog__slug=self.kwargs['category']) #pylint: disable=E1101
 
 
 @login_required

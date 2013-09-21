@@ -1,0 +1,32 @@
+{% extends "blog/blog_base.html" %}
+
+{% load breadcrumbs_tags linuxos %}
+
+{% block extraheaders %}
+<meta name="robots" content="noindex, nofollow" />
+{{ form.media }}
+{% endblock %}
+
+{% block title %}Úprava zápisku{% endblock %}
+{% block breadcrumbs %}
+	{% breadcrumb %}Úprava zápisku{% endbreadcrumb %}
+	{% breadcrumb absolute_url=object.get_absolute_url %}{{ object }}{% endbreadcrumb %}
+	{% breadcrumb absolute_url=object.blog.get_absolute_url %}{{ object.blog }}{% endbreadcrumb %}
+	{% breadcrumb url='blog:list' %}Blog{% endbreadcrumb %}
+	{{ block.super }}
+{% endblock %}
+
+{% block content %}
+<h1>Správa blogu</h1>
+
+<form action="{% url 'blog:post_edit' object.blog.slug object.slug %}" method="post" id="blog-form">{% csrf_token %}
+	<fieldset>
+		{% include 'includes/form_loop.html' with form=form %}
+		<div class="submit-row">
+			<div class="positive">
+				<button class="btn" type="submit" title="Uložiť" name="create" value="1"><span>Uložiť</span></button>
+			</div>
+		</div>
+	</fieldset>
+</form>
+{% endblock %}
