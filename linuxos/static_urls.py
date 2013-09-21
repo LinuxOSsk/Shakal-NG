@@ -24,7 +24,7 @@ sites = (
 	('vedascreens', 'veda/screenshoty'),
 )
 
-sites_urls = map(lambda u: url('^' + u[1] + '/$', TemplateView.as_view(template_name = 'static/' + u[1] + '.html'), name = "page_" + u[1]), sites)
-redirect_urls = map(lambda u: url('^' + u[0] + '/index.html$', RedirectView.as_view(url = '/' + u[1] + '/')), sites)
+sites_urls = [url('^' + u[1] + '/$', TemplateView.as_view(template_name='static/' + u[1] + '.html'), name="page_" + u[1]) for u in sites]
+redirect_urls = [url('^' + u[0] + '/index.html$', RedirectView.as_view(url='/' + u[1] + '/')) for u in sites]
 
 urlpatterns = patterns('', *(sites_urls + redirect_urls))
