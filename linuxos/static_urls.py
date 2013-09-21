@@ -14,6 +14,7 @@ sites = (
 
 	('reklama', 'reklama'),
 	('portal_podporte_nas', 'portal-podporte-nas'),
+	('portal_vyvoj', 'portal-vyvoj'),
 	('export', 'export'),
 	('team', 'team'),
 

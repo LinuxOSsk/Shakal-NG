@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% load breadcrumbs_tags %}
+{% load feed_parser_tags %}
+{% load cache %}
+
+{% block title %}Vývoj LinuxOS{% endblock %}
+{% block breadcrumbs %}{% breadcrumb %}Vývoj LinuxOS{% endbreadcrumb %}{{ block.super }}{% endblock %}
+
+{% block content %}
+<h1>Vývoj LinuxOS</h1>
+
+<div class="under-construction">
+	<span class="warning">
+		Portál LinuxOS sa aktívne vyvíja. Časť funkcií môže byť nedokončená, alebo chybná. Chyby prosim hlásiť cez issue tracking systém na Github-e.
+	</span>
+</div>
+
+<h2>Dôležité odkazy</h2>
+
+<ul>
+	<li><a href="https://github.com/mireq/Shakal-NG">Github stránka projektu</a></li>
+	<li><a href="https://github.com/mireq/Shakal-NG/issues">Hlásenie chýb</a></li>
+	<li><a href="git://github.com/mireq/Shakal-NG.git">Git repozitár</a></li>
+	<li><a href="https://github.com/mireq/Shakal-NG/commits/master">Prehľad aktivity</a></li>
+</ul>
+
+<h2>Pre vývojárov</h2>
+
+{% cache 1800 shakal_rss_feeds %}
+	<div class="module feeds">
+		<h2>Aktuálne zmeny</h2>
+		<div class="module-row">
+			{% pull_feeds "https://github.com/mireq/Shakal-NG/commits/master.atom" max_count=20 %}
+		</div>
+		<div class="module-links bottom">
+			<a href="https://github.com/mireq/Shakal-NG/commits/master" rel="nofollow" class="next">Zobraziť všetky</a>
+		</div>
+	</div>
+{% endcache %}
+{% endblock %}
