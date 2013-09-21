@@ -65,6 +65,8 @@ class Post(models.Model):
 		return ("blog:detail", [self.blog.slug, self.slug], {}) #pylint: disable=E1101
 
 	def published(self):
+		if not self.pub_time:
+			return False
 		return self.pub_time < timezone.now()
 	published.short_description = _('is published')
 	published.boolean = True

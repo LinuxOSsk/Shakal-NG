@@ -5,11 +5,11 @@
 		{% if blog.author == user %}
 			<hr />
 			<ul>
-				{% if post %}
+				{% if post and blog.slug and post.slug %}
 					<li><a href="{% url "blog:post_edit" blog.slug post.slug %}">Upraviť zápis</a></li>
 				{% endif %}
+				<li><a href="{% url "blog:post_create" %}">Pridať zápis</a></li>
 				<li><a href="{% url "blog:edit" %}">Upraviť informácie</a></li>
-				<li>Pridať blog</li>
 			</ul>
 		{% endif %}
 		<hr />

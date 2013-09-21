@@ -52,6 +52,15 @@ class PostUpdateView(UpdateProtectedView):
 		return super(PostUpdateView, self).get_queryset().filter(blog__slug=self.kwargs['category']) #pylint: disable=E1101
 
 
+class PostCreateView(CreateView):
+	form_class = PostForm
+	model = Post
+
+	def form_valid(self, form):
+		form.instance.blog = self.request.user.blog
+		return super(PostCreateView, self).form_valid(form)
+
+
 @login_required
 def edit(request):
 	try:

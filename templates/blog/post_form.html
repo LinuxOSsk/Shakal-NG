@@ -19,7 +19,7 @@
 {% block content %}
 <h1>Správa blogu</h1>
 
-<form action="{% url 'blog:post_edit' object.blog.slug object.slug %}" method="post" id="blog-form">{% csrf_token %}
+<form action="{% if object.pk %}{% url 'blog:post_edit' object.blog.slug object.slug %}{% else %}{% url "blog:post_create" %}{% endif %}" method="post" id="blog-form">{% csrf_token %}
 	<fieldset>
 		{% include 'includes/form_loop.html' with form=form %}
 		<div class="submit-row">

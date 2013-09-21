@@ -23,10 +23,14 @@ class PostForm(forms.ModelForm):
 		super(PostForm, self).__init__(*args, **kwargs)
 		if self.instance and self.instance.published():
 			del self.fields['pub_time']
+		else:
+			self.fields['pub_time'].required = False
 
 	def clean_pub_time(self):
 		if 'pub_now' in self.data and self.data['pub_now']:
 			return now()
+		if not self.cleaned_data['pub_time']:
+			raise forms.ValidationError("Nebol zadaný čas publikácie")
 		if self.cleaned_data['pub_time'] < now():
 			raise forms.ValidationError("Čas publikácie nesmie byť v minulosti")
 		return self.cleaned_data['pub_time']
