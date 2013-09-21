@@ -1429,13 +1429,22 @@ td.status, td.comments, td.date {
 }
 
 /* === Wiki === */
-.module.subpages {
+.module.subpages, .module.sidebar {
 	width: 30%;
 	float: right;
+	margin-left: @module-margin;
 
 	ul {
 		margin: @row-padding 0;
 	}
+}
+
+.module.blog {
+	clear: none;
+}
+
+.module.blog.category {
+	overflow: auto;
 }
 
 /* === Prvky požičané z bootsrap-u === */
