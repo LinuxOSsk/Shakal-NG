@@ -12,7 +12,7 @@ def get_parser(editor_type):
 		parser = HtmlParser(supported_tags = supported_tags)
 		parser.auto_paragraphs = False
 		return parser
-	elif editor_type == 'profile':
+	elif editor_type == 'profile' or editor_type == 'blog':
 		supported_tags = copy(DEFAULT_TAGS)
 		supported_tags['img'] = HtmlTag('img', opt = ['title'], req_attributes = {'src': '', 'alt': ''}, empty = True, attribute_validators = {'src': [HrefValidator()]})
 		supported_tags[''] = deepcopy(supported_tags[''])
