@@ -38,6 +38,15 @@ class BlogUpdateView(UpdateView):
 	form_class = BlogForm
 
 
+class BlogDetailView(DetailUserProtectedView):
+	published_field = 'published'
+	author_field = 'author'
+	queryset = Post.all_objects.all()
+
+	def get_queryset(self):
+		return super(BlogDetailView, self).get_queryset().filter(blog__slug=self.kwargs['category']) #pylint: disable=E1101
+
+
 @login_required
 def edit(request):
 	try:

@@ -60,6 +60,10 @@ class Post(models.Model):
 	attachments = generic.GenericRelation(Attachment)
 	hit = HitCountField()
 
+	@models.permalink
+	def get_absolute_url(self):
+		return ("blog:detail", [self.blog.slug, self.slug], {}) #pylint: disable=E1101
+
 	def published(self):
 		return self.pub_time < timezone.now()
 	published.short_description = _('is published')

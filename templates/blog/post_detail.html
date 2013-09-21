@@ -1,0 +1,26 @@
+{% extends "blog/blog_base.html" %}
+
+{% load breadcrumbs_tags linuxos threaded_comments_tags %}
+
+{% block title %}{{ object }}{% endblock %}
+{% block breadcrumbs %}
+	{% breadcrumb %}{{ object }}{% endbreadcrumb %}
+	{% breadcrumb absolute_url=object.blog.get_absolute_url %}{{ object.blog }}{% endbreadcrumb %}
+	{% breadcrumb url='blog:list' %}Blog{% endbreadcrumb %}
+	{{ block.super }}
+{% endblock %}
+
+{% block content %}
+<h1>{{ object }}</h1>
+
+<div class="info">
+	<span class="time">{{ object.pub_time|humandatetime }}</span> |
+	<span class="category"><a href="{{ object.blog.get_absolute_url }}">{{ object.blog }}</a></span> |
+	<span class="user"><a href="{{ object.author.get_absolute_url }}">{{ object.author }}</a></span>
+</div>
+
+{{ object.perex|safe }}
+{{ object.content|safe }}
+{% endblock %}
+
+{% block discussion %}{% render_threaded_comments_toplevel object %}{% endblock %}
