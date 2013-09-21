@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxLengthValidator, MinValueValidator, MaxValueValidator
 from django.db import models
@@ -18,7 +18,14 @@ from rich_editor import get_parser
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
+class OptimizedUserManager(UserManager):
+	def get_query_set(self):
+		return super(OptimizedUserManager, self).get_query_set().select_related("blog")
+
+
 class User(AbstractUser):
+	objects = OptimizedUserManager()
+
 	jabber = models.CharField(max_length = 127, blank = True)
 	url = models.CharField(max_length = 255, blank = True)
 	signature = models.CharField(_('signature'), max_length = 255, blank = True)
