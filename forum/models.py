@@ -25,7 +25,7 @@ class Section(models.Model):
 		slug_num = None
 		try:
 			slug_num = int(self.slug)
-		except:
+		except ValueError:
 			pass
 		if slug_num is not None:
 			raise ValidationError(_('Numeric slug values are not allowed'))
@@ -125,10 +125,10 @@ class Topic(models.Model):
 
 	def get_authors_name(self):
 		if self.author:
-			if self.author.get_full_name():
-				return self.author.get_full_name()
+			if self.author.get_full_name(): #pylint: disable=E1101
+				return self.author.get_full_name() #pylint: disable=E1101
 			else:
-				return self.author.username
+				return self.author.username #pylint: disable=E1101
 		else:
 			return self.authors_name
 	get_authors_name.short_description = _('user name')
@@ -149,7 +149,7 @@ class Topic(models.Model):
 		verbose_name_plural = _('topics')
 
 
-def update_comments_header(sender, instance, **kwargs):
+def update_comments_header(sender, instance, **kwargs): #pylint: disable=W0613
 	root, created = Comment.objects.get_root_comment(ctype = ContentType.objects.get_for_model(Topic), object_id = instance.pk)
 	if created:
 		root.last_comment = instance.created
