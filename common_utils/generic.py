@@ -80,6 +80,7 @@ class ListView(OriginalListView):
 	category = None
 	category_key = 'slug'
 	category_field = 'category'
+	category_context = 'category'
 
 	def get_queryset(self):
 		queryset = super(ListView, self).get_queryset()
@@ -100,7 +101,7 @@ class ListView(OriginalListView):
 		if self.category:
 			context['category_list'] = self.category.objects.all()
 		if 'category_object' in self.kwargs:
-			context['category'] = self.kwargs['category_object']
+			context[self.category_context] = self.kwargs['category_object']
 		context.update(kwargs)
 		page = self.kwargs.get(self.page_kwarg) or self.request.GET.get(self.page_kwarg) or 1
 		context['page'] = page
