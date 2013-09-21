@@ -9,9 +9,13 @@
 
 {% block title %}Úprava zápisku{% endblock %}
 {% block breadcrumbs %}
-	{% breadcrumb %}Úprava zápisku{% endbreadcrumb %}
-	{% breadcrumb absolute_url=object.get_absolute_url %}{{ object }}{% endbreadcrumb %}
-	{% breadcrumb absolute_url=object.blog.get_absolute_url %}{{ object.blog }}{% endbreadcrumb %}
+	{% if object.pk %}
+		{% breadcrumb %}Úprava zápisku{% endbreadcrumb %}
+		{% breadcrumb absolute_url=object.get_absolute_url %}{{ object }}{% endbreadcrumb %}
+		{% breadcrumb absolute_url=object.blog.get_absolute_url %}{{ object.blog }}{% endbreadcrumb %}
+	{% else %}
+		{% breadcrumb %}Vytvorenie zápisku{% endbreadcrumb %}
+	{% endif %}
 	{% breadcrumb url='blog:list' %}Blog{% endbreadcrumb %}
 	{{ block.super }}
 {% endblock %}
