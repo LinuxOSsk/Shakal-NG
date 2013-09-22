@@ -112,10 +112,11 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = (
 	'admin_dashboard',
-	'admin_tools',
-	'admin_tools.theming',
-	'admin_tools.menu',
-	'admin_tools.dashboard',
+	#'admin_tools',
+	#'admin_tools.theming',
+	#'admin_tools.menu',
+	#'admin_tools.dashboard',
+	'suit',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
 	'django.contrib.sessions',
@@ -271,6 +272,21 @@ ADMIN_DASHBOARD_APP_ICONS = {
 ADMIN_TOOLS_INDEX_DASHBOARD = 'admin_dashboard.dashboard.AdminIndexDashboard'
 ADMIN_TOOLS_MENU = 'admin_dashboard.menu.AdminMenu'
 ADMIN_TOOLS_THEMING_CSS = 'admin/css/shakal.css'
+SUIT_CONFIG = {
+	'ADMIN_NAME': 'Shakal CMS',
+	'HEADER_DATE_FORMAT': 'l, d F Y',
+	'HEADER_TIME_FORMAT': 'H:i',
+	'SHOW_REQUIRED_ASTERISK': True,
+	'CONFIRM_UNSAVED_CHANGES': True,
+	'SEARCH_URL': '/administracia/accounts/user/',
+	'MENU_OPEN_FIRST_CHILD': True,
+	'MENU_ICONS': {
+		'sites': 'icon-leaf',
+		'auth': 'icon-lock',
+	},
+	'MENU_EXCLUDE': ('auth_remember',),
+	'LIST_PER_PAGE': 50,
+}
 
 import sys
 if len(sys.argv) > 1 and sys.argv[1] == 'test':
