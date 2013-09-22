@@ -8,3 +8,8 @@ except ImportError:
 			self.prepend = prepend
 			self.append = append
 			super(EnclosedInput, self).__init__(*args, **kwargs)
+
+try:
+	from suit_redactor.widgets import RedactorWidget as RichEditorWidget
+except ImportError:
+	from django.forms.widgets import Textarea as RichEditorWidget

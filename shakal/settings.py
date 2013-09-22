@@ -117,6 +117,7 @@ INSTALLED_APPS = (
 	#'admin_tools.menu',
 	#'admin_tools.dashboard',
 	'suit',
+	'suit_redactor',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
 	'django.contrib.sessions',
@@ -289,10 +290,18 @@ SUIT_CONFIG = {
 	'MENU': (
 		{
 			'label': u'Používatelia',
-			'icon':None,
+			'icon': 'icon-lock',
 			'models': (
 				'accounts.user',
 				'auth.group',
+			)
+		},
+		{
+			'label': u'Články',
+			'icon': 'icon-font',
+			'models': (
+				'article.article',
+				'article.category',
 			)
 		},
 	),

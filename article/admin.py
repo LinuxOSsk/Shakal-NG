@@ -2,6 +2,7 @@
 from django.contrib import admin
 
 from attachment.admin import AttachmentInline
+from article.forms import ArticleForm
 from article.models import Category, Article
 
 
@@ -19,10 +20,12 @@ class ArticleAdmin(admin.ModelAdmin):
 	list_filter = ('published', 'top', 'category', )
 	ordering = ('-id', )
 	inlines = [AttachmentInline]
+	form = ArticleForm
 
 	def queryset(self, request):
 		qs = super(ArticleAdmin, self).queryset(request)
 		return qs.select_related('author')
+
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Article, ArticleAdmin)
