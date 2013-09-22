@@ -55,6 +55,12 @@ class User(AbstractUser):
 			ciphertext = cipher.encrypt(bytes(raw_password.encode("utf-8")))
 			self.encrypted_password = b64encode(ciphertext)
 
+	def get_full_name(self):
+		full_name = '%s %s' % (self.first_name, self.last_name)
+		return full_name
+	get_full_name.short_description = _('full name')
+	get_full_name.admin_order_field = 'last_name'
+
 	def __unicode__(self):
 		full_name = self.get_full_name()
 		if full_name:
@@ -64,6 +70,8 @@ class User(AbstractUser):
 
 	class Meta:
 		db_table = 'auth_user'
+		verbose_name = _('user')
+		verbose_name_plural = _('users')
 
 
 class UserRating(models.Model):

@@ -71,8 +71,7 @@
         <div class="module">
           <table class="table-overview applist" summary="{% blocktrans with name=app.name %}Models available in the {{ name }} application.{% endblocktrans %}">
             <caption><a href="{{ app.app_url }}" class="section">
-              {% blocktrans with name=app.name %}
-                {{ name }}{% endblocktrans %}</a></caption>
+              {% blocktrans with name=app.name %}{{ name }}{% endblocktrans %}</a></caption>
             {% for model in app.models %}
               <tr>
                 <th scope="row">{{ model.name }}</th>

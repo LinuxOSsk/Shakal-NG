@@ -6,6 +6,7 @@ from django.forms import ValidationError, BooleanField, CharField, PasswordInput
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from registration.forms import RegistrationForm
+from common_utils.admin_widgets import DateTimeInput, EnclosedInput
 
 from antispam.forms import AntispamFormMixin
 from rich_editor import get_parser
@@ -53,8 +54,15 @@ class LessRestrictiveUserChangeForm(UserChangeForm, LessRestrictiveUserEditFormM
 
 	def full_clean(self):
 		super(LessRestrictiveUserChangeForm, self).full_clean()
-		if 'username' in self._errors:
-			del self._errors['username']
+		if 'username' in self._errors: #pylint: disable=E1101
+			del self._errors['username'] #pylint: disable=E1101
+
+	class Meta(UserChangeForm.Meta):
+		widgets = {
+			'last_login':  DateTimeInput,
+			'date_joined':  DateTimeInput,
+			'email': EnclosedInput(append='icon-envelope'),
+		}
 
 
 class ProfileEditForm(ModelForm):
@@ -63,7 +71,7 @@ class ProfileEditForm(ModelForm):
 	last_name = CharField(max_length = 30, required = False, label = _('Last name'))
 	email = EmailField(required = False)
 	signature = RichTextField(parser = get_parser('signature'), required = False, max_length = 150, widget = TextInput)
-	original_info = RichOriginalField(parsers = get_user_model()._meta.get_field('original_info').parsers, label = _("Informations"), max_length = 10000, js = True, required = False)
+	original_info = RichOriginalField(parsers = get_user_model()._meta.get_field('original_info').parsers, label = _("Informations"), max_length = 10000, js = True, required = False) #pylint: disable=W0212
 
 	class Meta:
 		model = get_user_model()

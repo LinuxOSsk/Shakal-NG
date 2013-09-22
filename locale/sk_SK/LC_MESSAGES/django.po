@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-21 07:57+0200\n"
+"POT-Creation-Date: 2013-09-22 13:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,6 +75,15 @@ msgstr "informácie"
 msgid "year of birth"
 msgstr "rok narodenia"
 
+msgid "full name"
+msgstr "celé meno"
+
+msgid "user"
+msgstr "používateľ"
+
+msgid "users"
+msgstr "používatelia"
+
 msgid "^me/$"
 msgstr "^ja/$"
 
@@ -98,9 +107,6 @@ msgstr "^email/zmena/activate/(?P<email>.*)/$"
 
 msgid "user name"
 msgstr "používateľské meno"
-
-msgid "full name"
-msgstr "celé meno"
 
 msgid "ROLLMOP"
 msgstr "UDENÁ RYBA"
@@ -259,7 +265,7 @@ msgid "size"
 msgstr "veľkosť"
 
 msgid "sidebar"
-msgstr ""
+msgstr "bočný panel"
 
 msgid "publication date"
 msgstr "čas publikácie"
@@ -347,9 +353,6 @@ msgstr "krátky text"
 
 msgid "long text"
 msgstr "dlhý text"
-
-msgid "user"
-msgstr "používateľ"
 
 msgid "approved"
 msgstr "schválené"
@@ -473,6 +476,38 @@ msgstr "^hladat/"
 
 msgid "Štatistiky"
 msgstr "Štatistiky"
+
+msgid "My Actions"
+msgstr "Posledné akcie"
+
+msgid "None available"
+msgstr "Žiadna"
+
+msgid "added"
+msgstr "pridané"
+
+msgid "changed"
+msgstr "zmenené"
+
+msgid "Unknown content"
+msgstr "Neznámy obsah"
+
+#, python-format
+msgid "Models available in the %(name)s application."
+msgstr "Modely dostupné v aplikácii %(name)s."
+
+#, python-format
+msgid "%(name)s"
+msgstr "%(name)s"
+
+msgid "Change"
+msgstr "Zmena"
+
+msgid "Add"
+msgstr "Pridať"
+
+msgid "You don't have permission to edit anything."
+msgstr "Nemáte žiadne práva na editáciu."
 
 #, python-format
 msgid "%(counter)s comment"
