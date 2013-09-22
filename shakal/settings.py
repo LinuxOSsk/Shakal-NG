@@ -289,11 +289,18 @@ SUIT_CONFIG = {
 	'LIST_PER_PAGE': 50,
 	'MENU': (
 		{
-			'label': u'Používatelia',
-			'icon': 'icon-lock',
+			'label': u'Ankety',
+			'icon': 'icon-tasks',
 			'models': (
-				'accounts.user',
-				'auth.group',
+				'polls.poll',
+			)
+		},
+		{
+			'label': u'Blogy',
+			'icon': 'icon-pencil',
+			'models': (
+				'blog.post',
+				'blog.blog',
 			)
 		},
 		{
@@ -302,6 +309,36 @@ SUIT_CONFIG = {
 			'models': (
 				'article.article',
 				'article.category',
+			)
+		},
+		{
+			'label': u'Fórum',
+			'icon': 'icon-list',
+			'models': (
+				'forum.topic',
+				'forum.section',
+			)
+		},
+		{
+			'label': u'Používatelia',
+			'icon': 'icon-lock',
+			'models': (
+				'accounts.user',
+				'auth.group',
+			)
+		},
+		{
+			'label': u'Správy',
+			'icon': 'icon-globe',
+			'models': (
+				'news.news',
+			)
+		},
+		{
+			'label': u'Wiki',
+			'icon': 'icon-folder-open',
+			'models': (
+				'wiki.page',
 			)
 		},
 	),
