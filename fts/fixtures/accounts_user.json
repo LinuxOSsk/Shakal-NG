@@ -4,7 +4,8 @@
 	"model": "accounts.user",
 	"fields": {
 		"username": "admin",
-		"info": "",
+		"original_info": "",
+		"filtered_info": "",
 		"first_name": "",
 		"last_name": "",
 		"url": "",
