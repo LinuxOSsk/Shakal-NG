@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
+import hashlib
 import urllib
 from django import template
 from django.conf import settings
-import hashlib
 from django.utils.html import escape
 
 

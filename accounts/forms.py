@@ -6,9 +6,9 @@ from django.forms import ValidationError, BooleanField, CharField, PasswordInput
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from registration.forms import RegistrationForm
-from common_utils.admin_widgets import DateTimeInput, EnclosedInput
 
 from antispam.forms import AntispamFormMixin
+from common_utils.admin_widgets import DateTimeInput, EnclosedInput
 from rich_editor import get_parser
 from rich_editor.forms import RichTextField, RichOriginalField
 
@@ -45,15 +45,15 @@ class LessRestrictiveUserEditFormMixin:
 			error_message = _('This value must contain spaces oly in the middle.'))
 
 
-class LessRestrictiveUserCreationForm(UserCreationForm, LessRestrictiveUserEditFormMixin):
+class UserAdminAddForm(UserCreationForm, LessRestrictiveUserEditFormMixin):
 	username = LessRestrictiveUserEditFormMixin.get_username_field()
 
 
-class LessRestrictiveUserChangeForm(UserChangeForm, LessRestrictiveUserEditFormMixin):
+class UserAdminForm(UserChangeForm, LessRestrictiveUserEditFormMixin):
 	username = LessRestrictiveUserEditFormMixin.get_username_field()
 
 	def full_clean(self):
-		super(LessRestrictiveUserChangeForm, self).full_clean()
+		super(UserAdminForm, self).full_clean()
 		if 'username' in self._errors: #pylint: disable=E1101
 			del self._errors['username'] #pylint: disable=E1101
 

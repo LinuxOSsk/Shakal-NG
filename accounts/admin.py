@@ -4,13 +4,13 @@ from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 
-from accounts.forms import LessRestrictiveUserChangeForm, LessRestrictiveUserCreationForm
+from accounts.forms import UserAdminForm, UserAdminAddForm
 from accounts.models import User
 
 
 class UserAdmin(AuthUserAdmin):
-	form = LessRestrictiveUserChangeForm
-	add_form = LessRestrictiveUserCreationForm
+	form = UserAdminForm
+	add_form = UserAdminAddForm
 	ordering = ('-id', )
 	list_display = ['username', 'email', 'get_full_name', 'get_status']
 
