@@ -20,7 +20,7 @@ class RichEditor(Textarea):
 	def __init__(self, attrs = {}, **kwargs):
 		self.language = settings.LANGUAGE_CODE
 		self.formats = ()
-		attrs.update({'class': 'wymeditor'})
+		attrs.update({'class': 'wymeditor input-xlarge'})
 		super(RichEditor, self).__init__(attrs)
 
 	def render(self, name, value, attrs = None, **kwargs):
