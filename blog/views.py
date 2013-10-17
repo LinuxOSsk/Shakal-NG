@@ -40,7 +40,7 @@ class PostDetailView(DetailUserProtectedView):
 	queryset = Post.all_objects.all()
 
 	def get_queryset(self):
-		return super(PostDetailView, self).get_queryset().filter(blog__slug=self.kwargs['category']) #pylint: disable=E1101
+		return super(PostDetailView, self).get_queryset().filter(blog__slug=self.kwargs['category'])
 
 
 class PostUpdateView(UpdateProtectedView):
@@ -49,7 +49,7 @@ class PostUpdateView(UpdateProtectedView):
 	form_class = PostForm
 
 	def get_queryset(self):
-		return super(PostUpdateView, self).get_queryset().filter(blog__slug=self.kwargs['category']) #pylint: disable=E1101
+		return super(PostUpdateView, self).get_queryset().filter(blog__slug=self.kwargs['category'])
 
 
 class PostCreateView(CreateView):

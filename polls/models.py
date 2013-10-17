@@ -73,10 +73,10 @@ class Choice(models.Model):
 	votes = models.PositiveIntegerField(_("votes"), default=0)
 
 	def percent(self):
-		if self.poll.choice_count == 0: #pylint: disable=E1101
+		if self.poll.choice_count == 0:
 			return 0
 		else:
-			return 100.0 * self.votes / self.poll.choice_count #pylint: disable=E1101
+			return 100.0 * self.votes / self.poll.choice_count
 
 	def __unicode__(self):
 		return self.choice

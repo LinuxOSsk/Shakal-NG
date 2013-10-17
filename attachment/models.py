@@ -13,17 +13,18 @@ from django.utils.translation import ugettext_lazy as _
 from common_utils import clean_dir
 
 
-class AttachmentAbstract(models.Model):
-	def upload_to(instance, filename):
-		content_class = instance.content_type.model_class()
-		return 'attachment/{0}_{1}/{2:02x}/{3}/{4}'.format(
-			content_class._meta.app_label,
-			content_class._meta.object_name.lower(),
-			instance.object_id % 256,
-			instance.object_id,
-			filename
-		)
+def upload_to(instance, filename):
+	content_class = instance.content_type.model_class()
+	return 'attachment/{0}_{1}/{2:02x}/{3}/{4}'.format(
+		content_class._meta.app_label,
+		content_class._meta.object_name.lower(),
+		instance.object_id % 256,
+		instance.object_id,
+		filename
+	)
 
+
+class AttachmentAbstract(models.Model):
 	attachment = models.FileField(_('attachment'), upload_to = upload_to)
 	created = models.DateTimeField(_('created'), auto_now_add = True)
 	size = models.IntegerField(_('size'))
@@ -61,19 +62,22 @@ class AttachmentAbstract(models.Model):
 	def copyt_to_new_location(self):
 		name = self.attachment.name
 		storage = self.attachment.storage
-		target_name = self.upload_to(os.path.basename(name))
+		target_name = upload_to(self, os.path.basename(name))
 		if target_name != name:
 			if storage.exists(name):
 				file_name = storage.save(target_name, self.attachment.file)
 				self.attachment = file_name
 
 	def clean_fields(self, exclude = None):
-		uploaded_size = self.__class__.objects \
-			.filter(object_id = self.object_id, content_type = self.content_type) \
-			.aggregate(models.Sum('size'))["size__sum"]
-		available_size = self.get_available_size(self.content_type, uploaded_size)
-		if self.attachment.size > available_size:
-			raise ValidationError({'attachment': [_('File size exceeded, maximum size is ') + filesizeformat(available_size)]})
+		try:
+			uploaded_size = self.__class__.objects \
+				.filter(object_id = self.object_id, content_type = self.content_type) \
+				.aggregate(models.Sum('size'))["size__sum"]
+			available_size = self.get_available_size(self.content_type, uploaded_size)
+			if self.attachment.size > available_size:
+				raise ValidationError({'attachment': [_('File size exceeded, maximum size is ') + filesizeformat(available_size)]})
+		except ContentType.DoesNotExist:
+			pass
 		return super(AttachmentAbstract, self).clean_fields(exclude)
 
 	@staticmethod

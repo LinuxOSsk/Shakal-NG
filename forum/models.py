@@ -125,10 +125,10 @@ class Topic(models.Model):
 
 	def get_authors_name(self):
 		if self.author:
-			if self.author.get_full_name(): #pylint: disable=E1101
-				return self.author.get_full_name() #pylint: disable=E1101
+			if self.author.get_full_name():
+				return self.author.get_full_name()
 			else:
-				return self.author.username #pylint: disable=E1101
+				return self.author.username
 		else:
 			return self.authors_name
 	get_authors_name.short_description = _('user name')

@@ -62,7 +62,7 @@ class Post(models.Model):
 
 	@models.permalink
 	def get_absolute_url(self):
-		return ("blog:detail", [self.blog.slug, self.slug], {}) #pylint: disable=E1101
+		return ("blog:detail", [self.blog.slug, self.slug], {})
 
 	def published(self):
 		if not self.pub_time:
@@ -76,7 +76,7 @@ class Post(models.Model):
 		return super(Post, self).save(*args, **kwargs)
 
 	def author(self):
-		return self.blog.author #pylint: disable=E1101
+		return self.blog.author
 	author.admin_order_field = 'blog__author'
 
 	def __unicode__(self):
