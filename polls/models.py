@@ -15,7 +15,7 @@ class PollListManager(models.Manager):
 	def get_query_set(self):
 		return super(PollListManager, self) \
 			.get_query_set() \
-			.filter(approved = True, active_from__lte = timezone.now(), content_type_id = None) \
+			.filter(approved=True, active_from__lte=timezone.now(), content_type_id=None) \
 			.order_by("-active_from")
 
 
@@ -24,19 +24,21 @@ class Poll(models.Model):
 	objects = PollListManager()
 
 	question = models.TextField(_("question"))
-	slug = AutoSlugField(unique = True, title_field = 'question')
-	checkbox = models.BooleanField(_("more choices"), default = False)
-	approved = models.BooleanField(_("approved"), default = False)
-	active_from = models.DateTimeField(verbose_name = _("active from"), blank = True, null = True)
-	choice_count = models.PositiveIntegerField(default = 0)
+	slug = AutoSlugField(unique=True, title_field='question')
 
-	content_type = models.ForeignKey(ContentType, limit_choices_to = {"model__in": ("article",)}, null = True, blank = True, verbose_name = _("content type"))
-	object_id = models.PositiveIntegerField(verbose_name = _("object id"), null = True, blank = True)
+	content_type = models.ForeignKey(ContentType, limit_choices_to={"model__in": ("article",)}, null=True, blank=True, verbose_name=_("content type"))
+	object_id = models.PositiveIntegerField(verbose_name=_("object id"), null=True, blank=True)
 	content_object = generic.GenericForeignKey('content_type', 'object_id')
+
+	active_from = models.DateTimeField(verbose_name=_("active from"), blank=True, null=True)
+	checkbox = models.BooleanField(_("more choices"), default=False)
+	approved = models.BooleanField(_("approved"), default=False)
+
+	choice_count = models.PositiveIntegerField(default=0)
 
 	@property
 	def choices(self):
-		return Choice.objects.filter(poll = self.pk).select_related('poll__choice_count').order_by('pk')
+		return Choice.objects.filter(poll=self.pk).select_related('poll__choice_count').order_by('pk')
 
 	@permalink
 	def get_absolute_url(self):
@@ -66,15 +68,15 @@ class Poll(models.Model):
 
 
 class Choice(models.Model):
-	poll = models.ForeignKey(Poll)
-	choice = models.CharField(max_length = 255)
-	votes = models.PositiveIntegerField(default = 0)
+	poll = models.ForeignKey(Poll, verbose_name=_("poll"))
+	choice = models.CharField(_("poll choice"), max_length=255)
+	votes = models.PositiveIntegerField(_("votes"), default=0)
 
 	def percent(self):
-		if self.poll.choice_count == 0:
+		if self.poll.choice_count == 0: #pylint: disable=E1101
 			return 0
 		else:
-			return 100.0 * self.votes / self.poll.choice_count
+			return 100.0 * self.votes / self.poll.choice_count #pylint: disable=E1101
 
 	def __unicode__(self):
 		return self.choice
@@ -87,7 +89,7 @@ class Choice(models.Model):
 class RecordIp(models.Model):
 	poll = models.ForeignKey(Poll)
 	ip = models.GenericIPAddressField()
-	date = models.DateTimeField(auto_now_add = True)
+	date = models.DateTimeField(auto_now_add=True)
 
 	class Meta:
 		unique_together = ('poll', 'ip', )
@@ -96,7 +98,7 @@ class RecordIp(models.Model):
 class RecordUser(models.Model):
 	poll = models.ForeignKey(Poll)
 	user = models.ForeignKey(settings.AUTH_USER_MODEL)
-	date = models.DateTimeField(auto_now_add = True)
+	date = models.DateTimeField(auto_now_add=True)
 
 	class Meta:
 		unique_together = ('poll', 'user', )
@@ -104,13 +106,13 @@ class RecordUser(models.Model):
 
 def check_can_vote(request, poll):
 	if request.user.is_authenticated():
-		return not RecordUser.objects.filter(user = request.user, poll = poll).exists()
+		return not RecordUser.objects.filter(user=request.user, poll=poll).exists()
 	else:
-		return not RecordIp.objects.filter(ip = request.META['REMOTE_ADDR'], poll = poll).exists()
+		return not RecordIp.objects.filter(ip=request.META['REMOTE_ADDR'], poll=poll).exists()
 
 
 def record_vote(request, poll):
 	if request.user.is_authenticated():
-		RecordUser(user = request.user, poll = poll).save()
+		RecordUser(user=request.user, poll=poll).save()
 	else:
-		RecordIp(ip = request.META['REMOTE_ADDR'], poll = poll).save()
+		RecordIp(ip=request.META['REMOTE_ADDR'], poll=poll).save()

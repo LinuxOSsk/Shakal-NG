@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-22 13:26+0200\n"
+"POT-Creation-Date: 2013-10-17 08:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,21 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "X-Language: sk_SK\n"
 "X-Source-Language: C\n"
+
+msgid "inactive"
+msgstr "neaktívny"
+
+msgid "super user"
+msgstr "super užívateľ"
+
+msgid "staff"
+msgstr "zamestnanec"
+
+msgid "active"
+msgstr "aktívny"
+
+msgid "status"
+msgstr "stav"
 
 msgid ""
 "This email address is already in use. Please supply a different email "
@@ -390,17 +405,17 @@ msgstr "Odpovede"
 msgid "question"
 msgstr "otázka"
 
-msgid "more choices"
-msgstr "viacej odpovedí"
-
-msgid "active from"
-msgstr "aktívne od"
-
 msgid "content type"
 msgstr "typ obsahu"
 
 msgid "object id"
 msgstr "id objektu"
+
+msgid "active from"
+msgstr "aktívne od"
+
+msgid "more choices"
+msgstr "viacej odpovedí"
 
 msgid "Field object id is required"
 msgstr "Pole id objektu je povinné"
@@ -413,6 +428,12 @@ msgstr "anketa"
 
 msgid "polls"
 msgstr "ankety"
+
+msgid "poll choice"
+msgstr "odpovede ankety"
+
+msgid "votes"
+msgstr "počet hlasov"
 
 msgid "choice"
 msgstr "odpoveď"
