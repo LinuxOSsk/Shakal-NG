@@ -12,6 +12,7 @@
 /venv
 /shakal/settings-local.py
 /shakal.db
+/test.db
 /virtualenv.py
 /dump.sql
 /xapian_index
