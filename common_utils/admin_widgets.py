@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 try:
-	from suit.widgets import SuitDateWidget as DateInput, SuitTimeWidget as TimeInput, SuitSplitDateTimeWidget as DateTimeInput, EnclosedInput
+	from suit.widgets import SuitDateWidget as DateInput, SuitTimeWidget as TimeInput, SuitSplitDateTimeWidget as DateTimeInput, EnclosedInput, AutosizedTextarea
 except ImportError:
-	from django.forms import DateInput, TimeInput, DateTimeInput, TextInput
+	from django.forms import DateInput, TimeInput, DateTimeInput, TextInput, Textarea as AutosizedTextarea
 	class EnclosedInput(TextInput):
 		def __init__(self, prepend=None, append=None, *args, **kwargs):
 			self.prepend = prepend

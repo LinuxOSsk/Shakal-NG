@@ -3,7 +3,8 @@
 from django import forms
 from django.forms.formsets import formset_factory, BaseFormSet
 from django.utils.translation import ugettext_lazy as _
-from models import Choice, Poll
+from .models import Choice, Poll
+from common_utils.admin_widgets import AutosizedTextarea, DateTimeInput
 
 
 class BaseChoiceFormSet(BaseFormSet):
@@ -46,3 +47,13 @@ class PollForm(forms.ModelForm):
 		model = Poll
 		exclude = ('approved', 'active_from', 'choice_count', 'content_type', 'object_id', 'slug')
 		fields = ('question', 'checkbox')
+
+
+class PollAdminForm(forms.ModelForm):
+	class Meta:
+		model = Poll
+		widgets = {
+			'question': AutosizedTextarea(attrs={'class': 'input-xlarge'}),
+			'slug': forms.TextInput(attrs={'class': 'input-xlarge'}),
+			'active_from': DateTimeInput()
+		}
