@@ -14,7 +14,7 @@ register = template.Library()
 
 @register.filter
 def humandatetime(value, default = ''):
-	if value is None:
+	if not value:
 		return default
 	today = timezone.now().date()
 	value = timezone.localtime(value)
