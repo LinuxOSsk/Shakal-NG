@@ -29,7 +29,10 @@
 		});*/
 
 		var hdr = $('#{{ inline_admin_formset.formset.prefix }}-group h2');
-		hdr.parent().addClass("collapsed");
+		var cls = hdr.parent().attr('class');
+		hdr.parent().contents().unwrap().wrapAll('<fieldset id="{{ inline_admin_formset.formset.prefix }}-group" class="'+cls+' module aligned with-legend collapse collapsed"></fieldset>')
+		hdr = $('#{{ inline_admin_formset.formset.prefix }}-group h2');
+		hdr.addClass('legend');
 		hdr.append(" (<a class=\"collapse-toggle\" id=\"{{ inline_admin_formset.formset.prefix }}-collapser\" href=\"#\"> " + gettext('Show') + " </a>)");
 		$("#{{ inline_admin_formset.formset.prefix }}-collapser").click(function() {
 			hdr.parent().toggleClass('collapsed');
