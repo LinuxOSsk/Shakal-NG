@@ -4,23 +4,24 @@
 	"model": "accounts.user",
 	"fields": {
 		"username": "admin",
-		"original_info": "",
-		"filtered_info": "",
-		"first_name": "",
-		"last_name": "",
-		"url": "",
-		"year": null,
 		"is_active": true,
 		"display_mail": false,
 		"is_superuser": true,
 		"is_staff": true,
-		"groups": [],
-		"signature": "",
-		"user_permissions": [],
-		"distribution": "",
 		"password": "crypt$$hdWzQ.OkntQXM",
-		"jabber": "",
-		"email": "mireq@linuxos.sk"
+		"email": "admin@example.com"
+	}
+},
+{
+	"pk": 2,
+	"model": "accounts.user",
+	"fields": {
+		"username": "user",
+		"is_active": true,
+		"is_superuser": false,
+		"is_staff": false,
+		"password": "crypt$$hdWzQ.OkntQXM",
+		"email": "user@example.com"
 	}
 }
 ]

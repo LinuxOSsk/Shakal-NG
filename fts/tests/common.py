@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext
 from selenium.webdriver.common.keys import Keys
 
+
 def admin_login(self):
 	self.browser.get(self.live_server_url + reverse('admin:index'))
 
@@ -11,6 +12,17 @@ def admin_login(self):
 
 	password_field = self.browser.find_element_by_name('password')
 	password_field.send_keys('pass')
+	password_field.send_keys(Keys.RETURN)
+
+
+def login(self, username, password):
+	self.browser.get(self.live_server_url + reverse('auth_login'))
+
+	username_field = self.browser.find_element_by_name('username')
+	username_field.send_keys(username)
+
+	password_field = self.browser.find_element_by_name('password')
+	password_field.send_keys(password)
 	password_field.send_keys(Keys.RETURN)
 
 

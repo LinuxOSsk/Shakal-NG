@@ -1,253 +1,171 @@
 # -*- coding: utf-8 -*-
-from django.conf import settings
 from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import LiveServerTestCase
-from django.utils.translation import ugettext
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from fts.tests.common import admin_login, logout
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
+
+from .common import admin_login, logout, login
+from accounts.models import User
 
 
 class AccountsTest(LiveServerTestCase):
 	fixtures = ['accounts_user.json']
 
 	def setUp(self):
-		self.OLD_TEMPLATES = settings.TEMPLATES
-		settings.TEMPLATES = (('desktop', ('default',),),)
 		self.browser = webdriver.Firefox()
-		self.browser.implicitly_wait(10)
+		self.browser.implicitly_wait(30)
 
 	def tearDown(self):
 		self.browser.quit()
-		settings.TEMPLATES = self.OLD_TEMPLATES
 
-	def test_create_account_via_admin_site(self):
-		admin_login(self)
+	def fill_password(self):
+		self.browser.find_element_by_id("id_password1").clear()
+		self.browser.find_element_by_id("id_password1").send_keys("P4ssword")
+		self.browser.find_element_by_id("id_password2").clear()
+		self.browser.find_element_by_id("id_password2").send_keys("P4ssword")
 
-		self.browser.get(self.live_server_url + reverse('admin:accounts_user_changelist'))
-		user_rows = self.browser.find_elements_by_css_selector('#result_list tbody tr')
-		self.assertEqual(len(user_rows), 1)
-
-		self.browser.get(self.live_server_url + reverse('admin:accounts_user_add'))
-		create_username_field = self.browser.find_element_by_name('username')
-		create_username_field.send_keys('user2')
-
-		create_password_field1 = self.browser.find_element_by_name('password1')
-		create_password_field1.send_keys('password')
-
-		create_password_field2 = self.browser.find_element_by_name('password2')
-		create_password_field2.send_keys('password')
-		create_password_field2.send_keys(Keys.RETURN)
-
-		body = self.browser.find_element_by_tag_name('body')
-		self.assertIn('was added', body.text)
-
-	def test_user_registration(self):
-		self.register_user()
-		self.login_user()
-		self.change_profile()
-		logout(self)
-		self.register_duplicate_mail()
-
-	def register_user(self):
-		self.browser.get(self.live_server_url + reverse('registration_register'))
-
-		username_field = self.browser.find_element_by_name('username')
-		username_field.send_keys('user')
-
-		email_field = self.browser.find_element_by_name('email')
-		email_field.send_keys('user@linuxos.sk')
-
-		password_field1 = self.browser.find_element_by_name('password1')
-		password_field1.send_keys('P4ssword')
-
-		password_field2 = self.browser.find_element_by_name('password2')
-		password_field2.send_keys('P4ssword')
-
-		antispam = self.browser.find_element_by_class_name("question").text.split(" ")
-		arg1 = int(antispam[0])
-		arg2 = int(antispam[2])
-		operation = antispam[1]
-		if operation == '+':
-			result = arg1 + arg2
-		elif operation == '-':
-			result = arg1 - arg2
-		elif operation == '/':
-			result = arg1 / arg2
-		elif operation == '*':
-			result = arg1 * arg2
-		result = str(result + 1000)
-
-		captcha_field = self.browser.find_element_by_name('captcha')
-		captcha_field.send_keys(result)
-		captcha_field.send_keys(Keys.RETURN)
-
-		body = self.browser.find_element_by_tag_name('body')
-		self.assertIn(ugettext("Registration complete"), body.text)
-
+	def get_mail_link(self):
 		self.assertEqual(len(mail.outbox), 1)
-
 		message_body = str(mail.outbox[0].message())
 		import re
-		link_match = re.search('http(?s)://[^/]+([-\w/]*)', message_body)
+		link_match = re.search(r'http(?s)://[-\w_:.\/@]*', message_body)
 		self.assertNotEqual(link_match, None)
-		link = link_match.group(1)
+		return link_match.group(0)
 
-		self.browser.get(self.live_server_url + link)
-		body = self.browser.find_element_by_tag_name('body')
-		self.assertIn(ugettext("Your account is now active!"), body.text)
+	def is_element_present(self, how, what):
+		try:
+			self.browser.find_element(by=how, value=what)
+		except NoSuchElementException:
+			return False
+		return True
 
-	def login_user(self):
-		self.browser.get(self.live_server_url + reverse('home'))
-		login_link = self.browser.find_element_by_link_text(ugettext("Log in"))
-		login_link.click()
+	def test_crate_account_via_admin_site(self):
+		admin_login(self)
+		self.browser.get(self.live_server_url + reverse('admin:accounts_user_changelist'))
+		self.browser.find_element_by_link_text("Users").click()
+		self.browser.find_element_by_css_selector("i.icon-plus-sign.icon-white").click()
+		self.browser.find_element_by_id("id_username").clear()
+		self.browser.find_element_by_id("id_username").send_keys("new_user")
+		self.fill_password()
+		self.browser.find_element_by_name("_save").click()
+		self.assertTrue(self.is_element_present(By.CSS_SELECTOR, "div.alert.alert-info"))
 
-		username_field = self.browser.find_element_by_name('username')
-		username_field.send_keys('user')
+	def test_duplicate_email_check(self):
+		self.browser.get(self.live_server_url + reverse('registration_register'))
+		self.browser.find_element_by_id("id_username").clear()
+		self.browser.find_element_by_id("id_username").send_keys("new_user2")
+		self.browser.find_element_by_id("id_email").clear()
+		self.browser.find_element_by_id("id_email").send_keys("admin@example.com")
+		self.fill_password()
+		self.browser.find_element_by_css_selector("button.btn").click()
+		self.assertEqual("This email address is already in use. Please supply a different email address.", self.browser.find_element_by_css_selector(".errorlist>*").text)
 
-		password_field = self.browser.find_element_by_name('password')
-		password_field.send_keys('P4ssword')
-		password_field.send_keys(Keys.RETURN)
+	def test_create_user(self):
+		self.browser.get(self.live_server_url + reverse('registration_register'))
+		self.browser.find_element_by_id("id_username").clear()
+		self.browser.find_element_by_id("id_username").send_keys("new_user2")
+		self.browser.find_element_by_id("id_email").clear()
+		self.browser.find_element_by_id("id_email").send_keys("user2@example.com")
+		self.fill_password()
+		self.browser.find_element_by_css_selector("button.btn").click()
+		self.assertEqual("Registration complete!", self.browser.find_element_by_css_selector("h1").text)
 
-		body = self.browser.find_element_by_tag_name('body')
-		self.assertNotIn(ugettext("Log in"), body.text)
+		self.browser.get(self.get_mail_link())
+		self.assertEqual("Your account is now active!", self.browser.find_element_by_css_selector("h1").text)
 
-	def change_profile(self):
-		self.browser.get(self.live_server_url + reverse('auth_my_profile_edit'))
+	def test_login_user(self):
+		self.browser.get(self.live_server_url + reverse('auth_login'))
+		self.browser.find_element_by_id("id_username").clear()
+		self.browser.find_element_by_id("id_username").send_keys("user")
+		self.browser.find_element_by_id("id_password").clear()
+		self.browser.find_element_by_id("id_password").send_keys("pass")
+		self.browser.find_element_by_css_selector("button.btn").click()
+		self.assertEqual("- User profile", self.browser.title)
+		logout(self)
+
+	def test_profile_edit(self):
+		login(self, "user", "pass")
 		self.profile_check_bad_password()
 		self.profile_change_data()
 		self.profile_change_email()
-		self.profile_change_existing_email()
 		self.profile_change_password()
 
 	def profile_check_bad_password(self):
-		password_field = self.browser.find_element_by_name('current_password')
-		password_field.send_keys('BadP4ssword')
-		password_field.send_keys(Keys.RETURN)
-
-		errors = self.browser.find_elements_by_class_name('errorlist')
-		self.assertEqual(len(errors), 1)
+		self.browser.get(self.live_server_url + reverse('auth_my_profile_edit'))
+		self.browser.find_element_by_id("id_current_password").clear()
+		self.browser.find_element_by_id("id_current_password").send_keys("bad")
+		self.browser.find_element_by_css_selector("button.btn").click()
+		self.assertEqual("Please enter the correct password.", self.browser.find_element_by_css_selector("ul.errorlist > li").text)
 
 	def profile_change_data(self):
-		password_field = self.browser.find_element_by_name('current_password')
-		password_field.send_keys('P4ssword')
-
-		first_name_field = self.browser.find_element_by_name('first_name')
-		first_name_field.send_keys('John')
-
-		last_name_field = self.browser.find_element_by_name('last_name')
-		last_name_field.send_keys('Smith')
-		last_name_field.send_keys(Keys.RETURN)
-
-		body = self.browser.find_element_by_tag_name('body')
-		self.assertIn(ugettext("User profile"), body.text)
-		self.assertIn("John", body.text)
-		self.assertIn("Smith", body.text)
+		self.browser.get(self.live_server_url + reverse('auth_my_profile_edit'))
+		self.browser.find_element_by_id("id_current_password").clear()
+		self.browser.find_element_by_id("id_current_password").send_keys("pass")
+		self.browser.find_element_by_id("id_first_name").clear()
+		self.browser.find_element_by_id("id_first_name").send_keys("Joe")
+		self.browser.find_element_by_id("id_last_name").clear()
+		self.browser.find_element_by_id("id_last_name").send_keys("Smith")
+		self.browser.find_element_by_css_selector("button.btn").click()
+		self.assertTrue(self.is_element_present(By.CSS_SELECTOR, "dd.fn"))
 
 	def profile_change_email(self):
-		self.browser.get(self.live_server_url + reverse('auth_email_change'))
-
-		password_field = self.browser.find_element_by_name('current_password')
-		password_field.send_keys('P4ssword')
-
-		email_field = self.browser.find_element_by_name('email')
-		email_field.clear()
-		email_field.send_keys('test@test.com')
-		email_field.send_keys(Keys.RETURN)
-
-		body = self.browser.find_element_by_tag_name('body')
-		self.assertIn(ugettext("E-mail change request sent"), body.text)
-
-		self.assertEqual(len(mail.outbox), 2)
-		message_body = str(mail.outbox[1].message())
-		import re
-		link_match = re.search('http(?s)://[^/]+([-\w/]*)', message_body)
-		self.assertNotEqual(link_match, None)
-		link = link_match.group(1)
-
-		self.browser.get(self.live_server_url + link)
-		body = self.browser.find_element_by_tag_name('body')
-		self.assertIn(ugettext("E-mail change complete"), body.text)
-
-	def profile_change_existing_email(self):
-		self.browser.get(self.live_server_url + reverse('auth_email_change'))
-
-		password_field = self.browser.find_element_by_name('current_password')
-		password_field.send_keys('P4ssword')
-
-		email_field = self.browser.find_element_by_name('email')
-		email_field.clear()
-		email_field.send_keys('mireq@linuxos.sk')
-		email_field.send_keys(Keys.RETURN)
-
-		errors = self.browser.find_elements_by_class_name('errorlist')
-		self.assertEqual(len(errors), 1)
-
-	def register_duplicate_mail(self):
-		self.browser.get(self.live_server_url + reverse('registration_register'))
-
-		username_field = self.browser.find_element_by_name('username')
-		username_field.send_keys('user2')
-
-		email_field = self.browser.find_element_by_name('email')
-		email_field.send_keys('mireq@linuxos.sk')
-
-		password_field1 = self.browser.find_element_by_name('password1')
-		password_field1.send_keys('P4ssword')
-
-		password_field2 = self.browser.find_element_by_name('password2')
-		password_field2.send_keys('P4ssword')
-		password_field2.send_keys(Keys.RETURN)
-
-		errors = self.browser.find_elements_by_class_name('errorlist')
-		# antispam + duplicita
-		self.assertEqual(len(errors), 2)
+		self.browser.get(self.live_server_url + reverse('auth_my_profile_edit'))
+		self.browser.find_element_by_link_text("Change e-mail").click()
+		self.browser.find_element_by_id("id_email").clear()
+		self.browser.find_element_by_id("id_email").send_keys("admin@example.com")
+		self.browser.find_element_by_id("id_current_password").clear()
+		self.browser.find_element_by_id("id_current_password").send_keys("pass")
+		self.browser.find_element_by_css_selector("button.btn").click()
+		self.assertEqual("User with this Email address already exists.", self.browser.find_element_by_css_selector("li").text)
+		self.browser.find_element_by_id("id_current_password").clear()
+		self.browser.find_element_by_id("id_current_password").send_keys("pass")
+		self.browser.find_element_by_id("id_email").clear()
+		self.browser.find_element_by_id("id_email").send_keys("newmail@example.com")
+		self.browser.find_element_by_css_selector("button.btn").click()
+		self.assertEqual("E-mail change request sent", self.browser.find_element_by_css_selector("h1").text)
+		self.browser.get(self.get_mail_link())
+		self.assertEqual("E-mail change complete", self.browser.find_element_by_css_selector("h1").text)
+		User.objects.filter(email='newmail@example.com').update(email='user@example.com')
 
 	def profile_change_password(self):
-		self.browser.get(self.live_server_url + reverse('auth_password_change'))
-
-		password_field = self.browser.find_element_by_name('old_password')
-		password_field.send_keys('P4ssword')
-
-		password_field1 = self.browser.find_element_by_name('new_password1')
-		password_field1.send_keys('P4ssword2')
-
-		password_field2 = self.browser.find_element_by_name('new_password2')
-		password_field2.send_keys('P4ssword2')
-		password_field2.send_keys(Keys.RETURN)
-
-		body = self.browser.find_element_by_tag_name('body')
-		self.assertIn(ugettext("Password change successful"), body.text)
+		self.browser.get(self.live_server_url + reverse('auth_my_profile_edit'))
+		self.browser.find_element_by_link_text("Change password").click()
+		self.browser.find_element_by_id("id_old_password").clear()
+		self.browser.find_element_by_id("id_old_password").send_keys("bad")
+		self.browser.find_element_by_id("id_new_password1").clear()
+		self.browser.find_element_by_id("id_new_password1").send_keys("newPass")
+		self.browser.find_element_by_id("id_new_password2").clear()
+		self.browser.find_element_by_id("id_new_password2").send_keys("newPass")
+		self.browser.find_element_by_css_selector("button.btn").click()
+		self.assertEqual("Your old password was entered incorrectly. Please enter it again.", self.browser.find_element_by_css_selector("li").text)
+		self.browser.find_element_by_id("id_old_password").clear()
+		self.browser.find_element_by_id("id_old_password").send_keys("pass")
+		self.browser.find_element_by_id("id_new_password1").clear()
+		self.browser.find_element_by_id("id_new_password1").send_keys("bad")
+		self.browser.find_element_by_id("id_new_password2").clear()
+		self.browser.find_element_by_id("id_new_password2").send_keys("newPass")
+		self.browser.find_element_by_css_selector("button.btn").click()
+		self.assertEqual("The two password fields didn't match.", self.browser.find_element_by_css_selector("li").text)
+		self.browser.find_element_by_id("id_old_password").clear()
+		self.browser.find_element_by_id("id_old_password").send_keys("pass")
+		self.browser.find_element_by_id("id_new_password1").clear()
+		self.browser.find_element_by_id("id_new_password1").send_keys("newPass")
+		self.browser.find_element_by_id("id_new_password2").clear()
+		self.browser.find_element_by_id("id_new_password2").send_keys("newPass")
+		self.browser.find_element_by_css_selector("button.btn").click()
+		self.assertEqual("Password change successful", self.browser.find_element_by_css_selector("h1").text)
 
 	def test_password_reset(self):
 		self.browser.get(self.live_server_url + reverse('auth_password_reset'))
-
-		email_field = self.browser.find_element_by_name('email')
-		email_field.send_keys('mireq@linuxos.sk')
-		email_field.send_keys(Keys.RETURN)
-
-		body = self.browser.find_element_by_tag_name('body')
-		self.assertIn(ugettext("Password reset successful"), body.text)
-
-		self.assertEqual(len(mail.outbox), 1)
-
-		message_body = str(mail.outbox[0].message())
-		import re
-		link_match = re.search('http(?s)://[^/]+([-\w/]*)', message_body)
-		self.assertNotEqual(link_match, None)
-		link = link_match.group(1)
-
-		self.browser.get(self.live_server_url + link)
-		body = self.browser.find_element_by_tag_name('body')
-		self.assertIn(ugettext("Password reset"), body.text)
-
-		password_field1 = self.browser.find_element_by_name('new_password1')
-		password_field1.send_keys('P4ssword2')
-
-		password_field2 = self.browser.find_element_by_name('new_password2')
-		password_field2.send_keys('P4ssword2')
-		password_field2.send_keys(Keys.RETURN)
-
-		body = self.browser.find_element_by_tag_name('body')
-		self.assertIn(ugettext("Password reset complete"), body.text)
+		self.browser.find_element_by_id("id_email").clear()
+		self.browser.find_element_by_id("id_email").send_keys("user@example.com")
+		self.browser.find_element_by_css_selector("input[type=\"submit\"]").click()
+		self.browser.get(self.get_mail_link())
+		self.browser.find_element_by_id("id_new_password1").clear()
+		self.browser.find_element_by_id("id_new_password1").send_keys("pass")
+		self.browser.find_element_by_id("id_new_password2").clear()
+		self.browser.find_element_by_id("id_new_password2").send_keys("pass")
+		self.browser.find_element_by_css_selector("button.btn").click()
+		self.assertEqual("Password reset complete", self.browser.find_element_by_css_selector("h1").text)
