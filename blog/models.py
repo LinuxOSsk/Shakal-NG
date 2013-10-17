@@ -29,6 +29,10 @@ class Blog(models.Model):
 	def __unicode__(self):
 		return self.title
 
+	class Meta:
+		verbose_name = "blog"
+		verbose_name_plural = "blogy"
+
 
 class PostManager(models.Manager):
 	def get_query_set(self):
@@ -83,4 +87,7 @@ class Post(models.Model):
 		return self.title
 
 	class Meta:
+		verbose_name = u"príspevok"
+		verbose_name_plural = u"príspevky"
 		unique_together = (('blog', 'slug'),)
+		ordering = ('-pub_time',)
