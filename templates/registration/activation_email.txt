@@ -1,10 +1,10 @@
-{% load i18n %}{% trans "Your activation key" %}: {{ activation_key }}
+{% load i18n linuxos %}{% trans "Your activation key" %}: {{ activation_key }}
 
 {% trans "Please use this link to activate your account" %}:
 
-http://{{ site.domain }}{% url 'registration_activate' activation_key %}
+{% get_base_uri %}{% url 'registration_activate' activation_key %}
 
 {% trans "After activation you can login to the site" %}:
 
-http://{{ site.domain }}{% url 'auth_login' %}
+{% get_base_uri %}{% url 'auth_login' %}
 

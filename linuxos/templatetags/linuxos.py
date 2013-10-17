@@ -14,20 +14,19 @@ register = template.Library()
 
 @register.filter
 def humandatetime(value, default = ''):
-	try:
-		today = timezone.now().date()
-		value = timezone.localtime(value)
-		if value.year != today.year:
-			return mark_safe(value.strftime("%d.%m.%Y&nbsp;|&nbsp;%H:%M"))
-		else:
-			if today == value.date():
-				return mark_safe("Dnes&nbsp;|&nbsp;" + value.strftime("%H:%M"))
-			elif (today - timedelta(days = 1)) == value.date():
-				return mark_safe("Včera&nbsp;|&nbsp;" + value.strftime("%H:%M"))
-			else:
-				return mark_safe(value.strftime("%d.%m&nbsp;|&nbsp;%H:%M"))
-	except Exception:
+	if value is None:
 		return default
+	today = timezone.now().date()
+	value = timezone.localtime(value)
+	if value.year != today.year:
+		return mark_safe(value.strftime("%d.%m.%Y&nbsp;|&nbsp;%H:%M"))
+	else:
+		if today == value.date():
+			return mark_safe("Dnes&nbsp;|&nbsp;" + value.strftime("%H:%M"))
+		elif (today - timedelta(days = 1)) == value.date():
+			return mark_safe("Včera&nbsp;|&nbsp;" + value.strftime("%H:%M"))
+		else:
+			return mark_safe(value.strftime("%d.%m&nbsp;|&nbsp;%H:%M"))
 
 
 @register.simple_tag
@@ -79,7 +78,7 @@ class MessagesNode(template.Node):
 
 
 @register.tag
-def render_messages(parser, token):
+def render_messages(parser, token): #pylint: disable=W0613
 	parts = token.split_contents()
 	if len(parts) < 2:
 		raise template.TemplateSyntaxError('{0} tags requires messages variable.'.format(token.contents.split()[0]))
@@ -89,4 +88,17 @@ def render_messages(parser, token):
 @register.filter
 def labelize_content_type(content_type):
 	app_label, model = content_type.split('.')
-	return ContentType.objects.get_by_natural_key(app_label = app_label, model = model).model_class()._meta.verbose_name
+	return ContentType.objects.get_by_natural_key(app_label = app_label, model = model).model_class()._meta.verbose_name #pylint: disable=W0212
+
+
+@register.simple_tag(takes_context=True)
+def get_base_uri(context):
+	if 'request' in context:
+		return context['request'].build_absolute_uri('/')[:-1]
+	else:
+		from django_tools.middlewares.ThreadLocal import get_current_request
+		request = get_current_request()
+		if request:
+			return request.build_absolute_uri('/')[:-1]
+		else:
+			return ''
