@@ -23,6 +23,7 @@ class PostForm(forms.ModelForm):
 		super(PostForm, self).__init__(*args, **kwargs)
 		if self.instance and self.instance.published():
 			del self.fields['pub_time']
+			del self.fields['pub_now']
 		else:
 			self.fields['pub_time'].required = False
 
