@@ -39,6 +39,7 @@
 				<h3><a href="{{ item.get_absolute_url }}">{{ item }}</a></h3>
 				<div class="info">
 					<span class="time">{{ item.pub_time|humandatetime }}</span> |
+					{% get_comments_for_item item %} |
 					{% if not blog %}
 						<span class="blog"><a href="{{ item.blog.get_absolute_url }}">{{ item.blog }}</a></span> |
 					{% endif %}
