@@ -358,3 +358,6 @@ if len(sys.argv) > 1 and sys.argv[1] == 'test':
 
 	LANGUAGE_CODE = 'en'
 	LANGUAGES = (('en', 'English'),)
+	CAPTCHA_DISABLE = True
+	LOGIN_URL = '/accounts/login/'
+	LOGIN_REDIRECT_URL = '/accounts/me/'

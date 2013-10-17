@@ -5,3 +5,7 @@ TEMPLATES = (('desktop', ('test',),),)
 
 LANGUAGE_CODE = 'en'
 LANGUAGES = (('en', 'English'),)
+CAPTCHA_DISABLE = True
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/accounts/me/'
