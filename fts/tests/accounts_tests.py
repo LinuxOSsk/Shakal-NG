@@ -6,7 +6,7 @@ from django.test import LiveServerTestCase
 from django.utils.translation import ugettext
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from common import admin_login, logout
+from fts.tests.common import admin_login, logout
 
 
 class AccountsTest(LiveServerTestCase):
@@ -16,7 +16,7 @@ class AccountsTest(LiveServerTestCase):
 		self.OLD_TEMPLATES = settings.TEMPLATES
 		settings.TEMPLATES = (('desktop', ('default',),),)
 		self.browser = webdriver.Firefox()
-		self.browser.implicitly_wait(5)
+		self.browser.implicitly_wait(10)
 
 	def tearDown(self):
 		self.browser.quit()
@@ -40,8 +40,8 @@ class AccountsTest(LiveServerTestCase):
 		create_password_field2.send_keys('password')
 		create_password_field2.send_keys(Keys.RETURN)
 
-		info_rows = self.browser.find_elements_by_css_selector('.messagelist .info')
-		self.assertEqual(len(info_rows), 1)
+		body = self.browser.find_element_by_tag_name('body')
+		self.assertIn('was added', body.text)
 
 	def test_user_registration(self):
 		self.register_user()
@@ -111,7 +111,7 @@ class AccountsTest(LiveServerTestCase):
 		password_field.send_keys(Keys.RETURN)
 
 		body = self.browser.find_element_by_tag_name('body')
-		self.assertIn("user", body.text)
+		self.assertNotIn(ugettext("Log in"), body.text)
 
 	def change_profile(self):
 		self.browser.get(self.live_server_url + reverse('auth_my_profile_edit'))
