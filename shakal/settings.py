@@ -291,6 +291,7 @@ SUIT_CONFIG = {
 		{
 			'label': u'Ankety',
 			'icon': 'icon-tasks',
+			'permissions': 'polls.change_poll',
 			'models': (
 				'polls.poll',
 			)
@@ -298,6 +299,7 @@ SUIT_CONFIG = {
 		{
 			'label': u'Blogy',
 			'icon': 'icon-pencil',
+			'permissions': 'blog.change_post',
 			'models': (
 				'blog.post',
 				'blog.blog',
@@ -306,6 +308,7 @@ SUIT_CONFIG = {
 		{
 			'label': u'Články',
 			'icon': 'icon-font',
+			'permissions': 'article.change_article',
 			'models': (
 				'article.article',
 				'article.category',
@@ -314,6 +317,7 @@ SUIT_CONFIG = {
 		{
 			'label': u'Fórum',
 			'icon': 'icon-list',
+			'permissions': 'forum.change_topic',
 			'models': (
 				'forum.topic',
 				'forum.section',
@@ -322,6 +326,7 @@ SUIT_CONFIG = {
 		{
 			'label': u'Používatelia',
 			'icon': 'icon-lock',
+			'permissions': 'accounts.change_user',
 			'models': (
 				'accounts.user',
 				'auth.group',
@@ -330,6 +335,7 @@ SUIT_CONFIG = {
 		{
 			'label': u'Správy',
 			'icon': 'icon-globe',
+			'permissions': 'news.change_news',
 			'models': (
 				'news.news',
 			)
@@ -337,6 +343,7 @@ SUIT_CONFIG = {
 		{
 			'label': u'Wiki',
 			'icon': 'icon-folder-open',
+			'permissions': 'wiki.change_page',
 			'models': (
 				'wiki.page',
 			)
