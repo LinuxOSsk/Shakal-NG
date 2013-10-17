@@ -57,7 +57,7 @@ class User(AbstractUser):
 
 	def get_full_name(self):
 		full_name = '%s %s' % (self.first_name, self.last_name)
-		return full_name
+		return full_name.strip()
 	get_full_name.short_description = _('full name')
 	get_full_name.admin_order_field = 'last_name'
 
