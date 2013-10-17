@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse_lazy
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 
 from blog.forms import BlogForm, PostForm
 from blog.models import Blog, Post
@@ -55,6 +56,11 @@ class PostUpdateView(UpdateProtectedView):
 class PostCreateView(CreateView):
 	form_class = PostForm
 	model = Post
+
+	def get_initial(self):
+		return {
+			'pub_time': timezone.now(),
+		}
 
 	def form_valid(self, form):
 		form.instance.blog = self.request.user.blog
