@@ -82,7 +82,7 @@ class AccountsTest(LiveServerTestCase):
 		self.browser.find_element_by_id("id_password").clear()
 		self.browser.find_element_by_id("id_password").send_keys("pass")
 		self.browser.find_element_by_css_selector("button.btn").click()
-		self.assertEqual("- User profile", self.browser.title)
+		self.assertEqual("user - User profile", self.browser.title)
 		logout(self)
 
 	def test_profile_edit(self):
