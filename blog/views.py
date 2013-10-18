@@ -7,7 +7,7 @@ from django.utils import timezone
 
 from blog.forms import BlogForm, PostForm
 from blog.models import Blog, Post
-from common_utils.generic import DetailUserProtectedView, ListView, CreateView, UpdateView, UpdateProtectedView
+from common_utils.generic import ListView, CreateView, UpdateView, UpdateProtectedView, DetailView
 
 
 class BlogListView(ListView):
@@ -36,8 +36,7 @@ class BlogUpdateView(UpdateView):
 	form_class = BlogForm
 
 
-class PostDetailView(DetailUserProtectedView):
-	author_field = 'author'
+class PostDetailView(DetailView):
 	queryset = Post.all_objects.all()
 
 	def get_queryset(self):

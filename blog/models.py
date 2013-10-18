@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
 from django.utils import timezone
@@ -38,10 +39,13 @@ class PostManager(models.Manager):
 	def get_query_set(self):
 		return super(PostManager, self).get_query_set().select_related("blog", "blog__author")
 
+	def for_auth_user(self, user):
+		return self.get_query_set().filter(Q(pub_time__lt=timezone.now()) | Q(blog__author=user))
+
 
 class PublishedPostManager(PostManager):
 	def get_query_set(self):
-		return super(PublishedPostManager, self).get_query_set().filter(pub_time__lt = timezone.now())
+		return super(PublishedPostManager, self).get_query_set().filter(pub_time__lt=timezone.now())
 
 
 class Post(models.Model):
