@@ -11,11 +11,18 @@ from common_utils.generic import ListView, CreateView, UpdateView, UpdateProtect
 
 
 class BlogListView(ListView):
-	queryset = Post.objects
+	queryset = Post.all_objects
 	category_key = "slug"
 	category_field = "blog"
 	category_context = "blog"
 	category = Blog
+
+	def get_queryset(self):
+		queryset = super(BlogListView, self).get_queryset()
+		if self.request.user.is_authenticated():
+			return queryset.for_auth_user(self.request.user)
+		else:
+			return queryset.published()
 
 
 class BlogCreateView(CreateView):

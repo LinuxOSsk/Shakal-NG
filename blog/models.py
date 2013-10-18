@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
+from django.db.models.query import QuerySet
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
 from django.utils import timezone
@@ -35,12 +36,23 @@ class Blog(models.Model):
 		verbose_name_plural = "blogy"
 
 
-class PostManager(models.Manager):
-	def get_query_set(self):
-		return super(PostManager, self).get_query_set().select_related("blog", "blog__author")
+class PostQuerySet(QuerySet):
+	def published(self):
+		return self.filter(pub_time__lt=timezone.now())
 
 	def for_auth_user(self, user):
-		return self.get_query_set().filter(Q(pub_time__lt=timezone.now()) | Q(blog__author=user))
+		return self.filter(Q(pub_time__lt=timezone.now()) | Q(blog__author=user))
+
+
+class PostManager(models.Manager):
+	def get_query_set(self):
+		return PostQuerySet(self.model, using=self._db).select_related("blog", "blog__author")
+
+	def published(self):
+		return self.get_query_set().published() #pylint: disable=E1103
+
+	def for_auth_user(self, user):
+		return self.get_query_set().for_auth_user(user) #pylint: disable=E1103
 
 
 class PublishedPostManager(PostManager):
