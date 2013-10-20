@@ -71,6 +71,16 @@
 	</div>
 </div>
 
+<div class="module blog">
+	<h2>Blogy</h2>
+	{% for post in posts %}
+		{% include 'blog/block_post_list_item.html' %}
+	{% endfor %}
+	<div class="module-links bottom">
+		<a href="{% url 'blog:post-list' %}" class="next">Ďalšie</a>
+	</div>
+</div>
+
 {% cache 1800 planet_opensoft %}
 	<div class="module feeds">
 		<h2>Planet.OpenSoft.sk</h2>

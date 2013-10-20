@@ -9,9 +9,9 @@
 
 {% block breadcrumbs %}
 	{% if blog %}
-		{% breadcrumb url='blog:list' %}{{ blog }}{% endbreadcrumb %}
+		{% breadcrumb url='blog:post-list' %}{{ blog }}{% endbreadcrumb %}
 	{% endif %}
-	{% breadcrumb url='blog:list' %}Blog{% endbreadcrumb %}
+	{% breadcrumb url='blog:post-list' %}Blog{% endbreadcrumb %}
 	{{ block.super }}
 {% endblock %}
 
@@ -38,6 +38,6 @@
 			{% include "blog/block_post_list_item.html" %}
 		{% endfor %}
 	{% endwith %}
-	{% paginator blog:list %}
+	{% paginator blog:post-list %}
 </div>
 {% endblock %}

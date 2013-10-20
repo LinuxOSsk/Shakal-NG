@@ -42,7 +42,7 @@ def home(request):
 		'top_articles': top_articles[:1],
 		'articles': articles[:5],
 		'top_posts': top_posts[:1],
-		'posts': posts[:5],
+		'posts': posts[:4],
 		'forum_new': ForumTopic.topics.newest_comments()[:20],
 		'forum_no_comments': ForumTopic.topics.no_comments()[:5],
 		'forum_most_comments': ForumTopic.topics.most_commented()[:5],

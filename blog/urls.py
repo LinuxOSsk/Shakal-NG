@@ -14,7 +14,7 @@ class Patterns(object):
 	@property
 	def urls(self):
 		url_patterns = patterns('',
-			url(r'^(?:(?P<page>\d+)/)?$', blog_views.BlogListView.as_view(), name = 'list'),
+			url(r'^(?:(?P<page>\d+)/)?$', blog_views.BlogListView.as_view(), name = 'post-list'),
 			url(r'^admin/edit/$', login_required(blog_views.edit), name = 'edit'),
 			url(r'^admin/my/$', login_required(blog_views.my_blog), name = 'my'),
 			url(r'^admin/create-post/$', login_required(blog_views.PostCreateView.as_view()), name = 'post_create'),

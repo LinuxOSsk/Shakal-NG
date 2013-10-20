@@ -6,7 +6,7 @@
 {% block breadcrumbs %}
 	{% breadcrumb %}{{ object }}{% endbreadcrumb %}
 	{% breadcrumb absolute_url=object.blog.get_absolute_url %}{{ object.blog }}{% endbreadcrumb %}
-	{% breadcrumb url='blog:list' %}Blog{% endbreadcrumb %}
+	{% breadcrumb url='blog:post-list' %}Blog{% endbreadcrumb %}
 	{{ block.super }}
 {% endblock %}
 
