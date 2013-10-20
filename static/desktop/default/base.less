@@ -254,6 +254,23 @@ pre { color: mix(@generic-foreground, @generic-background, 60%); }
 code { color: @code-color; background: mix(@generic-background, @generic-foreground, 98%); }
 pre, .annotation { margin: @module-padding; padding: @module-padding; background: mix(@generic-background, @generic-foreground, 98%); border: @light-border; overflow: auto; }
 
+blockquote {
+	font-style: italic;
+	background: #eff3f7;
+	padding: @module-margin / 2;
+	margin: @module-margin / 2;
+	border-left: #cbe2fe 10px solid;
+	&:before {
+		font-family: serif;
+		content: "”";
+		font-size: 600%;
+		display: block;
+		float: right;
+		margin-top: -@module-margin / 6;
+		color: @generic-background;
+	}
+}
+
 textarea { width: 30em; height: 10em; .input; }
 textarea.wymeditor { width: auto; height: 15em; display: block; clear: both; }
 .textareawrapper {
