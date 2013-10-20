@@ -36,7 +36,10 @@ class PostAdmin(admin.ModelAdmin):
 		else:
 			cls = "warning"
 			text = u"Čaká na publikovanie"
-		return format_html(u'<span class="label label-{0}">{1}</span>', cls, unicode(text))
+		if obj.linux:
+			return format_html(u'<span class="label label-{0}">{1} <i class="icon-star icon-white" style="margin-top: -2px"></i></span>', cls, unicode(text))
+		else:
+			return format_html(u'<span class="label label-{0}">{1}</span>', cls, unicode(text))
 	get_status.short_description = u"Stav"
 	get_status.allow_tags = True
 
