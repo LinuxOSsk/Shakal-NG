@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from article.feeds import ArticleFeed
+from blog.feeds import PostFeed
 from feeds import register_feed
 from forum.feeds import TopicFeed
 from news.feeds import NewsFeed
@@ -12,4 +13,5 @@ class FeedsMiddleware(object):
 		register_feed(request, ArticleFeed)
 		register_feed(request, TopicFeed)
 		register_feed(request, NewsFeed)
+		register_feed(request, PostFeed)
 		register_feed(request, CommentFeed)
