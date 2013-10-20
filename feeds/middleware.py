@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from article.feeds import ArticleFeed
-from blog.feeds import PostFeed
+from blog.blog_feeds import PostFeed
 from feeds import register_feed
 from forum.feeds import TopicFeed
 from news.feeds import NewsFeed

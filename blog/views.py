@@ -9,8 +9,10 @@ from blog.forms import BlogForm, PostForm
 from blog.models import Blog, Post
 from common_utils.generic import ListView, CreateView, UpdateView, UpdateProtectedView, DetailView
 
+from blog.blog_feeds import PostFeed
+from feeds import register_feed
 
-class BlogListView(ListView):
+class PostListView(ListView):
 	queryset = Post.all_objects
 	category_key = "slug"
 	category_field = "blog"
@@ -18,11 +20,16 @@ class BlogListView(ListView):
 	category = Blog
 
 	def get_queryset(self):
-		queryset = super(BlogListView, self).get_queryset()
+		queryset = super(PostListView, self).get_queryset()
 		if self.request.user.is_authenticated():
 			return queryset.for_auth_user(self.request.user)
 		else:
 			return queryset.published()
+
+	def get(self, request, *args, **kwargs):
+		if "category" in kwargs:
+			register_feed(request, PostFeed(blog_slug=kwargs['category']))
+		return super(PostListView, self).get(request, *args, **kwargs)
 
 
 class BlogCreateView(CreateView):
