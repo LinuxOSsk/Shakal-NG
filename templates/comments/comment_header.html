@@ -1,5 +1,5 @@
 {% extends "comments/comment_header_base.html" %}
 
 {% block comment_title %}
-	{{ comment.subject }}<a id="link_{{ comment.pk }}" href="#link_{{ comment.pk }}" class="headerlink"></a>
+	{{ comment.subject }}<a class="headerlink"></a><a id="link_{{ comment.pk }}" class="comment_link" href="#"></a>
 {% endblock %}
