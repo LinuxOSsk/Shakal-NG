@@ -1,0 +1,7 @@
+.collapsed .inline-related, .collapsed .add-row {
+	display: none;
+}
+
+.form-horizontal fieldset.inline-group > h2 {
+	margin: -30px 0 0 0;
+}
