@@ -5,6 +5,7 @@ from django.template import RequestContext, Context
 from django.template.loader import get_template
 from django.template.response import TemplateResponse
 from article.models import Article, Category
+from blog.models import Post
 from forum.models import Topic as ForumTopic
 import sys
 
@@ -21,11 +22,18 @@ def error_500(request):
 
 def home(request):
 	try:
-		top_articles = Article.objects.filter(top = True)
-		articles = Article.objects.exclude(pk = top_articles[0].pk)
+		top_articles = Article.objects.filter(top=True)
+		articles = Article.objects.exclude(pk=top_articles[0].pk)
 	except IndexError:
 		top_articles = Article.objects.none()
 		articles = Article.objects.all()
+
+	try:
+		top_posts = Post.objects.filter(linux=True)
+		posts = Post.objects.exclude(pk=top_posts[0].pk)
+	except IndexError:
+		top_posts = Post.objects.none()
+		posts = Post.objects.all()
 
 	articles = articles.select_related('author', 'category').defer('content')
 	top_articles = top_articles.select_related('author', 'category').defer('content')
@@ -33,6 +41,8 @@ def home(request):
 	context = {
 		'top_articles': top_articles[:1],
 		'articles': articles[:5],
+		'top_posts': top_posts[:1],
+		'posts': posts[:5],
 		'forum_new': ForumTopic.topics.newest_comments()[:20],
 		'forum_no_comments': ForumTopic.topics.no_comments()[:5],
 		'forum_most_comments': ForumTopic.topics.most_commented()[:5],

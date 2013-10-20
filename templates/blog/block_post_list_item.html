@@ -1,0 +1,14 @@
+{% load threaded_comments_tags %}
+{% load linuxos %}
+<div class="module-row">
+	<h3><a href="{{ post.get_absolute_url }}">{{ post }}</a>{% if content_indicator %} <span class="label label-info">Blog</span>{% endif %}</h3>
+	<div class="info">
+		<span class="time">{{ post.pub_time|humandatetime }}</span> |
+		{% get_comments_for_item post %} |
+		{% if not blog %}
+			<span class="blog"><a href="{{ post.blog.get_absolute_url }}">{{ post.blog }}</a></span> |
+		{% endif %}
+		<span class="user"><a href="{{ post.author.get_absolute_url }}">{{ post.author }}</a></span>
+	</div>
+	<p>{{ post.perex|safe }}</p>
+</div>

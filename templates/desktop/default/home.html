@@ -54,6 +54,11 @@
 			{% endwith %}
 		</div>
 	{% endfor %}
+	{% for top_post in top_posts %}
+		{% with content_indicator=1 %}
+			{% include 'blog/block_post_list_item.html' with post=top_post %}
+		{% endwith %}
+	{% endfor %}
 	{% for article in articles %}
 		{% include 'article/block_list_item.html' with thumbnail=0 %}
 	{% endfor %}
