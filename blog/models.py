@@ -103,7 +103,7 @@ class Post(models.Model):
 		return self.title
 
 	class Meta:
-		verbose_name = u"príspevok"
-		verbose_name_plural = u"príspevky"
+		verbose_name = u"príspevok blogu"
+		verbose_name_plural = u"príspevky blogu"
 		unique_together = (('blog', 'slug'),)
 		ordering = ('-pub_time',)
