@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from accounts.models import User
 from article.models import Article
+from blog.models import Blog, Post
 from forum.models import Topic
 from news.models import News
 from wiki.models import Page as WikiPage
@@ -23,9 +24,11 @@ class StaticPagesSitemap(sitemaps.Sitemap):
 
 sitemaps = {
 	'sites': StaticPagesSitemap(),
-	'accounts': GenericSitemap({'queryset': User.objects.filter(is_active = True)}, changefreq = 'monthly', priority = 0.2),
-	'articles': GenericSitemap({'queryset': Article.objects.all(), 'date_field': 'pub_time'}, priority = 0.9),
-	'topics': GenericSitemap({'queryset': Topic.objects.topics(), 'date_field': 'updated'}, priority = 0.5),
-	'news': GenericSitemap({'queryset': News.objects.all(), 'date_field': 'updated'}, priority = 0.5),
-	'wiki': GenericSitemap({'queryset': WikiPage.objects.all(), 'date_field': 'updated'}, priority = 0.7),
+	'accounts': GenericSitemap({'queryset': User.objects.filter(is_active=True)}, changefreq='monthly', priority=0.2),
+	'articles': GenericSitemap({'queryset': Article.objects.all(), 'date_field': 'pub_time'}, priority=0.9),
+	'topics': GenericSitemap({'queryset': Topic.objects.topics(), 'date_field': 'updated'}, priority=0.5),
+	'news': GenericSitemap({'queryset': News.objects.all(), 'date_field': 'updated'}, priority=0.5),
+	'blogs': GenericSitemap({'queryset': Blog.objects.all(), 'date_field': 'updated'}, priority=0.8),
+	'blogposts': GenericSitemap({'queryset': Post.objects.all(), 'date_field': 'updated'}, priority=0.6),
+	'wiki': GenericSitemap({'queryset': WikiPage.objects.all(), 'date_field': 'updated'}, priority=0.7),
 }
