@@ -1,5 +1,7 @@
 @import "../../compressed_images.less";
 
+@code-color: #d14;
+
 @generic-background: white;
 @generic-foreground: black;
 @generic-font: sans-serif;
@@ -1562,4 +1564,17 @@ td.status, td.comments, td.date {
 			color: @generic-background;
 		}
 	}
+}
+
+.headerlink {
+	text-decoration: none;
+	color: @code-color;
+	display: none;
+	&:after {
+		content: "¶"
+	}
+}
+
+.comment_info:hover .headerlink {
+	display: inline;
 }
