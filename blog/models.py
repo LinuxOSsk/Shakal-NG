@@ -77,7 +77,7 @@ class Post(models.Model):
 	pub_time = models.DateTimeField(verbose_name=_('publication date'), db_index=True)
 	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
-	linux = models.BooleanField(_('linux blog'))
+	linux = models.BooleanField(_('linux blog'), default=False)
 	polls = generic.GenericRelation(Poll)
 	comments_header = generic.GenericRelation(RootHeader)
 	comments = generic.GenericRelation(Comment)
