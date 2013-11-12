@@ -109,7 +109,7 @@ class ListView(OriginalListView):
 		return queryset
 
 	def get_context_data(self, **kwargs):
-		queryset = kwargs.pop('object_list')
+		queryset = self.object_list
 		if isinstance(queryset, Manager):
 			queryset = queryset.all()
 		context_object_name = self.get_context_object_name(queryset)
