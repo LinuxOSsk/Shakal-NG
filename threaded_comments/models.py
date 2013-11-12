@@ -59,18 +59,23 @@ class CommentManager(models.Manager):
 		super(CommentManager, self).__init__()
 
 	def get_root_comment(self, ctype, object_id):
-		root_comment, created = self.model.all_comments.get_or_create(
-			parent = None,
-			content_type = ctype,
-			object_id = object_id,
-			defaults = {
-				'original_comment': ('html', ''),
-				'filtered_comment': '',
-				'user_name': '',
-				'submit_date': timezone.now(),
-			}
-		)
-		return (root_comment, created)
+		try:
+			root_comment = self.model.all_comments.get(parent=None, content_type=ctype, object_id=object_id)
+			return (root_comment, False)
+		except self.model.DoesNotExist:
+			with transaction.atomic():
+				root_comment, created = self.model.all_comments.get_or_create(
+					parent = None,
+					content_type = ctype,
+					object_id = object_id,
+					defaults = {
+						'original_comment': ('html', ''),
+						'filtered_comment': '',
+						'user_name': '',
+						'submit_date': timezone.now(),
+					}
+				)
+				return (root_comment, created)
 
 	def get_query_set(self):
 		queryset = self.__qs_class(self.model).select_related('user__profile')
