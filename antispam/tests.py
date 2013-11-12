@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.core.exceptions import ValidationError
+from django.conf import settings
 from django.forms import Form
 from django.test.client import RequestFactory
 from django.utils import unittest
@@ -11,6 +12,11 @@ from antispam.forms import AntispamFormMixin
 class AntispamTestCase(unittest.TestCase):
 	def setUp(self):
 		self.factory = RequestFactory()
+		self.old_captcha_disable = settings.CAPTCHA_DISABLE
+		settings.CAPTCHA_DISABLE = False
+
+	def tearDown(self):
+		settings.CAPTCHA_DISABLE = self.old_captcha_disable
 
 	def test_input(self):
 		test_input = AntispamInput(attrs = {"question": "Question", "answer": "Answer"})

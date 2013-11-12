@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-17 08:20+0200\n"
+"POT-Creation-Date: 2013-11-12 11:39+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,6 +66,7 @@ msgstr "Priezvisko"
 msgid "Informations"
 msgstr "Informácie"
 
+#, python-brace-format
 msgid "E-mail address can be changed <a href=\"{0}\">this link</a>."
 msgstr "E-mailová adresa sa dá zmeniť na <a href=\"{0}\">tejto stránke</a>."
 
@@ -105,9 +106,6 @@ msgstr "^ja/$"
 msgid "^me/edit/$"
 msgstr "^ja/upravit/$"
 
-msgid "^register/$"
-msgstr "^registrovat/$"
-
 msgid "^login/$"
 msgstr "^prihlasit/$"
 
@@ -137,6 +135,15 @@ msgstr "Platnosť odkazu vypršala."
 
 msgid "E-mail address is already in use."
 msgstr "E-mailová adresa sa už používa."
+
+msgid "Password"
+msgstr "Heslo"
+
+msgid "Password (again)"
+msgstr "Kontrola hesla"
+
+msgid "The two password fields didn't match."
+msgstr "Heslo a kontrola heslasa nezhodujú."
 
 msgid "Recent Actions"
 msgstr "Posledné akcie"
@@ -326,36 +333,6 @@ msgstr "téma fóra"
 
 msgid "topics"
 msgstr "témy fóra"
-
-msgid "Registration complete"
-msgstr "Registrácia dokončená"
-
-msgid "Your account is now active!"
-msgstr "Váš účet je aktívny!"
-
-msgid "Log in"
-msgstr "Prihlásiť"
-
-msgid "User profile"
-msgstr "Používateľský profil"
-
-msgid "E-mail change request sent"
-msgstr "Požiadavka na zmenu e-mailu bola odoslaná"
-
-msgid "E-mail change complete"
-msgstr "E-mail zmenený"
-
-msgid "Password change successful"
-msgstr "Zmena hesla úspešná"
-
-msgid "Password reset successful"
-msgstr "Obnovenie hesla úspešné"
-
-msgid "Password reset"
-msgstr "Obnovenie hesla"
-
-msgid "Password reset complete"
-msgstr "Obnovenie hesla ukončené"
 
 msgid "Logged out"
 msgstr "Odhlásený"
@@ -558,8 +535,14 @@ msgstr "Odhlásiť"
 msgid "Change password"
 msgstr "Zmeniť heslo"
 
+msgid "Log in"
+msgstr "Prihlásiť"
+
 msgid "Sign up"
 msgstr "Registrovať"
+
+msgid "Password reset"
+msgstr "Obnovenie hesla"
 
 msgid "Blog"
 msgstr "Blog"
@@ -573,6 +556,9 @@ msgstr "Aktivácia"
 #, python-format
 msgid "Activation with key %(activation_key)s failed."
 msgstr "Aktivácia s kľúčom %(activation_key)s bola neúspešná."
+
+msgid "Your account is now active!"
+msgstr "Váš účet je aktívny!"
 
 msgid "Your activation key"
 msgstr "Váš aktivačný kľúč"
@@ -589,6 +575,9 @@ msgstr "Aktivujte si účet"
 msgid "Please use this link to change your e-mail"
 msgstr "Použite prosím nasledujúci odkaz pre zmenu vášho e-mailu"
 
+msgid "E-mail change complete"
+msgstr "E-mail zmenený"
+
 msgid "Your e-mail has been changed."
 msgstr "Váš e-mail bol zmenený."
 
@@ -603,6 +592,9 @@ msgstr "Odkaz na zmenu e-mailu je neplatný."
 
 msgid "E-mail change successful"
 msgstr "Zmena e-mailu úspešná"
+
+msgid "E-mail change request sent"
+msgstr "Požiadavka na zmenu e-mailu bola odoslaná"
 
 msgid ""
 "We've e-mailed you instructions for setting your new e-mail address. You "
@@ -629,6 +621,9 @@ msgstr "Prihlásiť sa na"
 msgid "Thanks for spending some quality time with the Web site today."
 msgstr "Ďakujeme za čas strávený na našich stránkach."
 
+msgid "Password change successful"
+msgstr "Zmena hesla úspešná"
+
 msgid "Your password was changed."
 msgstr "Vaše heslo bolo zmenené."
 
@@ -644,6 +639,9 @@ msgstr ""
 
 msgid "Change my password"
 msgstr "Zmeniť moje heslo"
+
+msgid "Password reset complete"
+msgstr "Obnovenie hesla ukončené"
 
 msgid "Your password has been set.  You may go ahead and log in now."
 msgstr "Vaše heslo bolo nastavené. Môžete pokračovať a prihlásiť sa."
@@ -670,12 +668,36 @@ msgstr ""
 "Odkaz na obnovenie hesla je neplatný, pretože už bol pravdepodobne raz "
 "použitý. Prosím, požiadajte znovu o obnovu hesla."
 
+msgid "Password reset successful"
+msgstr "Obnovenie hesla úspešné"
+
 msgid ""
 "We've e-mailed you instructions for setting your password to the e-mail "
 "address you submitted. You should be receiving it shortly."
 msgstr ""
 "Na uvedenú e-mailovú adresu sme vám poslali návod na obnovenie hesla. Mali "
 "by ste ho o nedlho dostať."
+
+#, python-format
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+"Tento e-mail ste dostali preto, lebo ste požiadali o obnovenie hesla pre "
+"užívateľský účet na %(site_name)s."
+
+msgid "Please go to the following page and choose a new password:"
+msgstr "Prosím, choďte na túto stránku a zvoľte si nové heslo:"
+
+msgid "Your username, in case you've forgotten:"
+msgstr "Vaše používateľské meno, pre prípad, že ste ho zabudli:"
+
+msgid "Thanks for using our site!"
+msgstr "Ďakujeme, že používate našu stránku!"
+
+#, python-format
+msgid "The %(site_name)s team"
+msgstr "Tím %(site_name)s"
 
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll e-mail "
@@ -689,6 +711,9 @@ msgstr "E-mailová adresa:"
 
 msgid "Reset my password"
 msgstr "Obnova môjho hesla"
+
+msgid "User profile"
+msgstr "Používateľský profil"
 
 msgid "Edit my profile"
 msgstr "Upraviť môj profil"
@@ -716,6 +741,9 @@ msgstr "Registrácia je zakázaná"
 
 msgid "Sorry, we're not accepting new user registrations at the moment."
 msgstr "Ospravedlňujeme, ale momentálne neakceptujeme nové registrácie."
+
+msgid "Registration complete"
+msgstr "Registrácia dokončená"
 
 msgid "Registration complete!"
 msgstr "Registrácia dokončená!"
@@ -811,6 +839,9 @@ msgstr "značka komentára"
 
 msgid "comment flags"
 msgstr "značky komentára"
+
+#~ msgid "^register/$"
+#~ msgstr "^registrovat/$"
 
 #~ msgid "Please correct the error below."
 #~ msgid_plural "Please correct the errors below."

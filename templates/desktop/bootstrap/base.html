@@ -51,7 +51,7 @@
 									<a href="{% url 'auth_logout' %}" rel="nofollow">{% trans 'Log out' %}</a>
 								</li>
 								<li>
-									<a href="{% url 'auth_password_change' %}" rel="nofollow">{% trans "Change password" %}</a>
+									<a href="{% url 'password_change' %}" rel="nofollow">{% trans "Change password" %}</a>
 								</li>
 							</ul>
 						{% else %}
@@ -64,7 +64,7 @@
 									<a href="{% url 'registration_register' %}" rel="nofollow">{% trans 'Sign up' %}</a>
 								</li>
 								<li>
-									<a href="{% url 'auth_password_reset' %}" rel="nofollow">{% trans "Password reset" %}</a>
+									<a href="{% url 'password_reset' %}" rel="nofollow">{% trans "Password reset" %}</a>
 								</li>
 							</ul>
 						{% endif %}

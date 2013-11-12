@@ -1,8 +1,8 @@
-Django>=1.5
+Django>=1.6
 django-tools
-hg+https://bitbucket.org/mireq/django-registration#egg=django-registration
+hg+https://bitbucket.org/ubernostrum/django-registration#egg=django-registration
 git+git://github.com/mireq/django-auth-remember.git#egg=django-auth-remember
-pil
+pillow
 phpserialize
 django-mptt
 progressbar

@@ -123,7 +123,7 @@ html, body {
 									</li>
 								{% endif %}
 								<li>
-									<a href="{% url 'auth_password_change' %}" rel="nofollow">{% trans "Change password" %}</a>
+									<a href="{% url 'password_change' %}" rel="nofollow">{% trans "Change password" %}</a>
 								</li>
 							</ul>
 						{% else %}
@@ -136,7 +136,7 @@ html, body {
 									<a href="{% url 'registration_register' %}" rel="nofollow">{% trans 'Sign up' %}</a>
 								</li>
 								<li>
-									<a href="{% url 'auth_password_reset' %}" rel="nofollow">{% trans "Password reset" %}</a>
+									<a href="{% url 'password_reset' %}" rel="nofollow">{% trans "Password reset" %}</a>
 								</li>
 							</ul>
 						{% endif %}

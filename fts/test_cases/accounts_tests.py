@@ -30,7 +30,7 @@ class AccountsTest(LiveServerTestCase):
 		self.assertEqual(len(mail.outbox), 1)
 		message_body = str(mail.outbox[0].message())
 		import re
-		link_match = re.search(r'http(?s)://[-\w_:.\/@]*', message_body)
+		link_match = re.search(r'http(?s)://[-\w_:.\/@%]*', message_body)
 		self.assertNotEqual(link_match, None)
 		return link_match.group(0)
 
@@ -50,7 +50,7 @@ class AccountsTest(LiveServerTestCase):
 		self.browser.find_element_by_id("id_username").send_keys("new_user")
 		self.fill_password()
 		self.browser.find_element_by_name("_save").click()
-		self.assertTrue(self.is_element_present(By.CSS_SELECTOR, "div.alert.alert-info"))
+		self.assertTrue(self.is_element_present(By.CSS_SELECTOR, "div.alert.alert-success"))
 
 	def test_duplicate_email_check(self):
 		self.browser.get(self.live_server_url + reverse('registration_register'))
@@ -158,7 +158,7 @@ class AccountsTest(LiveServerTestCase):
 		self.assertEqual("Password change successful", self.browser.find_element_by_css_selector("h1").text)
 
 	def test_password_reset(self):
-		self.browser.get(self.live_server_url + reverse('auth_password_reset'))
+		self.browser.get(self.live_server_url + reverse('password_reset'))
 		self.browser.find_element_by_id("id_email").clear()
 		self.browser.find_element_by_id("id_email").send_keys("user@example.com")
 		self.browser.find_element_by_css_selector("input[type=\"submit\"]").click()

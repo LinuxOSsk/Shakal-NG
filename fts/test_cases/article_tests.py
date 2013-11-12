@@ -25,6 +25,9 @@ class ArticleTest(LiveServerTestCase):
 		admin_login(self)
 		self.browser.get(self.live_server_url + reverse('admin:article_category_add'))
 
+		description_field = self.browser.find_element_by_name('description')
+		description_field.send_keys('Description')
+
 		name_field = self.browser.find_element_by_name('name')
 		name_field.send_keys('Category')
 		name_field.send_keys(Keys.RETURN)
@@ -41,6 +44,9 @@ class ArticleTest(LiveServerTestCase):
 		title_field = article_form.find_element_by_name('title')
 		title_field.click()
 		title_field.send_keys('Article title')
+
+		import time
+		time.sleep(200)
 
 		perex_field = article_form.find_element_by_name('perex')
 		perex_field.send_keys('perex')

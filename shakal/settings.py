@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 from django.utils.translation import ugettext_lazy as _
 
 DEBUG = True
@@ -34,26 +34,26 @@ SITE_ID = 1
 
 USE_I18N = True
 USE_L10N = True
-LOCALE_PATHS = (os.path.join(ROOT, 'locale'), )
 USE_TZ = True
+LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale'), )
 
-MEDIA_ROOT = os.path.abspath(os.path.join(ROOT, 'media'))
+MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'media'))
 MEDIA_URL = '/media/'
 
 MEDIA_CACHE_DIR = os.path.join(MEDIA_ROOT, 'cache')
 MEDIA_CACHE_URL = MEDIA_URL + 'cache/'
-TEMPLATE_CACHE_DIR = os.path.join(ROOT, 'templates', 'cache')
+TEMPLATE_CACHE_DIR = os.path.join(BASE_DIR, 'templates', 'cache')
 
-STATICSITEMAPS_ROOT_SITEMAP = 'shakal.sitemaps.sitemaps'
+STATICSITEMAPS_BASE_DIR_SITEMAP = 'shakal.sitemaps.sitemaps'
 
-STATIC_ROOT = ''
+STATIC_BASE_DIR = ''
 STATIC_URL = '/static/'
 
 LOGIN_URL = '/profil/prihlasit/'
 LOGIN_REDIRECT_URL = '/profil/ja/'
 
 STATICFILES_DIRS = (
-	os.path.join(ROOT, 'static'),
+	os.path.join(BASE_DIR, 'static'),
 )
 
 STATICFILES_FINDERS = (
@@ -102,12 +102,12 @@ AUTHENTICATION_BACKENDS = (
 	'auth_remember.backend.AuthRememberBackend',
 )
 
-ROOT_URLCONF = 'shakal.urls'
+BASE_DIR_URLCONF = 'shakal.urls'
 
 WSGI_APPLICATION = 'shakal.wsgi.application'
 
 TEMPLATE_DIRS = (
-	os.path.join(ROOT, 'templates'),
+	os.path.join(BASE_DIR, 'templates'),
 )
 
 INSTALLED_APPS = (
