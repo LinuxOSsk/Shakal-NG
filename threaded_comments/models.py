@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
-from django.db import models
+from django.db import models, transaction
 from django.db.models import Count, Max
 from django.db.models.signals import post_save, post_delete
 from django.utils import timezone
@@ -103,11 +103,16 @@ class Comment(MPTTModel):
 	attachments = generic.GenericRelation(Attachment)
 
 	def root_header(self):
-		header, created = RootHeader.objects.get_or_create(content_type = self.content_type, object_id = self.object_id)
-		if created:
-			header.pub_date = self.submit_date
-			header.save()
-		return header
+		try:
+			header = RootHeader.objects.get(content_type = self.content_type, object_id = self.object_id)
+			return header
+		except RootHeader.DoesNotExist:
+			with transaction.atomic():
+				header, created = RootHeader.objects.get_or_create(content_type = self.content_type, object_id = self.object_id)
+				if created:
+					header.pub_date = self.submit_date
+					header.save()
+				return header
 
 	def get_absolute_url(self):
 		return reverse('comment', args = [self.pk], kwargs = {}) + "#link_" + str(self.id)
