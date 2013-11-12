@@ -351,6 +351,8 @@ SUIT_CONFIG = {
 	),
 }
 
+CONN_MAX_AGE = 300
+
 import sys
 if len(sys.argv) > 1 and sys.argv[1] == 'test':
 	DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': ':memory:', }}
