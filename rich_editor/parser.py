@@ -425,6 +425,7 @@ class HtmlParser: #pylint: disable=R0902
 
 	""" Spracovanie HTML kódu. """
 	def parse(self, code):
+		code = code.replace("\r\n", "\n")
 		# Vyčistenie výstupného bufferu
 		self.output.truncate(0)
 		# Dáta aktuálneho tagu
