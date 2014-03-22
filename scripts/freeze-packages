@@ -1,0 +1,5 @@
+#!/bin/bash
+pip freeze|grep -ve "\(pylint\|astroid\|pylint-django\|pylint-plugin-utils\|logilab-common\|django-permissions-widget\|distribute\|Werkzeug\|django-extensions\|django-auth-remember\|xapian-haystack\)"
+echo 'git+git://github.com/mireq/django-auth-remember.git#egg=django-auth-remember'
+echo 'git+git://github.com/citylive/django-template-preprocessor.git'
+echo 'git+git://github.com/mireq/xapian-haystack.git#egg=xapian-haystack'
