@@ -112,7 +112,6 @@ TEMPLATE_DIRS = (
 INSTALLED_APPS = (
 	'admin_dashboard',
 	'suit',
-	'suit_redactor',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
 	'django.contrib.sessions',
@@ -131,7 +130,6 @@ INSTALLED_APPS = (
 	'attachment',
 	'auth_remember',
 	'blog',
-	'bootstrap_toolkit',
 	'breadcrumbs',
 	'hitcount',
 	'imgcompress',
