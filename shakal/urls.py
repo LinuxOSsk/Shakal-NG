@@ -37,7 +37,6 @@ urlpatterns = patterns('',
 	url(_(r'^template-change/$'), 'template_dynamicloader.views.change', name = 'template-change'),
 	url(_(r'^search/'), SearchView(), name = 'haystack_search'),
 	url(r'^v/(?P<content_type_id>\d+)/(?P<object_id>.+)/$', contenttype_views.shortcut, name = 'view-object'),
-	url(r'^admin_tools/', include('admin_tools.urls')),
 )
 
 if settings.DEBUG:

@@ -12,8 +12,6 @@ django-haystack
 git+git://github.com/notanumber/xapian-haystack.git
 git+git://github.com/etianen/django-reversion.git@master#egg=django-reversion
 feedparser
-selenium
-mock
 pycrypto
 pytz
 git+git://github.com/toastdriven/queued_search.git

@@ -71,17 +71,16 @@ TEMPLATE_LOADERS = (
 	#'django.template.loaders.eggs.Loader',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-	'django.core.context_processors.debug',
-	'django.core.context_processors.i18n',
-	'django.core.context_processors.media',
-	'django.core.context_processors.static',
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
+
+TEMPLATE_CONTEXT_PROCESSORS = TCP + (
 	'django.core.context_processors.request',
 	'django.contrib.auth.context_processors.auth',
 	'django.contrib.messages.context_processors.messages',
 	'feeds.context_processors.feeds',
 	'template_dynamicloader.context_processors.style',
 )
+
 
 MIDDLEWARE_CLASSES = (
 	'django.middleware.common.CommonMiddleware',
@@ -112,10 +111,6 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = (
 	'admin_dashboard',
-	#'admin_tools',
-	#'admin_tools.theming',
-	#'admin_tools.menu',
-	#'admin_tools.dashboard',
 	'suit',
 	'suit_redactor',
 	'django.contrib.auth',
@@ -156,7 +151,6 @@ INSTALLED_APPS = (
 	'search',
 	'template_dynamicloader',
 	'wiki',
-	'fts',
 	'static_sitemaps',
 )
 
