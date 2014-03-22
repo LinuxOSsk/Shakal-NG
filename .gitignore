@@ -10,9 +10,13 @@
 /static/desktop/default/images/backgrounds.png
 /static/desktop/default/base.css
 /venv
-/shakal/settings-local.py
+/shakal/settings_local.py
+/shakal/settings_production.py
+/shakal/urls_local.py
 /shakal.db
 /test.db
 /virtualenv.py
 /dump.sql
 /xapian_index
+/.coverage
+/htmlcov
