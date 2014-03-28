@@ -23,6 +23,7 @@ class Command(BaseCommand):
 	def handle(self, *args, **kwargs):
 		self.delete_old_attachments()
 		self.update_user_ratings()
+		self.delete_old_events()
 
 	def delete_old_attachments(self):
 		now = timezone.now()
@@ -81,3 +82,13 @@ class Command(BaseCommand):
 		del(user_wiki_changed)
 
 		UserRating.objects.update(rating = sum([(F(w[0]) * w[1]) for w in RATING_WEIGHTS.iteritems()]))
+
+	def delete_old_events(self):
+		from notifications.models import Event, Inbox
+
+		now = timezone.now()
+		old_date = now - datetime.timedelta(days=30)
+		old_events = Event.objects.filter(time__lte=old_date)
+
+		Inbox.objects.filter(event__in=old_events).delete()
+		old_events.delete()
