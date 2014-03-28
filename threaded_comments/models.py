@@ -93,7 +93,7 @@ class Comment(MPTTModel):
 	parent = TreeForeignKey('self', null = True, blank = True, related_name = 'children')
 
 	subject = models.CharField(max_length = 100)
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name = _('user'), blank = True, null = True, related_name = "%(class)s_comments")
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name = _('user'), blank = True, null = True, related_name = "%(class)s_comments", on_delete = models.SET_NULL)
 	user_name = models.CharField(_("user's name"), max_length = 50, blank = True)
 	original_comment = RichTextOriginalField(filtered_field = "filtered_comment", property_name = "comment")
 	filtered_comment = RichTextFilteredField()
