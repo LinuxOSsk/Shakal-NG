@@ -1,2 +1,2 @@
 #!/bin/bash
-coverage run manage.py test $@;coverage html --include="`pwd`/*" --omit="*/tests.py,*/tests_common.py"
+coverage run manage.py test $@;coverage html --include="`pwd`/*" --omit="*/tests.py,*/tests_common.py,venv/*"
