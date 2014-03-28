@@ -29,6 +29,8 @@ class AntispamMethodsMixin:
 		return (u"{0} {1} {2} plus tisíc (číslom) ".format(num_1, sign, num_2), unicode(answer + 1000))
 
 	def process_antispam(self, request):
+		if request is None:
+			return
 		if request.method == 'GET':
 			request.session['antispam'] = self.generate_antispam()
 		self.set_antispam_widget_attributes(request.session['antispam'])

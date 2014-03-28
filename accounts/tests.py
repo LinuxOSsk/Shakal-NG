@@ -1,37 +1,50 @@
 # -*- coding: utf-8 -*-
-from django.core.exceptions import ValidationError
 from django.test import TestCase
+from accounts.registration_backend.forms import UserRegistrationForm
+from .forms import UserCreationForm
 
-from accounts.models import User
+
+USER_FORM_DATA = {
+	'username': 'user',
+	'email': 'user@user.com',
+	'password1': 'P4ssw0rd',
+	'password2': 'P4ssw0rd',
+}
 
 
-class UserModelTest(TestCase):
-	def test_creating_new_user(self):
-		user = User()
-		user.username = "test"
-		user.email = "test@test.com"
-		user.set_password("test")
-		user.full_clean()
-		user.save()
+class RegistrationFormTest(TestCase):
+	fixtures = ['users.json']
 
-		all_users = User.objects.all()
-		self.assertEqual(len(all_users), 1)
+	def test_form_ok(self):
+		form = UserRegistrationForm(USER_FORM_DATA)
+		self.assertTrue(form.is_valid())
 
-		user_from_database = all_users[0]
-		self.assertEquals(user_from_database, user)
+	def test_unique_email(self):
+		data = USER_FORM_DATA.copy()
+		data['email'] = "admin@example.com"
+		form = UserRegistrationForm(data)
+		self.assertFalse(form.is_valid())
 
-	def test_duplicate_email_check(self):
-		user = User()
-		user.username = "test"
-		user.email = "test@test.com"
-		user.set_password("test")
-		user.full_clean()
-		user.save()
+	def test_unique_username(self):
+		data = USER_FORM_DATA.copy()
+		data['username'] = "admin"
+		form = UserRegistrationForm(data)
+		self.assertFalse(form.is_valid())
 
-		with self.assertRaises(ValidationError):
-			user2 = User()
-			user2.username = "test2"
-			user2.email = "test@test.com"
-			user2.set_password("test")
-			user2.full_clean()
-			user2.save()
+	def test_bad_password(self):
+		data = USER_FORM_DATA.copy()
+		data['password2'] = "bad"
+		form = UserRegistrationForm(data)
+		self.assertFalse(form.is_valid())
+
+
+class UserAdminFormTest(TestCase):
+	def test_ok(self):
+		form = UserCreationForm(USER_FORM_DATA)
+		self.assertTrue(form.is_valid())
+
+	def test_bad_username(self):
+		data = USER_FORM_DATA.copy()
+		data['username'] = 'test@example.com'
+		form = UserCreationForm(data)
+		self.assertFalse(form.is_valid())
