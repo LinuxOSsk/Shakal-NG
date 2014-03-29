@@ -4,12 +4,12 @@ from django.test import TestCase
 from .forms import UserCreationForm, ProfileEditForm
 from .models import User
 from .registration_backend.forms import UserRegistrationForm
-from common_utils.tests_common import ProcessFormTestMixin
+from common_utils.tests_common import AdminSiteTestCase, ProcessFormTestMixin
 
 
 USER_FORM_DATA = {
-	'username': 'user',
-	'email': 'user@user.com',
+	'username': 'uniqueuser',
+	'email': 'uniqueuser@example.com',
 	'password1': 'P4ssw0rd',
 	'password2': 'P4ssw0rd',
 }
@@ -70,3 +70,21 @@ class ProfileEditFormTest(ProcessFormTestMixin, TestCase):
 	def test_bad_password(self):
 		form = self.get_form_with_password("bad")
 		self.assertFalse(form.is_valid())
+
+
+class AdminUserTest(AdminSiteTestCase):
+	model = "user"
+	fixtures = ['users.json']
+
+	DEFAULT_ADD_DATA = {
+		'username': 'uniquename',
+		'email': 'uniquemail@example.com',
+		'password1': 'P4ssw0rd',
+		'password2': 'P4ssw0rd',
+	}
+
+	def setUp(self):
+		self.login("admin", "P4ssw0rd")
+
+	def test_list(self):
+		self.check_changelist()
