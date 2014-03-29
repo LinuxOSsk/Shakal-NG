@@ -291,6 +291,7 @@ var createEditorSwitch = function(element, settings) {
 		link.href = '#';
 		var change_fn = function(id, editor, plugin) {
 			return function() {
+				cookiemanager.deleteCookie('last_editor');
 				cookiemanager.setCookie('last_editor', id, 365 * 5);
 				if (currentPlugin != undefined) {
 					currentPlugin.unload();
