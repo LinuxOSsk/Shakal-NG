@@ -86,12 +86,14 @@
 			var path = missingPaths[i];
 			var script = document.createElement('script');
 			script.src = path;
-			script.onreadystatechange = script.onload = function() {
-				if (scriptIsReady(script.readyState)) {
-					loadedScripts.push(path);
-					fireCallbacks();
-				}
-			}
+			script.onreadystatechange = script.onload = function(path) {
+				return function() {
+					if (scriptIsReady(script.readyState)) {
+						loadedScripts.push(path);
+						fireCallbacks();
+					}
+				};
+			}(path);
 			head.appendChild(script);
 		}
 	};
