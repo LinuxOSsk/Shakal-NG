@@ -59,38 +59,43 @@ var wymeditor_plugin = function(element, settings) {
 		loader([settings.static_base + 'js/jquery-1.8.3.min.js', settings.static_base + 'js/jquery-migrate-1.2.1.js'], function() {
 			loader([settings['script_wymeditor']], function() {
 				loader([settings.static_base + 'js/wymeditor/skins/shakal/skin.js'], function() {
-					jQuery(element).wymeditor({
-						skin: 'shakal',
-						lang: settings['lang'],
-						statusHtml: '',
-						updateSelector: jQuery(element).parents('form:first'),
-						updateEvent: 'submit',
-						basePath: settings.static_base + '/js/wymeditor/',
-						postInit: function(wym) {
-							editor = wym;
-							resizeTimer = setInterval(function() {
-								$(wym._iframe).css('height', Math.max(206, wym._iframe.contentWindow.document.body.offsetHeight + 32) + 'px');
-							}, 500);
-							//wym.table();
-						},
-						toolsItems: filterTools(all_tools, settings.tags.known),
-						containersItems: filterTools(all_containers, settings.tags.known),
-						toolsItemHtml: String() +
-							'<li class="' + WYMeditor.TOOL_CLASS + ' btn" onclick="this.childNodes[0].childNodes[0].click()">' +
-								'<span>' +
-									'<a href="#" name="' + WYMeditor.TOOL_NAME + '" ' +
-										'title="' + WYMeditor.TOOL_TITLE + '">' +
-										WYMeditor.TOOL_TITLE +
-									'</a>' +
-								'</span>' +
-							'</li>'
-					});
+					var options = {
+							skin: settings.skin,
+							lang: settings['lang'],
+							statusHtml: '',
+							updateSelector: jQuery(element).parents('form:first'),
+							updateEvent: 'submit',
+							basePath: settings.static_base + '/js/wymeditor/',
+							postInit: function(wym) {
+								editor = wym;
+								$(wym._iframe.contentWindow.document.body).css({'overflow-y': 'hidden'});
+								resizeTimer = setInterval(function() {
+									$(wym._iframe).css('height', Math.max(206, wym._iframe.contentWindow.document.body.offsetHeight + 35) + 'px');
+								}, 500);
+								//wym.table();
+							},
+							toolsItems: filterTools(all_tools, settings.tags.known),
+							containersItems: filterTools(all_containers, settings.tags.known)
+						};
+					if (settings.skin == 'shakal') {
+						options['toolsItemHtml'] = String() +
+								'<li class="' + WYMeditor.TOOL_CLASS + ' btn" onclick="this.childNodes[0].childNodes[0].click()">' +
+									'<span>' +
+										'<a href="#" name="' + WYMeditor.TOOL_NAME + '" ' +
+											'title="' + WYMeditor.TOOL_TITLE + '">' +
+											WYMeditor.TOOL_TITLE +
+										'</a>' +
+									'</span>' +
+								'</li>';
+					}
+					jQuery(element).wymeditor(options);
 					var iframe = element.parentNode.getElementsByTagName('iframe')[0];
 					var old_onload = iframe.onload;
 					iframe.onload = function(event) {
 						this.onload = old_onload;
 						generate_unsupported_tags(iframe, settings.tags.unsupported);
 					};
+					settings.onLoad();
 				});
 			});
 		});
@@ -304,6 +309,9 @@ var createEditorSwitch = function(element, settings) {
 		link.href = '#';
 		var change_fn = function(id, editor, plugin) {
 			return function() {
+				if (currentPlugin != undefined && currentPlugin.id == id) {
+					return;
+				}
 				if (id != "raw") {
 					cookiemanager.deleteCookie('last_editor');
 					cookiemanager.setCookie('last_editor', id, 365 * 5);
@@ -314,6 +322,7 @@ var createEditorSwitch = function(element, settings) {
 				}
 				if (plugin != undefined) {
 					currentPlugin = new plugin(element, settings);
+					currentPlugin.id = id;
 					currentPlugin.load();
 				}
 			}

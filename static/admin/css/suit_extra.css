@@ -5,3 +5,11 @@
 .form-horizontal fieldset.inline-group > h2 {
 	margin: -30px 0 0 0;
 }
+
+.wym_skin_shakal .wym_buttons li a { margin: 7px 0px !important; }
+
+.textareawrapper .btn.settings { position: absolute; right: 17px; margin-top: 2px; }
+.textareawrapper .btn.settings a.settings { width: 14px; height: 14px; overflow: hidden; text-indent: -9999px; background: url("../../suit/bootstrap/img//glyphicons-halflings.png") -432px 0 no-repeat; display: block; }
+.textareawrapper .btn.settings .dropdown.menu {position: absolute; right: 0px; width: 200px; display: none; list-style: none; padding: 5px; margin: 0; background: white;}
+.textareawrapper .btn.settings .dropdown.menu li { text-align: left; }
+.textareawrapper .btn.settings:hover .dropdown.menu {display: block;}

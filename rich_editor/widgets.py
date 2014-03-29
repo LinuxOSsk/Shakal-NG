@@ -21,6 +21,7 @@ class RichEditor(Textarea):
 	def __init__(self, attrs = {}, **kwargs):
 		self.language = settings.LANGUAGE_CODE
 		self.formats = ()
+		self.skin = 'shakal'
 		attrs.update({'class': 'wymeditor input-xlarge'})
 		super(RichEditor, self).__init__(attrs)
 
@@ -80,6 +81,7 @@ class RichOriginalEditor(RichEditor):
 			'widget': widget,
 			'format': value_fmt,
 			'formats': formats,
+			'skin': self.skin
 		}
 		return mark_safe(render_to_string('widgets/editor.html', context))
 
@@ -94,6 +96,16 @@ class RichOriginalEditor(RichEditor):
 
 
 class AdminRichOriginalEditor(RichOriginalEditor):
+	class Media:
+		js = [
+			'js/lib.js',
+			'js/richeditor/editor.js',
+		]
+		css = {
+			'all': ('js/wymeditor/skins/suit/skin.css', )
+		}
+
 	def __init__(self, *args, **kwargs):
 		super(AdminRichOriginalEditor, self).__init__(*args, **kwargs)
 		self.formats = self.formats + (('raw', 'RAW'), )
+		self.skin = 'compact'
