@@ -89,6 +89,8 @@ class RichOriginalEditor(RichEditor):
 
 	def value_from_datadict(self, data, files, name):
 		text = data.get(name)
+		if isinstance(text, tuple):
+			return text
 		if not text:
 			return ('html', text)
 		fmt = data.get(name + "_format")
