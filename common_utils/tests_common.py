@@ -8,7 +8,7 @@ from datetime import datetime
 User = get_user_model()
 
 
-class LoggedUserTestCase(LiveServerTestCase):
+class LoggedUserTestMixin(object):
 	def login(self, username, password, is_superuser=False, is_staff=False):
 		try:
 			user = User.objects.get(username=username)
@@ -25,7 +25,7 @@ class LoggedUserTestCase(LiveServerTestCase):
 			return None
 
 
-class ProcessFormTestCase(LiveServerTestCase):
+class ProcessFormTestMixin(object):
 	def extract_form_data(self, form):
 		data = dict()
 		for field in form.fields:
@@ -49,7 +49,7 @@ class ProcessFormTestCase(LiveServerTestCase):
 		return data
 
 
-class AdminSiteTestCase(LoggedUserTestCase, ProcessFormTestCase):
+class AdminSiteTestCase(LoggedUserTestMixin, ProcessFormTestMixin, LiveServerTestCase):
 	def login(self, username, password, is_superuser=True, is_staff=True):
 		return super(AdminSiteTestCase, self).login(username, password, is_superuser, is_staff)
 
