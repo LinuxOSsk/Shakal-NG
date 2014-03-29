@@ -52,6 +52,7 @@ var generate_unsupported_tags = function(frame, unsupported_tags) {
 
 var wymeditor_plugin = function(element, settings) {
 	var editor = undefined;
+	var resizeTimer = undefined;
 
 	this.load = function()
 	{
@@ -66,6 +67,9 @@ var wymeditor_plugin = function(element, settings) {
 						updateEvent: 'submit',
 						postInit: function(wym) {
 							editor = wym;
+							resizeTimer = setInterval(function() {
+								$(wym._iframe).css('height', Math.max(206, wym._iframe.contentWindow.document.body.offsetHeight + 32) + 'px');
+							}, 500);
 							//wym.table();
 						},
 						toolsItems: filterTools(all_tools, settings.tags.known),
@@ -99,6 +103,10 @@ var wymeditor_plugin = function(element, settings) {
 		element.style.display = 'block';
 		var editor_div = element.parentNode.getElementsByTagName('div')[1];
 		editor_div.parentNode.removeChild(editor_div);
+		if (resizeTimer != undefined) {
+			clearInterval(resizeTimer);
+			resizeTimer = undefined;
+		}
 	};
 };
 
