@@ -57,35 +57,36 @@ var wymeditor_plugin = function(element, settings) {
 	{
 		loader([settings.static_base + 'js/jquery-1.8.3.min.js', settings.static_base + 'js/jquery-migrate-1.2.1.js'], function() {
 			loader([settings['script_wymeditor']], function() {
-				jQuery(element).wymeditor({
-					skin: 'shakal',
-					lang: settings['lang'],
-					statusHtml: '',
-					updateSelector: jQuery(element).parents('form:first'),
-					updateEvent: 'submit',
-					postInit: function(wym) {
-						editor = wym;
-						//wym.table();
-					},
-					toolsItems: filterTools(all_tools, settings.tags.known),
-					containersItems: filterTools(all_containers, settings.tags.known),
-					toolsItemHtml: String() +
-						'<li class="' + WYMeditor.TOOL_CLASS + ' btn" onclick="this.childNodes[0].childNodes[0].click()">' +
-							'<span>' +
-								'<a href="#" name="' + WYMeditor.TOOL_NAME + '" ' +
-									'title="' + WYMeditor.TOOL_TITLE + '">' +
-									WYMeditor.TOOL_TITLE +
-								'</a>' +
-							'</span>' +
-						'</li>'
+				loader([settings.static_base + 'js/wymeditor/skins/shakal/skin.js'], function() {
+					jQuery(element).wymeditor({
+						skin: 'shakal',
+						lang: settings['lang'],
+						statusHtml: '',
+						updateSelector: jQuery(element).parents('form:first'),
+						updateEvent: 'submit',
+						postInit: function(wym) {
+							editor = wym;
+							//wym.table();
+						},
+						toolsItems: filterTools(all_tools, settings.tags.known),
+						containersItems: filterTools(all_containers, settings.tags.known),
+						toolsItemHtml: String() +
+							'<li class="' + WYMeditor.TOOL_CLASS + ' btn" onclick="this.childNodes[0].childNodes[0].click()">' +
+								'<span>' +
+									'<a href="#" name="' + WYMeditor.TOOL_NAME + '" ' +
+										'title="' + WYMeditor.TOOL_TITLE + '">' +
+										WYMeditor.TOOL_TITLE +
+									'</a>' +
+								'</span>' +
+							'</li>'
+					});
+					var iframe = element.parentNode.getElementsByTagName('iframe')[0];
+					var old_onload = iframe.onload;
+					iframe.onload = function(event) {
+						this.onload = old_onload;
+						generate_unsupported_tags(iframe, settings.tags.unsupported);
+					};
 				});
-				var iframe = element.parentNode.getElementsByTagName('iframe')[0];
-				var old_onload = iframe.onload;
-				iframe.onload = function(event) {
-					this.onload = old_onload;
-					this.onload(event);
-					generate_unsupported_tags(iframe, settings.tags.unsupported);
-				};
 			});
 		});
 	};
