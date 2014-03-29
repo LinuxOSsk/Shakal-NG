@@ -65,6 +65,7 @@ var wymeditor_plugin = function(element, settings) {
 						statusHtml: '',
 						updateSelector: jQuery(element).parents('form:first'),
 						updateEvent: 'submit',
+						basePath: settings.static_base + '/js/wymeditor/',
 						postInit: function(wym) {
 							editor = wym;
 							resizeTimer = setInterval(function() {
@@ -255,6 +256,13 @@ var shakal_plugin = function(element, settings)
 };
 
 
+var raw_plugin = function()
+{
+	this.load = function() {};
+	this.unload = function() {};
+};
+
+
 var createEditorSwitch = function(element, settings) {
 	var currentPlugin = undefined;
 
@@ -268,6 +276,11 @@ var createEditorSwitch = function(element, settings) {
 			'id': 'wymeditor',
 			'name': 'WYMEditor',
 			'plugin': wymeditor_plugin
+		},
+		{
+			'id': 'raw',
+			'name': 'RAW',
+			'plugin': raw_plugin
 		}
 	];
 	var functions = {};
@@ -291,8 +304,10 @@ var createEditorSwitch = function(element, settings) {
 		link.href = '#';
 		var change_fn = function(id, editor, plugin) {
 			return function() {
-				cookiemanager.deleteCookie('last_editor');
-				cookiemanager.setCookie('last_editor', id, 365 * 5);
+				if (id != "raw") {
+					cookiemanager.deleteCookie('last_editor');
+					cookiemanager.setCookie('last_editor', id, 365 * 5);
+				}
 				if (currentPlugin != undefined) {
 					currentPlugin.unload();
 					currentPlugin = undefined;
@@ -307,7 +322,9 @@ var createEditorSwitch = function(element, settings) {
 		link.onclick = change_fn;
 		link.appendChild(text);
 		li.appendChild(link);
-		list.appendChild(li);
+		if (id != "raw") {
+			list.appendChild(li);
+		}
 	}
 
 	div.appendChild(span);
@@ -331,4 +348,9 @@ function initialize_rich_editor(name, settings) {
 	else {
 		loadFunctions[default_editor]();
 	}
+
+	if (window.rich_editors == undefined) {
+		window.rich_editors = {};
+	}
+	window.rich_editors[name] = {loadFunctions: loadFunctions};
 }
