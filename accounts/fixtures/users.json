@@ -6,7 +6,10 @@
 			"username": "admin",
 			"email": "admin@example.com",
 			"is_active": true,
-			"is_superuser": true
+			"is_superuser": true,
+			"password": "crypt$$yXPDma550/kT6",
+			"original_info": "html:",
+			"signature": "html:"
 	   }
 	}
 ]
