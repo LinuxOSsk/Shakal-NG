@@ -55,7 +55,7 @@ var wymeditor_plugin = function(element, settings) {
 
 	this.load = function()
 	{
-		loader([settings.static_base + 'js/jquery-1.8.3.min.js'], function() {
+		loader([settings.static_base + 'js/jquery-1.8.3.min.js', settings.static_base + 'js/jquery-migrate-1.2.1.js'], function() {
 			loader([settings['script_wymeditor']], function() {
 				jQuery(element).wymeditor({
 					skin: 'shakal',
