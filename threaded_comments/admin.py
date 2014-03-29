@@ -12,7 +12,7 @@ class CommentAdmin(MPTTModelAdmin):
 	fieldsets = (
 		(
 			None,
-			{'fields': ('content_type', 'object_id')}
+			{'fields': ('content_type', 'object_id', 'parent')}
 		),
 		(
 			_('Content'),
@@ -27,7 +27,7 @@ class CommentAdmin(MPTTModelAdmin):
 	list_filter = ('submit_date', 'is_public', 'is_removed')
 	date_hierarchy = 'submit_date'
 	ordering = ('-submit_date',)
-	raw_id_fields = ('user',)
+	raw_id_fields = ('user', 'parent',)
 	search_fields = ('filtered_comment', 'user__username', 'user_name', 'ip_address')
 	actions = ["flag_comments", "approve_comments", "remove_comments"]
 	inlines = [AttachmentInline]
