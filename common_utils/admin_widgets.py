@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#pylint: disable=W0611,F0401
 try:
 	from suit.widgets import SuitDateWidget as DateInput, SuitTimeWidget as TimeInput, SuitSplitDateTimeWidget as DateTimeInput, EnclosedInput, AutosizedTextarea
 except ImportError:
