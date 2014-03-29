@@ -110,6 +110,7 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+	'admin_actions',
 	'admin_dashboard',
 	'suit',
 	'django.contrib.auth',
