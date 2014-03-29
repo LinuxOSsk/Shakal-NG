@@ -4,7 +4,7 @@ from django.test import TestCase
 from .forms import UserCreationForm, ProfileEditForm
 from .models import User
 from .registration_backend.forms import UserRegistrationForm
-from common_utils.tests_common import AdminSiteTestCase, ProcessFormTestMixin
+from common_utils.tests_common import AdminSiteTestCase, ProcessFormTestMixin, fts_test
 
 
 USER_FORM_DATA = {
@@ -72,6 +72,7 @@ class ProfileEditFormTest(ProcessFormTestMixin, TestCase):
 		self.assertFalse(form.is_valid())
 
 
+@fts_test
 class AdminUserTest(AdminSiteTestCase):
 	model = "user"
 	fixtures = ['users.json']

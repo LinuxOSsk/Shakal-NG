@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
+import os
+from datetime import datetime
+
+import unittest
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test import LiveServerTestCase
-from datetime import datetime
 
 
 User = get_user_model()
@@ -125,3 +128,9 @@ class AdminSiteTestCase(LoggedUserTestMixin, ProcessFormTestMixin, LiveServerTes
 		response = self.get_admin_view_response("changelist")
 		self.assertEqual(response.status_code, 200)
 		return {'response': response}
+
+
+def fts_test(cls):
+	if 'SKIP_FTS_TESTS' in os.environ:
+		return unittest.skip(cls)
+	return cls
