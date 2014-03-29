@@ -83,8 +83,27 @@ class AdminUserTest(AdminSiteTestCase):
 		'password2': 'P4ssw0rd',
 	}
 
+	DEFAULT_DATA = {
+		'username': 'username2',
+		'email': 'email2@example.com',
+		'password1': 'P4ssw0rd',
+		'password2': 'P4ssw0rd',
+	}
+
 	def setUp(self):
 		self.login("admin", "P4ssw0rd")
 
 	def test_list(self):
 		self.check_changelist()
+
+	def test_add(self):
+		self.check_add(self.DEFAULT_ADD_DATA)
+
+	def test_change(self):
+		user = User.objects.get(pk=1)
+		user = self.check_change(user.pk, self.DEFAULT_DATA)['instance']
+		self.assertEqual(user.username, self.DEFAULT_DATA['username'])
+
+	def test_delete(self):
+		user = User.objects.get(pk=2)
+		self.check_delete(user.pk)
