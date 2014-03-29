@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
-from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UserChangeForm as OrigUserChangeForm, UserCreationForm as OrigUserCreationForm
-from django.utils.translation import ugettext_lazy as _
-from common_utils.admin_widgets import DateTimeInput, EnclosedInput
-from rich_editor.forms import RichTextField
-from rich_editor import get_parser
 import re
-from django.utils.safestring import mark_safe
-from django.core.urlresolvers import reverse
+
+from django import forms
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import AuthenticationForm, UserChangeForm as OrigUserChangeForm, UserCreationForm as OrigUserCreationForm
 from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse
+from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext_lazy as _
+
+from common_utils.admin_widgets import DateTimeInput, EnclosedInput
+from rich_editor import get_parser
+from rich_editor.forms import RichTextField
 
 
 class AuthenticationRememberForm(AuthenticationForm):
@@ -81,7 +83,7 @@ class ProfileEditForm(forms.ModelForm):
 class EmailChangeForm(forms.ModelForm):
 	current_password = forms.CharField(max_length=65536, widget=forms.PasswordInput, label=_('Current password'))
 	email = forms.EmailField(label=_('New e-mail'))
-#
+
 	class Meta:
 		model = get_user_model()
 		fields = (
