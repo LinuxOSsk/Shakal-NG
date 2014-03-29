@@ -22,7 +22,6 @@ class RichTextOriginalField(Field):
 	def formfield(self, **kwargs):
 		defaults = {
 			'form_class': RichOriginalField,
-			'js': False,
 			'parsers': self.parsers
 		}
 		if self.max_length is not None:

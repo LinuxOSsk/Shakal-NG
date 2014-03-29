@@ -6,7 +6,7 @@ from wiki.models import Page
 
 
 class WikiEditForm(ModelForm):
-	original_text = RichOriginalField(parsers = Page._meta.get_field('original_text').parsers, label = u'Text', js = True)
+	original_text = RichOriginalField(parsers = Page._meta.get_field('original_text').parsers, label = u'Text')
 
 	class Meta:
 		model = Page

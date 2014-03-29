@@ -26,7 +26,6 @@ class RichEditor(Textarea):
 
 	def render(self, name, value, attrs = None, **kwargs):
 		supported_tags = self.attrs.pop('supported_tags', {})
-		js = self.attrs.pop('js', True)
 		widget = super(RichEditor, self).render(name, value, attrs)
 		self.attrs['supported_tags'] = supported_tags
 
@@ -35,7 +34,6 @@ class RichEditor(Textarea):
 			'lang': self.language[:2],
 			'tags': dumps(self.get_tags_info()),
 			'widget': widget,
-			'js': js,
 		}
 		return mark_safe(render_to_string('widgets/editor.html', context))
 
@@ -72,10 +70,8 @@ class RichOriginalEditor(RichEditor):
 			formats[0]['checked'] = True
 
 		supported_tags = self.attrs.pop('supported_tags', {})
-		js = self.attrs.pop('js', True)
 		widget = super(RichEditor, self).render(name, value, attrs)
 		self.attrs['supported_tags'] = supported_tags
-		self.attrs['js'] = js
 
 		context = {
 			'name': name,
@@ -84,7 +80,6 @@ class RichOriginalEditor(RichEditor):
 			'widget': widget,
 			'format': value_fmt,
 			'formats': formats,
-			'js': js,
 		}
 		return mark_safe(render_to_string('widgets/editor.html', context))
 

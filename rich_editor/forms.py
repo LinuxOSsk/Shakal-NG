@@ -26,13 +26,11 @@ class RichOriginalField(CharField):
 	widget = RichOriginalEditor
 
 	def __init__(self, parsers, *args, **kwargs):
-		self.js = kwargs.pop('js', False)
 		self.parsers = parsers
 		super(RichOriginalField, self).__init__(*args, **kwargs)
 
 	def widget_attrs(self, widget):
 		attrs = super(RichOriginalField, self).widget_attrs(widget)
-		attrs.update({'js': self.js})
 		attrs.update(self.parsers['html'].get_attributes())
 		return attrs
 

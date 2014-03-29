@@ -11,8 +11,8 @@ COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)
 
 
 class NewsForm(AntispamModelFormMixin, forms.ModelForm):
-	original_short_text = RichOriginalField(News._meta.get_field('original_short_text').parsers, label = u'Krátky text', max_length = COMMENT_MAX_LENGTH, js = True)
-	original_long_text = RichOriginalField(News._meta.get_field('original_long_text').parsers, label = u'Dlhý text', max_length = COMMENT_MAX_LENGTH, js = True)
+	original_short_text = RichOriginalField(News._meta.get_field('original_short_text').parsers, label = u'Krátky text', max_length = COMMENT_MAX_LENGTH)
+	original_long_text = RichOriginalField(News._meta.get_field('original_long_text').parsers, label = u'Dlhý text', max_length = COMMENT_MAX_LENGTH)
 
 	def __init__(self, *args, **kwargs):
 		logged = kwargs.pop('logged', False)
