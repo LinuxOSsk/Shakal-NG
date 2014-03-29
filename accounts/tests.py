@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
 
-from .forms import UserCreationForm, ProfileEditForm
+from .admin_forms import UserCreationForm
+from .forms import ProfileEditForm
 from .models import User
 from .registration_backend.forms import UserRegistrationForm
 from common_utils.tests_common import AdminSiteTestCase, ProcessFormTestMixin, fts_test

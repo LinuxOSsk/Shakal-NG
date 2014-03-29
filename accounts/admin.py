@@ -4,7 +4,7 @@ from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 
-from accounts.forms import UserCreationForm, UserChangeForm
+from accounts.admin_forms import UserCreationForm, UserChangeForm
 from accounts.models import User
 from admin_actions.views import AdminActionsMixin
 

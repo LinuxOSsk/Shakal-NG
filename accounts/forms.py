@@ -1,46 +1,18 @@
 # -*- coding: utf-8 -*-
-import re
-
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm, UserChangeForm as OrigUserChangeForm, UserCreationForm as OrigUserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
-from common_utils.admin_widgets import DateTimeInput, EnclosedInput
 from rich_editor import get_parser
 from rich_editor.forms import RichTextField
 
 
 class AuthenticationRememberForm(AuthenticationForm):
 	remember_me = forms.BooleanField(label=_('Remember me'), initial=False, required=False)
-
-
-def get_username_field():
-	return forms.RegexField(
-		label=_('Username'),
-		max_length=30,
-		min_length=3,
-		regex=re.compile(r'^([\w]+[ ]?)*[\w]$', re.UNICODE),
-		help_text=_('Required. Length 3 - 30 characters.'),
-		error_message=_('This value must contain spaces oly in the middle.'))
-
-
-class UserCreationForm(OrigUserCreationForm):
-	username = get_username_field()
-
-	class Meta(OrigUserCreationForm.Meta):
-		widgets = {
-			'last_login': DateTimeInput,
-			'date_joined': DateTimeInput,
-			'email': EnclosedInput(append='icon-envelope'),
-		}
-
-
-class UserChangeForm(OrigUserChangeForm):
-	username = get_username_field()
 
 
 class ProfileEditForm(forms.ModelForm):
