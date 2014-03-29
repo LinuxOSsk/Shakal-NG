@@ -96,6 +96,8 @@
 			}(path);
 			head.appendChild(script);
 		}
+
+		setTimeout(fireCallbacks, 0);
 	};
 
 	var getLoader = function() { return loader };
