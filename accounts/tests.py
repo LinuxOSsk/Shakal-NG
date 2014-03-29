@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
-from accounts.registration_backend.forms import UserRegistrationForm
-from .forms import UserCreationForm
+
+from .forms import UserCreationForm, ProfileEditForm
+from .models import User
+from .registration_backend.forms import UserRegistrationForm
+from common_utils.tests_common import ProcessFormTestMixin
 
 
 USER_FORM_DATA = {
@@ -47,4 +50,23 @@ class UserAdminFormTest(TestCase):
 		data = USER_FORM_DATA.copy()
 		data['username'] = 'test@example.com'
 		form = UserCreationForm(data)
+		self.assertFalse(form.is_valid())
+
+
+class ProfileEditFormTest(ProcessFormTestMixin, TestCase):
+	fixtures = ['users.json']
+
+	def get_form_with_password(self, password):
+		user = User.objects.get(username="admin")
+		form = ProfileEditForm(instance=user)
+		data = self.extract_form_data(form)
+		data['current_password'] = password
+		return ProfileEditForm(data, instance=user)
+
+	def test_ok(self):
+		form = self.get_form_with_password("P4ssw0rd")
+		self.assertTrue(form.is_valid())
+
+	def test_bad_password(self):
+		form = self.get_form_with_password("bad")
 		self.assertFalse(form.is_valid())
