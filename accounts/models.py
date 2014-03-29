@@ -53,7 +53,7 @@ class User(AbstractUser):
 		full_name = '%s %s' % (self.first_name, self.last_name)
 		return full_name.strip()
 	get_full_name.short_description = _('full name')
-	get_full_name.admin_order_field = 'last_name'
+	get_full_name.admin_order_field = 'last_name,first_name,username'
 
 	def __unicode__(self):
 		full_name = self.get_full_name()
