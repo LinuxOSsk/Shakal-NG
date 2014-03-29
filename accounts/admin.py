@@ -6,9 +6,10 @@ from django.utils.translation import ugettext_lazy as _
 
 from accounts.forms import UserCreationForm, UserChangeForm
 from accounts.models import User
+from admin_actions.views import AdminActionsMixin
 
 
-class UserAdmin(AuthUserAdmin):
+class UserAdmin(AdminActionsMixin, AuthUserAdmin):
 	add_form = UserCreationForm
 	form = UserChangeForm
 	ordering = ('-id', )
@@ -32,5 +33,16 @@ class UserAdmin(AuthUserAdmin):
 	get_status.short_description = _("status")
 	get_status.allow_tags = True
 
+	def get_changelist_actions(self, obj):
+		if obj.is_active:
+			return (('set_inactive', {'label': _('Block user'), 'class': 'btn btn-danger'}),)
+		else:
+			return (('set_active', {'label': _('Unblock user'), 'class': 'btn btn-success'}),)
+
+	def set_inactive(self, request, **kwargs): #pylint: disable=W0613
+		request.POST['is_active'] = ''
+
+	def set_active(self, request, **kwargs): #pylint: disable=W0613
+		request.POST['is_active'] = '1'
 
 admin.site.register(User, UserAdmin)
