@@ -104,6 +104,12 @@ class AdminSiteTestCase(LoggedUserTestMixin, ProcessFormTestMixin, LiveServerTes
 	def check_change(self, object_pk, data, check_redirect=True):
 		return self.check_form_save_view("change", data, check_redirect, args=[object_pk])
 
+	def check_action(self, object_pk, action, data, check_redirect=True):
+		if action is not None:
+			data = data.copy()
+			data['_' + action] = ''
+		return self.check_form_save_view("change", data, check_redirect, args=[object_pk])
+
 	def check_delete(self, object_pk, check_redirect=True):
 		response = self.get_admin_view_response("delete", args=[object_pk])
 		self.assertEqual(response.status_code, 200)

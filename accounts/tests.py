@@ -86,8 +86,6 @@ class AdminUserTest(AdminSiteTestCase):
 	DEFAULT_DATA = {
 		'username': 'username2',
 		'email': 'email2@example.com',
-		'password1': 'P4ssw0rd',
-		'password2': 'P4ssw0rd',
 	}
 
 	def setUp(self):
@@ -100,10 +98,24 @@ class AdminUserTest(AdminSiteTestCase):
 		self.check_add(self.DEFAULT_ADD_DATA)
 
 	def test_change(self):
-		user = User.objects.get(pk=1)
-		user = self.check_change(user.pk, self.DEFAULT_DATA)['instance']
-		self.assertEqual(user.username, self.DEFAULT_DATA['username'])
+		user = User.objects.get_or_create(**self.DEFAULT_DATA)[0]
+		user.save()
+		data = self.DEFAULT_DATA.copy()
+		data['username'] = 'abc'
+		user = self.check_change(user.pk, data)['instance']
+		self.assertEqual(user.username, data['username'])
+
+	def test_admin_actions(self):
+		user = User.objects.get_or_create(**self.DEFAULT_DATA)[0]
+		user.is_active = True
+		user.save()
+		user = self.check_action(user.pk, 'set_inactive', self.DEFAULT_DATA)['instance']
+		self.assertFalse(user.is_active)
+		user = self.check_action(user.pk, 'set_active', self.DEFAULT_DATA)['instance']
+		self.assertTrue(user.is_active)
 
 	def test_delete(self):
-		user = User.objects.get(pk=2)
+		user = User.objects.get_or_create(**self.DEFAULT_DATA)[0]
+		user.save()
+		user = User.objects.get(pk=user.pk)
 		self.check_delete(user.pk)
