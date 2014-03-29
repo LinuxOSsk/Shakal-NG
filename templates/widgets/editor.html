@@ -9,7 +9,7 @@
 		{% endfor %}
 	</div>
 {% endif %}
-<div class="textareawrapper">
+<div id="id_textareawrapper_{{ name }}" class="textareawrapper">
 	{{ widget|safe }}
 </div>
 <script type="text/javascript" charset="utf-8">
@@ -24,5 +24,27 @@
 			static_base: '{%static '' %}'
 		}
 	);
+
+{% if formats %}
+var switchFormat = function() {
+	if ($("input[name='{{ name }}_format'][value='raw']").is(":checked")) {
+		window.rich_editors['{{ name }}'].loadFunctions['raw']();
+		$("#id_textareawrapper_{{ name }} .settings").hide();
+	}
+	else {
+		var default_editor = 'wymeditor';
+		var editor = cookiemanager.getCookie('last_editor');
+		var loadFunctions = window.rich_editors['{{ name }}'].loadFunctions;
+		if (loadFunctions[editor] != undefined) {
+			loadFunctions[editor]();
+		}
+		else {
+			loadFunctions[default_editor]();
+		}
+		$("#id_textareawrapper_{{ name }} .settings").show();
+	}
+}
+$("input[name='{{ name }}_format']").on("change", switchFormat);
+{% endif %}
 //]]>
 </script>
