@@ -1,5 +1,5 @@
 /* Vyčistenie nadradených štýlov */
-.wym_skin_shakal p, .wym_skin_shakal h2, .wym_skin_shakal ul, .wym_skin_shakal li { background: transparent url(); margin: 0; padding: 0; border-width: 0; list-style: none; }
+.wym_skin_shakal p, .wym_skin_shakal h2, .wym_skin_shakal ul, .wym_skin_shakal li { background: transparent; margin: 0; padding: 0; border-width: 0; list-style: none; }
 
 /* Zobrazovanie len pravého panelu */
 .wym_skin_shakal .wym_area_left { display: none; }

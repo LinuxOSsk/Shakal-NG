@@ -11,6 +11,7 @@ from rich_editor.parser import ALL_TAGS
 class RichEditor(Textarea):
 	class Media:
 		js = [
+			'js/lib.js',
 			'js/richeditor/editor.js',
 		]
 		css = {

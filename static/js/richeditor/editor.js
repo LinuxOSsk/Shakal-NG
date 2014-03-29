@@ -30,25 +30,6 @@ var all_containers = [
 	{name:"TH",title:"Table_Header",css:"wym_containers_th",tag:"th"}
 ];
 
-function setCookie(name, value, expiredays) {
-	var expires = new Date();
-	expires.setDate(expires.getDate() + expiredays);
-	document.cookie = name + '=' + escape(value) + '; expires=' + expires.toUTCString();
-}
-
-function getCookie(requested_name, default_value) {
-	var cookies = document.cookie.split(";");
-	for (var i = 0; i < cookies.length; ++i) {
-		var name = cookies[i].substr(0, cookies[i].indexOf('='));
-		var value = cookies[i].substr(cookies[i].indexOf('=') + 1);
-		name = name.replace(/^\s+|\s+$/g,"");
-		if (name == requested_name) {
-			return unescape(value);
-		}
-	}
-	return default_value;
-}
-
 function filterTools(tools, selectors) {
 	var ret_tools = [];
 	for (var i = 0; i < tools.length; ++i) {
@@ -71,74 +52,43 @@ var generate_unsupported_tags = function(frame, unsupported_tags) {
 
 var wymeditor_plugin = function(element, settings) {
 	var editor = undefined;
-	var startEditor = function()
-	{
-		jQuery(element).wymeditor({
-			skin: 'shakal',
-			lang: settings['lang'],
-			statusHtml: '',
-			updateSelector: jQuery(element).parents('form:first'),
-			updateEvent: 'submit',
-			postInit: function(wym) {
-				editor = wym;
-				//wym.table();
-			},
-			toolsItems: filterTools(all_tools, settings.tags.known),
-			containersItems: filterTools(all_containers, settings.tags.known),
-			toolsItemHtml: String() +
-				'<li class="' + WYMeditor.TOOL_CLASS + ' btn" onclick="this.childNodes[0].childNodes[0].click()">' +
-					'<span>' +
-						'<a href="#" name="' + WYMeditor.TOOL_NAME + '" ' +
-							'title="' + WYMeditor.TOOL_TITLE + '">' +
-							WYMeditor.TOOL_TITLE +
-						'</a>' +
-					'</span>' +
-				'</li>'
-		});
-		var iframe = element.parentNode.getElementsByTagName('iframe')[0];
-		var old_onload = iframe.onload;
-		iframe.onload = function(event) {
-			this.onload = old_onload;
-			this.onload(event);
-			generate_unsupported_tags(iframe, settings.tags.unsupported);
-		}
-	}
-
-	var loadEditor = function ()
-	{
-		var link = document.getElementsByTagName('link')[0];
-		if (typeof WYMeditor !== 'undefined') {
-			startEditor();
-		}
-		else {
-			script = document.createElement('script');
-			script.setAttribute('src', settings['script_wymeditor']);
-			script.type = 'text/javascript';
-			script.async = true;
-			script.onload = function () {
-				startEditor();
-			};
-			link.parentNode.appendChild(script);
-		}
-	}
 
 	this.load = function()
 	{
-		(function() {
-			if (typeof jQuery !== 'undefined') {
-				loadEditor();
-			}
-			else {
-				var link = document.getElementsByTagName('link')[0];
-				var script = document.createElement('script');
-				script.src = settings.static_base + '/js/jquery-1.7.2.min.js';
-				script.type = 'text/javascript';
-				script.async = true;
-				script.onload = loadEditor;
-				link.parentNode.appendChild(script);
-			}
-		})();
-	}
+		loader([settings.static_base + 'js/jquery-1.8.3.min.js'], function() {
+			loader([settings['script_wymeditor']], function() {
+				jQuery(element).wymeditor({
+					skin: 'shakal',
+					lang: settings['lang'],
+					statusHtml: '',
+					updateSelector: jQuery(element).parents('form:first'),
+					updateEvent: 'submit',
+					postInit: function(wym) {
+						editor = wym;
+						//wym.table();
+					},
+					toolsItems: filterTools(all_tools, settings.tags.known),
+					containersItems: filterTools(all_containers, settings.tags.known),
+					toolsItemHtml: String() +
+						'<li class="' + WYMeditor.TOOL_CLASS + ' btn" onclick="this.childNodes[0].childNodes[0].click()">' +
+							'<span>' +
+								'<a href="#" name="' + WYMeditor.TOOL_NAME + '" ' +
+									'title="' + WYMeditor.TOOL_TITLE + '">' +
+									WYMeditor.TOOL_TITLE +
+								'</a>' +
+							'</span>' +
+						'</li>'
+				});
+				var iframe = element.parentNode.getElementsByTagName('iframe')[0];
+				var old_onload = iframe.onload;
+				iframe.onload = function(event) {
+					this.onload = old_onload;
+					this.onload(event);
+					generate_unsupported_tags(iframe, settings.tags.unsupported);
+				};
+			});
+		});
+	};
 
 	this.unload = function()
 	{
@@ -148,8 +98,9 @@ var wymeditor_plugin = function(element, settings) {
 		element.style.display = 'block';
 		var editor_div = element.parentNode.getElementsByTagName('div')[1];
 		editor_div.parentNode.removeChild(editor_div);
-	}
+	};
 };
+
 
 var shakal_plugin = function(element, settings)
 {
@@ -179,25 +130,27 @@ var shakal_plugin = function(element, settings)
 		}
 	}
 
-	this.load = function()
-	{
+	this.load = function() {
 		wymbox = document.createElement("div");
 		wymbox.className = "wym_box wym_box_0 wym_skin_shakal";
+
 		var wymtop = document.createElement("div");
 		wymtop.className = "wym_area_top";
-		wymbox.appendChild(wymtop);
+
 		var wymcontainers = document.createElement("div");
 		wymcontainers.className = "wym_containers wym_section wym_panel";
-		wymtop.appendChild(wymcontainers);
+
 		var wymtools = document.createElement("div");
 		wymtools.className = "wym_tools wym_section wym_buttons";
-		wymtop.appendChild(wymtools);
 
+		wymtop.appendChild(wymcontainers);
+		wymtop.appendChild(wymtools);
+		wymbox.appendChild(wymtop);
 		element.parentNode.insertBefore(wymbox, element);
 
 		var tools = filterTools(all_tools, settings.tags.known);
 		var containers = filterTools(all_containers, settings.tags.known);
-		var insert_fn = this.insert;
+		var insert = this.insert;
 
 		var xmlhttp;
 		if (window.XMLHttpRequest) {
@@ -214,6 +167,37 @@ var shakal_plugin = function(element, settings)
 				response = response.substr(response.indexOf('{') - 1);
 				response = response.substr(0, response.lastIndexOf(';'));
 				var trans = eval("("+response+")");
+
+				var createToolElement = function(item, extra_css) {
+					var btn = document.createElement("li");
+					btn.className = item.css + " " + extra_css;
+					btn.onclick = function() { this.childNodes[0].childNodes[0].click(); };
+
+					var span = document.createElement("span");
+
+					var link = document.createElement("a");
+					link.name = item.name;
+					link.href = '#';
+					link.innerHTML = trans[item.title];
+					link.onclick = function(item) {
+						return function(event) {
+							event.stopPropagation();
+							window.event.cancelBubble = true;
+							if (item.tag_pre) {
+								insert(item.tag_pre, item.tag_post);
+							}
+							else {
+								insert('<' + item.tag + '>', '</' + item.tag + '>');
+							}
+							return false;
+						}
+					}(item);
+
+					span.appendChild(link);
+					btn.appendChild(span);
+					return btn;
+				}
+
 				var wymcontainers_btn = document.createElement("div");
 				wymcontainers_btn.className = "btn";
 				var wymcontainers_inner = document.createElement("span");
@@ -228,28 +212,11 @@ var shakal_plugin = function(element, settings)
 				wym_top_toolbar.appendChild(wymcontainers_list);
 
 				for (var i = 0; i < containers.length; ++i) {
-					var container = containers[i];
-					var wymcontainers_container = document.createElement("li");
-					wymcontainers_container.className = container.css;
-					var wymcontainers_link = document.createElement("a");
-					wymcontainers_link.name = container.name;
-					wymcontainers_link.href = '#';
-					wymcontainers_link.innerHTML = trans[container.title];
-					wymcontainers_link.onclick = function(container) {
-						return function(event) {
-							event.stopPropagation();
-							window.event.cancelBubble = true;
-							if (container.tag_pre) {
-								insert_fn(container.tag_pre, container.tag_post);
-							}
-							else {
-								insert_fn('<' + container.tag + '>', '</' + container.tag + '>');
-							}
-							return false;
-						}
-					}(container);
-					wymcontainers_container.appendChild(wymcontainers_link);
-					wymcontainers_list.appendChild(wymcontainers_container);
+					var item = containers[i];
+					if (typeof(item.tag) === "undefined") {
+						continue;
+					}
+					wymcontainers_list.appendChild(createToolElement(item, " "));
 				}
 
 				var wym_top_toolbar = document.createElement("div");
@@ -264,46 +231,20 @@ var shakal_plugin = function(element, settings)
 					if (typeof(tool.tag) === "undefined") {
 						continue;
 					}
-
-					var btn = document.createElement("li");
-					btn.className = tool.css + " btn";
-					btn.onclick = function() { this.childNodes[0].childNodes[0].click(); };
-					wymtools_list.appendChild(btn);
-
-					var span = document.createElement("span");
-					btn.appendChild(span);
-
-					var link = document.createElement("a");
-					link.href = "#";
-					link.tool = container.name;
-					link.onclick = function(tool) {
-						return function(event) {
-							event.stopPropagation();
-							window.event.cancelBubble = true;
-							if (tool.tag_pre) {
-								insert_fn(tool.tag_pre, tool.tag_post);
-							}
-							else {
-								insert_fn('<' + tool.tag + '>', '</' + tool.tag + '>');
-							}
-							return false;
-						}
-					}(tool);
-					link.innerHTML = trans[tool.title];
-					span.appendChild(link);
+					wymtools_list.appendChild(createToolElement(tool, " btn"));
 				}
 			}
 		}
 		xmlhttp.send(null);
-	}
+	};
 
-	this.unload = function()
-	{
+	this.unload = function() {
 		if (wymbox != undefined) {
 			element.parentNode.removeChild(wymbox);
 		}
-	}
-}
+	};
+};
+
 
 var createEditorSwitch = function(element, settings) {
 	var currentPlugin = undefined;
@@ -324,11 +265,13 @@ var createEditorSwitch = function(element, settings) {
 
 	var div = document.createElement('div');
 	div.className = "btn settings";
+
 	var span = document.createElement('span');
 	span.innerHTML = '<a href="#" class="settings">Nastavenia</a>';
-	div.appendChild(span);
+
 	var list = document.createElement('ul');
 	list.className = 'dropdown menu';
+
 	for (var i = 0; i < editors.length; ++i) {
 		var id = editors[i]['id'];
 		var editor = editors[i]['name'];
@@ -339,7 +282,7 @@ var createEditorSwitch = function(element, settings) {
 		link.href = '#';
 		var change_fn = function(id, editor, plugin) {
 			return function() {
-				setCookie('last_editor', id, 365);
+				cookiemanager.setCookie('last_editor', id, 365 * 5);
 				if (currentPlugin != undefined) {
 					currentPlugin.unload();
 					currentPlugin = undefined;
@@ -356,16 +299,22 @@ var createEditorSwitch = function(element, settings) {
 		li.appendChild(link);
 		list.appendChild(li);
 	}
+
+	div.appendChild(span);
 	div.appendChild(list);
+
 	element.parentNode.insertBefore(div, element);
 	return functions;
 }
 
 function initialize_rich_editor(name, settings) {
-	var default_editor = '';
+	"use strict";
+
+	var default_editor = 'wymeditor';
+	var editor = cookiemanager.getCookie('last_editor');
 	var element = document.getElementById('id_' + name);
+
 	var loadFunctions = createEditorSwitch(element, settings);
-	var editor = getCookie('last_editor');
 	if (loadFunctions[editor] != undefined) {
 		loadFunctions[editor]();
 	}
