@@ -17,6 +17,11 @@ import os
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "shakal.settings")
 
+
+from admin_dashboard.site import AdminSite
+from django.contrib import admin
+admin.site = AdminSite()
+
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.
