@@ -3,14 +3,17 @@
 (function (window, document) {
 	"use strict";
 
-	var setCookie = function(name, value, days) {
+	var setCookie = function(name, value, days, path) {
 		var expires = "";
 		if (days) {
 			var date = new Date();
 			date.setTime(date.getTime() + (days*24*60*60*1000));
 			expires = "; expires=" + date.toGMTString();
 		}
-		document.cookie = name + "="+encodeURIComponent(value) + expires + "; path=/";
+		if (path == undefined) {
+			path = "; path=/"
+		}
+		document.cookie = name + "="+encodeURIComponent(value) + expires + path;
 	};
 
 	var getCookie = function(name) {
@@ -28,6 +31,7 @@
 
 	var deleteCookie = function(name) {
 		setCookie(name, "", -1);
+		setCookie(name, "", -1, "");
 	};
 
 	window.cookiemanager = {setCookie: setCookie, getCookie: getCookie, deleteCookie: deleteCookie};
