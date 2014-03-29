@@ -6,7 +6,50 @@
 			"username": "admin",
 			"email": "admin@example.com",
 			"is_active": true,
+			"is_staff": true,
 			"is_superuser": true,
+			"password": "crypt$$yXPDma550/kT6",
+			"original_info": "html:",
+			"signature": "html:"
+	   }
+	},
+	{
+		"pk": "2",
+		"model": "accounts.user",
+		"fields": {
+			"username": "staff",
+			"email": "staff@example.com",
+			"is_active": true,
+			"is_staff": true,
+			"is_superuser": false,
+			"password": "crypt$$yXPDma550/kT6",
+			"original_info": "html:",
+			"signature": "html:"
+	   }
+	},
+	{
+		"pk": "3",
+		"model": "accounts.user",
+		"fields": {
+			"username": "user",
+			"email": "user@example.com",
+			"is_active": true,
+			"is_staff": false,
+			"is_superuser": false,
+			"password": "crypt$$yXPDma550/kT6",
+			"original_info": "html:",
+			"signature": "html:"
+	   }
+	},
+	{
+		"pk": "4",
+		"model": "accounts.user",
+		"fields": {
+			"username": "inactive",
+			"email": "inactive@example.com",
+			"is_active": false,
+			"is_staff": false,
+			"is_superuser": false,
 			"password": "crypt$$yXPDma550/kT6",
 			"original_info": "html:",
 			"signature": "html:"
