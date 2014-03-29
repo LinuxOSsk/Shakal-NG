@@ -115,11 +115,6 @@ class AdminSiteTestCase(LoggedUserTestMixin, ProcessFormTestMixin, LiveServerTes
 		ret['response'] = response
 		return ret
 
-	def check_list(self):
-		response = self.get_admin_view_response("changelist")
-		self.assertEqual(response.status_code, 200)
-		return response
-
 	def check_changelist(self):
 		response = self.get_admin_view_response("changelist")
 		self.assertEqual(response.status_code, 200)
