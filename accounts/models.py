@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-from base64 import b64encode
-
 from Crypto.Cipher import PKCS1_OAEP
 from Crypto.PublicKey import RSA
+from base64 import b64encode
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.core.exceptions import ValidationError
@@ -20,6 +19,8 @@ from wiki.models import Page as WikiPage
 
 
 class User(AbstractUser):
+	objects = UserManager()
+
 	jabber = models.CharField(max_length=127, blank=True)
 	url = models.CharField(max_length=255, blank=True)
 	signature = models.CharField(_('signature'), max_length=255, blank=True)
@@ -89,6 +90,9 @@ class UserRating(models.Model):
 		else:
 			return '5'
 
+	def __unicode__(self):
+		return self.get_rating_label()
+
 
 SENDERS = {
 	Comment: ('user', 'comments', lambda c: c.is_public and not c.is_removed),
@@ -110,13 +114,13 @@ RATING_WEIGHTS = {
 def update_user_rating(instance, author_property, property_name, change):
 	user = getattr(instance, author_property)
 	if user:
-		rating, created = UserRating.objects.get_or_create(user=user)
+		rating = UserRating.objects.get_or_create(user=user)[0]
 		setattr(rating, property_name, max(getattr(rating, property_name) + change, 0))
 		rating.rating = sum(getattr(rating, w[0]) * w[1] for w in RATING_WEIGHTS.iteritems())
 		rating.save()
 
 
-def update_count_pre_save(sender, instance, **kwargs):
+def update_count_pre_save(sender, instance, **kwargs): #pylint: disable=W0613
 	author_property, property_name, count_fun = SENDERS[sender]
 	if instance.pk:
 		try:
@@ -136,7 +140,7 @@ pre_delete.connect(update_count_pre_save, sender=News)
 pre_delete.connect(update_count_pre_save, sender=WikiPage)
 
 
-def update_count_post_save(sender, instance, created, **kwargs):
+def update_count_post_save(sender, instance, **kwargs): #pylint: disable=W0613
 	author_property, property_name, count_fun = SENDERS[sender]
 	update_user_rating(instance, author_property, property_name, int(count_fun(instance)))
 
