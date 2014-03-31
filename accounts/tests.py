@@ -1,10 +1,22 @@
 # -*- coding: utf-8 -*-
-from django.test import TestCase
+from __future__ import unicode_literals
+
+import os
+from datetime import timedelta
+from time import mktime
+
+from django.core import mail
+from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse
+from django.test import TestCase, LiveServerTestCase
+from django.utils import timezone
 
 from .admin_forms import UserCreationForm
 from .forms import ProfileEditForm
-from .models import User
+from .models import User, UserRating, RATING_WEIGHTS
 from .registration_backend.forms import UserRegistrationForm
+from .templatetags.avatar import avatar_for_user
+from .views import sign_email_change_link
 from common_utils.tests_common import AdminSiteTestCase, ProcessFormTestMixin, fts_test
 
 
@@ -73,6 +85,50 @@ class ProfileEditFormTest(ProcessFormTestMixin, TestCase):
 		self.assertFalse(form.is_valid())
 
 
+class UserModelTest(TestCase):
+	fixtures = ['users.json']
+
+	def test_duplicate_mail(self):
+		user = User(username="user2", email="admin@example.com")
+		with self.assertRaises(ValidationError):
+			user.clean_fields()
+
+	def test_permalink(self):
+		user = User.objects.get(username="user")
+		self.assertNotEqual(user.get_absolute_url(), "/")
+
+	def test_encrypt_password(self):
+		with self.settings(ENCRYPT_KEY=os.path.join(os.path.dirname(__file__), "test.der")):
+			user = User.objects.get(username="user")
+			user.set_password("test")
+			self.assertIsNotNone(user.encrypted_password)
+
+
+class UserRatingModelTest(TestCase):
+	def test_rating(self):
+		from news.models import News
+
+		user = User(username="unique", email="unique@example.com")
+		user.save()
+
+		news = News(title="Test", slug="test", approved=True, author=user)
+		news.save()
+
+		rating = UserRating.objects.get(user=user)
+		self.assertEqual(rating.rating, RATING_WEIGHTS['news'])
+		self.assertEqual(str(rating), '2')
+
+		news.approved = False
+		news.save()
+
+		rating = UserRating.objects.get(user=user)
+		self.assertEqual(rating.rating, 0)
+
+		news.delete()
+		rating = UserRating.objects.get(user=user)
+		self.assertEqual(rating.rating, 0)
+
+
 @fts_test
 class AdminUserTest(AdminSiteTestCase):
 	model = "user"
@@ -88,6 +144,8 @@ class AdminUserTest(AdminSiteTestCase):
 	DEFAULT_DATA = {
 		'username': 'username2',
 		'email': 'email2@example.com',
+		'first_name': 'firstname',
+		'last_name': 'lastname',
 	}
 
 	def setUp(self):
@@ -121,3 +179,86 @@ class AdminUserTest(AdminSiteTestCase):
 		user.save()
 		user = User.objects.get(pk=user.pk)
 		self.check_delete(user.pk)
+
+
+@fts_test
+class UserRegistrationTest(ProcessFormTestMixin, LiveServerTestCase):
+	def test_register(self):
+		with self.settings(CAPTCHA_DISABLE=True):
+			form = self.extract_form("registration_register")
+			user_data = {'username': 'unique', 'password1': 'P4ssw0rd', 'password2': 'P4ssw0rd', 'email': 'unique@example.com'}
+			form_data = self.fill_form(form, user_data)
+			self.send_form_data("registration_register", form_data)
+			self.assertEqual(len(mail.outbox), 1)
+
+
+class AvatarTest(TestCase):
+	def test_for_user(self):
+		user = User(email="uňicoďe@example.com")
+		self.assertNotEqual(avatar_for_user(user), "")
+
+
+@fts_test
+class AccountsViewsTest(ProcessFormTestMixin, LiveServerTestCase):
+	fixtures = ['users.json']
+
+	def setUp(self):
+		self.client.login(username="user", password="P4ssw0rd", remember_user="1")
+
+	def test_profile_view(self):
+		user = User.objects.get(username="user")
+		response = self.client.get(user.get_absolute_url())
+		self.assertEqual(response.status_code, 200)
+
+	def test_my_profile_view(self):
+		with self.assertTemplateUsed("registration/profile.html"):
+			response = self.client.get(reverse("auth_my_profile"), follow=True)
+			self.assertEqual(response.status_code, 200)
+
+	def test_email_change(self):
+		with self.assertTemplateUsed("registration/email_change_done.html"):
+			form = self.extract_form("auth_email_change")
+			data = self.fill_form(form, {'current_password': 'P4ssw0rd', 'email': 'newmail@example.com'})
+			self.send_form_data("auth_email_change", data, follow=True)
+
+		self.assertEqual(len(mail.outbox), 1)
+
+	def test_email_change_activate(self):
+		user = User.objects.get(username="user")
+
+		# zlý user
+		link = sign_email_change_link(1, int(mktime((timezone.now() - timedelta(1)).timetuple())), "newmail@example.com")
+		response = self.client.get(link)
+		self.assertFalse(response.context_data['validlink'])
+
+		# starý link
+		link = sign_email_change_link(user.pk, int(mktime((timezone.now() - timedelta(365)).timetuple())), "newmail@example.com")
+		response = self.client.get(link)
+		self.assertFalse(response.context_data['validlink'])
+
+		# duplicitný mail
+		link = sign_email_change_link(user.pk, int(mktime((timezone.now() - timedelta(1)).timetuple())), "admin@example.com")
+		response = self.client.get(link)
+		self.assertFalse(response.context_data['validlink'])
+
+		# OK
+		link = sign_email_change_link(user.pk, int(mktime((timezone.now() - timedelta(1)).timetuple())), "newmail@example.com")
+		response = self.client.get(link)
+		self.assertTrue(response.context_data['validlink'])
+		user = User.objects.get(username="user")
+		self.assertEqual(user.email, "newmail@example.com")
+
+	def test_my_profile_edit_view(self):
+		with self.assertTemplateUsed("registration/profile_change.html"):
+			form = self.extract_form("auth_my_profile_edit")
+			form_data = self.fill_form(form, {'current_password': 'P4ssw0rd'})
+			response = self.send_form_data("auth_my_profile_edit", form_data)
+			self.assertEqual(response.status_code, 302)
+
+	def test_login(self):
+		self.client.logout()
+		form = self.extract_form("auth_login")
+		form_data = self.fill_form(form, {'username': 'user', 'password': 'P4ssw0rd'})
+		form_data['remember_me'] = '1'
+		response = self.send_form_data("auth_login", form_data)
+		self.assertEqual(response.status_code, 302)

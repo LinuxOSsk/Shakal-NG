@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url, include, patterns
 from django.views.generic.base import TemplateView
-from accounts.registration_backend.forms import UserRegistrationForm
-
 from registration.backends.default.views import ActivationView
+
+from accounts.registration_backend.forms import UserRegistrationForm
 from accounts.registration_backend.views import RegistrationView
 
 
