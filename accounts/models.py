@@ -79,16 +79,8 @@ class UserRating(models.Model):
 	rating = models.IntegerField(default=0)
 
 	def get_rating_label(self):
-		if self.rating < 10:
-			return '1'
-		elif self.rating < 50:
-			return '2'
-		elif self.rating < 400:
-			return '3'
-		elif self.rating < 1000:
-			return '4'
-		else:
-			return '5'
+		r = self.rating
+		return (r >= 1000 and '5') or (r >= 400 and '4') or (r >= 50 and '3') or (r >= 10 and '2') or '1'
 
 	def __unicode__(self):
 		return self.get_rating_label()

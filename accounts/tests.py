@@ -5,7 +5,7 @@ import os
 
 from .admin_forms import UserCreationForm
 from .forms import ProfileEditForm
-from .models import User
+from .models import User, UserRating, RATING_WEIGHTS
 from .registration_backend.forms import UserRegistrationForm
 from common_utils.tests_common import AdminSiteTestCase, ProcessFormTestMixin, fts_test
 
@@ -92,6 +92,31 @@ class UserModelTest(TestCase):
 			user = User.objects.get(username="user")
 			user.set_password("test")
 			self.assertIsNotNone(user.encrypted_password)
+
+
+class UserRatingModelTest(TestCase):
+	def test_rating(self):
+		from news.models import News
+
+		user = User(username="unique", email="unique@example.com")
+		user.save()
+
+		news = News(title="Test", slug="test", approved=True, author=user)
+		news.save()
+
+		rating = UserRating.objects.get(user=user)
+		self.assertEqual(rating.rating, RATING_WEIGHTS['news'])
+		self.assertEqual(str(rating), '2')
+
+		news.approved = False
+		news.save()
+
+		rating = UserRating.objects.get(user=user)
+		self.assertEqual(rating.rating, 0)
+
+		news.delete()
+		rating = UserRating.objects.get(user=user)
+		self.assertEqual(rating.rating, 0)
 
 
 @fts_test
