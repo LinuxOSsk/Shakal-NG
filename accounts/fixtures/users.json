@@ -40,7 +40,8 @@
 			"original_info": "html:",
 			"signature": "html:",
 			"first_name": "firstname",
-			"last_name": "lastname"
+			"last_name": "lastname",
+			"display_mail": true
 	   }
 	},
 	{

@@ -25,16 +25,14 @@ from .forms import ProfileEditForm, EmailChangeForm
 
 
 def profile(request, pk):
-	user = get_object_or_404(get_user_model(), pk = pk)
+	user = get_object_or_404(get_user_model(), pk=pk)
 	user_table = (
 		{'name': _('user name'), 'value': user.username, 'class': 'nickname'},
-		{'name': _('full name'), 'value': user.first_name + ' ' + user.last_name, 'class': 'fn'},
+		{'name': _('full name'), 'value': (user.first_name + ' ' + user.last_name).strip(), 'class': 'fn'},
 		{'name': _('signature'), 'value': mark_safe(user.signature), 'class': ''},
 		{'name': _('linux distribution'), 'value': user.distribution, 'class': 'note'},
 		{'name': _('year of birth'), 'value': user.year},
 	)
-	if user_table[1]['value'] == ' ':
-		user_table[1]['value'] = ''
 	if user.display_mail:
 		email = user.email.replace('@', ' ' + ugettext('ROLLMOP') + ' ').replace('.', ' ' + ugettext('DOT') + ' ')
 		user_table = user_table + ({'name': _('e-mail'), 'value': email}, )
@@ -48,29 +46,31 @@ def profile(request, pk):
 
 @login_required
 def my_profile(request):
-	return profile(request, request.user.pk)
+	return HttpResponseRedirect(reverse("auth_profile", args=[request.user.pk]))
+
+
+def sign_email_change_link(user_pk, time, email):
+	signer = signing.Signer()
+	signed = signer.sign(str(user_pk) + '.' + str(time) + '.' + email)
+	return reverse('auth_email_change_activate', args=(signed,))
 
 
 @login_required
 def email_change(request):
-	form = EmailChangeForm(request.POST or None, initial = {'email': request.user.email})
+	form = EmailChangeForm(request.POST or None, initial={'email': request.user.email})
 	if form.is_valid():
-		if form.cleaned_data['email'] == request.user.email:
-			return HttpResponseRedirect(reverse('auth_my_profile'))
-		else:
-			signer = signing.Signer()
-			email = form.cleaned_data['email']
-			signed = signer.sign(str(request.user.pk) + '.' + str(int(mktime(timezone.now().timetuple()))) + '.' + email)
-			context_data = {
-				'email': signed,
-				'site': get_current_site(request),
-				'activate_link': request.build_absolute_uri(reverse('auth_email_change_activate', args = (signed,))),
-			}
-			context = RequestContext(request, context_data)
-			email_subject = render_to_string("registration/email_change_subject.txt", context).rstrip("\n")
-			email_body = render_to_string("registration/email_change.txt", context)
-			send_mail(email_subject, email_body, settings.DEFAULT_FROM_EMAIL, [email])
-			return HttpResponseRedirect(reverse('auth_email_change_done'))
+		email = form.cleaned_data['email']
+		signed = sign_email_change_link(request.user.pk, int(mktime(timezone.now().timetuple())), email)
+		context_data = {
+			'email': signed,
+			'site': get_current_site(request),
+			'activate_link': request.build_absolute_uri(signed),
+		}
+		context = RequestContext(request, context_data)
+		email_subject = render_to_string("registration/email_change_subject.txt", context).rstrip("\n")
+		email_body = render_to_string("registration/email_change.txt", context)
+		send_mail(email_subject, email_body, settings.DEFAULT_FROM_EMAIL, [email])
+		return HttpResponseRedirect(reverse('auth_email_change_done'))
 
 	return TemplateResponse(request, "registration/email_change_form.html", {'form': form})
 
@@ -91,13 +91,13 @@ def email_change_activate(request, email):
 		signer = signing.Signer()
 		email_data = signer.unsign(email)
 		user_id, timestamp, email = email_data.split('.', 2)
-		user = get_user_model().objects.get(pk = int(user_id))
+		user = get_user_model().objects.get(pk=int(user_id))
 		if user != request.user:
 			raise ValueError
-		time = timezone.make_aware(datetime.utcfromtimestamp(int(timestamp)), timezone = timezone.utc)
+		time = timezone.make_aware(datetime.utcfromtimestamp(int(timestamp)), timezone=timezone.utc)
 		if ((timezone.now() - time).days) > 14:
 			raise UserInputError(_("Link expired."))
-		if get_user_model().objects.filter(email = email).exclude(pk = user.pk).count() > 0:
+		if get_user_model().objects.filter(email=email).exclude(pk=user.pk).count() > 0:
 			raise UserInputError(_("E-mail address is already in use."))
 		user.email = email
 		user.save()
@@ -115,8 +115,8 @@ def my_profile_edit(request):
 
 
 def profile_edit(request, pk):
-	user = get_object_or_404(get_user_model(), pk = pk)
-	return ProfileEditView.as_view()(request, pk = user.pk)
+	user = get_object_or_404(get_user_model(), pk=pk)
+	return ProfileEditView.as_view()(request, pk=user.pk)
 
 
 class ProfileEditView(UpdateView):
@@ -128,11 +128,11 @@ class ProfileEditView(UpdateView):
 		return reverse('auth_my_profile')
 
 
-user_zone = login_required(RedirectView.as_view(url = reverse_lazy('auth_my_profile')))
+user_zone = login_required(RedirectView.as_view(url=reverse_lazy('auth_my_profile')))
 
 
 def remember_user_handle(sender, request, user, **kwargs): #pylint: disable=W0613
 	if user.is_authenticated() and request.POST.get('remember_me', False):
 		remember_user(request, user)
 
-user_logged_in.connect(remember_user_handle, sender = get_user_model())
+user_logged_in.connect(remember_user_handle, sender=get_user_model())

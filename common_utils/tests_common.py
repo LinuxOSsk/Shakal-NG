@@ -71,8 +71,8 @@ class ProcessFormTestMixin(object):
 			data[key] = fill_data[key]
 		return data
 
-	def send_form_data(self, url, data):
-		return self.client.post(resolve_url(url), data)
+	def send_form_data(self, url, data, **kwargs):
+		return self.client.post(resolve_url(url), data, **kwargs)
 
 
 class AdminSiteTestCase(LoggedUserTestMixin, ProcessFormTestMixin, LiveServerTestCase):
