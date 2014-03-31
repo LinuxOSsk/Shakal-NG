@@ -7,7 +7,6 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.signals import user_logged_in
-from django.contrib.auth.views import login as login_view
 from django.contrib.sites.models import get_current_site
 from django.core import signing
 from django.core.mail import send_mail
@@ -23,10 +22,6 @@ from django.utils.translation import ugettext_lazy as _, ugettext
 from django.views.generic import RedirectView, UpdateView
 
 from .forms import ProfileEditForm, EmailChangeForm
-
-
-def login(*args, **kwargs):
-	return login_view(*args, **kwargs)
 
 
 def profile(request, pk):
