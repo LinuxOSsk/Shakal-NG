@@ -28,7 +28,7 @@
 }
 
 /* basic */
-body	{ background: #e0ebff;}
+body	{ background: #ffe0eb;}
 
 /* make HTML blocs visible */
 div, p, h1, h2, h3, h4, h5, h6, ul, ol, table, address, blockquote, pre { background: #FFFFFF; padding:8px 5px 5px; margin:10px; }
