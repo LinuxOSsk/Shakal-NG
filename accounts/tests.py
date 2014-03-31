@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django.core.exceptions import ValidationError
 from django.core import mail
 from django.test import TestCase
@@ -8,6 +9,7 @@ from .admin_forms import UserCreationForm
 from .forms import ProfileEditForm
 from .models import User, UserRating, RATING_WEIGHTS
 from .registration_backend.forms import UserRegistrationForm
+from .templatetags.avatar import avatar_for_user
 from common_utils.tests_common import AdminSiteTestCase, ProcessFormTestMixin, fts_test
 
 
@@ -181,3 +183,9 @@ class UserRegistrationTest(ProcessFormTestMixin, TestCase):
 			form_data = self.fill_form(form, user_data)
 			response = self.send_form_data("registration_register", form_data)
 			self.assertEqual(len(mail.outbox), 1)
+
+
+class AvatarTest(TestCase):
+	def test_for_user(self):
+		user = User(email="uňicoďe@example.com")
+		self.assertNotEqual(avatar_for_user(user), "")
