@@ -197,7 +197,9 @@ var shakal_plugin = function(element, settings)
 					link.onclick = function(item) {
 						return function(event) {
 							event.stopPropagation();
-							window.event.cancelBubble = true;
+							if (window.event != undefined) {
+								window.event.cancelBubble = true;
+							}
 							if (item.tag_pre) {
 								insert(item.tag_pre, item.tag_post);
 							}
