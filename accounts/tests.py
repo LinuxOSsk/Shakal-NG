@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+from django.core.exceptions import ValidationError
 from django.test import TestCase
+import os
 
 from .admin_forms import UserCreationForm
 from .forms import ProfileEditForm
@@ -73,6 +75,25 @@ class ProfileEditFormTest(ProcessFormTestMixin, TestCase):
 		self.assertFalse(form.is_valid())
 
 
+class UserModelTest(TestCase):
+	fixtures = ['users.json']
+
+	def test_duplicate_mail(self):
+		user = User(username="user2", email="admin@example.com")
+		with self.assertRaises(ValidationError):
+			user.clean_fields()
+
+	def test_permalink(self):
+		user = User.objects.get(username="user")
+		self.assertNotEqual(user.get_absolute_url(), "/")
+
+	def test_encrypt_password(self):
+		with self.settings(ENCRYPT_KEY=os.path.join(os.path.dirname(__file__), "test.der")):
+			user = User.objects.get(username="user")
+			user.set_password("test")
+			self.assertIsNotNone(user.encrypted_password)
+
+
 @fts_test
 class AdminUserTest(AdminSiteTestCase):
 	model = "user"
@@ -88,6 +109,8 @@ class AdminUserTest(AdminSiteTestCase):
 	DEFAULT_DATA = {
 		'username': 'username2',
 		'email': 'email2@example.com',
+		'first_name': 'firstname',
+		'last_name': 'lastname',
 	}
 
 	def setUp(self):

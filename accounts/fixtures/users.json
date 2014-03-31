@@ -38,7 +38,9 @@
 			"is_superuser": false,
 			"password": "crypt$$yXPDma550/kT6",
 			"original_info": "html:",
-			"signature": "html:"
+			"signature": "html:",
+			"first_name": "firstname",
+			"last_name": "lastname"
 	   }
 	},
 	{
