@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.contrib.sites.models import Site
+from registration import signals
 from registration.backends.default.views import RegistrationView as DefaultRegistrationView
 from registration.models import RegistrationProfile
-from registration import signals
 
 from accounts.models import User
 

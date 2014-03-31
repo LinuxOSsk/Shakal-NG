@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.core.exceptions import ValidationError
+from django.core import mail
 from django.test import TestCase
 import os
 
@@ -169,3 +170,14 @@ class AdminUserTest(AdminSiteTestCase):
 		user.save()
 		user = User.objects.get(pk=user.pk)
 		self.check_delete(user.pk)
+
+
+@fts_test
+class UserRegistrationTest(ProcessFormTestMixin, TestCase):
+	def test_register(self):
+		with self.settings(CAPTCHA_DISABLE=True):
+			form = self.extract_form("registration_register")
+			user_data = {'username': 'unique', 'password1': 'P4ssw0rd', 'password2': 'P4ssw0rd', 'email': 'unique@example.com'}
+			form_data = self.fill_form(form, user_data)
+			response = self.send_form_data("registration_register", form_data)
+			self.assertEqual(len(mail.outbox), 1)

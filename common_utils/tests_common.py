@@ -5,6 +5,8 @@ from datetime import datetime
 import unittest
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
+from django.forms import BaseForm
+from django.shortcuts import resolve_url
 from django.test import LiveServerTestCase
 
 
@@ -29,6 +31,13 @@ class LoggedUserTestMixin(object):
 
 
 class ProcessFormTestMixin(object):
+	def get_url(self, url):
+		return self.client.get(resolve_url(url))
+
+	def extract_form(self, url, form_context_name='form'):
+		response = self.get_url(url)
+		return response.context_data[form_context_name]
+
 	def extract_form_data(self, form):
 		data = dict()
 		for field in form.fields:
@@ -50,6 +59,20 @@ class ProcessFormTestMixin(object):
 					data[fieldname + '_0'] = dt.strftime("%Y-%m-%d")
 					data[fieldname + '_1'] = dt.strftime("%H:%M:%S")
 		return data
+
+	def fill_form(self, form, fill_data):
+		if isinstance(form, BaseForm):
+			data = self.extract_form_data(form)
+		else:
+			data = form.copy()
+
+		for key in fill_data:
+			self.assertTrue(key in data)
+			data[key] = fill_data[key]
+		return data
+
+	def send_form_data(self, url, data):
+		return self.client.post(resolve_url(url), data)
 
 
 class AdminSiteTestCase(LoggedUserTestMixin, ProcessFormTestMixin, LiveServerTestCase):

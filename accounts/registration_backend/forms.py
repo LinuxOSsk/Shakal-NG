@@ -1,21 +1,23 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth.forms import AuthenticationForm as OriginalAuthenticationForm
 from django import forms
-from django.contrib.auth.forms import PasswordChangeForm as OriginalPasswordChangeForm, PasswordResetForm as OriginalPasswordResetForm, SetPasswordForm as OriginalSetPasswordForm
 from django.contrib.auth import get_user_model
-from django.template import Context, Template
+from django.contrib.auth.forms import AuthenticationForm as OriginalAuthenticationForm, PasswordChangeForm as OriginalPasswordChangeForm, PasswordResetForm as OriginalPasswordResetForm, SetPasswordForm as OriginalSetPasswordForm
 from django.utils.translation import ugettext_lazy as _
+
 from antispam.forms import AntispamModelFormMixin
 
 
 class AuthenticationForm(OriginalAuthenticationForm):
-	def __init__(self, *args, **kwargs):
-		super(AuthenticationForm, self).__init__(*args, **kwargs)
+	pass
 
 
 class UserRegistrationForm(AntispamModelFormMixin, forms.ModelForm):
 	password1 = forms.CharField(widget=forms.PasswordInput, label=_("Password"))
 	password2 = forms.CharField(widget=forms.PasswordInput, label=_("Password (again)"))
+
+	def __init__(self, *args, **kwargs):
+		super(UserRegistrationForm, self).__init__(*args, **kwargs)
+		self.fields['email'].required = True
 
 	class Meta:
 		model = get_user_model()
@@ -35,15 +37,12 @@ class UserRegistrationForm(AntispamModelFormMixin, forms.ModelForm):
 
 
 class PasswordChangeForm(OriginalPasswordChangeForm):
-	def __init__(self, *args, **kwargs):
-		super(PasswordChangeForm, self).__init__(*args, **kwargs)
+	pass
 
 
 class PasswordResetForm(OriginalPasswordResetForm):
-	def __init__(self, *args, **kwargs):
-		super(PasswordResetForm, self).__init__(*args, **kwargs)
+	pass
 
 
 class SetPasswordForm(OriginalSetPasswordForm):
-	def __init__(self, *args, **kwargs):
-		super(SetPasswordForm, self).__init__(*args, **kwargs)
+	pass
