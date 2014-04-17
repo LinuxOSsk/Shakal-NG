@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from Crypto.Cipher import PKCS1_OAEP
-from Crypto.PublicKey import RSA
+from __future__ import unicode_literals
+
 from base64 import b64encode
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, UserManager
@@ -45,6 +45,8 @@ class User(AbstractUser):
 	def set_password(self, raw_password):
 		super(User, self).set_password(raw_password)
 		if hasattr(settings, 'ENCRYPT_KEY'):
+			from Crypto.Cipher import PKCS1_OAEP
+			from Crypto.PublicKey import RSA
 			key = RSA.importKey(open(settings.ENCRYPT_KEY).read())
 			cipher = PKCS1_OAEP.new(key)
 			ciphertext = cipher.encrypt(bytes(raw_password.encode("utf-8")))

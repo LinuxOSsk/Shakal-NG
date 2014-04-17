@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.conf.urls import patterns, include, url
 from django.utils.translation import ugettext_lazy as _
 
-from accounts import views as accounts_views
 from .forms import AuthenticationRememberForm
+from accounts import views as accounts_views
 
 
 class Patterns(object):
@@ -14,7 +16,7 @@ class Patterns(object):
 
 	@property
 	def urls(self):
-		urlpatterns = patterns('',
+		pat = patterns('',
 			url(r'', include('accounts.registration_backend.urls')),
 			url(r'^$', accounts_views.user_zone, name='auth_user_zone'),
 			url(r'^(?P<pk>\d+)/$', accounts_views.profile, name='auth_profile'),
@@ -25,7 +27,7 @@ class Patterns(object):
 			url(_(r'^email/change/done/$'), accounts_views.email_change_done, name='auth_email_change_done'),
 			url(_(r'^email/change/activate/(?P<email>.*)/$'), accounts_views.email_change_activate, name='auth_email_change_activate'),
 		)
-		return urlpatterns
+		return pat
 
 
 urlpatterns = Patterns().urls
