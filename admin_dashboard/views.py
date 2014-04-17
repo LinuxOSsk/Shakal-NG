@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
+import cStringIO
+import datetime
+
+import csv
+import qsstats
 from django.contrib.admin.views.decorators import staff_member_required
+from django.core.urlresolvers import reverse
 from django.http.response import HttpResponse
+from django.utils.translation import ugettext as _
+from simplejson import dumps
+
 from article.models import Article
 from news.models import News
 from threaded_comments.models import Comment
-import cStringIO
-import csv
-import codecs
-import qsstats
-import datetime
-from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext as _
-from simplejson import dumps
 
 
 @staff_member_required
@@ -68,25 +69,23 @@ def stats(request):
 		start_day = int(request.GET.get('start_day', -30))
 		end_day = int(request.GET.get('end_day', 0))
 		if start_day > end_day:
-			start_day = end_day
+			raise ValueError("End day before start day")
 		aggregate = int(request.GET.get('aggregate', 1))
 
 		if aggregate > 60 or aggregate <= 0:
 			raise ValueError("Bad value for aggregate")
 
+		intervals = {
+			'days': 1,
+			'weeks': 7,
+			'months': 31,
+			'years': 365,
+		}
+
 		interval_days = end_day - start_day
-		if interval == 'days':
-			interval_values = interval_days
-			start_day = start_day - aggregate
-		elif interval == 'weeks':
-			interval_values = interval_days / 7
-			start_day = start_day - aggregate * 7
-		elif interval == 'months':
-			interval_values = interval_days / 31
-			start_day = start_day - aggregate * 31
-		elif interval == 'years':
-			interval_values = interval_days / 365
-			start_day = start_day - aggregate * 365
+		if interval in intervals:
+			interval_values = interval_days / intervals[interval]
+			start_day = start_day - aggregate * intervals[interval]
 		else:
 			raise ValueError("Bad value for interval")
 		if interval_values > 1000:
@@ -100,7 +99,7 @@ def stats(request):
 		time_series = qss.time_series(start_date, end_date, interval = interval)
 
 		time_series_sum = time_series[:]
-		for i, item in enumerate(time_series_sum):
+		for i in range(len(time_series_sum)):
 			if i - 1 >= 0:
 				acc = time_series_sum[i - 1][1]
 			else:
