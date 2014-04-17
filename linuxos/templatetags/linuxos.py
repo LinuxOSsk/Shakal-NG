@@ -102,3 +102,9 @@ def get_base_uri(context):
 			return request.build_absolute_uri('/')[:-1]
 		else:
 			return ''
+
+
+@register.assignment_tag
+def get_date():
+	now = timezone.now()
+	return now.strftime("%Y-%m-%d")
