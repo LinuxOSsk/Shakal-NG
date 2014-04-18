@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 import random
+import operator
 
 from antispam.fields import AntispamField
 
@@ -12,24 +13,19 @@ class AntispamFormMixin(object):
 		self.fields['captcha'] = AntispamField(required=True)
 
 	def generate_antispam(self):
-		sign = random.choice(['+', '-', '/', '*'])
-		num_1 = 0
-		num_2 = 0
-		if sign == "+" or sign == "*":
-			num_1 = random.randrange(1, 10)
-			num_2 = random.randrange(1, 10)
-			if sign == "+":
-				answer = num_1 + num_2
-			if sign == "*":
-				answer = num_1 * num_2
-		if sign == "-":
-			answer = random.randrange(1, 10)
-			num_2 = random.randrange(1, 10)
-			num_1 = num_2 + answer
-		if sign == "/":
-			answer = random.randrange(1, 10)
-			num_2 = random.randrange(1, 10)
-			num_1 = num_2 * answer
+		operators = (
+			('+', operator.add, operator.sub, False),
+			('-', operator.sub, operator.add, True),
+			('/', operator.div, operator.mul, True),
+			('*', operator.mul, operator.div, False),
+		)
+
+		sign, operation, inverse_operation, answer_first = random.choice(operators)
+
+		answer = random.randrange(1, 10)
+		num_2 = random.randrange(1, 10)
+		num_1 = inverse_operation(num_2, answer) if answer_first else random.randrange(1, 10)
+		answer = operation(num_1, num_2)
 		return ("{0} {1} {2} plus tisíc (číslom) ".format(num_1, sign, num_2), unicode(answer + 1000))
 
 	def process_antispam(self, request):
