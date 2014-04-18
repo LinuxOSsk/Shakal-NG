@@ -2,7 +2,7 @@
 from django import forms
 from django.conf import settings
 
-from antispam.forms import AntispamModelFormMixin
+from antispam.forms import AntispamFormMixin
 from models import News
 from rich_editor.forms import RichOriginalField
 
@@ -10,7 +10,7 @@ from rich_editor.forms import RichOriginalField
 COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)
 
 
-class NewsForm(AntispamModelFormMixin, forms.ModelForm):
+class NewsForm(AntispamFormMixin, forms.ModelForm):
 	original_short_text = RichOriginalField(News._meta.get_field('original_short_text').parsers, label = u'Krátky text', max_length = COMMENT_MAX_LENGTH)
 	original_long_text = RichOriginalField(News._meta.get_field('original_long_text').parsers, label = u'Dlhý text', max_length = COMMENT_MAX_LENGTH)
 

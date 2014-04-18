@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
-import random
+from __future__ import unicode_literals
 
-from django.forms import Form, ModelForm
+import random
 
 from antispam.fields import AntispamField
 
 
-class AntispamMethodsMixin:
+class AntispamFormMixin(object):
+	def __init__(self, *args, **kwargs):
+		super(AntispamFormMixin, self).__init__(*args, **kwargs)
+		self.fields['captcha'] = AntispamField(required=True)
+
 	def generate_antispam(self):
 		sign = random.choice(['+', '-', '/', '*'])
 		num_1 = 0
@@ -26,7 +30,7 @@ class AntispamMethodsMixin:
 			answer = random.randrange(1, 10)
 			num_2 = random.randrange(1, 10)
 			num_1 = num_2 * answer
-		return (u"{0} {1} {2} plus tisíc (číslom) ".format(num_1, sign, num_2), unicode(answer + 1000))
+		return ("{0} {1} {2} plus tisíc (číslom) ".format(num_1, sign, num_2), unicode(answer + 1000))
 
 	def process_antispam(self, request):
 		if request is None:
@@ -39,11 +43,3 @@ class AntispamMethodsMixin:
 		if 'captcha' in self.fields:
 			self.fields['captcha'].widget.attrs['question'] = antispam[0]
 			self.fields['captcha'].widget.attrs['answer'] = antispam[1]
-
-
-class AntispamFormMixin(Form, AntispamMethodsMixin):
-	captcha = AntispamField(required = True)
-
-
-class AntispamModelFormMixin(ModelForm, AntispamMethodsMixin):
-	captcha = AntispamField(required = True)

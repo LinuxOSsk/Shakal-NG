@@ -4,14 +4,14 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm as OriginalAuthenticationForm, PasswordChangeForm as OriginalPasswordChangeForm, PasswordResetForm as OriginalPasswordResetForm, SetPasswordForm as OriginalSetPasswordForm
 from django.utils.translation import ugettext_lazy as _
 
-from antispam.forms import AntispamModelFormMixin
+from antispam.forms import AntispamFormMixin
 
 
 class AuthenticationForm(OriginalAuthenticationForm):
 	pass
 
 
-class UserRegistrationForm(AntispamModelFormMixin, forms.ModelForm):
+class UserRegistrationForm(AntispamFormMixin, forms.ModelForm):
 	password1 = forms.CharField(widget=forms.PasswordInput, label=_("Password"))
 	password2 = forms.CharField(widget=forms.PasswordInput, label=_("Password (again)"))
 

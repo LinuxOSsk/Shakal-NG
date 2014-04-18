@@ -10,7 +10,7 @@ from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
-from antispam.forms import AntispamModelFormMixin
+from antispam.forms import AntispamFormMixin
 from attachment.fields import AttachmentField
 from attachment.forms import AttachmentFormMixin
 from models import Topic, Section
@@ -44,7 +44,7 @@ class SectionRenderer(RadioFieldRenderer):
 		return self.render_choice(idx)
 
 
-class TopicForm(AntispamModelFormMixin, forms.ModelForm, AttachmentFormMixin):
+class TopicForm(AntispamFormMixin, AttachmentFormMixin, forms.ModelForm):
 	section = SectionModelChoiceField(Section.objects.all(), empty_label=None, widget = RadioSelect(renderer = SectionRenderer), label = capfirst(_('section')))
 	original_text = RichOriginalField(parsers = Topic._meta.get_field('original_text').parsers, label = _("Text"), max_length = COMMENT_MAX_LENGTH)
 	attachment = AttachmentField(label = _("Attachment"), required = False)
