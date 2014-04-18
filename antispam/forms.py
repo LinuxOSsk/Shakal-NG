@@ -9,8 +9,11 @@ from antispam.fields import AntispamField
 
 class AntispamFormMixin(object):
 	def __init__(self, *args, **kwargs):
+		request = kwargs.pop("request", None)
 		super(AntispamFormMixin, self).__init__(*args, **kwargs)
 		self.fields['captcha'] = AntispamField(required=True)
+		if request is not None:
+			self.process_antispam(request)
 
 	def generate_antispam(self):
 		operators = (
@@ -29,8 +32,6 @@ class AntispamFormMixin(object):
 		return ("{0} {1} {2} plus tisíc (číslom) ".format(num_1, sign, num_2), unicode(answer + 1000))
 
 	def process_antispam(self, request):
-		if request is None:
-			return
 		if request.method == 'GET':
 			request.session['antispam'] = self.generate_antispam()
 		self.set_antispam_widget_attributes(request.session['antispam'])

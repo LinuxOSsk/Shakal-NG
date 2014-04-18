@@ -25,7 +25,15 @@ class RegistrationView(DefaultRegistrationView):
 		signals.user_registered.send(sender=self.__class__, user=new_user, request=request)
 		return new_user
 
+	def dispatch(self, request, *args, **kwargs):
+		setattr(self, 'request', request)
+		return super(RegistrationView, self).dispatch(request, *args ,**kwargs)
+
 	def get_form(self, form_class):
 		form = form_class(**self.get_form_kwargs())
-		form.process_antispam(self.request)
 		return form
+
+	def get_form_kwargs(self, request=None, form_class=None):
+		kwargs = super(RegistrationView, self).get_form_kwargs(request, form_class)
+		kwargs['request'] = getattr(self, 'request', None)
+		return kwargs

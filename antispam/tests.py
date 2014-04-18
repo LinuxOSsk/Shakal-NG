@@ -48,11 +48,9 @@ class AntispamTestCase(unittest.TestCase):
 		post_request.session = get_request.session
 
 		# OK
-		bound_form = AntispamForm({'captcha': test_form.fields['captcha'].widget.attrs['answer']})
-		bound_form.process_antispam(post_request)
+		bound_form = AntispamForm({'captcha': test_form.fields['captcha'].widget.attrs['answer']}, request=post_request)
 		self.assertTrue(bound_form.is_valid())
 
 		# Chyba
-		bound_form = AntispamForm({'captcha': test_form.fields['captcha'].widget.attrs['answer'] + '0'})
-		bound_form.process_antispam(post_request)
+		bound_form = AntispamForm({'captcha': test_form.fields['captcha'].widget.attrs['answer'] + '0'}, request=post_request)
 		self.assertFalse(bound_form.is_valid())

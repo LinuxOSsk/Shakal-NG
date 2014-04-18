@@ -41,7 +41,6 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 			initial = {}
 		initial.update(self.generate_security_data())
 		logged = kwargs.pop('logged', False)
-		request = kwargs.pop('request')
 		super(CommentForm, self).__init__(data = data, initial = initial, *args, **kwargs)
 		key_order = [
 			'subject',
@@ -64,7 +63,6 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 			del key_order[2]
 
 		self.fields.keyOrder = key_order
-		self.process_antispam(request)
 		self.process_attachments()
 
 	def get_model(self):

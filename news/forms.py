@@ -16,12 +16,10 @@ class NewsForm(AntispamFormMixin, forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 		logged = kwargs.pop('logged', False)
-		request = kwargs.pop('request')
 		super(NewsForm, self).__init__(*args, **kwargs)
 		if logged:
 			del(self.fields['authors_name'])
 			del(self.fields['captcha'])
-		self.process_antispam(request)
 
 	class Meta:
 		model = News
