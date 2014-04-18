@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from article.models import Article
+
+from .models import Article
 from common_utils.admin_widgets import DateTimeInput, RichEditorWidget, EnclosedInput
 
 
