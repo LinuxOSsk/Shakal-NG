@@ -59,6 +59,12 @@ var wymeditor_plugin = function(element, settings) {
 		loader([settings.static_base + 'js/jquery-1.8.3.min.js', settings.static_base + 'js/jquery-migrate-1.2.1.js'], function() {
 			loader([settings['script_wymeditor']], function() {
 				loader([settings.static_base + 'js/wymeditor/skins/shakal/skin.js'], function() {
+					var tools = all_tools;
+					var containers = all_tools;
+					if (settings.tags != undefined) {
+						tools = filterTools(all_tools, settings.tags.known);
+						containers = filterTools(all_containers, settings.tags.known);
+					}
 					var options = {
 							skin: settings.skin,
 							lang: settings['lang'],
@@ -74,8 +80,8 @@ var wymeditor_plugin = function(element, settings) {
 								}, 500);
 								//wym.table();
 							},
-							toolsItems: filterTools(all_tools, settings.tags.known),
-							containersItems: filterTools(all_containers, settings.tags.known)
+							toolsItems: tools,
+							containersItems: containers
 						};
 					if (settings.skin == 'shakal') {
 						options['toolsItemHtml'] = String() +
@@ -93,7 +99,9 @@ var wymeditor_plugin = function(element, settings) {
 					var old_onload = iframe.onload;
 					iframe.onload = function(event) {
 						this.onload = old_onload;
-						generate_unsupported_tags(iframe, settings.tags.unsupported);
+						if (settings.tags != undefined) {
+							generate_unsupported_tags(iframe, settings.tags.unsupported);
+						}
 					};
 					settings.onLoad();
 				});
@@ -163,8 +171,12 @@ var shakal_plugin = function(element, settings)
 		wymbox.appendChild(wymtop);
 		element.parentNode.insertBefore(wymbox, element);
 
-		var tools = filterTools(all_tools, settings.tags.known);
-		var containers = filterTools(all_containers, settings.tags.known);
+		var tools = all_tools;
+		var containers = all_containers;
+		if (settings.tags != undefined) {
+			tools = filterTools(all_tools, settings.tags.known);
+			containers = filterTools(all_containers, settings.tags.known);
+		}
 		var insert = this.insert;
 
 		var xmlhttp;
@@ -350,6 +362,9 @@ function initialize_rich_editor(name, settings) {
 
 	var default_editor = 'wymeditor';
 	var editor = cookiemanager.getCookie('last_editor');
+	if (settings.force_editor != undefined) {
+		editor = settings.force_editor;
+	}
 	var element = document.getElementById('id_' + name);
 
 	var loadFunctions = createEditorSwitch(element, settings);
