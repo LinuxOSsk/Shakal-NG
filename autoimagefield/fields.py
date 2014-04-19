@@ -147,6 +147,8 @@ class AutoImageField(ImageField):
 		Vymazanie obrázka a náhľadov pri odstránení inštancie.
 		"""
 		field = getattr(instance, self.name)
+		if not field:
+			return
 		path = field.storage.path(field.path)
 		self.__perform_remove_file(path)
 		self.__clean_dir(os.path.dirname(path))
