@@ -3,6 +3,7 @@ import os
 from datetime import datetime
 
 import unittest
+from django.db.models.fields.files import FieldFile
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.forms import BaseForm
@@ -52,12 +53,13 @@ class ProcessFormTestMixin(object):
 				data[fieldname] = form.data.get(field)
 			if fieldname in data and data[fieldname] is None:
 				data[fieldname] = ''
-			if data[fieldname]:
-				if isinstance(data[fieldname], datetime):
-					dt = data[fieldname]
-					del data[fieldname]
-					data[fieldname + '_0'] = dt.strftime("%Y-%m-%d")
-					data[fieldname + '_1'] = dt.strftime("%H:%M:%S")
+			if isinstance(data[fieldname], FieldFile):
+				data[fieldname] = ''
+			if isinstance(data[fieldname], datetime):
+				dt = data[fieldname]
+				del data[fieldname]
+				data[fieldname + '_0'] = dt.strftime("%Y-%m-%d")
+				data[fieldname + '_1'] = dt.strftime("%H:%M:%S")
 		return data
 
 	def fill_form(self, form, fill_data):
