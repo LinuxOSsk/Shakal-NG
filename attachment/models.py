@@ -78,6 +78,8 @@ class AttachmentAbstract(models.Model):
 				raise ValidationError({'attachment': [_('File size exceeded, maximum size is ') + filesizeformat(available_size)]})
 		except ContentType.DoesNotExist:
 			pass
+		except OSError:
+			pass
 		return super(AttachmentAbstract, self).clean_fields(exclude)
 
 	@staticmethod
