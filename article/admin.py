@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
+from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
+from django.http.response import HttpResponseRedirect
 
 from .admin_forms import ArticleForm
 from .models import Category, Article
+from admin_actions.views import AdminActionsMixin
 from attachment.admin import AttachmentInline
 
 
@@ -12,7 +16,7 @@ class CategoryAdmin(admin.ModelAdmin):
 	prepopulated_fields = {'slug': ('name', )}
 
 
-class ArticleAdmin(admin.ModelAdmin):
+class ArticleAdmin(AdminActionsMixin, admin.ModelAdmin):
 	list_display = ('title', 'author', 'pub_time', 'published', )
 	search_fields = ('title', 'slug', )
 	prepopulated_fields = {'slug': ('title', )}
@@ -25,6 +29,24 @@ class ArticleAdmin(admin.ModelAdmin):
 	def queryset(self, request):
 		qs = super(ArticleAdmin, self).queryset(request)
 		return qs.select_related('author')
+
+	def get_changelist_actions(self, obj):
+		if obj.is_published():
+			return (('set_unpublished', {'label': _('Unpublish'), 'class': 'btn btn-danger'}),)
+		else:
+			return (('set_published', {'label': _('Publish'), 'class': 'btn btn-success'}),)
+
+	def set_published(self, request, obj, **kwargs):
+		obj.published = True
+		if not obj.is_published():
+			obj.pub_time = timezone.now()
+		obj.save()
+		return HttpResponseRedirect(request.path)
+
+	def set_unpublished(self, request, obj, **kwargs):
+		obj.published = False
+		obj.save()
+		return HttpResponseRedirect(request.path)
 
 
 admin.site.register(Category, CategoryAdmin)

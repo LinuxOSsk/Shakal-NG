@@ -98,6 +98,9 @@ class Article(models.Model):
 	def get_list_url(self):
 		return ('article:article-list', None, None)
 
+	def is_published(self):
+		return self.published and self.pub_time <= now()
+
 	def __unicode__(self):
 		return self.title
 

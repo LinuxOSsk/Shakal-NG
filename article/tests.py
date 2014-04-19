@@ -168,3 +168,13 @@ class ArticleAdminTest(AdminSiteTestCase):
 	def test_delete(self):
 		article = self.create_article(CategoryAdminTest.create_category(), self.user)
 		self.check_delete(article.pk)
+
+	def test_article_actions(self):
+		article = self.create_article(CategoryAdminTest.create_category(), self.user)
+		article.pub_time = now() + timedelta(1)
+		article.published = False
+		article.save()
+		article = self.check_action(article.pk, 'set_published', {})['instance']
+		self.assertTrue(article.is_published())
+		article = self.check_action(article.pk, 'set_unpublished', {})['instance']
+		self.assertFalse(article.is_published())

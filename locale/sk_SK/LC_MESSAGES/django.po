@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-12 11:39+0100\n"
+"POT-Creation-Date: 2014-04-19 17:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,15 +35,11 @@ msgstr "aktívny"
 msgid "status"
 msgstr "stav"
 
-msgid ""
-"This email address is already in use. Please supply a different email "
-"address."
-msgstr ""
-"Zvolená e-mailová adresa je už používaná. Zadajte prosím inú e-mailovú "
-"adresu."
+msgid "Block user"
+msgstr "Zablokovať používateľa"
 
-msgid "Remember me"
-msgstr "Zapamätať ma"
+msgid "Unblock user"
+msgstr "Odblokovať používateľa"
 
 msgid "Username"
 msgstr "Používateľské meno"
@@ -54,19 +50,12 @@ msgstr "Povinné. Dĺžka 3 - 30 znakov."
 msgid "This value must contain spaces oly in the middle."
 msgstr "Táto hodnota môže obsahovať medzery len v strede."
 
+msgid "Remember me"
+msgstr "Zapamätať ma"
+
 msgid "Current password"
 msgstr "Súčasné heslo"
 
-msgid "First name"
-msgstr "Krstné meno"
-
-msgid "Last name"
-msgstr "Priezvisko"
-
-msgid "Informations"
-msgstr "Informácie"
-
-#, python-brace-format
 msgid "E-mail address can be changed <a href=\"{0}\">this link</a>."
 msgstr "E-mailová adresa sa dá zmeniť na <a href=\"{0}\">tejto stránke</a>."
 
@@ -142,8 +131,30 @@ msgstr "Heslo"
 msgid "Password (again)"
 msgstr "Kontrola hesla"
 
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr ""
+"Zvolená e-mailová adresa je už používaná. Zadajte prosím inú e-mailovú "
+"adresu."
+
 msgid "The two password fields didn't match."
 msgstr "Heslo a kontrola heslasa nezhodujú."
+
+msgid "Save"
+msgstr "Uložiť"
+
+msgid "Save and continue editing"
+msgstr "Uložiť a pokračovať v úprave"
+
+msgid "Save as new"
+msgstr "Uložiť ako nové"
+
+msgid "Save and add another"
+msgstr "Uložiť a pridať ďalší"
+
+msgid "Delete"
+msgstr "Vymazať"
 
 msgid "Recent Actions"
 msgstr "Posledné akcie"
@@ -210,6 +221,12 @@ msgstr "Články"
 
 msgid "Date"
 msgstr "Dátum"
+
+msgid "Unpublish"
+msgstr "Nepublikovať"
+
+msgid "Publish"
+msgstr "Publikovať"
 
 msgid "name"
 msgstr "meno"
@@ -333,9 +350,6 @@ msgstr "téma fóra"
 
 msgid "topics"
 msgstr "témy fóra"
-
-msgid "Logged out"
-msgstr "Odhlásený"
 
 msgid "^status/$"
 msgstr "^stav/$"
@@ -618,6 +632,9 @@ msgstr "Zmeniť váš e-mail"
 msgid "Log in to"
 msgstr "Prihlásiť sa na"
 
+msgid "Logged out"
+msgstr "Odhlásený"
+
 msgid "Thanks for spending some quality time with the Web site today."
 msgstr "Ďakujeme za čas strávený na našich stránkach."
 
@@ -730,9 +747,6 @@ msgstr "Zmeniť e-mail"
 msgid "Back to profile"
 msgstr "Späť na profil"
 
-msgid "Save"
-msgstr "Uložiť"
-
 msgid "Registration closed"
 msgstr "Registrácia zakázaná"
 
@@ -839,6 +853,15 @@ msgstr "značka komentára"
 
 msgid "comment flags"
 msgstr "značky komentára"
+
+#~ msgid "First name"
+#~ msgstr "Krstné meno"
+
+#~ msgid "Last name"
+#~ msgstr "Priezvisko"
+
+#~ msgid "Informations"
+#~ msgstr "Informácie"
 
 #~ msgid "^register/$"
 #~ msgstr "^registrovat/$"
