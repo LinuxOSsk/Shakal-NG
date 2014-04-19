@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.signals import user_logged_in
 from django.contrib.sites.models import get_current_site
 from django.core import signing
+from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
@@ -84,8 +85,6 @@ def email_change_done(request):
 
 @login_required
 def email_change_activate(request, email):
-	class UserInputError(ValueError):
-		pass
 	context = {
 		'validlink': True,
 	}
@@ -98,12 +97,12 @@ def email_change_activate(request, email):
 			raise ValueError
 		time = timezone.make_aware(datetime.utcfromtimestamp(int(timestamp)), timezone=timezone.utc)
 		if ((timezone.now() - time).days) > 14:
-			raise UserInputError(_("Link expired."))
+			raise ValidationError(_("Link expired."))
 		if get_user_model().objects.filter(email=email).exclude(pk=user.pk).count() > 0:
-			raise UserInputError(_("E-mail address is already in use."))
+			raise ValidationError(_("E-mail address is already in use."))
 		user.email = email
 		user.save()
-	except UserInputError as e:
+	except ValidationError as e:
 		context['validlink'] = False
 		context['error_message'] = e.message
 	except (signing.BadSignature, ValueError, get_user_model().DoesNotExist) as e:
