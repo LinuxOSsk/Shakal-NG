@@ -4,8 +4,8 @@ from django.http import HttpResponse
 
 
 class AdminActionsMixin(object):
-	def get_changelist_actions(self, obj): #pylint: disable=W0613
-		return self.changelist_actions
+	def get_changelist_actions(self, obj):
+		return self.changelist_actions if obj else ()
 
 	def change_view(self, request, object_id, form_url='', extra_context=None):
 		obj = self.get_object(request, unquote(object_id))

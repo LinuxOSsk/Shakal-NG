@@ -9,20 +9,20 @@ from .views import AdminActionsMixin
 
 
 class FakeAdmin(object):
-	def get_object(self, *_):
-		return None
+	def get_object(self, *args):
+		return "object"
 
-	def change_view(self, *_):
+	def change_view(self, *args):
 		return HttpResponse("change view")
 
 
 class TestAdmin(AdminActionsMixin, FakeAdmin):
 	changelist_actions = (('return_response', "Return response"), ("return_change_view", "Return change view"))
 
-	def return_response(self, **_):
+	def return_response(self, **kwargs):
 		return HttpResponse("direct response")
 
-	def return_change_view(self, **_):
+	def return_change_view(self, **kwargs):
 		return None
 
 
