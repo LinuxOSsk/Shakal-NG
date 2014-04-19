@@ -2,7 +2,7 @@
 from django.contrib import admin
 
 from attachment.admin import AttachmentInline
-from article.forms import ArticleForm
+from article.admin_forms import ArticleForm
 from article.models import Category, Article
 
 
