@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-
+from .models import Article, Category
 from common_utils.generic import DetailUserProtectedView, ListView
-from models import Article, Category
 
 
 class ArticleDetailView(DetailUserProtectedView):

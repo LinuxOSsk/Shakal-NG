@@ -2,7 +2,7 @@
 from django.utils import timezone
 from haystack import indexes
 
-from article.models import Article
+from .models import Article
 
 
 class ArticleIndex(indexes.SearchIndex, indexes.Indexable):

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 
+from .admin_forms import ArticleForm
+from .models import Category, Article
 from attachment.admin import AttachmentInline
-from article.admin_forms import ArticleForm
-from article.models import Category, Article
 
 
 class CategoryAdmin(admin.ModelAdmin):
