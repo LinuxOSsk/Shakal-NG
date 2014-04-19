@@ -4,12 +4,13 @@ from django.contrib.contenttypes import generic
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import permalink
+from django.utils.encoding import smart_unicode
 from django.utils.safestring import mark_safe
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
-from autoimagefield.fields import AutoImageField
 from attachment.models import Attachment
+from autoimagefield.fields import AutoImageField
 from hitcount.models import HitCountField
 from polls.models import Poll
 from threaded_comments.models import RootHeader, Comment
@@ -74,7 +75,7 @@ class Article(models.Model):
 		return self.polls.filter(approved = True).order_by('pk').all()
 
 	def display_content(self):
-		content = self.content
+		content = smart_unicode(self.content)
 		content = content.replace('<<ANOTACIA>>', '<div class="annotation">' + self.annotation + '</div>')
 		content = content.replace('{SHAKAL_PREFIX}', '/')
 		return mark_safe(content)
@@ -83,7 +84,7 @@ class Article(models.Model):
 		slug_num = None
 		try:
 			slug_num = int(self.slug)
-		except:
+		except ValueError:
 			pass
 		if slug_num is not None:
 			raise ValidationError({'slug': [_('Numeric slug values are not allowed')]})
