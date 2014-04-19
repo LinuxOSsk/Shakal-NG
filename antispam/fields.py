@@ -24,7 +24,7 @@ class AntispamField(CharField):
 	def clean(self, value):
 		if getattr(settings, 'CAPTCHA_DISABLE', False):
 			return ''
-		value = super(CharField, self).clean(value)
+		value = super(AntispamField, self).clean(value)
 		if value != self.widget.attrs.get("answer", ""):
 			raise ValidationError(u"Nesprávna odpoveď.")
 		return value
