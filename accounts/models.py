@@ -114,7 +114,7 @@ def update_user_rating(instance, author_property, property_name, change):
 		rating.save()
 
 
-def update_count_pre_save(sender, instance, **kwargs): #pylint: disable=W0613
+def update_count_pre_save(sender, instance, **kwargs):
 	author_property, property_name, count_fun = SENDERS[sender]
 	if instance.pk:
 		try:
@@ -134,7 +134,7 @@ pre_delete.connect(update_count_pre_save, sender=News)
 pre_delete.connect(update_count_pre_save, sender=WikiPage)
 
 
-def update_count_post_save(sender, instance, **kwargs): #pylint: disable=W0613
+def update_count_post_save(sender, instance, **kwargs):
 	author_property, property_name, count_fun = SENDERS[sender]
 	update_user_rating(instance, author_property, property_name, int(count_fun(instance)))
 

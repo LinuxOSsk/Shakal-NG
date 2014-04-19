@@ -133,7 +133,7 @@ class ProfileEditView(UpdateView):
 user_zone = login_required(RedirectView.as_view(url=reverse_lazy('auth_my_profile')))
 
 
-def remember_user_handle(sender, request, user, **kwargs): #pylint: disable=W0613
+def remember_user_handle(request, user, **kwargs):
 	if user.is_authenticated() and request.POST.get('remember_me', False):
 		remember_user(request, user)
 

@@ -101,7 +101,7 @@ ignore-mixin-members=yes
 
 # List of classes names for which member attributes should not be checked
 # (useful for classes with attributes dynamically set).
-ignored-classes=SQLObject,WSGIRequest,GenericRelation
+ignored-classes=SQLObject,WSGIRequest,GenericRelation,__proxy__
 
 # When zope mode is activated, add a predefined set of Zope acquired attributes
 # to generated-members.
@@ -198,7 +198,7 @@ init-import=no
 
 # A regular expression matching the beginning of the name of dummy variables
 # (i.e. not used).
-dummy-variables-rgx=_$|dummy
+dummy-variables-rgx=_$|dummy|_.*|args|kwargs
 
 # List of additional names supposed to be defined in builtins. Remember that
 # you should avoid to define new builtins when possible.

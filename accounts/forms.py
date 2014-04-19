@@ -40,7 +40,7 @@ class ProfileEditForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(ProfileEditForm, self).__init__(*args, **kwargs)
 		self.fields['email'].widget.attrs['readonly'] = True
-		self.fields['email'].help_text = mark_safe(_('E-mail address can be changed <a href="{0}">this link</a>.').format(reverse('auth_email_change'))) # pylint: disable=E1101
+		self.fields['email'].help_text = mark_safe(_('E-mail address can be changed <a href="{0}">this link</a>.').format(reverse('auth_email_change')))
 		self.fields['first_name'].required = False
 		self.fields['last_name'].required = False
 		self.fields['email'].required = False

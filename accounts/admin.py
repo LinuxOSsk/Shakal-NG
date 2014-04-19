@@ -41,10 +41,10 @@ class UserAdmin(AdminActionsMixin, AuthUserAdmin):
 		else:
 			return (('set_active', {'label': _('Unblock user'), 'class': 'btn btn-success'}),)
 
-	def set_inactive(self, request, **kwargs): #pylint: disable=W0613
+	def set_inactive(self, request, **kwargs):
 		request.POST['is_active'] = ''
 
-	def set_active(self, request, **kwargs): #pylint: disable=W0613
+	def set_active(self, request, **kwargs):
 		request.POST['is_active'] = '1'
 
 admin.site.register(User, UserAdmin)
