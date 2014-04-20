@@ -5,12 +5,14 @@ from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.safestring import mark_safe
+from django_jinja import library
 
 from common_utils import iterify
 from threaded_comments.models import Comment, RootHeader, UserDiscussionAttribute
 
 
 register = template.Library()
+lib = library.Library()
 
 
 class DiscussionLoader:
@@ -142,13 +144,6 @@ def add_discussion_attributes(context, model):
 		else:
 			obj.new_comments = None
 	return ''
-
-
-
-from django.utils.safestring import mark_safe
-from django.template.loader import render_to_string
-from django_jinja import library
-lib = library.Library()
 
 
 @lib.global_function

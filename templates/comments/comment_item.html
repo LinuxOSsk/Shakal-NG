@@ -1,5 +1,5 @@
 {% with comment_type="entry" %}{% with user=comment.user %}{% with user_name=comment.user_name %}
-{% include "comments/comment_header.html" %}
+{% include "comments/comment_header.jinja.html" %}
 {% endwith %}{% endwith %}{% endwith %}
 <div class="discussion content">
 	{% if comment.is_removed and not can_display_deleted %}

@@ -7,11 +7,14 @@ from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
+from django_jinja import library
 
 
 register = template.Library()
+lib = library.Library()
 
 
+@lib.filter
 @register.filter
 def humandatetime(value, default = ''):
 	if not value:
@@ -29,6 +32,7 @@ def humandatetime(value, default = ''):
 			return mark_safe(value.strftime("%d.%m&nbsp;|&nbsp;%H:%M"))
 
 
+@lib.global_function
 @register.simple_tag
 def user_link(user_object, username):
 	if user_object:
