@@ -11,6 +11,8 @@ django-tools>=0.25
 feedparser>=5.1.3
 python-dateutil>=2.2
 python-memcached
+django-jinja
+pygments
 pytz
 queued-search>=2.1
 redis>=2.9

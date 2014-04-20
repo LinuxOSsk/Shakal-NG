@@ -144,11 +144,21 @@ def add_discussion_attributes(context, model):
 	return ''
 
 
-@register.inclusion_tag("comments/comment_count.html")
+
+from django.utils.safestring import mark_safe
+from django.template.loader import render_to_string
+from django_jinja import library
+lib = library.Library()
+
+
+@lib.global_function
+@register.simple_tag
 def get_comments_for_item(item, display_last = False):
-	return {'item': item, display_last: 'display_last'}
+	return mark_safe(render_to_string("comments/comment_count.jinja.html", {'item': item, display_last: 'display_last'}))
 
 
 @register.simple_tag
 def comment_form_target():
 	return reverse("comments-post-comment")
+
+
