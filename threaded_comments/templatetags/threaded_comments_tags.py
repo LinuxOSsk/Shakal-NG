@@ -2,6 +2,7 @@
 from django import template
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
+from django.db.models import Count
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.safestring import mark_safe
@@ -30,6 +31,12 @@ class DiscussionLoader:
 		)
 		queryset = queryset.select_related('user__profile', 'user__rating', )
 		queryset = queryset.prefetch_related('attachments')
+		queryset = queryset.annotate(attachment_count=Count('attachments'))
+		queryset = queryset.defer(
+			"original_comment",
+			"user__rating__comments", "user__rating__articles", "user__rating__helped", "user__rating__news", "user__rating__wiki",
+			"user__password", "user__filtered_info", "user__encrypted_password",
+		)
 		queryset = queryset.order_by('lft')
 		return queryset
 
