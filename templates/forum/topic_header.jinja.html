@@ -1,6 +1,6 @@
 {% extends "comments/comment_header_base.jinja.html" %}
 
 {% block comment_title %}
-	<strong>Sekcia</strong>: <a href="{{ comment.section.get_absolute_url }}">{{ comment.section }}</a>
+	<strong>Sekcia</strong>: <a href="{{ comment.section.get_absolute_url() }}">{{ comment.section }}</a>
 {% endblock %}
 
