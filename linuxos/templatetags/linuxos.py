@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from datetime import timedelta
 
 from django import template
 from django.contrib.contenttypes.models import ContentType
 from django.template.loader import render_to_string
 from django.utils import timezone
-from django.utils.html import escape
+from django.utils.encoding import smart_unicode
+from django.utils.html import escape, format_html
 from django.utils.safestring import mark_safe
 from django_jinja import library
 
@@ -36,10 +38,7 @@ def humandatetime(value, default = ''):
 @register.simple_tag
 def user_link(user_object, username):
 	if user_object:
-		template_text = '<a class="url fn" href="{{ link }}">{{ label }}</a>'
-		tpl = template.Template(template_text)
-		ctx = template.Context({'link': user_object.get_absolute_url(), 'label': str(user_object)})
-		return tpl.render(ctx)
+		return format_html('<a class="url fn" href="{0}">{1}</a>', user_object.get_absolute_url(), smart_unicode(user_object))
 	else:
 		return escape(username)
 
