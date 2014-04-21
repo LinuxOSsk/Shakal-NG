@@ -15,8 +15,8 @@ class TopicListView(ListView):
 
 class TopicDetailView(DetailUserProtectedView):
 	superuser_perm = 'forum.delete_topic'
-	queryset = Topic.objects.all()
-	unprivileged_queryset = Topic.objects.topics()
+	queryset = Topic.objects.all().select_related("author", "section", "author__rating")
+	unprivileged_queryset = Topic.objects.topics().select_related("author", "section", "author__rating")
 
 	def get_object(self, queryset = None):
 		topic = super(TopicDetailView, self).get_object(queryset)
@@ -25,15 +25,16 @@ class TopicDetailView(DetailUserProtectedView):
 		return topic
 
 	def get(self, request, *args, **kwargs):
-		topic = self.get_object()
-		if 'resolved' in request.GET and topic.resolved_perm:
-			topic.is_resolved = bool(request.GET['resolved'])
-			topic.save()
-			return HttpResponseRedirect(topic.get_absolute_url())
-		if 'removed' in request.GET and topic.delete_perm:
-			topic.is_removed = bool(request.GET['removed'])
-			topic.save()
-			return HttpResponseRedirect(topic.get_absolute_url())
+		if 'resolved' in request.GET or 'removed' in request.GET:
+			topic = self.get_object()
+			if 'resolved' in request.GET and topic.resolved_perm:
+				topic.is_resolved = bool(request.GET['resolved'])
+				topic.save()
+				return HttpResponseRedirect(topic.get_absolute_url())
+			if 'removed' in request.GET and topic.delete_perm:
+				topic.is_removed = bool(request.GET['removed'])
+				topic.save()
+				return HttpResponseRedirect(topic.get_absolute_url())
 		return super(TopicDetailView, self).get(request, *args, **kwargs)
 
 
