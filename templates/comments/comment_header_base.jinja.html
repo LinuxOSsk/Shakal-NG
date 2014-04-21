@@ -21,7 +21,7 @@
 	{% if comment.is_removed and not can_display_deleted %}
 	{% elif not comment.is_public and not single %}
 	{% else %}
-		{% if comment.attachments.all() %}
+		{% if comment.attachment_count %}
 			<ul class="files">
 			{% for attachment in comment.attachments.all() %}
 				<li><a href="{{ attachment.url }}">{{ attachment.basename() }}</a></li>
