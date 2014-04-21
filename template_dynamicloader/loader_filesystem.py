@@ -8,7 +8,17 @@ from django_tools.middlewares.ThreadLocal import get_current_request
 from template_dynamicloader.utils import get_template_settings
 
 
-class Loader(BaseLoader):
+class DynamicLoaderMixin(object):
+	def get_visitors_template_dir(self):
+		request = get_current_request()
+		(template_device, template_skin, css) = get_template_settings(request)
+		return os.path.join(template_device, template_skin.split(',')[0])
+
+	def get_visitors_template(self, template_name):
+		return os.path.join(self.get_visitors_template_dir(), template_name)
+
+
+class Loader(DynamicLoaderMixin, BaseLoader):
 	is_usable = True
 
 	def __init__(self, loaders):
@@ -23,14 +33,6 @@ class Loader(BaseLoader):
 				cached_loaders.append(find_template_loader(loader))
 			self._cached_loaders = cached_loaders
 		return self._cached_loaders
-
-	def get_visitors_template_dir(self):
-		request = get_current_request()
-		(template_device, template_skin, css) = get_template_settings(request)
-		return os.path.join(template_device, template_skin.split(',')[0])
-
-	def get_visitors_template(self, template_name):
-		return os.path.join(self.get_visitors_template_dir(), template_name)
 
 	def load_template(self, template_name, template_dirs = None):
 		try:

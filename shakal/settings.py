@@ -3,6 +3,7 @@
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 from django.utils.translation import ugettext_lazy as _
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -70,11 +71,6 @@ TEMPLATE_LOADERS = (
 		'django_jinja.loaders.AppLoader',
 	)),
 )
-
-DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja.html'
-JINJA2_BYTECODE_CACHE_ENABLE = True
-
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 TEMPLATE_CONTEXT_PROCESSORS = TCP + (
 	'django.core.context_processors.request',
@@ -348,6 +344,11 @@ SUIT_CONFIG = {
 }
 
 CONN_MAX_AGE = 300
+
+DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja.html'
+JINJA2_BYTECODE_CACHE_ENABLE = True
+JINJA2_LOADER = 'template_dynamicloader.loader_jinja_filesystem.JinjaLoader'
+
 
 import sys
 if len(sys.argv) > 1 and sys.argv[1] == 'test':
