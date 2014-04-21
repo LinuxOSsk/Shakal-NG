@@ -7,7 +7,6 @@ coverage==3.7.1
 django-debug-panel==0.8.0
 django-debug-toolbar==1.1
 django-haystack==2.1.0
-django-jinja==0.23.1
 django-mptt==0.6.0
 django-qsstats-magic==0.7.2
 django-registration==1.0
@@ -34,3 +33,4 @@ wsgiref==0.1.2
 git+git://github.com/mireq/django-auth-remember.git#egg=django-auth-remember
 git+git://github.com/citylive/django-template-preprocessor.git
 git+git://github.com/mireq/xapian-haystack.git#egg=xapian-haystack
+git+git://github.com/niwibe/django-jinja.git
