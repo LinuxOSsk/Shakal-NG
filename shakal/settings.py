@@ -65,9 +65,10 @@ STATICFILES_FINDERS = (
 SECRET_KEY = 'c)vwu21d)0!pi67*_@xyv3qp!*74w50!7795t*!d9rfdu(%8g$'
 
 TEMPLATE_LOADERS = (
-	'template_dynamicloader.loader_filesystem.Loader',
-	'django_jinja.loaders.FileSystemLoader',
-	'django_jinja.loaders.AppLoader',
+	('template_dynamicloader.loader_filesystem.Loader', (
+		'django_jinja.loaders.FileSystemLoader',
+		'django_jinja.loaders.AppLoader',
+	)),
 )
 
 DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja.html'
