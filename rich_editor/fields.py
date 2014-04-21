@@ -62,8 +62,8 @@ class RichTextOriginalField(Field):
 
 		def filtered_property(self):
 			old_values = getattr(self, "old_values", {})
-			old_field_value = old_values.get(original_field, ('html', ))
-			if getattr(self, original_field) != old_field_value:
+			old_field_value = old_values.get(original_field, None)
+			if old_field_value is not None and getattr(self, original_field) != old_field_value:
 				fmt, value = getattr(self, original_field)[:2]
 				parser = parsers[fmt]
 				parser.parse(value)
