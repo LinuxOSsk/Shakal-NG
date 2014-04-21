@@ -28,7 +28,7 @@ DATABASES = {
 TIME_ZONE = 'Europe/Bratislava'
 LANGUAGE_CODE = 'sk'
 LANGUAGES = (('sk', 'Slovak'),)
-TEMPLATES = (('desktop', ('default', 'bootstrap'),),)
+TEMPLATES = (('desktop', ('default',),),)
 
 SITE_ID = 1
 
