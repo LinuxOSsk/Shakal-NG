@@ -141,7 +141,6 @@ INSTALLED_APPS = (
 	'rich_editor',
 	'reversion',
 	'threaded_comments',
-	'template_preprocessor',
 	'forum',
 	'feeds',
 	'linuxos',
