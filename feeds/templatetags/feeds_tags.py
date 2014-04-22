@@ -1,15 +1,20 @@
 # -*- coding: utf-8 -*-
-
 from django import template
 from django.template.loader import render_to_string
+from django_jinja import library
+from jinja2 import contextfunction
+
 
 register = template.Library()
+lib = library.Library()
 
 
 def render_feed_list(feeds, template):
 	return render_to_string(template, {'feeds': feeds})
 
 
+@lib.global_function
+@contextfunction
 @register.simple_tag(takes_context = True)
 def render_feeds(context, object_type = None, object_id = None, template = 'feeds/feeds.html'):
 	feeds = context.get('feeds', [])
@@ -17,6 +22,8 @@ def render_feeds(context, object_type = None, object_id = None, template = 'feed
 	return render_feed_list(filtered_feeds, template)
 
 
+@lib.global_function
+@contextfunction
 @register.simple_tag(takes_context = True)
 def render_all_feeds(context, template = 'feeds/feeds.html'):
 	feeds = context.get('feeds', [])

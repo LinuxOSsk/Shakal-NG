@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 from django import template
+from django_jinja import library
+
 from notifications.models import Inbox
 
 
 register = template.Library()
+lib = library.Library()
 
 
+@lib.global_function
 @register.assignment_tag(takes_context = True)
 def get_unread_notifications(context):
 	user = context['request'].user

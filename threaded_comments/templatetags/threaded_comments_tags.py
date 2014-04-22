@@ -7,6 +7,7 @@ from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django_jinja import library
+from jinja2 import contextfunction
 
 from common_utils import iterify
 from threaded_comments.models import Comment, RootHeader, UserDiscussionAttribute
@@ -103,8 +104,11 @@ def get_threaded_comments_list(context, target):
 	return loader.load(context, target)
 
 
+@lib.global_function
+@contextfunction
 @register.simple_tag(takes_context = True)
 def render_threaded_comments_toplevel(context, target):
+	context = dict(context)
 	model_class = target.__class__
 	templates = [
 		"comments/{0}_{1}_comments_toplevel.html".format(*str(model_class._meta).split('.')),
