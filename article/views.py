@@ -7,6 +7,7 @@ class ArticleDetailView(DetailUserProtectedView):
 	published_field = 'published'
 	author_field = 'author'
 	queryset = Article.all_articles.all()
+	template_name_suffix = '_detail.jinja'
 
 
 class ArticleListView(ListView):
