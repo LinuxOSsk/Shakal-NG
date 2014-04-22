@@ -10,6 +10,8 @@ from django.utils.encoding import smart_unicode
 from django.utils.html import escape, format_html
 from django.utils.safestring import mark_safe
 from django_jinja import library
+from jinja2 import contextfunction
+from django.template.defaulttags import firstof
 
 
 register = template.Library()
@@ -105,3 +107,11 @@ def get_base_uri(context):
 			return request.build_absolute_uri('/')[:-1]
 		else:
 			return ''
+
+
+@lib.global_function
+def firstof(*args):
+	for arg in args:
+		if arg:
+			return arg
+	return ''
