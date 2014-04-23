@@ -1,6 +1,12 @@
-{% extends "base.jinja.html" %}
+{% extends "article/article_base.jinja.html" %}
 
 {% block title %}{{ article.title }}{% endblock %}
+
+{% block breadcrumbs %}
+	{{ breadcrumb(article.title|truncatechars(80)) }}
+	{{ breadcrumb("Články", url="article:article-list") }}
+	{{ super() }}
+{% endblock %}
 
 {% block extraheaders %}
 	{{ super() }}
@@ -30,7 +36,7 @@
 	<a href="{{ article.category.get_absolute_url() }}">{{ article.category }}</a> |
 	{% if article.author %}
 	<a href="{{ url('auth_profile', article.author.pk) }}">
-		{{ firstof(article.author.get_full_name, article.author.username) }}
+		{{ firstof(article.author.get_full_name(), article.author.username) }}
 		</a>
 	{% else %}
 		{{ article.authors_name }}

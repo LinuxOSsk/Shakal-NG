@@ -91,7 +91,7 @@ html, body {
 							<span class="username">
 								<a href="{{ request.user.get_absolute_url() }}">
 									<span class="icon-user"></span>
-									{{ firstof(request.user.get_full_name, request.user.username) }}
+									{{ firstof(request.user.get_full_name(), request.user.username) }}
 									{% set unread_notifications=get_unread_notifications() %}
 									{% if unread_notifications %}
 										&nbsp;<span class="badge badge-important">{{ unread_notifications|length }}</span>
@@ -154,7 +154,7 @@ html, body {
 					</div>
 				</div>
 				{% block breadcrumbs %}
-					{# breadcrumb class='home' url='home' %}Home{% endbreadcrumb #}
+					{{ breadcrumb('Home', class='home', url='home') }}
 					{{ render_breadcrumbs(breadcrumbs) }}
 				{% endblock %}
 			</div>
