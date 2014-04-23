@@ -3,6 +3,7 @@ from django import template
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
 from django_jinja import library
+from jinja2 import contextfunction
 
 from common_utils import process_template_args, process_template_kwargs
 
@@ -56,6 +57,24 @@ def breadcrumb(parser, token):
 	urlparams = bits[urlparams_pos:]
 	return BreadcrumbNode(nodelist, params, urlparams)
 
+
+@contextfunction
+@lib.global_function
+def breadcrumb(context, contents, *args, **kwargs):
+	class_name = kwargs.pop('class', False)
+	url = kwargs.pop('absolute_url', False)
+	if not url:
+		url = kwargs.pop('url', False)
+		if url:
+			url = reverse(url, args=args, kwargs=kwargs)
+
+	breadcrumb_context = {
+		'contents': contents,
+		'url': url,
+		'class': class_name
+	}
+	context['breadcrumbs'].append(breadcrumb_context)
+	return ''
 
 @lib.global_function
 def render_breadcrumbs(breadcrumbs):
