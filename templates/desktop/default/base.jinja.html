@@ -154,6 +154,8 @@ html, body {
 					</div>
 				</div>
 				{% block breadcrumbs %}
+					{# breadcrumb class='home' url='home' %}Home{% endbreadcrumb #}
+					{{ render_breadcrumbs(breadcrumbs) }}
 				{% endblock %}
 			</div>
 		</div>

@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 from django import template
 from django.core.urlresolvers import reverse
+from django.template.loader import render_to_string
+from django_jinja import library
 
 from common_utils import process_template_args, process_template_kwargs
 
 
 register = template.Library()
+lib = library.Library()
 
 
 class BreadcrumbNode(template.Node):
@@ -54,8 +57,8 @@ def breadcrumb(parser, token):
 	return BreadcrumbNode(nodelist, params, urlparams)
 
 
-@register.inclusion_tag('breadcrumbs/breadcrumbs.html', takes_context = True)
-def render_breadcrumbs(context):
-	breadcrumbs = context.get('breadcrumbs', [])
+@lib.global_function
+def render_breadcrumbs(breadcrumbs):
 	breadcrumbs.reverse()
-	return {'breadcrumbs': breadcrumbs}
+	ctx = {'breadcrumbs': breadcrumbs}
+	return render_to_string('breadcrumbs/breadcrumbs.html', ctx)

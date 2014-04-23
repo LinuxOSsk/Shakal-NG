@@ -76,6 +76,7 @@ TEMPLATE_CONTEXT_PROCESSORS = TCP + (
 	'django.core.context_processors.request',
 	'django.contrib.auth.context_processors.auth',
 	'django.contrib.messages.context_processors.messages',
+	'breadcrumbs.context_processors.breadcrumbs',
 	'feeds.context_processors.feeds',
 	'template_dynamicloader.context_processors.style',
 )
