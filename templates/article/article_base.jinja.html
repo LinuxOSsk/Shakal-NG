@@ -1,6 +1,3 @@
 {% extends "base.jinja.html" %}
 
-{% block site_header %}
-{% with section='article' %}{{ super() }}{% endwith %}
-{% endblock %}
-
+{% block site_menu %}{% with section='article' %}{% include "include/site_menu.jinja.html" %}{% endwith %}{% endblock %}
