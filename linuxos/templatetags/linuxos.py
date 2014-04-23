@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+
 from datetime import timedelta
 
 from django import template
@@ -11,7 +12,6 @@ from django.utils.html import escape, format_html
 from django.utils.safestring import mark_safe
 from django_jinja import library
 from jinja2 import contextfunction
-from django.template.defaulttags import firstof
 
 
 register = template.Library()
@@ -45,32 +45,18 @@ def user_link(user_object, username):
 		return escape(username)
 
 
-class MessagesNode(template.Node):
-	def __init__(self, messages, tags):
-		self.messages = messages
-		self.tags = tags
-
-	def render(self, context):
-		messages = template.resolve_variable(self.messages, context)
-		tags = [template.resolve_variable(tag, context) for tag in self.tags]
-		if not tags:
-			messages = self.__filter_exact_tags(messages, ['debug', 'info', 'success', 'warning', 'error'])
-		else:
-			messages = self.__filter_contains_tags(messages, tags)
-		search_templates = []
-		if tags:
-			search_templates.append('messages/messages_' + '_'.join(tags) + '.html')
-		search_templates.append('messages/messages.html')
-		return render_to_string(search_templates, {'messages': messages})
-
-	def __filter_exact_tags(self, messages, tags):
+@lib.global_function
+@contextfunction
+@register.simple_tag
+def render_messages(context, messages, *tags):
+	def filter_exact_tags(messages, tags):
 		new_messages = []
 		for message in messages:
 			if message.tags in tags:
 				new_messages.append(message)
 		return new_messages
 
-	def __filter_contains_tags(self, messages, tags):
+	def filter_contains_tags(messages, tags):
 		new_messages = []
 		for message in messages:
 			if message.tags:
@@ -81,13 +67,15 @@ class MessagesNode(template.Node):
 						break
 		return new_messages
 
-
-@register.tag
-def render_messages(parser, token): #pylint: disable=W0613
-	parts = token.split_contents()
-	if len(parts) < 2:
-		raise template.TemplateSyntaxError('{0} tags requires messages variable.'.format(token.contents.split()[0]))
-	return MessagesNode(parts[1], parts[2:])
+	if not tags:
+		messages = filter_exact_tags(messages, ['debug', 'info', 'success', 'warning', 'error'])
+	else:
+		messages = filter_contains_tags(messages, tags)
+	search_templates = []
+	if tags:
+		search_templates.append('messages/messages_' + '_'.join(tags) + '.html')
+	search_templates.append('messages/messages.html')
+	return render_to_string(search_templates, {'messages': messages})
 
 
 @register.filter
