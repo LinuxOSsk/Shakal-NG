@@ -81,3 +81,10 @@ def render_breadcrumbs(breadcrumbs):
 	breadcrumbs.reverse()
 	ctx = {'breadcrumbs': breadcrumbs}
 	return render_to_string('breadcrumbs/breadcrumbs.html', ctx)
+
+
+@register.inclusion_tag('breadcrumbs/breadcrumbs.html', takes_context=True)
+def render_breadcrumbs(context):
+	breadcrumbs = context.get('breadcrumbs', [])
+	breadcrumbs.reverse()
+	return {'breadcrumbs': breadcrumbs}

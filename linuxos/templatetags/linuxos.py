@@ -47,7 +47,7 @@ def user_link(user_object, username):
 
 @lib.global_function
 @contextfunction
-@register.simple_tag
+@register.simple_tag(takes_context=True)
 def render_messages(context, messages, *tags):
 	def filter_exact_tags(messages, tags):
 		new_messages = []

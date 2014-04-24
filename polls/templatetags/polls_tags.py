@@ -23,3 +23,12 @@ def polls_frontpage(context):
 		'user': context['user'],
 	})
 	return render_to_string('polls/block_poll_detail.html', ctx)
+
+
+@register.inclusion_tag('polls/block_poll_detail.html', takes_context=True)
+def polls_frontpage(context):
+	return {
+		'polls': Poll.objects.all()[:1],
+		'request': context['request'],
+		'user': context['user'],
+	}
