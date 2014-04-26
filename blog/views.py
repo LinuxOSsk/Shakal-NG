@@ -18,6 +18,7 @@ class PostListView(ListView):
 	category_field = "blog"
 	category_context = "blog"
 	category = Blog
+	paginate_by = 20
 
 	def get_queryset(self):
 		queryset = super(PostListView, self).get_queryset()

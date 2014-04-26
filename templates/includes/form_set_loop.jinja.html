@@ -2,10 +2,10 @@
 
 <table class="formset">
 	{% for form in formset.forms %}
-		{% if form.non_field_errors %}
+		{% if form.non_field_errors() %}
 		<tr class="errornote">
-			<td colspan="{{ form.visible_fields|length }}">
-			{% for error in form.non_field_errors %}
+			<td colspan="{{ form.visible_fields()|length }}">
+			{% for error in form.non_field_errors() %}
 				{{ error }}
 			{% endfor %}
 			</td>
@@ -14,7 +14,7 @@
 		{% if forloop.first and not formset.hide_table_labels %}
 			<thead>
 				<tr>
-					{% for field in form.visible_fields %}
+					{% for field in form.visible_fields() %}
 					<th>
 						{{ field.label|capfirst }}
 						{% if field.help_text %}<p class="help">{{ field.field.help_text|safe }}</p>{% endif %}

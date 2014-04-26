@@ -1,8 +1,5 @@
 {% extends "blog/blog_base.html" %}
 
-{% load breadcrumbs_tags %}
-{% load linuxos %}
-
 {% block extraheaders %}
 <meta name="robots" content="noindex, nofollow" />
 {{ form.media }}
@@ -10,17 +7,17 @@
 
 {% block title %}Správa blogu{% endblock %}
 {% block breadcrumbs %}
-	{% breadcrumb %}Správa blogu{% endbreadcrumb %}
-	{% breadcrumb url='blog:post-list' %}Blog{% endbreadcrumb %}
-	{{ block.super }}
+	{{ breadcrumb("Správa blogu") }}
+	{{ breadcrumb("Blog", url='blog:post-list') }}
+	{{ super() }}
 {% endblock %}
 
 {% block content %}
 <h1>Správa blogu</h1>
 
-<form action="{% url 'blog:edit' %}" method="post" id="blog-form">{% csrf_token %}
+<form action="{{ url("blog:edit") }}" method="post" id="blog-form">{% csrf_token %}
 	<fieldset>
-		{% include 'includes/form_loop.html' with form=form %}
+		{% include "includes/form_loop.jinja.html" %}
 		<div class="submit-row">
 			<div class="positive">
 				<button class="btn" type="submit" title="Uložiť" name="create" value="1"><span>Uložiť</span></button>

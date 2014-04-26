@@ -1,33 +1,29 @@
 {% extends "blog/blog_base.html" %}
 
-{% load breadcrumbs_tags linuxos threaded_comments_tags %}
-
 {% block title %}{{ object }}{% endblock %}
 {% block breadcrumbs %}
-	{% breadcrumb %}{{ object }}{% endbreadcrumb %}
-	{% breadcrumb absolute_url=object.blog.get_absolute_url %}{{ object.blog }}{% endbreadcrumb %}
-	{% breadcrumb url='blog:post-list' %}Blog{% endbreadcrumb %}
-	{{ block.super }}
+	{{ breadcrumb(object) }}
+	{{ breadcrumb(object.blog, absolute_url=object.blog.get_absolute_url) }}
+	{{ breadcrumb("Blog", url='blog:post-list') }}
+	{{ super() }}
 {% endblock %}
 
 {% block content %}
 
-{% with blog=object.blog %}
-{% with post=object %}
+{% with blog=object.blog, post=object %}
 	{% include "blog/block_informations.html" %}
-{% endwith %}
 {% endwith %}
 
 <h1>{{ object }}</h1>
 
 <div class="info">
 	<span class="time">{{ object.pub_time|humandatetime }}</span> |
-	<span class="category"><a href="{{ object.blog.get_absolute_url }}">{{ object.blog }}</a></span> |
-	<span class="user"><a href="{{ object.author.get_absolute_url }}">{{ object.author }}</a></span>
+	<span class="category"><a href="{{ object.blog.get_absolute_url() }}">{{ object.blog }}</a></span> |
+	<span class="user"><a href="{{ object.author().get_absolute_url() }}">{{ object.author() }}</a></span>
 </div>
 
 {{ object.perex|safe }}
 {{ object.content|safe }}
 {% endblock %}
 
-{% block discussion %}{% render_threaded_comments_toplevel object %}{% endblock %}
+{% block discussion %}{{ render_threaded_comments_toplevel(object) }}{% endblock %}

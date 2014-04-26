@@ -1,18 +1,13 @@
 {% extends "blog/blog_base.html" %}
 
-{% load paginator_tags i18n %}
-{% load threaded_comments_tags %}
-{% load breadcrumbs_tags %}
-{% load linuxos %}
-
 {% block title %}Blogy{% endblock %}
 
 {% block breadcrumbs %}
 	{% if blog %}
-		{% breadcrumb url='blog:post-list' %}{{ blog }}{% endbreadcrumb %}
+		{{ breadcrumb(blog, url='blog:post-list') }}
 	{% endif %}
-	{% breadcrumb url='blog:post-list' %}Blog{% endbreadcrumb %}
-	{{ block.super }}
+	{{ breadcrumb("Blog", url='blog:post-list') }}
+	{{ super() }}
 {% endblock %}
 
 {% block content %}
@@ -23,21 +18,20 @@
 {% if blog %}
 	<h1>{{ blog }}</h1>
 
-	{% ifequal page 1 %}
+	{% if page_obj.number == 1 %}
 		<div class="annotation">{{ blog.description|safe }}</div>
-	{% endifequal %}
+	{% endif %}
 {% else %}
 	<h1>Blogy</h1>
 {% endif %}
 
 <div class="module blog{% if blog %} category{% endif %}">
-	{% autopaginate post_list page items_per_page=20 %}
-	{% add_discussion_attributes post_list %}
+	{{ add_discussion_attributes(post_list) }}
 	{% with long=1 %}
 		{% for post in post_list %}
 			{% include "blog/block_post_list_item.html" %}
 		{% endfor %}
 	{% endwith %}
-	{% paginator blog:post-list %}
+	{{ pagination() }}
 </div>
 {% endblock %}

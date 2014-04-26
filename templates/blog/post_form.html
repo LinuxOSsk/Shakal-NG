@@ -1,7 +1,5 @@
 {% extends "blog/blog_base.html" %}
 
-{% load breadcrumbs_tags linuxos %}
-
 {% block extraheaders %}
 <meta name="robots" content="noindex, nofollow" />
 {{ form.media }}
@@ -9,23 +7,23 @@
 
 {% block title %}Úprava zápisku{% endblock %}
 {% block breadcrumbs %}
-	{% if object.pk %}
-		{% breadcrumb %}Úprava zápisku{% endbreadcrumb %}
-		{% breadcrumb absolute_url=object.get_absolute_url %}{{ object }}{% endbreadcrumb %}
-		{% breadcrumb absolute_url=object.blog.get_absolute_url %}{{ object.blog }}{% endbreadcrumb %}
+	{% if object %}
+		{{ breadcrumb("Úprava zápisku") }}
+		{{ breadcrumb(object, absolute_url=object.get_absolute_url) }}
+		{{ breadcrumb(object.blog, absolute_url=object.blog.get_absolute_url()) }}
 	{% else %}
-		{% breadcrumb %}Vytvorenie zápisku{% endbreadcrumb %}
+		{{ breadcrumb("Vytvorenie zápisku") }}
 	{% endif %}
-	{% breadcrumb url='blog:post-list' %}Blog{% endbreadcrumb %}
-	{{ block.super }}
+	{{ breadcrumb("Blog", url="blog:post-list") }}
+	{{ super() }}
 {% endblock %}
 
 {% block content %}
 <h1>Správa blogu</h1>
 
-<form action="{% if object.pk %}{% url 'blog:post_edit' object.blog.slug object.slug %}{% else %}{% url "blog:post_create" %}{% endif %}" method="post" id="blog-form">{% csrf_token %}
+<form action="{% if object %}{{ url('blog:post_edit', object.blog.slug, object.slug) }}{% else %}{{ url("blog:post_create") }}{% endif %}" method="post" id="blog-form">{% csrf_token %}
 	<fieldset>
-		{% include 'includes/form_loop.html' with form=form %}
+		{% include "includes/form_loop.jinja.html" %}
 		<div class="submit-row">
 			<div class="positive">
 				<button class="btn" type="submit" title="Uložiť" name="create" value="1"><span>Uložiť</span></button>
