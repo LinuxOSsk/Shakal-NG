@@ -1,22 +1,31 @@
 # -*- coding: utf-8 -*-
 from django import template
 from django.core.urlresolvers import reverse, NoReverseMatch
+from django.template.loader import render_to_string
+from django_jinja import library
+from jinja2 import contextfunction
 
 
 register = template.Library()
+lib = library.Library()
 
 
-@register.inclusion_tag("paginator/paginator.html", takes_context=True)
-def paginator(context, page_obj=None, page_kwarg='page'):
+@lib.global_function
+@contextfunction
+@register.simple_tag(takes_context=True)
+def pagination(context, page_obj=None, page_kwarg='page'):
 	page_obj = page_obj or context['page_obj']
-	return {
+	ctx = {
 		'page_obj': page_obj,
 		'page_kwarg': page_kwarg,
 		'resolver_match': context['request'].resolver_match,
 		'request': context['request'],
 	}
+	return render_to_string("paginator/paginator.html", ctx)
 
 
+@lib.global_function
+@contextfunction
 @register.simple_tag(takes_context=True)
 def pager_url(context, page_num):
 	request = context['request']

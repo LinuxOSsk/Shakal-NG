@@ -1,29 +1,25 @@
 {% extends "article/article_base.html" %}
-{% load breadcrumbs_tags %}
-{% load threaded_comments_tags %}
-{% load hitcount_tags %}
-{% load paginator %}
 
 {% block title %}{% if category %}{{ category }}{% else %}Články{% endif %}{% endblock %}
 
 {% block breadcrumbs %}
 	{% if category %}
-		{% breadcrumb %}{{ category }}{% endbreadcrumb %}
+		{{ breadcrumb(category) }}
 	{% endif %}
-	{% breadcrumb url="article:article-list" %}Články{% endbreadcrumb %}
-	{{ block.super }}
+	{{ breadcrumb("Články", url="article:article-list") }}
+	{{ super() }}
 {% endblock %}
 
 {% block extraheaders %}
-	{{ block.super }}
-	{% ifequal page '1' %}
+	{{ super() }}
+	{% if page == '1' %}
 		<meta name="description" lang="sk" content="{% if category %}{{ category.description }}{% else %}Portál LinuxOS.sk prináša pravidelne články zo sveta open source. Na tejto stránke môžte nájsť články zo všetkých kategórií.{% endif %}" />
-	{% endifequal %}
+	{% endif %}
 {% endblock %}
 
 {% block content %}
-{% add_discussion_attributes article_list %}
-{% add_hitcount article_list %}
+{{ add_discussion_attributes(article_list) }}
+{{ add_hitcount(article_list) }}
 <h1>{% if category %}{{ category }}{% else %}Články{% endif %}</h1>
 {% if category %}
 <p class="description">{{ category.description }}</p>
@@ -31,14 +27,16 @@
 <p class="description">Portál LinuxOS.sk prináša pravidelne články zo sveta open source. Na tejto stránke môžte nájsť články zo všetkých kategórií.</p>
 <ul>
 	{% for category in category_list %}
-	<li><a href="{{ category.get_absolute_url }}">{{ category }}</a></li>
+	<li><a href="{{ category.get_absolute_url() }}">{{ category }}</a></li>
 	{% endfor %}
 </ul>
 {% endif %}
 <div class="module">
 	{% for article in article_list %}
-		{% include 'article/block_list_item.html' with thumbnail=0 %}
+		{% with thumbnail=0, is_last=loop.last %}
+			{% include 'article/block_list_item.html' %}
+		{% endwith %}
 	{% endfor %}
-	{% paginator %}
+	{{ pagination() }}
 </div>
 {% endblock %}

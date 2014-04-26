@@ -345,7 +345,7 @@ SUIT_CONFIG = {
 
 CONN_MAX_AGE = 300
 
-DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja.html'
+DEFAULT_JINJA2_TEMPLATE_INTERCEPT_RE = r"^(article/.*.html|.*jinja.html)"
 JINJA2_BYTECODE_CACHE_ENABLE = True
 JINJA2_LOADER = 'template_dynamicloader.loader_jinja_filesystem.JinjaLoader'
 

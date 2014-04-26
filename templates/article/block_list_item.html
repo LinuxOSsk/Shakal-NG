@@ -1,27 +1,26 @@
-{% load i18n l10n linuxos threaded_comments_tags %}
-<div class="module-row{% if forloop.last %} last{% endif %}">
-		<h3><a href="{{ article.get_absolute_url }}">{{ article.title}}</a></h3>
-		<div class="info top">
-			{{ article.pub_time|date:"d.m.Y H:i" }} |
-			<a href="{{ article.category.get_absolute_url }}">{{ article.category }}</a> |
-			{% if article.author %}
-				{% user_link article.author article.authors_name %}
-			{% else %}
-				{{ article.authors_name }}
-			{% endif %}
-		</div>
-		{% if thumbnail %}
-			{% if article.image_standard.url %}
-				<div class="article thumbnail pull-left">
-					<img src="{{ article.image_standard.url }}" alt="{{ article.title }}" />
-				</div>
-			{% endif %}
+<div class="module-row{% if is_last %} last{% endif %}">
+	<h3><a href="{{ article.get_absolute_url() }}">{{ article.title }}</a></h3>
+	<div class="info top">
+		{{ article.pub_time|date("d.m.Y H:i") }} |
+		<a href="{{ article.category.get_absolute_url() }}">{{ article.category }}</a> |
+		{% if article.author %}
+		{{ user_link(article.author, article.authors_name) }}
+		{% else %}
+			{{ article.authors_name }}
 		{% endif %}
-		<div class="perex">{{ article.perex|safe }}</div>
-		<div class="info bottom">
-			<span class="stat">Prečítané: {% firstof article.display_count '0' %}x</span> |
-			<span class="comments">
-				{% get_comments_for_item article display_last=1 %}
-			</span>
-		</div>
 	</div>
+	{% if thumbnail %}
+		{% if article.image_standard.url %}
+			<div class="article thumbnail pull-left">
+				<img src="{{ article.image_standard.url }}" alt="{{ article.title }}" />
+			</div>
+		{% endif %}
+	{% endif %}
+	<div class="perex">{{ article.perex|safe }}</div>
+	<div class="info bottom">
+		<span class="stat">Prečítané: {{ firstof(article.display_count, '0') }}x</span> |
+		<span class="comments">
+			{{ get_comments_for_item(article, display_last=1) }}
+		</span>
+	</div>
+</div>
