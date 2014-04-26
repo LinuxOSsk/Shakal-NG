@@ -1,7 +1,8 @@
 {% extends "article/article_base.html" %}
-{% load breadcrumbs_tags paginator_tags %}
+{% load breadcrumbs_tags %}
 {% load threaded_comments_tags %}
 {% load hitcount_tags %}
+{% load paginator %}
 
 {% block title %}{% if category %}{{ category }}{% else %}Články{% endif %}{% endblock %}
 
@@ -35,14 +36,9 @@
 </ul>
 {% endif %}
 <div class="module">
-	{% autopaginate article_list page items_per_page=10 %}
 	{% for article in article_list %}
 		{% include 'article/block_list_item.html' with thumbnail=0 %}
 	{% endfor %}
-	{% if category %}
-		{% paginator article:list-category category=category.slug %}
-	{% else %}
-		{% paginator article:article-list %}
-	{% endif %}
+	{% paginator %}
 </div>
 {% endblock %}

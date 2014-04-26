@@ -13,4 +13,5 @@ class ArticleDetailView(DetailUserProtectedView):
 class ArticleListView(ListView):
 	queryset = Article.objects.defer('content').select_related('author', 'category')
 	category = Category
-	template_name_suffix = '_list.jinja'
+	paginate_by = 10
+	#template_name_suffix = '_list.jinja'

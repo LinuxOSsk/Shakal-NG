@@ -3,6 +3,7 @@
 from django.shortcuts import get_object_or_404
 from django.db.models import Q, Manager
 from django.views.generic import CreateView, UpdateView, DetailView, ListView as OriginalListView
+from paginator import Paginator
 
 
 class AddLoggedFormArgumentMixin(object):
@@ -94,6 +95,7 @@ class ListView(OriginalListView):
 	category_key = 'slug'
 	category_field = 'category'
 	category_context = 'category'
+	paginator_class = Paginator
 
 	def get_queryset(self):
 		queryset = super(ListView, self).get_queryset()
@@ -109,19 +111,9 @@ class ListView(OriginalListView):
 		return queryset
 
 	def get_context_data(self, **kwargs):
-		queryset = self.object_list
-		if isinstance(queryset, Manager):
-			queryset = queryset.all()
-		context_object_name = self.get_context_object_name(queryset)
-		context = {'object_list': queryset}
-		if context_object_name is not None:
-			context[context_object_name] = queryset
+		context = super(ListView, self).get_context_data(**kwargs)
 		if self.category:
 			context['category_list'] = self.category.objects.all()
-		view_kwargs = getattr(self, 'kwargs')
-		if 'category_object' in view_kwargs:
-			context[self.category_context] = view_kwargs['category_object']
-		context.update(kwargs)
-		page = view_kwargs.get(self.page_kwarg) or self.request.GET.get(self.page_kwarg) or 1
-		context['page'] = page
+		if 'category_object' in self.kwargs:
+			context[self.category_context] = self.kwargs['category_object']
 		return context

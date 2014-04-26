@@ -1,17 +1,17 @@
-{% if paginated %}
-{% load paginator_tags %}
+{% load paginator %}
+{% if page_obj.has_next or page_obj.has_previous %}
 <div class="pagination">
 	<ul>
-		<li class="prev{% if previous %}{% else %} disabled{% endif %}"><a href="{% if previous %}{% pager_url previous %}{% else %}#{% endif %}">&lt;</a></li>
+		<li class="prev{% if not page_obj.has_previous %} disabled{% endif %}"><a href="{% if page_obj.has_previous %}{% pager_url page_obj.previous_page_number %}{% else %}#{% endif %}">&lt;</a></li>
 
-		{% for page in pages %}
+		{% for page in page_obj.page_range %}
 			{% if page %}
-			<li class="page {% ifequal current_page page %}active{% endifequal %}"><a href="{% pager_url page %}">{{ page }}</a></li>
+			<li class="page {% if page_obj.number == page %}active{% endif %}"><a href="{% pager_url page %}">{{ page }}</a></li>
 			{% else %}
 			<li class="disabled"><a href="#">...</a></li>
 			{% endif %}
 		{% endfor %}
-		<li class="next{% if next %}{% else %} disabled{% endif %}"><a href="{% if next %}{% pager_url next %}{% else %}#{% endif %}">&gt;</a></li>
+		<li class="next{% if not page_obj.has_next %} disabled{% endif %}"><a href="{% if page_obj.has_next %}{% pager_url page_obj.next_page_number %}{% else %}#{% endif %}">&gt;</a></li>
 	</ul>
 </div>
 {% endif %}
