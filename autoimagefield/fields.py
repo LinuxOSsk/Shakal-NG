@@ -55,7 +55,7 @@ class AutoImageField(ImageField):
 
 	@staticmethod
 	def resize_image(filename, size):
-		import Image
+		from PIL import Image
 		img = Image.open(filename)
 		if img.size[AutoImageField.WIDTH] > size[AutoImageField.WIDTH] or img.size[AutoImageField.HEIGHT] > size[AutoImageField.HEIGHT]:
 			img.thumbnail((size[AutoImageField.WIDTH], size[AutoImageField.HEIGHT]), Image.ANTIALIAS)
