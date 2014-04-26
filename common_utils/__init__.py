@@ -62,3 +62,20 @@ def clean_dir(path, root_path):
 		except OSError:
 			return
 		current_dir = os.path.join(*os.path.split(current_dir)[:-1])
+
+
+def monkey_patch_safestring():
+	from django.utils.safestring import SafeData
+	SafeData.__html__ = lambda self: self
+
+	from jinja2 import escape
+	from django.forms import BaseForm, Media
+	from django.forms.forms import BoundField
+	from django.forms.formsets import BaseFormSet
+	from django.forms.util import ErrorDict, ErrorList
+
+	for cls in (BaseForm, Media, BoundField, BaseFormSet, ErrorDict, ErrorList):
+		cls.__html__ = lambda self: escape(unicode(self))
+
+
+monkey_patch_safestring()
