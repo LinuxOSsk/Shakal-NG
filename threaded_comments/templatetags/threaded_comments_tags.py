@@ -57,8 +57,8 @@ class DiscussionLoader:
 
 	def get_discussion_attribute(self):
 		ctype, object_id = self.get_target_ctype_pk()
-		header = RootHeader.objects.get(content_type = ctype, object_id = object_id)
-		(discussion_attribute, created) = UserDiscussionAttribute.objects.get_or_create(user = self.context['user'], discussion = header)
+		header = RootHeader.objects.get(content_type=ctype, object_id=object_id)
+		(discussion_attribute, created) = UserDiscussionAttribute.objects.get_or_create(user = self.context['user'], discussion=header)
 		return discussion_attribute
 
 	def highlight_new(self, query_set):
@@ -90,7 +90,7 @@ class DiscussionLoader:
 			attrib = self.get_discussion_attribute()
 			last_display_time = self.get_last_display_time(attrib)
 			self.update_discussion_attribute(attrib)
-			query_set = query_set.extra(select = {'is_new': 'submit_date >= %s'}, select_params = (last_display_time, ))[:]
+			query_set = query_set.extra(select={'is_new': 'submit_date >= %s'}, select_params=(last_display_time, ))[:]
 			self.highlight_new(query_set)
 		setattr(query_set, 'root_header', query_set.get_root_item().root_header())
 		if 'user' in context and context['user'].is_authenticated():
@@ -98,7 +98,7 @@ class DiscussionLoader:
 		return query_set
 
 
-@register.assignment_tag(takes_context = True)
+@register.assignment_tag(takes_context=True)
 def get_threaded_comments_list(context, target):
 	loader = DiscussionLoader()
 	return loader.load(context, target)
@@ -106,7 +106,7 @@ def get_threaded_comments_list(context, target):
 
 @lib.global_function
 @contextfunction
-@register.simple_tag(takes_context = True)
+@register.simple_tag(takes_context=True)
 def render_threaded_comments_toplevel(context, target):
 	context = dict(context)
 	model_class = target.__class__
@@ -119,7 +119,9 @@ def render_threaded_comments_toplevel(context, target):
 	return mark_safe(render_to_string(templates, context))
 
 
-@register.simple_tag(takes_context = True)
+@lib.global_function
+@contextfunction
+@register.simple_tag(takes_context=True)
 def add_discussion_attributes(context, model):
 	model = iterify(model)
 	if len(model) == 0:
@@ -129,13 +131,13 @@ def add_discussion_attributes(context, model):
 	id_list = [m.id for m in model]
 
 	headers = RootHeader.objects \
-		.filter(content_type = content_type, object_id__in = id_list) \
+		.filter(content_type=content_type, object_id__in=id_list) \
 		.values('id', 'object_id', 'last_comment', 'comment_count', 'is_locked')
 
 	if 'user' in context and context['user'].is_authenticated():
 		header_ids = [h['id'] for h in headers]
 		user_attributes = UserDiscussionAttribute.objects \
-			.filter(user = context['user'], discussion__in = header_ids) \
+			.filter(user=context['user'], discussion__in=header_ids) \
 			.values('discussion_id', 'time', 'watch')
 		user_attributes = dict([(a['discussion_id'], a) for a in user_attributes])
 		for header in headers:
@@ -159,12 +161,10 @@ def add_discussion_attributes(context, model):
 
 @lib.global_function
 @register.simple_tag
-def get_comments_for_item(item, display_last = False):
+def get_comments_for_item(item, display_last=False):
 	return mark_safe(render_to_string("comments/comment_count.jinja.html", {'item': item, display_last: 'display_last'}))
 
 
 @register.simple_tag
 def comment_form_target():
 	return reverse("comments-post-comment")
-
-

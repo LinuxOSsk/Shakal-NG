@@ -4,13 +4,16 @@ from django.contrib.contenttypes.models import ContentType
 
 from hitcount.models import HitCount
 from common_utils import iterify
+from django_jinja import library
 
 
 register = template.Library()
+lib = library.Library()
 
 
-@register.simple_tag(takes_context = True)
-def add_hitcount(context, model):
+@lib.global_function
+@register.simple_tag()
+def add_hitcount(model):
 	model = iterify(model)
 	content_type = None
 	if len(model) == 0:

@@ -6,7 +6,11 @@ from django.template.loader import render_to_string
 from django.utils.http import urlencode
 from paginator.paginator import Paginator
 from paginator.settings import PAGINATOR_ITEMS_PER_PAGE
+from django_jinja import library
+from jinja2 import contextfunction
+
 register = template.Library()
+lib = library.Library()
 
 def process_params(rawparams, context = None):
 	"""

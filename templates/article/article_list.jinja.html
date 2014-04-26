@@ -18,8 +18,8 @@
 {% endblock %}
 
 {% block content %}
-{# add_discussion_attributes article_list #}
-{# add_hitcount article_list #}
+{{ add_discussion_attributes(article_list) }}
+{{ add_hitcount(article_list) }}
 <h1>{% if category %}{{ category }}{% else %}Články{% endif %}</h1>
 {% if category %}
 <p class="description">{{ category.description }}</p>
