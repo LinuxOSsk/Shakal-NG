@@ -3,13 +3,14 @@ import datetime
 
 import feedparser
 from django import template
+from django.template.loader import render_to_string
 
 
 register = template.Library()
 
 
-@register.inclusion_tag("feeds/pull_feeds.html")
-def pull_feeds(url, max_count = 4):
+@register.simple_tag
+def pull_feeds(url, max_count=4):
 	posts = []
 	feed = feedparser.parse(url)
 	entries_count = len(feed.entries)
@@ -27,4 +28,5 @@ def pull_feeds(url, max_count = 4):
 			})
 		except IndexError:
 			pass
-	return {'posts': posts}
+	ctx = {'posts': posts}
+	return render_to_string("feeds/pull_feeds.html", ctx)
