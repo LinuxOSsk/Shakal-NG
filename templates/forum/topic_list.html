@@ -1,6 +1,4 @@
 {% extends "forum/forum_base.html" %}
-{% load breadcrumbs_tags paginator_tags %}
-{% load threaded_comments_tags %}
 
 {% block title %}
 	{% if category %}
@@ -12,22 +10,22 @@
 
 {% block breadcrumbs %}
 	{% if category %}
-		{% breadcrumb %}{{ category|truncatechars:60 }}{% endbreadcrumb %}
+		{{ breadcrumb(category|truncatechars(60)) }}
 	{% endif %}
-	{% breadcrumb url='forum:overview' %}Fórum{% endbreadcrumb %}
-	{{ block.super }}
+	{{ breadcrumb("Fórum", url="forum:overview") }}
+	{{ super() }}
 {% endblock %}
 
 {% block extraheaders %}
-	{% ifequal page '1' %}
+	{% if page_obj.number == 1 %}
 		<meta name="description" lang="sk" content="{% if category %}{{ category.description }}{% else %}Diskusné fórum slúži tak začínajúcim ako aj pokročilejším užívateľom Linuxu. Tu sa môžete spýtať otázku či predložiť problém, s ktorým si sami neviete poradiť.{% endif %}" />
-	{% endifequal %}
+	{% endif %}
 {% endblock %}
 
 {% block content %}
 
 <ul class="object-tools">
-	<li class="btn"><span><a href="{% url 'forum:create' %}">Pridať novú tému</a></span></li>
+	<li class="btn"><span><a href="{{ url("forum:create") }}">Pridať novú tému</a></span></li>
 </ul>
 <h1>{% if category %}{{ category }}{% else %}Diskusné fórum{% endif %}</h1>
 
@@ -38,22 +36,19 @@
 
 <ul>
 	{% for section in category_list %}
-	<li><a href="{{ section.get_absolute_url }}">{{ section }}</a></li>
+		<li><a href="{{ section.get_absolute_url() }}">{{ section }}</a></li>
 	{% endfor %}
 </ul>
 
 {% endif %}
 
 <div class="module forum">
-	{% autopaginate topic_list page items_per_page=50 %}
 	<div class="module-row">
-		{% include "forum/block_topics_table.html" with caption="Témy" %}
+		{% with caption="Témy" %}
+			{% include "forum/block_topics_table.html" %}
+		{% endwith %}
 	</div>
-	{% if category %}
-		{% paginator forum:section category=category.slug %}
-	{% else %}
-		{% paginator forum:overview %}
-	{% endif %}
+	{{ pagination() }}
 </div>
 
 {% endblock %}

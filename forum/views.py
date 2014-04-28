@@ -11,6 +11,7 @@ class TopicListView(ListView):
 	queryset = Topic.topics.newest_topics()
 	category = Section
 	category_field = 'section'
+	paginate_by = 50
 
 
 class TopicDetailView(DetailUserProtectedView):

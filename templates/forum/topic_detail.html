@@ -1,12 +1,12 @@
-{% extends "forum/forum_base.html" %}{% load breadcrumbs_tags threaded_comments_tags %}
+{% extends "forum/forum_base.html" %}
 
 {% block title %}{{ topic }}{% endblock %}
 
 {% block breadcrumbs %}
-	{% breadcrumb %}{{ topic|truncatechars:60 }}{% endbreadcrumb %}
-	{% breadcrumb url='forum:section' category=topic.section.slug %}{{ topic.section|truncatechars:60 }}{% endbreadcrumb %}
-	{% breadcrumb url='forum:overview' %}Fórum{% endbreadcrumb %}
-	{{ block.super }}
+	{{ breadcrumb(topic|truncatechars(60)) }}
+	{{ breadcrumb(topic.section|truncatechars(60), url="forum:section", category=topic.section.slug) }}
+	{{ breadcrumb("Fórum", url="forum:overview") }}
+	{{ super() }}
 {% endblock %}
 
 {% block content %}
@@ -16,14 +16,14 @@
 	{% if topic.delete_perm %}
 		<li class="btn">
 			<span>
-				<a href="{{ topic.get_absolute_url }}?removed={{ topic.is_removed|yesno:",1" }}" class="delete">{% if topic.is_removed %}Obnoviť{% else %}Vymazať{% endif %}</a>
+				<a href="{{ topic.get_absolute_url() }}?removed={{ topic.is_removed|yesno(",1") }}" class="delete">{% if topic.is_removed %}Obnoviť{% else %}Vymazať{% endif %}</a>
 			</span>
 		</li>
 	{% endif %}
 	{% if topic.resolved_perm %}
 		<li class="btn">
 			<span>
-				<a href="{{ topic.get_absolute_url }}?resolved={{ topic.is_resolved|yesno:",1" }}" class="resolved" rel="nofollow">{% if topic.is_resolved %}Nastaviť nevyriešené{% else %}Nastaviť vyriešené{% endif %}</a>
+				<a href="{{ topic.get_absolute_url() }}?resolved={{ topic.is_resolved|yesno(",1") }}" class="resolved" rel="nofollow">{% if topic.is_resolved %}Nastaviť nevyriešené{% else %}Nastaviť vyriešené{% endif %}</a>
 			</span>
 		</li>
 	{% endif %}
@@ -31,10 +31,10 @@
 {% endif %}
 
 <h1>{{ topic }}</h1>
-{% with comment_type="topic" %}{% with comment=topic %}{% with user=topic.author %}{% with user_name=topic.authors_name %}
-{% include "forum/topic_header.jinja.html" %}
-{% endwith %}{% endwith %}{% endwith %}{% endwith %}
+{% with comment_type="topic", comment=topic, user=topic.author, user_name=topic.authors_name %}
+	{% include "forum/topic_header.html" %}
+{% endwith %}
 {% include "forum/topic_content.html" %}
 {% endblock %}
 
-{% block discussion %}{% render_threaded_comments_toplevel topic %}{% endblock %}
+{% block discussion %}{{ render_threaded_comments_toplevel(topic) }}{% endblock %}

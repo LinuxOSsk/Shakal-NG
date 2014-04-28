@@ -1,4 +1,4 @@
-{% extends "forum/forum_base.html" %}{% load breadcrumbs_tags %}
+{% extends "forum/forum_base.html" %}
 
 {% block extraheaders %}
 <meta name="robots" content="noindex, nofollow" />
@@ -7,9 +7,9 @@
 
 {% block title %}Pridať tému{% endblock %}
 {% block breadcrumbs %}
-	{% breadcrumb %}Pridať tému{% endbreadcrumb %}
-	{% breadcrumb url='forum:overview' %}Fórum{% endbreadcrumb %}
-	{{ block.super }}
+	{{ breadcrumb("Pridať tému") }}
+	{{ breadcrumb("Fórum", url="forum:overview") }}
+	{{ super() }}
 {% endblock %}
 
 {% block content %}
@@ -20,19 +20,17 @@
 		<h2>Náhľad</h2>
 		<h3>{{ item }}</h3>
 		<div class="clearpadding">
-		{% with topic=item %}
-			{% with comment_type="topic" %}{% with comment=topic %}{% with user=topic.author %}{% with user_name=topic.authors_name %}
-			{% include "forum/topic_header.jinja.html" %}
-			{% endwith %}{% endwith %}{% endwith %}{% endwith %}
+		{% with topic=item, content_type="topic", comment=topic, user=topic.author, user_name=topic.authors_name %}
+			{% include "forum/topic_header.html" %}
 			{% include "forum/topic_content.html" %}
 		{% endwith %}
 		</div>
 	</div>
 {% endif %}
 
-<form action="{% url 'forum:create' %}" enctype="multipart/form-data" method="post">{% csrf_token %}
+<form action="{{ url("forum:create") }}" enctype="multipart/form-data" method="post">{% csrf_token %}
 	<fieldset>
-		{% include 'includes/form_attachment_loop.html' with form=form %}
+		{% include "includes/form_attachment_loop.jinja.html" %}
 		<div class="submit-row">
 			<div class="positive">
 				<button class="btn" type="submit" title="Náhľad"><span>Náhľad</span></button>
