@@ -27,7 +27,7 @@
 		{% for field in form %}
 			<td>
 				{% if forloop.first %}
-					{% for hidden in form.hidden_fields() %}{{ hidden }}{% endfor %}
+					{% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
 				{% endif %}
 				{% ifnotequal field form.DELETE %}
 					{{ field.errors }}
