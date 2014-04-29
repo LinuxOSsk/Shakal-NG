@@ -119,8 +119,8 @@ def render_threaded_comments_toplevel(context, target):
 	return mark_safe(render_to_string(templates, context))
 
 
-@lib.global_function
 @contextfunction
+@lib.global_function
 @register.simple_tag(takes_context=True)
 def add_discussion_attributes(context, model):
 	model = iterify(model)

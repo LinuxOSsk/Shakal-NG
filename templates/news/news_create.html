@@ -1,8 +1,5 @@
 {% extends "news/news_base.html" %}
 
-{% load breadcrumbs_tags %}
-{% load linuxos %}
-
 {% block extraheaders %}
 <meta name="robots" content="noindex, nofollow" />
 {{ form.media }}
@@ -10,9 +7,9 @@
 
 {% block title %}Pridať správu{% endblock %}
 {% block breadcrumbs %}
-	{% breadcrumb %}Pridať správu{% endbreadcrumb %}
-	{% breadcrumb url='news:list' %}Správy{% endbreadcrumb %}
-	{{ block.super }}
+	{{ breadcrumb("Pridať správu") }}
+	{{ breadcrumb("Správy", url="news:list") }}
+	{{ super() }}
 {% endblock %}
 
 {% block content %}
@@ -24,7 +21,7 @@
 		<h3>{{ item }}</h3>
 		<div class="info">
 			<span class="time">Teraz</span> |
-			<span class="user">{% user_link item.author item.authors_name %}</span>
+			<span class="user">{{ user_link(item.author, item.authors_name) }}</span>
 		</div>
 		<p>{{ item.short_text|safe }}</p>
 		<hr />
@@ -32,9 +29,9 @@
 	</div>
 {% endif %}
 
-<form action="{% url 'news:create' %}" method="post" id="news-form">{% csrf_token %}
+<form action="{{ url("news:create") }}" method="post" id="news-form">{% csrf_token %}
 	<fieldset>
-		{% include 'includes/form_loop.html' with form=form %}
+		{% include "includes/form_loop.jinja.html" %}
 		<div class="submit-row">
 			<div class="positive">
 				<button class="btn" type="submit" title="Náhľad"><span>Náhľad</span></button>

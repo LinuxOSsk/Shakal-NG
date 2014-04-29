@@ -1,5 +1,4 @@
-{% load threaded_comments_tags %}
-{% add_discussion_attributes news %}
+{{ add_discussion_attributes(news) }}
 {% for item in news %}
 <div class="module-row">
 	{% include "news/block_news_item.html" %}

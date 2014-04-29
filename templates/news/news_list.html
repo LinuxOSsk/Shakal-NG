@@ -1,26 +1,21 @@
 {% extends "news/news_base.html" %}
 
-{% load paginator_tags i18n %}
-{% load threaded_comments_tags %}
-{% load breadcrumbs_tags %}
-
 {% block title %}Správy{% endblock %}
 
 {% block breadcrumbs %}
-	{% breadcrumb url='news:list' %}Správy{% endbreadcrumb %}
-	{{ block.super }}
+	{{ breadcrumb("Správy", url="news:list") }}
+	{{ super() }}
 {% endblock %}
 
 {% block content %}
 <h1>Správy</h1>
 <div class="module">
-	{% autopaginate news_list page items_per_page=20 %}
-	{% add_discussion_attributes news_list %}
+	{{ add_discussion_attributes(news_list) }}
 	{% with long=1 %}
 		{% for item in news_list %}
 			<div class="module-row">{% include "news/block_news_item.html" %}</div>
 		{% endfor %}
 	{% endwith %}
-	{% paginator news:list %}
+	{{ pagination() }}
 </div>
 {% endblock %}

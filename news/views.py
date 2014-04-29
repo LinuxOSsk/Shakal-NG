@@ -3,14 +3,15 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 
+from .forms import NewsForm
+from .models import News
 from common_utils.generic import AddLoggedFormArgumentMixin, PreviewCreateView, DetailUserProtectedView, ListView
-from forms import NewsForm
-from models import News
 from notifications.models import Event
 
 
 class NewsListView(ListView):
 	queryset = News.objects.all()
+	paginate_by = 20
 
 
 class NewsDetailView(DetailUserProtectedView):

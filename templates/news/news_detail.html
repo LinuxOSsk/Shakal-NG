@@ -1,9 +1,9 @@
-{% extends "news/news_base.html" %}{% load breadcrumbs_tags threaded_comments_tags %}
+{% extends "news/news_base.html" %}
 
 {% block breadcrumbs %}
-	{% breadcrumb %}{{ news|truncatechars:80 }}{% endbreadcrumb %}
-	{% breadcrumb url='news:list' %}Správy{% endbreadcrumb %}
-	{{ block.super }}
+	{{ breadcrumb(news|truncatechars(80)) }}
+	{{ breadcrumb("Správy", url="news:list") }}
+	{{ super() }}
 {% endblock %}
 
 {% block title %}
@@ -13,9 +13,9 @@
 {% block content %}
 {% if user.is_staff and perms.news.can_change %}
 <ul class="object-tools btn-group">
-	<li class="btn"><span><a href="{% url 'admin:news_news_change' news.pk %}">Upraviť správu</a></span></li>
-	<li class="btn"><span><a href="{{ news.get_absolute_url }}?approve=1">Schváliť</a></span></li>
-	<li class="btn"><span><a href="{{ news.get_absolute_url }}?approve=0">Zamietnúť</a></span></li>
+	<li class="btn"><span><a href="{{ url("admin:news_news_change", news.pk) }}">Upraviť správu</a></span></li>
+	<li class="btn"><span><a href="{{ news.get_absolute_url() }}?approve=1">Schváliť</a></span></li>
+	<li class="btn"><span><a href="{{ news.get_absolute_url() }}?approve=0">Zamietnúť</a></span></li>
 </ul>
 {% endif %}
 <h1>{{ news }}</h1>
@@ -24,4 +24,4 @@
 </p>
 {% endblock %}
 
-{% block discussion %}{% render_threaded_comments_toplevel news %}{% endblock %}
+{% block discussion %}{{ render_threaded_comments_toplevel(news) }}{% endblock %}
