@@ -78,12 +78,15 @@ def render_messages(context, messages, *tags):
 	return render_to_string(search_templates, {'messages': messages})
 
 
+@lib.filter
 @register.filter
 def labelize_content_type(content_type):
 	app_label, model = content_type.split('.')
 	return ContentType.objects.get_by_natural_key(app_label = app_label, model = model).model_class()._meta.verbose_name #pylint: disable=W0212
 
 
+@lib.global_function
+@contextfunction
 @register.simple_tag(takes_context=True)
 def get_base_uri(context):
 	if 'request' in context:
