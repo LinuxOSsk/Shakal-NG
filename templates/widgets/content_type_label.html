@@ -1,7 +1,5 @@
-{% load linuxos %}
-
 <span class="label
-	{% ifequal content_type "forum.topic" %} label-info{% endifequal %}
+	{% if content_typeii == "forum.topic" %} label-info{% endif%}
 	{% if content_type == "article.article" or content_type == "wiki.page" or content_type == "news.news" %} label-success{% endif %}">
 	{{ content_type|labelize_content_type|capfirst }}
 </span>

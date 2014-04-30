@@ -1,9 +1,8 @@
-{% extends "base.html" %}
-{% load breadcrumbs_tags paginator_tags i18n linuxos %}
+{% extends "base.jinja.html" %}
 
 {% block breadcrumbs %}
-	{% breadcrumb %}{% trans "Notifications" %}{% endbreadcrumb %}
-	{{ block.super }}
+	{{ breadcrumb("Notifications") }}
+	{{ super() }}
 {% endblock %}
 
 {% block title %}
@@ -11,27 +10,29 @@
 
 {% block content %}
 
-	<h1>{% trans "Notifications" %}</h1>
+	<h1>{{ _("Notifications") }}</h1>
 
 	<div class="module notifications">
 		{% for notification in notifications %}
 			<div class="module-row{% if notification.readed %} inactive{% endif %}">
 				<div class="links">
 					{% if not notification.readed or notification.event.object_id %}
-						<div class="btn"><span><a href="{{ notification.get_absolute_url }}">Prečítať</a></span></div>
+						<div class="btn"><span><a href="{{ notification.get_absolute_url() }}">Prečítať</a></span></div>
 					{% endif %}
 				</div>
 				<p>
 					{{ notification.event.message }}
 				</p>
 				<div class="info bottom">
-					<span class="label label-{{ notification.readed|yesno:"standard,important" }}">{{ notification.readed|yesno:"Prečítané,Neprečítané" }}</span>
+					<span class="label label-{{ notification.readed|yesno("standard,important") }}">{{ notification.readed|yesno("Prečítané,Neprečítané") }}</span>
 					{% if notification.content_type %}
-						{% include "widgets/content_type_label.html" with content_type=notification.content_type %}
+						{% with content_type=notification.content_type %}
+							{% include "widgets/content_type_label.html" %}
+						{% endwith %}
 					{% endif %}
 					{{ notification.event.time|humandatetime }}
 					{% if notification.event.author %}
-					| <a href="{{ notification.event.author.get_absolute_url }}">{{ notification.event.author }}</a>
+					| <a href="{{ notification.event.author.get_absolute_url() }}">{{ notification.event.author }}</a>
 					{% endif %}
 				</div>
 			</div>
