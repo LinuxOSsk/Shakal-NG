@@ -1,8 +1,8 @@
-{% extends "polls/poll_base.html" %}{% load breadcrumbs_tags %}
+{% extends "polls/poll_base.html" %}
 
 {% block breadcrumbs %}
-{% breadcrumb %}Navrhnúť{% endbreadcrumb %}
-{{ block.super }}
+{{ breadcrumb("Navrhnúť") }}
+{{ super() }}
 {% endblock %}
 
 {% block title %}Navrhnúť anketu{% endblock %}
@@ -10,9 +10,9 @@
 {% block content %}
 <h1>Navrhnúť anketu</h1>
 
-<form action="{% url 'polls:create' %}" method="post" id="polls-form">{% csrf_token %}
+<form action="{{ url("polls:create") }}" method="post" id="polls-form">{% csrf_token %}
 	<fieldset>
-		{% include 'includes/form_loop.html' with form=form %}
+		{% include "includes/form_loop.jinja.html" %}
 		<div class="submit-row">
 			<div class="positive">
 				<button type="submit" title="Vytvoriť anketu" name="create" value="1" class="btn"><span>Vytvoriť anketu</span></button>

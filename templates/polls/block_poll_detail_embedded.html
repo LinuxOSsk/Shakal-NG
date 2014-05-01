@@ -1,19 +1,18 @@
-{% load i18n threaded_comments_tags %}
 {% for choice in poll.choices %}
 <div class="module-row">
 	<label>
 		{% if input %}
 			{% if poll.checkbox %}
-				<input type="checkbox" name="choice" value="{{ forloop.counter0 }}" />
+				<input type="checkbox" name="choice" value="{{ loop.index0 }}" />
 			{% else %}
-				<input type="radio" name="choice" value="{{ forloop.counter0 }}" />
+				<input type="radio" name="choice" value="{{ loop.index0 }}" />
 			{% endif %}
 		{% endif %}
 		{{ choice }}
 	</label>
 	<div class="progress">
-		<div class="bar" style="width: {{ choice.percent|floatformat:0 }}%">
-			{{ choice.percent|floatformat:0 }} %
+		<div class="bar" style="width: {{ choice.percent()|round|int }}%">
+			{{ choice.percent()|round|int }} %
 		</div>
 	</div>
 </div>
@@ -21,9 +20,9 @@
 <div class="module-links bottom">
 	<span class="info">Hlasov: {{ poll.choice_count }}</span> |
 	<span class="comments">
-		{% get_comments_for_item poll %}
+		{{ get_comments_for_item(poll) }}
 	</span>
 	{% if next_link %}
-		| <a class="next" href="{% url 'polls:list' %}">Ďalšie</a>
+		| <a class="next" href="{{ url('polls:list') }}">Ďalšie</a>
 	{% endif %}
 </div>

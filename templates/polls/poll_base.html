@@ -1,6 +1,6 @@
-{% extends "base.html" %}{% load breadcrumbs_tags %}
+{% extends "base.jinja.html" %}
 
 {% block breadcrumbs %}
-{% breadcrumb url='polls:list' %}Ankety{% endbreadcrumb %}
-{{ block.super }}
+{{ breadcrumb("Ankety", url="polls:list") }}
+{{ super() }}
 {% endblock %}

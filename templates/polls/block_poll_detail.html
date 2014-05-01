@@ -1,18 +1,16 @@
-{% load threaded_comments_tags %}
-
-{% add_discussion_attributes polls %}
+{{ add_discussion_attributes(polls) }}
 {% for poll in polls %}
-<h3><a href="{{ poll.get_absolute_url }}">{{ poll }}</a></h3>
+<h3><a href="{{ poll.get_absolute_url() }}">{{ poll }}</a></h3>
 
-<form action="{% url 'polls:post' pk=poll.pk %}" method="post" id="polls-form">{% csrf_token %}
-{% with next_link=1 %}
-{% include "polls/block_poll_detail_embedded.jinja.html" with input=1 %}
+<form action="{{ url('polls:post', pk=poll.pk) }}" method="post" id="polls-form">{% csrf_token %}
+{% with next_link=1, input=1 %}
+{% include "polls/block_poll_detail_embedded.html" %}
 {% endwith %}
 <div class="submit-row">
 	<input type="hidden" name="next" value="{{ request.path }}" />
 	{% if request.user.is_authenticated %}
 	<div class="negative">
-		<div class="btn"><span><a href="{% url 'polls:create' %}">Navrhnúť</a></span></div>
+		<div class="btn"><span><a href="{{ url('polls:create') }}">Navrhnúť</a></span></div>
 	</div>
 	{% endif %}
 	{% if poll %}
@@ -23,11 +21,11 @@
 </div>
 
 </form>
-{% empty %}
+{% else %}
 	{% if request.user.is_authenticated %}
 		<div class="submit-row">
 			<div class="negative">
-				<div class="btn"><span><a href="{% url 'polls:create' %}">Navrhnúť</a></span></div>
+				<div class="btn"><span><a href="{{ url('polls:create') }}">Navrhnúť</a></span></div>
 			</div>
 		</div>
 	{% endif %}
