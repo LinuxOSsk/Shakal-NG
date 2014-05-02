@@ -94,6 +94,9 @@ class RecordIp(models.Model):
 	class Meta:
 		unique_together = ('poll', 'ip', )
 
+	def __unicode__(self):
+		return str(self.poll.pk) + ' - ' + str(self.ip)
+
 
 class RecordUser(models.Model):
 	poll = models.ForeignKey(Poll)
@@ -102,6 +105,9 @@ class RecordUser(models.Model):
 
 	class Meta:
 		unique_together = ('poll', 'user', )
+
+	def __unicode__(self):
+		return str(self.poll.pk) + ' - ' + str(self.user.pk)
 
 
 def check_can_vote(request, poll):
