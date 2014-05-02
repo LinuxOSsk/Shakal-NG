@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-
 from django import forms
 from django.forms.formsets import formset_factory, BaseFormSet
 from django.utils.translation import ugettext_lazy as _
+
 from .models import Choice, Poll
-from common_utils.admin_widgets import AutosizedTextarea, DateTimeInput
 
 
 class BaseChoiceFormSet(BaseFormSet):
@@ -26,7 +25,7 @@ class ChoiceForm(forms.ModelForm):
 		model = Choice
 		exclude = ('poll', 'votes', )
 
-ChoiceFormSet = formset_factory(ChoiceForm, formset = BaseChoiceFormSet, extra = 10)
+ChoiceFormSet = formset_factory(ChoiceForm, formset=BaseChoiceFormSet, extra=10)
 ChoiceFormSet.label = _('Choices')
 ChoiceFormSet.hide_table_labels = True
 
@@ -34,7 +33,7 @@ ChoiceFormSet.hide_table_labels = True
 class PollForm(forms.ModelForm):
 	nested = []
 
-	def __init__(self, data = None, *args, **kwargs):
+	def __init__(self, data=None, *args, **kwargs):
 		super(PollForm, self).__init__(data, *args, **kwargs)
 		self.nested = [ChoiceFormSet(data)]
 
@@ -47,13 +46,3 @@ class PollForm(forms.ModelForm):
 		model = Poll
 		exclude = ('approved', 'active_from', 'choice_count', 'content_type', 'object_id', 'slug')
 		fields = ('question', 'checkbox')
-
-
-class PollAdminForm(forms.ModelForm):
-	class Meta:
-		model = Poll
-		widgets = {
-			'question': AutosizedTextarea(attrs={'class': 'input-xlarge'}),
-			'slug': forms.TextInput(attrs={'class': 'input-xlarge'}),
-			'active_from': DateTimeInput()
-		}
