@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 from django.template import RequestContext
 from django.views.decorators.http import require_POST
+from common_utils.generic import ListView
 from forms import PollForm
 from models import Poll, Choice, check_can_vote, record_vote
 
@@ -80,9 +81,7 @@ def poll_detail_by_slug(request, slug):
 	return TemplateResponse(request, "polls/poll_detail.html", RequestContext(request, context))
 
 
-def poll_list(request, page = 1):
-	context = {
-		'polls': Poll.objects.all(),
-		'pagenum': page,
-	}
-	return TemplateResponse(request, "polls/poll_list.html", RequestContext(request, context))
+class PollList(ListView):
+	queryset = Poll.objects.all()
+	paginate_by = 10
+	context_object_name = 'polls'
