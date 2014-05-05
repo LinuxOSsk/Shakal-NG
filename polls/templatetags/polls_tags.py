@@ -16,9 +16,10 @@ lib = library.Library()
 @contextfunction
 @register.simple_tag(takes_context=True)
 def polls_frontpage(context):
-	ctx = {
+	ctx = context.get_all()
+	ctx.update({
 		'polls': Poll.objects.all()[:1],
 		'request': context['request'],
 		'user': context['user'],
-	}
+	})
 	return mark_safe(render_to_string('polls/block_poll_detail.html', ctx))

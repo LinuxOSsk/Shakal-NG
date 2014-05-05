@@ -4,24 +4,31 @@ from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import permalink
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from autoslugfield.fields import AutoSlugField
 
 
-class PollListManager(models.Manager):
+class ActivePollsListManager(models.Manager):
+	def get_query_set(self):
+		return super(ActivePollsListManager, self) \
+			.get_query_set() \
+			.filter(approved=True, active_from__lte=timezone.now()) \
+			.order_by("-active_from")
+
+
+class PollListManager(ActivePollsListManager):
 	def get_query_set(self):
 		return super(PollListManager, self) \
 			.get_query_set() \
-			.filter(approved=True, active_from__lte=timezone.now(), content_type_id=None) \
-			.order_by("-active_from")
+			.filter(content_type_id=None)
 
 
 class Poll(models.Model):
 	all_objects = models.Manager()
 	objects = PollListManager()
+	active_polls = ActivePollsListManager()
 
 	question = models.TextField(_("question"))
 	slug = AutoSlugField(unique=True, title_field='question')
@@ -40,11 +47,11 @@ class Poll(models.Model):
 	def choices(self):
 		return Choice.objects.filter(poll=self.pk).select_related('poll__choice_count').order_by('pk')
 
-	@permalink
+	@models.permalink
 	def get_absolute_url(self):
 		return ('polls:detail-by-slug', None, {'slug': self.slug})
 
-	@permalink
+	@models.permalink
 	def get_list_url(self):
 		return ('polls:list', None, None)
 
