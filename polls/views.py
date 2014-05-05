@@ -61,6 +61,7 @@ class PollCreate(CreateView):
 		poll = self.object
 		choices = [Choice(poll=poll, choice=a['choice']) for a in form.cleaned_data['choices']]
 		Choice.objects.bulk_create(choices)
+		messages.success(self.request, 'Anketa bola vytvorená')
 		return HttpResponseRedirect(reverse('home'))
 
 
