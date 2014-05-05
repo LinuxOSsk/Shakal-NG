@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import F
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from django.template.response import TemplateResponse
 from django.template import RequestContext
+from django.template.response import TemplateResponse
 from django.views.decorators.http import require_POST
-from common_utils.generic import ListView
-from forms import PollForm
-from models import Poll, Choice, check_can_vote, record_vote
+
+from .forms import PollForm
+from .models import Poll, Choice, check_can_vote, record_vote
+from common_utils.generic import ListView, DetailView
 
 
 @require_POST
@@ -73,15 +73,12 @@ def create(request):
 	return TemplateResponse(request, "polls/poll_create.html", RequestContext(request, context))
 
 
-def poll_detail_by_slug(request, slug):
-	poll = get_object_or_404(Poll, slug = slug, content_type = None)
-	context = {
-		'poll': poll
-	}
-	return TemplateResponse(request, "polls/poll_detail.html", RequestContext(request, context))
+class PollDetail(DetailView):
+	queryset = Poll.objects.filter(content_type=None)
+	context_object_name = 'poll'
 
 
 class PollList(ListView):
-	queryset = Poll.objects.all()
+	queryset = Poll.objects.filter(content_type=None)
 	paginate_by = 10
 	context_object_name = 'polls'

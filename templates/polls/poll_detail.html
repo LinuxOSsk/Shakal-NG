@@ -1,16 +1,14 @@
 {% extends "polls/poll_base.html" %}
 
-{% load breadcrumbs_tags threaded_comments_tags %}
-
 {% block breadcrumbs %}
-{% breadcrumb %}{{ poll }}{% endbreadcrumb %}
-{{ block.super }}
+{{ breadcrumb(poll) }}
+{{ super() }}
 {% endblock %}
 
 {% block title %}{{ poll }}{% endblock %}
 
 {% block content %}
-{% add_discussion_attributes poll %}
+{{ add_discussion_attributes(poll) }}
 <h1>{{ poll }}</h1>
 
 <div class="module poll">
@@ -19,4 +17,4 @@
 
 {% endblock %}
 
-{% block discussion %}{% render_threaded_comments_toplevel poll %}{% endblock %}
+{% block discussion %}{{ render_threaded_comments_toplevel(poll) }}{% endblock %}
