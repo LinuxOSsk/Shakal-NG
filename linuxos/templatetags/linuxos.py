@@ -74,7 +74,7 @@ def render_messages(messages, *tags):
 	if tags:
 		search_templates.append('messages/messages_' + '_'.join(tags) + '.html')
 	search_templates.append('messages/messages.html')
-	return render_to_string(search_templates, {'messages': messages})
+	return mark_safe(render_to_string(search_templates, {'messages': messages}))
 
 
 @lib.filter
