@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 from django.db.models import F
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from django.template import RequestContext
-from django.template.response import TemplateResponse
 from django.views.decorators.http import require_POST
 
 from .forms import PollForm
 from .models import Poll, Choice, check_can_vote, record_vote
-from common_utils.generic import ListView, DetailView
+from common_utils.generic import ListView, DetailView, CreateView
 
 
 @require_POST
@@ -54,23 +52,16 @@ def post(request, pk):
 	return HttpResponseRedirect(request.POST['next'])
 
 
-@login_required
-def create(request):
-	if request.method == 'POST':
-		form = PollForm(request.POST)
-		if form.is_valid():
-			poll = form.save(commit = False)
-			poll.save()
-			choices = [Choice(poll = poll, choice = a['choice']) for a in form.cleaned_data['choices']]
-			Choice.objects.bulk_create(choices)
-			return HttpResponseRedirect(poll.get_absolute_url())
-	else:
-		form = PollForm()
+class PollCreate(CreateView):
+	model = Poll
+	form_class = PollForm
 
-	context = {
-		'form': form
-	}
-	return TemplateResponse(request, "polls/poll_create.html", RequestContext(request, context))
+	def form_valid(self, form):
+		super(PollCreate, self).form_valid(form)
+		poll = self.object
+		choices = [Choice(poll=poll, choice=a['choice']) for a in form.cleaned_data['choices']]
+		Choice.objects.bulk_create(choices)
+		return HttpResponseRedirect(reverse('home'))
 
 
 class PollDetail(DetailView):

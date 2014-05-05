@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import patterns, url
-from .views import PollDetail, PollList
+from django.contrib.auth.decorators import login_required
+
+from .views import PollDetail, PollList, PollCreate
 
 
 class Patterns(object):
@@ -14,7 +16,7 @@ class Patterns(object):
 			url(r'^detail/(?P<slug>[-\w]+)/$', PollDetail.as_view(), name="detail-by-slug"),
 			url(r'^(?:(?P<page>\d+)/)?$', PollList.as_view(), name='list'),
 			url(r'^post/(?P<pk>\d+)/$', 'post', name='post'),
-			url(r'^vytvorit/$', 'create', name='create'),
+			url(r'^vytvorit/$', login_required(PollCreate.as_view()), name='create'),
 		)
 		return (pat, self.app_name, self.name)
 

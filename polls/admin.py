@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 
-from polls.forms import PollForm
-from polls.models import Choice, Poll
+from .admin_forms import PollForm
+from .models import Choice, Poll
 
 
 class ChoiceInline(admin.TabularInline):
