@@ -162,7 +162,7 @@ html, body {
 			<div id="colleft">
 				<div id="col1">
 					{% block messages %}
-						{# render_messages(messages) #}
+					{{ render_messages(messages) }}
 					{% endblock %}
 					<div id="site_content">
 						{% block content %}{% endblock %}
