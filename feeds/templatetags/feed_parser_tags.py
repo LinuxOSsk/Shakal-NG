@@ -4,11 +4,15 @@ import datetime
 import feedparser
 from django import template
 from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
+from django_jinja import library
 
 
 register = template.Library()
+lib = library.Library()
 
 
+@lib.global_function
 @register.simple_tag
 def pull_feeds(url, max_count=4):
 	posts = []
@@ -29,4 +33,4 @@ def pull_feeds(url, max_count=4):
 		except IndexError:
 			pass
 	ctx = {'posts': posts}
-	return render_to_string("feeds/pull_feeds.html", ctx)
+	return mark_safe(render_to_string("feeds/pull_feeds.html", ctx))
