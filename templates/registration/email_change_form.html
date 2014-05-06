@@ -12,7 +12,7 @@
 
 <p>{{ _("Enter your new e-mail address below.") }}</p>
 
-<form action="{% url("auth_email_change") %}" method="post">{% csrf_token %}
+<form action="{{ url("auth_email_change") }}" method="post">{% csrf_token %}
 	<fieldset>
 		{% include "includes/form_loop.jinja.html" %}
 		<div class="submit-row">

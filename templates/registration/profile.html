@@ -1,6 +1,6 @@
 {% extends "registration/user_base.html" %}
 
-{% block title %}{{ user_profile }} - {% trans 'User profile' %}{% endblock %}
+{% block title %}{{ user_profile }} - {{ _("User profile") }}{% endblock %}
 {% block breadcrumbs %}
 {{ breadcrumb(firstof(user_profile.get_full_name(), user_profile.username)) }}
 {{ super() }}

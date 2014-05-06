@@ -9,7 +9,7 @@
 
 {% block breadcrumbs %}
 	{{ breadcrumb(_("Edit")) }}
-	{{ breadcrumb(firstof(user.get_full_name(), user.username), url="auth_profile" pk=user.pk) }}
+	{{ breadcrumb(firstof(user.get_full_name(), user.username), url="auth_profile", pk=user.pk) }}
 	{{ super() }}
 {% endblock %}
 
