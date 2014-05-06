@@ -1,16 +1,19 @@
-{% extends "registration/user_base.html" %}{% load i18n breadcrumbs_tags %}
+{% extends "registration/user_base.html" %}
 
-{% block title %}{% trans "Registration" %}{% endblock %}
-{% block breadcrumbs %}{% breadcrumb %}{% trans 'Registration' %}{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block title %}{{ _("Registration") }}{% endblock %}
+{% block breadcrumbs %}
+{{ breadcrumb(_("Registration")) }}
+{{ super() }}
+{% endblock %}
 
 {% block content %}
-<h1>{% trans "Sign up" %}</h1>
-<form action="{% url 'registration_register' %}" method="post" id="registration-form">{% csrf_token %}
+<h1>{{ _("Sign up") }}</h1>
+<form action="{{ url("registration_register") }}" method="post" id="registration-form">{% csrf_token %}
 	<fieldset>
-		{% include 'includes/form_loop.html' with form=form %}
+		{% include "includes/form_loop.jinja.html" %}
 		<div class="submit-row">
 			<div class="positive">
-				<button class="btn" type="submit" title="{% trans "Create account" %}"><span>{% trans "Create account" %}</span></button>
+				<button class="btn" type="submit" title="{{ _("Create account") }}"><span>{{ _("Create account") }}</span></button>
 			</div>
 		</div>
 	</fieldset>

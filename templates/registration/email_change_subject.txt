@@ -1,1 +1,1 @@
-{% load i18n %}{{ site.name }} - {% trans "Change your e-mail" %}
+{{ site.name }} - {{ _("Change your e-mail") }}

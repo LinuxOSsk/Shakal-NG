@@ -1,9 +1,6 @@
-{% extends "base.html" %}
-
-{% load breadcrumbs_tags %}
-{% load i18n %}
+{% extends "base.jinja.html" %}
 
 {% block breadcrumbs %}
-{% breadcrumb url='auth_user_zone' %}{% trans "User zone" %}{% endbreadcrumb %}
-{{ block.super }}
+{{ breadcrumb(_("User zone"), url="auth_user_zone") }}
+{{ super() }}
 {% endblock %}

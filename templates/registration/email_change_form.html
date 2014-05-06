@@ -1,20 +1,23 @@
-{% extends "registration/user_base.html" %}{% load i18n breadcrumbs_tags %}
+{% extends "registration/user_base.html" %}
 
-{% block title %}{% trans "E-mail change" %}{% endblock %}
-{% block breadcrumbs %}{% breadcrumb %}{% trans 'E-mail change' %}{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block title %}{{ _("E-mail change") }}{% endblock %}
+{% block breadcrumbs %}
+{{ breadcrumb(_("E-mail change")) }}
+{{ super() }}
+{% endblock %}
 
 {% block content %}
 
-<h1>{% trans "E-mail change" %}</h1>
+<h1>{{ _("E-mail change") }}</h1>
 
-<p>{% trans "Enter your new e-mail address below." %}</p>
+<p>{{ _("Enter your new e-mail address below.") }}</p>
 
-<form action="{% url 'auth_email_change' %}" method="post">{% csrf_token %}
+<form action="{% url("auth_email_change") %}" method="post">{% csrf_token %}
 	<fieldset>
-		{% include "includes/form_loop.html" %}
+		{% include "includes/form_loop.jinja.html" %}
 		<div class="submit-row">
 			<div class="positive">
-				<button class="btn" type="submit" title="Hľadať"><span>{% trans 'Change my e-mail' %}</span></button>
+				<button class="btn" type="submit" title="Hľadať"><span>{{ _("Change my e-mail") }}</span></button>
 			</div>
 		</div>
 	</fieldset>

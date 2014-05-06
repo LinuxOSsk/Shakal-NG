@@ -1,10 +1,10 @@
-{% load i18n linuxos %}{% autoescape off %}{% trans "Your activation key" %}: {{ activation_key }}
+{% autoescape false %}{{ _("Your activation key") }}: {{ activation_key }}
 
-{% trans "Please use this link to activate your account" %}:
+{{ _("Please use this link to activate your account") }}:
 
-{% get_base_uri %}{% url 'registration_activate' activation_key %}
+{{ get_base_uri() }}{{ url("registration_activate", activation_key) }}
 
-{% trans "After activation you can login to the site" %}:
+{{ _("After activation you can login to the site") }}:
 
-{% get_base_uri %}{% url 'auth_login' %}
+{{ get_base_uri() }}{{ url("auth_login" ^}
 {% endautoescape %}

@@ -1,25 +1,28 @@
-{% extends "registration/user_base.html" %}{% load i18n breadcrumbs_tags %}
+{% extends "registration/user_base.html" %}
 
 {% block extraheaders %}
 <meta name="robots" content="noindex, nofollow" />
 {{ form.media }}
 {% endblock %}
 
-{% block title %}{% trans "Log in" %}{% endblock %}
-{% block breadcrumbs %}{% breadcrumb %}{% trans "Log in" %}{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block title %}{{ _("Log in") }}{% endblock %}
+{% block breadcrumbs %}
+{{ breadcrumb(_("Log in")) }}
+{{ super() }}
+{% endblock %}
 
 {% block content %}
 {% if error_message %}
 <p class="message error">{{ error_message }}</p>
 {% endif %}
 
-<form action="{% url 'auth_login' %}" method="post" id="login-form">{% csrf_token %}
+<form action="{{ url("auth_login") }}" method="post" id="login-form">{% csrf_token %}
 	<fieldset class="login">
-		<h2>{% trans "Log in to" %} {{ site.name }}</h2>
-		{% include 'includes/form_loop.html' with form=form %}
+		<h2>{{ _("Log in to") }} {{ site.name }}</h2>
+		{% include "includes/form_loop.jinja.html" %}
 		<div class="submit-row">
 			<div class="positive">
-				<button class="btn" type="submit" title="{% trans "Log in" %}"><span>{% trans "Log in" %}</span></button>
+				<button class="btn" type="submit" title="{{ _("Log in") }}"><span>{{ _("Log in") }}</span></button>
 			</div>
 		</div>
 		<input type="hidden" name="next" value="{{ next }}" />

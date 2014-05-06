@@ -1,8 +1,11 @@
-{% extends "registration/user_base.html" %}{% load i18n breadcrumbs_tags %}
+{% extends "registration/user_base.html" %}
 
 {% block title %}{% trans "Activation" %}{% endblock %}
-{% block breadcrumbs %}{% breadcrumb %}{% trans "Activation" %}{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block breadcrumbs %}
+{{ breadcrumb(_("Activation")) }}
+{{ super() }}
+{% endblock %}
 
 {% block content %}
-{% blocktrans %}Activation with key {{ activation_key }} failed.{% endblocktrans %}
+{% trans %}Activation with key {{ activation_key }} failed.{% endtrans %}
 {% endblock %}

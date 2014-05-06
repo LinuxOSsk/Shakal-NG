@@ -1,9 +1,12 @@
-{% extends "registration/user_base.html" %}{% load i18n breadcrumbs_tags %}
+{% extends "registration/user_base.html" %}
 
-{% block title %}{% trans "Logged out" %}{% endblock %}
-{% block breadcrumbs %}{% breadcrumb %}{% trans "Logged out" %}{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block title %}{{ _("Logged out") }}{% endblock %}
+{% block breadcrumbs %}
+{{ breadcrumb(_("Logged out")) }}
+{{ super() }}
+{% endblock %}
 
 {% block content %}
-<h1>{% trans "Logged out" %}</h1>
-<p>{% trans "Thanks for spending some quality time with the Web site today." %}</p>
+<h1>{{ _("Logged out") }}</h1>
+<p>{{ _("Thanks for spending some quality time with the Web site today.") }}</p>
 {% endblock %}

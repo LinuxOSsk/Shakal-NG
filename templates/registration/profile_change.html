@@ -1,6 +1,6 @@
-{% extends "registration/user_base.html" %}{% load i18n breadcrumbs_tags %}
+{% extends "registration/user_base.html" %}
 
-{% block title %}{% trans 'Edit user profile' %}{% endblock %}
+{% block title %}{{ _("Edit user profile") }}{% endblock %}
 
 {% block extraheaders %}
 <meta name="robots" content="noindex, nofollow" />
@@ -8,27 +8,27 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-	{% breadcrumb %}{% trans 'Edit' %}{% endbreadcrumb %}
-	{% breadcrumb url="auth_profile" pk=user.pk %}{% firstof user.get_full_name user.username %}{% endbreadcrumb %}
-	{{ block.super }}
+	{{ breadcrumb(_("Edit")) }}
+	{{ breadcrumb(firstof(user.get_full_name(), user.username), url="auth_profile" pk=user.pk) }}
+	{{ super() }}
 {% endblock %}
 
 {% block content %}
 <ul class="object-tools btn-group">
-	<li class="btn"><span><a href="{% url 'auth_email_change' %}">{% trans 'Change e-mail' %}</a></span></li>
-	<li class="btn"><span><a href="{% url 'password_change' %}">{% trans 'Change password' %}</a></span></li>
+	<li class="btn"><span><a href="{{ url("auth_email_change") }}">{{ _("Change e-mail") }}</a></span></li>
+	<li class="btn"><span><a href="{{ url("password_change") }}">{{ _("Change password") }}</a></span></li>
 </ul>
-<h1>{% trans 'Edit user profile' %}</h1>
+<h1>{{ _("Edit user profile") }}</h1>
 
-<form action="{% url 'auth_my_profile_edit' %}" method="post" id="edit-user-profile-form">{% csrf_token %}
+<form action="{{ url("auth_my_profile_edit") }}" method="post" id="edit-user-profile-form">{% csrf_token %}
 	<fieldset>
-		{% include 'includes/form_loop.html' with form=form %}
+		{% include "includes/form_loop.jinja.html" %}
 		<div class="submit-row">
 			<div class="negative">
-				<div class="btn"><span><a href="{% url 'auth_my_profile' %}">{% trans "Back to profile" %}</a></span></div>
+				<div class="btn"><span><a href="{{ url("auth_my_profile") }}">{{ _("Back to profile") }}</a></span></div>
 			</div>
 			<div class="positive">
-				<button class="btn" type="submit" title="{% trans "Save" %}"><span>{% trans "Save" %}</span></button>
+				<button class="btn" type="submit" title="{{ _("Save") }}"><span>{{ _("Save") }}</span></button>
 			</div>
 		</div>
 	</fieldset>

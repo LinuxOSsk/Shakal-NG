@@ -1,15 +1,15 @@
 {% extends "registration/user_base.html" %}
 
-{% load breadcrumbs_tags %}
-{% load i18n %}
-
-{% block title %}{% trans 'E-mail change successful' %}{% endblock %}
-{% block breadcrumbs %}{% breadcrumb %}{% trans 'E-mail change successful' %}{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block title %}{{ _("E-mail change successful") }}{% endblock %}
+{% block breadcrumbs %}
+{{ breadcrumb("E-mail change successful") }}
+{{ super() }}
+{% endblock %}
 
 {% block content %}
 
-<h1>{% trans 'E-mail change request sent' %}</h1>
+<h1>{{ _("E-mail change request sent") }}</h1>
 
-<p>{% trans "We've e-mailed you instructions for setting your new e-mail address. You should be receiving it shortly." %}</p>
+<p>{{ _("We've e-mailed you instructions for setting your new e-mail address. You should be receiving it shortly.") }}</p>
 
 {% endblock %}

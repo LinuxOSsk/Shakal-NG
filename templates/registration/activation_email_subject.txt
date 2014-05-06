@@ -1,1 +1,1 @@
-{% load i18n %}{{ site.name }} - {% trans "Activate your account" %}
+{{ site.name }} - {{ _("Activate your account") }}

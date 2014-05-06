@@ -1,9 +1,12 @@
-{% extends "registration/user_base.html" %}{% load i18n breadcrumbs_tags %}
+{% extends "registration/user_base.html" %}
 
-{% block title %}{% trans "Registration closed" %}{% endblock %}
-{% block breadcrumbs %}{% breadcrumb %}{% trans 'Registration closed' %}{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block title %}{{ _("Registration closed") }}{% endblock %}
+{% block breadcrumbs %}
+{{ breadcrumb(_("Registration closed")) }}
+{{ super() }}
+{% endblock %}
 
 {% block content %}
-	<h1>{% trans "Registration is Closed" %}</h1>
-	<p>{% trans "Sorry, we're not accepting new user registrations at the moment." %}</p>
+	<h1>{{ _("Registration is Closed") }}</h1>
+	<p>{{ _("Sorry, we're not accepting new user registrations at the moment.") }}</p>
 {% endblock %}

@@ -1,23 +1,26 @@
-{% extends "registration/user_base.html" %}{% load i18n breadcrumbs_tags %}
+{% extends "registration/user_base.html" %}
 
-{% block title %}{% trans 'E-mail change complete' %}{% endblock %}
-{% block breadcrumbs %}{% breadcrumb %}{% trans 'E-mail change complete' %}{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block title %}{{ _("E-mail change complete") }}{% endblock %}
+{% block breadcrumbs %}
+{{ breadcrumb(_("E-mail change complete"))
+{{ super() }}
+{% endblock %}
 
 {% block content %}
 
 {% if validlink %}
 
-<h1>{% trans 'E-mail change complete' %}</h1>
+<h1>{{ _("E-mail change complete") }}</h1>
 
-<p>{% trans "Your e-mail has been changed." %}</p>
+<p>{{ _("Your e-mail has been changed.") }}</p>
 
-<p><a href="{{ request.user.get_absolute_url }}">{% trans "Back to my profile" %}</a></p>
+<p><a href="{{ request.user.get_absolute_url() }}">{{ _("Back to my profile") }}</a></p>
 
 {% else %}
 
-<h1>{% trans 'E-mail change unsuccessful' %}</h1>
+<h1>{{ _("E-mail change unsuccessful") }}</h1>
 
-<p>{% trans "The e-mail change link was invalid." %} {{ error_message }}</p>
+<p>{{ _("The e-mail change link was invalid.") }} {{ error_message }}</p>
 
 {% endif %}
 

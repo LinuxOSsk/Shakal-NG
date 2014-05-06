@@ -1,21 +1,24 @@
-{% extends "registration/user_base.html" %}{% load i18n breadcrumbs_tags threaded_comments_tags %}{% load avatar %}
+{% extends "registration/user_base.html" %}
 
 {% block title %}{{ user_profile }} - {% trans 'User profile' %}{% endblock %}
-{% block breadcrumbs %}{% breadcrumb %}{% firstof user_profile.get_full_name user_profile.username %}{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block breadcrumbs %}
+{{ breadcrumb(firstof(user_profile.get_full_name(), user_profile.username)) }}
+{{ super() }}
+{% endblock %}
 
 {% block content %}
 
 {% if is_my_profile %}
 <ul class="object-tools">
-	<li class="btn"><span><a href="{% url 'auth_my_profile_edit' %}">{% trans 'Edit my profile' %}</a></span></li>
+	<li class="btn"><span><a href="{{ url("auth_my_profile_edit") }}">{{ _("Edit my profile") }}</a></span></li>
 </ul>
 {% endif %}
-<h1>{{ user_profile }} - {% trans 'User profile' %}</h1>
+<h1>{{ user_profile }} - {{ _("User profile") }}</h1>
 
 <div class="vcard">
 
 <div class="avatar-profile">
-	<img src="{% avatar_for_user user_profile 128 %}" class="photo gravatar" alt="Avatar" />
+	<img src="{{ avatar_for_user(user_profile, 128) }}" class="photo gravatar" alt="Avatar" />
 </div>
 <dl class="profile">
 	{% for user_property in user_table %}
@@ -33,11 +36,11 @@
 
 {% if user_profile.blog %}
 	<h2>Blog - {{ user_profile.blog }}</h2>
-	{% with posts=user_profile.blog.post_set.all|slice:"10" %}
-		{% add_discussion_attributes posts %}
+	{% with posts=user_profile.blog.post_set.all|slice("10") %}
+		{{ add_discussion_attributes(posts) }}
 		<ul>
 			{% for post in posts %}
-			<li><a href="{{ post.get_absolute_url }}">{{ post }}</a><span class="comments info"> | {% get_comments_for_item post %}</span></li>
+			<li><a href="{{ post.get_absolute_url() }}">{{ post }}</a><span class="comments info"> | {{ get_comments_for_item(post) }}</span></li>
 			{% endfor %}
 		</ul>
 	{% endwith %}
