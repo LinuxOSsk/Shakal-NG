@@ -2,6 +2,7 @@
 import os
 
 from django import template
+from django.core.exceptions import ObjectDoesNotExist
 from django_tools.middlewares.ThreadLocal import get_current_request
 
 
@@ -79,3 +80,27 @@ def monkey_patch_safestring():
 
 
 monkey_patch_safestring()
+
+
+def monkey_patch_jinja2_getattr():
+	from jinja2.environment import Environment
+
+	def env_getattr(self, obj, attribute):
+		try:
+			return Environment.old_getattr(self, obj, attribute)
+		except ObjectDoesNotExist as exc:
+			return self.undefined(obj=obj, name=attribute, hint=unicode(exc))
+
+	def env_getitem(self, obj, attribute):
+		try:
+			return Environment.old_getitem(self, obj, attribute)
+		except ObjectDoesNotExist as exc:
+			return self.undefined(obj=obj, name=attribute, hint=unicode(exc))
+
+	Environment.old_getattr = Environment.getattr
+	Environment.old_getitem = Environment.getitem
+	Environment.getattr = env_getattr
+	Environment.getitem = env_getitem
+
+
+monkey_patch_jinja2_getattr()
