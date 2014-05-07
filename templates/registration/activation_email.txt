@@ -6,5 +6,5 @@
 
 {{ _("After activation you can login to the site") }}:
 
-{{ get_base_uri() }}{{ url("auth_login" ^}
+{{ get_base_uri() }}{{ url("auth_login") }}
 {% endautoescape %}
