@@ -9,10 +9,12 @@ from django_jinja import library
 register = template.Library()
 lib = library.Library()
 
-pattern = re.compile("&(\w+?);")
-dec_pattern = re.compile("&\\#(\d+?);")
+pattern = re.compile(r'&(\w+?);')
+dec_pattern = re.compile(r'&\#(\d+?);')
 
-def html_entity_decode_char(m, defs=htmlentitydefs.entitydefs):
+
+def html_entity_decode_char(m, defs=None):
+	defs = defs or htmlentitydefs.entitydefs
 	try:
 		return defs[m.group(1)]
 	except KeyError:
@@ -21,8 +23,9 @@ def html_entity_decode_char(m, defs=htmlentitydefs.entitydefs):
 def xml_entity_decode_char(m):
 	try:
 		return unichr(int(m.group(1)))
-	except:
+	except (UnicodeError, ValueError):
 		return m
+
 
 @lib.filter
 @register.filter
