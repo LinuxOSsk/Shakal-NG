@@ -1,21 +1,16 @@
-{% extends 'base.html' %}
-
-{% load linuxos %}
-{% load highlight %}
-{% load paginator_tags %}
-{% load breadcrumbs_tags %}
+{% extends 'base.jinja.html' %}
 
 {% block breadcrumbs %}
-{% breadcrumb url='haystack_search' %}Vyhľadávanie{% endbreadcrumb %}
-{{ block.super }}
+{{ breadcrumb("Vyhľadávania", url="haystack_search") }}
+{{ super() }}
 {% endblock %}
 
 {% block content %}
 <h1>Výsledky vyhľadávania</h1>
 
-<form method="get" action="{% url 'haystack_search' %}" class="search">
+<form method="get" action="{{ url("haystack_search") }}" class="search">
 	<fieldset>
-		{% include 'includes/form_loop.html' with form=form %}
+		{% include "includes/form_loop.jinja.html" %}
 		<div class="submit-row">
 			<div class="positive">
 				<button class="btn" type="submit" title="Hľadať"><span>Hľadať</span></button>
@@ -25,25 +20,27 @@
 </form>
 
 {% if query %}
-{% autopaginate results pagenum items_per_page=20 %}
 {% for result in results %}
 	<div class="module-row">
-		<h3><a href="{{ result.object.get_absolute_url }}">{% highlight result.title with query max_length 0 %}</a></h3>
-		{% include "widgets/content_type_label.html" with content_type=result.content_type %}
-		{% with result.text|add:"<xapian>"|add:result.highlighted.text as result_text %}
-			{% highlight result_text with query max_length 300 %}
+		<h3><a href="{{ result.object.get_absolute_url() }}">{# highlight result.title with query max_length 0 #}res</a></h3>
+		{% with content_type=result.content_type %}
+			{# include "widgets/content_type_label.html" #}
 		{% endwith %}
+		{# with result.text|add:"<xapian>"|add:result.highlighted.text as result_text #}
+			{# highlight result_text with query max_length 300 #}
+		{# endwith #}
+		text
 		<div class="info">
 		{% if result.author %}Autor: {{ result.author }}&nbsp;|&nbsp;{% endif %}
-		{% if result.created %}Vytvorené: {{ result.created|date:"d.m.Y H:i" }}&nbsp;|&nbsp;{% endif %}
+		{% if result.created %}Vytvorené: {{ result.created|date("d.m.Y H:i") }}&nbsp;|&nbsp;{% endif %}
 		Skóre: {{ result.score }}&nbsp;|&nbsp;
-		<a href="{{ result.object.get_absolute_url }}">Čítať</a>
+		<a href="{{ result.object.get_absolute_url() }}">Čítať</a>
 		</div>
 	</div>
-{% empty %}
+{% else %}
 	<p>Žiadne výsledky neboli nájdené.</p>
 {% endfor %}
-{% paginator haystack_search %}
+{# pagination() #}
 
 {% endif %}
 
