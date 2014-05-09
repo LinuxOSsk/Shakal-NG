@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
+import re
 
 import htmlentitydefs
-import re
 from django import template
+from django_jinja import library
+
 
 register = template.Library()
+lib = library.Library()
 
 pattern = re.compile("&(\w+?);")
 dec_pattern = re.compile("&\\#(\d+?);")
@@ -21,6 +24,7 @@ def xml_entity_decode_char(m):
 	except:
 		return m
 
+@lib.filter
 @register.filter
 def html_entity_decode(string):
 	return dec_pattern.sub(xml_entity_decode_char, pattern.sub(html_entity_decode_char, string))
