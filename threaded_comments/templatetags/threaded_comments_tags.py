@@ -98,6 +98,8 @@ class DiscussionLoader:
 		return query_set
 
 
+@lib.global_function
+@contextfunction
 @register.assignment_tag(takes_context=True)
 def get_threaded_comments_list(context, target):
 	loader = DiscussionLoader()
