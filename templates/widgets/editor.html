@@ -1,4 +1,3 @@
-{% load staticfiles %}
 {% if formats %}
 	<div class="formatwrapper">
 		{% for format in formats %}
@@ -47,9 +46,9 @@ var onLoad = function() {};
 			lang: '{{ lang }}',
 			{% if tags %}tags: {{ tags|safe }},{% endif %}
 			{% if force_editor %}force_editor: '{{ force_editor }}',{% endif %}
-			iframe_preview: '{% static 'js/wymeditor/iframe/default/wymiframe.html' %}',
-			script_wymeditor: '{% static 'js/wymeditor/jquery.wymeditor.min.js' %}',
-			static_base: '{%static '' %}',
+			iframe_preview: '{{ static("js/wymeditor/iframe/default/wymiframe.html") }}',
+			script_wymeditor: '{{ static("js/wymeditor/jquery.wymeditor.min.js") }}',
+			static_base: '{{ static("") }}',
 			skin: '{{ skin }}',
 			onLoad: onLoad
 		}
