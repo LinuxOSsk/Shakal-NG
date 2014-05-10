@@ -22,6 +22,8 @@ class AutoSlugField(SlugField):
 			else:
 				return
 
+		if not slug:
+			slug = '-'
 		slug_field = instance._meta.get_field(self.name)
 		slug_length = slug_field.max_length
 		slug = slug[:slug_length - self.reserve_chars]
