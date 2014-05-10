@@ -5,6 +5,8 @@
 {{ super() }}
 {% endblock %}
 
+{% block title %}Vyhľadávanie{% endblock %}
+
 {% block content %}
 <h1>Výsledky vyhľadávania</h1>
 
@@ -22,13 +24,11 @@
 {% if query %}
 {% for result in results %}
 	<div class="module-row">
-		<h3><a href="{{ result.object.get_absolute_url() }}">{# highlight result.title with query max_length 0 #}res</a></h3>
+		<h3><a href="{{ result.object.get_absolute_url() }}">{{ highlight(result.title, query, max_length=0) }}</a></h3>
 		{% with content_type=result.content_type %}
 			{# include "widgets/content_type_label.html" #}
 		{% endwith %}
-		{# with result.text|add:"<xapian>"|add:result.highlighted.text as result_text #}
-			{# highlight result_text with query max_length 300 #}
-		{# endwith #}
+		{{ highlight(result.text+"<xapian>"+result.highlighted.text, query, max_length=300) }}
 		text
 		<div class="info">
 		{% if result.author %}Autor: {{ result.author }}&nbsp;|&nbsp;{% endif %}
