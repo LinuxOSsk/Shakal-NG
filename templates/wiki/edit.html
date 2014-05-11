@@ -1,20 +1,13 @@
-{% extends 'wiki/edit_base.html' %}
-
-{% load breadcrumbs_tags %}
+{% extends "wiki/edit_base.html" %}
 
 {% block title %}Editovať stránku{% endblock %}
 
 {% block breadcrumbs %}
-	{% breadcrumb %}Editovať{% endbreadcrumb %}
-	{% breadcrumb url='wiki:page' page.slug %}{{ page }}{% endbreadcrumb %}
-	{% breadcrumb url='wiki:home' %}Wiki{% endbreadcrumb %}
-	{{ block.super }}
+	{{ breadcrumb("Editovať") }}
+	{{ breadcrumb(page, absolute_url=page.get_absolute_url()) }}
+	{{ breadcrumb("Wiki", url="wiki:home") }}
+	{{ super() }}
 {% endblock %}
 
-{% block content %}
-{% with slug=page.slug %}
-{% with form_url='wiki:edit' %}
-{{ block.super }}
-{% endwith %}
-{% endwith %}
-{% endblock %}
+{% block form_url %}{{ url("wiki:edit", slug=page.slug) }}{% endblock %}
+{% block submit_btn %}<button class="btn" type="submit" title="Uložiť" name="update" value="1"><span>Uložiť</span></button>{% endblock %}

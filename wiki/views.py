@@ -9,10 +9,12 @@ from django.utils.decorators import method_decorator
 from models import Page
 from forms import WikiEditForm
 from common_utils.generic import PreviewCreateView, PreviewUpdateView
+from paginator.utils import paginate_queryset
 import reversion
 
 
-def show_page(request, slug = None, page = 1, history = None):
+def show_page(request, slug = None, page = None, history = None):
+#items_per_page=50
 	if slug is None:
 		wiki_page = get_object_or_404(Page, parent = None, page_type = 'h')
 	else:
@@ -26,6 +28,7 @@ def show_page(request, slug = None, page = 1, history = None):
 	revision = None
 	if history:
 		revision = get_object_or_404(reversion.get_for_object(wiki_page).select_related('revision', 'revision__user'), pk = history)
+	history_data = reversion.get_for_object(wiki_page).select_related('revision', 'revision__user')
 
 	template = "wiki/page.html"
 	if wiki_page.page_type == 'h':
@@ -37,15 +40,20 @@ def show_page(request, slug = None, page = 1, history = None):
 			children = wiki_page.get_children().filter(page_type = 'h')[:]
 			for child in children:
 				child.pages = child.get_descendants().order_by('-updated')
+		paginator, page, children, is_paginated = paginate_queryset(children, page or 1, 50)
 	else:
 		children = wiki_page.get_children()
+		paginator, page, history_data, is_paginated = paginate_queryset(history_data, page or 1, 20)
 
 	context = {
 		'page': wiki_page,
 		'children': children,
+		'paginator': paginator,
+		'page_obj': page,
+		'is_paginated': is_paginated,
 		'pagenum': page,
 		'tree': wiki_page.get_ancestors(),
-		'history': reversion.get_for_object(wiki_page).select_related('revision', 'revision__user'),
+		'history': history_data,
 		'revision': revision
 	}
 

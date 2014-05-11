@@ -1,4 +1,4 @@
-{% extends 'wiki/wiki_base.html' %}
+{% extends "wiki/wiki_base.html" %}
 
 {% block extraheaders %}
 <meta name="robots" content="noindex, nofollow" />
@@ -14,19 +14,14 @@
 	</div>
 {% endif %}
 
-<form action="{% url form_url slug=slug %}" method="post" id="wiki-form">{% csrf_token %}
+<form action="{% block form_url %}{% endblock %}" method="post" id="wiki-form">{% csrf_token %}
 	<fieldset>
-		{% include 'includes/form_loop.html' with form=form %}
+		{% include "includes/form_loop.jinja.html" %}
 		<div class="submit-row">
 			<div class="positive">
 				<button class="btn" type="submit" title="Náhľad"><span>Náhľad</span></button>
 				{% if valid %}
-				{% ifequal form_url 'wiki:create' %}
-				<button class="btn" type="submit" title="Vytvoriť" name="create" value="1"><span>Vytvoriť</span></button>
-				{% endifequal %}
-				{% ifequal form_url 'wiki:edit' %}
-				<button class="btn" type="submit" title="Uložiť" name="update" value="1"><span>Uložiť</span></button>
-				{% endifequal %}
+					{% block submit_btn %}{% endblock %}
 				{% endif %}
 			</div>
 		</div>

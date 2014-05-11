@@ -1,21 +1,18 @@
-{% extends 'wiki/wiki_base.html' %}
-
-{% load breadcrumbs_tags %}
-{% load paginator_tags %}
+{% extends "wiki/wiki_base.html" %}
 
 {% block breadcrumbs %}
-	{% breadcrumb url='wiki:page' page.slug %}{{ page }}{% endbreadcrumb %}
-	{% breadcrumb url='wiki:home' %}Wiki{% endbreadcrumb %}
-	{{ block.super }}
+	{{ breadcrumb(page, absolute_url=page.get_absolute_url()) }}
+	{{ breadcrumb("Wiki", url="wiki:home") }}
+	{{ super() }}
 {% endblock %}
 
 {% block content %}
 
-{% if user.is_authenticated %}
+{% if user.is_authenticated() %}
 <ul class="object-tools btn-group">
-	<li class="btn"><span><a href="{% url 'wiki:create' page.slug %}">Pridať stránku</a></span></li>
+	<li class="btn"><span><a href="{{ url("wiki:create", page.slug) }}">Pridať stránku</a></span></li>
 {% if user.is_staff and perms.article.can_change %}
-	<li class="btn"><span><a href="{% url 'wiki:edit' page.slug %}">Editovať</a></span></li>
+	<li class="btn"><span><a href="{{ url("wiki:edit", page.slug) }}">Editovať</a></span></li>
 {% endif %}
 </ul>
 {% endif %}
@@ -24,11 +21,12 @@
 {{ page.text|safe }}
 
 <div class="module">
-	{% autopaginate children pagenum items_per_page=50 %}
 	<div class="module-row">
-		{% include 'wiki/pages_table.html' with pages=children %}
+		{% with pages=children %}
+			{% include "wiki/pages_table.html" %}
+		{% endwith %}
 	</div>
-	{% paginator wiki:page-page slug=page.slug %}
+	{{ pagination() }}
 </div>
 
 {% endblock %}

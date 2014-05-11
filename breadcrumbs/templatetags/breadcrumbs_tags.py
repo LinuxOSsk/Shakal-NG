@@ -76,6 +76,7 @@ def breadcrumb(context, contents, *args, **kwargs):
 	context['breadcrumbs'].append(breadcrumb_context)
 	return ''
 
+
 @lib.global_function
 def render_breadcrumbs(breadcrumbs):
 	breadcrumbs.reverse()

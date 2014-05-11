@@ -17,8 +17,7 @@ class Patterns(object):
 			url(r'(?P<slug>[-\w]+)/edit/$', wiki_views.PageUpdateView.as_view(), {'create': False}, name = 'edit'),
 			url(r'(?P<slug>[-\w]+)/history/(?P<history>\d+)/$', wiki_views.show_page, name = 'page-history'),
 			url(r'(?P<slug>[-\w]+)/history/(?P<history>\d+)/(?P<page>\d+)/$', wiki_views.show_page, name = 'page-history-page'),
-			url(r'(?P<slug>[-\w]+)/(?P<page>\d+)/$', wiki_views.show_page, name = 'page-page'),
-			url(r'(?P<slug>[-\w]+)/$', wiki_views.show_page, name = 'page'),
+			url(r'(?P<slug>[-\w]+)/(?:(?P<page>\d+)/)?$', wiki_views.show_page, name = 'page'),
 		)
 		return (urlpatterns, self.app_name, self.name)
 
