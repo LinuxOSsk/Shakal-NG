@@ -2,6 +2,7 @@
 from django import template
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
 from django_jinja import library
 from jinja2 import contextfunction
 
@@ -81,7 +82,7 @@ def breadcrumb(context, contents, *args, **kwargs):
 def render_breadcrumbs(breadcrumbs):
 	breadcrumbs.reverse()
 	ctx = {'breadcrumbs': breadcrumbs}
-	return render_to_string('breadcrumbs/breadcrumbs.html', ctx)
+	return mark_safe(render_to_string('breadcrumbs/breadcrumbs.html', ctx))
 
 
 @register.inclusion_tag('breadcrumbs/breadcrumbs.html', takes_context=True)
