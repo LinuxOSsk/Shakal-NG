@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django_jinja import library
 from jinja2 import contextfunction
+from mptt.templatetags import mptt_tags
 
 from common_utils import iterify
 from threaded_comments.models import Comment, RootHeader, UserDiscussionAttribute
@@ -164,9 +165,7 @@ def add_discussion_attributes(context, model):
 @lib.global_function
 @register.simple_tag
 def get_comments_for_item(item, display_last=False):
-	return mark_safe(render_to_string("comments/comment_count.jinja.html", {'item': item, display_last: 'display_last'}))
+	return mark_safe(render_to_string("comments/comment_count.html", {'item': item, display_last: 'display_last'}))
 
 
-@register.simple_tag
-def comment_form_target():
-	return reverse("comments-post-comment")
+lib.filter(mptt_tags.tree_info)

@@ -1,13 +1,10 @@
-{% extends "base.html" %}
-
-{% load breadcrumbs_tags %}
-{% load threaded_comments_tags %}
+{% extends "base.jinja.html" %}
 
 {% block breadcrumbs %}
-{% breadcrumb %}Diskusia{% endbreadcrumb %}
-{% breadcrumb absolute_url=object.get_absolute_url %}{{ object }}{% endbreadcrumb %}
-{% breadcrumb absolute_url=module_url %}{{ module_name }}{% endbreadcrumb %}
-{{ block.super }}
+{{ breadcrumb("Diskusia") }}
+{{ breadcrumb(object, absolute_url=object.get_absolute_url) }}
+{{ breadcrumb(module_name, absolute_url=module_url) }}
+{{ super() }}
 {% endblock %}
 
 {% block extraheaders %}
@@ -17,7 +14,7 @@
 
 {% block content %}
 	<h1>Obsah diskusie</h1>
-	Diskusia k: <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+	Diskusia k: <a href="{{ object.get_absolute_url() }}">{{ object }}</a>
 {% endblock %}
 
 {% block discussion %}
@@ -25,11 +22,11 @@
 		<div class="comments_tree secondary_content">
 			<ul class="comment_thread thread_1">
 				<li class="comment">
-					{% include "comments/comment_item.jinja.html" %}
+					{% include "comments/comment_item.html" %}
 				</li>
 			</ul>
 		</div>
 	{% else %}
-		{% render_threaded_comments_toplevel object %}
+		{{ render_threaded_comments_toplevel(object) }}
 	{% endif %}
 {% endblock %}

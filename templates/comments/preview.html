@@ -1,10 +1,10 @@
-{% extends "base.html" %}{% load breadcrumbs_tags %}
+{% extends "base.jinja.html" %}
 
 {% block breadcrumbs %}
-{% breadcrumb %}Diskusia{% endbreadcrumb %}
-{% breadcrumb absolute_url=content_object.get_absolute_url %}{{ content_object|truncatechars:"50" }}{% endbreadcrumb %}
-{% breadcrumb absolute_url=module_url %}{{ module_name }}{% endbreadcrumb %}
-{{ block.super }}
+{{ breadcrumb("Diskusia") }}
+{{ breadcrumb(content_object|truncatechars(50), absolute_url=content_object.get_absolute_url) }}
+{{ breadcrumb(module_name, absolute_url=module_url) }}
+{{ super() }}
 {% endblock %}
 
 {% block title %}Pridať komentár{% endblock %}
@@ -20,8 +20,8 @@
 {% if parent %}
 <h2>Príspevok, na ktorý odpovedáte</h2>
 <div class="module preview">
-	{% with comment=parent %}
-	<div class="clearpadding">{% include "comments/comment_item.html" with readonly=1 %}</div>
+	{% with comment=parent, readonly=1 %}
+		<div class="clearpadding">{% include "comments/comment_item.html" %}</div>
 	{% endwith %}
 </div>
 {% endif %}

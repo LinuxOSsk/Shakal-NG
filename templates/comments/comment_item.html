@@ -2,7 +2,7 @@
 	{% set comment_type="entry" %}
 	{% set user=comment.user %}
 	{% set user_name=comment.user_name %}
-	{% include "comments/comment_header.jinja.html" %}
+	{% include "comments/comment_header.html" %}
 {% endwith %}
 
 {% set is_authenticated=user.is_authenticated %}

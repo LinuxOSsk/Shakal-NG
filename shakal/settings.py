@@ -345,7 +345,7 @@ SUIT_CONFIG = {
 
 CONN_MAX_AGE = 300
 
-DEFAULT_JINJA2_TEMPLATE_INTERCEPT_RE = r"^(.*/home.html|article/.*.html|blog/.*.html|feeds/.*.html|forum/.*.html|messages/.*.html|news/.*.html|notifications/.*.html|polls/.*.html|registration/.*(.html|.txt)|search/.*(.html|.txt)|template_dynamicloader/.*(.html)|widgets/.*(.html)|wiki/.*(.html)|.*jinja.htm)"
+DEFAULT_JINJA2_TEMPLATE_INTERCEPT_RE = r"^(.*/home.html|article/.*.html|blog/.*.html|comments/.*.html|feeds/.*.html|forum/.*.html|messages/.*.html|news/.*.html|notifications/.*.html|polls/.*.html|registration/.*(.html|.txt)|search/.*(.html|.txt)|template_dynamicloader/.*(.html)|widgets/.*(.html)|wiki/.*(.html)|.*jinja.htm)"
 # TODO: comments, desktop
 # TODO: polls dokončiť a prerobiť view
 JINJA2_BYTECODE_CACHE_ENABLE = True
