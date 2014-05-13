@@ -2,6 +2,7 @@
 from django import template
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
 from django_jinja import library
 from jinja2 import contextfunction
 
@@ -21,7 +22,7 @@ def pagination(context, page_obj=None, page_kwarg='page'):
 		'resolver_match': context['request'].resolver_match,
 		'request': context['request'],
 	}
-	return render_to_string("paginator/paginator.html", ctx)
+	return mark_safe(render_to_string("paginator/paginator.html", ctx))
 
 
 @lib.global_function
