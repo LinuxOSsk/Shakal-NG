@@ -2,8 +2,9 @@
 {% load breadcrumbs_tags %}
 {% block title %}Screenshoty multimediálnych programov{% endblock %}
 {% block breadcrumbs %}
-{% breadcrumb %}Screenshoty multimediálnych programov{% endbreadcrumb %}
-{% breadcrumb url='page_multimedia' %}Linux a multimédia{% endbreadcrumb %}{{ block.super }}
+{{ breadcrumb("Screenshoty multimediálnych programov") }}
+{{ breadcrumb("Linux a multimédia", url="page_multimedia") }}
+{{ super() }}
 {% endblock %}
 
 {% block content %}

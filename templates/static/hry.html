@@ -1,7 +1,6 @@
 {% extends "base.html" %}
-{% load breadcrumbs_tags %}
 {% block title %}Hry v Linuxe{% endblock %}
-{% block breadcrumbs %}{% breadcrumb %}Hry v Linuxe{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block breadcrumbs %}{{ breadcrumb("Hry v Linuxe") }}{{ super() }}{% endblock %}
 {% block extraheaders %}
 <meta name="description" lang="sk" content="Prehľad hier fungujúcich pod Linuxom technológií umožňujúcich spúšťanie hier určených pre iné platformy." />
 {% endblock %}

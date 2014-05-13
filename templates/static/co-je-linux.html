@@ -1,7 +1,6 @@
 {% extends "base.html" %}
-{% load breadcrumbs_tags %}
 {% block title %}Čo je to Linux?{% endblock %}
-{% block breadcrumbs %}{% breadcrumb %}Čo je to Linux?{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block breadcrumbs %}{{ breadcrumb("Čo je to Linux?") }}{{ super() }}{% endblock %}
 {% block extraheaders %}
 <meta name="description" lang="sk" content="Základné informácie o vzniku a rozšírení linuxu." />
 {% endblock %}

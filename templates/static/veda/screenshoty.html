@@ -2,8 +2,9 @@
 {% load breadcrumbs_tags %}
 {% block title %}Screenshoty vedeckých programov{% endblock %}
 {% block breadcrumbs %}
-{% breadcrumb %}Screenshoty vedeckých programov{% endbreadcrumb %}
-{% breadcrumb url='page_veda' %}Veda a Linux{% endbreadcrumb %}{{ block.super }}
+{{ breadcrumb("Screenshoty vedeckých programov") }}
+{{ breadcrumb("Veda a Linux", url="page_veda") }}
+{{ super() }}
 {% endblock %}
 
 {% block content %}

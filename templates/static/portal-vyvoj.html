@@ -1,11 +1,7 @@
 {% extends "base.html" %}
 
-{% load breadcrumbs_tags %}
-{% load feed_parser_tags %}
-{% load cache %}
-
 {% block title %}Vývoj LinuxOS{% endblock %}
-{% block breadcrumbs %}{% breadcrumb %}Vývoj LinuxOS{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block breadcrumbs %}{{ breadcrumb("Vývoj LinuxOS") }}{{ super() }}{% endblock %}
 
 {% block content %}
 <h1>Vývoj LinuxOS</h1>
@@ -31,7 +27,7 @@
 	<div class="module feeds">
 		<h2>Aktuálne zmeny</h2>
 		<div class="module-row">
-			{% pull_feeds "https://github.com/mireq/Shakal-NG/commits/master.atom" max_count=20 %}
+			{{ pull_feeds("https://github.com/mireq/Shakal-NG/commits/master.atom", max_count=20) }}
 		</div>
 		<div class="module-links bottom">
 			<a href="https://github.com/mireq/Shakal-NG/commits/master" rel="nofollow" class="next">Zobraziť všetky</a>

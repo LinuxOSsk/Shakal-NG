@@ -1,7 +1,6 @@
 {% extends "base.html" %}
-{% load breadcrumbs_tags %}
 {% block title %}Reklama{% endblock %}
-{% block breadcrumbs %}{% breadcrumb %}Reklama{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block breadcrumbs %}{{ breadcrumb("Reklama") }}{{ super() }}{% endblock %}
 
 {% block content %}
 <h1>Reklama</h1>

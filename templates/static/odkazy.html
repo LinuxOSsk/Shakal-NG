@@ -1,7 +1,6 @@
 {% extends "base.html" %}
-{% load breadcrumbs_tags %}
 {% block title %}Informačné zdroje SK/CZ{% endblock %}
-{% block breadcrumbs %}{% breadcrumb %}Informačné zdroje SK/CZ{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block breadcrumbs %}{{ breadcrumb("Informačné zdroje SK/CZ") }}{{ super() }}{% endblock %}
 
 {% block content %}
 <h1>Informačné zdroje SK/CZ</h1>

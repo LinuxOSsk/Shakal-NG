@@ -1,7 +1,6 @@
 {% extends "base.html" %}
-{% load breadcrumbs_tags %}
 {% block title %}Podporte nás{% endblock %}
-{% block breadcrumbs %}{% breadcrumb %}Podporte nás{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block breadcrumbs %}{{ breadcrumb("Podporte nás") }}{{ super() }}{% endblock %}
 
 {% block content %}
 <h1>Podporte nás</h1>

@@ -1,7 +1,6 @@
 {% extends "base.html" %}
-{% load breadcrumbs_tags %}
 {% block title %}LinuxOS Team{% endblock %}
-{% block breadcrumbs %}{% breadcrumb %}LinuxOS Team{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block breadcrumbs %}{{ breadcrumb("LinuxOS Team") }}{{ super() }}{% endblock %}
 
 {% block content %}
 <h1>LinuxOS Team</h1>

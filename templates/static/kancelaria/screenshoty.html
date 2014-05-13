@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% load breadcrumbs_tags %}
 {% block title %}Screenshoty kancelárskych programov{% endblock %}
 {% block breadcrumbs %}
-{% breadcrumb %}Screenshoty kancelárskych programov{% endbreadcrumb %}
-{% breadcrumb url='page_kancelaria' %}Linux v kancelárii{% endbreadcrumb %}{{ block.super }}
+{{ breadcrumb("Screenshoty kancelárskych programov") }}
+{{ breadcrumb("Linux v kancelárii", url="page_kancelaria") }}
+{{ super() }}
 {% endblock %}
 
 {% block content %}

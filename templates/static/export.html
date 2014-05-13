@@ -1,7 +1,6 @@
 {% extends "base.html" %}
-{% load breadcrumbs_tags %}
 {% block title %}Export dát{% endblock %}
-{% block breadcrumbs %}{% breadcrumb %}Export dát{% endbreadcrumb %}{{ block.super }}{% endblock %}
+{% block breadcrumbs %}{{ breadcrumb("Export dát") }}{{ super() }}{% endblock %}
 
 {% block content %}
 <h1>Export dát</h1>

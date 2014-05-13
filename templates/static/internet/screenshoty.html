@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% load breadcrumbs_tags %}
 {% block title %}Screenshoty internetových programov{% endblock %}
 {% block breadcrumbs %}
-{% breadcrumb %}Screenshoty internetových programov{% endbreadcrumb %}
-{% breadcrumb url='page_internet' %}Linux a Internet{% endbreadcrumb %}{{ block.super }}
+{{ breadcrumb("Screenshoty internetových programov") }}
+{{ breadcrumb("Linux a Internet", url="page_internet") }}
+{{ super() }}
 {% endblock %}
 
 {% block content %}
