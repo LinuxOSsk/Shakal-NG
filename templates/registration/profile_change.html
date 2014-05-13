@@ -22,7 +22,7 @@
 
 <form action="{{ url("auth_my_profile_edit") }}" method="post" id="edit-user-profile-form">{% csrf_token %}
 	<fieldset>
-		{% include "includes/form_loop.jinja.html" %}
+		{% include "includes/form_loop.html" %}
 		<div class="submit-row">
 			<div class="negative">
 				<div class="btn"><span><a href="{{ url("auth_my_profile") }}">{{ _("Back to profile") }}</a></span></div>

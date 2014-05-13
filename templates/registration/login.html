@@ -19,7 +19,7 @@
 <form action="{{ url("auth_login") }}" method="post" id="login-form">{% csrf_token %}
 	<fieldset class="login">
 		<h2>{{ _("Log in to") }} {{ site.name }}</h2>
-		{% include "includes/form_loop.jinja.html" %}
+		{% include "includes/form_loop.html" %}
 		<div class="submit-row">
 			<div class="positive">
 				<button class="btn" type="submit" title="{{ _("Log in") }}"><span>{{ _("Log in") }}</span></button>

@@ -17,7 +17,7 @@
 
 <form action="{{ url("blog:edit") }}" method="post" id="blog-form">{% csrf_token %}
 	<fieldset>
-		{% include "includes/form_loop.jinja.html" %}
+		{% include "includes/form_loop.html" %}
 		<div class="submit-row">
 			<div class="positive">
 				<button class="btn" type="submit" title="Uložiť" name="create" value="1"><span>Uložiť</span></button>

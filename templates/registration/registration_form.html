@@ -10,7 +10,7 @@
 <h1>{{ _("Sign up") }}</h1>
 <form action="{{ url("registration_register") }}" method="post" id="registration-form">{% csrf_token %}
 	<fieldset>
-		{% include "includes/form_loop.jinja.html" %}
+		{% include "includes/form_loop.html" %}
 		<div class="submit-row">
 			<div class="positive">
 				<button class="btn" type="submit" title="{{ _("Create account") }}"><span>{{ _("Create account") }}</span></button>

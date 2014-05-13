@@ -1,8 +1,7 @@
 {% extends "includes/form_loop.html" %}
-{% load staticfiles %}
 
 {% block nested %}
-	{{ block.super }}
+	{{ super() }}
 	{{ form.attachments.management_form }}
 	{% if form.attachments.forms %}
 	<div class="form-row">
@@ -15,13 +14,13 @@
 					</tr>
 				</thead>
 				{% for attachment in form.attachments.forms %}
-					<tr class="{% cycle row1,row2 %}">
+					<tr class="{{ loop.cycle("row1", "row2") }}">
 						<td>
-							{% for hidden in attachment.hidden_fields %}{{ hidden }}{% endfor %}
+							{% for hidden in attachment.hidden_fields() %}{{ hidden }}{% endfor %}
 							{{ attachment.DELETE }}
 						</td>
 						<td>
-							<a href="{{ attachment.instance.attachment.url }}">{{ attachment.instance.basename }}</a>
+							<a href="{{ attachment.instance.attachment.url }}">{{ attachment.instance.basename() }}</a>
 							({{ attachment.instance.attachment.size|filesizeformat }})
 						</td>
 					</tr>
@@ -31,3 +30,4 @@
 	</div>
 	{% endif %}
 {% endblock %}
+

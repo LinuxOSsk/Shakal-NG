@@ -1,17 +1,17 @@
-{% if form.non_field_errors %}
+{% if form.non_field_errors() %}
 	<p class="errornote">
-		{% for error in form.non_field_errors %}
+		{% for error in form.non_field_errors() %}
 			{{ error }}
 		{% endfor %}
 	</p>
 {% endif %}
 
 <div id="filterm">
-	{% for hidden in form.hidden_fields %}
+	{% for hidden in form.hidden_fields() %}
 		{{ hidden }}
 	{% endfor %}
-	{% for field in form.visible_fields %}
-		<div class="form-row{% if field.errors %} errors{% endif %}"{% ifequal field.name "honeypot" %} style="display: none"{% endifequal %}>
+	{% for field in form.visible_fields() %}
+		<div class="form-row{% if field.errors %} errors{% endif %}"{% if field.name == "honeypot" %} style="display: none"{% endif %}>
 			<div>
 				{{ field.errors }}
 				<label for="{{ field.auto_id }}" class="field_label{% if field.field.required %} required{% endif %}">
@@ -29,10 +29,13 @@
 					{% if subform.label %}
 						<label class="formset_label">{{ subform.label }}:</label>
 					{% endif %}
-					{% include "includes/form_set_loop.html" with formset=subform %}
+					{% with formset=subform %}
+						{% include "includes/form_set_loop.html" %}
+					{% endwith %}
 				</div>
 			</div>
 		{% endfor %}
 	{% endif %}
 	{% endblock %}
 </div>
+

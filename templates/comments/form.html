@@ -1,7 +1,7 @@
 <form action="{{ url("comments-post-comment") }}" enctype="multipart/form-data" method="post" id="comment-form">{% csrf_token %}
 	<fieldset>
 		{% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
-		{% include "includes/form_attachment_loop.jinja.html" %}
+		{% include "includes/form_attachment_loop.html" %}
 		<div class="submit-row">
 			<div class="positive">
 				<button class="btn" type="submit" title="Náhľad"><span>Náhľad</span></button>
