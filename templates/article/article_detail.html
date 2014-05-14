@@ -44,7 +44,10 @@
 </div>
 
 <div class="content">
-{{ article.display_content() }}
+{% if article.annotation %}
+	<div class="annotation">{{ article.annotation|safe }}</div>
+{% endif %}
+{{ article.content|safe }}
 </div>
 
 {% for poll in article.poll_set %}

@@ -4,8 +4,6 @@ from django.contrib.contenttypes import generic
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import permalink
-from django.utils.encoding import smart_unicode
-from django.utils.safestring import mark_safe
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
@@ -73,12 +71,6 @@ class Article(models.Model):
 	@property
 	def poll_set(self):
 		return self.polls.filter(approved=True).order_by('pk').all()
-
-	def display_content(self):
-		content = smart_unicode(self.content)
-		content = content.replace('<<ANOTACIA>>', '<div class="annotation">' + self.annotation + '</div>')
-		content = content.replace('{SHAKAL_PREFIX}', '/')
-		return mark_safe(content)
 
 	def clean_fields(self, exclude=None):
 		slug_num = None
