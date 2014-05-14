@@ -32,8 +32,8 @@ class LoggedUserTestMixin(object):
 
 
 class ProcessFormTestMixin(object):
-	def get_url(self, url):
-		return self.client.get(resolve_url(url))
+	def get_url(self, url, *args, **kwargs):
+		return self.client.get(resolve_url(url, *args, **kwargs))
 
 	def extract_form(self, url, form_context_name='form'):
 		response = self.get_url(url)
@@ -159,3 +159,10 @@ def fts_test(cls):
 	if 'SKIP_FTS_TESTS' in os.environ:
 		return unittest.skip(cls)
 	return cls
+
+
+class FrontendTest(ProcessFormTestMixin, LiveServerTestCase):
+	def check_url(self, url, *args, **kwargs):
+		response = self.get_url(url, *args, **kwargs)
+		self.assertEqual(response.status_code, 200)
+		return response

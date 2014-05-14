@@ -2,16 +2,30 @@
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.utils.timezone import now, timedelta
-from common_utils.tests_common import AdminSiteTestCase, fts_test
+from common_utils.tests_common import AdminSiteTestCase, FrontendTest, fts_test
 
 from .models import Category, Article
 
 
 class ArticleModelTest(TestCase):
+	DEFAULT_ARTICLE_DATA = {
+		'title': 'title',
+		'slug': 'slug',
+		'perex': 'perex',
+		'annotation': 'annotation',
+		'authors_name': 'author',
+		'published': True,
+		'top': False,
+		'content': 'content',
+	}
+
+	DEFAULT_CATEGORY_DATA = {
+		'name': 'Category',
+		'slug': 'category',
+	}
+
 	def setUp(self):
-		category = Category()
-		category.name = 'Category'
-		category.slug = 'category'
+		category = Category(**self.DEFAULT_CATEGORY_DATA)
 		category.save()
 
 		all_categories = Category.objects.all()
@@ -64,18 +78,8 @@ class ArticleModelTest(TestCase):
 		self.assertEqual(article.hit_count, 1) #pylint: disable=E1101
 
 	def create_article_instance(self):
-		article = Article()
-		article.title = 'title'
-		article.slug = 'slug'
+		article = Article(**self.DEFAULT_ARTICLE_DATA)
 		article.category = Category.objects.all()[0]
-		article.perex = 'perex'
-		article.annotation = 'annotation'
-		article.authors_name = 'author'
-		article.published = True
-		article.top = False
-		article.pub_time = now()
-		article.updated = now()
-		article.content = 'content'
 		return article
 
 
@@ -178,3 +182,26 @@ class ArticleAdminTest(AdminSiteTestCase):
 		self.assertTrue(article.is_published())
 		article = self.check_action(article.pk, 'set_unpublished', {})['instance']
 		self.assertFalse(article.is_published())
+
+
+from django.core.urlresolvers import reverse
+@fts_test
+class ArticleViewsTest(FrontendTest):
+	def setUp(self):
+		self.category = Category(**ArticleModelTest.DEFAULT_CATEGORY_DATA)
+		self.category.save()
+		self.article = Article(**ArticleModelTest.DEFAULT_ARTICLE_DATA)
+		self.article.category = self.category
+		self.article.save()
+
+	def test_list(self):
+		self.check_url(self.article.get_list_url())
+
+	def test_detail(self):
+		self.check_url(self.article.get_absolute_url())
+
+	def test_category(self):
+		self.check_url(self.category.get_absolute_url())
+
+	def test_feeds(self):
+		self.check_url("article:feed-latest")

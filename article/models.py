@@ -92,11 +92,11 @@ class Article(models.Model):
 
 	@permalink
 	def get_absolute_url(self):
-		return ('article:detail-by-slug', None, {'slug': self.slug})
+		return ('article:detail', None, {'slug': self.slug})
 
 	@permalink
 	def get_list_url(self):
-		return ('article:article-list', None, None)
+		return ('article:list', None, None)
 
 	def is_published(self):
 		return self.published and self.pub_time <= now()

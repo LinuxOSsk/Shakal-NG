@@ -13,10 +13,10 @@ class Patterns(object):
 	@property
 	def urls(self):
 		pat = patterns('',
-			url(r'^(?:(?P<page>\d+)/)?$', ArticleListView.as_view(), name = 'article-list'),
-			url(r'^(?P<slug>[-\w]+)/$', ArticleDetailView.as_view(), name = "detail-by-slug"),
-			url(r'^kategoria/(?P<category>[-\w]+)/(?:(?P<page>\d+)/)?$', ArticleListView.as_view(), name = 'list-category'),
-			url(r'^feeds/latest/$', LatestArticleFeed(), name = 'feed-latest'),
+			url(r'^(?:(?P<page>\d+)/)?$', ArticleListView.as_view(), name='list'),
+			url(r'^(?P<slug>[-\w]+)/$', ArticleDetailView.as_view(), name='detail'),
+			url(r'^kategoria/(?P<category>[-\w]+)/(?:(?P<page>\d+)/)?$', ArticleListView.as_view(), name='list-category'),
+			url(r'^feeds/latest/$', LatestArticleFeed(), name='feed-latest'),
 		)
 		return (pat, self.app_name, self.name)
 
