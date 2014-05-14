@@ -56,10 +56,10 @@ class AttachmentAbstract(models.Model):
 			except:
 				pass
 		self.size = self.attachment.size
-		self.copyt_to_new_location()
+		self.copy_to_new_location()
 		super(AttachmentAbstract, self).save(*args, **kwargs)
 
-	def copyt_to_new_location(self):
+	def copy_to_new_location(self):
 		name = self.attachment.name
 		storage = self.attachment.storage
 		target_name = upload_to(self, os.path.basename(name))
