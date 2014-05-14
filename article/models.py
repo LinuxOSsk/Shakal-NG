@@ -17,8 +17,8 @@ from threaded_comments.models import RootHeader, Comment
 
 
 class Category(models.Model):
-	name = models.CharField(_('name'), max_length = 255)
-	slug = models.SlugField(unique = True)
+	name = models.CharField(_('name'), max_length=255)
+	slug = models.SlugField(unique=True)
 	description = models.TextField(_('description'))
 
 	@permalink
@@ -36,8 +36,8 @@ class Category(models.Model):
 class ArticleManager(models.Manager):
 	def get_query_set(self):
 		return super(ArticleManager, self).get_query_set() \
-			.filter(published = True) \
-			.filter(pub_time__lte = now()) \
+			.filter(published=True) \
+			.filter(pub_time__lte=now()) \
 			.order_by('-pk')
 
 
@@ -45,19 +45,19 @@ class Article(models.Model):
 	all_articles = models.Manager()
 	objects = ArticleManager()
 
-	title = models.CharField(_('title'), max_length = 255)
-	slug = models.SlugField(unique = True)
-	category = models.ForeignKey(Category, verbose_name = _('category'), on_delete = models.PROTECT)
-	perex = models.TextField(_('perex'), help_text = _('Text on title page.'))
-	annotation = models.TextField(_('annotation'), help_text = _('Text before article body.'))
+	title = models.CharField(_('title'), max_length=255)
+	slug = models.SlugField(unique=True)
+	category = models.ForeignKey(Category, verbose_name=_('category'), on_delete=models.PROTECT)
+	perex = models.TextField(_('perex'), help_text=_('Text on title page.'))
+	annotation = models.TextField(_('annotation'), help_text=_('Text before article body.'))
 	content = models.TextField(_('content'))
-	author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name = _('author'), on_delete = models.SET_NULL, blank = True, null = True)
-	authors_name = models.CharField(_('authors name'), max_length = 255)
-	pub_time = models.DateTimeField(_('publication time'), default = now)
-	updated = models.DateTimeField(editable = False)
+	author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('author'), on_delete=models.SET_NULL, blank=True, null=True)
+	authors_name = models.CharField(_('authors name'), max_length=255)
+	pub_time = models.DateTimeField(_('publication time'), default=now)
+	updated = models.DateTimeField(editable=False)
 	published = models.BooleanField(_('published'))
 	top = models.BooleanField(_('top article'))
-	image = AutoImageField(_('image'), upload_to = 'article/thumbnails', size = (512, 512), thumbnail = {'standard': (100, 100)}, blank = True, null = True)
+	image = AutoImageField(_('image'), upload_to='article/thumbnails', size=(512, 512), thumbnail={'standard': (100, 100)}, blank=True, null=True)
 	polls = generic.GenericRelation(Poll)
 	comments_header = generic.GenericRelation(RootHeader)
 	comments = generic.GenericRelation(Comment)
@@ -72,7 +72,7 @@ class Article(models.Model):
 
 	@property
 	def poll_set(self):
-		return self.polls.filter(approved = True).order_by('pk').all()
+		return self.polls.filter(approved=True).order_by('pk').all()
 
 	def display_content(self):
 		content = smart_unicode(self.content)
@@ -80,7 +80,7 @@ class Article(models.Model):
 		content = content.replace('{SHAKAL_PREFIX}', '/')
 		return mark_safe(content)
 
-	def clean_fields(self, exclude = None):
+	def clean_fields(self, exclude=None):
 		slug_num = None
 		try:
 			slug_num = int(self.slug)

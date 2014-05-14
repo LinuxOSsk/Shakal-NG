@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
+from django.http.response import HttpResponseRedirect
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from django.http.response import HttpResponseRedirect
 
 from .admin_forms import ArticleForm
 from .models import Category, Article
