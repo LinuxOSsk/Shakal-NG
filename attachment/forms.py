@@ -4,7 +4,8 @@ from django.core.exceptions import ValidationError
 from django.db.models import Sum
 from django.forms.models import modelformset_factory
 
-from attachment.models import UploadSession, TemporaryAttachment, Attachment
+from .models import UploadSession, TemporaryAttachment, Attachment
+from .utils import get_available_size
 
 
 AttachmentFormset = modelformset_factory(TemporaryAttachment, can_delete=True, extra=0, fields=())
@@ -66,7 +67,7 @@ class AttachmentFormMixin:
 		else:
 			uploaded_size = 0
 		content_type = ContentType.objects.get_for_model(self.get_model())
-		max_size = TemporaryAttachment.get_available_size(content_type, uploaded_size)
+		max_size = get_available_size(content_type, uploaded_size)
 		self.fields['attachment'].widget.attrs['max_size'] = max_size
 
 	def move_attachments(self, content_object):
