@@ -30,7 +30,7 @@ class AttachmentModelTest(TestCase):
 		attachment = TemporaryAttachment(
 			session = session,
 			attachment = uploaded_file,
-			content_type = ContentType.objects.get_for_model(UploadSession),
+			content_type = ContentType.objects.get_for_model(TemporaryAttachment),
 			object_id = session.id
 		)
 		return attachment
@@ -98,7 +98,6 @@ class AttachmentModelTest(TestCase):
 			)
 			attachment.save()
 			temp_filename = temp_attachment.filename
-			temp_attachment.attachment = ''
 			temp_attachment.delete()
 
 			file_readed = open(attachment.filename, 'rb').read()
@@ -132,10 +131,11 @@ class AttachmentModelTest(TestCase):
 			self.assertEqual(get_available_size(ctype, 0), 20)
 
 	def test_oversize(self):
-		with self.settings(ATTACHMENT_MAX_SIZE=-1, ATTACHMENT_SIZE_FOR_CONTENT={'attachment_uploadsession': 2}):
+		with self.settings(ATTACHMENT_MAX_SIZE=-1, ATTACHMENT_SIZE_FOR_CONTENT={'attachment_temporaryattachment': 2}):
 			try:
-				temp_attachment = self.create_temporary_attachment("test.txt", b"ABC")
+				temp_attachment = self.create_temporary_attachment("test.txt", b"ABCD")
 				with self.assertRaises(ValidationError):
+					temp_attachment.size = temp_attachment.attachment.size
 					temp_attachment.full_clean()
 			finally:
 				temp_attachment.delete_file()

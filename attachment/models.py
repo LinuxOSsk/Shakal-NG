@@ -71,14 +71,24 @@ class AttachmentAbstract(models.Model):
 				original.attachment.storage.delete(original.attachment.path)
 
 		self.size = self.attachment.size
+		self.copy_to_new_location()
 		super(AttachmentAbstract, self).save(*args, **kwargs)
+
+	def copy_to_new_location(self):
+		name = self.attachment.name
+		storage = self.attachment.storage
+		target_name = upload_to(self, os.path.basename(name))
+		if target_name != name:
+			if storage.exists(name):
+				file_name = storage.save(target_name, self.attachment.file)
+				self.attachment = file_name
 
 	def clean_fields(self, exclude=None):
 		uploaded_size = self.__class__.objects \
 			.filter(object_id = self.object_id, content_type = self.content_type) \
 			.aggregate(models.Sum('size'))["size__sum"]
 		available_size = get_available_size(self.content_type, uploaded_size or 0)
-		if self.attachment.size > available_size:
+		if available_size >= 0 and self.attachment.size > available_size:
 			raise ValidationError({'attachment': [_('File size exceeded, maximum size is ') + filesizeformat(available_size)]})
 		return super(AttachmentAbstract, self).clean_fields(exclude)
 
