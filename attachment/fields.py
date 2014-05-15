@@ -25,7 +25,7 @@ class AttachmentField(FileField):
 	widget = AttachmentWidget
 
 	def clean(self, data, initial=None):
-		size = 0 if data.size is None else data.size
+		size = 0 if data is None else data.size
 		if self.widget.attrs.get('max_size', -1) >= 0:
 			if size > self.widget.attrs['max_size']:
 				raise ValidationError(
