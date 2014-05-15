@@ -24,12 +24,11 @@ class AttachmentWidget(ClearableFileInput):
 class AttachmentField(FileField):
 	widget = AttachmentWidget
 
-	def clean(self, value, initial):
-		if value is None:
-			return super(AttachmentField, self).clean(value, initial)
+	def clean(self, data, initial=None):
+		size = 0 if data.size is None else data.size
 		if self.widget.attrs.get('max_size', -1) >= 0:
-			if value.size > self.widget.attrs['max_size']:
+			if size > self.widget.attrs['max_size']:
 				raise ValidationError(
 					_('File size exceeded, maximum size is ') +
 					filesizeformat(self.widget.attrs['max_size']))
-		return super(AttachmentField, self).clean(value, initial)
+		return super(AttachmentField, self).clean(data, initial)

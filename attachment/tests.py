@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
+import os
+
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
+from django.utils.encoding import smart_unicode
 
-import os
-from attachment.models import UploadSession, Attachment, TemporaryAttachment
+from .models import UploadSession, Attachment, TemporaryAttachment
+from .utils import get_available_size
 
 
 class AttachmentModelTest(TestCase):
@@ -16,69 +20,129 @@ class AttachmentModelTest(TestCase):
 	def test_upload_session(self):
 		session1 = UploadSession()
 		session2 = UploadSession()
-		self.assertNotEquals(session1.uuid, session2.uuid)
+		self.assertNotEqual(session1.uuid, session2.uuid)
 
-	def test_available_size(self):
-		new_settings = {'ATTACHMENT_MAX_SIZE': -1, 'ATTACHMENT_SIZE_FOR_CONTENT': {self.ct: -1}}
-		with self.settings(**new_settings):
-			self.assertEqual(Attachment.get_available_size(self.testContentType.pk, 0), -1)
-
-		new_settings['ATTACHMENT_MAX_SIZE'] = 1
-		with self.settings(**new_settings):
-			self.assertEqual(Attachment.get_available_size(self.testContentType.pk, 0), 1)
-
-		new_settings['ATTACHMENT_MAX_SIZE'] = -1
-		new_settings['ATTACHMENT_SIZE_FOR_CONTENT'][self.ct] = 1
-		with self.settings(**new_settings):
-			self.assertEqual(Attachment.get_available_size(self.testContentType.pk, 0), 1)
-
-	def test_upload_temporary(self):
-		file_data = b"0123456789"
-		attachment = self.create_temporary_attachment(file_data, "test.txt")
-		attachment.save()
-		saved_file_name = os.path.join(settings.MEDIA_ROOT, attachment.attachment.name)
-		file_readed = open(saved_file_name, 'rb').read()
-		self.assertEqual(file_data, file_readed)
-		# vymazaný súbor
-		attachment.delete()
-		with self.assertRaises(IOError):
-			open(saved_file_name, 'rb').read()
-
-	def test_upload(self):
-		file_data = b"0123456789"
-		temp_attachment = self.create_temporary_attachment(file_data, "test.txt")
-		temp_attachment.save()
-		saved_test_file_name = os.path.join(settings.MEDIA_ROOT, temp_attachment.attachment.name)
-		file_readed = open(saved_test_file_name, 'rb').read()
-		self.assertEqual(file_data, file_readed)
-
-		test_object = UploadSession()
-		test_object.save()
-
-		attachment = Attachment(
-			attachment = temp_attachment.attachment.name,
-			content_type = ContentType.objects.get_for_model(test_object.__class__),
-			object_id = test_object.id
-		)
-		attachment.save()
-		temp_attachment.delete()
-
-		# Test na vymazanie
-		with self.assertRaises(IOError):
-			open(saved_test_file_name, 'rb').read()
-
-		saved_file_name = os.path.join(settings.MEDIA_ROOT, attachment.attachment.name)
-		file_readed = open(saved_file_name, 'rb').read()
-		self.assertEqual(file_data, file_readed)
-
-	def create_temporary_attachment(self, file_data, file_name):
-		uploaded_file = SimpleUploadedFile("test.txt", file_data)
+	def create_temporary_attachment(self, name, data):
+		uploaded_file = SimpleUploadedFile(name, data)
 		session = UploadSession()
 		session.save()
+
 		attachment = TemporaryAttachment(
 			session = session,
 			attachment = uploaded_file,
-			content_type = ContentType.objects.get_for_model(TemporaryAttachment),
+			content_type = ContentType.objects.get_for_model(UploadSession),
 			object_id = session.id
 		)
 		return attachment
+
+	def test_paths(self):
+		try:
+			attachment = self.create_temporary_attachment("test.txt", "")
+			attachment.save()
+			self.assertEqual(attachment.basename, "test.txt")
+			self.assertEqual(attachment.name, "test.txt")
+			self.assertEqual(attachment.url.index(settings.MEDIA_URL), 0)
+			self.assertEqual(attachment.filename.index(settings.MEDIA_ROOT), 0)
+			self.assertEqual(smart_unicode(attachment), attachment.attachment.name)
+		finally:
+			attachment.delete()
+
+	def test_upload(self):
+		try:
+			file_data = b"0123456789"
+			attachment = self.create_temporary_attachment("test.txt", file_data)
+			attachment.save()
+
+			saved_file_name = attachment.filename
+			file_readed = open(saved_file_name, 'rb').read()
+			self.assertEqual(file_data, file_readed)
+		finally:
+			attachment.delete()
+
+	def test_delete(self):
+		try:
+			attachment = self.create_temporary_attachment("test.txt", "")
+			attachment.save()
+			saved_file_name = attachment.filename
+			self.assertTrue(os.path.exists(saved_file_name))
+		finally:
+			attachment.delete()
+		self.assertFalse(os.path.exists(saved_file_name))
+
+	def test_replace_file(self):
+		try:
+			attachment = self.create_temporary_attachment("test.txt", b"A")
+			attachment.save()
+
+			file_readed = open(attachment.filename, 'rb').read()
+			self.assertEqual(file_readed, "A")
+
+			attachment.attachment = SimpleUploadedFile("test.txt", b"B")
+			attachment.save()
+
+			file_readed = open(attachment.filename, 'rb').read()
+			self.assertEqual(file_readed, "B")
+			self.assertEqual(attachment.basename, "test.txt")
+		finally:
+			attachment.delete()
+
+	def test_upload_final(self):
+		try:
+			temp_attachment = self.create_temporary_attachment("test.txt", b"A")
+			temp_attachment.save()
+
+			attachment = Attachment(
+				attachment = temp_attachment.attachment.name,
+				content_type = ContentType.objects.get_for_model(UploadSession),
+				object_id = 1
+			)
+			attachment.save()
+			temp_filename = temp_attachment.filename
+			temp_attachment.attachment = ''
+			temp_attachment.delete()
+
+			file_readed = open(attachment.filename, 'rb').read()
+			self.assertEqual(file_readed, "A")
+		finally:
+			temp_attachment.delete_file()
+			attachment.delete_file()
+
+	def test_available_size(self):
+		ctype = ContentType.objects.get_for_model(UploadSession)
+		ctype_table = 'attachment_uploadsession'
+
+		# unlimited
+		with self.settings(ATTACHMENT_MAX_SIZE=-1, ATTACHMENT_SIZE_FOR_CONTENT={}):
+			self.assertEqual(get_available_size(ctype, 0), -1)
+
+		# base size
+		with self.settings(ATTACHMENT_MAX_SIZE=10, ATTACHMENT_SIZE_FOR_CONTENT={}):
+			self.assertEqual(get_available_size(ctype, 0), 10)
+
+		# unlimited for content
+		with self.settings(ATTACHMENT_MAX_SIZE=10, ATTACHMENT_SIZE_FOR_CONTENT={ctype_table: -1}):
+			self.assertEqual(get_available_size(ctype, 0), -1)
+
+		# limited size for content
+		with self.settings(ATTACHMENT_MAX_SIZE=-1, ATTACHMENT_SIZE_FOR_CONTENT={ctype_table: 10}):
+			self.assertEqual(get_available_size(ctype, 0), 10)
+
+		# limited size for both
+		with self.settings(ATTACHMENT_MAX_SIZE=10, ATTACHMENT_SIZE_FOR_CONTENT={ctype_table: 20}):
+			self.assertEqual(get_available_size(ctype, 0), 20)
+
+	def test_oversize(self):
+		with self.settings(ATTACHMENT_MAX_SIZE=-1, ATTACHMENT_SIZE_FOR_CONTENT={'attachment_uploadsession': 2}):
+			try:
+				temp_attachment = self.create_temporary_attachment("test.txt", b"ABC")
+				with self.assertRaises(ValidationError):
+					temp_attachment.full_clean()
+			finally:
+				temp_attachment.delete_file()
+
+			try:
+				temp_attachment = self.create_temporary_attachment("test.txt", b"A")
+				temp_attachment.size = temp_attachment.attachment.size
+				temp_attachment.full_clean()
+			finally:
+				temp_attachment.delete_file()
