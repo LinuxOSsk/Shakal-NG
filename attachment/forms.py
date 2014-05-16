@@ -8,10 +8,23 @@ from .models import UploadSession, TemporaryAttachment, Attachment
 from .utils import get_available_size
 
 
-AttachmentFormset = modelformset_factory(TemporaryAttachment, can_delete=True, extra=0, fields=())
+AttachmentFormSet = modelformset_factory(TemporaryAttachment, can_delete=True, extra=0, fields=())
 
 
-class AttachmentFormMixin:
+class AttachmentFormMixin(object):
+	def __init__(self, *args, **kwargs):
+		super(AttachmentFormMixin, self).__init__(*args, **kwargs)
+		self._attachments = None
+
+	def get_uploadsession(self):
+		try:
+			session = UploadSession.objects.get(uuid=self.data.get('upload_session', ''))
+		except UploadSession.DoesNotExist:
+			session = UploadSession()
+			session.save()
+		self.data['upload_session'] = session.uuid
+		return session
+
 	def process_attachments(self):
 		self.process_attachment_delete()
 		if not self.security_errors():
@@ -25,26 +38,17 @@ class AttachmentFormMixin:
 			while 'form-' + str(rownum) + '-id' in self.data:
 				pk = int(self.data['form-' + str(rownum) + '-id'])
 				if 'form-' + str(rownum) + '-DELETE' in self.data:
-					match = filter(lambda x: x.pk == pk, attachments)
+					match = [x for x in attachments if x.pk == pk]
 					if match:
 						match[0].delete()
 				rownum += 1
 			self.update_attachment_size()
 
 	def process_attachment_upload(self):
-		try:
-			session = UploadSession.objects.get(uuid=self.data['upload_session'])
-		except UploadSession.DoesNotExist:
-			if self.files:
-				session = UploadSession()
-				session.save()
-		except KeyError:
-			return
-
 		if not self.files:
 			return
-		self.data['upload_session'] = session.uuid
 
+		session = self.get_uploadsession()
 		try:
 			cleaned_file = self.fields['attachment'].clean(self.files['attachment'], self.files['attachment'])
 
@@ -83,17 +87,11 @@ class AttachmentFormMixin:
 			temp_attachment.delete()
 
 	def get_attachments(self):
-		if self.data and 'upload_session' in self.data:
-			try:
-				session = UploadSession.objects.get(uuid=self.data['upload_session'])
-				return TemporaryAttachment.objects.filter(session=session).order_by('pk')
-			except UploadSession.DoesNotExist:
-				return []
-		else:
-			return []
+		upload_session = UploadSession.objects.filter(uuid=self.data.get('upload_session', ''))
+		return TemporaryAttachment.objects.filter(session__in=upload_session).order_by('pk')
 
 	@property
 	def attachments(self):
-		if not hasattr(self, '_attachments'):
-			self._attachments = AttachmentFormset(queryset=self.get_attachments())
+		if self._attachments is None:
+			self._attachments = AttachmentFormSet(queryset=self.get_attachments())
 		return self._attachments
