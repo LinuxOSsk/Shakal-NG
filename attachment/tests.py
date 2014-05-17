@@ -8,6 +8,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.utils.encoding import smart_unicode
 
+from .fields import AttachmentField
 from .models import UploadSession, Attachment, TemporaryAttachment
 from .utils import get_available_size
 
@@ -97,7 +98,6 @@ class AttachmentModelTest(TestCase):
 				object_id = 1
 			)
 			attachment.save()
-			temp_filename = temp_attachment.filename
 			temp_attachment.delete()
 
 			file_readed = open(attachment.filename, 'rb').read()
@@ -146,3 +146,17 @@ class AttachmentModelTest(TestCase):
 				temp_attachment.full_clean()
 			finally:
 				temp_attachment.delete_file()
+
+
+class AttachmentFormTest(TestCase):
+	def test_attachment_field(self):
+		field = AttachmentField()
+		field.widget.attrs['max_size'] = 2
+		field.clean(SimpleUploadedFile("a.txt", "A")) #OK
+		with self.assertRaises(ValidationError):
+			field.clean(SimpleUploadedFile("a.txt", "ABC"))
+
+	def test_render(self):
+		field = AttachmentField()
+		field.widget.attrs['max_size'] = 2
+		field.widget.render("name", "")

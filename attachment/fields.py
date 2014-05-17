@@ -8,7 +8,7 @@ from django.utils.translation import ugettext as _
 
 
 class AttachmentWidget(ClearableFileInput):
-	def render(self, name, value, attrs = None):
+	def render(self, name, value, attrs=None):
 		max_size = self.attrs.pop('max_size', -1)
 		widget = super(AttachmentWidget, self).render(name, value, attrs)
 		if max_size >= 0:
