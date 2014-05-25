@@ -24,7 +24,7 @@
 		{% if comment.attachment_count %}
 			<ul class="files">
 			{% for attachment in comment.attachments.all() %}
-				<li><a href="{{ attachment.url }}">{{ attachment.basename() }}</a></li>
+				<li><a href="{{ attachment.url }}">{{ attachment.basename }}</a></li>
 			{% endfor %}
 			</ul>
 		{% endif %}
