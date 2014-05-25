@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-19 17:55+0200\n"
+"POT-Creation-Date: 2014-05-25 14:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -387,6 +387,13 @@ msgstr "správa"
 msgid "comment"
 msgstr "komentár"
 
+msgid "Page is not number."
+msgstr "Stránka nie je číslo."
+
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr "Nesprávna stránka (%(page_number)s): %(message)s"
+
 msgid "Minimum 2 choices are required"
 msgstr "Sú požadované minimálne 2 odpovede"
 
@@ -522,11 +529,11 @@ msgid "You don't have permission to edit anything."
 msgstr "Nemáte žiadne práva na editáciu."
 
 #, python-format
-msgid "%(counter)s comment"
-msgid_plural "%(counter)s commens"
-msgstr[0] "%(counter)s komentár"
-msgstr[1] "%(counter)s komentáre"
-msgstr[2] "%(counter)s komentárov"
+msgid "%(num)s comment"
+msgid_plural "%(num)s comments"
+msgstr[0] "%(num)s komentár"
+msgstr[1] "%(num)s komentáre"
+msgstr[2] "%(num)s komentárov"
 
 msgid "last"
 msgstr "posledný"
@@ -546,6 +553,12 @@ msgstr "Správa stránky"
 msgid "Log out"
 msgstr "Odhlásiť"
 
+msgid "Blog"
+msgstr "Blog"
+
+msgid "Create blog"
+msgstr "Vytvoriť blog"
+
 msgid "Change password"
 msgstr "Zmeniť heslo"
 
@@ -558,18 +571,12 @@ msgstr "Registrovať"
 msgid "Password reset"
 msgstr "Obnovenie hesla"
 
-msgid "Blog"
-msgstr "Blog"
-
-msgid "Create blog"
-msgstr "Vytvoriť blog"
-
 msgid "Activation"
 msgstr "Aktivácia"
 
 #, python-format
 msgid "Activation with key %(activation_key)s failed."
-msgstr "Aktivácia s kľúčom %(activation_key)s bola neúspešná."
+msgstr "Aktivácia s kľúčom %(activation_key)s neúspešná."
 
 msgid "Your account is now active!"
 msgstr "Váš účet je aktívny!"
@@ -700,8 +707,8 @@ msgid ""
 "You're receiving this email because you requested a password reset for your "
 "user account at %(site_name)s."
 msgstr ""
-"Tento e-mail ste dostali preto, lebo ste požiadali o obnovenie hesla pre "
-"užívateľský účet na %(site_name)s."
+"Tento e-mail Vám bol doručený pretože ste požadovali reset hesla na "
+"stránke%(site_name)s."
 
 msgid "Please go to the following page and choose a new password:"
 msgstr "Prosím, choďte na túto stránku a zvoľte si nové heslo:"
@@ -738,9 +745,6 @@ msgstr "Upraviť môj profil"
 msgid "Edit user profile"
 msgstr "Upraviť používateľský profil"
 
-msgid "Edit"
-msgstr "Upraviť"
-
 msgid "Change e-mail"
 msgstr "Zmeniť e-mail"
 
@@ -767,9 +771,6 @@ msgstr "Registrácia"
 
 msgid "Create account"
 msgstr "Vytvoriť účet"
-
-msgid "User zone"
-msgstr "Používateľská zóna"
 
 msgid "Content"
 msgstr "Obsah"
@@ -853,27 +854,3 @@ msgstr "značka komentára"
 
 msgid "comment flags"
 msgstr "značky komentára"
-
-#~ msgid "First name"
-#~ msgstr "Krstné meno"
-
-#~ msgid "Last name"
-#~ msgstr "Priezvisko"
-
-#~ msgid "Informations"
-#~ msgstr "Informácie"
-
-#~ msgid "^register/$"
-#~ msgstr "^registrovat/$"
-
-#~ msgid "Please correct the error below."
-#~ msgid_plural "Please correct the errors below."
-#~ msgstr[0] "Opravte prosím chybu uvedenú nižšie."
-#~ msgstr[1] "Opravte prosím chyby uvedené nižšie."
-#~ msgstr[2] "Opravte prosím chyby uvedené nižšie."
-
-#~ msgid "%(counter)s result"
-#~ msgid_plural "%(counter)s results"
-#~ msgstr[0] "%(counter)s komentár"
-#~ msgstr[1] "%(counter)s komentáre"
-#~ msgstr[2] "%(counter)s komentárov"
