@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.utils import timezone
 
@@ -16,7 +17,7 @@ class TopicListView(ListView):
 
 class TopicDetailView(DetailUserProtectedView):
 	superuser_perm = 'forum.delete_topic'
-	queryset = Topic.objects.all().select_related("author", "section", "author__rating")
+	queryset = Topic.objects.all().select_related("author", "section", "author__rating").annotate(attachment_count=Count('attachments'))
 	unprivileged_queryset = Topic.objects.topics().select_related("author", "section", "author__rating")
 
 	def get_object(self, queryset = None):
