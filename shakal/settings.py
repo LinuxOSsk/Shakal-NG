@@ -123,6 +123,7 @@ INSTALLED_APPS = (
 	'django.contrib.syndication',
 	'django.contrib.sitemaps',
 	'django_tools',
+	'django_jinja',
 	'haystack',
 	'queued_search',
 	'registration',
