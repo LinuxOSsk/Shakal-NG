@@ -44,4 +44,5 @@ if settings.DEBUG:
 		(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT})
 	)
 else:
+	handler404 = 'shakal.views.error_404'
 	handler500 = 'shakal.views.error_500'

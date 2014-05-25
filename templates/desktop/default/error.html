@@ -1,5 +1,5 @@
-{% load i18n %}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" xml:lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html lang="{{ LANGUAGE_CODE }}" xml:lang="{{ LANGUAGE_CODE }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
 	<title>{% block title %}Stránka nie je dostupná{% endblock %}</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -138,7 +138,7 @@ h2 {
 		<h2>Podrobnosti</h2>
 		<ul>
 			<li>Zdroj chyby: Skript</li>
-			<li>Čas: {% now "Y-m-d\TH:m:sO" %}</li>
+			<li>Čas: {{ date_now }}</li>
 			<li>Požadované URI: {{ request.path }}</li>
 			<li>Názov servera: {{ request.META.SERVER_NAME }}</li>
 			<li>Port: {{ request.META.SERVER_PORT }}</li>

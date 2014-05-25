@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from django import template
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
+from django.template.defaulttags import now, date
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.encoding import smart_unicode
@@ -104,3 +106,9 @@ def firstof(*args):
 		if arg:
 			return arg
 	return ''
+
+
+@library.global_function
+def now(format_string):
+	tzinfo = timezone.get_current_timezone() if settings.USE_TZ else None
+	return date(datetime.now(tz=tzinfo), format_string)

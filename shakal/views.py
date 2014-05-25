@@ -7,6 +7,7 @@ from django.template.response import TemplateResponse
 from article.models import Article, Category
 from blog.models import Post
 from forum.models import Topic as ForumTopic
+from linuxos.templatetags.linuxos import now
 import sys
 
 
@@ -14,10 +15,20 @@ def error_500(request):
 	template = get_template('500.html')
 	type, value, tb = sys.exc_info()
 	return HttpResponseServerError(template.render(Context({
+		'date_now': now("Y-m-d\TH:m:sO"),
 		'exception_type': type.__name__,
 		'exception_value': value,
 		'request': request
 	})))
+
+
+def error_404(request):
+	template = get_template('404.html')
+	return HttpResponseServerError(template.render(Context({
+		'date_now': now("Y-m-d\TH:m:sO"),
+		'request': request,
+	})))
+
 
 
 def home(request):
