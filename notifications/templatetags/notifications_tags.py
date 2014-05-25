@@ -7,10 +7,9 @@ from notifications.models import Inbox
 
 
 register = template.Library()
-lib = library.Library()
 
 
-@lib.global_function
+@library.global_function
 @contextfunction
 @register.assignment_tag(takes_context = True)
 def get_unread_notifications(context):

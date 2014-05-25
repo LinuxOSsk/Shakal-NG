@@ -15,10 +15,9 @@ from jinja2 import contextfunction
 
 
 register = template.Library()
-lib = library.Library()
 
 
-@lib.filter
+@library.filter
 @register.filter
 def humandatetime(value, default = ''):
 	if not value:
@@ -36,7 +35,7 @@ def humandatetime(value, default = ''):
 			return mark_safe(value.strftime("%d.%m&nbsp;|&nbsp;%H:%M"))
 
 
-@lib.global_function
+@library.global_function
 @register.simple_tag
 def user_link(user_object, username):
 	if user_object:
@@ -45,7 +44,7 @@ def user_link(user_object, username):
 		return escape(username)
 
 
-@lib.global_function
+@library.global_function
 @register.simple_tag()
 def render_messages(messages, *tags):
 	def filter_exact_tags(messages, tags):
@@ -77,14 +76,14 @@ def render_messages(messages, *tags):
 	return mark_safe(render_to_string(search_templates, {'messages': messages}))
 
 
-@lib.filter
+@library.filter
 @register.filter
 def labelize_content_type(content_type):
 	app_label, model = content_type.split('.')
 	return ContentType.objects.get_by_natural_key(app_label = app_label, model = model).model_class()._meta.verbose_name #pylint: disable=W0212
 
 
-@lib.global_function
+@library.global_function
 @contextfunction
 @register.simple_tag(takes_context=True)
 def get_base_uri(context):
@@ -99,7 +98,7 @@ def get_base_uri(context):
 			return ''
 
 
-@lib.global_function
+@library.global_function
 def firstof(*args):
 	for arg in args:
 		if arg:

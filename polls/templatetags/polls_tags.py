@@ -9,10 +9,9 @@ from polls.models import Poll
 
 
 register = template.Library()
-lib = library.Library()
 
 
-@lib.global_function
+@library.global_function
 @contextfunction
 @register.simple_tag(takes_context=True)
 def polls_frontpage(context):

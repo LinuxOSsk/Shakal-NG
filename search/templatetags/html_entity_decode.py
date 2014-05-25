@@ -7,7 +7,6 @@ from django_jinja import library
 
 
 register = template.Library()
-lib = library.Library()
 
 pattern = re.compile(r'&(\w+?);')
 dec_pattern = re.compile(r'&\#(\d+?);')
@@ -27,7 +26,7 @@ def xml_entity_decode_char(m):
 		return m
 
 
-@lib.filter
+@library.filter
 @register.filter
 def html_entity_decode(string):
 	without_entity = pattern.sub(html_entity_decode_char, string)

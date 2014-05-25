@@ -9,10 +9,9 @@ from news.models import News
 
 
 register = template.Library()
-lib = library.Library()
 
 
-@lib.global_function
+@library.global_function
 @contextfunction
 @register.simple_tag(takes_context=True)
 def news_frontpage(context):

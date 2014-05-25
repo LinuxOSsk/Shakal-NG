@@ -8,10 +8,9 @@ from jinja2 import contextfunction
 
 
 register = template.Library()
-lib = library.Library()
 
 
-@lib.global_function
+@library.global_function
 @contextfunction
 @register.simple_tag(takes_context=True)
 def pagination(context, page_obj=None, page_kwarg='page'):
@@ -25,7 +24,7 @@ def pagination(context, page_obj=None, page_kwarg='page'):
 	return mark_safe(render_to_string("paginator/paginator.html", ctx))
 
 
-@lib.global_function
+@library.global_function
 @contextfunction
 @register.simple_tag(takes_context=True)
 def pager_url(context, page_num):

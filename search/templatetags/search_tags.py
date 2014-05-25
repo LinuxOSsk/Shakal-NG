@@ -6,10 +6,7 @@ from django.utils.safestring import mark_safe
 from django_jinja import library
 
 
-lib = library.Library()
-
-
-@lib.global_function
+@library.global_function
 def highlight(text_block, query, **kwargs):
 	try:
 		path_bits = getattr(settings, 'HAYSTACK_CUSTOM_HIGHLIGHTER', 'haystack.utils.Highlighter').split('.')

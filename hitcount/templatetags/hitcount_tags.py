@@ -8,10 +8,9 @@ from django_jinja import library
 
 
 register = template.Library()
-lib = library.Library()
 
 
-@lib.global_function
+@library.global_function
 @register.simple_tag()
 def add_hitcount(model):
 	model = iterify(model)

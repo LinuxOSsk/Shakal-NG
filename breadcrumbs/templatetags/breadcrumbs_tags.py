@@ -10,7 +10,6 @@ from common_utils import process_template_args, process_template_kwargs
 
 
 register = template.Library()
-lib = library.Library()
 
 
 class BreadcrumbNode(template.Node):
@@ -60,7 +59,7 @@ def breadcrumb(parser, token):
 
 
 @contextfunction
-@lib.global_function
+@library.global_function
 def breadcrumb(context, contents, *args, **kwargs):
 	class_name = kwargs.pop('class', False)
 	url = kwargs.pop('absolute_url', False)
@@ -78,7 +77,7 @@ def breadcrumb(context, contents, *args, **kwargs):
 	return ''
 
 
-@lib.global_function
+@library.global_function
 def render_breadcrumbs(breadcrumbs):
 	breadcrumbs.reverse()
 	ctx = {'breadcrumbs': breadcrumbs}

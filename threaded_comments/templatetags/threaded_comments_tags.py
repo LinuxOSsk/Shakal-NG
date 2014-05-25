@@ -15,7 +15,6 @@ from threaded_comments.models import Comment, RootHeader, UserDiscussionAttribut
 
 
 register = template.Library()
-lib = library.Library()
 
 
 class DiscussionLoader:
@@ -99,7 +98,7 @@ class DiscussionLoader:
 		return query_set
 
 
-@lib.global_function
+@library.global_function
 @contextfunction
 @register.assignment_tag(takes_context=True)
 def get_threaded_comments_list(context, target):
@@ -107,7 +106,7 @@ def get_threaded_comments_list(context, target):
 	return loader.load(context, target)
 
 
-@lib.global_function
+@library.global_function
 @contextfunction
 @register.simple_tag(takes_context=True)
 def render_threaded_comments_toplevel(context, target):
@@ -123,7 +122,7 @@ def render_threaded_comments_toplevel(context, target):
 
 
 @contextfunction
-@lib.global_function
+@library.global_function
 @register.simple_tag(takes_context=True)
 def add_discussion_attributes(context, model):
 	model = iterify(model)
@@ -162,10 +161,10 @@ def add_discussion_attributes(context, model):
 	return ''
 
 
-@lib.global_function
+@library.global_function
 @register.simple_tag
 def get_comments_for_item(item, display_last=False):
 	return mark_safe(render_to_string("comments/comment_count.html", {'item': item, display_last: 'display_last'}))
 
 
-lib.filter(mptt_tags.tree_info)
+library.filter(mptt_tags.tree_info)
