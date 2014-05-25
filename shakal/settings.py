@@ -346,7 +346,17 @@ SUIT_CONFIG = {
 
 CONN_MAX_AGE = 300
 
+CACHES = {
+	'default': {
+		'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+	},
+	'jinja': {
+		'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+	},
+}
+
 DEFAULT_JINJA2_TEMPLATE_INTERCEPT_RE = r"^(?!(admin/|debug_toolbar/|suit/)).*"
+JINJA2_BYTECODE_CACHE_NAME = "jinja"
 JINJA2_BYTECODE_CACHE_ENABLE = True
 JINJA2_LOADER = 'template_dynamicloader.loader_jinja_filesystem.JinjaLoader'
 
