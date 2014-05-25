@@ -1,6 +1,6 @@
 {% if item.comment_count %}
 	<a href="{{ item.get_absolute_url() }}#comments">
-		{{ ngettext("%(counter)s comment", "%(counter)s comments", item.comment_count)|format(counter=item.comment_count) }}{% if item.new_comments %}(*){% endif %}
+		{% trans num=item.comment_count %}{{ num }} comment{% pluralize %}{{ num }} comments{% endtrans %}{% if item.new_comments %}(*){% endif %}
 	</a>{% if display_last %}, {{ _("last") }}: {{ item.last_comment|date("d.m.Y H:i") }}{% endif %}
 {% else %}
 	<a href="{{ item.get_absolute_url() }}#comments">
