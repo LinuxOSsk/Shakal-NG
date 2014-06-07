@@ -115,6 +115,7 @@ class Inbox(models.Model):
 	event = models.ForeignKey(Event)
 	readed = models.BooleanField(default = False)
 
+	@property
 	def content_type(self):
 		if not self.event.content_type:
 			return None
