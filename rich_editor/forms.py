@@ -37,7 +37,7 @@ class RichOriginalField(CharField):
 	def clean(self, value):
 		fmt = value[0]
 		txt = super(RichOriginalField, self).clean(value[1])
-		parser = self.parsers[fmt]
+		parser = self.parsers.get(fmt, self.parsers['html'])
 		parser.parse(txt)
 		parsed = parser.get_output()
 		return (fmt, txt, parsed)
