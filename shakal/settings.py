@@ -355,7 +355,7 @@ CACHES = {
 	},
 }
 
-DEFAULT_JINJA2_TEMPLATE_INTERCEPT_RE = r"^(?!(admin/|debug_toolbar/|suit/)).*"
+DEFAULT_JINJA2_TEMPLATE_INTERCEPT_RE = r"^(?!(admin/|debug_toolbar/|suit/|profiler/)).*"
 JINJA2_BYTECODE_CACHE_NAME = "jinja"
 JINJA2_BYTECODE_CACHE_ENABLE = True
 JINJA2_LOADER = 'template_dynamicloader.loader_jinja_filesystem.JinjaLoader'
