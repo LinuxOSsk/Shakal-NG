@@ -32,4 +32,4 @@ termcolor==1.1.0
 wsgiref==0.1.2
 git+git://github.com/mireq/django-auth-remember.git#egg=django-auth-remember
 git+git://github.com/mireq/xapian-haystack.git#egg=xapian-haystack
-git+git://github.com/niwibe/django-jinja.git
+git+git://github.com/niwibe/django-jinja.git#egg=django-jinja
