@@ -9,9 +9,22 @@ from django.template.loaders import app_directories
 class JinjaLoader(DynamicLoaderMixin, FileSystemLoader):
 	def __init__(self):
 		super(JinjaLoader, self).__init__(app_directories.app_template_dirs + tuple(settings.TEMPLATE_DIRS))
+		self.template_source_cache = {}
 
 	def get_source(self, environment, template):
+		visitors_template = self.get_visitors_template(template)
+		if visitors_template in self.template_source_cache:
+			if self.template_source_cache[visitors_template] is None:
+				raise TemplateNotFound(visitors_template)
+			else:
+				return self.template_source_cache[visitors_template]
 		try:
-			return super(JinjaLoader, self).get_source(environment, self.get_visitors_template(template))
+			source = super(JinjaLoader, self).get_source(environment, self.get_visitors_template(template))
 		except TemplateNotFound:
-			return super(JinjaLoader, self).get_source(environment, template)
+			try:
+				source = super(JinjaLoader, self).get_source(environment, template)
+			except TemplateNotFound:
+				self.template_source_cache[visitors_template] = None
+				raise
+		self.template_source_cache[visitors_template] = source
+		return source
