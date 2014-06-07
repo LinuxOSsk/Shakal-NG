@@ -18,7 +18,11 @@ def forum_topic_redirect(request, pk):
 	return HttpResponsePermanentRedirect(reverse('forum:topic-detail', kwargs = {'pk': pk}))
 
 def forum_topic_old_redirect(request):
-	return HttpResponsePermanentRedirect(reverse('forum:topic-detail', kwargs = {'pk': request.GET['forumid']}))
+	try:
+		forumid = int(request.GET.get('forumid', 0))
+	except ValueError:
+		forumid = 0
+	return HttpResponsePermanentRedirect(reverse('forum:topic-detail', kwargs = {'pk': forumid}))
 
 def news_redirect(request, pk):
 	news = get_object_or_404(News, pk = pk)
