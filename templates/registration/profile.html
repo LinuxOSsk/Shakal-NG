@@ -36,7 +36,7 @@
 
 {% if user_profile.blog %}
 	<h2>Blog - {{ user_profile.blog }}</h2>
-	{% with posts=user_profile.blog.post_set.all|slice("10") %}
+	{% with posts=user_profile.blog.post_set.all()[:10] %}
 		{{ add_discussion_attributes(posts) }}
 		<ul>
 			{% for post in posts %}
