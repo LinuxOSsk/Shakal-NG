@@ -9,7 +9,7 @@ from autoslugfield.fields import AutoSlugField
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 from attachment.models import Attachment
-from threaded_comments.models import RootHeader
+from threaded_comments.models import RootHeader, Comment
 
 
 class NewsManager(models.Manager):
@@ -39,6 +39,7 @@ class News(models.Model):
 	approved = models.BooleanField(default = False, verbose_name = _('approved'))
 	comments_header = generic.GenericRelation(RootHeader)
 	attachments = generic.GenericRelation(Attachment)
+	comments = generic.GenericRelation(Comment)
 
 	class Meta:
 		verbose_name = _('news item')

@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from autoslugfield.fields import AutoSlugField
+from threaded_comments.models import RootHeader, Comment
 
 
 class ActivePollsListManager(models.Manager):
@@ -42,6 +43,9 @@ class Poll(models.Model):
 	approved = models.BooleanField(_("approved"), default=False)
 
 	choice_count = models.PositiveIntegerField(default=0)
+
+	comments = generic.GenericRelation(Comment)
+	comments_header = generic.GenericRelation(RootHeader)
 
 	@property
 	def choices(self):
