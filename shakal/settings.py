@@ -192,6 +192,7 @@ ABSOLUTE_URL_OVERRIDES = {
 ATTACHMENT_MAX_SIZE = 1024 * 1024 * 50
 ATTACHMENT_SIZE_FOR_CONTENT = {
 	'django_comments': 1024 * 1024 * 2,
+	'threaded_comments_comment': 1024 * 1024 * 2,
 	'forum_topic': 1024 * 1024 * 2,
 	'blog_post': 1024 * 1024 * 8,
 }
