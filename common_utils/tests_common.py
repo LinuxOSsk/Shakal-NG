@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
+import unittest
 from datetime import datetime
 
-import unittest
-from django.db.models.fields.files import FieldFile
 from django.contrib.auth import get_user_model
+from django.core.management.color import no_style
 from django.core.urlresolvers import reverse
+from django.db import connection, models
+from django.db.models.fields.files import FieldFile
 from django.forms import BaseForm
 from django.shortcuts import resolve_url
 from django.test import LiveServerTestCase
@@ -166,3 +168,49 @@ class FrontendTest(ProcessFormTestMixin, LiveServerTestCase):
 		response = self.get_url(url, *args, **kwargs)
 		self.assertEqual(response.status_code, 200)
 		return response
+
+
+class TestModel(models.Model):
+	class Meta:
+		abstract = True
+
+	@classmethod
+	def create_table(cls):
+		raw_sql, refs = connection.creation.sql_create_model(cls, no_style(), [])
+		create_sql = u'\n'.join(raw_sql).encode('utf-8')
+		cls.delete_table()
+		cursor = connection.cursor()
+		try:
+			cursor.execute(create_sql)
+		finally:
+			cursor.close()
+
+	@classmethod
+	def delete_table(cls):
+		cursor = connection.cursor()
+		try:
+			cursor.execute('DROP TABLE IF EXISTS %s' % cls._meta.db_table)
+		except:
+			pass
+		finally:
+			cursor.close()
+
+
+class CreateModelsMixin(object):
+	temporary_models = ()
+
+	def setUp(self):
+		self.create_temporary_models()
+		super(CreateModelsMixin, self).setUp()
+
+	def tearDown(self):
+		self.delete_temporary_models()
+		super(CreateModelsMixin, self).tearDown()
+
+	def create_temporary_models(self):
+		for model in self.temporary_models:
+			model.create_table()
+
+	def delete_temporary_models(self):
+		for model in self.temporary_models:
+			model.delete_table()
