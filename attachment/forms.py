@@ -26,8 +26,9 @@ class AttachmentFormMixin(object):
 		return session
 
 	def process_attachments(self):
+		self.update_attachment_size()
 		self.process_attachment_delete()
-		if not self.security_errors():
+		if not hasattr(self, 'security_errors') or not self.security_errors():
 			self.process_attachment_upload()
 		self.update_attachment_size()
 
@@ -83,7 +84,6 @@ class AttachmentFormMixin(object):
 				object_id=content_object.pk
 			)
 			attachment.save()
-			temp_attachment.attachment = ''
 			temp_attachment.delete()
 
 	def get_attachments(self):
