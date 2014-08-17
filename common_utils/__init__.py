@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 
+import inspect
 from django import template
 from django.core.exceptions import ObjectDoesNotExist
 from django_tools.middlewares.ThreadLocal import get_current_request
@@ -38,7 +39,7 @@ def iterify(items):
 	try:
 		iter(items)
 		return items
-	except:
+	except TypeError:
 		return [items]
 
 
@@ -63,6 +64,21 @@ def clean_dir(path, root_path):
 		except OSError:
 			return
 		current_dir = os.path.join(*os.path.split(current_dir)[:-1])
+
+
+def get_meta(instance):
+	return getattr(instance, "_meta")
+
+
+def get_default_manager(obj):
+	if inspect.isclass(obj):
+		return getattr(obj, "_default_manager")
+	else:
+		return getattr(obj.__class__, "_default_manager")
+
+
+def reload_model(obj):
+	return get_default_manager(obj.__class__).get(pk=obj.pk)
 
 
 def monkey_patch_safestring():
