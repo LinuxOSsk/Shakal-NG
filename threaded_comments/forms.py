@@ -13,6 +13,7 @@ from django.utils.translation import ugettext_lazy as _
 from antispam.forms import AntispamFormMixin
 from attachment.fields import AttachmentField
 from attachment.forms import AttachmentFormMixin
+from common_utils import get_meta
 from rich_editor.forms import RichOriginalField
 from threaded_comments.models import Comment
 
@@ -31,7 +32,7 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 
 	name = forms.CharField(label = _("Name"), max_length = 50)
 	subject = forms.CharField(label = _("Subject"), max_length = 100)
-	original_comment = RichOriginalField(parsers = Comment._meta.get_field('original_comment').parsers, label = _("Comment"), max_length = COMMENT_MAX_LENGTH)
+	original_comment = RichOriginalField(parsers = get_meta(Comment).get_field('original_comment').parsers, label = _("Comment"), max_length = COMMENT_MAX_LENGTH)
 	attachment = AttachmentField(label = _("Attachment"), required = False)
 
 	def __init__(self, target_object, data = None, initial = None, *args, **kwargs):
@@ -117,8 +118,8 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 	def generate_security_data(self):
 		timestamp = int(time())
 		security_dict = {
-			'content_type':   str(self.target_object._meta),
-			'object_id':      str(self.target_object._get_pk_val()),
+			'content_type':   str(get_meta(self.target_object)._meta),
+			'object_id':      str(self.target_object.pk),
 			'parent_pk':      str(self.parent_comment.pk),
 			'timestamp':      str(timestamp),
 			'security_hash':  self.initial_security_hash(timestamp),
@@ -128,7 +129,7 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 	def initial_security_hash(self, timestamp):
 		initial_security_dict = {
 			'content_type': str(self.target_object._meta),
-			'object_id': str(self.target_object._get_pk_val()),
+			'object_id': str(self.target_object.pk),
 			'timestamp': str(timestamp),
 		}
 		return self.generate_security_hash(**initial_security_dict)
@@ -142,7 +143,7 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 	def get_comment_create_data(self):
 		return {
 			'content_type':     ContentType.objects.get_for_model(self.target_object),
-			'object_id':        self.target_object._get_pk_val(),
+			'object_id':        self.target_object.pk,
 			'user_name':        self.cleaned_data.get("name", ""),
 			'original_comment': self.cleaned_data["original_comment"],
 			'submit_date':      timezone.now(),

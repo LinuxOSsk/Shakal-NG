@@ -8,18 +8,18 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.fields.files import FileField
-from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import filesizeformat
+from django.utils.translation import ugettext_lazy as _
 
 from .utils import get_available_size
-from common_utils import clean_dir
+from common_utils import clean_dir, get_meta
 
 
 def upload_to(instance, filename):
 	content_class = instance.content_type.model_class()
 	return 'attachment/{0}_{1}/{2:02x}/{3}/{4}'.format(
-		content_class._meta.app_label,
-		content_class._meta.object_name.lower(),
+		get_meta(content_class).app_label,
+		get_meta(content_class).object_name.lower(),
 		instance.object_id % 256,
 		instance.object_id,
 		filename

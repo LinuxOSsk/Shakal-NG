@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.forms.models import ModelForm
 
+from common_utils import get_meta
 from rich_editor.forms import RichOriginalField
 from wiki.models import Page
 
 
 class WikiEditForm(ModelForm):
-	original_text = RichOriginalField(parsers = Page._meta.get_field('original_text').parsers, label = u'Text')
+	original_text = RichOriginalField(parsers = get_meta(Page).get_field('original_text').parsers, label = u'Text')
 
 	class Meta:
 		model = Page

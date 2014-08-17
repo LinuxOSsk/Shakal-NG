@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
-import unittest
 from datetime import datetime
 
+import unittest
 from django.contrib.auth import get_user_model
 from django.core.management.color import no_style
 from django.core.urlresolvers import reverse
@@ -11,6 +11,8 @@ from django.db.models.fields.files import FieldFile
 from django.forms import BaseForm
 from django.shortcuts import resolve_url
 from django.test import LiveServerTestCase
+
+from common_utils import get_meta
 
 
 User = get_user_model()
@@ -176,7 +178,7 @@ class TestModel(models.Model):
 
 	@classmethod
 	def create_table(cls):
-		raw_sql, refs = connection.creation.sql_create_model(cls, no_style(), [])
+		raw_sql = connection.creation.sql_create_model(cls, no_style(), [])[0]
 		create_sql = u'\n'.join(raw_sql).encode('utf-8')
 		cls.delete_table()
 		cursor = connection.cursor()
@@ -189,11 +191,12 @@ class TestModel(models.Model):
 	def delete_table(cls):
 		cursor = connection.cursor()
 		try:
-			cursor.execute('DROP TABLE IF EXISTS %s' % cls._meta.db_table)
-		except:
-			pass
+			cursor.execute('DROP TABLE IF EXISTS %s' % get_meta(cls).db_table)
 		finally:
 			cursor.close()
+
+	def __unicode__(self):
+		return "Test %d" % self.pk
 
 
 class CreateModelsMixin(object):

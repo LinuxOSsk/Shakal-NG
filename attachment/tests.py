@@ -14,13 +14,14 @@ from .fields import AttachmentField
 from .forms import AttachmentFormMixin
 from .models import UploadSession, Attachment, TemporaryAttachment
 from .utils import get_available_size
+from common_utils import get_meta
 from common_utils.tests_common import ProcessFormTestMixin
 
 
 class AttachmentModelTest(TestCase):
 	def setUp(self):
 		self.testContentType = ContentType.objects.all()[0]
-		self.ct = self.testContentType.model_class()._meta.db_table
+		self.ct = get_meta(self.testContentType.model_class()).db_table
 
 	def test_upload_session(self):
 		session1 = UploadSession()

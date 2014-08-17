@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from django import template
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
-from django.template.defaulttags import now, date
+from django.template.defaulttags import date
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.encoding import smart_unicode
@@ -14,6 +14,8 @@ from django.utils.html import escape, format_html
 from django.utils.safestring import mark_safe
 from django_jinja import library
 from jinja2 import contextfunction
+
+from common_utils import get_meta
 
 
 register = template.Library()
@@ -82,7 +84,7 @@ def render_messages(messages, *tags):
 @register.filter
 def labelize_content_type(content_type):
 	app_label, model = content_type.split('.')
-	return ContentType.objects.get_by_natural_key(app_label = app_label, model = model).model_class()._meta.verbose_name #pylint: disable=W0212
+	return get_meta(ContentType.objects.get_by_natural_key(app_label = app_label, model = model).model_class()).verbose_name #pylint: disable=W0212
 
 
 @library.global_function

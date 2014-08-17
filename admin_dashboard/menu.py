@@ -10,6 +10,7 @@ from django.template.defaultfilters import capfirst
 from django.utils.translation import ugettext_lazy as _
 
 from appgroups import get_application_groups
+from common_utils import get_meta
 
 
 RE_CHANGE_URL = re.compile("(.+)_([^_]+)_change")
@@ -20,7 +21,7 @@ class ModelList(items.ModelList):
 		listitems = self._visible_models(context['request'])
 		for model, perms in listitems:
 			if perms['change']:
-				self.children.append(items.MenuItem(title = capfirst(model._meta.verbose_name_plural), url = self._get_admin_change_url(model, context)))
+				self.children.append(items.MenuItem(title = capfirst(get_meta(model).verbose_name_plural), url = self._get_admin_change_url(model, context)))
 
 
 class ReturnToSiteItem(items.MenuItem):

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import template
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django.template.loader import render_to_string
 from django.utils import timezone
@@ -10,7 +9,7 @@ from django_jinja import library
 from jinja2 import contextfunction
 from mptt.templatetags import mptt_tags
 
-from common_utils import iterify
+from common_utils import iterify, get_meta
 from threaded_comments.models import Comment, RootHeader, UserDiscussionAttribute
 
 
@@ -113,9 +112,9 @@ def render_threaded_comments_toplevel(context, target):
 	context = dict(context)
 	model_class = target.__class__
 	templates = [
-		"comments/{0}_{1}_comments_toplevel.html".format(*str(model_class._meta).split('.')),
-		"comments/{0}_comments_toplevel.html".format(model_class._meta.app_label),
-		"comments/comments_toplevel.html".format(model_class._meta.app_label),
+		"comments/{0}_{1}_comments_toplevel.html".format(*str(get_meta(model_class)).split('.')),
+		"comments/{0}_comments_toplevel.html".format(get_meta(model_class).app_label),
+		"comments/comments_toplevel.html".format(get_meta(model_class).app_label),
 	]
 	context.update({"target": target})
 	return mark_safe(render_to_string(templates, context))

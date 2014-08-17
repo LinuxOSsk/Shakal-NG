@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from django import http
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db import models
@@ -7,19 +6,19 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import capfirst
 from django.template.response import TemplateResponse
-from django.views.decorators.http import require_POST
 from django.utils.encoding import force_unicode
+from django.views.decorators.http import require_POST
+
+from common_utils import get_default_manager, get_meta
+from threaded_comments import get_form, signals
 from threaded_comments.models import Comment, CommentFlag, RootHeader, UserDiscussionAttribute, update_comments_header
-from threaded_comments import get_form
-from threaded_comments import signals
-from common_utils import get_default_manager
 
 
 def get_module_name(content_object):
 	if hasattr(content_object, 'breadcrumb_label'):
 		return capfirst(content_object.breadcrumb_label)
 	else:
-		return capfirst(content_object.__class__._meta.verbose_name_plural)
+		return capfirst(get_meta(content_object).verbose_name_plural)
 
 
 def get_module_url(content_object):
@@ -40,7 +39,7 @@ def reply_comment(request, parent):
 	else:
 		new_subject = force_unicode('RE: ') + force_unicode(content_object)
 
-	model_meta = content_object.__class__._meta
+	model_meta = get_meta(content_object)
 	template_list = [
 		"comments/{0}_{1}_preview.html".format(*tuple(str(model_meta).split('.'))),
 		"comments/{0}_preview.html".format(model_meta.app_label),
@@ -93,8 +92,8 @@ def post_comment(request):
 
 	if form.errors or not 'create' in data or parent.is_locked:
 		template_list = [
-			"comments/{0}_{1}_preview.html".format(model._meta.app_label, model._meta.module_name),
-			"comments/{0}_preview.html".format(model._meta.app_label),
+			"comments/{0}_{1}_preview.html".format(get_meta(model).app_label, get_meta(model).module_name),
+			"comments/{0}_preview.html".format(get_meta(model).app_label),
 			"comments/preview.html",
 		]
 		valid = not form.errors
