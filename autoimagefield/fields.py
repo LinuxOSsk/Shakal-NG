@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
-
 import shutil
+
 from django.conf import settings
 from django.db.models import signals
 from django.db.models.fields.files import ImageField
@@ -11,7 +11,7 @@ class ThumbnailField(object):
 	"""
 	Inštancia sa pužíva na prístup k náhľadom
 	"""
-	def __init__(self, field, filename = None, size = None):
+	def __init__(self, field, filename=None, size=None):
 		self.filename = filename
 		self.field = field
 		self.thumbnail_size = size
@@ -22,14 +22,12 @@ class ThumbnailField(object):
 			return
 
 		source_filename = self.field.storage.path(str(self.field))
-		if not os.path.exists(source_filename):
-			return
-
 		# Kópia a resize obrázku
 		shutil.copy(source_filename, dest_filename)
 		AutoImageField.resize_image(dest_filename, self.thumbnail_size)
 
 	def _get_path(self):
+		self._initialize_file()
 		return self.field.storage.path(self.filename)
 	path = property(_get_path)
 
@@ -39,6 +37,7 @@ class ThumbnailField(object):
 	url = property(_get_url)
 
 	def _get_size(self):
+		self._initialize_file()
 		return self.field.storage.size(self.filename)
 	size = property(_get_size)
 
@@ -46,7 +45,7 @@ class ThumbnailField(object):
 class AutoImageField(ImageField):
 	WIDTH, HEIGHT = 0, 1
 
-	def __init__(self, verbose_name = None, size = None, thumbnail = None, *args, **kwargs):
+	def __init__(self, verbose_name=None, size=None, thumbnail=None, *args, **kwargs):
 		self.size = size
 		self.thumbnail = {}
 		if thumbnail:
@@ -59,10 +58,7 @@ class AutoImageField(ImageField):
 		img = Image.open(filename)
 		if img.size[AutoImageField.WIDTH] > size[AutoImageField.WIDTH] or img.size[AutoImageField.HEIGHT] > size[AutoImageField.HEIGHT]:
 			img.thumbnail((size[AutoImageField.WIDTH], size[AutoImageField.HEIGHT]), Image.ANTIALIAS)
-		try:
-			img.save(filename, optimize = 1)
-		except IOError:
-			img.save(filename)
+		img.save(filename, optimize=1)
 
 	def get_object_pk(self, instance):
 		return instance.pk
@@ -95,8 +91,8 @@ class AutoImageField(ImageField):
 
 	def __get_paths(self, instance):
 		new_file = None
-		# Pôvodná adresa
 		try:
+			# Pôvodná adresa
 			src = os.path.abspath(getattr(instance, self.name).path)
 			ext = os.path.splitext(src)[1].lower().replace('jpg', 'jpeg')
 			new_file = self.generate_filename(instance, "{0}_{1}{2}".format(self.name, instance.pk, ext))
@@ -127,6 +123,8 @@ class AutoImageField(ImageField):
 			self.__clean_dir(os.path.dirname(field.storage.path(old)))
 		if src:
 			self.__clean_dir(os.path.dirname(src))
+
+		self.__add_old_instance(instance, **kwargs)
 
 	def __clean_dir(self, path):
 		path = os.path.abspath(path)
@@ -173,10 +171,9 @@ class AutoImageField(ImageField):
 		return os.path.join(dirname, u''.join(splitted_filename))
 
 	def __add_thumbnails(self, cls, name):
-		if not self.thumbnail:
-			return
+		thumbnail = self.thumbnail or {}
 
-		for label, size in self.thumbnail.iteritems():
+		for label, size in thumbnail.iteritems():
 			def get_thumbnail(self):
 				field = getattr(self, name)
 				storage = field.storage
@@ -193,7 +190,7 @@ class AutoImageField(ImageField):
 
 	def contribute_to_class(self, cls, name):
 		super(AutoImageField, self).contribute_to_class(cls, name)
-		signals.post_save.connect(self.__rename_image, sender = cls)
-		signals.post_init.connect(self.__add_old_instance, sender = cls)
-		signals.post_delete.connect(self.__delete_image, sender = cls)
+		signals.post_save.connect(self.__rename_image, sender=cls)
+		signals.post_init.connect(self.__add_old_instance, sender=cls)
+		signals.post_delete.connect(self.__delete_image, sender=cls)
 		self.__add_thumbnails(cls, name)

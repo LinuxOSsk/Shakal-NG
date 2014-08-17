@@ -214,3 +214,20 @@ class CreateModelsMixin(object):
 	def delete_temporary_models(self):
 		for model in self.temporary_models:
 			model.delete_table()
+
+
+def create_image(size=None, color=None, filetype='png', basename='image'):
+	from PIL import Image
+	from StringIO import StringIO
+
+	size = size or (50, 50)
+	color = color or (256, 0, 0)
+
+	file_obj = StringIO()
+
+	im = Image.new('RGBA', size=size, color=color)
+	im.save(file_obj, filetype)
+
+	file_obj.name = basename + '.' + filetype
+	file_obj.seek(0)
+	return file_obj
