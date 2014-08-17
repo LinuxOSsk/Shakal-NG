@@ -11,6 +11,7 @@ from django.db.models.signals import post_save, pre_save, pre_delete
 from django.utils.translation import ugettext_lazy as _
 
 from article.models import Article
+from common_utils import get_default_manager
 from news.models import News
 from rich_editor import get_parser
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
@@ -33,7 +34,7 @@ class User(AbstractUser):
 
 	def clean_fields(self, exclude=None):
 		if self.email:
-			qs = self._default_manager.filter(email=self.email).exclude(pk=self.pk)
+			qs = get_default_manager(self).filter(email=self.email).exclude(pk=self.pk)
 			if qs.exists():
 				raise ValidationError({'email': [self.unique_error_message(self.__class__, ['email'])]})
 		super(User, self).clean_fields(exclude)

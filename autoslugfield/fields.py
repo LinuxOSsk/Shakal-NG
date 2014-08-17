@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db.models import signals, SlugField
 from django.template.defaultfilters import slugify
+from common_utils import get_meta, get_default_manager
 
 
 class AutoSlugField(SlugField):
@@ -24,11 +25,11 @@ class AutoSlugField(SlugField):
 
 		if not slug:
 			slug = '-'
-		slug_field = instance._meta.get_field(self.name)
+		slug_field = get_meta(instance).get_field(self.name)
 		slug_length = slug_field.max_length
 		slug = slug[:slug_length - self.reserve_chars]
 
-		queryset = instance.__class__._default_manager.all()
+		queryset = get_default_manager(instance).all()
 		if instance.pk:
 			queryset = queryset.exclude(pk=instance.pk)
 		slug_field_query = self.name + '__startswith'

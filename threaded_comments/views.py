@@ -12,6 +12,7 @@ from django.utils.encoding import force_unicode
 from threaded_comments.models import Comment, CommentFlag, RootHeader, UserDiscussionAttribute, update_comments_header
 from threaded_comments import get_form
 from threaded_comments import signals
+from common_utils import get_default_manager
 
 
 def get_module_name(content_object):
@@ -81,7 +82,7 @@ def post_comment(request):
 		return http.HttpResponseBadRequest()
 
 	model = models.get_model(*data['content_type'].split(".", 1))
-	target = model._default_manager.get(pk = data['object_id'])
+	target = get_default_manager(model).get(pk = data['object_id'])
 	parent = Comment.all_comments.get(pk = data['parent_pk'])
 	content_object = parent.content_object
 
