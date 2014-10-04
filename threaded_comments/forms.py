@@ -118,7 +118,7 @@ class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
 	def generate_security_data(self):
 		timestamp = int(time())
 		security_dict = {
-			'content_type':   str(get_meta(self.target_object)._meta),
+			'content_type':   str(get_meta(self.target_object)),
 			'object_id':      str(self.target_object.pk),
 			'parent_pk':      str(self.parent_comment.pk),
 			'timestamp':      str(timestamp),
