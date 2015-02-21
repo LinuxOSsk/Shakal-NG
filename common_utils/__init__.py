@@ -4,7 +4,7 @@ import os
 import inspect
 from django import template
 from django.core.exceptions import ObjectDoesNotExist
-from django_tools.middlewares.ThreadLocal import get_current_request
+from .middlewares.ThreadLocal import get_current_request
 
 
 def process_template_args(rawparams, context = None):

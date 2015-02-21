@@ -94,7 +94,7 @@ def get_base_uri(context):
 	if 'request' in context:
 		return context['request'].build_absolute_uri('/')[:-1]
 	else:
-		from django_tools.middlewares.ThreadLocal import get_current_request
+		from common_utils.middlewares.ThreadLocal import get_current_request
 		request = get_current_request()
 		if request:
 			return request.build_absolute_uri('/')[:-1]

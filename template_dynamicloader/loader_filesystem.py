@@ -3,7 +3,7 @@ import os
 
 from django.template import TemplateDoesNotExist
 from django.template.loader import BaseLoader, find_template_loader
-from django_tools.middlewares.ThreadLocal import get_current_request
+from common_utils.middlewares.ThreadLocal import get_current_request
 
 from template_dynamicloader.utils import get_template_settings
 
