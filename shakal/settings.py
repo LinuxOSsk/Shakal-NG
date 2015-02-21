@@ -50,8 +50,8 @@ STATICSITEMAPS_BASE_DIR_SITEMAP = 'shakal.sitemaps.sitemaps'
 STATIC_BASE_DIR = ''
 STATIC_URL = '/static/'
 
-LOGIN_URL = '/profil/prihlasit/'
-LOGIN_REDIRECT_URL = '/profil/ja/'
+LOGIN_URL = 'account_login'
+LOGIN_REDIRECT_URL = 'account_my_profile'
 
 STATICFILES_DIRS = (
 	os.path.join(BASE_DIR, 'static'),
@@ -79,6 +79,7 @@ TEMPLATE_CONTEXT_PROCESSORS = TCP + (
 	'breadcrumbs.context_processors.breadcrumbs',
 	'feeds.context_processors.feeds',
 	'template_dynamicloader.context_processors.style',
+	'allauth.account.context_processors.account'
 )
 
 
@@ -88,7 +89,6 @@ MIDDLEWARE_CLASSES = (
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.middleware.csrf.CsrfViewMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
-	'auth_remember.middleware.AuthRememberMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'common_utils.middlewares.ThreadLocal.ThreadLocalMiddleware',
 	'template_dynamicloader.middleware.TemplateSwitcherMiddleware',
@@ -98,7 +98,7 @@ MIDDLEWARE_CLASSES = (
 
 AUTHENTICATION_BACKENDS = (
 	'django.contrib.auth.backends.ModelBackend',
-	'auth_remember.backend.AuthRememberBackend',
+	'allauth.account.auth_backends.AuthenticationBackend',
 )
 
 BASE_DIR_URLCONF = 'shakal.urls'
@@ -123,13 +123,13 @@ INSTALLED_APPS = (
 	'django.contrib.syndication',
 	'django.contrib.sitemaps',
 	'django_jinja',
+	'allauth',
+	'allauth.account',
 	'haystack',
 	'queued_search',
-	'registration',
 	'accounts',
 	'article',
 	'attachment',
-	'auth_remember',
 	'blog',
 	'breadcrumbs',
 	'hitcount',
@@ -246,7 +246,6 @@ ADMIN_DASHBOARD_APP_GROUPS = (
 		_('Applications'), {
 			'models': ('*',),
 			'module': 'AppList',
-			'exclude': ('auth_remember.*', 'registration.*', ),
 			'collapsible': True,
 		}
 	),
@@ -355,11 +354,15 @@ CACHES = {
 	},
 }
 
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+
 DEFAULT_JINJA2_TEMPLATE_INTERCEPT_RE = r"^(?!(admin/|debug_toolbar/|suit/|profiler/)).*"
 JINJA2_BYTECODE_CACHE_NAME = "jinja"
 JINJA2_BYTECODE_CACHE_ENABLE = True
 JINJA2_LOADER = 'template_dynamicloader.loader_jinja_filesystem.JinjaLoader'
 
+from .patch_urls import patch_urls
+patch_urls()
 
 import sys
 if len(sys.argv) > 1 and sys.argv[1] == 'test':
