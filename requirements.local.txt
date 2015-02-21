@@ -1,0 +1,6 @@
+coverage==3.7.1
+django-debug-toolbar==1.2.2
+django-extensions==1.5.0
+ipython==2.4.1
+-e git+https://github.com/pygraphviz/pygraphviz.git@6e9f56f92f38c380db84f7093dc2837d002110e0#egg=pygraphviz-master
+Werkzeug==0.10.1
