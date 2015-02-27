@@ -9,12 +9,18 @@ from .parser import HtmlParser
 class RichTextOriginalField(Field):
 	__metaclass__ = SubfieldBase
 
-	def __init__(self, filtered_field, property_name, parsers = {'html': HtmlParser()}, *args, **kwargs):
+	def __init__(self, filtered_field, property_name, parsers=None, *args, **kwargs):
 		self.max_length = kwargs.pop('max_length', None)
 		super(RichTextOriginalField, self).__init__(*args, **kwargs)
 		self.filtered_field = filtered_field
 		self.property_name = property_name
-		self.parsers = parsers
+		self.parsers = parsers or {'html': HtmlParser()}
+
+	def deconstruct(self):
+		name, path, args, kwargs = super(RichTextOriginalField, self).deconstruct()
+		kwargs['filtered_field'] = self.filtered_field
+		kwargs['property_name'] = self.property_name
+		return name, path, args, kwargs
 
 	def get_internal_type(self):
 		return "TextField"

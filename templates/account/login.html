@@ -1,0 +1,59 @@
+{% extends "account/base.html" %}
+
+{% block head_title %}Prihlásiť{% endblock %}
+{% block extraheaders %}
+<meta name="robots" content="noindex, nofollow" />
+{{ form.media }}
+{% endblock %}
+{% block breadcrumbs %}
+{{ breadcrumb("Prihlásiť") }}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+
+<h1>Prihlásiť</h1>
+
+{% if socialaccount and  socialaccount.providers  %}
+<p>Prihláste sa so sociálnym účtoom, alebo <a href="{{ signup_url }}">sa registrujte</a> na {{site_name}}:</p>
+
+<div class="socialaccount_ballot">
+
+	<ul class="socialaccount_providers">
+		{% with process="login" %}
+			{% include "socialaccount/snippets/provider_list.html" %}
+		{% endwith %}
+	</ul>
+
+	<div class="login-or">alebo</div>
+
+</div>
+
+{% include "socialaccount/snippets/login_extra.html" %}
+
+{% else %}
+<p>Ak ešte nemáte účet môžte sa <a href="{{ signup_url }}">zaregistrovať</a>.</p>
+{% endif %}
+
+{% if error_message %}
+<p class="message error">{{ error_message }}</p>
+{% endif %}
+
+<form action="{{ url("account_login") }}" method="post" id="login-form">{% csrf_token %}
+	<fieldset class="login">
+		<h2>Prihlásiť na {{ site.name }}</h2>
+		{% include "includes/form_loop.html" %}
+		<div class="submit-row">
+			<a class="btn" href="{{ url("account_reset_password") }}"><span>Zabudnuté heslo?</span></a>
+			<div class="positive">
+				<button class="btn" type="submit" title="Prihlásiť"><span>Prihlásiť</span></button>
+			</div>
+		</div>
+	</fieldset>
+
+	{% if redirect_field_value %}
+		<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+	{% endif %}
+</form>
+
+{% endblock %}

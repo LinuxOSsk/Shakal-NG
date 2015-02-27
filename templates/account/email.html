@@ -1,0 +1,72 @@
+{% extends "account/base.html" %}
+
+{% block breadcrumbs %}
+{{ breadcrumb("Prihlásiť") }}
+{{ super() }}
+{% endblock %}
+
+{% block head_title %}E-mail{% endblock %}
+
+{% block content %}
+	<h1>E-mailová adresa</h1>
+
+	{% if user.emailaddress_set.all %}
+
+		<p>Nasledujcúe e-mailové adresy sú asociované s vašim účtom</p>
+
+		<form action="{{ url('account_email') }}" class="email_list" method="post">{% csrf_token %}
+			<fieldset class="module">
+
+				{% for emailaddress in user.emailaddress_set.all() %}
+					<div class="ctrlHolder">
+						<label for="email_radio_{{loop.index}}" class="{% if emailaddress.primary %}primary_email{%endif%}">
+							<input id="email_radio_{{loop.index}}" type="radio" name="email" {% if emailaddress.primary %}checked="checked"{%endif %} value="{{emailaddress.email}}"/>
+							{{ emailaddress.email }}
+							{% if emailaddress.verified %}
+								<span class="verified">Overená</span>
+							{% else %}
+								<span class="unverified">Neoverená</span>
+							{% endif %}
+							{% if emailaddress.primary %}<span class="primary">Primárna</span>{% endif %}
+						</label>
+					</div>
+				{% endfor %}
+
+				<div class="submit-row">
+					<button class="btn secondaryAction" type="submit" name="action_primary" ><span>Primárna</span></button>
+					<button class="btn secondaryAction" type="submit" name="action_send" ><span>Overiť</span></button>
+					<button class="btn primaryAction" type="submit" name="action_remove" ><span>Odstrániť</span></button>
+				</div>
+			</fieldset>
+		</form>
+	{% else %}
+		<p><strong>Pozor</strong> Nemáte žiadnu e-mailovú adresu nastavenú ako primárnu</p>
+	{% endif %}
+
+	<h2>Pridať e-mailovú adresu</h2>
+
+	<form method="post" action="{{ url('account_email') }}" class="add_email">{% csrf_token %}
+		<fieldset class="module">
+			{% include "includes/form_loop.html" %}
+			<div class="submit-row">
+				<button name="action_add" type="submit" class="btn"><span>Pridať</span></button>
+			</div>
+		</fieldset>
+	</form>
+{% endblock %}
+
+{% block extrajs %}
+<script type="text/javascript">
+(function() {
+	var message = "Chcete skutočne odstrániť zvolené e-mailové adresy?";
+	var actions = document.getElementsByName('action_remove');
+	if (actions.length) {
+		actions[0].addEventListener("click", function(e) {
+			if (! confirm(message)) {
+				e.preventDefault();
+			}
+		});
+	}
+})();
+</script>
+{% endblock %}

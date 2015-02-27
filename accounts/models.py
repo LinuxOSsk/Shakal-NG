@@ -1,22 +1,20 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from base64 import b64encode
+from datetime import timedelta
+
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.core.exceptions import ValidationError
-from django.core.validators import MaxLengthValidator, MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, MaxLengthValidator
 from django.db import models
-from django.db.models.signals import post_save, pre_save, pre_delete
-from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
+from django.contrib.auth.hashers import check_password
 
-from article.models import Article
+from . import accounts_settings
 from common_utils import get_default_manager
-from news.models import News
 from rich_editor import get_parser
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
-from threaded_comments.models import Comment
-from wiki.models import Page as WikiPage
 
 
 class User(AbstractUser):
@@ -24,13 +22,12 @@ class User(AbstractUser):
 
 	jabber = models.CharField(max_length=127, blank=True)
 	url = models.CharField(max_length=255, blank=True)
-	signature = models.CharField(_('signature'), max_length=255, blank=True)
-	display_mail = models.BooleanField(_('display mail'), default=False)
-	distribution = models.CharField(_('linux distribution'), max_length=50, blank=True)
-	original_info = RichTextOriginalField(filtered_field="filtered_info", property_name="info", parsers={'html': get_parser('profile')}, verbose_name=_('informations'), validators=[MaxLengthValidator(100000)], blank=True)
+	signature = models.CharField('pospis', max_length=255, blank=True)
+	display_mail = models.BooleanField('zobrazovať e-mail', default=False)
+	distribution = models.CharField('linuxová distribúcia', max_length=50, blank=True)
+	original_info = RichTextOriginalField(filtered_field="filtered_info", property_name="info", parsers={'html': get_parser('profile')}, verbose_name='informácie', validators=[MaxLengthValidator(100000)], blank=True)
 	filtered_info = RichTextFilteredField(blank=True)
-	year = models.SmallIntegerField(_('year of birth'), validators=[MinValueValidator(1900), MaxValueValidator(lambda: 2010)], blank=True, null=True)
-	encrypted_password = models.TextField(blank=True, null=True)
+	year = models.SmallIntegerField('rok narodenia', validators=[MinValueValidator(1900), MaxValueValidator(2015)], blank=True, null=True)
 
 	def clean_fields(self, exclude=None):
 		if self.email:
@@ -41,35 +38,21 @@ class User(AbstractUser):
 
 	@models.permalink
 	def get_absolute_url(self):
-		return ('auth_profile', [], {'pk': self.pk})
-
-	def set_password(self, raw_password):
-		super(User, self).set_password(raw_password)
-		if raw_password and hasattr(settings, 'ENCRYPT_KEY'):
-			from Crypto.Cipher import PKCS1_OAEP
-			from Crypto.PublicKey import RSA
-			key = RSA.importKey(open(settings.ENCRYPT_KEY).read())
-			cipher = PKCS1_OAEP.new(key)
-			ciphertext = cipher.encrypt(bytes(raw_password.encode("utf-8")))
-			self.encrypted_password = b64encode(ciphertext)
+		return ('account_profile', [], {'pk': self.pk})
 
 	def get_full_name(self):
 		full_name = '%s %s' % (self.first_name, self.last_name)
 		return full_name.strip()
-	get_full_name.short_description = _('full name')
+	get_full_name.short_description = 'celé meno'
 	get_full_name.admin_order_field = 'last_name,first_name,username'
 
 	def __unicode__(self):
-		full_name = self.get_full_name()
-		if full_name:
-			return full_name
-		else:
-			return self.username
+		return self.get_full_name() or self.username
 
 	class Meta:
 		db_table = 'auth_user'
-		verbose_name = _('user')
-		verbose_name_plural = _('users')
+		verbose_name = 'používateľ'
+		verbose_name_plural = 'používatelia'
 
 
 class UserRating(models.Model):
@@ -89,57 +72,29 @@ class UserRating(models.Model):
 		return self.get_rating_label()
 
 
-SENDERS = {
-	Comment: ('user', 'comments', lambda c: c.is_public and not c.is_removed),
-	News: ('author', 'news', lambda c: c.approved),
-	WikiPage: ('last_author', 'wiki', lambda c: True),
-	Article: ('author', 'articles', lambda c: c.published),
-}
-
-
-RATING_WEIGHTS = {
-	'comments': 1,
-	'articles': 200,
-	'helped': 20,
-	'news': 10,
-	'wiki': 50,
-}
-
-
-def update_user_rating(instance, author_property, property_name, change):
-	user = getattr(instance, author_property)
-	if user:
-		rating = UserRating.objects.get_or_create(user=user)[0]
-		setattr(rating, property_name, max(getattr(rating, property_name) + change, 0))
-		rating.rating = sum(getattr(rating, w[0]) * w[1] for w in RATING_WEIGHTS.iteritems())
-		rating.save()
-
-
-def update_count_pre_save(sender, instance, **kwargs):
-	author_property, property_name, count_fun = SENDERS[sender]
-	if instance.pk:
+class RememberTokenManager(models.Manager):
+	def get_by_string(self, token):
 		try:
-			instance = instance.__class__.objects.get(pk=instance.pk)
-			update_user_rating(instance, author_property, property_name, -int(count_fun(instance)))
-		except instance.__class__.DoesNotExist:
-			pass
+			user_id, token_hash = token.split(':')
+		except ValueError:
+			return None
+
+		max_age = timezone.now() - timedelta(seconds=accounts_settings.COOKIE_AGE)
+		for token in self.all().filter(created__gte=max_age, user=user_id):
+			if check_password(token_hash, token.token_hash):
+				return token
+
+	def clean_remember_tokens(self):
+		max_age = timezone.now() - timedelta(seconds=accounts_settings.COOKIE_AGE)
+		return self.all().filter(created__lte=max_age).delete()
 
 
-pre_save.connect(update_count_pre_save, sender=Article)
-pre_save.connect(update_count_pre_save, sender=Comment)
-pre_save.connect(update_count_pre_save, sender=News)
-pre_save.connect(update_count_pre_save, sender=WikiPage)
-pre_delete.connect(update_count_pre_save, sender=Article)
-pre_delete.connect(update_count_pre_save, sender=Comment)
-pre_delete.connect(update_count_pre_save, sender=News)
-pre_delete.connect(update_count_pre_save, sender=WikiPage)
+class RememberToken(models.Model):
+	objects = RememberTokenManager()
 
+	token_hash = models.CharField(max_length=255, blank=False, primary_key=True)
+	created = models.DateTimeField(editable=False, blank=True, auto_now_add=True)
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="remember_me_tokens")
 
-def update_count_post_save(sender, instance, **kwargs):
-	author_property, property_name, count_fun = SENDERS[sender]
-	update_user_rating(instance, author_property, property_name, int(count_fun(instance)))
-
-post_save.connect(update_count_post_save, sender=Article)
-post_save.connect(update_count_post_save, sender=Comment)
-post_save.connect(update_count_post_save, sender=News)
-post_save.connect(update_count_post_save, sender=WikiPage)
+	def __unicode__(self):
+		return self.token_hash

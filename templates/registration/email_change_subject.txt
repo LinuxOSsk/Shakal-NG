@@ -1,1 +1,0 @@
-{{ site.name }} - {{ _("Change your e-mail") }}

@@ -1,3 +1,0 @@
-{{ _("Please use this link to change your e-mail") }}:
-
-{{ activate_link }}

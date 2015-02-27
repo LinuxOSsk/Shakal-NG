@@ -1,0 +1,21 @@
+{% extends "account/base.html" %}
+
+{% block head_title %}Odhlásiť{% endblock %}
+{% block breadcrumbs %}
+{{ breadcrumb("Odhlásiť") }}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+<h1>Odhlásiť</h1>
+
+<p>Ste si istí, že sa chcete odhlásiť?</p>
+
+<form method="post" action="{{ url('account_logout') }}">{% csrf_token %}
+	{% if redirect_field_value %}
+		<input type="hidden" name="{{redirect_field_name}}" value="{{redirect_field_value}}"/>
+	{% endif %}
+	<button class="btn" type="submit"><span>Odhlásiť</span></button>
+</form>
+
+{% endblock %}

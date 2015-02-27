@@ -8,7 +8,7 @@ from polls.models import Poll
 from wiki.models import Page as WikiPage
 
 def profile_redirect(request, pk):
-	return HttpResponsePermanentRedirect(reverse('auth_profile', kwargs = {'pk': pk}))
+	return HttpResponsePermanentRedirect(reverse('account_profile', kwargs = {'pk': pk}))
 
 def article_redirect(request, pk):
 	article = get_object_or_404(Article, pk = pk)

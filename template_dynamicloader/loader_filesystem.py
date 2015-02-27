@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import os
 
 from django.template import TemplateDoesNotExist
 from django.template.loader import BaseLoader, find_template_loader
-from common_utils.middlewares.ThreadLocal import get_current_request
 
+from common_utils.middlewares.ThreadLocal import get_current_request
 from template_dynamicloader.utils import get_template_settings
 
 
@@ -30,7 +32,13 @@ class Loader(DynamicLoaderMixin, BaseLoader):
 		if not self._cached_loaders:
 			cached_loaders = []
 			for loader in self._loaders:
-				cached_loaders.append(find_template_loader(loader))
+				if loader == 'django_jinja.loaders.FileSystemLoader':
+					from django_jinja.base import env
+					from django_jinja.utils import load_class
+					if isinstance(env.loader, str):
+						env.loader = load_class(env.loader)()
+				loader = find_template_loader(loader)
+				cached_loaders.append(loader)
 			self._cached_loaders = cached_loaders
 		return self._cached_loaders
 

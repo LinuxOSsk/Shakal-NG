@@ -1,0 +1,18 @@
+{% extends "account/base.html" %}
+
+
+{% block head_title %}Potvrdenie e-mailovej adresy{% endblock %}
+
+{% block breadcrumbs %}
+{{ breadcrumb("Potvrdenie e-mailovej adresy") }}
+{{ super() }}
+{% endblock %}
+
+
+{% block content %}
+
+<h1>Potvrdenie e-mailovej adresy</h1>
+
+<p>Adresa {{ confirmation.email_address.email }} bola priradená používateľovi používateľovi {{ confirmation.email_address.user }}.</p>
+
+{% endblock %}

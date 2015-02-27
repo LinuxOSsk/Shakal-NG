@@ -52,6 +52,15 @@ STATIC_URL = '/static/'
 
 LOGIN_URL = 'account_login'
 LOGIN_REDIRECT_URL = 'account_my_profile'
+ACCOUNT_FORMS = {
+	'login': 'accounts.forms.LoginForm',
+	'add_email': 'accounts.forms.AddEmailForm',
+}
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_ACTIVATION_DAYS = 7
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 
 STATICFILES_DIRS = (
 	os.path.join(BASE_DIR, 'static'),
@@ -84,21 +93,25 @@ TEMPLATE_CONTEXT_PROCESSORS = TCP + (
 
 
 MIDDLEWARE_CLASSES = (
+	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.middleware.common.CommonMiddleware',
 	'django.middleware.locale.LocaleMiddleware',
-	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.middleware.csrf.CsrfViewMiddleware',
-	'django.contrib.auth.middleware.AuthenticationMiddleware',
-	'django.contrib.messages.middleware.MessageMiddleware',
 	'common_utils.middlewares.ThreadLocal.ThreadLocalMiddleware',
 	'template_dynamicloader.middleware.TemplateSwitcherMiddleware',
 	'feeds.middleware.FeedsMiddleware',
+	'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+	'django.contrib.messages.middleware.MessageMiddleware',
+	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'accounts.middleware.AuthRememberMiddleware',
 	'maintenance.middleware.MaintenanceMiddleware',
 )
 
 AUTHENTICATION_BACKENDS = (
 	'django.contrib.auth.backends.ModelBackend',
 	'allauth.account.auth_backends.AuthenticationBackend',
+	'accounts.backend.AuthRememberBackend',
 )
 
 BASE_DIR_URLCONF = 'shakal.urls'
@@ -181,8 +194,6 @@ LOGGING = {
 }
 
 AUTH_USER_MODEL = 'accounts.User'
-
-ACCOUNT_ACTIVATION_DAYS = 7
 
 ABSOLUTE_URL_OVERRIDES = {
 	'auth.user': lambda o: '/profil/{0}/'.format(o.pk)

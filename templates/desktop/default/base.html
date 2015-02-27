@@ -107,7 +107,7 @@ html, body {
 								</li>
 								{% endif %}
 								<li>
-									<a href="{{ url('auth_logout') }}" rel="nofollow">{{ _('Log out') }}</a>
+									<a href="{{ url('account_logout') }}" rel="nofollow">{{ _('Log out') }}</a>
 								</li>
 								{% if user.blog %}
 									<li>
@@ -119,20 +119,20 @@ html, body {
 									</li>
 								{% endif %}
 								<li>
-									<a href="{{ url('password_change') }}" rel="nofollow">{{ _("Change password") }}</a>
+									<a href="{{ url('account_change_password') }}" rel="nofollow">{{ _("Change password") }}</a>
 								</li>
 							</ul>
 						{% else %}
-							<span class="login"><a href="{{ url('auth_login') }}?next={{ url('home') }}" rel="nofollow">{{ _("Log in") }}</a></span>
+							<span class="login"><a href="{{ url('account_login') }}?next={{ url('home') }}" rel="nofollow">{{ _("Log in") }}</a></span>
 							<ul id="userlinks" class="dropdown menu">
 								<li>
-									<a href="{{ url('auth_login') }}?next={{ url('home') }}" rel="nofollow">{{ _("Log in") }}</a>
+									<a href="{{ url('account_login') }}?next={{ url('home') }}" rel="nofollow">{{ _("Log in") }}</a>
 								</li>
 								<li>
-									<a href="{{ url('registration_register') }}" rel="nofollow">{{ _('Sign up') }}</a>
+									<a href="{{ url('account_signup') }}" rel="nofollow">{{ _('Sign up') }}</a>
 								</li>
 								<li>
-									<a href="{{ url('password_reset') }}" rel="nofollow">{{ _("Password reset") }}</a>
+									<a href="{{ url('account_reset_password') }}" rel="nofollow">{{ _("Password reset") }}</a>
 								</li>
 							</ul>
 						{% endif %}

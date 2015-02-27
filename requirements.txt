@@ -1,11 +1,11 @@
 Django==1.7.4
--e git://github.com/mireq/django-auth-remember.git@b9e56277f6a3a33532294d2ed3bb3f68fbcad77a#egg=django_auth_remember-master
+django-allauth==0.19.1
+django-braces==1.4.0
 django-debug-panel==0.8.0
 django-haystack==2.3.1
 -e git://github.com/niwibe/django-jinja.git@e0cb511a5e0af90b5b5800dc27d25eaf4dc316f7#egg=django_jinja-master
 django-mptt==0.6.1
 django-qsstats-magic==0.7.2
-django-registration==1.0
 django-reversion==1.8.5
 django-static-sitemaps==2.1.7
 django-suit==0.2.12

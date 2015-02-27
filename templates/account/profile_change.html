@@ -1,0 +1,36 @@
+{% extends "account/base.html" %}
+
+{% block title %}Upraviť profil{% endblock %}
+
+{% block breadcrumbs %}
+	{{ breadcrumb("Upraviť") }}
+	{{ breadcrumb(firstof(user.get_full_name(), user.username), url="account_profile", pk=user.pk) }}
+	{{ super() }}
+{% endblock %}
+
+{% block extraheaders %}
+<meta name="robots" content="noindex, nofollow" />
+{{ form.media }}
+{% endblock %}
+
+{% block content %}
+<ul class="object-tools btn-group">
+	<li class="btn"><span><a href="{{ url("account_email") }}">Zmeniť e-mail</a></span></li>
+	<li class="btn"><span><a href="{{ url("account_set_password") }}">Zmeniť heslo</a></span></li>
+</ul>
+<h1>Upraviť profil</h1>
+
+<form action="{{ url("account_my_profile_edit") }}" method="post" id="edit-user-profile-form">{% csrf_token %}
+	<fieldset>
+		{% include "includes/form_loop.html" %}
+		<div class="submit-row">
+			<div class="negative">
+				<div class="btn"><span><a href="{{ url("account_my_profile") }}">Späť do profilu</a></span></div>
+			</div>
+			<div class="positive">
+				<button class="btn" type="submit" title="Uložiť"><span>Uložiť</span></button>
+			</div>
+		</div>
+	</fieldset>
+</form>
+{% endblock %}

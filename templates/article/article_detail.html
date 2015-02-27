@@ -35,8 +35,8 @@
 	{{ article.pub_time|date("d.m.Y H:i") }} |
 	<a href="{{ article.category.get_absolute_url() }}">{{ article.category }}</a> |
 	{% if article.author %}
-	<a href="{{ url('auth_profile', article.author.pk) }}">
-		{{ firstof(article.author.get_full_name(), article.author.username) }}
+		<a href="{{ article.author.get_absolute_url( }}">
+			{{ firstof(article.author.get_full_name(), article.author.username) }}
 		</a>
 	{% else %}
 		{{ article.authors_name }}

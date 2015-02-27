@@ -1,0 +1,1 @@
+Nemôžete odstrániť Váš primárny e-mail ({{email}}).

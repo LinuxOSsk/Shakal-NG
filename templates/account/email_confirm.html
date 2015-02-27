@@ -1,0 +1,29 @@
+{% extends "account/base.html" %}
+
+{% block head_title %}Potvrdiť e-mailovu adresu{% endblock %}
+
+{% block breadcrumbs %}
+{{ breadcrumb("Potvrdiť e-mailovu adresu") }}
+{{ super() }}
+{% endblock %}
+
+
+{% block content %}
+<h1>Potvrdiť e-mailovu adresu</h1>
+
+{% if confirmation %}
+
+<p>Potvrďte prosím, že e-mail {{ confirmation.email_address.email }} patrí používateľovi {{ confirmation.email_address.user }}.</p>
+
+<form method="post" action="{{ url('account_confirm_email', confirmation.key) }}">
+{% csrf_token %}
+	<button type="submit">Potvrdiť</button>
+</form>
+
+{% else %}
+
+<p>Platnosť odkazu na potvrdenie vypršala. <a href="{{ url("account_email") }}">Požiadajte si</a> o potvrdenie e-mailu znovu.</p>
+
+{% endif %}
+
+{% endblock %}

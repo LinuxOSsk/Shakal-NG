@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import re
 
 from django import forms
@@ -10,12 +12,12 @@ from common_utils.admin_widgets import DateTimeInput, EnclosedInput
 
 def get_username_field():
 	return forms.RegexField(
-		label=_('Username'),
+		label='Používateľské meno',
 		max_length=30,
 		min_length=3,
 		regex=re.compile(r'^([\w]+[ ]?)*[\w]$', re.UNICODE),
-		help_text=_('Required. Length 3 - 30 characters.'),
-		error_message=_('This value must contain spaces oly in the middle.'))
+		help_text=_('Povinné. Dĺžka 3 - 30 znakov.'),
+		error_message=_('Toto pole môže obsahovať maximálne jednu medzeru v strede.'))
 
 
 class UserCreationForm(OrigUserCreationForm):

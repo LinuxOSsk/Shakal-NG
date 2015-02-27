@@ -1,5 +1,5 @@
 #!/bin/bash
-exclude="distribute\\|psycopg2"
+exclude="distribute\\|psycopg2\\|oauthlib\\|python-openid\\|requests\\|requests-oauthlib\\|pyprof2calltree\\|argh\\|PyYAML\\|pathtools"
 devel_packages="\
 astroid\\|\
 coverage\\|\
@@ -12,7 +12,8 @@ pylint\\|\
 django-debug-toolbar\\|\
 pygraphviz\\|\
 sqlparsea\\|\
-ipython"
+ipython\\|\
+watchdog"
 
 dirname="`pwd`/`dirname $0`"
 dirname=`cd "${dirname}/..";pwd`
