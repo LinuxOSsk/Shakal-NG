@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
-from django.utils.html import format_html
+from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
 from accounts.admin_forms import UserCreationForm, UserChangeForm
@@ -31,7 +31,7 @@ class UserAdmin(AdminActionsMixin, AuthUserAdmin):
 				cls = 'info'
 				status_text = _('active')
 
-		return format_html('<span class="label label-{0}">{1}</span>', cls, unicode(status_text))
+		return render_to_string('admin/partials/label.html', {'cls': cls, 'text': status_text})
 	get_status.short_description = _("status")
 	get_status.allow_tags = True
 
