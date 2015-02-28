@@ -15,3 +15,4 @@ class ArticleForm(forms.ModelForm):
 			'annotation': RichEditorWidget,
 			'content': RichEditorWidget,
 		}
+		fields = '__all__'

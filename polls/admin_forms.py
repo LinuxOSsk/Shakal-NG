@@ -13,3 +13,4 @@ class PollForm(forms.ModelForm):
 			'slug': forms.TextInput(attrs={'class': 'input-xlarge'}),
 			'active_from': DateTimeInput()
 		}
+		fields = '__all__'
