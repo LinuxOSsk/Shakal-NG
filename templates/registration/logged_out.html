@@ -1,0 +1,15 @@
+{% extends "account/base.html" %}
+
+{% block breadcrumbs %}
+{{ breadcrumb("Odhlásený") }}
+{{ super() }}
+{% endblock %}
+
+{% block head_title %}Odhlásený{% endblock %}
+
+{% block content %}
+<h1>Odhlásený</h1>
+
+<p>Práve ste sa odhlásili zo systému.</p>
+{% endblock %}
+
