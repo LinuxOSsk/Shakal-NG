@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.utils import timezone
 from haystack import indexes
 
@@ -19,4 +21,4 @@ class ArticleIndex(indexes.SearchIndex, indexes.Indexable):
 		return Article
 
 	def index_queryset(self, using = None):
-		return self.get_model().objects.filter(pub_time__lte=timezone.now(), published=True)
+		return self.get_model().objects.all().filter(pub_time__lte=timezone.now(), published=True)

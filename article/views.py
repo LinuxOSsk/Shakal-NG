@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from .models import Article, Category
 from common_utils.generic import DetailUserProtectedView, ListView
 
@@ -10,6 +12,6 @@ class ArticleDetailView(DetailUserProtectedView):
 
 
 class ArticleListView(ListView):
-	queryset = Article.objects.defer('content').select_related('author', 'category')
+	queryset = Article.objects.all().defer('content').select_related('author', 'category')
 	category = Category
 	paginate_by = 10
