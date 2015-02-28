@@ -11,7 +11,7 @@ class AddLoggedFormArgumentMixin(object):
 	authors_name_field = 'authors_name'
 
 	def get_form(self, form_class):
-		return form_class(logged = self.request.user.is_authenticated(), request = self.request, **self.get_form_kwargs())
+		return form_class(logged = self.request.user.is_authenticated(), **self.get_form_kwargs())
 
 	def form_valid(self, form):
 		obj = form.save(commit = False)

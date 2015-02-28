@@ -57,7 +57,7 @@ def reply_comment(request, parent):
 	if parent_comment.is_locked:
 		return TemplateResponse(request, "comments/error.html", context)
 
-	form = get_form()(content_object, logged = request.user.is_authenticated(), parent_comment = parent_comment, initial = {'subject': new_subject}, request = request)
+	form = get_form()(content_object, logged = request.user.is_authenticated(), parent_comment = parent_comment, initial = {'subject': new_subject})
 
 	context["form"] = form
 	context["attachments"] = form.get_attachments()
@@ -85,7 +85,7 @@ def post_comment(request):
 	parent = Comment.all_comments.get(pk = data['parent_pk'])
 	content_object = parent.content_object
 
-	form = get_form()(target, logged = request.user.is_authenticated(), parent_comment = parent, data = data, files = request.FILES, request = request)
+	form = get_form()(target, logged = request.user.is_authenticated(), parent_comment = parent, data = data, files = request.FILES)
 
 	if form.security_errors():
 		return http.HttpResponseBadRequest()

@@ -55,6 +55,7 @@ LOGIN_REDIRECT_URL = 'account_my_profile'
 ACCOUNT_FORMS = {
 	'login': 'accounts.forms.LoginForm',
 	'add_email': 'accounts.forms.AddEmailForm',
+	'signup': 'accounts.forms.SignupForm',
 }
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_ACTIVATION_DAYS = 7
