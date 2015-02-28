@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-from django.conf.urls import patterns, url
+from __future__ import unicode_literals
 
-from .views import ArticleListView, ArticleDetailView
-from .feeds import LatestArticleFeed
+from django.conf.urls import patterns, url
 
 
 class Patterns(object):
@@ -12,11 +11,12 @@ class Patterns(object):
 
 	@property
 	def urls(self):
-		pat = patterns('',
-			url(r'^(?:(?P<page>\d+)/)?$', ArticleListView.as_view(), name='list'),
-			url(r'^(?P<slug>[-\w]+)/$', ArticleDetailView.as_view(), name='detail'),
-			url(r'^kategoria/(?P<category>[-\w]+)/(?:(?P<page>\d+)/)?$', ArticleListView.as_view(), name='list-category'),
-			url(r'^feeds/latest/$', LatestArticleFeed(), name='feed-latest'),
+		pat = patterns('article.views',
+			url(r'^(?:(?P<page>\d+)/)?$', 'ArticleListView', name='list'),
+			url(r'^(?P<slug>[-\w]+)/$', 'ArticleDetailView', name='detail'),
+			url(r'^kategoria/(?P<category>[-\w]+)/(?:(?P<page>\d+)/)?$', 'ArticleListView', name='list-category'),
+		) + patterns('article.feeds',
+			url(r'^feeds/latest/$', 'LatestArticleFeed', name='feed-latest'),
 		)
 		return (pat, self.app_name, self.name)
 
