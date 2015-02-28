@@ -127,9 +127,3 @@ class TemporaryAttachment(AttachmentAbstract):
 
 	def __unicode__(self):
 		return self.attachment.name
-
-
-def delete_file(sender, instance, *args, **kwargs): #pylint: disable=unused-argument
-	instance.delete_file()
-models.signals.pre_delete.connect(delete_file, sender=Attachment)
-models.signals.pre_delete.connect(delete_file, sender=TemporaryAttachment)
