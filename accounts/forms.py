@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from antispam.forms import AntispamFormMixin
 from allauth.account import app_settings
-from allauth.account.forms import LoginForm as CoreLoginForm, AddEmailForm as CoreAddEmailForm, PasswordField
+from allauth.account.forms import LoginForm as CoreLoginForm, AddEmailForm as CoreAddEmailForm, SignupForm as CoreSignupForm, PasswordField
 from allauth.account.utils import perform_login
 from django import forms
 from django.contrib.auth import get_user_model
@@ -82,3 +83,7 @@ class AddEmailForm(CoreAddEmailForm):
 		if not self.user.check_password(self.cleaned_data.get("oldpassword")):
 			raise forms.ValidationError("Zadajte prosím súčasné heslo")
 		return self.cleaned_data["oldpassword"]
+
+
+class SignupForm(AntispamFormMixin, CoreSignupForm):
+	pass
