@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.conf import settings
 from django.contrib.contenttypes import generic
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import permalink
 from django.utils.timezone import now
-from django.utils.translation import ugettext_lazy as _
 
 from attachment.models import Attachment
 from autoimagefield.fields import AutoImageField
@@ -15,9 +16,9 @@ from threaded_comments.models import RootHeader, Comment
 
 
 class Category(models.Model):
-	name = models.CharField(_('name'), max_length=255)
-	slug = models.SlugField(unique=True)
-	description = models.TextField(_('description'))
+	name = models.CharField('názov', max_length=255)
+	slug = models.SlugField('skratka URL', unique=True)
+	description = models.TextField('popis')
 
 	@permalink
 	def get_absolute_url(self):
@@ -27,8 +28,8 @@ class Category(models.Model):
 		return self.name
 
 	class Meta:
-		verbose_name = _('category')
-		verbose_name_plural = _('categories')
+		verbose_name = 'kategória'
+		verbose_name_plural = 'kategórie'
 
 
 class ArticleManager(models.Manager):
@@ -43,19 +44,19 @@ class Article(models.Model):
 	all_articles = models.Manager()
 	objects = ArticleManager()
 
-	title = models.CharField(_('title'), max_length=255)
-	slug = models.SlugField(unique=True)
-	category = models.ForeignKey(Category, verbose_name=_('category'), on_delete=models.PROTECT)
-	perex = models.TextField(_('perex'), help_text=_('Text on title page.'))
-	annotation = models.TextField(_('annotation'), help_text=_('Text before article body.'))
-	content = models.TextField(_('content'))
-	author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('author'), on_delete=models.SET_NULL, blank=True, null=True)
-	authors_name = models.CharField(_('authors name'), max_length=255)
-	pub_time = models.DateTimeField(_('publication time'), default=now)
-	updated = models.DateTimeField(editable=False)
-	published = models.BooleanField(_('published'))
-	top = models.BooleanField(_('top article'))
-	image = AutoImageField(_('image'), upload_to='article/thumbnails', size=(512, 512), thumbnail={'standard': (100, 100)}, blank=True, null=True)
+	title = models.CharField('názov', max_length=255)
+	slug = models.SlugField('skratka URL', unique=True)
+	category = models.ForeignKey(Category, verbose_name='kategória', on_delete=models.PROTECT)
+	perex = models.TextField('perex', help_text='Text na titulnej stránke')
+	annotation = models.TextField('anotácia', help_text='Text pred telom článku')
+	content = models.TextField('obsah')
+	author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='autor', on_delete=models.SET_NULL, blank=True, null=True)
+	authors_name = models.CharField('meno autora', max_length=255)
+	pub_time = models.DateTimeField('čas publikácie', default=now)
+	updated = models.DateTimeField('aktualizované', editable=False)
+	published = models.BooleanField('publikované')
+	top = models.BooleanField('hodnotný článok')
+	image = AutoImageField('obrázok', upload_to='article/thumbnails', size=(512, 512), thumbnail={'standard': (100, 100)}, blank=True, null=True)
 	polls = generic.GenericRelation(Poll)
 	comments_header = generic.GenericRelation(RootHeader)
 	comments = generic.GenericRelation(Comment)
@@ -79,16 +80,12 @@ class Article(models.Model):
 		except ValueError:
 			pass
 		if slug_num is not None:
-			raise ValidationError({'slug': [_('Numeric slug values are not allowed')]})
+			raise ValidationError({'slug': ['Číselné slugy nie sú povolené']})
 		super(Article, self).clean_fields(exclude)
 
 	@permalink
 	def get_absolute_url(self):
 		return ('article:detail', None, {'slug': self.slug})
-
-	@permalink
-	def get_list_url(self):
-		return ('article:list', None, None)
 
 	def is_published(self):
 		return self.published and self.pub_time <= now()
@@ -97,5 +94,5 @@ class Article(models.Model):
 		return self.title
 
 	class Meta:
-		verbose_name = _('article')
-		verbose_name_plural = _('articles')
+		verbose_name = 'článok'
+		verbose_name_plural = 'články'

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse_lazy
@@ -37,4 +39,4 @@ class ArticleFeed(Feed):
 
 class LatestArticleFeed(ArticleFeed):
 	def items(self):
-		return Article.objects.select_related('author', 'category').order_by('-pk')[:settings.FEED_SIZE]
+		return Article.objects.all().select_related('author', 'category').order_by('-pk')[:settings.FEED_SIZE]
