@@ -28,8 +28,8 @@ class ArticleAdmin(AdminActionsMixin, admin.ModelAdmin):
 	inlines = [AttachmentInline]
 	form = ArticleForm
 
-	def queryset(self, request):
-		qs = super(ArticleAdmin, self).queryset(request)
+	def get_queryset(self, request):
+		qs = super(ArticleAdmin, self).get_queryset(request)
 		return qs.select_related('author')
 
 	def get_changelist_actions(self, obj):
