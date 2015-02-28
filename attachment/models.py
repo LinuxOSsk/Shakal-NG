@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# pylint: disable=no-member
+from __future__ import unicode_literals
+
 import os
 
 import uuid
@@ -85,13 +88,14 @@ class AttachmentAbstract(models.Model):
 
 	def clean_fields(self, exclude=None):
 		try:
+			content_type = ContentType.objects.get(pk=self.content_type_id)
 			uploaded_size = self.__class__.objects \
-				.filter(object_id = self.object_id, content_type=self.content_type) \
+				.filter(object_id = self.object_id, content_type=content_type) \
 				.aggregate(models.Sum('size'))["size__sum"]
-			available_size = get_available_size(self.content_type, uploaded_size or 0)
+			available_size = get_available_size(content_type, uploaded_size or 0)
 			if available_size >= 0 and self.attachment.size > available_size:
 				raise ValidationError({'attachment': [_('File size exceeded, maximum size is ') + filesizeformat(available_size)]})
-		except ObjectDoesNotExist:
+		except (ObjectDoesNotExist, OSError):
 			pass
 		return super(AttachmentAbstract, self).clean_fields(exclude)
 
@@ -101,20 +105,31 @@ class Attachment(AttachmentAbstract):
 		verbose_name = _('attachment')
 		verbose_name_plural = _('attachments')
 
+	def __unicode__(self):
+		return self.attachment.name
+
+
+def generate_uuid():
+	return uuid.uuid1().hex
+
 
 class UploadSession(models.Model):
-	def generate_uuid():
-		return uuid.uuid1().hex
 
 	created = models.DateTimeField(auto_now_add=True)
 	uuid = models.CharField(max_length=32, unique=True, default=generate_uuid)
+
+	def __unicode__(self):
+		return self.uuid
 
 
 class TemporaryAttachment(AttachmentAbstract):
 	session = models.ForeignKey(UploadSession)
 
+	def __unicode__(self):
+		return self.attachment.name
 
-def delete_file(sender, instance, *args, **kwargs):
+
+def delete_file(sender, instance, *args, **kwargs): #pylint: disable=unused-argument
 	instance.delete_file()
 models.signals.pre_delete.connect(delete_file, sender=Attachment)
 models.signals.pre_delete.connect(delete_file, sender=TemporaryAttachment)

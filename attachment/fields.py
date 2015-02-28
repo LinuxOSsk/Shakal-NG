@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.core.exceptions import ValidationError
 from django.forms import FileField
 from django.forms.widgets import ClearableFileInput
