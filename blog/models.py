@@ -48,19 +48,19 @@ class PostQuerySet(QuerySet):
 
 
 class PostManager(models.Manager):
-	def get_query_set(self):
+	def get_queryset(self):
 		return PostQuerySet(self.model, using=self._db).select_related("blog", "blog__author")
 
 	def published(self):
-		return self.get_query_set().published() #pylint: disable=E1103
+		return self.get_queryset().published() #pylint: disable=E1103
 
 	def for_auth_user(self, user):
-		return self.get_query_set().for_auth_user(user) #pylint: disable=E1103
+		return self.get_queryset().for_auth_user(user) #pylint: disable=E1103
 
 
 class PublishedPostManager(PostManager):
-	def get_query_set(self):
-		return super(PublishedPostManager, self).get_query_set().filter(pub_time__lt=timezone.now())
+	def get_queryset(self):
+		return super(PublishedPostManager, self).get_queryset().filter(pub_time__lt=timezone.now())
 
 
 class Post(models.Model):

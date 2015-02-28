@@ -46,7 +46,7 @@ class DiscussionLoader:
 			self.root_node, created = Comment.objects.get_root_comment(ctype, object_id)
 		return self.root_node
 
-	def get_query_set(self):
+	def get_queryset(self):
 		ctype, object_id = self.get_target_ctype_pk()
 		queryset = self.get_comments_query_set()
 		if not queryset.has_root_item():
@@ -84,7 +84,7 @@ class DiscussionLoader:
 		self.target = target
 		self.context = context
 		attrib = None
-		query_set = self.get_query_set()
+		query_set = self.get_queryset()
 		if 'user' in context and context['user'].is_authenticated():
 			attrib = self.get_discussion_attribute()
 			last_display_time = self.get_last_display_time(attrib)

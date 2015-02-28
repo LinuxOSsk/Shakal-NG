@@ -43,39 +43,39 @@ class Section(models.Model):
 
 
 class TopicManager(models.Manager):
-	def get_query_set(self):
-		return super(TopicManager, self).get_query_set().select_related('user', 'section')
+	def get_queryset(self):
+		return super(TopicManager, self).get_queryset().select_related('user', 'section')
 
 	def topics(self):
-		return self.get_query_set().filter(is_removed = False)
+		return self.get_queryset().filter(is_removed = False)
 
 
 class TopicListManager(models.Manager):
-	def get_query_set(self):
-		return super(TopicListManager, self).get_query_set().filter(is_removed = False)
+	def get_queryset(self):
+		return super(TopicListManager, self).get_queryset().filter(is_removed = False)
 
 	def newest_topics(self, section = None):
-		queryset = self.get_query_set()
+		queryset = self.get_queryset()
 		if not section is None:
 			queryset = queryset.filter(section = section)
 		queryset = queryset.order_by('-pk')
 		return queryset
 
 	def newest_comments(self):
-		queryset = self.get_query_set()
+		queryset = self.get_queryset()
 		queryset = queryset.filter(comments_header__last_comment__gt = timezone.now() - timedelta(30))
 		queryset = queryset.order_by("-comments_header__last_comment")
 		return queryset
 
 	def no_comments(self):
-		queryset = self.get_query_set()
+		queryset = self.get_queryset()
 		queryset = queryset.filter(comments_header__comment_count = 0)
 		queryset = queryset.filter(comments_header__last_comment__gt = timezone.now() - timedelta(60))
 		queryset = queryset.order_by("-id")
 		return queryset
 
 	def most_commented(self):
-		queryset = self.get_query_set()
+		queryset = self.get_queryset()
 		queryset = queryset.filter(comments_header__last_comment__gt = timezone.now() - timedelta(30))
 		queryset = queryset.order_by("-comments_header__comment_count")
 		return queryset

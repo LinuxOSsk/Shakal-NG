@@ -33,8 +33,8 @@ class Category(models.Model):
 
 
 class ArticleManager(models.Manager):
-	def get_query_set(self):
-		return super(ArticleManager, self).get_query_set() \
+	def get_queryset(self):
+		return super(ArticleManager, self).get_queryset() \
 			.filter(published=True) \
 			.filter(pub_time__lte=now()) \
 			.order_by('-pk')

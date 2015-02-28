@@ -102,7 +102,7 @@ class Event(models.Model):
 
 class InboxManager(models.Manager):
 	def user_messages(self, user):
-		return self.get_query_set() \
+		return self.get_queryset() \
 			.select_related('event', 'event__content_type') \
 			.filter(recipient = user) \
 			.order_by('readed', '-pk')

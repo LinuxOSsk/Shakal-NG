@@ -13,13 +13,13 @@ from threaded_comments.models import RootHeader, Comment
 
 
 class NewsManager(models.Manager):
-	def get_query_set(self):
-		return super(NewsManager, self).get_query_set().select_related('author')
+	def get_queryset(self):
+		return super(NewsManager, self).get_queryset().select_related('author')
 
 
 class NewsListManager(models.Manager):
-	def get_query_set(self):
-		return super(NewsListManager, self).get_query_set().select_related('author').filter(approved = True).order_by('-pk')
+	def get_queryset(self):
+		return super(NewsListManager, self).get_queryset().select_related('author').filter(approved = True).order_by('-pk')
 
 
 class News(models.Model):

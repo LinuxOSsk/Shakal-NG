@@ -77,7 +77,7 @@ class CommentManager(models.Manager):
 				)
 				return (root_comment, created)
 
-	def get_query_set(self):
+	def get_queryset(self):
 		queryset = self.__qs_class(self.model).select_related('user__profile')
 		return queryset
 

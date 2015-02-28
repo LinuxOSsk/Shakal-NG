@@ -12,17 +12,17 @@ from threaded_comments.models import RootHeader, Comment
 
 
 class ActivePollsListManager(models.Manager):
-	def get_query_set(self):
+	def get_queryset(self):
 		return super(ActivePollsListManager, self) \
-			.get_query_set() \
+			.get_queryset() \
 			.filter(approved=True, active_from__lte=timezone.now()) \
 			.order_by("-active_from")
 
 
 class PollListManager(ActivePollsListManager):
-	def get_query_set(self):
+	def get_queryset(self):
 		return super(PollListManager, self) \
-			.get_query_set() \
+			.get_queryset() \
 			.filter(content_type_id=None)
 
 
