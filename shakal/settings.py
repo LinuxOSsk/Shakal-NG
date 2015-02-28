@@ -273,9 +273,6 @@ ADMIN_DASHBOARD_APP_ICONS = {
 	'polls/poll': 'poll.png',
 	'forum/section': 'section.png',
 }
-ADMIN_TOOLS_INDEX_DASHBOARD = 'admin_dashboard.dashboard.AdminIndexDashboard'
-ADMIN_TOOLS_MENU = 'admin_dashboard.menu.AdminMenu'
-ADMIN_TOOLS_THEMING_CSS = 'admin/css/shakal.css'
 SUIT_CONFIG = {
 	'ADMIN_NAME': 'Shakal CMS',
 	'HEADER_DATE_FORMAT': 'l, d F Y',

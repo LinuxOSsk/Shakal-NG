@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from django.conf.urls import patterns, url
-import views
+from __future__ import unicode_literals
 
+from django.conf.urls import patterns, url
 
 class Patterns(object):
 	def __init__(self):
@@ -10,9 +10,9 @@ class Patterns(object):
 
 	@property
 	def urls(self):
-		urlpatterns = patterns('',
-			url(r'^stats/$', views.stats, name = 'stats'),
+		pat = patterns('admin_dashboard.views',
+			url(r'^stats/$', 'Stats', name='stats'),
 		)
-		return (urlpatterns, self.app_name, self.name)
+		return (pat, self.app_name, self.name)
 
 urlpatterns = Patterns().urls
