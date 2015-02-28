@@ -35,7 +35,7 @@ class DiscussionLoader:
 		queryset = queryset.defer(
 			"original_comment",
 			"user__rating__comments", "user__rating__articles", "user__rating__helped", "user__rating__news", "user__rating__wiki",
-			"user__password", "user__filtered_info", "user__encrypted_password",
+			"user__password", "user__filtered_info",
 		)
 		queryset = queryset.order_by('lft')
 		return queryset
