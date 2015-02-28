@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# pylint: disable=no-member
+# pylint: disable=no-member,model-no-explicit-unicode,model-missing-unicode
 from __future__ import unicode_literals
 
 import os
@@ -109,12 +109,27 @@ class Attachment(AttachmentAbstract):
 		return self.attachment.name
 
 
+class AttachmentImage(Attachment):
+	width = models.IntegerField()
+	height = models.IntegerField()
+
+
+class AttachmentImageRaw(models.Model):
+	attachment_ptr = models.PositiveIntegerField(db_column='attachment_ptr_id', primary_key=True)
+	width = models.IntegerField()
+	height = models.IntegerField()
+
+	class Meta:
+		app_label = get_meta(AttachmentImage).app_label
+		db_table = get_meta(AttachmentImage).db_table
+		managed = False
+
+
 def generate_uuid():
 	return uuid.uuid1().hex
 
 
 class UploadSession(models.Model):
-
 	created = models.DateTimeField(auto_now_add=True)
 	uuid = models.CharField(max_length=32, unique=True, default=generate_uuid)
 
