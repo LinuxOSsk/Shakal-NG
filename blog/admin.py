@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.contrib import admin
 from django.db import models
-from django.utils.html import format_html
-from common_utils.admin_widgets import DateTimeInput
+from django.template.loader import render_to_string
 
 from attachment.admin import AttachmentInline
 from blog.models import Blog, Post
+from common_utils.admin_widgets import DateTimeInput
 
 
 class BlogAdmin(admin.ModelAdmin):
@@ -28,7 +30,6 @@ class PostAdmin(admin.ModelAdmin):
 		models.DateTimeField: { 'widget': DateTimeInput }
 	}
 
-
 	def get_status(self, obj):
 		if obj.published():
 			cls = "success"
@@ -36,10 +37,8 @@ class PostAdmin(admin.ModelAdmin):
 		else:
 			cls = "warning"
 			text = u"Čaká na publikovanie"
-		if obj.linux:
-			return format_html(u'<span class="label label-{0}">{1} <i class="icon-star icon-white" style="margin-top: -2px"></i></span>', cls, unicode(text))
-		else:
-			return format_html(u'<span class="label label-{0}">{1}</span>', cls, unicode(text))
+		ctx = {'cls': cls, 'text': text, 'star': obj.linux}
+		return render_to_string('admin/partials/label_star.html', ctx)
 	get_status.short_description = u"Stav"
 	get_status.allow_tags = True
 
