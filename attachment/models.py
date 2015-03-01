@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# pylint: disable=no-member,model-no-explicit-unicode,model-missing-unicode
+# pylint: disable=no-member,model-missing-unicode
 from __future__ import unicode_literals
 
 import os
@@ -13,6 +13,8 @@ from django.db import models
 from django.db.models.fields.files import FileField
 from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
+from autoimagefield.fields import AutoImageFieldMixin
+from django.db.models import signals
 
 from .utils import get_available_size
 from common_utils import clean_dir, get_meta
@@ -29,8 +31,33 @@ def upload_to(instance, filename):
 	)
 
 
+class ThumbnailImageField(AutoImageFieldMixin, FileField):
+	def __init__(self, *args, **kwargs):
+		self.thumbnail = {'standard': (100, 100)}
+		super(ThumbnailImageField, self).__init__(*args, **kwargs)
+
+	def _rename_image(self, instance, **kwargs):
+		if hasattr(instance, 'attachmentimage'):
+			return super(ThumbnailImageField, self)._rename_image(instance.attachmentimage, **kwargs)
+
+	def _add_old_instance(self, instance, **kwargs):
+		if hasattr(instance, 'attachmentimage'):
+			return super(ThumbnailImageField, self)._add_old_instance(instance.attachmentimage, **kwargs)
+
+	def _delete_image(self, instance, **kwargs):
+		if hasattr(instance, 'attachmentimage'):
+			return super(ThumbnailImageField, self)._delete_image(instance.attachmentimage, **kwargs)
+
+	def contribute_to_class(self, cls, name):
+		signals.post_save.connect(self._rename_image, sender=cls)
+		signals.post_init.connect(self._add_old_instance, sender=cls)
+		signals.post_delete.connect(self._delete_image, sender=cls)
+		self._add_thumbnails(cls, name)
+		super(ThumbnailImageField, self).contribute_to_class(cls, name)
+
+
 class AttachmentAbstract(models.Model):
-	attachment = FileField(_('attachment'), upload_to=upload_to)
+	attachment = ThumbnailImageField(_('attachment'), upload_to=upload_to)
 	created = models.DateTimeField(_('created'), auto_now_add=True)
 	size = models.IntegerField(_('size'))
 	content_type = models.ForeignKey(ContentType)

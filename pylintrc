@@ -38,7 +38,7 @@ load-plugins=pylint_django
 # --enable=similarities". If you want to run only the classes checker, but have
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
-disable=C,R0903,W0232,R0904,E1002,R0201,method-hidden,fixme,star-args,abstract-class-not-used,too-many-ancestors,broad-except
+disable=C,R0903,W0232,R0904,E1002,R0201,method-hidden,fixme,star-args,abstract-class-not-used,too-many-ancestors,broad-except,model-no-explicit-unicode
 
 
 [REPORTS]

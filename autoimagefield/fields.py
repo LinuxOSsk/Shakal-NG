@@ -77,10 +77,11 @@ class AutoImageFieldMixin(object):
 	def __perform_remove_file(self, path):
 		if os.path.exists(path):
 			os.remove(path)
-			for label in self.thumbnail:
-				tmb_filename = AutoImageField.get_thumbnail_filename(path, label)
-				if os.path.exists(tmb_filename):
-					os.remove(tmb_filename)
+
+		for label in self.thumbnail:
+			tmb_filename = AutoImageField.get_thumbnail_filename(path, label)
+			if os.path.exists(tmb_filename):
+				os.remove(tmb_filename)
 
 	def __get_paths(self, instance):
 		new_file = None
@@ -187,9 +188,7 @@ class AutoImageFieldMixin(object):
 class AutoImageField(AutoImageFieldMixin, ImageField):
 	def __init__(self, verbose_name=None, size=None, thumbnail=None, *args, **kwargs):
 		self.size = size
-		self.thumbnail = {}
-		if thumbnail:
-			self.thumbnail = thumbnail
+		self.thumbnail = thumbnail or {}
 		super(AutoImageField, self).__init__(verbose_name, *args, **kwargs)
 
 	def contribute_to_class(self, cls, name):
