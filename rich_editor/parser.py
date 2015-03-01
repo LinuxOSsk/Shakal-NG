@@ -27,7 +27,15 @@ class HrefValidator(URLValidator):
 class NofollowValidator(object):
 	def __call__(self, value):
 		if value != "nofollow":
-			raise ValidationError("Nofollow required", code = 'invalid')
+			raise ValidationError("Nofollow required", code='invalid')
+
+
+class TableSpanValidator(object):
+	def __call__(self, value):
+		try:
+			int(value)
+		except:
+			raise ValidationError("Integer required", code='invalid')
 
 
 class AttributeException(Exception):
@@ -61,36 +69,78 @@ class HtmlTag:
 ALL_TAGS = ['a', 'abbr', 'acronym', 'address', 'applet', 'area', 'article', 'aside', 'audio', 'b', 'base', 'basefont', 'bdi', 'bdo', 'big', 'blockquote', 'body', 'br', 'button', 'canvas', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'command', 'datalist', 'dd', 'del', 'details', 'dfn', 'dir', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset', 'figcaption', 'figure', 'font', 'footer', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'hr', 'html', 'i', 'iframe', 'img', 'input', 'ins', 'kbd', 'keygen', 'label', 'legend', 'li', 'link', 'map', 'mark', 'menu', 'meta', 'meter', 'nav', 'noframes', 'noscript', 'object', 'ol', 'optgroup', 'option', 'output', 'p', 'param', 'pre', 'progress', 'q', 'rp', 'rt', 'ruby', 's', 'samp', 'script', 'section', 'select', 'small', 'source', 'span', 'strike', 'strong', 'style', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'title', 'tr', 'track', 'tt', 'u', 'ul', 'var', 'video', 'wbr']
 
 
-TEXT_TAGS_LIST = ['', 'b', 'u', 'i', 'em', 'strong', 'a', 'br']
+TEXT_TAGS_LIST = ['', 'b', 'u', 'i', 'em', 'strong', 'a', 'br', 'del', 'ins']
 ONELINE_TAGS_LIST = TEXT_TAGS_LIST[:-1]
 
 DEFAULT_TAGS = dict((t.name, t) for t in [
-	HtmlTag('b', opt = TEXT_TAGS_LIST, empty = False),
-	HtmlTag('u', opt = TEXT_TAGS_LIST, empty = False),
-	HtmlTag('i', opt = TEXT_TAGS_LIST, empty = False),
-	HtmlTag('em', opt = TEXT_TAGS_LIST, empty = False),
-	HtmlTag('strong', opt = TEXT_TAGS_LIST, empty = False),
-	HtmlTag('a', opt = [''], req_attributes = {'href': '#'}, empty = False, attribute_validators = {'href': [HrefValidator()]}),
-	HtmlTag('pre', opt = [''], empty = False),
-	HtmlTag('p', opt = TEXT_TAGS_LIST + ['span', 'code', 'cite'], empty = False),
-	HtmlTag('span', opt = TEXT_TAGS_LIST, empty = False),
-	HtmlTag('br', empty = True),
-	HtmlTag('code', opt = ['', 'b', 'u', 'i', 'em', 'strong'], empty = False),
-	HtmlTag('blockquote', opt = TEXT_TAGS_LIST + ['p', 'code', 'pre', 'cite', 'span', 'ol', 'ul'], empty = False),
-	HtmlTag('cite', opt = TEXT_TAGS_LIST, empty = False),
-	HtmlTag('ol', req = ['li'], empty = True),
-	HtmlTag('ul', req = ['li'], empty = True),
-	HtmlTag('li', opt = TEXT_TAGS_LIST + ['ol', 'ul'], empty = None),
-	HtmlTag('', opt = ['', 'a', 'b', 'u', 'br', 'p', 'i', 'em', 'code', 'strong', 'pre', 'blockquote', 'ol', 'ul', 'span', 'cite']),
+	HtmlTag('b', opt=TEXT_TAGS_LIST, empty=False),
+	HtmlTag('u', opt=TEXT_TAGS_LIST, empty=False),
+	HtmlTag('i', opt=TEXT_TAGS_LIST, empty=False),
+	HtmlTag('em', opt=TEXT_TAGS_LIST, empty=False),
+	HtmlTag('strong', opt=TEXT_TAGS_LIST, empty=False),
+	HtmlTag('a', opt=[''], req_attributes={'href': '#'}, empty=False, attribute_validators = {'href': [HrefValidator()]}),
+	HtmlTag('pre', opt=[''], empty=False),
+	HtmlTag('p', opt=TEXT_TAGS_LIST + ['span', 'code', 'cite'], empty=False),
+	HtmlTag('span', opt=TEXT_TAGS_LIST, empty=False),
+	HtmlTag('br', empty=True),
+	HtmlTag('del', opt=TEXT_TAGS_LIST, empty=False),
+	HtmlTag('ins', opt=TEXT_TAGS_LIST, empty=False),
+	HtmlTag('code', opt=['', 'b', 'u', 'i', 'em', 'strong'], empty=False),
+	HtmlTag('blockquote', opt=TEXT_TAGS_LIST + ['p', 'code', 'pre', 'cite', 'span', 'ol', 'ul'], empty=False),
+	HtmlTag('cite', opt=TEXT_TAGS_LIST, empty=False),
+	HtmlTag('ol', req=['li'], empty=True),
+	HtmlTag('ul', req=['li'], empty=True),
+	HtmlTag('li', opt=TEXT_TAGS_LIST + ['ol', 'ul'], empty=None),
+	HtmlTag('', opt=['', 'a', 'b', 'u', 'br', 'p', 'i', 'em', 'code', 'strong', 'pre', 'blockquote', 'ol', 'ul', 'span', 'cite']),
 ])
 ONELINE_TAGS = dict((t.name, t) for t in [
-	HtmlTag('b', opt = ONELINE_TAGS_LIST, empty = False),
-	HtmlTag('u', opt = ONELINE_TAGS_LIST, empty = False),
-	HtmlTag('i', opt = ONELINE_TAGS_LIST, empty = False),
-	HtmlTag('em', opt = ONELINE_TAGS_LIST, empty = False),
-	HtmlTag('strong', opt = ONELINE_TAGS_LIST, empty = False),
-	HtmlTag('a', opt = [''], req_attributes = {'href': '#'}, empty = False, attribute_validators = {'href': [HrefValidator()]}),
-	HtmlTag('', opt = ['', 'a', 'b', 'u', 'i', 'em']),
+	HtmlTag('b', opt=ONELINE_TAGS_LIST, empty=False),
+	HtmlTag('u', opt=ONELINE_TAGS_LIST, empty=False),
+	HtmlTag('i', opt=ONELINE_TAGS_LIST, empty=False),
+	HtmlTag('em', opt=ONELINE_TAGS_LIST, empty=False),
+	HtmlTag('strong', opt=ONELINE_TAGS_LIST, empty=False),
+	HtmlTag('a', opt=[''], req_attributes={'href': '#'}, empty=False, attribute_validators = {'href': [HrefValidator()]}),
+	HtmlTag('', opt=['', 'a', 'b', 'u', 'i', 'em']),
+])
+FULL_TEXT_TAGS_LIST = ['', 'b', 'u', 'i', 'em', 'strong', 'a', 'br', 'del', 'ins', 'abbr', 'img']
+FULL_TAGS = dict((t.name, t) for t in [
+	HtmlTag('b', opt=FULL_TEXT_TAGS_LIST, empty=False),
+	HtmlTag('u', opt=FULL_TEXT_TAGS_LIST, empty=False),
+	HtmlTag('i', opt=FULL_TEXT_TAGS_LIST, empty=False),
+	HtmlTag('em', opt=FULL_TEXT_TAGS_LIST, empty=False),
+	HtmlTag('strong', opt=FULL_TEXT_TAGS_LIST, empty=False),
+	HtmlTag('a', opt=[''], req_attributes={'href': '#'}, empty=False, attribute_validators = {'href': [HrefValidator()]}),
+	HtmlTag('pre', opt=[''], empty=False),
+	HtmlTag('p', opt=FULL_TEXT_TAGS_LIST + ['span', 'code', 'cite'], empty=False),
+	HtmlTag('span', opt=FULL_TEXT_TAGS_LIST, empty=False),
+	HtmlTag('br', empty=True),
+	HtmlTag('del', opt=FULL_TEXT_TAGS_LIST, empty=False),
+	HtmlTag('ins', opt=FULL_TEXT_TAGS_LIST, empty=False),
+	HtmlTag('code', opt=['', 'b', 'u', 'i', 'em', 'strong'], empty=False),
+	HtmlTag('blockquote', opt=FULL_TEXT_TAGS_LIST + ['p', 'code', 'pre', 'cite', 'span', 'ol', 'ul'], empty=False),
+	HtmlTag('cite', opt=FULL_TEXT_TAGS_LIST, empty=False),
+	HtmlTag('ol', req=['li'], empty=True),
+	HtmlTag('ul', req=['li'], empty=True),
+	HtmlTag('li', opt=FULL_TEXT_TAGS_LIST + ['ol', 'ul'], empty=None),
+	HtmlTag('h1', opt=[''], empty=False),
+	HtmlTag('h2', opt=[''], empty=False),
+	HtmlTag('h3', opt=[''], empty=False),
+	HtmlTag('h4', opt=[''], empty=False),
+	HtmlTag('h5', opt=[''], empty=False),
+	HtmlTag('h6', opt=[''], empty=False),
+	HtmlTag('dl', req=['dt', 'dd'], empty=True),
+	HtmlTag('dt', opt=FULL_TEXT_TAGS_LIST, empty=None),
+	HtmlTag('dd', opt=FULL_TEXT_TAGS_LIST, empty=None),
+	HtmlTag('abbr', opt=[''], req_attributes={'title': ''}, empty=False),
+	HtmlTag('img', opt_attributes=['title'], req_attributes={'src': '#', 'alt': ''}, empty=True, attribute_validators = {'src': [HrefValidator()]}),
+	HtmlTag('table', opt=['tr', 'caption', 'thead', 'tbody'], empty=True),
+	HtmlTag('thead', opt=['tr'], empty=True),
+	HtmlTag('tbody', opt=['tr'], empty=True),
+	HtmlTag('caption', opt=FULL_TEXT_TAGS_LIST, empty=False),
+	HtmlTag('tr', opt=['td', 'th'], empty=True),
+	HtmlTag('th', opt=FULL_TEXT_TAGS_LIST, opt_attributes=['colpan', 'rowspan'], attribute_validators={'colspan': [TableSpanValidator()], 'rowspan': [TableSpanValidator()]}, empty=False),
+	HtmlTag('td', opt=FULL_TEXT_TAGS_LIST, opt_attributes=['colpan', 'rowspan'], attribute_validators={'colspan': [TableSpanValidator()], 'rowspan': [TableSpanValidator()]}, empty=False),
+	HtmlTag('', opt=['', 'a', 'b', 'u', 'br', 'p', 'i', 'em', 'code', 'strong', 'pre', 'blockquote', 'ol', 'ul', 'span', 'cite', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'abbr', 'dl', 'img', 'table']),
 ])
 
 
