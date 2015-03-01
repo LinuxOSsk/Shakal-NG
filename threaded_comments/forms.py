@@ -12,7 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from antispam.forms import AntispamFormMixin
 from attachment.fields import AttachmentField
-from attachment.forms import AttachmentFormMixin
+from attachment.forms import TemporaryAttachmentFormMixin
 from common_utils import get_meta
 from rich_editor.forms import RichOriginalField
 from threaded_comments.models import Comment
@@ -21,7 +21,7 @@ from threaded_comments.models import Comment
 COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)
 
 
-class CommentForm(AttachmentFormMixin, AntispamFormMixin, forms.Form):
+class CommentForm(TemporaryAttachmentFormMixin, AntispamFormMixin, forms.Form):
 	content_type = forms.CharField(widget=forms.HiddenInput)
 	object_id = forms.CharField(widget=forms.HiddenInput)
 	timestamp = forms.IntegerField(widget=forms.HiddenInput)

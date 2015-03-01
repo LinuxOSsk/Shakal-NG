@@ -11,7 +11,7 @@ from django.test import TestCase
 from django.utils.encoding import smart_unicode
 
 from .fields import AttachmentField
-from .forms import AttachmentFormMixin
+from .forms import TemporaryAttachmentFormMixin
 from .models import UploadSession, Attachment, TemporaryAttachment
 from .utils import get_available_size
 from common_utils import get_meta
@@ -170,7 +170,7 @@ class AttachmentFormTest(ProcessFormTestMixin, TestCase):
 		ctype = ContentType.objects.get_for_model(UploadSession)
 		ctype_table = 'attachment_uploadsession'
 
-		class TestForm(AttachmentFormMixin, forms.Form):
+		class TestForm(TemporaryAttachmentFormMixin, forms.Form):
 			attachment = AttachmentField(required=False)
 			upload_session = forms.CharField(widget=HiddenInput, required=False)
 

@@ -13,9 +13,9 @@ from .utils import get_available_size
 AttachmentFormSet = modelformset_factory(TemporaryAttachment, can_delete=True, extra=0, fields=())
 
 
-class AttachmentFormMixin(object):
+class TemporaryAttachmentFormMixin(object):
 	def __init__(self, *args, **kwargs):
-		super(AttachmentFormMixin, self).__init__(*args, **kwargs)
+		super(TemporaryAttachmentFormMixin, self).__init__(*args, **kwargs)
 		self._attachments = None
 
 	def get_uploadsession(self):

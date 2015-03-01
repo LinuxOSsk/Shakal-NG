@@ -12,7 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from antispam.forms import AntispamFormMixin
 from attachment.fields import AttachmentField
-from attachment.forms import AttachmentFormMixin
+from attachment.forms import TemporaryAttachmentFormMixin
 from common_utils import get_meta
 from models import Topic, Section
 from rich_editor.forms import RichOriginalField
@@ -45,7 +45,7 @@ class SectionRenderer(RadioFieldRenderer):
 		return self.render_choice(idx)
 
 
-class TopicForm(AntispamFormMixin, AttachmentFormMixin, forms.ModelForm):
+class TopicForm(AntispamFormMixin, TemporaryAttachmentFormMixin, forms.ModelForm):
 	section = SectionModelChoiceField(Section.objects.all(), empty_label=None, widget = RadioSelect(renderer = SectionRenderer), label = capfirst(_('section')))
 	original_text = RichOriginalField(parsers = get_meta(Topic).get_field('original_text').parsers, label = _("Text"), max_length = COMMENT_MAX_LENGTH)
 	attachment = AttachmentField(label = _("Attachment"), required = False)
