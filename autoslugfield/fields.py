@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.db.models import signals, SlugField
 from django.template.defaultfilters import slugify
+
 from common_utils import get_meta, get_default_manager
 
 
