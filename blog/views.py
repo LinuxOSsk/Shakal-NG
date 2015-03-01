@@ -2,16 +2,15 @@
 from __future__ import unicode_literals
 
 from braces.views import LoginRequiredMixin
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.views.generic import RedirectView
-from django.core.urlresolvers import reverse
 
 from blog.blog_feeds import PostFeed
 from blog.forms import BlogForm, PostForm
 from blog.models import Blog, Post
-from common_utils.generic import ListView, CreateView, UpdateView, UpdateProtectedView, DetailView
+from common_utils.generic import ListView, CreateView, PreviewCreateView, PreviewUpdateView, UpdateProtectedView, DetailView
 from feeds import register_feed
 
 
@@ -36,7 +35,7 @@ class PostListView(ListView):
 		return super(PostListView, self).get(request, *args, **kwargs)
 
 
-class BlogCreateView(LoginRequiredMixin, CreateView):
+class BlogCreateView(LoginRequiredMixin, PreviewCreateView):
 	model = Blog
 	template_name = 'blog/blog_create.html'
 	success_url = reverse_lazy('blog:my')
@@ -47,7 +46,7 @@ class BlogCreateView(LoginRequiredMixin, CreateView):
 		return super(BlogCreateView, self).form_valid(form)
 
 
-class BlogUpdateView(LoginRequiredMixin, UpdateView):
+class BlogUpdateView(LoginRequiredMixin, PreviewUpdateView):
 	model = Blog
 	template_name = 'blog/blog_update.html'
 	success_url = reverse_lazy('blog:my')
