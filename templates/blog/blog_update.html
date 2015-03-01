@@ -15,7 +15,7 @@
 {% block content %}
 <h1>Správa blogu</h1>
 
-<form action="{{ url("blog:edit") }}" method="post" id="blog-form">{% csrf_token %}
+<form action="{{ request.path }}" method="post" id="blog-form">{% csrf_token %}
 	<fieldset>
 		{% include "includes/form_loop.html" %}
 		<div class="submit-row">

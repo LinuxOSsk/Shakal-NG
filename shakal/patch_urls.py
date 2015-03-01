@@ -15,7 +15,8 @@ class ClassBasedViewURLPattern(urls.RegexURLPattern):
 				view = view.as_view(**self.default_args)
 				self.default_args = {}
 			elif issubclass(view, Feed):
-				view = view()
+				view = view(**self.default_args)
+				self.default_args = {}
 		return view
 
 

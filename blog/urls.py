@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-from django.conf.urls import patterns, url
-from django.contrib.auth.decorators import login_required
+from __future__ import unicode_literals
 
-import blog_feeds
-import blog.views as blog_views
+from django.conf.urls import patterns, url
 
 
 class Patterns(object):
@@ -13,18 +11,21 @@ class Patterns(object):
 
 	@property
 	def urls(self):
-		url_patterns = patterns('',
-			url(r'^(?:(?P<page>\d+)/)?$', blog_views.PostListView.as_view(), name='post-list'),
-			url(r'^admin/edit/$', login_required(blog_views.edit), name='edit'),
-			url(r'^admin/my/$', login_required(blog_views.my_blog), name='my'),
-			url(r'^admin/create-post/$', login_required(blog_views.PostCreateView.as_view()), name='post_create'),
-			url(r'^(?P<category>[\w-]+)/list/(?:(?P<page>\d+)/)?$', blog_views.PostListView.as_view(), name='view'),
-			url(r'^(?P<category>[\w-]+)/detail/(?P<slug>[\w-]+)/$', blog_views.PostDetailView.as_view(), name='detail'),
-			url(r'^(?P<category>[\w-]+)/update/(?P<slug>[\w-]+)/$', login_required(blog_views.PostUpdateView.as_view()), name='post_edit'),
-			url(r'^feeds/latest/$', blog_feeds.PostFeed(), name='post-feed-latest'),
-			url(r'^feeds/linux/$', blog_feeds.PostFeed(linux=True), name='feed-linux'),
-			url(r'^(?P<blog_slug>[\w-]+)/feed/$', blog_feeds.PostFeed(), name='post-feed-blog'),
+		pat = patterns('blog.views',
+			url(r'^admin/edit/$', 'MyBlogCreateOrUpdate', name='blog-edit'),
+			url(r'^admin/update/$', 'BlogUpdateView', name='blog-update'),
+			url(r'^admin/create/$', 'BlogCreateView', name='blog-create'),
+			url(r'^(?:(?P<page>\d+)/)?$', 'PostListView', name='post-list'),
+			url(r'^admin/create-post/$', 'PostCreateView', name='post-create'),
+			url(r'^admin/my/$', 'MyBlogView', name='my'),
+			url(r'^(?P<category>[\w-]+)/list/(?:(?P<page>\d+)/)?$', 'PostListView', name='post-list-category'),
+			url(r'^(?P<category>[\w-]+)/detail/(?P<slug>[\w-]+)/$', 'PostDetailView', name='post-detail'),
+			url(r'^(?P<category>[\w-]+)/update/(?P<slug>[\w-]+)/$', 'PostUpdateView', name='post-update'),
+		) + patterns('blog.blog_feeds',
+			url(r'^feeds/latest/$', 'PostFeed', name='post-feed-latest'),
+			url(r'^feeds/linux/$', 'PostFeed', name='post-feed-linux', kwargs={'linux': True}),
+			url(r'^(?P<blog_slug>[\w-]+)/feed/$', 'PostFeed', name='post-feed-blog'),
 		)
-		return (url_patterns, self.app_name, self.name)
+		return (pat, self.app_name, self.name)
 
 urlpatterns = Patterns().urls

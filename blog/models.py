@@ -32,7 +32,7 @@ class Blog(models.Model):
 
 	@models.permalink
 	def get_absolute_url(self):
-		return ("blog:view", [self.slug], {})
+		return ("blog:post-list-category", [self.slug], {})
 
 	def __unicode__(self):
 		return self.title
@@ -89,7 +89,7 @@ class Post(models.Model):
 
 	@models.permalink
 	def get_absolute_url(self):
-		return ("blog:detail", [self.blog.slug, self.slug], {})
+		return ("blog:post-detail", [self.blog.slug, self.slug], {})
 
 	def published(self):
 		if not self.pub_time:

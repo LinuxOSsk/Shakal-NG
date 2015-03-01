@@ -1,16 +1,19 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth.decorators import login_required
+from __future__ import unicode_literals
+
+from braces.views import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy
-from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from django.views.generic import RedirectView
+from django.core.urlresolvers import reverse
 
+from blog.blog_feeds import PostFeed
 from blog.forms import BlogForm, PostForm
 from blog.models import Blog, Post
 from common_utils.generic import ListView, CreateView, UpdateView, UpdateProtectedView, DetailView
-
-from blog.blog_feeds import PostFeed
 from feeds import register_feed
+
 
 class PostListView(ListView):
 	queryset = Post.all_objects
@@ -33,9 +36,9 @@ class PostListView(ListView):
 		return super(PostListView, self).get(request, *args, **kwargs)
 
 
-class BlogCreateView(CreateView):
+class BlogCreateView(LoginRequiredMixin, CreateView):
 	model = Blog
-	template_name = 'blog/blog_update.html'
+	template_name = 'blog/blog_create.html'
 	success_url = reverse_lazy('blog:my')
 	form_class = BlogForm
 
@@ -44,11 +47,14 @@ class BlogCreateView(CreateView):
 		return super(BlogCreateView, self).form_valid(form)
 
 
-class BlogUpdateView(UpdateView):
+class BlogUpdateView(LoginRequiredMixin, UpdateView):
 	model = Blog
 	template_name = 'blog/blog_update.html'
 	success_url = reverse_lazy('blog:my')
 	form_class = BlogForm
+
+	def get_object(self, queryset=None):
+		return get_object_or_404(queryset or Blog, author=self.request.user)
 
 
 class PostDetailView(DetailView):
@@ -58,7 +64,7 @@ class PostDetailView(DetailView):
 		return super(PostDetailView, self).get_queryset().filter(blog__slug=self.kwargs['category'])
 
 
-class PostUpdateView(UpdateProtectedView):
+class PostUpdateView(LoginRequiredMixin, UpdateProtectedView):
 	author_field = 'blog__author'
 	queryset = Post.all_objects.all()
 	form_class = PostForm
@@ -67,7 +73,7 @@ class PostUpdateView(UpdateProtectedView):
 		return super(PostUpdateView, self).get_queryset().filter(blog__slug=self.kwargs['category'])
 
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
 	form_class = PostForm
 	model = Post
 
@@ -81,15 +87,14 @@ class PostCreateView(CreateView):
 		return super(PostCreateView, self).form_valid(form)
 
 
-@login_required
-def edit(request):
-	try:
-		blog = request.user.blog
-		return BlogUpdateView.as_view()(request, pk = blog.pk)
-	except Blog.DoesNotExist:
-		return BlogCreateView.as_view()(request)
+class MyBlogView(LoginRequiredMixin, RedirectView):
+	def get_redirect_url(self):
+		return get_object_or_404(Blog, author=self.request.user).get_absolute_url()
 
 
-@login_required
-def my_blog(request):
-	return HttpResponseRedirect(get_object_or_404(Blog, author=request.user).get_absolute_url())
+class MyBlogCreateOrUpdate(LoginRequiredMixin, RedirectView):
+	def get_redirect_url(self):
+		if hasattr(self.request.user, 'blog'):
+			return reverse('blog:blog-update')
+		else:
+			return reverse('blog:blog-create')

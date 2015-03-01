@@ -6,10 +6,10 @@
 			<hr />
 			<ul>
 				{% if post and blog.slug and post.slug %}
-					<li><a href="{{ url("blog:post_edit", blog.slug, post.slug) }}">Upraviť zápis</a></li>
+					<li><a href="{{ url("blog:post-update", blog.slug, post.slug) }}">Upraviť zápis</a></li>
 				{% endif %}
-				<li><a href="{{ url("blog:post_create") }}">Pridať zápis</a></li>
-				<li><a href="{{ url("blog:edit") }}">Upraviť informácie</a></li>
+				<li><a href="{{ url("blog:post-create") }}">Pridať zápis</a></li>
+				<li><a href="{{ url("blog:blog-edit") }}">Upraviť informácie</a></li>
 			</ul>
 		{% endif %}
 		<hr />

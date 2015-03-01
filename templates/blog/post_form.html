@@ -21,7 +21,7 @@
 {% block content %}
 <h1>Správa blogu</h1>
 
-<form action="{% if object %}{{ url('blog:post_edit', object.blog.slug, object.slug) }}{% else %}{{ url("blog:post_create") }}{% endif %}" method="post" id="blog-form">{% csrf_token %}
+<form action="{% if object %}{{ url('blog:post-update', object.blog.slug, object.slug) }}{% else %}{{ url("blog:post-create") }}{% endif %}" method="post" id="blog-form">{% csrf_token %}
 	<fieldset>
 		{% include "includes/form_loop.html" %}
 		<div class="submit-row">
