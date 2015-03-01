@@ -9,7 +9,7 @@
 	</tr>
 	{% for topic in topic_list %}
 	<tr>
-		<td class="title"><a href="{{ url("forum:topic-detail", topic.id) }}">{{ topic.title }}</a></td>
+		<td class="title"><a href="{{ topic.get_absolute_url() }}">{{ topic.title }}</a></td>
 		<td class="status">
 			{% if topic.new_comments %}&nbsp;<span class="label label-success label-new">Nové komentáre</span>{% endif %}
 			{% if topic.is_resolved %}&nbsp;<span class="label label-success label-resolved">Vyriešené</span>{% endif %}
