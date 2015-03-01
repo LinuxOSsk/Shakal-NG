@@ -22,6 +22,16 @@
 		<div class="annotation">{{ blog.description|safe }}</div>
 	{% endif %}
 {% else %}
+	{% if request.user.is_authenticated() %}
+		<ul class="object-tools">
+			{% if request.user.blog %}
+				<li class="btn"><span><a href="{{ request.user.blog.get_absolute_url() }}">Môj blog</a></span></li>
+			{% else %}
+				<li class="btn"><span><a href="{{ url('blog:blog-edit') }}">Vytvoriť blog</a></span></li>
+			{% endif %}
+		</ul>
+	{% endif %}
+
 	<h1>Blogy</h1>
 {% endif %}
 
