@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django import forms
 from django.utils.timezone import now
 
@@ -8,16 +10,16 @@ from rich_editor.forms import RichOriginalField
 
 
 class BlogForm(forms.ModelForm):
-	original_description = RichOriginalField(get_meta(Blog).get_field('original_description').parsers, label=u'Popis', max_length=1000) #pylint: disable=W0212
-	original_sidebar = RichOriginalField(get_meta(Blog).get_field('original_sidebar').parsers, label=u'Bočný panel', max_length=1000) #pylint: disable=W0212
+	original_description = RichOriginalField(get_meta(Blog).get_field('original_description').parsers, label=u'Popis', max_length=1000)
+	original_sidebar = RichOriginalField(get_meta(Blog).get_field('original_sidebar').parsers, label=u'Bočný panel', max_length=1000)
 	class Meta:
 		model = Blog
 		exclude = ('author', 'slug')
 
 
 class PostForm(forms.ModelForm):
-	original_perex = RichOriginalField(get_meta(Post).get_field('original_perex').parsers, label=u'Perex', max_length=1000) #pylint: disable=W0212
-	original_content = RichOriginalField(get_meta(Post).get_field('original_content').parsers, label=u'Obsah', max_length=100000) #pylint: disable=W0212
+	original_perex = RichOriginalField(get_meta(Post).get_field('original_perex').parsers, label=u'Perex', max_length=1000)
+	original_content = RichOriginalField(get_meta(Post).get_field('original_content').parsers, label=u'Obsah', max_length=100000)
 	pub_now = forms.BooleanField(label=u'Publikovať teraz', required=False)
 
 	def __init__(self, *args, **kwargs):

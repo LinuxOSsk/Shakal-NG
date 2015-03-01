@@ -1,18 +1,21 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.conf import settings
+from django.contrib.contenttypes import generic
 from django.db import models
 from django.db.models import Q
 from django.db.models.query import QuerySet
-from django.utils.translation import ugettext_lazy as _
-from django.contrib.contenttypes import generic
 from django.utils import timezone
-from autoslugfield.fields import AutoSlugField
+from django.utils.translation import ugettext_lazy as _
+
 from attachment.models import Attachment
+from autoslugfield.fields import AutoSlugField
 from hitcount.models import HitCountField
 from polls.models import Poll
-from threaded_comments.models import RootHeader, Comment
-from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 from rich_editor import get_parser
+from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
+from threaded_comments.models import RootHeader, Comment
 
 
 class Blog(models.Model):
@@ -49,13 +52,13 @@ class PostQuerySet(QuerySet):
 
 class PostManager(models.Manager):
 	def get_queryset(self):
-		return PostQuerySet(self.model, using=self._db).select_related("blog", "blog__author")
+		return PostQuerySet(self.model, using=self._db).select_related("blog", "blog__author") #pylint: disable=no-member
 
 	def published(self):
-		return self.get_queryset().published() #pylint: disable=E1103
+		return self.get_queryset().published()
 
 	def for_auth_user(self, user):
-		return self.get_queryset().for_auth_user(user) #pylint: disable=E1103
+		return self.get_queryset().for_auth_user(user)
 
 
 class PublishedPostManager(PostManager):

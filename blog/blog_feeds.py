@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse_lazy
@@ -46,7 +47,7 @@ class PostFeed(Feed):
 		return item.pub_time
 
 	def items(self):
-		objects = Post.objects.select_related('blog', 'blog__author')
+		objects = Post.objects.all().select_related('blog', 'blog__author')
 		if self.linux_feeds is not None:
 			objects = objects.filter(linux=self.linux_feeds)
 		if self.blog_slug is not None:
