@@ -37,6 +37,11 @@
 			{% include "forum/block_topics_table.html" %}
 		{% endwith %}
 	</div>
+	<div class="module-row">
+		{% with caption="Najnovšie blogy", topic_list=posts %}
+			{% include "forum/block_topics_table.html" %}
+		{% endwith %}
+	</div>
 	<div class="module-links bottom">
 		<a href="{{ url("forum:create") }}">Pridať novú tému</a> |
 		<a href="{{ url("forum:overview") }}" class="next">Prezerať celé fórum</a>
