@@ -10,7 +10,7 @@ from django.views.generic import RedirectView
 from blog.blog_feeds import PostFeed
 from blog.forms import BlogForm, PostForm
 from blog.models import Blog, Post
-from common_utils.generic import ListView, CreateView, PreviewCreateView, PreviewUpdateView, UpdateProtectedView, DetailView
+from common_utils.generic import ListView, CreateView, PreviewCreateView, PreviewUpdateView, DetailUserProtectedView, UpdateProtectedView
 from feeds import register_feed
 
 
@@ -56,8 +56,9 @@ class BlogUpdateView(LoginRequiredMixin, PreviewUpdateView):
 		return get_object_or_404(queryset or Blog, author=self.request.user)
 
 
-class PostDetailView(DetailView):
+class PostDetailView(DetailUserProtectedView):
 	queryset = Post.all_objects.all()
+	author_field = 'blog__author'
 
 	def get_queryset(self):
 		return super(PostDetailView, self).get_queryset().filter(blog__slug=self.kwargs['category'])
@@ -70,6 +71,9 @@ class PostUpdateView(LoginRequiredMixin, UpdateProtectedView):
 
 	def get_queryset(self):
 		return super(PostUpdateView, self).get_queryset().filter(blog__slug=self.kwargs['category'])
+
+
+
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
