@@ -21,6 +21,7 @@ class Patterns(object):
 			url(r'^(?P<category>[\w-]+)/list/(?:(?P<page>\d+)/)?$', 'PostListView', name='post-list-category'),
 			url(r'^(?P<category>[\w-]+)/detail/(?P<slug>[\w-]+)/$', 'PostDetailView', name='post-detail'),
 			url(r'^(?P<category>[\w-]+)/update/(?P<slug>[\w-]+)/$', 'PostUpdateView', name='post-update'),
+			url(r'^(?P<category>[\w-]+)/update/(?P<slug>[\w-]+)/attachments/$', 'PostAttachmentsUpdateView', name='post-attachments-update'),
 		) + patterns('blog.blog_feeds',
 			url(r'^feeds/latest/$', 'PostFeed', name='post-feed-latest'),
 			url(r'^feeds/linux/$', 'PostFeed', name='post-feed-linux', kwargs={'linux': True}),

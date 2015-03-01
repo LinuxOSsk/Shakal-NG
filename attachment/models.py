@@ -33,7 +33,7 @@ def upload_to(instance, filename):
 
 class ThumbnailImageField(AutoImageFieldMixin, FileField):
 	def __init__(self, *args, **kwargs):
-		self.thumbnail = {'standard': (100, 100)}
+		self.thumbnail = {'standard': (256, 256)}
 		super(ThumbnailImageField, self).__init__(*args, **kwargs)
 
 	def _rename_image(self, instance, **kwargs):

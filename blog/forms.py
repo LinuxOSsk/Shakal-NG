@@ -5,6 +5,8 @@ from django import forms
 from django.utils.timezone import now
 
 from .models import Blog, Post
+from attachment.fields import AttachmentField
+from attachment.forms import AttachmentFormMixin
 from common_utils import get_meta
 from rich_editor.forms import RichOriginalField
 
@@ -42,3 +44,11 @@ class PostForm(forms.ModelForm):
 	class Meta:
 		model = Post
 		exclude = ('blog', 'slug', 'linux')
+
+
+class BlogAttachmentForm(AttachmentFormMixin, forms.Form):
+	attachment = AttachmentField(label='Príloha', required=False)
+
+	def __init__(self, *args, **kwargs):
+		super(BlogAttachmentForm, self).__init__(*args, **kwargs)
+		self.process_attachments()

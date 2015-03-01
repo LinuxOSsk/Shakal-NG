@@ -6,9 +6,10 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.views.generic import RedirectView
+from django.views.generic.edit import FormView
 
 from blog.blog_feeds import PostFeed
-from blog.forms import BlogForm, PostForm
+from blog.forms import BlogForm, PostForm, BlogAttachmentForm
 from blog.models import Blog, Post
 from common_utils.generic import ListView, CreateView, PreviewCreateView, PreviewUpdateView, DetailUserProtectedView, UpdateProtectedView
 from feeds import register_feed
@@ -63,6 +64,13 @@ class PostDetailView(DetailUserProtectedView):
 	def get_queryset(self):
 		return super(PostDetailView, self).get_queryset().filter(blog__slug=self.kwargs['category'])
 
+	def get_context_data(self, **kwargs):
+		ctx = super(PostDetailView, self).get_context_data(**kwargs)
+		ctx['attachments'] = self.object.attachments.all().prefetch_related('attachmentimage')
+		ctx['attachments_files'] = [a for a in ctx['attachments'] if not hasattr(a, 'attachmentimage')]
+		ctx['attachments_images'] = [a for a in ctx['attachments'] if hasattr(a, 'attachmentimage')]
+		return ctx
+
 
 class PostUpdateView(LoginRequiredMixin, UpdateProtectedView):
 	author_field = 'blog__author'
@@ -73,7 +81,32 @@ class PostUpdateView(LoginRequiredMixin, UpdateProtectedView):
 		return super(PostUpdateView, self).get_queryset().filter(blog__slug=self.kwargs['category'])
 
 
+class PostAttachmentsUpdateView(LoginRequiredMixin, FormView):
+	template_name = 'blog/post_attachments.html'
+	form_class = BlogAttachmentForm
 
+	def __init__(self, *args, **kwargs):
+		super(PostAttachmentsUpdateView, self).__init__(*args, **kwargs)
+		self.object = None
+
+	def dispatch(self, request, *args, **kwargs):
+		qs = Post.objects.all().\
+			filter(blog__author=self.request.user, blog__slug=self.kwargs['category'])
+		self.object = get_object_or_404(qs, slug=self.kwargs['slug'])
+		return super(PostAttachmentsUpdateView, self).dispatch(request, *args, **kwargs)
+
+	def get_form_kwargs(self):
+		kwargs = super(PostAttachmentsUpdateView, self).get_form_kwargs()
+		kwargs['content_object'] = self.object
+		return kwargs
+
+	def get_context_data(self, **kwargs):
+		ctx = super(PostAttachmentsUpdateView, self).get_context_data(**kwargs)
+		ctx['object'] = self.object
+		return ctx
+
+	def get_success_url(self):
+		return self.request.path
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):

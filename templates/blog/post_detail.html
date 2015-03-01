@@ -24,6 +24,45 @@
 
 {{ object.perex|safe }}
 {{ object.content|safe }}
+
+{% if object.blog.author == user or attachments %}
+	<h2>Prílohy</h2>
+
+	{% if object.blog.author == user %}
+		<ul class="object-tools">
+			<li class="btn"><span><a href="{{ url("blog:post-attachments-update", object.blog.slug, object.slug) }}">Spravovať</a></span></li>
+		</ul>
+	{% endif %}
+
+	{% if attachments_files %}
+		<ul>
+			{% for attachment in attachments_files %}
+				<li>
+					<a href="{{ attachment.url }}">{{ attachment.basename }}</a> <small>({{ attachment.size|filesizeformat }})</small>
+				</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+
+	{% if attachments_images %}
+		<br />
+		<hr />
+		<div class="gallery">
+			{% for attachment in attachments_images %}
+				<div class="image">
+					<a href="{{ attachment.url }}">
+						<img src="{{ attachment.attachmentimage.attachment_standard.url }}" alt="{{ attachment.basename }}" />
+					</a>
+					<div class="title">
+						{{ attachment.basename }}
+						<small>({{ attachment.size|filesizeformat }})</small>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	{% endif %}
+{% endif %}
+
 {% endblock %}
 
 {% block discussion %}{{ render_threaded_comments_toplevel(object) }}{% endblock %}

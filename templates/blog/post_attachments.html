@@ -1,0 +1,24 @@
+{% extends "blog/blog_base.html" %}
+
+{% block title %}{{ object }} - úprava{% endblock %}
+
+{% block breadcrumbs %}
+	{{ breadcrumb("Správa príloh") }}
+	{{ breadcrumb(object, absolute_url=object.get_absolute_url()) }}
+	{{ breadcrumb(object.blog, absolute_url=object.blog.get_absolute_url()) }}
+	{{ breadcrumb("Blog", url='blog:post-list') }}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+<form action="{{ request.path }}" enctype="multipart/form-data" method="post">{% csrf_token %}
+	<fieldset>
+		{% include "includes/form_attachment_loop.html" %}
+		<div class="submit-row">
+			<div class="positive">
+				<button class="btn" type="submit" title="Uložiť"><span>Uložiť</span></button>
+			</div>
+		</div>
+	</fieldset>
+</form>
+{% endblock %}
