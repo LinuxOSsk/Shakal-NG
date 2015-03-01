@@ -42,15 +42,8 @@ class ThumbnailField(object):
 	size = property(_get_size)
 
 
-class AutoImageField(ImageField):
+class AutoImageFieldMixin(object):
 	WIDTH, HEIGHT = 0, 1
-
-	def __init__(self, verbose_name=None, size=None, thumbnail=None, *args, **kwargs):
-		self.size = size
-		self.thumbnail = {}
-		if thumbnail:
-			self.thumbnail = thumbnail
-		super(AutoImageField, self).__init__(verbose_name, *args, **kwargs)
 
 	@staticmethod
 	def resize_image(filename, size):
@@ -67,7 +60,7 @@ class AutoImageField(ImageField):
 		if self.get_object_pk(instance):
 			return os.path.join(self.get_directory_name(), "{0:02x}".format(self.get_object_pk(instance) % 256), str(self.get_object_pk(instance)), self.get_filename(filename))
 		else:
-			return super(AutoImageField, self).generate_filename(instance, filename)
+			return super(AutoImageFieldMixin, self).generate_filename(instance, filename)
 
 	def __perform_rename_file(self, src, dest):
 		if not os.path.exists(os.path.dirname(dest)):
@@ -102,7 +95,7 @@ class AutoImageField(ImageField):
 			dest = None
 		return (src, dest, new_file)
 
-	def __rename_image(self, instance, **kwargs):
+	def _rename_image(self, instance, **kwargs):
 		field = getattr(instance, self.name)
 		src, dest, new_file = self.__get_paths(instance)
 
@@ -124,7 +117,7 @@ class AutoImageField(ImageField):
 		if src:
 			self.__clean_dir(os.path.dirname(src))
 
-		self.__add_old_instance(instance, **kwargs)
+		self._add_old_instance(instance, **kwargs)
 
 	def __clean_dir(self, path):
 		path = os.path.abspath(path)
@@ -140,7 +133,7 @@ class AutoImageField(ImageField):
 		if updir.startswith(topdir) and updir != topdir:
 			self.__clean_dir(updir)
 
-	def __delete_image(self, instance, **kwargs):
+	def _delete_image(self, instance, **kwargs):
 		"""
 		Vymazanie obrázka a náhľadov pri odstránení inštancie.
 		"""
@@ -151,7 +144,7 @@ class AutoImageField(ImageField):
 		self.__perform_remove_file(path)
 		self.__clean_dir(os.path.dirname(path))
 
-	def __add_old_instance(self, instance, **kwargs):
+	def _add_old_instance(self, instance, **kwargs):
 		"""
 		Zaznamenanie hodnoty starej inštancie
 		"""
@@ -170,27 +163,38 @@ class AutoImageField(ImageField):
 		splitted_filename.insert(1, u'_' + thumbnail_label)
 		return os.path.join(dirname, u''.join(splitted_filename))
 
-	def __add_thumbnails(self, cls, name):
+	def _add_thumbnails(self, cls, name):
 		thumbnail = self.thumbnail or {}
 
 		for label, size in thumbnail.iteritems():
-			def get_thumbnail(self):
-				field = getattr(self, name)
-				storage = field.storage
-				filename = str(field)
-				# Preskakovanie prázdneho poľa
-				if not filename:
-					return
-				# Kontrola zdrojového súboru
-				if not os.path.exists(storage.path(filename)):
-					return
-				thumbnail_file = AutoImageField.get_thumbnail_filename(filename, label)
-				return ThumbnailField(field, thumbnail_file, size)
-			setattr(cls, name + u'_' + label, property(get_thumbnail))
+			def wrap(label, size):
+				def get_thumbnail(self):
+					field = getattr(self, name)
+					storage = field.storage
+					filename = str(field)
+					# Preskakovanie prázdneho poľa
+					if not filename:
+						return
+					# Kontrola zdrojového súboru
+					if not os.path.exists(storage.path(filename)):
+						return
+					thumbnail_file = AutoImageFieldMixin.get_thumbnail_filename(filename, label)
+					return ThumbnailField(field, thumbnail_file, size)
+				return get_thumbnail
+			setattr(cls, name + u'_' + label, property(wrap(label, size)))
+
+
+class AutoImageField(AutoImageFieldMixin, ImageField):
+	def __init__(self, verbose_name=None, size=None, thumbnail=None, *args, **kwargs):
+		self.size = size
+		self.thumbnail = {}
+		if thumbnail:
+			self.thumbnail = thumbnail
+		super(AutoImageField, self).__init__(verbose_name, *args, **kwargs)
 
 	def contribute_to_class(self, cls, name):
 		super(AutoImageField, self).contribute_to_class(cls, name)
-		signals.post_save.connect(self.__rename_image, sender=cls)
-		signals.post_init.connect(self.__add_old_instance, sender=cls)
-		signals.post_delete.connect(self.__delete_image, sender=cls)
-		self.__add_thumbnails(cls, name)
+		signals.post_save.connect(self._rename_image, sender=cls)
+		signals.post_init.connect(self._add_old_instance, sender=cls)
+		signals.post_delete.connect(self._delete_image, sender=cls)
+		self._add_thumbnails(cls, name)
