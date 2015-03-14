@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-#pylint: disable=W0611,F0401
+# pylint: disable=unused-import
+from __future__ import unicode_literals
+
 from django.forms.widgets import Textarea
 from django.template.loader import render_to_string
 from django.utils import translation
@@ -14,7 +16,7 @@ except ImportError:
 		def __init__(self, prepend=None, append=None, *args, **kwargs):
 			self.prepend = prepend
 			self.append = append
-			super(EnclosedInput, self).__init__(*args, **kwargs)
+			super(EnclosedInput, self).__init__(*args, **kwargs) #pylint: disable=bad-super-call
 
 
 class RichEditorWidget(Textarea):

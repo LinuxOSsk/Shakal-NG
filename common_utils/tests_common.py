@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import os
 from datetime import datetime
 
@@ -85,7 +87,7 @@ class AdminSiteTestCase(LoggedUserTestMixin, ProcessFormTestMixin, LiveServerTes
 	def login(self, username, password, is_superuser=True, is_staff=True):
 		return super(AdminSiteTestCase, self).login(username, password, is_superuser, is_staff)
 
-	def get_admin_url(self, view, args=None, kwargs=None, app_label=None, model=None): #pylint: disable=R0913
+	def get_admin_url(self, view, args=None, kwargs=None, app_label=None, model=None): #pylint: disable=too-many-arguments
 		if app_label is None:
 			app_label = self.__module__.rpartition('.')[0]
 		if model is None:
