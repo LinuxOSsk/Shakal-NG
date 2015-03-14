@@ -11,7 +11,7 @@ from django.views.generic.edit import FormView
 from blog.blog_feeds import PostFeed
 from blog.forms import BlogForm, PostForm, BlogAttachmentForm
 from blog.models import Blog, Post
-from common_utils.generic import ListView, CreateView, PreviewCreateView, PreviewUpdateView, DetailUserProtectedView, UpdateProtectedView
+from common_utils.generic import ListView, PreviewCreateView, PreviewUpdateView, DetailUserProtectedView
 from feeds import register_feed
 
 
@@ -72,13 +72,13 @@ class PostDetailView(DetailUserProtectedView):
 		return ctx
 
 
-class PostUpdateView(LoginRequiredMixin, UpdateProtectedView):
-	author_field = 'blog__author'
+class PostUpdateView(LoginRequiredMixin, PreviewUpdateView):
 	queryset = Post.all_objects.all()
 	form_class = PostForm
 
 	def get_queryset(self):
-		return super(PostUpdateView, self).get_queryset().filter(blog__slug=self.kwargs['category'])
+		return super(PostUpdateView, self).get_queryset().\
+			filter(blog__slug=self.kwargs['category'], blog__author=self.request.user)
 
 
 class PostAttachmentsUpdateView(LoginRequiredMixin, FormView):
@@ -109,7 +109,7 @@ class PostAttachmentsUpdateView(LoginRequiredMixin, FormView):
 		return self.request.path
 
 
-class PostCreateView(LoginRequiredMixin, CreateView):
+class PostCreateView(LoginRequiredMixin, PreviewCreateView):
 	form_class = PostForm
 	model = Post
 

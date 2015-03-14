@@ -21,11 +21,21 @@
 {% block content %}
 <h1>Správa blogu</h1>
 
+{% if valid %}
+	<div class="module preview">
+		<h2>Náhľad</h2>
+		{% with object=form.instance %}
+			{% include "blog/post_detail_content.html" %}
+		{% endwith %}
+	</div>
+{% endif %}
+
 <form action="{% if object %}{{ url('blog:post-update', object.blog.slug, object.slug) }}{% else %}{{ url("blog:post-create") }}{% endif %}" method="post" id="blog-form">{% csrf_token %}
 	<fieldset>
 		{% include "includes/form_loop.html" %}
 		<div class="submit-row">
 			<div class="positive">
+				<button class="btn" type="submit" title="Náhľad"><span>Náhľad</span></button>
 				<button class="btn" type="submit" title="Uložiť" name="create" value="1"><span>Uložiť</span></button>
 			</div>
 		</div>
