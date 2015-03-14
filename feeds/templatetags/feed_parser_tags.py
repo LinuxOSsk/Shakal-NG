@@ -1,18 +1,15 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import datetime
 
 import feedparser
-from django import template
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django_jinja import library
 
 
-register = template.Library()
-
-
 @library.global_function
-@register.simple_tag
 def pull_feeds(url, max_count=4):
 	posts = []
 	feed = feedparser.parse(url)
