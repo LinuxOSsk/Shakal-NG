@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from article.feeds import ArticleFeed
 from blog.blog_feeds import PostFeed
 from feeds import register_feed

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+
 __all__ = ('register_feed', )
-from django.contrib.syndication.views import Feed
 
 
 def register_feed(request, feed, object_type = None, object_id = None):
@@ -11,4 +13,4 @@ def register_feed(request, feed, object_type = None, object_id = None):
 			'object_type': object_type,
 			'object_id': object_id,
 		}
-		request._feeds.append(feed_data)
+		getattr(request, '_feeds').append(feed_data)
