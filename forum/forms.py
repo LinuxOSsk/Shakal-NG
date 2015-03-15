@@ -1,62 +1,48 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django import forms
 from django.conf import settings
-from django.forms import ChoiceField, ModelChoiceField
-from django.forms.models import ModelChoiceIterator
-from django.forms.widgets import HiddenInput, RadioSelect, RadioFieldRenderer, RadioInput
-from django.template.defaultfilters import capfirst
-from django.utils.encoding import force_unicode
-from django.utils.html import escape
+from django.forms import ModelChoiceField
+from django.forms.widgets import HiddenInput, RadioSelect
+from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext_lazy as _
 
+from .models import Topic, Section
 from antispam.forms import AntispamFormMixin
 from attachment.fields import AttachmentField
 from attachment.forms import TemporaryAttachmentFormMixin
 from common_utils import get_meta
-from models import Topic, Section
 from rich_editor.forms import RichOriginalField
 
 
 COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)
 
 
-class SectionChoiceIterator(ModelChoiceIterator):
-	def choice(self, obj):
-		return (self.field.prepare_value(obj), self.field.label_from_instance(obj), obj.description)
-
-
-class SectionModelChoiceField(ModelChoiceField):
-	def _get_choices(self):
-		return SectionChoiceIterator(self)
-	choices = property(_get_choices, ChoiceField._set_choices)
-
-
-class SectionRenderer(RadioFieldRenderer):
-	def render_choice(self, idx):
-		choice = self.choices[idx]
-		return mark_safe(force_unicode(RadioInput(self.name, self.value, self.attrs.copy(), choice, idx)) + '<p class="radio-description">' + force_unicode(escape(choice[2])) + '</p>')
-
-	def __iter__(self):
-		for idx, choice in enumerate(self.choices):
-			yield self.render_choice(idx)
-
-	def __getitem__(self, idx):
-		return self.render_choice(idx)
+class DescriptionRadioSelect(RadioSelect):
+	def render(self, name, value, attrs=None, choices=()):
+		queryset = self.choices.queryset #pylint: disable=no-member
+		ctx = {
+			'name': name,
+			'value': value,
+			'attrs': attrs,
+			'choices': choices,
+			'queryset': queryset,
+		}
+		return mark_safe(render_to_string("includes/description_radio_select.html", ctx))
 
 
 class TopicForm(AntispamFormMixin, TemporaryAttachmentFormMixin, forms.ModelForm):
-	section = SectionModelChoiceField(Section.objects.all(), empty_label=None, widget = RadioSelect(renderer = SectionRenderer), label = capfirst(_('section')))
-	original_text = RichOriginalField(parsers = get_meta(Topic).get_field('original_text').parsers, label = _("Text"), max_length = COMMENT_MAX_LENGTH)
-	attachment = AttachmentField(label = _("Attachment"), required = False)
-	upload_session = forms.CharField(label = "Upload session", widget = HiddenInput, required = False)
+	section = ModelChoiceField(Section.objects.all(), empty_label=None, widget=DescriptionRadioSelect(), label='Sekcia')
+	original_text = RichOriginalField(parsers=get_meta(Topic).get_field('original_text').parsers, label='Text', max_length=COMMENT_MAX_LENGTH)
+	attachment = AttachmentField(label='Príloha', required=False)
+	upload_session = forms.CharField(widget=HiddenInput, required=False)
 
 	def __init__(self, *args, **kwargs):
 		logged = kwargs.pop('logged', False)
 		super(TopicForm, self).__init__(*args, **kwargs)
 		if logged:
 			del(self.fields['authors_name'])
-			del(self.fields['captcha'])
 		self.process_attachments()
 
 	def get_model(self):
