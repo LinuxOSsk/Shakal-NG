@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
@@ -18,16 +20,16 @@ class HitCount(models.Model):
 
 
 class HitCountField(models.Field):
-	def db_type(self):
+	def db_type(self, connection): #pylint: disable=unused-argument
 		return None
 
 	@staticmethod
-	def get_hit_count(cls, pk):
-		content_type = ContentType.objects.get_for_model(cls)
-		hit_count, created = HitCount.objects.get_or_create(content_type = content_type, object_id = pk)
+	def get_hit_count(model_class, pk):
+		content_type = ContentType.objects.get_for_model(model_class)
+		hit_count = HitCount.objects.get_or_create(content_type = content_type, object_id = pk)[0]
 		return hit_count
 
-	def contribute_to_class(self, cls, name):
+	def contribute_to_class(self, cls, name, **kwargs):
 		def hit(self):
 			hit_count = HitCountField.get_hit_count(self.__class__, self.pk)
 			hit_count.hits += 1

@@ -1,17 +1,14 @@
 # -*- coding: utf-8 -*-
-from django import template
-from django.contrib.contenttypes.models import ContentType
+from __future__ import unicode_literals
 
-from hitcount.models import HitCount
-from common_utils import iterify
+from django.contrib.contenttypes.models import ContentType
 from django_jinja import library
 
-
-register = template.Library()
+from common_utils import iterify
+from hitcount.models import HitCount
 
 
 @library.global_function
-@register.simple_tag()
 def add_hitcount(model):
 	model = iterify(model)
 	content_type = None
