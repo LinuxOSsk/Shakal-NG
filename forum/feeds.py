@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse_lazy
@@ -35,4 +37,4 @@ class TopicFeed(Feed):
 		return [smart_unicode(item.section)]
 
 	def items(self):
-		return Topic.topics.select_related('author', 'section').order_by('-pk')[:settings.FEED_SIZE]
+		return Topic.topics.all().select_related('author', 'section').order_by('-pk')[:settings.FEED_SIZE]

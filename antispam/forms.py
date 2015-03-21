@@ -12,8 +12,10 @@ from common_utils.middlewares.ThreadLocal import get_current_request
 class AntispamFormMixin(object):
 	def __init__(self, *args, **kwargs):
 		super(AntispamFormMixin, self).__init__(*args, **kwargs)
-		self.fields['captcha'] = AntispamField(required=True)
-		self.process_antispam(get_current_request())
+		request = get_current_request()
+		if not request.user.is_authenticated():
+			self.fields['captcha'] = AntispamField(required=True)
+			self.process_antispam(get_current_request())
 
 	def generate_antispam(self):
 		operators = (

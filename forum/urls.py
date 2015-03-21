@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-from django.conf.urls import patterns, url
+from __future__ import unicode_literals
 
-import feeds as forum_feeds
-import views as forum_views
+from django.conf.urls import patterns, url
 
 
 class Patterns(object):
@@ -12,13 +11,13 @@ class Patterns(object):
 
 	@property
 	def urls(self):
-		urlpatterns = patterns('',
-			url(r'^prehlad/(?:(?P<page>\d+)/)?$', forum_views.TopicListView.as_view(), name = 'overview'),
-			url('^pridat/$', forum_views.TopicCreateView.as_view(), name = 'create'),
-			url('^(?P<pk>\d+)/$', forum_views.TopicDetailView.as_view(), name = 'topic-detail'),
-			url(r'^(?P<category>[-\w]+)/(?:(?P<page>\d+)/)?$', forum_views.TopicListView.as_view(), name = 'section'),
-			url(r'^feeds/latest/$', forum_feeds.TopicFeed(), name = 'feed-latest'),
+		pat = patterns('forum.views',
+			url(r'^prehlad/(?:(?P<page>\d+)/)?$', 'TopicListView', name='overview'),
+			url('^pridat/$', 'TopicCreateView', name='create'),
+			url(r'^(?P<pk>\d+)/$', 'TopicDetailView', name='topic-detail'),
+			url(r'^(?P<category>[-\w]+)/(?:(?P<page>\d+)/)?$', 'TopicListView', name='section'),
+			url(r'^feeds/latest/$', 'TopicFeed', name='feed-latest'),
 		)
-		return (urlpatterns, self.app_name, self.name)
+		return (pat, self.app_name, self.name)
 
 urlpatterns = Patterns().urls

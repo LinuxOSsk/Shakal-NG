@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
-from django.db.models import Count
-from django.http import HttpResponseRedirect
-from django.utils import timezone
+from __future__ import unicode_literals
 
-from common_utils.generic import AddLoggedFormArgumentMixin, PreviewCreateView, DetailUserProtectedView, ListView
-from forms import TopicForm
-from models import Section, Topic
+from django.db.models import Count
+from django.http.response import HttpResponseRedirect
+
+from .feeds import TopicFeed as CoreTopicFeed
+from .forms import TopicForm
+from .models import Topic, Section
+from common_utils.generic import ListView, DetailUserProtectedView, PreviewCreateView
 
 
 class TopicListView(ListView):
@@ -40,7 +42,7 @@ class TopicDetailView(DetailUserProtectedView):
 		return super(TopicDetailView, self).get(request, *args, **kwargs)
 
 
-class TopicCreateView(AddLoggedFormArgumentMixin, PreviewCreateView):
+class TopicCreateView(PreviewCreateView):
 	model = Topic
 	template_name = 'forum/topic_create.html'
 	form_class = TopicForm
@@ -50,3 +52,7 @@ class TopicCreateView(AddLoggedFormArgumentMixin, PreviewCreateView):
 		if self.object:
 			form.move_attachments(self.object)
 		return ret
+
+
+class TopicFeed(CoreTopicFeed):
+	pass
