@@ -29,7 +29,7 @@ DATABASES = {
 TIME_ZONE = 'Europe/Bratislava'
 LANGUAGE_CODE = 'sk'
 LANGUAGES = (('sk', 'Slovak'),)
-TEMPLATES = (('desktop', ('default',),),)
+DYNAMIC_TEMPLATES = (('desktop', ('default',),),)
 
 SITE_ID = 1
 
@@ -75,23 +75,6 @@ STATICFILES_FINDERS = (
 
 SECRET_KEY = 'c)vwu21d)0!pi67*_@xyv3qp!*74w50!7795t*!d9rfdu(%8g$'
 
-TEMPLATE_LOADERS = (
-	('template_dynamicloader.loader_filesystem.Loader', (
-		'django_jinja.loaders.FileSystemLoader',
-		'django_jinja.loaders.AppLoader',
-	)),
-)
-
-TEMPLATE_CONTEXT_PROCESSORS = TCP + (
-	'django.core.context_processors.request',
-	'django.contrib.auth.context_processors.auth',
-	'django.contrib.messages.context_processors.messages',
-	'breadcrumbs.context_processors.breadcrumbs',
-	'feeds.context_processors.feeds',
-	'template_dynamicloader.context_processors.style',
-	'allauth.account.context_processors.account'
-)
-
 
 MIDDLEWARE_CLASSES = (
 	'django.contrib.sessions.middleware.SessionMiddleware',
@@ -119,9 +102,9 @@ BASE_DIR_URLCONF = 'shakal.urls'
 
 WSGI_APPLICATION = 'shakal.wsgi.application'
 
-TEMPLATE_DIRS = (
-	os.path.join(BASE_DIR, 'templates'),
-)
+#TEMPLATE_DIRS = (
+#	os.path.join(BASE_DIR, 'templates'),
+#)
 
 INSTALLED_APPS = (
 	'admin_actions',
@@ -365,10 +348,51 @@ CACHES = {
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
-DEFAULT_JINJA2_TEMPLATE_INTERCEPT_RE = r"^(?!(admin/|debug_toolbar/|suit/|profiler/)).*"
 JINJA2_BYTECODE_CACHE_NAME = "jinja"
 JINJA2_BYTECODE_CACHE_ENABLE = True
-JINJA2_LOADER = 'template_dynamicloader.loader_jinja_filesystem.JinjaLoader'
+
+import re
+
+TEMPLATES = [
+	{
+		"BACKEND": "template_dynamicloader.backend.Jinja2",
+		"APP_DIRS": True,
+		'DIRS': [
+			os.path.join(BASE_DIR, 'templates'),
+		],
+		"OPTIONS": {
+			"match_extension": None,
+			"match_regex": re.compile(r"^(?!(admin/|debug_toolbar/|suit/|profiler/)).*"),
+			"newstyle_gettext": True,
+			"extensions": [
+				"jinja2.ext.do",
+				"jinja2.ext.loopcontrols",
+				"jinja2.ext.with_",
+				"jinja2.ext.i18n",
+				"jinja2.ext.autoescape",
+				"django_jinja.builtins.extensions.CsrfExtension",
+				"django_jinja.builtins.extensions.CacheExtension",
+				"django_jinja.builtins.extensions.TimezoneExtension",
+				"django_jinja.builtins.extensions.UrlsExtension",
+				"django_jinja.builtins.extensions.StaticFilesExtension",
+				"django_jinja.builtins.extensions.DjangoFiltersExtension",
+			],
+			'context_processors': TCP + (
+				'django.core.context_processors.request',
+				'django.contrib.auth.context_processors.auth',
+				'django.contrib.messages.context_processors.messages',
+				'breadcrumbs.context_processors.breadcrumbs',
+				'feeds.context_processors.feeds',
+				'template_dynamicloader.context_processors.style',
+				'allauth.account.context_processors.account'
+			),
+			"autoescape": True,
+			"auto_reload": False,
+			"translation_engine": "django.utils.translation",
+		}
+	},
+]
+
 
 from .patch_urls import patch_urls
 patch_urls()
@@ -376,7 +400,7 @@ patch_urls()
 import sys
 if len(sys.argv) > 1 and sys.argv[1] == 'test':
 	DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': ':memory:', }}
-	TEMPLATES = (('desktop', ('test',),),)
+	DYNAMIC_TEMPLATES = (('desktop', ('test',),),)
 
 	LANGUAGE_CODE = 'en'
 	LANGUAGES = (('en', 'English'),)

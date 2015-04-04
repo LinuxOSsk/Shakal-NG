@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.views.decorators.http import require_POST
 
-from template_dynamicloader.forms import ChangeTemplateHiddenForm
-from template_dynamicloader.utils import switch_template
+from .forms import ChangeTemplateHiddenForm
+from .utils import switch_template
 
 
 @require_POST

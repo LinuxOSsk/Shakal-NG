@@ -4,7 +4,6 @@ from django.contrib import admin
 from django.contrib.contenttypes import views as contenttype_views
 from django.utils.translation import ugettext_lazy as _
 
-from .views import home
 from accounts import urls as accounts_urls
 from admin_dashboard import urls as admin_dashboard_urls
 from article import urls as article_urls
@@ -20,7 +19,7 @@ from wiki import urls as wiki_urls
 
 
 urlpatterns = patterns('',
-	url(r'^$', home, name = 'home'),
+	url(r'^$', 'shakal.views.Home', name='home'),
 	url(r'^', include('linuxos.urls')),
 	url(_(r'^admin/'), include(admin.site.urls)),
 	url(_(r'^admin_dashboard/'), include(admin_dashboard_urls.urlpatterns)),
@@ -34,9 +33,9 @@ urlpatterns = patterns('',
 	url(_(r'^notifications/'), include(notifications_urls.urlpatterns)),
 	url(_(r'^polls/'), include(polls_urls.urlpatterns)),
 	url(_(r'^wiki/'), include(wiki_urls.urlpatterns)),
-	url(_(r'^template-change/$'), 'template_dynamicloader.views.change', name = 'template-change'),
-	url(_(r'^search/'), SearchView(), name = 'haystack_search'),
-	url(r'^v/(?P<content_type_id>\d+)/(?P<object_id>.+)/$', contenttype_views.shortcut, name = 'view-object'),
+	url(_(r'^template-change/$'), 'template_dynamicloader.views.change', name='template-change'),
+	url(_(r'^search/'), SearchView(), name='haystack_search'),
+	url(r'^v/(?P<content_type_id>\d+)/(?P<object_id>.+)/$', contenttype_views.shortcut, name='view-object'),
 )
 
 if settings.DEBUG:

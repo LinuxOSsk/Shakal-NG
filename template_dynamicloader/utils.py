@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.conf import settings
 
 
 def switch_template(request, device, template, css):
 	try:
-		device_templates = dict(settings.TEMPLATES)[device]
+		device_templates = dict(settings.DYNAMIC_TEMPLATES)[device]
 		if template is None:
 			template = device_templates[0]
 		else:
@@ -19,7 +21,11 @@ def switch_template(request, device, template, css):
 
 
 def decode_switch_template(data):
-	device, data = data.split(':', 1)
+	try:
+		device, data = data.split(':', 1)
+	except ValueError:
+		device = data
+		data = ''
 	if data:
 		try:
 			template, data = data.split(':', 1)
@@ -35,22 +41,18 @@ def decode_switch_template(data):
 
 
 def get_template_settings(request):
-	if request is None:
-		class C:
-			method = 'None'
-			session = {}
-		request = C()
 	template_device = template_skin = css = None
 	if request.method == 'GET' and 'switch_template' in request.GET:
 		(template_device, template_skin, css) = decode_switch_template(request.GET['switch_template'])
 
-	templates = dict(settings.TEMPLATES)
-	if template_device is None:
-		template_device = request.session.get('template_device', settings.TEMPLATES[0][0])
+	templates = dict(settings.DYNAMIC_TEMPLATES)
+	default = settings.DYNAMIC_TEMPLATES[0]
+
+	template_device = template_device or request.session.get('template_device', default[0])
 	if not template_device in templates and template_device:
-		template_device = request.session.get('template_device', settings.TEMPLATES[0][0])
+		template_device = request.session.get('template_device', default[0])
 		if not template_device in templates:
-			template_device = settings.TEMPLATES[0][0]
+			template_device = default[0]
 
 	device_templates = set(templates[template_device])
 	if template_skin is None:
