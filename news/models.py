@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models import permalink
-from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
-from autoslugfield.fields import AutoSlugField
-from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
+from django.utils.translation import ugettext_lazy as _
 
 from attachment.models import Attachment
+from autoslugfield.fields import AutoSlugField
+from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 from threaded_comments.models import RootHeader, Comment
 
 
@@ -37,9 +37,9 @@ class News(models.Model):
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.SET_NULL, blank = True, null = True, verbose_name = _('user'))
 	authors_name = models.CharField(max_length = 255, verbose_name = _('authors name'))
 	approved = models.BooleanField(default = False, verbose_name = _('approved'))
-	comments_header = generic.GenericRelation(RootHeader)
-	attachments = generic.GenericRelation(Attachment)
-	comments = generic.GenericRelation(Comment)
+	comments_header = GenericRelation(RootHeader)
+	attachments = GenericRelation(Attachment)
+	comments = GenericRelation(Comment)
 
 	class Meta:
 		verbose_name = _('news item')

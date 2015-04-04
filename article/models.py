@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericRelation
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import permalink
@@ -57,10 +57,10 @@ class Article(models.Model):
 	published = models.BooleanField('publikované', default=False)
 	top = models.BooleanField('hodnotný článok', default=False)
 	image = AutoImageField('obrázok', upload_to='article/thumbnails', size=(512, 512), thumbnail={'standard': (100, 100)}, blank=True, null=True)
-	polls = generic.GenericRelation(Poll)
-	comments_header = generic.GenericRelation(RootHeader)
-	comments = generic.GenericRelation(Comment)
-	attachments = generic.GenericRelation(Attachment)
+	polls = GenericRelation(Poll)
+	comments_header = GenericRelation(RootHeader)
+	comments = GenericRelation(Comment)
+	attachments = GenericRelation(Attachment)
 	hit = HitCountField()
 
 	def save(self, *args, **kwargs):

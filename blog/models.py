@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models import Q
 from django.db.models.query import QuerySet
@@ -81,10 +81,10 @@ class Post(models.Model):
 	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
 	linux = models.BooleanField(_('linux blog'), default=False)
-	polls = generic.GenericRelation(Poll)
-	comments_header = generic.GenericRelation(RootHeader)
-	comments = generic.GenericRelation(Comment)
-	attachments = generic.GenericRelation(Attachment)
+	polls = GenericRelation(Poll)
+	comments_header = GenericRelation(RootHeader)
+	comments = GenericRelation(Comment)
+	attachments = GenericRelation(Attachment)
 	hit = HitCountField()
 
 	@models.permalink

@@ -6,17 +6,17 @@ import os
 
 import uuid
 from django.conf import settings
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.db import models
+from django.db.models import signals
 from django.db.models.fields.files import FileField
 from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
-from autoimagefield.fields import AutoImageFieldMixin
-from django.db.models import signals
 
 from .utils import get_available_size
+from autoimagefield.fields import AutoImageFieldMixin
 from common_utils import clean_dir, get_meta
 
 
@@ -62,7 +62,7 @@ class AttachmentAbstract(models.Model):
 	size = models.IntegerField(_('size'))
 	content_type = models.ForeignKey(ContentType)
 	object_id = models.PositiveIntegerField()
-	content_object = generic.GenericForeignKey('content_type', 'object_id')
+	content_object = GenericForeignKey('content_type', 'object_id')
 
 	class Meta:
 		abstract = True

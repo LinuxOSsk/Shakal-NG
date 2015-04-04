@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from datetime import timedelta
 
 from django.conf import settings
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericRelation
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import permalink
@@ -93,9 +93,9 @@ class Topic(models.Model):
 	updated = models.DateTimeField(editable=False)
 	authors_name = models.CharField('meno autora', max_length=50, blank=False)
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name='autor')
-	comments_header = generic.GenericRelation(RootHeader)
-	attachments = generic.GenericRelation(Attachment)
-	comments = generic.GenericRelation(Comment)
+	comments_header = GenericRelation(RootHeader)
+	attachments = GenericRelation(Attachment)
+	comments = GenericRelation(Comment)
 	is_removed = models.BooleanField(_('deleted'), default=False)
 	is_resolved = models.BooleanField(_('resolved'), default=False)
 

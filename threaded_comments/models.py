@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db import models, transaction
@@ -89,7 +89,7 @@ class Comment(MPTTModel):
 
 	content_type = models.ForeignKey(ContentType, verbose_name = _('content type'), related_name = "content_type_set_for_%(class)s")
 	object_id = models.TextField(_('object ID'))
-	content_object = generic.GenericForeignKey("content_type", "object_id")
+	content_object = GenericForeignKey("content_type", "object_id")
 	parent = TreeForeignKey('self', null = True, blank = True, related_name = 'children')
 
 	subject = models.CharField(max_length = 100)
@@ -105,7 +105,7 @@ class Comment(MPTTModel):
 
 	is_locked = models.BooleanField(_('is locked'), default = False)
 	updated = models.DateTimeField(editable = False)
-	attachments = generic.GenericRelation(Attachment)
+	attachments = GenericRelation(Attachment)
 
 	def root_header(self):
 		try:
@@ -197,7 +197,7 @@ class RootHeader(models.Model):
 	is_locked = models.BooleanField(default = False)
 	content_type = models.ForeignKey(ContentType)
 	object_id = models.PositiveIntegerField()
-	content_object = generic.GenericForeignKey('content_type', 'object_id')
+	content_object = GenericForeignKey('content_type', 'object_id')
 
 	@models.permalink
 	def get_absolute_url(self):

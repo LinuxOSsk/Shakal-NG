@@ -1,10 +1,10 @@
-Django==1.7.4
+Django==1.8
 django-allauth==0.19.1
 django-braces==1.4.0
 django-debug-panel==0.8.0
 django-haystack==2.3.1
--e git://github.com/niwibe/django-jinja.git@e0cb511a5e0af90b5b5800dc27d25eaf4dc316f7#egg=django_jinja-master
-django-mptt==0.6.1
+django-jinja==1.3.2
+django-mptt==0.7.0
 django-qsstats-magic==0.7.2
 django-reversion==1.8.5
 django-static-sitemaps==2.1.7
@@ -12,12 +12,12 @@ django-suit==0.2.12
 feedparser==5.1.3
 Jinja2==2.7.3
 MarkupSafe==0.23
-Pillow==2.7.0
+Pillow==2.8.1
 pycrypto==2.6.1
 Pygments==2.0.2
-python-dateutil==2.4.0
-python-memcached==1.53
-pytz==2014.10
+python-dateutil==2.4.2
+python-memcached==1.54
+pytz==2015.2
 queued-search==2.1.0
 queues==0.6.3
 redis==2.10.3
@@ -25,4 +25,4 @@ simplejson==3.6.5
 six==1.9.0
 sqlparse==0.1.14
 termcolor==1.1.0
--e git://github.com/mireq/xapian-haystack.git@9b1290aeb93c6a16d7c9d9f3637c5d8b20e6a8d9#egg=xapian_haystack-master
+xapian-haystack==1.1.5b0

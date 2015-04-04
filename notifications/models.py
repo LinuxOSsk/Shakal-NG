@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import Q
@@ -90,7 +90,7 @@ class Event(models.Model):
 	object_id = models.PositiveIntegerField(blank = True, null = True)
 	content_type = models.ForeignKey(ContentType, blank = True, null = True)
 	time = models.DateTimeField(auto_now_add = True)
-	content_object = generic.GenericForeignKey('content_type', 'object_id')
+	content_object = GenericForeignKey('content_type', 'object_id')
 	action = models.CharField(max_length = 1, choices = ACTION_TYPE, default = MESSAGE_ACTION)
 	level = models.IntegerField(default = messages.INFO)
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, blank = True, null = True)
