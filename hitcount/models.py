@@ -7,7 +7,7 @@ from django.db import models
 
 
 class HitCount(models.Model):
-	hits = models.PositiveIntegerField(default = 0)
+	hits = models.PositiveIntegerField(default=0)
 	content_type = models.ForeignKey(ContentType)
 	object_id = models.PositiveIntegerField()
 	content_object = GenericForeignKey('content_type', 'object_id')
@@ -20,13 +20,13 @@ class HitCount(models.Model):
 
 
 class HitCountField(models.Field):
-	def db_type(self, connection): #pylint: disable=unused-argument
+	def db_type(self, *args, **kwargs): # virtual field
 		return None
 
 	@staticmethod
 	def get_hit_count(model_class, pk):
 		content_type = ContentType.objects.get_for_model(model_class)
-		hit_count = HitCount.objects.get_or_create(content_type = content_type, object_id = pk)[0]
+		hit_count = HitCount.objects.get_or_create(content_type=content_type, object_id=pk)[0]
 		return hit_count
 
 	def contribute_to_class(self, cls, name, **kwargs):

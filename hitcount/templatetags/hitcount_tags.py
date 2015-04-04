@@ -18,7 +18,7 @@ def add_hitcount(model):
 	content_type = ContentType.objects.get_for_model(model[0].__class__)
 	hitcounts = HitCount \
 		.objects \
-		.filter(content_type = content_type, object_id__in = id_list) \
+		.filter(content_type=content_type, object_id__in=id_list) \
 		.values_list('object_id', 'hits')
 	hitcounts = dict(hitcounts)
 	for obj in model:
