@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from template_dynamicloader.utils import get_template_settings
 
 
-class styleoptions:
+class StyleOptions:
 	def __init__(self, options_data):
 		if not options_data:
 			pass
@@ -22,4 +22,4 @@ def style(request):
 		options = template_skin.split(',', 1)[1]
 	except IndexError:
 		options = ''
-	return {'style_options': styleoptions(options), 'style_css': template_css}
+	return {'style_options': StyleOptions(options), 'style_css': template_css}
