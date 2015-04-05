@@ -1,19 +1,22 @@
 # -*- coding: utf-8 -*-
-from django.conf.urls import patterns, url
-import linuxos.redirect_views as redirect_views
-from static_urls import urlpatterns as static_urlpatterns
+from __future__ import unicode_literals
 
-urlpatterns = patterns('',
-	url('^profil/(?P<pk>\d+)/index.html$', redirect_views.profile_redirect),
-	url('^clanok/(?P<pk>\d+)/index.html$', redirect_views.article_redirect),
-	url('^forum/(?P<pk>\d+)/index.html$', redirect_views.forum_topic_redirect),
-	url('^zobraz_prispevok.php$', redirect_views.forum_topic_old_redirect),
-	url('^sprava_zobraz_komentare/(?P<pk>\d+)/index.html', redirect_views.news_redirect),
-	url('^anketa_show/(?P<pk>\d+)/index.html', redirect_views.poll_redirect),
-	url('^KnowledgeBase_show_entry/(?P<pk>\d+)/index.html', redirect_views.wiki_redirect),
-	url('^forum_rss/index.html', redirect_views.forum_rss_redirect),
-	url('^spravy_rss/index.html', redirect_views.news_rss_redirect),
-	url('^clanok_rss/index.html', redirect_views.article_rss_redirect),
+from django.conf.urls import patterns, url
+
+from .static_urls import urlpatterns as static_urlpatterns
+
+
+urlpatterns = patterns('linuxos.redirect_views',
+	url(r'^profil/(?P<pk>\d+)/index.html$', 'profile_redirect'),
+	url(r'^clanok/(?P<pk>\d+)/index.html$', 'article_redirect'),
+	url(r'^forum/(?P<pk>\d+)/index.html$', 'forum_topic_redirect'),
+	url(r'^zobraz_prispevok.php$', 'forum_topic_old_redirect'),
+	url(r'^sprava_zobraz_komentare/(?P<pk>\d+)/index.html', 'news_redirect'),
+	url(r'^anketa_show/(?P<pk>\d+)/index.html', 'poll_redirect'),
+	url(r'^KnowledgeBase_show_entry/(?P<pk>\d+)/index.html', 'wiki_redirect'),
+	url(r'^forum_rss/index.html', 'forum_rss_redirect'),
+	url(r'^spravy_rss/index.html', 'news_rss_redirect'),
+	url(r'^clanok_rss/index.html', 'article_rss_redirect'),
 )
 
 urlpatterns += static_urlpatterns
