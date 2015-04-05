@@ -1,19 +1,26 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
 import os
+
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 from django.template.loader import render_to_string
-from django.template import RequestContext
+from django.utils.functional import cached_property
+
 
 class MaintenanceMiddleware(object):
 	def __init__(self):
 		self.ignore_path = reverse_lazy('maintenance:status')
 
+	@cached_property
+	def maintenance(self):
+		return os.path.exists("maintenance.flag")
+
 	def process_request(self, request):
-		if not os.path.exists("maintenance.flag"):
+		if not self.maintenance:
 			return None
 		if request.path == self.ignore_path:
 			return None
-		response = render_to_string("503.html", {}, context_instance = RequestContext(request))
-		return HttpResponse(response, status = 503)
+		response = render_to_string("503.html", {}, request)
+		return HttpResponse(response, status=503)
