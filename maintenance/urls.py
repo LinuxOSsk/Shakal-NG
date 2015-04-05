@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
 from django.conf.urls import patterns, url
-from django.utils.translation import ugettext_lazy as _
-from maintenance.views import status
+
 
 class Pattenrs(object):
 	def __init__(self):
@@ -11,10 +11,10 @@ class Pattenrs(object):
 
 	@property
 	def urls(self):
-		urlpatterns = patterns('',
-			url(_(r'^status/$'), status, name = 'status'),
+		pat = patterns('maintenance.views',
+			url(r'^stav/$', 'status', name='status'),
 		)
-		return (urlpatterns, self.app_name, self.name)
+		return (pat, self.app_name, self.name)
 
 
 urlpatterns = Pattenrs().urls

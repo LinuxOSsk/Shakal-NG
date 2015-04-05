@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
-
-from django.http import HttpResponse
 import os
-import socket
 
-def status(request):
-	status = "{}"
+import socket
+from django.http import HttpResponse
+
+
+def status(request): #pylint: disable=unused-argument
+	status_data = "{}"
 	address = os.path.abspath("maintenance.flag")
 	if (os.path.exists(address)):
-		status = "{text: '...'}"
+		status_data = "{text: '...'}"
 	sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 	try:
 		sock.connect(address)
-		status = sock.recv(65536)
+		status_data = sock.recv(65536)
 	except socket.error:
 		pass
-	return HttpResponse(status, mimetype = 'application/json')
+	return HttpResponse(status_data, content_type='application/json')
