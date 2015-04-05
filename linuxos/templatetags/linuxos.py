@@ -16,6 +16,7 @@ from django_jinja import library
 from jinja2 import contextfunction
 
 from common_utils import get_meta
+from common_utils.middlewares.ThreadLocal import get_current_request
 
 
 register = template.Library()
@@ -94,7 +95,6 @@ def get_base_uri(context):
 	if 'request' in context:
 		return context['request'].build_absolute_uri('/')[:-1]
 	else:
-		from common_utils.middlewares.ThreadLocal import get_current_request
 		request = get_current_request()
 		if request:
 			return request.build_absolute_uri('/')[:-1]
