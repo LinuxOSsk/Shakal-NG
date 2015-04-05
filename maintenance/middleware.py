@@ -22,5 +22,5 @@ class MaintenanceMiddleware(object):
 			return None
 		if request.path == self.ignore_path:
 			return None
-		response = render_to_string("503.html", {}, request)
+		response = render_to_string("503.html", {}, request=request)
 		return HttpResponse(response, status=503)
