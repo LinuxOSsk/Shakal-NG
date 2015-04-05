@@ -8,7 +8,7 @@
 <script type="text/javascript">/* <![CDATA[ */
 jQuery(function($) {
 	var update = function() {
-		$.getJSON("{% url 'maintenance:status' %}", function(data) {
+		$.getJSON("{{ url('maintenance:status') }}", function(data) {
 			if (!data.text) {
 				location.reload();
 			}
