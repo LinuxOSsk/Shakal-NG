@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
-from django.core.management.base import BaseCommand
-from imgcompress.compressor import Compressor
-from subprocess import call
 import os
 import sys
+
+from django.core.management.base import BaseCommand
+from subprocess import call
+
+from imgcompress.compressor import Compressor
+
 
 class Command(BaseCommand):
 	args = ''

@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import datetime
 
 from django.core.management.base import BaseCommand
 from django.db.models import Count, F
 from django.utils import timezone
-from threaded_comments.models import Comment
+
 from accounts.models import UserRating, RATING_WEIGHTS
 from article.models import Article
-
 from attachment.models import TemporaryAttachment
 from news.models import News
+from threaded_comments.models import Comment
 from wiki.models import Page as WikiPage
 
 
