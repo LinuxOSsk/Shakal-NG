@@ -44,7 +44,7 @@ class Section(models.Model):
 
 class TopicManager(models.Manager):
 	def get_queryset(self):
-		return super(TopicManager, self).get_queryset().select_related('user', 'section')
+		return super(TopicManager, self).get_queryset().select_related('author', 'section')
 
 	def topics(self):
 		return self.get_queryset().filter(is_removed=False)
