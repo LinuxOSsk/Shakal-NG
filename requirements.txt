@@ -25,4 +25,4 @@ simplejson==3.6.5
 six==1.9.0
 sqlparse==0.1.14
 termcolor==1.1.0
--e git+https://github.com/notanumber/xapian-haystack.git@9b1290aeb93c6a16d7c9d9f3637c5d8b20e6a8d9#egg=xapian_haystack-master
+-e git+https://github.com/notanumber/xapian-haystack.git@a3a3a4e7cfba3e2e1be3a42abf59edd29ea03c05#egg=xapian_haystack-origin_HEAD
