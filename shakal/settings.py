@@ -391,6 +391,16 @@ TEMPLATES = [
 			"translation_engine": "django.utils.translation",
 		}
 	},
+	{
+		"BACKEND": "django.template.backends.django.DjangoTemplates",
+		"APP_DIRS": True,
+		"DIRS": [],
+		"OPTIONS": {
+			'context_processors': TCP + (
+				'django.contrib.messages.context_processors.messages',
+			)
+		}
+	}
 ]
 
 
@@ -407,3 +417,5 @@ if len(sys.argv) > 1 and sys.argv[1] == 'test':
 	CAPTCHA_DISABLE = True
 	LOGIN_URL = '/accounts/login/'
 	LOGIN_REDIRECT_URL = '/accounts/me/'
+
+ROOT_URLCONF = 'shakal.urls'
