@@ -15,7 +15,7 @@ balíky:
 
 ::
 
-    build-essential python-dev libjpeg8-dev libfreetype6-dev zlib1g-dev python2.7 python2.7-dev
+    build-essential python-dev libjpeg8-dev libfreetype6-dev zlib1g-dev python2.7 python2.7-dev npm
 
 Chýbajúce balíky sa dajú nájsť v repozitári http://mirror.cse.iitk.ac.in/debian/
 
