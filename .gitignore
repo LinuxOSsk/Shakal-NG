@@ -12,7 +12,6 @@
 /venv
 /shakal/settings_local.py
 /shakal/settings_production.py
-/shakal/urls_local.py
 /shakal.db
 /test.db
 /virtualenv.py
