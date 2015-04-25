@@ -398,6 +398,7 @@ TEMPLATES = [
 		"OPTIONS": {
 			'context_processors': TCP + (
 				'django.contrib.messages.context_processors.messages',
+				'django.core.context_processors.request',
 			)
 		}
 	}
