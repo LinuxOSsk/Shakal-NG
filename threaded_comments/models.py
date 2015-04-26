@@ -78,7 +78,7 @@ class CommentManager(models.Manager):
 				return (root_comment, created)
 
 	def get_queryset(self):
-		queryset = self.__qs_class(self.model).select_related('user__profile')
+		queryset = self.__qs_class(self.model)
 		return queryset
 
 
@@ -220,16 +220,17 @@ def update_comments_header(sender, **kwargs):
 	statistics = statistics.exclude(pk = root.pk)
 	statistics = statistics.aggregate(Count('pk'), Max('submit_date'))
 
-	header, created = RootHeader.objects.get_or_create(content_type = root.content_type, object_id = root.object_id, defaults = {'pub_date': root.submit_date})
-	header.is_locked = root.is_locked
-	header.last_comment = statistics['submit_date__max']
-	header.pub_date = root.submit_date
-	if header.last_comment is None:
+	last_comment = statistics['submit_date__max']
+	if last_comment is None:
 		content_object = root.content_object
 		if hasattr(content_object, 'created'):
-			header.last_comment = content_object.created
+			last_comment = content_object.created
 		elif hasattr(content_object, 'time'):
-			header.last_comment = content_object.time
+			last_comment = content_object.time
+	header, created = RootHeader.objects.get_or_create(content_type = root.content_type, object_id = root.object_id, defaults = {'pub_date': root.submit_date, 'last_comment': last_comment})
+	header.is_locked = root.is_locked
+	header.last_comment = last_comment
+	header.pub_date = root.submit_date
 	header.comment_count = statistics['pk__count']
 	header.save()
 
