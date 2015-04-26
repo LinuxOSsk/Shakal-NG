@@ -92,7 +92,7 @@ def post_comment(request):
 
 	if form.errors or not 'create' in data or parent.is_locked:
 		template_list = [
-			"comments/{0}_{1}_preview.html".format(get_meta(model).app_label, get_meta(model).module_name),
+			"comments/{0}_{1}_preview.html".format(get_meta(model).app_label, get_meta(model).model_name),
 			"comments/{0}_preview.html".format(get_meta(model).app_label),
 			"comments/preview.html",
 		]

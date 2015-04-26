@@ -29,7 +29,7 @@ class DiscussionLoader:
 			content_type = ctype,
 			object_id = object_id,
 		)
-		queryset = queryset.select_related('user__profile', 'user__rating', )
+		queryset = queryset.select_related('user__rating', )
 		queryset = queryset.prefetch_related('attachments')
 		queryset = queryset.annotate(attachment_count=Count('attachments'))
 		queryset = queryset.defer(

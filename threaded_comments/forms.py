@@ -60,8 +60,7 @@ class CommentForm(TemporaryAttachmentFormMixin, AntispamFormMixin, forms.Form):
 		if logged:
 			del self.fields['name']
 			del key_order[1]
-			del self.fields['captcha']
-			del key_order[2]
+			del key_order[2] # Delete captcha from key_order.
 
 		self.fields.keyOrder = key_order
 		self.process_attachments()

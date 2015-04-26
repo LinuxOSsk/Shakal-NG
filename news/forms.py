@@ -20,7 +20,6 @@ class NewsForm(AntispamFormMixin, forms.ModelForm):
 		super(NewsForm, self).__init__(*args, **kwargs)
 		if logged:
 			del(self.fields['authors_name'])
-			del(self.fields['captcha'])
 
 	class Meta:
 		model = News
