@@ -33,7 +33,7 @@ else
 fi
 
 mkdir shakal
-git clone https://github.com/bedna-KU/Shakal-NG.git shakal/shakal-src
+git clone https://github.com/mireq/Shakal-NG.git shakal/shakal-src
 mv -f shakal/shakal-src/* shakal
 mv -f shakal/shakal-src/.git shakal
 mv -f shakal/shakal-src/.gitignore shakal
