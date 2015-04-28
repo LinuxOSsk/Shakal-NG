@@ -5,6 +5,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 from django.utils.translation import ugettext_lazy as _
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
+from .assets import SPRITES
+
+ASSETS_MANAGER_SPRITES = SPRITES
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -119,6 +123,7 @@ INSTALLED_APPS = (
 	'django.contrib.admin',
 	'django.contrib.syndication',
 	'django.contrib.sitemaps',
+	'django_assets_manager',
 	'django_jinja',
 	'allauth',
 	'allauth.account',

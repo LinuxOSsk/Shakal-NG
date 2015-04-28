@@ -9,6 +9,7 @@
 /static/compressed_images.less
 /static/desktop/default/images/backgrounds.png
 /static/desktop/default/base.css
+/static/desktop/default/sprites*.scss
 /venv
 /shakal/settings_local.py
 /shakal/settings_production.py
