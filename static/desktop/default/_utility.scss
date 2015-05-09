@@ -1,0 +1,30 @@
+$hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx)";
+
+.icon {
+	display: block;
+	background-repeat: no-repeat;
+}
+
+@mixin sprite-generated($def, $image) {
+	@extend .icon;
+	background-image: map-get($def, _url);
+	background-size: map-get($def, _size);
+	background-position: map-get(map-get($def, $image), offset);
+	width: map-get(map-get($def, $image), w);
+	height: map-get(map-get($def, $image), h);
+	//@media #{$hdpi} {
+	//	background-image: map-get($def2x, _url);
+	//}
+}
+
+@mixin sprite-generated-right($def, $image) {
+	@extend .icon;
+	background-image: map-get($def, _url);
+	background-size: map-get($def, _size);
+	background-position: right (-map-get(map-get($def, $image), y));
+	width: map-get(map-get($def, $image), w);
+	height: map-get(map-get($def, $image), h);
+	//@media #{$hdpi} {
+	//	background-image: map-get($def2x, _url);
+	//}
+}

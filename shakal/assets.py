@@ -3,9 +3,9 @@ from __future__ import unicode_literals
 
 SPRITES = (
 	{
-		'name': 'main',
+		'name': 'sprites',
 		'output': 'desktop/default/images/backgrounds.png',
-		'scss_output': 'desktop/default/sprites.scss',
+		'scss_output': 'desktop/default/_sprites.scss',
 		'extra_sizes': (),
 		'width': 800,
 		'height': 880,

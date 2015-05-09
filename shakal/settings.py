@@ -75,6 +75,7 @@ STATICFILES_FINDERS = (
 	'django.contrib.staticfiles.finders.FileSystemFinder',
 	'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 	#'django.contrib.staticfiles.finders.DefaultStorageFinder',
+	'compressor.finders.CompressorFinder',
 )
 
 SECRET_KEY = 'c)vwu21d)0!pi67*_@xyv3qp!*74w50!7795t*!d9rfdu(%8g$'
@@ -134,8 +135,8 @@ INSTALLED_APPS = (
 	'attachment',
 	'blog',
 	'breadcrumbs',
+	'compressor',
 	'hitcount',
-	'imgcompress',
 	'maintenance',
 	'mptt',
 	'notifications',
@@ -354,7 +355,16 @@ CACHES = {
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 JINJA2_BYTECODE_CACHE_NAME = "jinja"
-JINJA2_BYTECODE_CACHE_ENABLE = True
+JINJA2_BYTECODE_CACHE_ENABLE = False
+
+COMPRESS_ROOT = os.path.join(BASE_DIR, 'static')
+COMPRESS_PRECOMPILERS = (
+	('text/x-scss', 'django_libsass.SassCompiler'),
+)
+
+COMPRESS_ENABLED = True
+COMPRESS_OFFLINE = False
+COMPRESS_REBUILD_TIMEOUT = 1
 
 import re
 
@@ -381,6 +391,7 @@ TEMPLATES = [
 				"django_jinja.builtins.extensions.UrlsExtension",
 				"django_jinja.builtins.extensions.StaticFilesExtension",
 				"django_jinja.builtins.extensions.DjangoFiltersExtension",
+				"compressor.contrib.jinja2ext.CompressorExtension",
 			],
 			'context_processors': TCP + (
 				'django.core.context_processors.request',
