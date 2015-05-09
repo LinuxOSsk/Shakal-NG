@@ -2,7 +2,7 @@
 import os
 from django.conf import settings
 from django.conf.urls import patterns, include, url
-from shakal.urls import urlpatterns as original_urls
+from web.urls import urlpatterns as original_urls
 
 urlpatterns = patterns('',
 )
@@ -21,6 +21,6 @@ else:
 urlpatterns += original_urls
 
 if not settings.DEBUG:
-	handler404 = 'shakal.views.error_404'
-	handler500 = 'shakal.views.error_500'
+	handler404 = 'web.views.error_404'
+	handler500 = 'web.views.error_500'
 

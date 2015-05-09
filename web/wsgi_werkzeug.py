@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "shakal.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "web.settings")
 
 from django_extensions.management.utils import RedirectHandler
 import logging

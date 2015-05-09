@@ -19,7 +19,7 @@ from wiki import urls as wiki_urls
 
 
 urlpatterns = patterns('',
-	url(r'^$', 'shakal.views.Home', name='home'),
+	url(r'^$', 'web.views.Home', name='home'),
 	url(r'^', include('linuxos.urls')),
 	url(_(r'^admin/'), include(admin.site.urls)),
 	url(_(r'^admin_dashboard/'), include(admin_dashboard_urls.urlpatterns)),
@@ -43,5 +43,5 @@ if settings.DEBUG:
 		(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT})
 	)
 else:
-	handler404 = 'shakal.views.error_404'
-	handler500 = 'shakal.views.error_500'
+	handler404 = 'web.views.error_404'
+	handler500 = 'web.views.error_500'

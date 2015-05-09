@@ -49,7 +49,7 @@ MEDIA_CACHE_DIR = os.path.join(MEDIA_ROOT, 'cache')
 MEDIA_CACHE_URL = MEDIA_URL + 'cache/'
 TEMPLATE_CACHE_DIR = os.path.join(BASE_DIR, 'templates', 'cache')
 
-STATICSITEMAPS_BASE_DIR_SITEMAP = 'shakal.sitemaps.sitemaps'
+STATICSITEMAPS_BASE_DIR_SITEMAP = 'web.sitemaps.sitemaps'
 
 STATIC_BASE_DIR = ''
 STATIC_URL = '/static/'
@@ -103,9 +103,9 @@ AUTHENTICATION_BACKENDS = (
 	'accounts.backend.AuthRememberBackend',
 )
 
-BASE_DIR_URLCONF = 'shakal.urls'
+BASE_DIR_URLCONF = 'web.urls'
 
-WSGI_APPLICATION = 'shakal.wsgi.application'
+WSGI_APPLICATION = 'web.wsgi.application'
 
 #TEMPLATE_DIRS = (
 #	os.path.join(BASE_DIR, 'templates'),
@@ -437,4 +437,4 @@ if len(sys.argv) > 1 and sys.argv[1] == 'test':
 	LOGIN_URL = '/accounts/login/'
 	LOGIN_REDIRECT_URL = '/accounts/me/'
 
-ROOT_URLCONF = 'shakal.urls'
+ROOT_URLCONF = 'web.urls'

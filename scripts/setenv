@@ -2,5 +2,5 @@
 dirname="`pwd`/`dirname ${BASH_SOURCE:-$0}`"
 dirname=`cd "${dirname}/..";pwd`
 export PYTHONPATH=$dirname
-export DJANGO_SETTINGS_MODULE=shakal.settings_local
+export DJANGO_SETTINGS_MODULE=web.settings_local
 source "${dirname}/../venv/bin/activate"

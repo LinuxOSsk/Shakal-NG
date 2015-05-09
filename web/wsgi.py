@@ -15,7 +15,7 @@ framework.
 """
 import os
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "shakal.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "web.settings")
 
 
 # This application object is used by any WSGI server configured to use this
