@@ -42,7 +42,7 @@ migrate: .stamp_settings
 	${DJANGO_MANAGE} migrate
 
 runserver: .stamp_superuser
-	${DJANGO_MANAGE} runserver
+	${DJANGO_MANAGE} runserver_plus
 
 update: .stamp_settings
 	cd shakal; git pull; git submodule sync --recursive
