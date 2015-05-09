@@ -6,7 +6,6 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 }
 
 @mixin sprite-generated($def, $image) {
-	@extend .icon;
 	background-image: map-get($def, _url);
 	background-size: map-get($def, _size);
 	background-position: map-get(map-get($def, $image), offset);
@@ -18,7 +17,6 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 }
 
 @mixin sprite-generated-right($def, $image) {
-	@extend .icon;
 	background-image: map-get($def, _url);
 	background-size: map-get($def, _size);
 	background-position: right (-map-get(map-get($def, $image), y));

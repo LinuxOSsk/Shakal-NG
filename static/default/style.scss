@@ -300,15 +300,16 @@ form .formatwrapper {
 
 @mixin styled_header() {
 	font-size: 1.5em;
-	line-height: 37px;
-	height: 37px;
 	padding: 0 $title-padding;
-	margin: 0 -$module-padding;
+	margin: 0 (-$module-padding);
 	color: $module-header-background;
 	text-shadow: 1px 1px 0px darken($header-bg, 10%);
 	@include sprite-generated($sprites, block_header_bg);
 	background-color: $header-bg;
 	background-repeat: repeat-x;
+	line-height: 37px;
+	height: 37px;
+	width: auto;
 }
 
 fieldset, .module {
