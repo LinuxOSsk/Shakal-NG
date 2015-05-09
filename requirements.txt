@@ -1,7 +1,7 @@
 Django==1.8
 django-allauth==0.19.1
 django-appconf==1.0.1
--e git+https://github.com/mireq/django-assets-manager.git@f424d9f8da8a90f936e596771d5fbc13defc78d6#egg=django_assets_manager-master
+-e git+https://github.com/mireq/django-assets-manager.git@783a569c8d7d071c2806f30b74523f26cc65ef9d#egg=django_assets_manager-master
 django-braces==1.4.0
 django-compressor==1.5
 django-debug-panel==0.8.0
