@@ -17,7 +17,7 @@ class StyleOptions:
 
 
 def style(request):
-	(_, template_skin, template_css) = get_template_settings(request)
+	(template_skin, template_css) = get_template_settings(request)
 	try:
 		options = template_skin.split(',', 1)[1]
 	except IndexError:

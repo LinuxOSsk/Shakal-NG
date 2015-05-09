@@ -15,8 +15,8 @@ class TemplateSwitcherMiddleware(object):
 		match = re.search('<body[^>]*>', content)
 		if match is None:
 			raise ValueError
-		device, template, extra_css = template_data
-		form = ChangeTemplateHiddenForm({'device': device, 'template': template, 'css': extra_css})
+		template, extra_css = template_data
+		form = ChangeTemplateHiddenForm({'template': template, 'css': extra_css})
 		confirm = render_to_string('template_dynamicloader/switch_confirm_inline.html', {'form': form}, request=request)
 		return smart_unicode(content[0:match.end(0)]) + confirm + smart_unicode(content[match.end(0):])
 

@@ -5,7 +5,6 @@ from django import forms
 
 
 class ChangeTemplateForm(forms.Form):
-	device = forms.CharField(required = False)
 	template = forms.CharField(required = False)
 	css = forms.CharField(required = False)
 
