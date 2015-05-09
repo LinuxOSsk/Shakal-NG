@@ -11,7 +11,8 @@ class JinjaLoader(DynamicLoaderMixin, FileSystemLoader):
 	def __init__(self, *args, **kwargs):
 		super(JinjaLoader, self).__init__(*args, **kwargs)
 		from django.conf import settings
-		cache_enable = getattr(settings, 'JINJA2_BYTECODE_CACHE_ENABLE', False)
+		auto_reload = {t['BACKEND']: t for t in settings.TEMPLATES}['template_dynamicloader.backend.Jinja2']["OPTIONS"].get('auto_reload', False)
+		cache_enable = not auto_reload
 		self.template_source_cache = {} if cache_enable else None
 
 	def get_template_source(self, template, environment):

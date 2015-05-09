@@ -403,7 +403,7 @@ TEMPLATES = [
 				'allauth.account.context_processors.account'
 			),
 			"autoescape": True,
-			"auto_reload": False,
+			"auto_reload": True,
 			"translation_engine": "django.utils.translation",
 		}
 	},
