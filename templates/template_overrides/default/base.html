@@ -1,244 +1,30 @@
 <!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml"  lang="{{ LANGUAGE_CODE|default("en-us") }}" xml:lang="{{ LANGUAGE_CODE|default("en-us") }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="sk" xml:lang="sk">
 <head>
 	<title>{% block title %}{% endblock %}</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	{% compress css %}
-		<link rel="stylesheet" type="text/x-scss" href="{{ static('default/style.scss') }}" />
-	{% endcompress %}
+	{# compress css #}
+		<!--<link rel="stylesheet" type="text/x-scss" href="{{
+	  static('old/style.scss') }}" />-->
+	{# endcompress #}
 	<link rel="shortcut icon" href="/favicon.ico" />
 	<meta property="og:site_name" content="LinuxOS.sk" />
-	{{ render_all_feeds(template="feeds/header_feeds.html") }}
 	{% include "includes/common_headers.html" %}
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-{% if style_options.small %}
-<style type="text/css" media="screen">
-html, body {
-	font-size: 90%;
-}
-
-.module-row {
-	padding: .4em .4em;
-}
-
-#site_content, #aside_left {
-	padding: .7em;
-}
-
-.module + .module, .content + .module, .module + form {
-	margin-top: .7em;
-}
-</style>
-{% endif %}
-{% if style_options.reverse %}
-<style type="text/css" media="screen">
-
-@media only screen and (max-width: 1279px) {
-
-#col1, #aside {
-	float: right;
-	left: -68%;
-}
-
-#col1 {
-	float: left;
-}
-
-#colleft {
-	left: 68%;
-	right: auto;
-	float: right;
-	border-left: solid 1px #c4d1e3;
-	border-right: none;
-}
-
-.hdrleft {
-	float: right;
-}
-
-#site_breadcrumbs {
-	padding-left: 0px;
-	padding-right: 5px;
-	margin-left: 0px;
-	margin-right: -3px;
-	background: url('/static/default/images/breadcrumb_bg_reverse.png') no-repeat top right;
-}
-
-}
-</style>
-{% endif %}
 	{% block extrastyle %}{% endblock %}{% block extraheaders %}{% endblock %}
 </head>
 <body>
 	{% include 'includes/analytics.html' %}
-	<header>
-	{% block site_header %}
-		<div id="top_header">
-			<div class="hdrleft">
-				<a id="linuxos_logo" href="{{ url('home') }}">LinuxOS</a>
-			</div>
-			<div class="hdrmain">
-				<ul id="main_menu" class="tabs">
-					{% block site_menu %}{% include "include/site_menu.html" %}{% endblock %}
-				</ul>
-				<div class="pull-right">
-					<div id="user_panel" class="btn{% if user.is_authenticated() %} authenticated{% endif %}">
-						{% if user.is_authenticated() %}
-							<span class="username">
-								<a href="{{ request.user.get_absolute_url() }}">
-									<span class="icon-user"></span>
-									{{ firstof(request.user.get_full_name(), request.user.username) }}
-									{% set unread_notifications=get_unread_notifications() %}
-									{% if unread_notifications %}
-										&nbsp;<span class="badge badge-important">{{ unread_notifications|length }}</span>
-									{% endif %}
-								</a>
-							</span>
-							<ul id="userlinks" class="dropdown menu">
-								<li>
-									<a href="{{ request.user.get_absolute_url() }}" rel="nofollow">{{ _("Profile") }}</a>
-								</li>
-									<li>
-									<a href="{{ url('notifications:list') }}" rel="nofollow">{{ _("Notifications") }}{% if unread_notifications %}&nbsp;<span class="badge badge-important">{{ unread_notifications|length }}</span>{% endif %}</a>
-									</li>
-								{% if user.is_staff %}
-								<li>
-									<a href="{{ url('admin:index') }}" rel="nofollow">{{ _('Site administration') }}</a>
-								</li>
-								{% endif %}
-								<li>
-									<a href="{{ url('account_logout') }}" rel="nofollow">{{ _('Log out') }}</a>
-								</li>
-								{% if user.blog %}
-									<li>
-										<a rel="nofollow" href="{{ user.blog.get_absolute_url() }}">{{ _('Blog') }}</a>
-									</li>
-								{% else %}
-									<li>
-										<a rel="nofollow" href="{{ url('blog:blog-edit') }}">{{ _('Create blog') }}</a>
-									</li>
-								{% endif %}
-								<li>
-									<a href="{{ url('account_change_password') }}" rel="nofollow">{{ _("Change password") }}</a>
-								</li>
-							</ul>
-						{% else %}
-							<span class="login"><a href="{{ url('account_login') }}?next={{ url('home') }}" rel="nofollow">{{ _("Log in") }}</a></span>
-							<ul id="userlinks" class="dropdown menu">
-								<li>
-									<a href="{{ url('account_login') }}?next={{ url('home') }}" rel="nofollow">{{ _("Log in") }}</a>
-								</li>
-								<li>
-									<a href="{{ url('account_signup') }}" rel="nofollow">{{ _('Sign up') }}</a>
-								</li>
-								<li>
-									<a href="{{ url('account_reset_password') }}" rel="nofollow">{{ _("Password reset") }}</a>
-								</li>
-							</ul>
-						{% endif %}
-					</div>
-					<div id="rss_panel" class="btn">
-						<span><a class="rss-icon" href="#">RSS</a></span>
-						{{ render_all_feeds(template="feeds/home_feeds.html") }}
-					</div>
-					<div id="search-panel">
-						<form method="get" action="{{ url('haystack_search') }}" class="search btn">
-							<div class="search-input">
-								<input type="text" name="q" onfocus="this.parentNode.parentNode.parentNode.className='active'" onblur="this.parentNode.parentNode.parentNode.className=''" /><button class="btn-search" title="Hľadať">Hľadať</button>
-							</div>
-						</form>
-					</div>
-				</div>
-				{% block breadcrumbs %}
-					{{ breadcrumb('Home', class='home', url='home') }}
-					{{ render_breadcrumbs(breadcrumbs) }}
-				{% endblock %}
-			</div>
-		</div>
-	{% endblock %}
-	</header>
-	<div id="colmask">
-		<div id="colmid">
-			<div id="colleft">
-				<div id="col1">
-					{% block messages %}
-					{{ render_messages(messages) }}
-					{% endblock %}
-					<div id="site_content">
-						{% block content %}{% endblock %}
-					</div>
-					{% block discussion %}{% endblock %}
-				</div>
-				<aside>
-					<div id="aside">
-						<div id="col2">
-							<div id="aside_left">
-								{% block left %}
-									<div class="module news">
-										<h2>Správy</h2>
-										{{ news_frontpage() }}
-										<div class="module-links bottom">
-											<a href="{{ url('news:create') }}">Pridať správu</a> |
-											<a href="{{ url('news:list') }}" class="next">Ďalšie</a>
-										</div>
-									</div>
-								{% endblock %}
-							</div>
-						</div>
-						<div id="col3">
-							<div id="aside_right">
-								{% block right %}
-									<div class="module-group">
-										<div class="module linux">
-											<h2>O Linuxe</h2>
-											<ul class="menu">
-												<li><a href="/co-je-linux/">Čo je to Linux?</a></li>
-												<li><a href="/internet/">Linux a internet</a></li>
-												<li><a href="/kancelaria/">Linux v kancelárii</a></li>
-												<li><a href="/multimedia/">Linux a multimédiá</a></li>
-												<li><a href="/hry/">Hry v Linuxe</a></li>
-												<li><a href="/veda/">Veda, výskum a publikovanie</a></li>
-												<li><a href="/odkazy/">Informačné zdroje SK/CZ</a></li>
-											</ul>
-										</div>
-										<div class="module portal">
-											<h2>Portál</h2>
-											<ul class="menu">
-												<li><a href="/reklama/">Reklama</a></li>
-												<li><a href="/portal-podporte-nas/">Podporte nás</a></li>
-												<li><a href="/portal-vyvoj/">Vývoj LinuxOS <span class="label label-important">Informácie o stave portálu</span></a></li>
-												<li><a href="/export/">Export dát</a></li>
-												<li><a href="/team/">O nás</a></li>
-											</ul>
-										</div>
-										<div class="module odporucam">
-											<h2>Odporúčame</h2>
-											{% include "static/block-odporucame.html" %}
-										</div>
-										<div class="module podporte">
-											<h2>Podporte nás</h2>
-											{% include "static/block-podporte.html" %}
-										</div>
-									</div>
-									<div class="module polls">
-										<h2>Anketa</h2>
-										{{ render_messages(messages, 'polls') }}
-										{{ polls_frontpage() }}
-									</div>
-								{% endblock %}
-							</div>
-						</div>
-					</div>
-				</aside>
-			</div>
-		</div>
-	</div>
-	<div class="page-footer">
-	<a href="http://linuxos.sk/" style="font-weight: bold;">LinuxOS.sk</a> © 2004-2015 | <a href="http://linuxos.sk/team/" style="font-weight: bold;">LinuxOS.sk - Team</a> | <b>ISSN 1337-7639</b><br />
-Hosting sponzorovaný <a href="https://vpsfree.cz/">vpsFree.cz</a> o.s.
-	</div>
-</body>
-</html>
 
+	{% block messages %}
+		{{ render_messages(messages) }}
+	{% endblock %}
+
+	<div id="site_content">
+		{% block content %}{% endblock %}
+	</div>
+
+	{% block discussion %}{% endblock %}
+</body>

@@ -10,6 +10,9 @@
 /static/default/images/backgrounds.png
 /static/default/base.css
 /static/default/_sprites*.scss
+/static/old/images/backgrounds.png
+/static/old/base.css
+/static/old/_sprites*.scss
 /venv
 /web/settings_local.py
 /web/settings_production.py
