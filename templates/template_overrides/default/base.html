@@ -15,7 +15,7 @@
 	<![endif]-->
 	{% block extrastyle %}{% endblock %}{% block extraheaders %}{% endblock %}
 </head>
-<body>
+<body class="{% block bodyclass %}{% endblock %}">
 	{# include 'includes/analytics.html' #}
 
 	{% block messages %}
@@ -38,7 +38,7 @@
 			<div class="col2">
 				<aside>
 					<a id="menu-toggle" href="#">Menu</a>
-					<div class="sidebar">
+					<div class="sidebar sprite-after top-inner-shadow">
 						<div class="block first margin-container">
 							<h2 id="title_menu" class="title">Menu</h2>
 							<ul id="main_menu">

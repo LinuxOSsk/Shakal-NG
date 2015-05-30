@@ -2,6 +2,7 @@ a {
 	text-decoration: none;
 	outline: 0;
 	color: $link-color;
+	padding: 1px 2px;
 }
 
 img {
@@ -36,11 +37,122 @@ h4 { font-size: $h4-font-size; }
 h5 { font-size: $h5-font-size; }
 h6 { font-size: $h6-font-size; }
 
+body.home h1 {
+	display: none;
+}
+
+.module-item-margin {
+	margin-left: -$base-margin-reduced;
+	margin-right: -$base-margin-reduced;
+	padding-left: $base-margin-reduced;
+	padding-right: $base-margin-reduced;
+	padding-bottom: $base-margin-reduced;
+}
+
+.top-inner-shadow {
+	@extend .sprite-after;
+	position: relative;
+	&:after {
+		@include sprite-generated-repeatx(bottom_shadow);
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+	}
+}
+
+h1, body.blocks .module h2 {
+	@extend .module-item-margin;
+	border-bottom: 1px solid mix($primary-color, $body-color, 10%);
+	padding-bottom: $header-bottom-margin;
+}
+
+body.blocks .module {
+	h2 {
+		text-transform: uppercase;
+		color: $primary-color;
+		margin-bottom: 0;
+	}
+}
+
+.info {
+	font-size: 90%;
+	color: $info-color;
+
+	span {
+		padding: 0 ($base-margin-reduced / 2);
+		&.first {
+			padding-left: 0;
+		}
+	}
+
+	&.top {
+		margin-bottom: $base-margin-reduced;
+	}
+
+	&.bottom {
+		margin-top: $base-margin-reduced;
+	}
+}
+
+.module-row {
+	padding-bottom: $base-margin-reduced;
+	padding-top: $base-margin-reduced;
+	border-bottom: 1px solid mix($primary-color, $body-color, 8%);
+	@extend .module-item-margin;
+
+	.perex {
+		text-align: justify;
+	}
+}
+
 #site_content a {
 	border-radius: 3px;
 	&:hover, &:active {
 		background: $primary-color;
 		color: $primary-color-complement;
+	}
+}
+
+body.blocks {
+	.holygrail.sitelayout {
+		.col1 {
+			background: $body-color-background;
+		}
+	}
+
+	.module {
+		background: $body-color;
+		border-radius: 5px;
+		border-top: 1px solid mix($text-color, $body-color-background, 1%);
+		border-left: 1px solid mix($text-color, $body-color-background, 7%);
+		border-right: 1px solid mix($text-color, $body-color-background, 7%);
+		border-bottom: 1px solid mix($text-color, $body-color-background, 15%);
+		padding: $base-margin-reduced $base-margin-reduced 0 $base-margin-reduced;
+	}
+
+	.module-links {
+		margin-left: -$base-margin-reduced;
+		margin-right: -$base-margin-reduced;
+		border-bottom-left-radius: 5px;
+		border-bottom-right-radius: 5px;
+		padding-left: $base-margin-reduced;
+		padding-right: $base-margin-reduced;
+		line-height: 30px;
+		height: 30px;
+		background: darken($body-color, 2%);
+
+		.next {
+			text-align: right;
+			display: block;
+			a {
+				font-size: 90%;
+				font-weight: bold;
+				text-transform: uppercase;
+				padding: 3px;
+				color: $info-color;
+			}
+		}
 	}
 }
 
@@ -51,7 +163,6 @@ h6 { font-size: $h6-font-size; }
 	}
 
 	.col2 {
-		border-top: 1px solid lighten($sidebar-background, 15%);
 		color: $sidebar-color;
 
 		h1, h2, h3, h4, h5, h6, a {
@@ -59,9 +170,10 @@ h6 { font-size: $h6-font-size; }
 		}
 
 		.sidebar {
+			position: relative;
 			clear: both;
-			background: $sidebar-background;
 			overflow: hidden;
+			background-color: $sidebar-background;
 		}
 
 		.block {
@@ -147,6 +259,7 @@ h6 { font-size: $h6-font-size; }
 	h4 { font-size: $h4-font-size - $h4-font-reduction; }
 	h5 { font-size: $h5-font-size - $h5-font-reduction; }
 	h6 { font-size: $h6-font-size - $h6-font-reduction; }
+	body.home .module h2 { font-size: $h1-font-size - $h1-font-reduction; }
 }
 
 

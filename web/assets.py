@@ -20,6 +20,11 @@ SPRITES = (
 				'src': 'default/images/header_bg.png',
 				'mode': 'repeat-x', 'width': 8, 'height': 62,
 			},
+			{
+				'name': 'bottom_shadow',
+				'src': 'default/images/bottom_shadow.png',
+				'mode': 'repeat-x', 'width': 1, 'height': 10,
+			},
 		),
 	},
 	{
