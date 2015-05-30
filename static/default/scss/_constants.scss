@@ -6,6 +6,7 @@ $paragraph-margin-bottom: 1em !default;
 
 $primary-color: #464a57 !default;
 $primary-color-complement: #ffffff !default;
+$link-color: saturate($primary-color, 50%);
 
 $secondary-color: #11AA22 !default;
 $primary-color-complement: #ffffff !default;
