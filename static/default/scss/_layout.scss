@@ -18,16 +18,24 @@ html, body {
 	@include holygrail-leftmenu-percent(33%);
 }
 
-#site_header {
-	.logo {
-		height: 62px;
-		display: block;
-		float: left;
+@media #{$netbook-down} {
+	.margin-container {
+		padding: $base-margin-reduced 0 0 0;
+	}
+
+	.margin-content {
+		margin: 0 $base-margin-reduced $base-margin-reduced $base-margin-reduced;
 	}
 }
 
+@media #{$small-down} {
+	.col2 #menu-toggle {
+		display: block;
+		float: right;
+		line-height: $header-height;
+		padding: 0 $base-margin-reduced 1px $base-margin-reduced;
+	}
 
-@media #{$medium-down} {
 	.holygrail.sitelayout.body {
 		.colleft {
 			right: auto;
@@ -42,9 +50,11 @@ html, body {
 		.col2 {
 			width: auto;
 			position: absolute;
-			top: 0;
+			top: -$header-height - 2px;
 			left: 0;
 			right: 0;
+			z-index: 1;
+			background: none;
 		}
 
 		.colleft, .col2 {
@@ -52,11 +62,26 @@ html, body {
 		}
 	}
 
-	.margin-container {
-		padding: $base-margin-reduced 0 0 0;
+	aside .sidebar {
+		margin-right: 0;
 	}
 
-	.margin-content {
-		margin: 0 $base-margin-reduced $base-margin-reduced $base-margin-reduced;
+	.sidebar {
+		display: none;
+	}
+
+	&:hover .sidebar {
+		display: block;
+	}
+}
+
+#menu-toggle {
+	display: none;
+}
+
+#site_header {
+	.logo {
+		display: block;
+		float: left;
 	}
 }

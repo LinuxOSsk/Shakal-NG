@@ -1,6 +1,10 @@
-.sidebar {
-	background: $sidebar-background;
-	color: $sidebar-color;
+a {
+	text-decoration: none;
+	outline: 0;
+}
+
+img {
+	border: none;
 }
 
 .holygrail.sitelayout {
@@ -9,10 +13,17 @@
 		color: $text-color;
 	}
 
+	.col2 {
+		border-top: 1px solid lighten($sidebar-background, 15%);
+		color: $sidebar-color;
+		a {
+			color: $sidebar-color;
+		}
+	}
+
 	.colleft, .col2 {
 		background: $sidebar-background;
-		color: $sidebar-color;
-		background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAABCAQAAAB9cObUAAAAHWlUWHRDb21tZW50AAAAAABDcmVhdGVkIHdpdGggR0lNUGQuZQcAAAASSURBVAjXY2RAB0wM7GDIAaEBAb4ANvjsTIEAAAAASUVORK5CYII=');
+		background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQIHWNgUAMAACkAJ4Zom5gAAAAASUVORK5CYII=');
 		background-position: top right;
 		background-repeat: repeat-y;
 	}
@@ -31,5 +42,19 @@
 		margin-left: 10px;
 		margin-top: 6px;
 		@include sprite-generated(logo);
+	}
+}
+
+aside {
+	#menu-toggle {
+		font-weight: bold;
+		text-transform: uppercase;
+		font-size: 90%;
+	}
+
+	.sidebar {
+		clear: both;
+		background: $sidebar-background;
+		border-right: 1px solid darken($sidebar-background, 5%);
 	}
 }

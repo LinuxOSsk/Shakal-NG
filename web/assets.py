@@ -7,8 +7,8 @@ SPRITES = (
 		'output': 'default/images/backgrounds.png',
 		'scss_output': 'default/scss/_sprites.scss',
 		'extra_sizes': ((2, '@2x'),),
-		'width': 800,
-		'height': 880,
+		'width': 200,
+		'height': 200,
 		'images': (
 			{
 				'name': 'logo',

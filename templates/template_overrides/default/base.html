@@ -17,8 +17,7 @@
 	{% block extrastyle %}{% endblock %}{% block extraheaders %}{% endblock %}
 </head>
 <body>
-	{% include 'includes/analytics.html' %}
-
+	{# include 'includes/analytics.html' #}
 
 	{% block messages %}
 		{{ render_messages(messages) }}
@@ -27,7 +26,6 @@
 	<header>
 		<div id="site_header" class="sprite">
 			<a class="logo no-text-left" title="LinuxOS.sk - Slovenský linuxový portál" href="{{ url("home") }}"><span class="sprite">LinuxOS.sk - Slovenský linuxový portál</span></a>
-			aaa
 		</div>
 	</header>
 
@@ -39,9 +37,18 @@
 					{% block content %}{% endblock %}
 				</div>
 			</div>
-			<div class="col2 margin-container">
-				<aside class="margin-content">
-					aside
+			<div class="col2">
+				<aside>
+					<a id="menu-toggle" href="#">
+						Menu
+					</a>
+
+					<div class="sidebar">
+						aaa<br />
+						aaa<br />
+						aaa<br />
+						aaa<br />
+					</div>
 				</aside>
 			</div>
 		</div>
