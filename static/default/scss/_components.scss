@@ -52,7 +52,7 @@ h6 { font-size: $h6-font-size; }
 
 		.block {
 			border-top: 1px solid lighten($sidebar-background, 15%);
-			border-bottom: 1px solid darken($sidebar-background, 15%);
+			border-bottom: 1px solid darken($sidebar-background, 10%);
 			&.first {
 				border-top: none;
 			}
@@ -61,7 +61,8 @@ h6 { font-size: $h6-font-size; }
 				color: mix($sidebar-color, $sidebar-background, 80%);
 				font-size: 80%;
 				text-transform: uppercase;
-				margin: ($base-margin / 2) $base-margin;
+				padding: 0 $base-margin ($base-margin / 2) $base-margin;
+				border-bottom: 1px solid lighten($sidebar-background, 5%);
 			}
 		}
 	}
@@ -90,6 +91,38 @@ h6 { font-size: $h6-font-size; }
 	}
 }
 
+#main_menu {
+	padding: 0;
+	list-style: none;
+	li {
+		padding: 0;
+		margin: 0;
+		border-top: 1px solid $sidebar-background;
+		border-bottom: 1px solid $sidebar-background;
+		a {
+			display: block;
+			padding: ($base-margin / 4) $base-margin;
+			border-left: 4px solid $sidebar-background;
+			&:hover {
+				background: lighten($sidebar-background, 15%);
+			}
+		}
+		&.active {
+			border-top: 1px solid darken($sidebar-background, 10%);
+			border-bottom: 1px solid lighten($sidebar-background, 10%);
+
+			a {
+				background: darken($sidebar-background, 5%);
+				border-left: 4px solid $secondary-color;
+				font-weight: bold;
+				&:hover {
+					background: lighten($sidebar-background, 15%);
+				}
+			}
+		}
+	}
+}
+
 @media #{$netbook-down} {
 	h1 { font-size: $h1-font-size - $h1-font-reduction; }
 	h2 { font-size: $h2-font-size - $h2-font-reduction; }
@@ -99,7 +132,11 @@ h6 { font-size: $h6-font-size; }
 	h6 { font-size: $h6-font-size - $h6-font-reduction; }
 
 	.holygrail.sitelayout .col2 .block h2.title {
-		margin: ($base-margin / 2) $base-margin-reduced;
+		padding: 0 $base-margin-reduced ($base-margin / 2) $base-margin-reduced;
+	}
+
+	#main_menu li a {
+		padding: ($base-margin / 4) $base-margin-reduced;
 	}
 }
 

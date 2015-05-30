@@ -7,7 +7,7 @@ $paragraph-margin-bottom: 1em !default;
 $primary-color: #464a57 !default;
 $primary-color-complement: #ffffff !default;
 
-$secondary-color: #119911 !default;
+$secondary-color: #11AA22 !default;
 $primary-color-complement: #ffffff !default;
 
 $sidebar-color: $primary-color-complement !default;
@@ -15,8 +15,8 @@ $sidebar-background: $primary-color !default;
 
 $header-color: lighten(adjust-hue($primary-color, 2%), 15%) !default;
 
-$base-margin: 2em !default;
-$base-margin-reduction: 1em !default;
+$base-margin: 30px !default;
+$base-margin-reduction: 15px !default;
 $base-margin-reduced: $base-margin - $base-margin-reduction !default;
 
 $header-line-height: 1.4 !default;
