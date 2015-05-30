@@ -15,6 +15,11 @@ SPRITES = (
 				'src': 'default/images/logo.png',
 				'mode': 'no-repeat', 'width': 193, 'height': 50
 			},
+			{
+				'name': 'header_bg',
+				'src': 'default/images/header_bg.png',
+				'mode': 'repeat-x', 'width': 8, 'height': 62,
+			},
 		),
 	},
 	{

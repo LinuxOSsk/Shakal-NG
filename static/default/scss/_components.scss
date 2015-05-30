@@ -3,7 +3,7 @@
 	color: $sidebar-color;
 }
 
-.holygrail.sitelayout.body {
+.holygrail.sitelayout {
 	.col1 {
 		background: $body-color;
 		color: $text-color;
@@ -19,9 +19,11 @@
 }
 
 #site_header {
-	background: $header-color;
+	@include sprite-generated-repeatx(header_bg);
+	background-color: $header-color;
 	border-top: 1px solid lighten($header-color, 40%);
 	border-bottom: 1px solid darken($header-color, 25%);
+
 }
 
 .logo {
