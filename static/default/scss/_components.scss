@@ -1,0 +1,16 @@
+.sidebar {
+	background: $sidebar-background;
+	color: $sidebar-color;
+}
+
+.holygrail.sitelayout {
+	.col1 {
+		background: $body-color;
+		color: $text-color;
+	}
+
+	.colleft, .col2 {
+		background: $sidebar-background;
+		color: $sidebar-color;
+	}
+}

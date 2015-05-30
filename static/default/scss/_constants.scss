@@ -1,0 +1,17 @@
+$text-color: #000000 !default;
+$body-color: #ffffff !default;
+
+$primary-color: #223355 !default;
+$primary-color-complement: #ffffff !default;
+
+$secondary-color: #119911 !default;
+$primary-color-complement: #ffffff !default;
+
+$sidebar-color: $primary-color-complement !default;
+$sidebar-background: $primary-color !default;
+
+$base-margin: 2em !default;
+$base-margin-reduction: 1em !default;
+$base-margin-reduced: $base-margin - $base-margin-reduction !default;
+
+$sidebar-width: 20em !default;

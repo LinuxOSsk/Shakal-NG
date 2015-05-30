@@ -1,0 +1,49 @@
+html, body {
+	padding: 0;
+	margin: 0;
+	font-family: sans-serif;
+	background: $body-color;
+	color: $text-color;
+}
+
+.margin-container {
+	padding: $base-margin 0 0 0;
+}
+
+.margin-content {
+	margin: 0 $base-margin $base-margin $base-margin;
+}
+
+.holygrail.sitelayout {
+	@include holygrail-leftmenu-percent(33%);
+}
+
+@media #{$medium-down} {
+	.holygrail.sitelayout {
+		.colleft {
+			right: auto;
+		}
+
+		.col1 {
+			width: 100%;
+			float: none;
+			position: static;
+		}
+
+		.col2 {
+			width: auto;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+		}
+	}
+
+	.margin-container {
+		padding: $base-margin-reduced 0 0 0;
+	}
+
+	.margin-content {
+		margin: 0 $base-margin-reduced $base-margin-reduced $base-margin-reduced;
+	}
+}

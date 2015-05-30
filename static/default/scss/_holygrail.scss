@@ -1,0 +1,40 @@
+.holygrail {
+
+&.colmask {
+	position: relative;
+	clear: both;
+	float: left;
+	width: 100%;
+	overflow: hidden;
+}
+
+.colright, .colmid, .colleft {
+	float: left;
+	width: 100%;
+	position: relative;
+}
+
+.col1, .col2, .col3 {
+	float: left;
+	position: relative;
+	overflow: hidden;
+}
+
+}
+
+@mixin holygrail-leftmenu-percent($col-width) {
+	.colleft {
+		right: 100% - $col-width;
+		background: #f4f4f4;
+	}
+
+	.col1 {
+		width: 100% - $col-width;
+		left: 100%;
+	}
+
+	.col2 {
+		width: $col-width;
+		left: 0%;
+	}
+}
