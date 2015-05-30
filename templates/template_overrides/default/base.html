@@ -13,7 +13,6 @@
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-	<link rel="stylesheet" type="text/x-scss" href="{{ static('default/scss/style.scss') }}" />
 	{% block extrastyle %}{% endblock %}{% block extraheaders %}{% endblock %}
 </head>
 <body>
@@ -33,21 +32,19 @@
 		<div class="colleft">
 			<div class="col1 margin-container">
 				<div id="site_content" class="margin-content">
-					content
 					{% block content %}{% endblock %}
 				</div>
 			</div>
 			<div class="col2">
 				<aside>
-					<a id="menu-toggle" href="#">
-						Menu
-					</a>
-
+					<a id="menu-toggle" href="#">Menu</a>
 					<div class="sidebar">
-						aaa<br />
-						aaa<br />
-						aaa<br />
-						aaa<br />
+						<div class="block first">
+							<h2 class="title">Menu</h2>
+							<ul id="main_menu" class="menu">
+								{% block site_menu %}{% include "partials/site_menu.html" %}{% endblock %}
+							</ul>
+						</div>
 					</div>
 				</aside>
 			</div>

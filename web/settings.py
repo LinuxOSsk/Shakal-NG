@@ -15,12 +15,13 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 import re
 
-from .assets import SPRITES
+from .assets import ASSETS, SPRITES
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 ASSETS_MANAGER_SPRITES = SPRITES
+ASSETS_MANAGER_FILES = ASSETS
 
 SECRET_KEY = '*h4+%(b@_+-au@mmh^lp3v=^wkddzp(n63883zzm_i5xdnmb+v'
 

@@ -278,3 +278,12 @@ SPRITES = (
 		),
 	},
 )
+
+ASSETS = {
+	"utils": {
+		"js": "static://js/utils.js",
+	},
+	"utils_ajax": {
+		"js": "static://js/utils_ajax.js",
+	},
+}

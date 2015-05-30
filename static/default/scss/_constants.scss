@@ -1,6 +1,9 @@
 $text-color: #000000 !default;
 $body-color: #ffffff !default;
 
+$paragraph-line-height: 1.5 !default;
+$paragraph-margin-bottom: 1em !default;
+
 $primary-color: #464a57 !default;
 $primary-color-complement: #ffffff !default;
 
@@ -15,6 +18,27 @@ $header-color: lighten(adjust-hue($primary-color, 2%), 15%) !default;
 $base-margin: 2em !default;
 $base-margin-reduction: 1em !default;
 $base-margin-reduced: $base-margin - $base-margin-reduction !default;
+
+$header-line-height: 1.4 !default;
+$header-font-weight: 700 !default;
+$header-font-style: none !default;
+$header-font-color: mix($primary-color, $text-color, 50%) !default;
+$header-top-margin: .2em !default;
+$header-bottom-margin: .5em !default;
+
+$h1-font-size: 200% !default;
+$h2-font-size: 150% !default;
+$h3-font-size: 130% !default;
+$h4-font-size: 120% !default;
+$h5-font-size: 110% !default;
+$h6-font-size: 100% !default;
+
+$h1-font-reduction: 20% !default;
+$h2-font-reduction: 20% !default;
+$h3-font-reduction: 10% !default;
+$h4-font-reduction: 5% !default;
+$h5-font-reduction: 0% !default;
+$h6-font-reduction: 0% !default;
 
 $sidebar-width: 20em !default;
 $header-height: 62px !default;

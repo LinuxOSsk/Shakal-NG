@@ -33,6 +33,7 @@ html, body {
 		display: block;
 		float: right;
 		line-height: $header-height;
+		margin: 0;
 		padding: 0 $base-margin-reduced 1px $base-margin-reduced;
 	}
 
@@ -62,16 +63,18 @@ html, body {
 		}
 	}
 
-	aside .sidebar {
-		margin-right: 0;
+	aside {
+		&:hover .sidebar {
+			display: block;
+		}
+
+		.sidebar {
+			margin-right: 0;
+		}
 	}
 
 	.sidebar {
 		display: none;
-	}
-
-	&:hover .sidebar {
-		display: block;
 	}
 }
 

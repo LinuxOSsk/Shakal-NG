@@ -7,6 +7,29 @@ img {
 	border: none;
 }
 
+p {
+	line-height: $paragraph-line-height;
+	margin: 0 0 $paragraph-margin-bottom 0;
+	padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: $header-font-weight;
+	font-style: $header-font-style;
+	color: $header-font-color;
+	margin-top: $header-top-margin;
+	margin-bottom: $header-bottom-margin;
+	line-height: $header-line-height;
+	padding: 0;
+}
+
+h1 { font-size: $h1-font-size; }
+h2 { font-size: $h2-font-size; }
+h3 { font-size: $h3-font-size; }
+h4 { font-size: $h4-font-size; }
+h5 { font-size: $h5-font-size; }
+h6 { font-size: $h6-font-size; }
+
 .holygrail.sitelayout {
 	.col1 {
 		background: $body-color;
@@ -16,8 +39,30 @@ img {
 	.col2 {
 		border-top: 1px solid lighten($sidebar-background, 15%);
 		color: $sidebar-color;
-		a {
+
+		h1, h2, h3, h4, h5, h6, a {
 			color: $sidebar-color;
+		}
+
+		.sidebar {
+			clear: both;
+			background: $sidebar-background;
+			overflow: hidden;
+		}
+
+		.block {
+			border-top: 1px solid lighten($sidebar-background, 15%);
+			border-bottom: 1px solid darken($sidebar-background, 15%);
+			&.first {
+				border-top: none;
+			}
+
+			h2.title {
+				color: mix($sidebar-color, $sidebar-background, 80%);
+				font-size: 80%;
+				text-transform: uppercase;
+				margin: ($base-margin / 2) $base-margin;
+			}
 		}
 	}
 
@@ -45,16 +90,24 @@ img {
 	}
 }
 
-aside {
+@media #{$netbook-down} {
+	h1 { font-size: $h1-font-size - $h1-font-reduction; }
+	h2 { font-size: $h2-font-size - $h2-font-reduction; }
+	h3 { font-size: $h3-font-size - $h3-font-reduction; }
+	h4 { font-size: $h4-font-size - $h4-font-reduction; }
+	h5 { font-size: $h5-font-size - $h5-font-reduction; }
+	h6 { font-size: $h6-font-size - $h6-font-reduction; }
+
+	.holygrail.sitelayout .col2 .block h2.title {
+		margin: ($base-margin / 2) $base-margin-reduced;
+	}
+}
+
+
+@media #{$small-down} {
 	#menu-toggle {
 		font-weight: bold;
 		text-transform: uppercase;
 		font-size: 90%;
-	}
-
-	.sidebar {
-		clear: both;
-		background: $sidebar-background;
-		border-right: 1px solid darken($sidebar-background, 5%);
 	}
 }
