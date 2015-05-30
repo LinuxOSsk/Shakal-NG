@@ -49,6 +49,7 @@ INSTALLED_APPS = (
 	# apps
 	'accounts',
 	'article',
+	'compressor',
 	'threaded_comments',
 )
 
