@@ -24,7 +24,20 @@
 		{{ render_messages(messages) }}
 	{% endblock %}
 
-	<div class="holygrail colmask sitelayout">
+	<header>
+		<div id="site_header" class="holygrail colmask sitelayout">
+			<div class="colleft">
+				<div class="col1">
+					aaa
+				</div>
+				<div class="col2">
+					<a class="logo no-text-left" title="LinuxOS.sk" href="{{ url("home") }}"><span class="sprite">LinuxOS.sk</span></a>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<div class="holygrail colmask sitelayout body">
 		<div class="colleft">
 			<div class="col1 margin-container">
 				<div id="site_content" class="margin-content">

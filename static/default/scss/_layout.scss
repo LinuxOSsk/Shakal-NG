@@ -18,8 +18,18 @@ html, body {
 	@include holygrail-leftmenu-percent(33%);
 }
 
-@media #{$medium-down} {
-	.holygrail.sitelayout {
+#site_header {
+	.logo {
+		width: 100%;
+		height: 62px;
+		display: block;
+		float: left;
+	}
+}
+
+
+@media #{$xsmall-down} {
+	.holygrail.sitelayout.body {
 		.colleft {
 			right: auto;
 		}

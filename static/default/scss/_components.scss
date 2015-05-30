@@ -3,7 +3,7 @@
 	color: $sidebar-color;
 }
 
-.holygrail.sitelayout {
+.holygrail.sitelayout.body {
 	.col1 {
 		background: $body-color;
 		color: $text-color;
@@ -12,5 +12,22 @@
 	.colleft, .col2 {
 		background: $sidebar-background;
 		color: $sidebar-color;
+		background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAABCAQAAAB9cObUAAAAHWlUWHRDb21tZW50AAAAAABDcmVhdGVkIHdpdGggR0lNUGQuZQcAAAASSURBVAjXY2RAB0wM7GDIAaEBAb4ANvjsTIEAAAAASUVORK5CYII=');
+		background-position: top right;
+		background-repeat: repeat-y;
+	}
+}
+
+#site_header {
+	background: $header-color;
+	border-top: 1px solid lighten($header-color, 40%);
+	border-bottom: 1px solid darken($header-color, 25%);
+}
+
+.logo {
+	.sprite {
+		margin-left: 10px;
+		margin-top: 6px;
+		@include sprite-generated(logo);
 	}
 }

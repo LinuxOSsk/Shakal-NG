@@ -49,8 +49,8 @@ $landscape: "#{$screen} and (orientation: landscape)";
 $portrait: "#{$screen} and (orientation: portrait)";
 
 $xsmall-up: $screen;
-$xsmall-down: "#{$screen} and (min-width:#{lower-bound($xsmall-range)})";
-$xsmall-only: "#{$screen} and (max-width: #{upper-bound($xsmall-range)})";
+$xsmall-down: "#{$screen} and (max-width:#{lower-bound($xsmall-range)})";
+$xsmall-only: "#{$screen} and (min-width: #{upper-bound($xsmall-range)})";
 
 $small-up: "#{$screen} and (min-width:#{lower-bound($small-range)})";
 $small-down: "#{$screen} and (max-width:#{lower-bound($small-range)})";
@@ -71,3 +71,43 @@ $xlarge-only: "#{$screen} and (min-width:#{lower-bound($xlarge-range)}) and (max
 $xxlarge-up: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)})";
 $xxlarge-down: $screen;
 $xxlarge-only: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)}) and (max-width:#{upper-bound($xxlarge-range)})";
+
+$hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx)";
+
+.no-text-left, .no-text-right {
+	overflow: hidden;
+}
+
+.no-text-left {
+	text-indent: -9999px;
+}
+
+.no-text-right {
+	text-indent: 9999px;
+}
+
+.sprite, .sprite-after:after {
+	background-repeat: no-repeat;
+	background-image: map-get($sprites, _url);
+	background-size: map-get($sprites, _size);
+	display: block;
+	@media #{$hdpi} {
+		background-image: map-get($sprites_2x, _url);
+	}
+}
+
+.sprite-after:after {
+	content: " ";
+}
+
+@mixin sprite-generated($image) {
+	background-position: map-get(map-get($sprites, $image), offset);
+	width: map-get(map-get($sprites, $image), w);
+	height: map-get(map-get($sprites, $image), h);
+}
+
+@mixin sprite-generated-right($image) {
+	background-position: right (-map-get(map-get($sprites, $image), y));
+	width: map-get(map-get($sprites, $image), w);
+	height: map-get(map-get($sprites, $image), h);
+}

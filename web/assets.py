@@ -4,6 +4,21 @@ from __future__ import unicode_literals
 SPRITES = (
 	{
 		'name': 'sprites',
+		'output': 'default/images/backgrounds.png',
+		'scss_output': 'default/scss/_sprites.scss',
+		'extra_sizes': ((2, '@2x'),),
+		'width': 800,
+		'height': 880,
+		'images': (
+			{
+				'name': 'logo',
+				'src': 'default/images/logo.png',
+				'mode': 'no-repeat', 'width': 193, 'height': 50
+			},
+		),
+	},
+	{
+		'name': 'sprites',
 		'output': 'old/images/backgrounds.png',
 		'scss_output': 'old/_sprites.scss',
 		'extra_sizes': (),

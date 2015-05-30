@@ -25,7 +25,6 @@
 @mixin holygrail-leftmenu-percent($col-width) {
 	.colleft {
 		right: 100% - $col-width;
-		background: #f4f4f4;
 	}
 
 	.col1 {
