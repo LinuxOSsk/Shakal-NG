@@ -3,7 +3,8 @@ from __future__ import unicode_literals
 
 import hashlib
 import pickle
-from django.core.cache import get_cache
+
+from django.core.cache import caches
 
 
 class Cache(object):
@@ -56,7 +57,7 @@ class DjangoCache(Cache):
 	CACHE_MAX_AGE = 3600
 
 	def __init__(self):
-		self.cache = get_cache('default')
+		self.cache = caches['default']
 		self.tags = {}
 
 	def set(self, name, value, tag=None):
