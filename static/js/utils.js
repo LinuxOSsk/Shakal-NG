@@ -12,6 +12,8 @@ var checkFeatures = function(features) {
 				return window.XMLHttpRequest != undefined;
 			case "history_push":
 				return window.history && window.history.pushState;
+			case "touch":
+				return "ontouchstart" in window;
 			default:
 				return false;
 		}
@@ -214,6 +216,44 @@ var getUrlParameterByName = function(name, url) {
 
 window._utils.serializeForm = serializeForm;
 window._utils.getUrlParameterByName = getUrlParameterByName;
+
+// events
+function triggerEvent(element, name, memo) {
+	var event;
+	if (document.createEvent) {
+		event = document.createEvent('HTMLEvents');
+		event.initEvent(name, true, true);
+	}
+	else {
+		event = document.createEventObject();
+		event.eventType = name;
+	}
+
+	event.eventName = name;
+	event.memo = memo || { };
+
+	if (document.createEvent) {
+		element.dispatchEvent(event);
+	}
+	else {
+		element.fireEvent("on" + event.eventType, event);
+	}
+};
+
+function bindEvent(element, name, fn) {
+	var trig = function(event) {
+		return fn(event, event.memo);
+	}
+	if (document.addEventListener) {
+		element.addEventListener(name, trig, false);
+	}
+	else {
+		element.attachEvent('on' + name, trig);
+	}
+};
+
+window._utils.triggerEvent = triggerEvent;
+window._utils.bindEvent = bindEvent;
 
 // dom
 var el = document.createElement('DIV');

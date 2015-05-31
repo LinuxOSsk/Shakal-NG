@@ -78,7 +78,7 @@ html, body {
 	}
 
 	aside {
-		&:hover .sidebar {
+		&.touchhover-emul:hover .sidebar, &.touchhover .sidebar {
 			display: block;
 		}
 
