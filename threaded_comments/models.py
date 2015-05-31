@@ -12,7 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 
 from attachment.models import Attachment
-from notifications.models import Event
+#from notifications.models import Event
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
@@ -238,18 +238,18 @@ post_save.connect(update_comments_header, sender = Comment)
 post_delete.connect(update_comments_header, sender = Comment)
 
 
-def send_notifications(sender, instance, created, **kwargs):
-	if not created:
-		return
-	watchers = get_user_model().objects.filter(userdiscussionattribute__discussion = instance.root_header(), userdiscussionattribute__watch = True).distinct()
-	title = u"Pridaný komentár v diskusii " + unicode(instance.content_object)
-	author = None
-	if instance.user:
-		author = instance.user
-	Event.objects.broadcast(title, instance.content_object, action = Event.CREATE_ACTION, author = author, users = watchers)
-
-
-post_save.connect(send_notifications, sender = Comment)
+#def send_notifications(sender, instance, created, **kwargs):
+#	if not created:
+#		return
+#	watchers = get_user_model().objects.filter(userdiscussionattribute__discussion = instance.root_header(), userdiscussionattribute__watch = True).distinct()
+#	title = u"Pridaný komentár v diskusii " + unicode(instance.content_object)
+#	author = None
+#	if instance.user:
+#		author = instance.user
+#	Event.objects.broadcast(title, instance.content_object, action = Event.CREATE_ACTION, author = author, users = watchers)
+#
+#
+#post_save.connect(send_notifications, sender = Comment)
 
 
 class UserDiscussionAttribute(models.Model):

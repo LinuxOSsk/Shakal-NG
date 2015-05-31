@@ -50,6 +50,7 @@ INSTALLED_APPS = (
 	# apps
 	'accounts',
 	'article',
+	'attachment',
 	'compressor',
 	'threaded_comments',
 )

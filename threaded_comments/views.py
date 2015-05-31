@@ -10,8 +10,9 @@ from django.utils.encoding import force_unicode
 from django.views.decorators.http import require_POST
 
 from common_utils import get_default_manager, get_meta
-from threaded_comments import get_form, signals
+from threaded_comments import signals
 from threaded_comments.models import Comment, CommentFlag, RootHeader, UserDiscussionAttribute, update_comments_header
+from threaded_comments.forms import CommentForm
 
 
 def get_module_name(content_object):
@@ -57,7 +58,7 @@ def reply_comment(request, parent):
 	if parent_comment.is_locked:
 		return TemplateResponse(request, "comments/error.html", context)
 
-	form = get_form()(content_object, logged = request.user.is_authenticated(), parent_comment = parent_comment, initial = {'subject': new_subject})
+	form = CommentForm(content_object, logged = request.user.is_authenticated(), parent_comment = parent_comment, initial = {'subject': new_subject})
 
 	context["form"] = form
 	context["attachments"] = form.get_attachments()
@@ -85,7 +86,7 @@ def post_comment(request):
 	parent = Comment.all_comments.get(pk = data['parent_pk'])
 	content_object = parent.content_object
 
-	form = get_form()(target, logged = request.user.is_authenticated(), parent_comment = parent, data = data, files = request.FILES)
+	form = CommentForm(target, logged = request.user.is_authenticated(), parent_comment = parent, data = data, files = request.FILES)
 
 	if form.security_errors():
 		return http.HttpResponseBadRequest()
