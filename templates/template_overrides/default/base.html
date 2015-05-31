@@ -28,7 +28,7 @@
 		</div>
 	</header>
 
-	<div class="holygrail colmask sitelayout body">
+	<div class="holygrail colmask sitelayout">
 		<div class="colleft">
 			<div class="col1 margin-container">
 				<div id="site_content" class="margin-content">
@@ -59,4 +59,10 @@
 	<!--[if lt IE 7]>
 	<script src="{{ static("js/fixiepng.js") }}"></script>
 	<![endif]-->
+	{% compress js %}
+		{% block extrajs %}
+			<script src="{{ static('js/utils.js') }}" type="text/javascript" charset="utf-8"></script>
+			<script src="{{ static('js/utils_ajax.js') }}" type="text/javascript" charset="utf-8"></script>
+		{% endblock %}
+	{% endcompress %}
 </body>

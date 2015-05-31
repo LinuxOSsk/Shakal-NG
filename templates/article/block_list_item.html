@@ -1,4 +1,4 @@
-<div class="module-row{% if is_last %} last{% endif %}">
+<div class="module-row module-item-margin{% if is_last %} last{% endif %}">
 	<h3><a href="{{ article.get_absolute_url() }}">{{ article.title }}</a></h3>
 	<div class="info top">
 		<span class="first">{{ article.pub_time|date("d.m.Y H:i") }}</span> |

@@ -41,14 +41,6 @@ body.home h1 {
 	display: none;
 }
 
-.module-item-margin {
-	margin-left: -$base-margin-reduced;
-	margin-right: -$base-margin-reduced;
-	padding-left: $base-margin-reduced;
-	padding-right: $base-margin-reduced;
-	padding-bottom: $base-margin-reduced;
-}
-
 .top-inner-shadow {
 	@extend .sprite-after;
 	position: relative;
@@ -62,7 +54,6 @@ body.home h1 {
 }
 
 h1, body.blocks .module h2 {
-	@extend .module-item-margin;
 	border-bottom: 1px solid mix($primary-color, $body-color, 10%);
 	padding-bottom: $header-bottom-margin;
 }
@@ -99,7 +90,6 @@ body.blocks .module {
 	padding-bottom: $base-margin-reduced;
 	padding-top: $base-margin-reduced;
 	border-bottom: 1px solid mix($primary-color, $body-color, 8%);
-	@extend .module-item-margin;
 
 	.perex {
 		text-align: justify;
@@ -128,16 +118,16 @@ body.blocks {
 		border-left: 1px solid mix($text-color, $body-color-background, 7%);
 		border-right: 1px solid mix($text-color, $body-color-background, 7%);
 		border-bottom: 1px solid mix($text-color, $body-color-background, 15%);
-		padding: $base-margin-reduced $base-margin-reduced 0 $base-margin-reduced;
+
+		.module-item-margin, h2 {
+			padding-left: $base-margin-reduced;
+			padding-right: $base-margin-reduced;
+		}
 	}
 
 	.module-links {
-		margin-left: -$base-margin-reduced;
-		margin-right: -$base-margin-reduced;
 		border-bottom-left-radius: 5px;
 		border-bottom-right-radius: 5px;
-		padding-left: $base-margin-reduced;
-		padding-right: $base-margin-reduced;
 		line-height: 30px;
 		height: 30px;
 		background: darken($body-color, 2%);
@@ -259,7 +249,6 @@ body.blocks {
 	h4 { font-size: $h4-font-size - $h4-font-reduction; }
 	h5 { font-size: $h5-font-size - $h5-font-reduction; }
 	h6 { font-size: $h6-font-size - $h6-font-reduction; }
-	body.home .module h2 { font-size: $h1-font-size - $h1-font-reduction; }
 }
 
 

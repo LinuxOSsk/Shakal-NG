@@ -16,30 +16,32 @@
 <h1>Slovenský linuxový portál</h1>
 
 <div class="module article">
-	<h2>Články</h2>
-	{% for top_article in top_articles %}
-		<div class="article top">
-			{% with article=top_article, thumbnail=1 %}
+	<div class="margin-container">
+		<h2>Články</h2>
+		{% for top_article in top_articles %}
+			<div class="article top">
+				{% with article=top_article, thumbnail=1 %}
+					{% include "article/block_list_item.html" %}
+				{% endwith %}
+			</div>
+		{% endfor %}
+		{% for top_post in top_posts %}
+			{% with content_indicator=1, post=top_post %}
+				{% include "blog/block_post_list_item.html" %}
+			{% endwith %}
+		{% endfor %}
+		{% for article in articles %}
+			{% with thumbnail=0 %}
 				{% include "article/block_list_item.html" %}
 			{% endwith %}
-		</div>
-	{% endfor %}
-	{% for top_post in top_posts %}
-		{% with content_indicator=1, post=top_post %}
-			{% include "blog/block_post_list_item.html" %}
-		{% endwith %}
-	{% endfor %}
-	{% for article in articles %}
-		{% with thumbnail=0 %}
-			{% include "article/block_list_item.html" %}
-		{% endwith %}
-	{% endfor %}
-	<div class="module-links bottom">
-		{% for category in article_categories %}
-			<a href="{{ category.get_absolute_url() }}">{{ category }}</a>
-			|
 		{% endfor %}
-		<span class="next"><a href="{{ url("article:list") }}">Ďalšie</a></span>
+		<div class="module-links bottom">
+			{% for category in article_categories %}
+				<a href="{{ category.get_absolute_url() }}">{{ category }}</a>
+				|
+			{% endfor %}
+			<span class="next"><a href="{{ url("article:list") }}">Ďalšie</a></span>
+		</div>
 	</div>
 </div>
 

@@ -14,21 +14,13 @@ html, body {
 	margin: 0 $base-margin $base-margin $base-margin;
 }
 
-.margin-content-bottom {
-	margin: 0 0 $base-margin 0;
-}
-
-.sidebar {
+.sidebar, .module {
 	.margin-container {
 		padding: $base-margin-reduced 0 0 0;
 	}
 
 	.margin-content {
 		margin: 0 $base-margin-reduced $base-margin-reduced $base-margin-reduced;
-	}
-
-	.margin-content-bottom {
-		margin: 0 0 $base-margin-reduced 0;
 	}
 }
 
@@ -43,10 +35,6 @@ html, body {
 
 	.margin-content {
 		margin: 0 $base-margin-reduced $base-margin-reduced $base-margin-reduced;
-	}
-
-	.margin-content-bottom {
-		margin: 0 0 $base-margin-reduced 0;
 	}
 }
 
@@ -63,7 +51,7 @@ html, body {
 		display: none;
 	}
 
-	.holygrail.sitelayout.body {
+	.holygrail.sitelayout {
 		.colleft {
 			right: auto;
 		}
