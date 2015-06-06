@@ -424,7 +424,12 @@ config.toolbarGroups = [
 	{ name: 'about' }
 ];
 */
-		config.removePlugins = 'flash,forms,font,preview,templates,save';
+		config.plugins = 'basicstyles,blockquote,clipboard,contextmenu,dialogadvtab,enterkey,find,format,horizontalrule,image,indentblock,indentlist,justify,link,list,magicline,maximize,pastetext,preview,print,removeformat,showblocks,showborders,sourcearea,specialchar,tab,table,tabletools,toolbar,undo,wysiwygarea';
+		config.format_tags = 'p;h1;h2;h3;h4;h5;h6;pre'
+		if (!options.tags) {
+			config.allowedContent = true;
+			config.extraAllowedContent = 'dl dt dd';
+		}
 		var editor = CKEDITOR.replace(element, config);
 	};
 
