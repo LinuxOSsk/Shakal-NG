@@ -4,6 +4,12 @@
 
 {% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
 
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/extra.css" %}" />
+{% endblock %}
+
+
 {% block branding %}
 <h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></h1>
 {% endblock %}
@@ -19,5 +25,5 @@ window._urls.static_base = '{% static "" %}';
 
 //]]>
 </script>
-	{{ block.super }}
+{{ block.super }}
 {% endblock %}

@@ -17,7 +17,7 @@
 //<![CDATA[
 
 var settings = {};
-var editor = new _utils.RichEditor(document.getElementById("id_textareawrapper_{{ name }}"), settings);
+var editor = new _utils.RichEditor(document.getElementById("id_textareawrapper_{{ name }}").getElementsByTagName('TEXTAREA')[0], settings);
 
 //]]>
 </script>
