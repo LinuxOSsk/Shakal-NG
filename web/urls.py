@@ -5,7 +5,7 @@ from django.contrib.contenttypes import views as contenttype_views
 from django.utils.translation import ugettext_lazy as _
 
 from accounts import urls as accounts_urls
-#from admin_dashboard import urls as admin_dashboard_urls
+from admin_dashboard import urls as admin_dashboard_urls
 from article import urls as article_urls
 #from blog import urls as blog_urls
 #from forum import urls as forum_urls
@@ -24,8 +24,6 @@ urlpatterns = patterns('',
 	url(r'^$', Home.as_view(), name='home'),
 	#url(r'^$', 'web.views.Home', name='home'),
 	#url(r'^', include('linuxos.urls')),
-	#url(_(r'^admin/'), include(admin.site.urls)),
-	#url(_(r'^admin_dashboard/'), include(admin_dashboard_urls.urlpatterns)),
 	url(_(r'^accounts/'), include(accounts_urls.urlpatterns)),
 	url(_(r'^article/'), include(article_urls.urlpatterns)),
 	#url(_(r'^blog/'), include(blog_urls.urlpatterns)),
@@ -39,6 +37,8 @@ urlpatterns = patterns('',
 	#url(_(r'^template-change/$'), 'template_dynamicloader.views.change', name='template-change'),
 	#url(_(r'^search/'), SearchView(), name='haystack_search'),
 	#url(r'^v/(?P<content_type_id>\d+)/(?P<object_id>.+)/$', contenttype_views.shortcut, name='view-object'),
+	url(_(r'^admin/'), include(admin.site.urls)),
+	url(_(r'^admin_dashboard/'), include(admin_dashboard_urls.urlpatterns)),
 )
 
 if settings.DEBUG:
