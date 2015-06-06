@@ -20,14 +20,14 @@ except ImportError:
 
 
 class RichEditorWidget(Textarea):
-	class Media:
-		js = [
-			'js/lib.js',
-			'js/richeditor/editor.js',
-		]
-		css = {
-			'all': ('js/wymeditor/skins/suit/skin.css', )
-		}
+	#class Media:
+	#	js = [
+	#		'js/lib.js',
+	#		'js/richeditor/editor.js',
+	#	]
+	#	css = {
+	#		'all': ('js/wymeditor/skins/suit/skin.css', )
+	#	}
 
 	def __init__(self, attrs=None, **kwargs):
 		attrs = attrs or {}
@@ -43,7 +43,7 @@ class RichEditorWidget(Textarea):
 			'name': name,
 			'lang': translation.get_language(),
 			'widget': widget,
-			'force_editor': 'wymeditor',
-			'skin': 'compact',
+			#'force_editor': 'wymeditor',
+			#'skin': 'compact',
 		}
-		return mark_safe(render_to_string('widgets/editor.html', context))
+		return mark_safe(render_to_string('widgets/admin_richeditor.html', context))
