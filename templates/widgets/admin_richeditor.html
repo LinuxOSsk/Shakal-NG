@@ -16,7 +16,10 @@
 <script type="text/javascript" charset="utf-8">
 //<![CDATA[
 
-var settings = {};
+var settings = {
+	lang: '{{ lang }}',
+	{% if tags %}tags: {{ tags|safe }},{% endif %}
+};
 var editor = new _utils.RichEditor(document.getElementById("id_textareawrapper_{{ name }}").getElementsByTagName('TEXTAREA')[0], settings);
 
 //]]>

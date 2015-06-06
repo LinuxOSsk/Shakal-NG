@@ -424,7 +424,7 @@ config.toolbarGroups = [
 	{ name: 'about' }
 ];
 */
-config.removePlugins = 'flash,forms,font,preview,templates,save';
+		config.removePlugins = 'flash,forms,font,preview,templates,save';
 		var editor = CKEDITOR.replace(element, config);
 	};
 
