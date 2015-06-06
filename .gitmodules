@@ -1,0 +1,4 @@
+[submodule "static/vendor/ckeditor"]
+	path = static/vendor/ckeditor
+	url = git://github.com/ckeditor/ckeditor-releases.git
+	branch = stable

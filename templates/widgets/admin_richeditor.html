@@ -8,6 +8,21 @@
 		{% endfor %}
 	</div>
 {% endif %}
+
+<div id="id_textareawrapper_{{ name }}" class="textareawrapper">
+	{{ widget|safe }}
+</div>
+
+<script type="text/javascript" charset="utf-8">
+//<![CDATA[
+
+var settings = {};
+var editor = new _utils.RichEditor(document.getElementById("id_textareawrapper_{{ name }}"), settings);
+
+//]]>
+</script>
+
+<!--
 <div id="id_textareawrapper_{{ name }}" class="textareawrapper">
 	{{ widget|safe }}
 </div>
@@ -55,3 +70,4 @@ var onLoad = function() {};
 	);
 //]]>
 </script>
+-->

@@ -30,7 +30,6 @@ var getCookie = function(name) {
 		var cookies = document.cookie.split(';');
 		for (var i = 0; i < cookies.length; i++) {
 			var cookie = cookies[i].trim();
-			// Does this cookie string begin with the name we want?
 			if (cookie.substring(0, name.length + 1) == (name + '=')) {
 				cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
 				break;
@@ -110,17 +109,26 @@ window._utils.debounce = debounce;
 
 
 // iteration
-var forEach = function(collection, fn) {
-	for(var i = 0, len = collection.length; i < len; i++) {
-		fn(collection[i], i);
+if (Array.prototype.forEach) {
+	var forEach = function(collection, fn) {
+		collection.forEach(fn);
 	}
-};
+}
+else {
+	var forEach = function(collection, fn) {
+		for (var i = 0, len = collection.length; i < len; i++) {
+			fn(collection[i], i);
+		}
+	};
+}
 
-var filter = function(array, fun) {
-	if (Array.prototype.filter) {
+if (Array.prototype.filter) {
+	var filter = function(array, fun) {
 		return array.filter(fun);
 	}
-	else {
+}
+else {
+	var filter = function(array, fun) {
 		var res = [];
 		forEach(array, function(val) {
 			if (fun.call(val)) {
@@ -128,10 +136,50 @@ var filter = function(array, fun) {
 			}
 		});
 	}
-};
+}
+
+if (Array.prototype.some) {
+	var some = function(array, test) {
+		return array.some(test);
+	}
+}
+else {
+	var some = function(array, test) {
+		var ret = false;
+
+		for (var i = 0, len = array.length; i < len; i++) {
+			ret = ret || fn(array[i], i);
+			if (ret) {
+				break;
+			}
+		}
+		return ret;
+	}
+}
+
+if (Array.prototype.every) {
+	var every = function(array, test) {
+		return array.every(test);
+	}
+}
+else {
+	var some = function(array, test) {
+		var ret = true;
+
+		for (var i = 0, len = array.length; i < len; i++) {
+			ret = ret && fn(array[i], i);
+			if (!ret) {
+				break;
+			}
+		}
+		return ret;
+	}
+}
 
 window._utils.forEach = forEach;
 window._utils.filter = filter;
+window._utils.some = some;
+window._utils.every = every;
 
 // forms
 var serializeForm = function(formElement, raw) {
@@ -351,6 +399,64 @@ window._utils.addClass = addClass;
 window._utils.removeClass = removeClass;
 window._utils.toggleClass = toggleClass;
 window._utils.getElementsByClassName = getElementsByClassName;
+
+var loaderJs = (function () {
+	var head = document.getElementsByTagName('head')[0];
+	var loadedPaths = [];
+	var registeredPaths = [];
+	var waitingCallbacks = [];
+
+	var scriptIsReady = function(state) {
+		return (state === 'loaded' || state === 'complete' || state === 'uninitialized' || !state);
+	}
+
+	var fireCallbacks = function() {
+		var firedCallbacks = [];
+		forEach(waitingCallbacks, function(callback, i) {
+			var fn = callback[0];
+			var paths = callback[1];
+			if (every(paths, function(path) { return loadedPaths.indexOf(path) !== -1; })) {
+				firedCallbacks.push(i);
+				fn();
+			}
+		});
+		firedCallbacks.reverse();
+		for (var i = 0; i < firedCallbacks.length; ++i) {
+			waitingCallbacks.splice(firedCallbacks[i], 1);
+		}
+	};
+
+	return function(paths, callback) {
+		var missingPaths = [];
+
+		forEach(paths, function(path) {
+			if (registeredPaths.indexOf(path) === -1) {
+				missingPaths.push(path);
+				registeredPaths.push(path);
+			}
+		});
+
+		waitingCallbacks.push([callback, paths]);
+
+		forEach(missingPaths, function(path) {
+			var script = document.createElement('SCRIPT');
+			script.src = path;
+			script.onreadystatechange = script.onload = function(path) {
+				return function() {
+					if (scriptIsReady(script.readyState)) {
+						loadedPaths.push(path);
+						fireCallbacks();
+					}
+				};
+			}(path);
+			head.appendChild(script);
+		});
+
+		setTimeout(fireCallbacks, 0);
+	}
+}());
+
+window._utils.loaderJs = loaderJs;
 
 
 }());

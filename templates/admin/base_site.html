@@ -1,5 +1,7 @@
 {% extends "admin/base.html" %}
 
+{% load staticfiles %}
+
 {% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
 
 {% block branding %}
@@ -7,3 +9,15 @@
 {% endblock %}
 
 {% block nav-global %}{% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript">
+//<![CDATA[
+
+window._urls = window._urls || {};
+window._urls.static_base = '{% static "" %}';
+
+//]]>
+</script>
+	{{ block.super }}
+{% endblock %}

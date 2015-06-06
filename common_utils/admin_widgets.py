@@ -28,6 +28,11 @@ class RichEditorWidget(Textarea):
 	#	css = {
 	#		'all': ('js/wymeditor/skins/suit/skin.css', )
 	#	}
+	class Media:
+		js = [
+			'js/utils.js',
+			'js/richeditor/editor.js',
+		]
 
 	def __init__(self, attrs=None, **kwargs):
 		attrs = attrs or {}

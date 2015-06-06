@@ -1,3 +1,4 @@
+/*
 var all_tools = [
 	{name:"Undo",title:"Undo",css:"wym_tools_undo"},
 	{name:"Redo",title:"Redo",css:"wym_tools_redo"},
@@ -380,3 +381,18 @@ function initialize_rich_editor(name, settings) {
 	}
 	window.rich_editors[name] = {loadFunctions: loadFunctions};
 }
+*/
+
+(function (_) {
+
+var RichEditor = function(element, options) {
+	var initializeEditor = function() {
+		console.log("ok");
+	};
+
+	_.loaderJs([window._urls.static_base + 'vendor/ckeditor/ckeditor.js'], initializeEditor);
+};
+
+_.RichEditor = RichEditor;
+
+}(window._utils));
