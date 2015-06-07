@@ -128,7 +128,7 @@ def delete_tag_handler_factory(cache):
 	return delete_tag_handler
 
 
-cache_instance = DjangoCache()
+cache_instance = SimpleCache()
 cached_fn = cached_fn_factory(cache_instance)
 cached_method = cached_method_factory(cache_instance)
 delete_tag_factory = delete_tag_handler_factory(cache_instance)
