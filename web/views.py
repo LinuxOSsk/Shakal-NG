@@ -34,7 +34,7 @@ def error_404(request):
 class Home(TemplateView):
 	template_name = 'home.html'
 
-	@cached_method(tag='article.Article')
+	@cached_method(tag='web.views.Home.get_articles')
 	def get_articles(self):
 		try:
 			top_articles = Article.objects.all().filter(top=True)
@@ -43,8 +43,8 @@ class Home(TemplateView):
 			top_articles = Article.objects.all().none()
 			articles = Article.objects.all()
 
-		articles = list(articles.select_related('author', 'category').defer('content')[:5])
-		top_articles = list(top_articles.select_related('author', 'category').defer('content')[:1])
+		articles = list(articles.select_related('author', 'category')[:5])
+		top_articles = list(top_articles.select_related('author', 'category')[:1])
 		return articles, top_articles
 
 	def get_context_data(self, **kwargs):

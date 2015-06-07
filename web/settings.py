@@ -52,7 +52,7 @@ INSTALLED_APPS = (
 	'article',
 	'attachment',
 	'compressor',
-	'threaded_comments',
+	#'threaded_comments',
 )
 
 MIDDLEWARE_CLASSES = (
