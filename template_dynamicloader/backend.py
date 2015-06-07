@@ -13,3 +13,8 @@ class Jinja2(CoreJinja2):
 		options = params['OPTIONS']
 		options['loader'] = JinjaLoader(tuple(params['DIRS']) + app_directories.get_app_template_dirs('templates'))
 		super(Jinja2, self).__init__(params)
+		self.engine = self
+		self.loaders = [self.env.loader]
+
+	def get_template_loaders(self, loaders):
+		return loaders
