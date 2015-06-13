@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.template.defaultfilters import slugify
+from django_autoslugfield.utils import unique_slugify
 from django_sample_generator import GeneratorRegister, ModelGenerator, samples
 
 from .models import Category
@@ -13,7 +13,7 @@ class CategoryGenerator(ModelGenerator):
 
 	def get_object(self):
 		obj = super(CategoryGenerator, self).get_object()
-		obj.slug = slugify(obj.name)
+		unique_slugify(obj, 'slug')
 		return obj
 
 

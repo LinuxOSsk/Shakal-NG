@@ -47,6 +47,7 @@ INSTALLED_APPS = (
 	'django.contrib.staticfiles',
 	# vendor
 	'django_assets_manager',
+	'django_autoslugfield',
 	'django_sample_generator',
 	'compressor',
 	'django_jinja',

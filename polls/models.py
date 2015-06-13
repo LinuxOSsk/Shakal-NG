@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django_autoslugfield.fields import AutoSlugField
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
@@ -7,7 +8,6 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from autoslugfield.fields import AutoSlugField
 from threaded_comments.models import RootHeader, Comment
 
 

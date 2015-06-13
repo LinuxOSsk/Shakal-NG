@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django_autoslugfield.fields import AutoSlugField
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
@@ -10,7 +11,6 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from attachment.models import Attachment
-from autoslugfield.fields import AutoSlugField
 from hitcount.models import HitCountField
 from polls.models import Poll
 from rich_editor import get_parser

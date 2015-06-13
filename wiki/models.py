@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import mptt
+from django_autoslugfield.fields import AutoSlugField
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
-from autoslugfield.fields import AutoSlugField
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
