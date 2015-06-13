@@ -47,13 +47,14 @@ INSTALLED_APPS = (
 	'django.contrib.staticfiles',
 	# vendor
 	'django_assets_manager',
+	'django_sample_generator',
 	'compressor',
 	'django_jinja',
-	'template_dynamicloader',
 	# apps
 	'accounts',
 	'article',
 	'attachment',
+	'template_dynamicloader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -216,6 +217,14 @@ AUTHENTICATION_BACKENDS = (
 	'django.contrib.auth.backends.ModelBackend',
 	'allauth.account.auth_backends.AuthenticationBackend',
 	'accounts.backend.AuthRememberBackend',
+)
+
+INITIAL_DATA_COUNT = {
+	'user': 50,
+}
+
+SAMPLE_DATA_GENERATORS = (
+	'accounts.generators.register',
 )
 
 JINJA2_BYTECODE_CACHE_NAME = "jinja"
