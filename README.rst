@@ -8,8 +8,6 @@ Autor:
 Inštalácia
 ----------
 
-Video zachytávajúce inštaláciu je dostupné na http://www.youtube.com/watch?v=dUWntQCceoI
-
 Pre inštaláciu sú potrebné niektoré závislosti. Pre debian 6 sú to konkrétne
 balíky:
 
