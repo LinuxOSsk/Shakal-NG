@@ -226,6 +226,7 @@ INITIAL_DATA_COUNT = {
 
 SAMPLE_DATA_GENERATORS = (
 	'accounts.generators.register',
+	'article.generators.register',
 )
 
 JINJA2_BYTECODE_CACHE_NAME = "jinja"
