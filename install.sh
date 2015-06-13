@@ -41,7 +41,7 @@ compilesprites: .stamp_settings
 migrate: .stamp_settings
 	${DJANGO_MANAGE} migrate
 
-runserver: .stamp_superuser
+runserver: .stamp_sampledata
 	${DJANGO_MANAGE} runserver_plus
 
 update: .stamp_settings
@@ -49,15 +49,16 @@ update: .stamp_settings
 	${DJANGO_MANAGE} compilesprites
 	${DJANGO_MANAGE} migrate
 
-.stamp_superuser: .stamp_settings
+.stamp_sampledata: .stamp_settings
 	${DJANGO_MANAGE} compilesprites
 	${DJANGO_MANAGE} migrate
-	${DJANGO_MANAGE} createsuperuser
-	@touch .stamp_superuser
+	${DJANGO_MANAGE} create_sample_data
+	@touch .stamp_sampledata
 
-localinstall: .stamp_superuser
+localinstall: .stamp_sampledata
 	@echo "================================================"
 	@echo "Inštalácia prebehla úspešne"
+	@echo "Používateľské meno je admin, heslo demo"
 	@echo "Pre spustenie zadajte: cd shakal; make runserver"
 	@echo "Aktualizácia: cd shakal; make update"
 	@echo "================================================"
