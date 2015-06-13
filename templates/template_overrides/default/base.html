@@ -5,9 +5,7 @@
 	<meta property="og:site_name" content="LinuxOS.sk" />
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-	{% compress css %}
-		<link rel="stylesheet" type="text/x-scss" href="{{ static('default/scss/style.scss') }}" />
-	{% endcompress %}
+	{% include "template_overrides/default/css.compress.html" %}
 	<link rel="shortcut icon" href="/favicon.ico" />
 	{% include "includes/common_headers.html" %}
 	<!--[if lt IE 9]>
@@ -59,11 +57,5 @@
 	<!--[if lt IE 7]>
 	<script src="{{ static("js/fixiepng.js") }}"></script>
 	<![endif]-->
-	{% compress js %}
-		{% block extrajs %}
-			<script src="{{ static('js/utils.js') }}" type="text/javascript" charset="utf-8"></script>
-			<script src="{{ static('js/utils_ajax.js') }}" type="text/javascript" charset="utf-8"></script>
-			<script src="{{ static('js/touchhover.js') }}" type="text/javascript" charset="utf-8"></script>
-		{% endblock %}
-	{% endcompress %}
+	{% include "template_overrides/default/js.compress.html" %}
 </body>

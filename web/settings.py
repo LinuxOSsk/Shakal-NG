@@ -38,21 +38,22 @@ ALLOWED_HOSTS = []
 
 
 INSTALLED_APPS = (
+	# core
 	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
 	'django.contrib.sessions',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
+	# vendor
 	'django_assets_manager',
+	'compressor',
 	'django_jinja',
 	'template_dynamicloader',
 	# apps
 	'accounts',
 	'article',
 	'attachment',
-	'compressor',
-	#'threaded_comments',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -219,6 +220,10 @@ AUTHENTICATION_BACKENDS = (
 
 JINJA2_BYTECODE_CACHE_NAME = "jinja"
 JINJA2_BYTECODE_CACHE_ENABLE = False
+
+def COMPRESS_JINJA2_GET_ENVIRONMENT():
+	from django.template import engines
+	return engines.all()[0].env
 
 COMPRESS_ROOT = os.path.join(BASE_DIR, 'static')
 COMPRESS_PRECOMPILERS = (
