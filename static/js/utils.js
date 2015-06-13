@@ -110,8 +110,9 @@ window._utils.debounce = debounce;
 
 // iteration
 if (Array.prototype.forEach) {
+	var coreForEach = Array.prototype.forEach;
 	var forEach = function(collection, fn) {
-		collection.forEach(fn);
+		coreForEach.call(collection, fn);
 	}
 }
 else {
@@ -390,6 +391,10 @@ else {
 	}
 }
 
+var byId = function(elementId) {
+	return document.getElementById(elementId);
+};
+
 window._utils.insertAfter = insertAfter;
 window._utils.onLoad = onLoad;
 window._utils.triggerLoad = triggerLoad;
@@ -399,6 +404,8 @@ window._utils.addClass = addClass;
 window._utils.removeClass = removeClass;
 window._utils.toggleClass = toggleClass;
 window._utils.getElementsByClassName = getElementsByClassName;
+window._utils.byCls = getElementsByClassName;
+window._utils.byId = id;
 
 var loaderJs = (function () {
 	var head = document.getElementsByTagName('head')[0];
