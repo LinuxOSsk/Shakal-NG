@@ -54,6 +54,7 @@ INSTALLED_APPS = (
 	'accounts',
 	'article',
 	'attachment',
+	'hitcount',
 	'template_dynamicloader',
 )
 
