@@ -8,7 +8,7 @@ var register = function(root) {
 	var toggleHover = function() {
 		if (_.hasClass(this, 'touchhover')) {
 			_.removeClass(this, 'touchhover')
-			_.forEach(_.getElementsByClassName(this, 'touchhover'), function(element) {
+			_.forEach(_.byCls(this, 'touchhover'), function(element) {
 				_.removeClass(element, 'touchhover');
 			});
 		}
@@ -17,12 +17,12 @@ var register = function(root) {
 		}
 	};
 
-	_.forEach(_.getElementsByClassName(root, 'touchhover-emul'), function(element) {
+	_.forEach(_.byCls(root, 'touchhover-emul'), function(element) {
 		_.removeClass(element, 'touchhover-emul');
 		element.onclick = toggleHover;
 	});
 };
 
-_.onLoad(register)
+_.onLoad(register);
 
 }(window._utils));

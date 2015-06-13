@@ -405,7 +405,7 @@ window._utils.removeClass = removeClass;
 window._utils.toggleClass = toggleClass;
 window._utils.getElementsByClassName = getElementsByClassName;
 window._utils.byCls = getElementsByClassName;
-window._utils.byId = id;
+window._utils.byId = byId;
 
 var loaderJs = (function () {
 	var head = document.getElementsByTagName('head')[0];
