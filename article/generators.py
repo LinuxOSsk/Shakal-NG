@@ -3,9 +3,10 @@ from __future__ import unicode_literals
 
 from django_autoslugfield.utils import unique_slugify
 from django_sample_generator import GeneratorRegister, ModelGenerator, samples
-from accounts.models import User
 
 from .models import Category, Article
+from accounts.models import User
+from common_utils.samples import LongHtmlGenerator
 
 
 class CategoryGenerator(ModelGenerator):
@@ -22,7 +23,7 @@ class ArticleGenerator(ModelGenerator):
 	title = samples.SentenceSample()
 	category_id = samples.RelationSample(queryset=Category.objects.all().order_by("pk"), random_data=True, only_pk=True, fetch_all=True)
 	perex = samples.ParagraphSample()
-	content = samples.LongTextSample()
+	content = LongHtmlGenerator()
 	author_id = samples.RelationSample(queryset=User.objects.all().order_by("pk"), random_data=True, only_pk=True, fetch_all=True)
 	authors_name = samples.NameSample()
 	pub_time = samples.DateTimeSample()
