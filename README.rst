@@ -13,7 +13,14 @@ balíky:
 
 ::
 
-    build-essential python-dev libjpeg8-dev libfreetype6-dev zlib1g-dev python2.7 python2.7-dev
+    sudo apt-get --yes install build-essential python-dev libjpeg8-dev libfreetype6-dev zlib1g-dev python2.7 python2.7-dev  python-virtualenv
+
+Pre Arch linux:
+
+::
+
+    pacman -S --needed --noconfirm base-devel python2 libjpeg-turbo freetype2 zlib python2-virtualenv git
+
 
 Chýbajúce balíky sa dajú nájsť v repozitári http://mirror.cse.iitk.ac.in/debian/
 
