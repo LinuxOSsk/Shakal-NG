@@ -1,5 +1,5 @@
 #!/bin/bash
-exclude="distribute\\|psycopg2\\|oauthlib\\|python-openid\\|requests\\|requests-oauthlib\\|pyprof2calltree\\|argh\\|PyYAML\\|pathtools"
+exclude="distribute\\|psycopg2\\|oauthlib\\|python-openid\\|requests\\|requests-oauthlib\\|pyprof2calltree\\|argh\\|PyYAML\\|pygraphviz\\|pathtools"
 devel_packages="\
 astroid\\|\
 coverage\\|\
@@ -10,7 +10,6 @@ pydot\\|\
 pyparsing\\|\
 pylint\\|\
 django-debug-toolbar\\|\
-pygraphviz\\|\
 sqlparsea\\|\
 ipython\\|\
 watchdog"
