@@ -6,7 +6,7 @@ cat << 'EOF' > shakal/Makefile
 
 PYTHON=python2.7
 VENV_PYTHON=venv/bin/python
-DJANGO_MANAGE=cd shakal&&DJANGO_SETTINGS_MODULE=web.settings_local ../venv/bin/django-admin
+DJANGO_MANAGE=cd shakal&&DJANGO_SETTINGS_MODULE=web.settings_local ../venv/bin/python manage.py
 
 all: localinstall
 
