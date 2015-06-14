@@ -38,6 +38,7 @@ ALLOWED_HOSTS = []
 
 
 INSTALLED_APPS = (
+	'template_dynamicloader',
 	# core
 	'django.contrib.admin',
 	'django.contrib.auth',
@@ -56,7 +57,6 @@ INSTALLED_APPS = (
 	'article',
 	'attachment',
 	'hitcount',
-	'template_dynamicloader',
 )
 
 MIDDLEWARE_CLASSES = (
