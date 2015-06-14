@@ -7,11 +7,14 @@ $paragraph-margin-bottom: 1em !default;
 
 $primary-color: #464a57 !default;
 $primary-color-complement: #ffffff !default;
-$link-color: saturate($primary-color, 30%);
-$info-color: #888;
 
-$secondary-color: #11AA22 !default;
-$primary-color-complement: #ffffff !default;
+$secondary-color: #119922 !default;
+$secondary-color-complement: #ffffff !default;
+
+$link-color: $secondary-color;
+$link-color-hover: $secondary-color-complement;
+$link-color-hover-background: $secondary-color;
+$info-color: #888;
 
 $sidebar-color: $primary-color-complement !default;
 $sidebar-background: $primary-color !default;
