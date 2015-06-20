@@ -6,11 +6,11 @@ from django.db.models import Q
 from django_jinja import library
 
 from common_utils import iterify
-from hitcount.models import HitCount
+from ..cache import get_cache, set_cache
+from ..models import HitCount
 
 
-@library.global_function
-def add_hitcount(*models):
+def get_lookups(models):
 	hitcounts_lookups = {}
 	content_types = []
 
@@ -31,6 +31,19 @@ def add_hitcount(*models):
 		else:
 			content_types.append(None)
 
+	return hitcounts_lookups, content_types
+
+
+@library.global_function
+def add_hitcount(*models):
+	hitcounts_lookups, content_types = get_lookups(models)
+
+	cache = get_cache()
+
+	# odstránenie prázdnych
+	hitcounts_lookups = {content_type: [i for i in id_list if (i, content_type.pk) not in cache] for content_type, id_list in hitcounts_lookups.iteritems()}
+	hitcounts_lookups = {content_type: id_list for content_type, id_list in hitcounts_lookups.iteritems() if id_list}
+
 	if not hitcounts_lookups:
 		return ''
 
@@ -47,6 +60,11 @@ def add_hitcount(*models):
 
 	for model, content_type in zip(models, content_types):
 		for obj in model:
-			obj.display_count = hitcounts_dict.get((obj.pk, content_type.pk))
+			key = (obj.pk, content_type.pk)
+			count = cache.get(key, hitcounts_dict.get(key))
+			obj.display_count = count
+			cache[key] = count
+
+	set_cache(cache)
 
 	return ''

@@ -1,3 +1,4 @@
+cachetools==1.0.2
 Django==1.8.2
 django-allauth==0.19.1
 django-appconf==1.0.1
@@ -12,7 +13,7 @@ django-libsass==0.3
 django-mptt==0.7.4
 django-qsstats-magic==0.7.2
 django-reversion==1.8.5
--e git://github.com/mireq/django-sample-data-generator.git@b94efd481426bb9bf5ca67c0cfcd1383fee284c3#egg=django_sample_data_generator-master
+-e git://github.com/mireq/django-sample-data-generator.git@fcceaab234d433a0251b13bc7e4db30a8f793646#egg=django_sample_data_generator-master
 django-static-sitemaps==2.1.7
 django-suit==0.2.12
 feedparser==5.1.3
