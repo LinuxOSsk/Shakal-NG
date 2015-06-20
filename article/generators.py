@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.contrib.contenttypes.models import ContentType
 from django_autoslugfield.utils import unique_slugify
 from django_sample_generator import GeneratorRegister, ModelGenerator, samples
 
 from .models import Category, Article
 from accounts.models import User
 from common_utils.samples import LongHtmlGenerator
+from hitcount.models import HitCount
 
 
 class CategoryGenerator(ModelGenerator):
@@ -39,6 +41,21 @@ class ArticleGenerator(ModelGenerator):
 		return obj
 
 
+class HitCountGenerator(ModelGenerator):
+	hits = samples.NumberSample()
+	object_id = samples.RelationSample(queryset=Article.objects.all().order_by("pk"), random_data=False, only_pk=True, fetch_all=True)
+
+	def __init__(self, *args, **kwargs):
+		super(HitCountGenerator, self).__init__(*args, **kwargs)
+		self.content_type = ContentType.objects.get_for_model(Article)
+
+	def get_object(self):
+		obj = super(HitCountGenerator, self).get_object()
+		obj.content_type = self.content_type
+		return obj
+
+
 register = GeneratorRegister()
 register.register(CategoryGenerator(Category, 4))
 register.register(ArticleGenerator(Article, 10))
+register.register(HitCountGenerator(HitCount, 10))
