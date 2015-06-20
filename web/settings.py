@@ -248,3 +248,6 @@ COMPRESS_REBUILD_TIMEOUT = 1
 
 LIBSASS_SOURCE_COMMENTS = False
 LIBSASS_OUTPUT_STYLE = 'compressed'
+
+from .patch_urls import patch_urls
+patch_urls()

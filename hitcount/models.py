@@ -35,7 +35,7 @@ class HitCountField(models.Field):
 			hit_count = HitCountField.get_hit_count(self.__class__, self.pk)
 			hit_count.hits += 1
 			hit_count.save()
-			set_hitcount(self.object_id, self.content_type_id, hit_count.hits)
+			set_hitcount(hit_count.object_id, hit_count.content_type_id, hit_count.hits)
 		hit.alters_data = True
 		setattr(cls, name, hit)
 
