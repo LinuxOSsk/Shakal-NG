@@ -11,9 +11,9 @@ $primary-color-complement: #ffffff !default;
 $secondary-color: #119922 !default;
 $secondary-color-complement: #ffffff !default;
 
-$link-color: $secondary-color;
-$link-color-hover: $secondary-color-complement;
-$link-color-hover-background: $secondary-color;
+$link-color: $primary-color;
+$link-color-hover: $primary-color-complement;
+$link-color-hover-background: $primary-color;
 $info-color: #888;
 
 $sidebar-color: $primary-color-complement !default;
