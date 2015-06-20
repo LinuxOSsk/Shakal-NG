@@ -3,7 +3,7 @@ import os
 
 import inspect
 from django import template
-from django.core.exceptions import ObjectDoesNotExist
+
 from .middlewares.ThreadLocal import get_current_request
 
 
@@ -43,14 +43,16 @@ def iterify(items):
 		return [items]
 
 
+def get_host_name():
+	return 'linuxos.sk'
+
+
 def build_absolute_uri(path):
 	request = get_current_request()
 	if request:
 		return request.build_absolute_uri(path)
 	else:
-		from django.conf import settings
-		from django.contrib.sites.models import Site
-		return 'http://' + Site.objects.get(pk = settings.SITE_ID) + path
+		return 'http://' + get_host_name() + path
 
 
 def clean_dir(path, root_path):
