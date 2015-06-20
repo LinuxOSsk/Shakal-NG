@@ -50,17 +50,17 @@
 {{ article.content|safe }}
 </div>
 
-{% for poll in article.poll_set %}
+{# for poll in article.poll_set #}
 <div class="module polls">
 <h3>{{ poll }}</h3>
-<form action="{{ url('polls:post', pk=poll.pk) }}" method="post" id="polls-form">{% csrf_token %}
-	{{ render_messages(messages, poll.msg_id()) }}
-	{% with %}
-		{% set input=1 %}
-		{% include "polls/block_poll_detail_embedded.html" %}
-	{% endwith %}
-	<input type="hidden" name="msg_id" value="{{ poll.msg_id() }}" />
-	<input type="hidden" name="next" value="{{ request.path }}" />
+<form action="{# url('polls:post', pk=poll.pk) #}" method="post" id="polls-form">{# csrf_token #}
+	{# render_messages(messages, poll.msg_id()) #}
+	{# with #}
+		{# set input=1 #}
+		{# include "polls/block_poll_detail_embedded.html" #}
+	{# endwith #}
+	<input type="hidden" name="msg_id" value="{# poll.msg_id() #}" />
+	<input type="hidden" name="next" value="{# request.path #}" />
 	<div class="submit-row">
 		<div class="positive">
 			<button type="submit" class="btn"><span>Hlasovať</span></button>
@@ -68,7 +68,7 @@
 	</div>
 </form>
 </div>
-{% endfor %}
+{# endfor #}
 {% endblock %}
 
 {% block discussion %}
