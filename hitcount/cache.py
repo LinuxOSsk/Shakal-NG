@@ -17,3 +17,9 @@ def get_cache():
 
 def set_cache(cache):
 	default_cache.set('hitcount_cache', cache)
+
+
+def set_hitcount(object_id, content_type_id, count):
+	cache = get_cache()
+	cache[object_id, content_type_id] = count
+	set_cache(cache)

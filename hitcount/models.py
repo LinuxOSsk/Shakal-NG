@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from .cache import set_hitcount
 
 
 class HitCount(models.Model):
@@ -34,6 +35,7 @@ class HitCountField(models.Field):
 			hit_count = HitCountField.get_hit_count(self.__class__, self.pk)
 			hit_count.hits += 1
 			hit_count.save()
+			set_hitcount(self.object_id, self.content_type_id, hit_count.hits)
 		hit.alters_data = True
 		setattr(cls, name, hit)
 
