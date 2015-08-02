@@ -18,7 +18,7 @@ class AddLoggedFormArgumentMixin(object):
 		return form_class(logged = self.request.user.is_authenticated(), **self.get_form_kwargs())
 
 	def form_valid(self, form):
-		obj = form.save(commit = False)
+		obj = form.save(commit=False)
 		if hasattr(obj, self.authors_name_field):
 			if self.request.user.is_authenticated():
 				if self.request.user.get_full_name():
@@ -32,17 +32,17 @@ class AddLoggedFormArgumentMixin(object):
 
 class PreviewCreateView(CreateView):
 	def form_valid(self, form):
-		item = form.save(commit = False)
+		item = form.save(commit=False)
 		if not 'create' in self.request.POST:
-			return self.render_to_response(self.get_context_data(form = form, item = item, valid = True))
+			return self.render_to_response(self.get_context_data(form=form, item=item, valid=True))
 		return super(PreviewCreateView, self).form_valid(form)
 
 
 class PreviewUpdateView(UpdateView):
 	def form_valid(self, form):
-		item = form.save(commit = False)
+		item = form.save(commit=False)
 		if not 'update' in self.request.POST:
-			return self.render_to_response(self.get_context_data(form = form, item = item, valid = True))
+			return self.render_to_response(self.get_context_data(form=form, item=item, valid=True))
 		return super(PreviewUpdateView, self).form_valid(form)
 
 
@@ -87,7 +87,7 @@ class DetailUserProtectedView(DetailView):
 			return qs
 		return self.get_unprivileged_queryset()
 
-	def get_object(self, queryset = None):
+	def get_object(self, queryset=None):
 		obj = super(DetailUserProtectedView, self).get_object(queryset)
 		if hasattr(obj, 'hit'):
 			obj.hit()

@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.contrib import admin
-from django.utils.translation import ugettext_lazy as _, ungettext
+from django.utils.translation import ungettext
 from mptt.admin import MPTTModelAdmin
 
+from .models import Comment
+from .utils import perform_flag, perform_approve, perform_delete
 from attachment.admin import AttachmentInline
-from threaded_comments.models import Comment
-from views import perform_flag, perform_approve, perform_delete
 
 
 class CommentAdmin(MPTTModelAdmin):
@@ -15,11 +17,11 @@ class CommentAdmin(MPTTModelAdmin):
 			{'fields': ('content_type', 'object_id', 'parent')}
 		),
 		(
-			_('Content'),
+			'Komentár',
 			{'fields': ('subject', 'user', 'user_name', 'original_comment')}
 		),
 		(
-			_('Metadata'),
+			'Metainformácie',
 			{'fields': ('submit_date', 'ip_address', 'is_public', 'is_removed', 'is_locked')}
 		),
 	)
@@ -43,17 +45,17 @@ class CommentAdmin(MPTTModelAdmin):
 	def flag_comments(self, request, queryset):
 		msg = lambda n: ungettext('flagged', 'flagged', n)
 		self._flag_comments(request, queryset, perform_flag, msg)
-	flag_comments.short_description = _("Flag selected comments")
+	flag_comments.short_description = 'Označiť zvolené komentáre'
 
 	def approve_comments(self, request, queryset):
 		msg = lambda n: ungettext('approved', 'approved', n)
 		self._flag_comments(request, queryset, perform_approve, msg)
-	approve_comments.short_description = _("Approve selected comments")
+	approve_comments.short_description = 'Schváliť zvolené komentáre'
 
 	def remove_comments(self, request, queryset):
 		msg = lambda n: ungettext('removed', 'removed', n)
 		self._flag_comments(request, queryset, perform_delete, msg)
-	remove_comments.short_description = _("Remove selected comments")
+	remove_comments.short_description = 'Odstrániť zvolené komentáre'
 
 	def _flag_comments(self, request, queryset, action, msg):
 		n_comments = 0

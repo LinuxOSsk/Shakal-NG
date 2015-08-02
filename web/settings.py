@@ -57,6 +57,7 @@ INSTALLED_APPS = (
 	'article',
 	'attachment',
 	'hitcount',
+	'threaded_comments',
 )
 
 MIDDLEWARE_CLASSES = (

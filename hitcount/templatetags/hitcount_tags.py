@@ -1,37 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 from django_jinja import library
 
-from common_utils import iterify
 from ..cache import get_cache, set_cache
 from ..models import HitCount
-
-
-def get_lookups(models):
-	hitcounts_lookups = {}
-	content_types = []
-
-	for model in models:
-		model = iterify(model)
-
-		id_list = []
-		last_object = None
-		for o in model:
-			id_list.append(o.pk)
-			last_object = o
-
-		if last_object is not None:
-			content_type = ContentType.objects.get_for_model(last_object.__class__)
-			hitcounts_lookups.setdefault(content_type, [])
-			hitcounts_lookups[content_type] += id_list
-			content_types.append(content_type)
-		else:
-			content_types.append(None)
-
-	return hitcounts_lookups, content_types
+from common_utils.content_types import get_lookups
 
 
 @library.global_function
@@ -54,7 +29,7 @@ def add_hitcount(*models):
 		hitcount_q = q if hitcount_q is None else hitcount_q | q
 
 	hitcounts = HitCount.objects.all().\
-		filter(q).\
+		filter(hitcount_q).\
 		values_list('object_id', 'content_type_id', 'hits')
 	hitcounts_dict = {h[:2]: h[2] for h in hitcounts}
 
