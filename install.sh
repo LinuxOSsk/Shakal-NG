@@ -27,8 +27,7 @@ all: localinstall
 	@touch .stamp_setuptools
 
 .stamp_requirements: .stamp_setuptools
-	venv/bin/pip install -r shakal/requirements.txt
-	venv/bin/pip install -r shakal/requirements.local.txt
+	venv/bin/pip install -r shakal/requirements.dev.txt
 	touch .stamp_requirements
 
 .stamp_settings: .stamp_requirements

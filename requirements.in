@@ -1,0 +1,24 @@
+Django
+Pillow
+cachetools
+django-allauth
+django-braces
+django-compressor
+django-haystack
+django-jinja
+django-libsass
+django-mptt
+django-qsstats-magic
+django-reversion
+django-static-sitemaps
+ipython
+pip-tools
+python-dateutil
+python-memcached
+pytz
+queued-search
+redis
+-e git+git://github.com/mireq/django-assets-manager.git#egg=django_assets_manager
+-e git+git://github.com/mireq/django-autoslugfield.git#egg=django_autoslugfield
+-e git+git://github.com/mireq/django-sample-data-generator.git#egg=django_sample_data_generator
+-e git+git://github.com/notanumber/xapian-haystack.git#egg=xapian_haystack
