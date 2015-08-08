@@ -28,15 +28,13 @@ django-reversion==1.9.3
 django-static-sitemaps==2.1.7
 django==1.8.3
 docopt==0.6.2             # via ptpython
-dozer==0.4
 first==2.0.1              # via pip-tools
 ipython==3.2.1
 jedi==0.9.0               # via ptpython
 jinja2==2.8               # via django-jinja
 libsass==0.8.3            # via django-libsass
 logilab-common==1.0.2     # via astroid, pylint, pylint-django
-mako==1.0.1               # via dozer
-markupsafe==0.23          # via jinja2, mako
+markupsafe==0.23          # via jinja2
 oauthlib==1.0.1           # via requests-oauthlib
 pathtools==0.1.2          # via watchdog
 pillow==2.9.0
@@ -60,7 +58,6 @@ six==1.9.0                # via astroid, django-appconf, django-braces, django-e
 sqlparse==0.1.16          # via django-debug-toolbar
 watchdog==0.8.3
 wcwidth==0.1.4            # via prompt-toolkit
-webob==1.4.1              # via dozer
 werkzeug==0.10.4
 
 # The following packages are commented out because they are
