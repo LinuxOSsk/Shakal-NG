@@ -1,4 +1,5 @@
 Werkzeug
+dozer
 django-debug-toolbar
 django-debugtools
 django-extensions

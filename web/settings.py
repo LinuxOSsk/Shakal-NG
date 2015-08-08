@@ -153,7 +153,7 @@ CACHES = {
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
-WSGI_APPLICATION = 'web.wsgi.application'
+WSGI_APPLICATION = os.environ.get('DJANGO_WSGI_APPLICATION', 'web.wsgi.application')
 
 SITE_ID = 1
 

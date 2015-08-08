@@ -23,6 +23,7 @@ redis
 -e git+git://github.com/mireq/django-sample-data-generator.git#egg=django_sample_data_generator
 -e git+git://github.com/notanumber/xapian-haystack.git#egg=xapian_haystack
 Werkzeug
+dozer
 django-debug-toolbar
 django-debugtools
 django-extensions

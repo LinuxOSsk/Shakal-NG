@@ -10,6 +10,7 @@ from mptt.templatetags import mptt_tags
 
 from ..models import RootHeader, UserDiscussionAttribute
 from common_utils.content_types import get_lookups
+from common_utils import get_meta
 
 
 def load_user_discussion_attributes(headers, user):
@@ -67,6 +68,20 @@ def add_discussion_attributes(context, *models):
 @library.global_function
 def get_comments_for_item(item, display_last=False):
 	return mark_safe(render_to_string("comments/comment_count.html", {'item': item, display_last: 'display_last'}))
+
+
+@library.global_function
+@contextfunction
+def render_threaded_comments_toplevel(context, target):
+	context = dict(context)
+	model_class = target.__class__
+	templates = (
+		"comments/{0}_{1}_comments_toplevel.html".format(*str(get_meta(model_class)).split('.')),
+		"comments/{0}_comments_toplevel.html".format(get_meta(model_class).app_label),
+		"comments/comments_toplevel.html",
+	)
+	context.update({"target": target})
+	return mark_safe(render_to_string(templates, context))
 
 
 library.filter(mptt_tags.tree_info)
