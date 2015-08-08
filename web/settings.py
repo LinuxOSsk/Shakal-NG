@@ -171,7 +171,9 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'sk'
+LANGUAGE_CODE = 'sk_SK'
+
+LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale'),)
 
 LANGUAGES = (('sk', 'Slovak'),)
 
