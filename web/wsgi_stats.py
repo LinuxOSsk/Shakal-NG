@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from guppy import hpy
 
 from .wsgi import application
@@ -11,22 +9,39 @@ class StatsMiddleware(object):
 		super(StatsMiddleware, self).__init__()
 		self.app = app
 		self.hp = hpy()
-		self.heap_start = None
-		self.heap_end = None
 
-	def empty_response(self, start_response):
-		status = str('200 OK')
-		response_headers = [(str('Content-type'), str('text/plain'))]
+	def start_ok_response(self, start_response):
+		status = '200 OK'
+		response_headers = [('Content-type', 'text/plain')]
 		start_response(status, response_headers)
-		return [str('')]
 
 	def __call__(self, environ, start_response):
-		if 'debugmem' in environ.get('QUERY_STRING', ''):
-			heap_data = [str(self.hp.heap())]
-			for item in self.empty_response(start_response):
+		if 'debugmem_dump' in environ.get('QUERY_STRING', ''):
+			heap = self.hp.heap()
+			heap.dump('profile.hpy')
+			heap_response = [
+				#'\nHeap\n',
+				#str(heap),
+				#'\nrcs\n',
+				#str(heap.byrcs),
+				#'\nrcs[0]\n',
+				#str(heap.byrcs[0].byid),
+				#'\nrp\n',
+				#str(heap.get_rp()),
+				#'\nModules\n',
+				#str(heap.bymodule),
+			]
+			self.start_ok_response(start_response)
+			for item in heap_response:
 				yield item
-			for item in heap_data:
-				yield item
+		elif 'debugmem_live' in environ.get('QUERY_STRING', ''):
+			heap = self.hp.heap()
+			self.start_ok_response(start_response)
+			import pdb
+			pdb.set_trace()
+		elif 'debugmem_relheap' in environ.get('QUERY_STRING', ''):
+			self.hp.setrelheap()
+			self.start_ok_response(start_response)
 		else:
 			#start = timer()
 			#from timeit import default_timer as timer
