@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 
-from django.http import HttpResponseServerError
+from django.http import HttpResponseServerError, HttpResponseNotFound
 from django.template.loader import get_template
 from django.views.generic import TemplateView
 from common_utils.cache import cached_method
@@ -25,7 +25,7 @@ def error_500(request):
 
 def error_404(request):
 	template = get_template('404.html')
-	return HttpResponseServerError(template.render({
+	return HttpResponseNotFound(template.render({
 		'date_now': now(r"Y-m-d\TH:m:sO"),
 		'request': request,
 	}))
