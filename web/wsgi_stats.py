@@ -20,8 +20,11 @@ class StatsMiddleware(object):
 		heap_after = self.hp.heap()
 		end = timer()
 		time = end - start
+		heap_diff = heap_after - heap_before
 		print(time)
-		print(heap_after - heap_before)
+		print(heap_diff)
+		if 'debugmem' in environ.get('QUERY_STRING', ''):
+			import pdb; pdb.set_trace()
 
 
 application = StatsMiddleware(application)
