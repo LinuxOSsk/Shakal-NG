@@ -22,11 +22,10 @@ def add_hitcount(*models):
 	if not hitcounts_lookups:
 		return ''
 
-	hitcount_q = None
+	hitcount_q = Q()
 
 	for content_type, ids in hitcounts_lookups.iteritems():
-		q = Q(content_type=content_type, object_id__in=ids)
-		hitcount_q = q if hitcount_q is None else hitcount_q | q
+		hitcount_q = hitcount_q | Q(content_type=content_type, object_id__in=ids)
 
 	hitcounts = HitCount.objects.all().\
 		filter(hitcount_q).\

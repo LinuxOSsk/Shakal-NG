@@ -6,9 +6,20 @@ from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django_jinja import library
 from jinja2 import contextfunction
+from mptt.templatetags import mptt_tags
 
 from ..models import RootHeader, UserDiscussionAttribute
 from common_utils.content_types import get_lookups
+
+
+def load_user_discussion_attributes(headers, user):
+	header_ids = [h['id'] for h in headers]
+	user_attributes = UserDiscussionAttribute.objects \
+		.filter(user=user, discussion__in=header_ids) \
+		.values('discussion_id', 'time', 'watch')
+	user_attributes = dict([(a['discussion_id'], a) for a in user_attributes])
+	for header in headers:
+		header.update(user_attributes.get(header['id'], {}))
 
 
 @contextfunction
@@ -23,10 +34,9 @@ def add_discussion_attributes(context, *models):
 	if not discussion_lookups:
 		return ''
 
-	discussion_q = None
+	discussion_q = Q()
 	for content_type, ids in discussion_lookups.iteritems():
-		q = Q(content_type=content_type, object_id__in=ids)
-		discussion_q = q if discussion_q is None else discussion_q | q
+		discussion_q = discussion_q | Q(content_type=content_type, object_id__in=ids)
 
 	headers = RootHeader.objects \
 		.filter(discussion_q) \
@@ -34,24 +44,18 @@ def add_discussion_attributes(context, *models):
 	headers_dict = {(h['object_id'], h['content_type_id']): h for h in headers}
 
 	if 'user' in context and context['user'].is_authenticated():
-		header_ids = [h['id'] for h in headers]
-		user_attributes = UserDiscussionAttribute.objects \
-			.filter(user=context['user'], discussion__in=header_ids) \
-			.values('discussion_id', 'time', 'watch')
-		user_attributes = dict([(a['discussion_id'], a) for a in user_attributes])
-		for header in headers:
-			header.update(user_attributes.get(header['id'], {}))
+		load_user_discussion_attributes(headers, context['user'])
 
 	for model, content_type in zip(models, content_types):
 		for obj in model:
 			key = (obj.pk, content_type.pk)
-			hdr = headers_dict.get(key, {})
-			obj.last_comment = hdr.get('last_comment', None)
-			obj.comment_count = hdr.get('comment_count', 0)
-			obj.is_locked = hdr.get('is_locked', False)
-			obj.rootheader_id = hdr.get('id', None)
-			obj.discussion_display_time = hdr.get('time', None)
-			obj.discussion_watch = hdr.get('watch', None)
+			header = headers_dict.get(key, {})
+			obj.last_comment = header.get('last_comment', None)
+			obj.comment_count = header.get('comment_count', 0)
+			obj.is_locked = header.get('is_locked', False)
+			obj.rootheader_id = header.get('id', None)
+			obj.discussion_display_time = header.get('time', None)
+			obj.discussion_watch = header.get('watch', None)
 			if obj.last_comment and obj.discussion_display_time:
 				obj.new_comments = obj.discussion_display_time < obj.last_comment
 			else:
@@ -63,3 +67,6 @@ def add_discussion_attributes(context, *models):
 @library.global_function
 def get_comments_for_item(item, display_last=False):
 	return mark_safe(render_to_string("comments/comment_count.html", {'item': item, display_last: 'display_last'}))
+
+
+library.filter(mptt_tags.tree_info)
