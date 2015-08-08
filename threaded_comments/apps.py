@@ -37,7 +37,7 @@ class CommentsConfig(AppConfig):
 		last_comment = statistics['submit_date__max']
 		if last_comment is None:
 			content_object = root.content_object
-			last_comment = getattr(content_object, 'created', getattr(content_object, 'time', None))
+			last_comment = getattr(content_object, 'created', getattr(content_object, 'time', getattr(content_object, 'pub_time', None)))
 
 		with transaction.atomic():
 			header, _ = RootHeader.objects.get_or_create(

@@ -1,5 +1,5 @@
 {% set comments=get_threaded_comments_list(target) %}
-{% with root=comments.get_root_item(), root_header=comments.root_header, user_attribute=comments.user_attribute %}
+{% with root=comments.root_item, root_header=comments.root_header, user_attribute=comments.user_attribute %}
 <div class="module">
 	<a id="comments" href="#"></a>
 	<div class="links">
