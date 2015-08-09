@@ -8,7 +8,7 @@
 	{% endcompress %}
 	<link rel="shortcut icon" href="/favicon.ico" />
 	<meta property="og:site_name" content="LinuxOS.sk" />
-	{# render_all_feeds(template="feeds/header_feeds.html") #}
+	{{ render_all_feeds(template="feeds/header_feeds.html") }}
 	{% include "includes/common_headers.html" %}
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -143,7 +143,7 @@ html, body {
 					</div>
 					<div id="rss_panel" class="btn">
 						<span><a class="rss-icon" href="#">RSS</a></span>
-						{# render_all_feeds(template="feeds/home_feeds.html") #}
+						{{ render_all_feeds(template="feeds/home_feeds.html") }}
 					</div>
 					<div id="search-panel">
 						<form method="get" action="{# url('haystack_search') #}" class="search btn">

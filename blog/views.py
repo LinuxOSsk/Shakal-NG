@@ -12,7 +12,7 @@ from blog.blog_feeds import PostFeed
 from blog.forms import BlogForm, PostForm, BlogAttachmentForm
 from blog.models import Blog, Post
 from common_utils.generic import ListView, PreviewCreateView, PreviewUpdateView, DetailUserProtectedView
-from feeds import register_feed
+from feeds.register import register_feed
 
 
 class PostListView(ListView):

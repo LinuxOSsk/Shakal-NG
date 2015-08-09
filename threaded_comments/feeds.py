@@ -12,7 +12,7 @@ class CommentFeed(Feed):
 	title = 'Diskusné príspevky'
 	description = 'Zoznam posledných diskusných príspevkov'
 	link = reverse_lazy('home')
-	feed_url = reverse_lazy('comments-feed-latest')
+	feed_url = reverse_lazy('threaded_comments:feed-latest')
 
 	def item_description(self, item):
 		return item.comment

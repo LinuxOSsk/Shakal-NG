@@ -57,6 +57,7 @@ INSTALLED_APPS = (
 	'article',
 	'attachment',
 	'breadcrumbs',
+	'feeds',
 	'hitcount',
 	'threaded_comments',
 )
@@ -73,6 +74,7 @@ MIDDLEWARE_CLASSES = (
 	# custom
 	'common_utils.middlewares.ThreadLocal.ThreadLocalMiddleware',
 	'template_dynamicloader.middleware.TemplateSwitcherMiddleware',
+	'feeds.middleware.FeedsMiddleware',
 )
 
 ROOT_URLCONF = 'web.urls'
