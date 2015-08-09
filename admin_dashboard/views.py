@@ -11,7 +11,7 @@ from django.core.urlresolvers import reverse
 from django.http.response import HttpResponse
 from django.utils.translation import ugettext as _
 from django.views.generic import View
-from simplejson import dumps
+from json import dumps
 
 from article.models import Article
 from news.models import News
