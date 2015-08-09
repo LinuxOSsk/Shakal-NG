@@ -9,7 +9,7 @@
 		{% if not root.is_locked %}
 			<div class="btn reply">
 				<span>
-					<a href="{{ url("comments-reply-comment", root.pk) }}" class="reply" rel="nofollow">Pridať komentár</a>
+					<a href="{{ url("threaded_comments:reply", root.pk) }}" class="reply" rel="nofollow">Pridať komentár</a>
 				</span>
 			</div>
 		{% endif %}
@@ -17,7 +17,7 @@
 		<div class="btn-group reply">
 			<div class="btn">
 				<span>
-					<a href="{{ url("comments-watch", root_header.pk) }}?watch={{ user_attribute.watch|yesno(",1") }}" class="watch">{% if user_attribute.watch %}Nesledovať{% else %}Sledovať{% endif %}</a>
+					<a href="{{ url("threaded_comments:watch", root_header.pk) }}?watch={{ user_attribute.watch|yesno(",1") }}" class="watch">{% if user_attribute.watch %}Nesledovať{% else %}Sledovať{% endif %}</a>
 				</span>
 			</div>
 		</div>
@@ -26,7 +26,7 @@
 		<div class="btn-group admin">
 			<div class="btn">
 				<span>
-					<a href="{{ url("comments-admin", root.pk) }}?lock={{ root.is_locked|yesno(",1") }}" class="lock">{% if root.is_locked %}Odomknúť{% else %}Zamknúť{% endif %}</a>
+					<a href="{{ url("threaded_comments:admin", root.pk) }}?lock={{ root.is_locked|yesno(",1") }}" class="lock">{% if root.is_locked %}Odomknúť{% else %}Zamknúť{% endif %}</a>
 				</span>
 			</div>
 		</div>
@@ -36,7 +36,7 @@
 		{% include "comments/comments_tree.html" %}
 		{% if not root.is_locked %}
 			<div class="links">
-				<div class="btn reply"><span><a href="{{ url("comments-reply-comment", root.pk) }}" class="reply" rel="nofollow">Pridať komentár</a></span></div>
+				<div class="btn reply"><span><a href="{{ url("threaded_comments:reply", root.pk) }}" class="reply" rel="nofollow">Pridať komentár</a></span></div>
 			</div>
 		{% endif %}
 	{% endif %}
