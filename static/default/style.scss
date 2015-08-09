@@ -507,17 +507,17 @@ button:focus { outline: none; }
 		height: $btn-height;
 	}
 	&:hover {
-		>span { @include sprite-generated-right($sprites, btn_content_std_hover); }
-		>span:before { @include sprite-generated($sprites, btn_content_std_hover); }
+		>span { @include sprite-generated-right($sprites, btn_content_std_hover, $setSize: false); }
+		>span:before { @include sprite-generated($sprites, btn_content_std_hover, $setSize: false); }
 		>span.dropdown { background: none; }
 		.dropdown { display: block; }
 	}
 	&:active, &:focus {
-		>span { @include sprite-generated-right($sprites, btn_content_act); }
+		>span { @include sprite-generated-right($sprites, btn_content_act, $setSize: false); }
 		>span:before, &:focus span:before { @include sprite-generated($sprites, btn_content_act); }
 	}
 	&:active:hover {
-		>span { @include sprite-generated-right($sprites, btn_content_act_hover); }
+		>span { @include sprite-generated-right($sprites, btn_content_act_hover, $setSize: false); }
 		>span:before { @include sprite-generated($sprites, btn_content_act_hover); }
 	}
 	&.reply, .login {
@@ -584,7 +584,7 @@ button:focus { outline: none; }
 	@include no-space();
 	line-height: $big-btn-height;
 	>span, >.search-input {
-		@include sprite-generated-right($sprites, btn_std);
+		@include sprite-generated-right($sprites, btn_std, $setSize: false);
 		padding-right: 15px;
 		font-size: 14px;
 		font-weight: bold;
@@ -606,16 +606,16 @@ button:focus { outline: none; }
 		height: $big-btn-height;
 	}
 	&:hover {
-		>span { @include sprite-generated-right($sprites, btn_std_hover); }
+		>span { @include sprite-generated-right($sprites, btn_std_hover, $setSize: false); }
 		>span:before { @include sprite-generated($sprites, btn_std_hover); }
 		>span.dropdown { background: none; }
 	}
 	&:active, &:focus {
-		>span { @include sprite-generated-right($sprites, btn_act); }
+		>span { @include sprite-generated-right($sprites, btn_act, $setSize: false); }
 		>span:before, &:focus span:before { @include sprite-generated($sprites, btn_act); }
 	}
 	&:active:hover {
-		>span { @include sprite-generated-right($sprites, btn_act_hover); }
+		>span { @include sprite-generated-right($sprites, btn_act_hover, $setSize: false); }
 		>span:before { @include sprite-generated($sprites, btn_act_hover); }
 	}
 	.username .icon-user {
@@ -820,7 +820,7 @@ textarea {
 			color: #e5f4ff;
 			text-shadow: 0px 1px 0px #2c6c99;
 			text-decoration: none;
-			@include sprite-generated-right($sprites, tabs_std);
+			@include sprite-generated-right($sprites, tabs_std, $setSize: false);
 			margin-right: 5px;
 		}
 		a:before {
@@ -834,7 +834,7 @@ textarea {
 		}
 		&:hover, &.active {
 			a {
-				@include sprite-generated-right($sprites, tabs_act);
+				@include sprite-generated-right($sprites, tabs_act, $setSize: false);
 				border-radius: 0px;
 				color: $link-color;
 				text-shadow: 0px 1px 0px $generic-background;
@@ -1032,7 +1032,7 @@ dl.profile {
 		height: 31px; line-height: 31px; margin-top: 5px; padding-right: 5px;
 		list-style: none;
 		float: left;
-		@include sprite-generated-right($sprites, breadcrumb_std);
+		@include sprite-generated-right($sprites, breadcrumb_std, $setSize: false);
 		.crumb {
 			display: block;
 			position: relative;
@@ -1067,7 +1067,7 @@ dl.profile {
 			}
 		}
 		&:hover {
-			@include sprite-generated-right($sprites, breadcrumb_act);
+			@include sprite-generated-right($sprites, breadcrumb_act, $setSize: false);
 			.crumb {
 				@include sprite-generated($sprites, breadcrumb_act);
 			}
