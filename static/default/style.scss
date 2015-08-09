@@ -450,7 +450,7 @@ button:focus { outline: none; }
 		content: ".";
 	}
 	> span, > .search-input {
-		@include sprite-generated($sprites, btn_content_std);
+		@include sprite-generated-right($sprites, btn_content_std, $setSize: false);
 		display: block;
 		float: left;
 		padding-right: 12px;
