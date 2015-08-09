@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="sk" xml:lang="sk">
+<head>
+	<title>{% block title %}{% endblock %}</title>
+	<meta property="og:site_name" content="LinuxOS.sk" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+	{% include "template_overrides/default/css.compress.html" %}
+	<link rel="shortcut icon" href="/favicon.ico" />
+	{% include "includes/common_headers.html" %}
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	{% block extrastyle %}{% endblock %}{% block extraheaders %}{% endblock %}
+</head>
+<body class="{% block bodyclass %}{% endblock %}">
+	{# include 'includes/analytics.html' #}
+
+	{% block messages %}
+		{{ render_messages(messages) }}
+	{% endblock %}
+
+	<header>
+		<div id="site_header" class="sprite">
+			<a class="logo no-text-left" title="LinuxOS.sk - Slovenský linuxový portál" href="{{ url("home") }}"><span class="sprite">LinuxOS.sk - Slovenský linuxový portál</span></a>
+		</div>
+	</header>
+
+	<div class="holygrail colmask sitelayout">
+		<div class="colleft">
+			<div class="col1 margin-container">
+				<div id="site_content" class="margin-content">
+					{% block content %}{% endblock %}
+				</div>
+			</div>
+			<div class="col2">
+				<aside class="touchhover-emul">
+					<a id="menu-toggle" href="#">Menu</a>
+					<div class="sidebar sprite-after top-inner-shadow">
+						<div class="block first margin-container">
+							<h2 id="title_menu" class="title">Menu</h2>
+							<ul id="main_menu">
+								{% block site_menu %}{% include "partials/site_menu.html" %}{% endblock %}
+							</ul>
+						</div>
+					</div>
+				</aside>
+			</div>
+		</div>
+	</div>
+
+	<div id="out">
+	</div>
+
+	{% block discussion %}{% endblock %}
+
+	<!--[if lt IE 7]>
+	<script src="{{ static("js/fixiepng.js") }}"></script>
+	<![endif]-->
+	{% include "template_overrides/default/js.compress.html" %}
+</body>

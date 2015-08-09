@@ -3,46 +3,96 @@
 {% block title %}LinuxOS.sk - slovenský linuxový portál{% endblock %}
 
 {% block extraheaders %}
-{{ super() }}
 <meta name="description" lang="sk" content="Slovenský linuxový portál: linux, open source, BSD, komunita, fórum, pomoc nováčikom." />
 {% endblock %}
 
-{% block bodyclass %}home blocks{% endblock %}
+{% block header %}
+{{ super() }}
+<h1 style="display: none">LinuxOS.sk - slovenský linuxový portál</h1>
+{% endblock %}
 
 {% block content %}
-{{ add_hitcount(articles, top_articles) }}
-{{ add_discussion_attributes(articles, top_articles) }}
-
-<h1>Slovenský linuxový portál</h1>
-
-<div class="module article">
-	<div class="margin-container">
-		<h2>Články</h2>
-		{% for top_article in top_articles %}
-			<div class="article top">
-				{% with article=top_article, thumbnail=1 %}
-					{% include "article/block_list_item.html" %}
-				{% endwith %}
-			</div>
-		{% endfor %}
-		{% for top_post in top_posts %}
-			{% with content_indicator=1, post=top_post %}
-				{% include "blog/block_post_list_item.html" %}
-			{% endwith %}
-		{% endfor %}
-		{% for article in articles %}
-			{% with thumbnail=0 %}
-				{% include "article/block_list_item.html" %}
-			{% endwith %}
-		{% endfor %}
-		<div class="module-links bottom">
-			{% for category in article_categories %}
-				<a href="{{ category.get_absolute_url() }}">{{ category }}</a>
-				|
-			{% endfor %}
-			<span class="next"><a href="{{ url("article:list") }}">Ďalšie</a></span>
-		</div>
+{{ add_discussion_attributes(articles) }}
+{{ add_discussion_attributes(top_articles) }}
+{{ add_discussion_attributes(posts) }}
+{{ add_discussion_attributes(top_posts) }}
+{{ add_hitcount(articles) }}
+{{ add_hitcount(top_articles) }}
+<div class="module forum">
+	<h2>Diskusné fórum</h2>
+	<div class="module-row">
+		{% with caption="Najnovšie komentáre", topic_list=forum_new %}
+			{% include "forum/block_topics_table.html" %}
+		{% endwith %}
+	</div>
+	{% if forum_no_comments %}
+	<div class="module-row">
+		{% with caption="Nediskutované témy", topic_list=forum_no_comments %}
+			{% include "forum/block_topics_table.html" %}
+		{% endwith %}
+	</div>
+	{% endif %}
+	<div class="module-row">
+		{% with caption="Najdiskutovanejšie témy", topic_list=forum_most_comments %}
+			{% include "forum/block_topics_table.html" %}
+		{% endwith %}
+	</div>
+	<div class="module-row">
+		{% with caption="Najnovšie blogy", topic_list=posts %}
+			{% include "forum/block_topics_table.html" %}
+		{% endwith %}
+	</div>
+	<div class="module-links bottom">
+		<a href="{{ url("forum:create") }}">Pridať novú tému</a> |
+		<a href="{{ url("forum:overview") }}" class="next">Prezerať celé fórum</a>
 	</div>
 </div>
+
+<div class="module article">
+	<h2>Články</h2>
+	{% for top_article in top_articles %}
+		<div class="article top">
+			{% with article=top_article, thumbnail=1 %}
+				{% include "article/block_list_item.html" %}
+			{% endwith %}
+		</div>
+	{% endfor %}
+	{% for top_post in top_posts %}
+		{% with content_indicator=1, post=top_post %}
+			{% include "blog/block_post_list_item.html" %}
+		{% endwith %}
+	{% endfor %}
+	{% for article in articles %}
+		{% with thumbnail=0 %}
+			{% include "article/block_list_item.html" %}
+		{% endwith %}
+	{% endfor %}
+	<div class="module-links bottom">
+		{% for category in article_categories %}
+			<a href="{{ category.get_absolute_url() }}">{{ category }}</a>
+			|
+		{% endfor %}
+		<a href="{{ url("article:list") }}" class="next">Ďalšie</a>
+	</div>
+</div>
+
+<div class="module blog">
+	<h2>Blogy</h2>
+	{% for post in posts %}
+		{% include "blog/block_post_list_item.html" %}
+	{% endfor %}
+	<div class="module-links bottom">
+		<a href="{{ url("blog:post-list") }}" class="next">Ďalšie</a>
+	</div>
+</div>
+
+{% cache 1800 "planet_opensoft" %}
+	<div class="module feeds">
+		<h2>Planet.OpenSoft.sk</h2>
+		<div class="module-row">
+			{{ pull_feeds("http://planet.opensoft.sk/rss20.xml") }}
+		</div>
+	</div>
+{% endcache %}
 
 {% endblock %}
