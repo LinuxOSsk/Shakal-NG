@@ -42,6 +42,7 @@ class Reply(FormView):
 		kwargs = super(Reply, self).get_form_kwargs()
 		kwargs['target_object'] = self.parent.content_object
 		kwargs['parent_id'] = self.parent.id
+		return kwargs
 
 	def get_template_names(self):
 		model = self.parent.content_object.__class__
@@ -57,13 +58,14 @@ class Reply(FormView):
 		content_object = self.parent.content_object
 		ctx.update({
 			'next': self.request.POST.get('next', ''),
-			'comment': form.get_comment(),
+			'comment': form.get_comment_object(),
 			'parent': self.parent if self.parent.parent_id else False,
 			'content_object': content_object,
 			'module_name': get_module_name(content_object),
 			'module_url': get_module_url(content_object),
 			'attachments': form.get_attachments(),
 		})
+		return ctx
 
 	def dispatch(self, request, **kwargs):
 		self.parent = self.get_parent_comment()

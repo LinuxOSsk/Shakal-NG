@@ -41,7 +41,7 @@ class SecurityFormMixin(object):
 
 	def generate_security_hash(self, security_dict):
 		key_salt = 'secutity_form'
-		value = '-'.join(security_dict.values())
+		value = '-'.join(str(v) for v in security_dict.values())
 		return salted_hmac(key_salt, value).hexdigest()
 
 	def security_errors(self):
@@ -107,9 +107,15 @@ class CommentForm(SecurityFormMixin, TemporaryAttachmentFormMixin, AntispamFormM
 		super(CommentForm, self).__init__(data=data, initial=initial, *args, **kwargs)
 		self.fields['parent'].required = True
 		self.request = get_current_request()
-		if self.request.is_authenticated():
+		if self.request.user.is_authenticated():
 			del self.fields['name']
 		self.process_attachments()
+
+	def get_model(self):
+		return Comment
+
+	def get_comment_object(self):
+		return self.save(commit=False)
 
 	def additional_security_data(self):
 		return {

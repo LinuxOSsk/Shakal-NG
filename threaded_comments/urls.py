@@ -12,7 +12,7 @@ class Patterns(object):
 	@property
 	def urls(self):
 		pat = patterns('threaded_comments.views',
-			url(r'^reply/(?P<pk>\d+)/$', 'Reply', name='reply'),
+			url(r'^reply/(?P<parent>\d+)/$', 'Reply', name='reply'),
 			url(r'^lock/(?P<pk>\d+)/$', 'Admin', name='admin'),
 			url(r'^watch/(?P<pk>\d+)/$', 'Watch', name='watch'),
 			url(r'^(\d+)/$', 'Comments', name='comments'),

@@ -83,7 +83,7 @@ html, body {
 			</div>
 			<div class="hdrmain">
 				<ul id="main_menu" class="tabs">
-					{% block site_menu %}{% include "include/site_menu.html" %}{% endblock %}
+					{% block site_menu %}{% include "partials/site_menu.html" %}{% endblock %}
 				</ul>
 				<div class="pull-right">
 					<div id="user_panel" class="btn{% if user.is_authenticated() %} authenticated{% endif %}">
