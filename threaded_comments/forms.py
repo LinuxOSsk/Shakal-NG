@@ -26,7 +26,7 @@ COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 50000)
 class SecurityFormMixin(object):
 	timestamp = forms.IntegerField(widget=forms.HiddenInput)
 	security_hash = forms.CharField(min_length=40, max_length=40, widget=forms.HiddenInput)
-	honeypot = forms.CharField(required=False, label=_('If you enter anything in this field your comment will be treated as spam'))
+	honeypot = forms.CharField(required=False, label='Ak do tohto poľa niečo napíšete bude príspevok pvažovaný za spam.')
 
 	def generate_security_data(self):
 		security_dict = {
