@@ -14,7 +14,7 @@ from article import urls as article_urls
 #from notifications import urls as notifications_urls
 #from polls import urls as polls_urls
 #from search.views import SearchView
-#from threaded_comments import urls as comments_urls
+from threaded_comments import urls as comments_urls
 #from wiki import urls as wiki_urls
 
 
@@ -27,7 +27,7 @@ urlpatterns = patterns('',
 	url(_(r'^accounts/'), include(accounts_urls.urlpatterns)),
 	url(_(r'^article/'), include(article_urls.urlpatterns)),
 	#url(_(r'^blog/'), include(blog_urls.urlpatterns)),
-	#url(_(r'^comments/'), include(comments_urls.urlpatterns)),
+	url(_(r'^comments/'), include(comments_urls.urlpatterns)),
 	#url(_(r'^forum/'), include(forum_urls.urlpatterns)),
 	#url(_(r'^maintenance/'), include(maintenance_urls.urlpatterns)),
 	#url(_(r'^news/'), include(news_urls.urlpatterns)),
