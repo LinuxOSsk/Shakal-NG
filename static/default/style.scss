@@ -280,7 +280,7 @@ textarea.wymeditor { width: auto; height: 15em; display: block; clear: both; }
 			overflow: hidden;
 			margin-top: 9px;
 			text-indent: -9999px;
-			@include sprite-generated($sprites, settings_icon_14);
+			@include sprite-generated($sprites, settings_icon_14, $setSize: false);
 		}
 	}
 	textarea {
@@ -304,7 +304,7 @@ form .formatwrapper {
 	margin: 0 (-$module-padding);
 	color: $module-header-background;
 	text-shadow: 1px 1px 0px darken($header-bg, 10%);
-	@include sprite-generated($sprites, block_header_bg);
+	@include sprite-generated($sprites, block_header_bg, $setSize: false);
 	background-color: $header-bg;
 	background-repeat: repeat-x;
 	line-height: 37px;
@@ -465,8 +465,6 @@ button:focus { outline: none; }
 			position: relative;
 			.icon {
 				@include sprite-generated($sprites, dropdown_icon_14);
-				width: 9px;
-				height: 14px;
 				position: absolute;
 				right: -18px;
 				top: 11px;
@@ -498,7 +496,7 @@ button:focus { outline: none; }
 	}
 	>span:before, >.search-input:before {
 		content: ".";
-		@include sprite-generated($sprites, btn_content_std);
+		@include sprite-generated($sprites, btn_content_std, $setSize: false);
 		width: 12px;
 		margin-left: -12px;
 		text-indent: -9999px;
@@ -514,11 +512,11 @@ button:focus { outline: none; }
 	}
 	&:active, &:focus {
 		>span { @include sprite-generated-right($sprites, btn_content_act, $setSize: false); }
-		>span:before, &:focus span:before { @include sprite-generated($sprites, btn_content_act); }
+		>span:before, &:focus span:before { @include sprite-generated($sprites, btn_content_act, $setSize: false); }
 	}
 	&:active:hover {
 		>span { @include sprite-generated-right($sprites, btn_content_act_hover, $setSize: false); }
-		>span:before { @include sprite-generated($sprites, btn_content_act_hover); }
+		>span:before { @include sprite-generated($sprites, btn_content_act_hover, $setSize: false); }
 	}
 	&.reply, .login {
 		float: right;
@@ -599,7 +597,7 @@ button:focus { outline: none; }
 	}
 	>span:before, >.search-input:before {
 		content: ".";
-		@include sprite-generated($sprites, btn_std);
+		@include sprite-generated($sprites, btn_std, $setSize: false);
 		width: 15px; margin-left: -15px;
 		text-indent: -9999px; overflow: hidden;
 		float: left;
@@ -607,20 +605,19 @@ button:focus { outline: none; }
 	}
 	&:hover {
 		>span { @include sprite-generated-right($sprites, btn_std_hover, $setSize: false); }
-		>span:before { @include sprite-generated($sprites, btn_std_hover); }
+		>span:before { @include sprite-generated($sprites, btn_std_hover, $setSize: false); }
 		>span.dropdown { background: none; }
 	}
 	&:active, &:focus {
 		>span { @include sprite-generated-right($sprites, btn_act, $setSize: false); }
-		>span:before, &:focus span:before { @include sprite-generated($sprites, btn_act); }
+		>span:before, &:focus span:before { @include sprite-generated($sprites, btn_act, $setSize: false); }
 	}
 	&:active:hover {
 		>span { @include sprite-generated-right($sprites, btn_act_hover, $setSize: false); }
-		>span:before { @include sprite-generated($sprites, btn_act_hover); }
+		>span:before { @include sprite-generated($sprites, btn_act_hover, $setSize: false); }
 	}
 	.username .icon-user {
 		margin: 12px 5px 0 3px;
-		width: 9px; height: 14px;
 		@include sprite-generated($sprites, profile_icon_14);
 		float: left;
 	}
@@ -715,7 +712,7 @@ button:focus { outline: none; }
 
 .submit-row {
 	height: 41px; margin: 0 (-$module-padding);
-	@include sprite-generated($sprites, submit_row_bg);
+	@include sprite-generated($sprites, submit_row_bg, $setSize: false);
 	background-repeat: repeat-x;
 	background-color: #8cccfe;
 	.positive { float: right; }
@@ -727,7 +724,7 @@ input[type="text"], input[type="password"] {
 }
 
 input[type="text"], input[type="password"] {
-	@include sprite-generated($sprites, input_bg);
+	@include sprite-generated($sprites, input_bg, $setSize: false);
 	background-repeat: repeat-x;
 	background-color: #fff;
 }
@@ -781,7 +778,6 @@ textarea {
 /* === Hlavička === */
 
 #linuxos_logo {
-	width: 240px; height: 80px;
 	display: block;
 	text-align: center;
 	margin: 0px auto;
@@ -825,7 +821,7 @@ textarea {
 		}
 		a:before {
 			content: ".";
-			@include sprite-generated($sprites, tabs_std);
+			@include sprite-generated($sprites, tabs_std, $setSize: false);
 			width: 10px; margin-left: -10px;
 			text-indent: -9999px; overflow: hidden;
 			float: left;
@@ -842,7 +838,7 @@ textarea {
 				padding-top: 3px;
 			}
 			a:before {
-				@include sprite-generated($sprites, tabs_act);
+				@include sprite-generated($sprites, tabs_act, $setSize: false);
 				margin-top: -3px;
 			}
 		}
@@ -899,7 +895,7 @@ ul#main_menu {
 #top_header {
 	height: 80px;
 	.pull-right { right: 0px; position: absolute; }
-	@include sprite-generated($sprites, header_bg);
+	@include sprite-generated($sprites, header_bg, $setSize: false);
 	background-repeat: repeat-x;
 	background-color: #4d9dd9;
 	@mixin btn_icon() {
@@ -982,7 +978,6 @@ ul#main_menu {
 			content: ".";
 			text-indent: -9999px;
 			overflow: hidden;
-			width: 13px; height: 7px;
 			top: -7px; right: 10px;
 			@include sprite-generated($sprites, corner_arrow_up);
 			position: absolute;
@@ -1020,12 +1015,12 @@ dl.profile {
 
 #site_breadcrumbs {
 	height: 36px; bottom: 0px; margin-left: -3px; padding-left: 5px;
-	@include sprite-generated($sprites, breadcrumb_bg);
+	@include sprite-generated($sprites, breadcrumb_bg, $setSize: false);
 	margin-top: 44px;
 	ul {
 		@include no-space();
 		height: 36px;
-		@include sprite-generated($sprites, breadcrumb_panel_bg);
+		@include sprite-generated($sprites, breadcrumb_panel_bg, $setSize: false);
 		background-repeat: repeat-x;
 	}
 	li {
@@ -1037,7 +1032,7 @@ dl.profile {
 			display: block;
 			position: relative;
 			right: 17px; height: 31px; padding-left: 25px;
-			@include sprite-generated($sprites, breadcrumb_std);
+			@include sprite-generated($sprites, breadcrumb_std, $setSize: false);
 			font-weight: bold; font-size: 0.875em;
 			text-shadow: 0px -1px 0px #cedfeb, 0px 1px 0px #fcfdfe;
 			color: $link-color;
@@ -1061,7 +1056,7 @@ dl.profile {
 				position: relative;
 			}
 			.icon {
-				width: 18px; height: 18px; top: 6px; left: 8px;
+				top: 6px; left: 8px;
 				position: absolute;
 				@include sprite-generated($sprites, breadcrumb_home);
 			}
@@ -1069,7 +1064,7 @@ dl.profile {
 		&:hover {
 			@include sprite-generated-right($sprites, breadcrumb_act, $setSize: false);
 			.crumb {
-				@include sprite-generated($sprites, breadcrumb_act);
+				@include sprite-generated($sprites, breadcrumb_act, $setSize: false);
 			}
 		}
 	}
@@ -1247,13 +1242,13 @@ ul.messages {
 		width: 20px;
 		height: 36px;
 		margin: -3px 0 0 8px;
-		&.admin { @include sprite-generated($sprites, user_rating_admin); }
-		&.rating_0 { @include sprite-generated($sprites, user_rating_0); }
-		&.rating_1 { @include sprite-generated($sprites, user_rating_1); }
-		&.rating_2 { @include sprite-generated($sprites, user_rating_2); }
-		&.rating_3 { @include sprite-generated($sprites, user_rating_3); }
-		&.rating_4 { @include sprite-generated($sprites, user_rating_4); }
-		&.rating_5 { @include sprite-generated($sprites, user_rating_5); }
+		&.admin { @include sprite-generated($sprites, user_rating_admin, $setSize: false); }
+		&.rating_0 { @include sprite-generated($sprites, user_rating_0, $setSize: false); }
+		&.rating_1 { @include sprite-generated($sprites, user_rating_1, $setSize: false); }
+		&.rating_2 { @include sprite-generated($sprites, user_rating_2, $setSize: false); }
+		&.rating_3 { @include sprite-generated($sprites, user_rating_3, $setSize: false); }
+		&.rating_4 { @include sprite-generated($sprites, user_rating_4, $setSize: false); }
+		&.rating_5 { @include sprite-generated($sprites, user_rating_5, $setSize: false); }
 	}
 	.icon {
 		display: block;
@@ -1264,7 +1259,7 @@ ul.messages {
 		position: absolute;
 		right: 0px;
 		top: 0px;
-		@include sprite-generated($sprites, avatar_placeholder);
+		@include sprite-generated($sprites, avatar_placeholder, $setSize: false);
 	}
 	.comment_link {
 		position: absolute;
@@ -1414,7 +1409,7 @@ ul.messages {
 	border-radius: 3px;
 	height: 13px;
 	margin: .3em 0;
-	@include sprite-generated($sprites, progress);
+	@include sprite-generated($sprites, progress, $setSize: false);
 	background-repeat: repeat-x;
 	.bar {
 		border: solid 1px #2f83bb;
@@ -1423,10 +1418,11 @@ ul.messages {
 		text-indent: -9999px;
 		position: relative;
 		top: -1px; left: -1px; height: 13px;
+		background-repeat: repeat-x;
 		//$ypos: -$backgrounds_progress_bar_y1 - 1px;
 		//$pos: 0px $ypos;
 		//.sprite($pos, repeat-x);
-		@include sprite-generated($sprites, progress);
+		@include sprite-generated($sprites, progress, $setSize: false);
 	}
 }
 
