@@ -135,7 +135,7 @@ TEMPLATES = [
 	},
 ]
 
-DYNAMIC_TEMPLATES = ('default',)
+DYNAMIC_TEMPLATES = ('default', 'new')
 
 CACHES = {
 	'default': {
