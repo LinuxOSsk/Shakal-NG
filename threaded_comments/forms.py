@@ -33,7 +33,6 @@ class SecurityFormMixin(object):
 			'timestamp': int(time())
 		}
 		security_dict.update(self.additional_security_data())
-		print(security_dict)
 		security_dict['security_hash'] = self.generate_security_hash(security_dict)
 		return security_dict
 
@@ -81,7 +80,7 @@ class CommentForm(SecurityFormMixin, TemporaryAttachmentFormMixin, AntispamFormM
 		validators=[validators.MaxLengthValidator(COMMENT_MAX_LENGTH)]
 	)
 
-	attachment = AttachmentField('Príloha', required=False)
+	attachment = AttachmentField(label='Príloha', required=False)
 	upload_session = forms.CharField(widget=HiddenInput, required=False)
 
 	class Meta:
