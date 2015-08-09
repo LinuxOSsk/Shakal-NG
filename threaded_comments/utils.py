@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.db import transaction
 from django.db.models import Count, Max
 
+from . import signals
 from .models import CommentFlag, RootHeader, Comment
 
 
