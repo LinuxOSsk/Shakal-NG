@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.core.urlresolvers import reverse
+from django.shortcuts import resolve_url
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django_jinja import library
@@ -12,11 +12,9 @@ from jinja2 import contextfunction
 @library.global_function
 def breadcrumb(context, contents, *args, **kwargs):
 	class_name = kwargs.pop('class', False)
-	url = kwargs.pop('absolute_url', False)
-	if not url:
-		url = kwargs.pop('url', False)
-		if url:
-			url = reverse(url, args=args, kwargs=kwargs)
+	url = kwargs.pop('url', False)
+	if url is not False:
+		url = resolve_url(url, *args, **kwargs)
 
 	breadcrumb_context = {
 		'contents': contents,

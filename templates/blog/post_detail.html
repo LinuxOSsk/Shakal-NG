@@ -3,7 +3,7 @@
 {% block title %}{{ object }}{% endblock %}
 {% block breadcrumbs %}
 	{{ breadcrumb(object) }}
-	{{ breadcrumb(object.blog, absolute_url=object.blog.get_absolute_url()) }}
+	{{ breadcrumb(object.blog, url=object.blog.get_absolute_url()) }}
 	{{ breadcrumb("Blog", url='blog:post-list') }}
 	{{ super() }}
 {% endblock %}

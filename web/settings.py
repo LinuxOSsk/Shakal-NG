@@ -56,6 +56,7 @@ INSTALLED_APPS = (
 	'accounts',
 	'article',
 	'attachment',
+	'breadcrumbs',
 	'hitcount',
 	'threaded_comments',
 )
@@ -102,6 +103,7 @@ TEMPLATES = [
 				'django.template.context_processors.request',
 				'django.contrib.auth.context_processors.auth',
 				'django.contrib.messages.context_processors.messages',
+				'breadcrumbs.context_processors.breadcrumbs',
 			],
 			#'context_processors': TCP + (
 			#	'django.core.context_processors.request',

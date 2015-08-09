@@ -9,8 +9,8 @@
 {% block breadcrumbs %}
 	{% if object %}
 		{{ breadcrumb("Úprava zápisku") }}
-		{{ breadcrumb(object, absolute_url=object.get_absolute_url()) }}
-		{{ breadcrumb(object.blog, absolute_url=object.blog.get_absolute_url()) }}
+		{{ breadcrumb(object, url=object.get_absolute_url()) }}
+		{{ breadcrumb(object.blog, url=object.blog.get_absolute_url()) }}
 	{% else %}
 		{{ breadcrumb("Vytvorenie zápisku") }}
 	{% endif %}

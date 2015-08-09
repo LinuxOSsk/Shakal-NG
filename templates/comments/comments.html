@@ -2,8 +2,8 @@
 
 {% block breadcrumbs %}
 {{ breadcrumb("Diskusia") }}
-{{ breadcrumb(object, absolute_url=object.get_absolute_url()) }}
-{{ breadcrumb(module_name, absolute_url=module_url) }}
+{{ breadcrumb(object, url=object.get_absolute_url()) }}
+{{ breadcrumb(module_name, url=module_url) }}
 {{ super() }}
 {% endblock %}
 
