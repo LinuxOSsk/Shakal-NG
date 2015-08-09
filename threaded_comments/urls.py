@@ -16,8 +16,8 @@ class Patterns(object):
 			url(r'^lock/(?P<pk>\d+)/$', 'Admin', name='admin'),
 			url(r'^watch/(?P<pk>\d+)/$', 'Watch', name='watch'),
 			url(r'^(\d+)/$', 'Comments', name='comments'),
-			url(r'^view/(\d+)/$', 'CommentSingle', name='comment-single'),
-			url(r'^id/(\d+)/$', 'Comment', name='comment'),
+			url(r'^view/(\d+)/$', 'CommentDetailSingle', name='comment-single'),
+			url(r'^id/(\d+)/$', 'CommentDetail', name='comment'),
 		) + patterns('threaded_comments.feeds',
 			url(r'^feeds/latest/$', 'CommentFeed', name='feed-latest'),
 		)

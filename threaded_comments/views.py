@@ -11,7 +11,7 @@ from django.views.generic import DetailView
 from django.views.generic.edit import FormView
 
 from .forms import CommentForm
-from .models import Comment as CommentModel
+from .models import Comment
 from .utils import update_comments_header
 from common_utils import get_meta
 from threaded_comments.models import RootHeader, UserDiscussionAttribute
@@ -36,7 +36,7 @@ class Reply(FormView):
 	parent = None
 
 	def get_parent_comment(self):
-		return get_object_or_404(CommentModel.objects.all(), pk=self.kwargs['parent'])
+		return get_object_or_404(Comment.objects.all(), pk=self.kwargs['parent'])
 
 	def get_form_kwargs(self):
 		kwargs = super(Reply, self).get_form_kwargs()
@@ -90,7 +90,7 @@ class Reply(FormView):
 
 
 class Admin(PermissionRequiredMixin, DetailView):
-	model = CommentModel
+	model = Comment
 	permission_required = 'threaded_comments.change_threaded_comment'
 
 	def get(self, request, **kwargs):
@@ -109,8 +109,8 @@ class Admin(PermissionRequiredMixin, DetailView):
 		if lock is not None:
 			comment.get_descendants(include_self=True).update(is_locked=bool(lock))
 
-		comment = CommentModel.objects.get(pk=comment.pk)
-		update_comments_header(CommentModel, instance=comment)
+		comment = Comment.objects.get(pk=comment.pk)
+		update_comments_header(Comment, instance=comment)
 		return HttpResponseRedirect(comment.content_object.get_absolute_url() + '#link_' + str(comment.pk))
 
 
@@ -146,12 +146,12 @@ class Comments(DetailView):
 		})
 
 
-class Comment(DetailView):
-	model = CommentModel
+class CommentDetail(DetailView):
+	model = Comment
 	template_name = 'comments/comments.html'
 
 	def get_context_data(self, **kwargs):
-		ctx = super(Comment, self).get_context_data(**kwargs)
+		ctx = super(CommentDetail, self).get_context_data(**kwargs)
 		comment = ctx['object']
 		obj = comment.content_object
 		ctx.update({
@@ -165,9 +165,9 @@ class Comment(DetailView):
 		return ctx
 
 
-class CommentSingle(Comment):
+class CommentDetailSingle(CommentDetail):
 	def get_context_data(self, **kwargs):
-		ctx = super(CommentSingle, self).get_context_data(**kwargs)
+		ctx = super(CommentDetailSingle, self).get_context_data(**kwargs)
 		ctx['signle'] = True
 		del ctx['highlight']
 		if self.request.user.is_staff:
