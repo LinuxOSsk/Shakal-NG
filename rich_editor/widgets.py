@@ -15,17 +15,17 @@ class RichEditor(Textarea):
 			'js/richeditor/editor.js',
 		]
 		css = {
-			'all': ('js/wymeditor/skins/shakal/skin.css', )
 		}
 
-	def __init__(self, attrs = {}, **kwargs):
+	def __init__(self, attrs=None, **kwargs):
 		self.language = settings.LANGUAGE_CODE
 		self.formats = ()
 		self.skin = 'shakal'
-		attrs.update({'class': 'wymeditor input-xlarge'})
+		attrs = attrs or {}
+		attrs.update({'class': 'input-xlarge'})
 		super(RichEditor, self).__init__(attrs)
 
-	def render(self, name, value, attrs = None, **kwargs):
+	def render(self, name, value, attrs=None, **kwargs):
 		supported_tags = self.attrs.pop('supported_tags', {})
 		widget = super(RichEditor, self).render(name, value, attrs)
 		self.attrs['supported_tags'] = supported_tags
@@ -55,13 +55,13 @@ class RichEditor(Textarea):
 
 
 class RichOriginalEditor(RichEditor):
-	def __init__(self, formats = (('html', 'HTML'), ), *args, **kwargs):
+	def __init__(self, formats=(('html', 'HTML'), ), *args, **kwargs):
 		super(RichOriginalEditor, self).__init__(*args, **kwargs)
 		self.formats = formats
 
-	def render(self, name, value, attrs = None, **kwargs):
+	def render(self, name, value, attrs=None, **kwargs):
 		if value is None:
-			value = (None, None)
+			value=(None, None)
 		value_fmt, value = value
 
 		formats = []
@@ -102,7 +102,6 @@ class AdminRichOriginalEditor(RichOriginalEditor):
 			'js/richeditor/editor.js',
 		]
 		css = {
-			'all': ('js/wymeditor/skins/suit/skin.css', )
 		}
 
 	def __init__(self, *args, **kwargs):

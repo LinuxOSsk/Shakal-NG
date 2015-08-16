@@ -388,54 +388,75 @@ function initialize_rich_editor(name, settings) {
 var RichEditor = function(element, options) {
 	var initializeEditor = function() {
 		var config = {};
-/*
-config.toolbar = [
-	{ name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates' ] },
-	{ name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
-	{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' ] },
-	{ name: 'forms', items: [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
-	'/',
-	{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
-	{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },
-	{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
-	{ name: 'insert', items: [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
-	'/',
-	{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
-	{ name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-	{ name: 'tools', items: [ 'Maximize', 'ShowBlocks' ] },
-	{ name: 'others', items: [ '-' ] },
-	{ name: 'about', items: [ 'About' ] }
-];
-config.toolbarGroups = [
-	{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
-	{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
-	{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ] },
-	{ name: 'forms' },
-	'/',
-	{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-	{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
-	{ name: 'links' },
-	{ name: 'insert' },
-	'/',
-	{ name: 'styles' },
-	{ name: 'colors' },
-	{ name: 'tools' },
-	{ name: 'others' },
-	{ name: 'about' }
-];
-*/
-		config.plugins = 'basicstyles,blockquote,clipboard,contextmenu,dialogadvtab,enterkey,find,format,horizontalrule,image,indentblock,indentlist,justify,link,list,magicline,maximize,pastetext,preview,print,removeformat,showblocks,showborders,sourcearea,specialchar,tab,table,tabletools,toolbar,undo,wysiwygarea';
+
+		CKEDITOR._extraCss = [CKEDITOR.getCss()];
+
+		CKEDITOR.addCss = function(css) {
+			CKEDITOR._extraCss.push(css);
+		};
+
+		CKEDITOR.getCss = function(css) {
+			return CKEDITOR._extraCss.join('\n');
+		};
+
+		config.toolbar = [
+			{ name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates' ] },
+			{ name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+			{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' ] },
+			{ name: 'forms', items: [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
+			{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
+			{ name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+			{ name: 'tools', items: [ 'Maximize', 'ShowBlocks' ] },
+			{ name: 'others', items: [ '-' ] },
+			{ name: 'about', items: [ 'About' ] },
+			'/',
+			{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
+			{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },
+			{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+			{ name: 'insert', items: [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
+		];
+		config.plugins = 'basicstyles,blockquote,clipboard,contextmenu,dialogadvtab,enterkey,find,format,horizontalrule,image,indentblock,indentlist,justify,link,list,magicline,maximize,pastetext,removeformat,showblocks,showborders,sourcearea,specialchar,tab,table,tabletools,toolbar,undo,wysiwygarea';
 		config.format_tags = 'p;h1;h2;h3;h4;h5;h6;pre'
-		if (!options.tags) {
+		if (options.tags) {
+			var allowedTags = '';
+			var allowedTagsRestrict = '';
+			_.forEach(options.tags.known, function(element) {
+				if (element.length) {
+					if (element === 'a') {
+						allowedTagsRestrict += ';a[!href,rel]';
+					}
+					else if (element === 'img') {
+						allowedTagsRestrict += ';img[!src]';
+					}
+					else {
+						if (allowedTags.length > 0) {
+							allowedTags += ' ';
+						}
+						allowedTags += element;
+					}
+				}
+			});
+			config.allowedContent = allowedTags + allowedTagsRestrict;
+		}
+		else {
 			config.allowedContent = true;
 			config.extraAllowedContent = 'dl dt dd';
 		}
+		config.startupOutlineBlocks = true;
+		CKEDITOR.addCss(options.tags.unsupported.join(', ') + '{ background-color: #ff9999 !important; border: 1px solid red !important; }');
 		var editor = CKEDITOR.replace(element, config);
+		CKEDITOR._extraCss.pop();
 	};
 
 	_.loaderJs([window._urls.static_base + 'vendor/ckeditor/ckeditor.js'], initializeEditor);
 };
 
 _.RichEditor = RichEditor;
+
+var rich_editors = window.rich_editors || [];
+_.forEach(rich_editors, function(editorSettings) {
+	new RichEditor(editorSettings.element, editorSettings);
+});
+
 
 }(window._utils));

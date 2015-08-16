@@ -39,17 +39,21 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
 	'template_dynamicloader',
+	'suit',
 	# core
 	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
 	'django.contrib.sessions',
 	'django.contrib.messages',
+	'django.contrib.sites',
 	'django.contrib.staticfiles',
 	# vendor
 	'django_assets_manager',
 	'django_autoslugfield',
 	'django_sample_generator',
+	'allauth',
+	'allauth.account',
 	'compressor',
 	'django_jinja',
 	# apps
@@ -114,7 +118,6 @@ TEMPLATES = [
 			#	'breadcrumbs.context_processors.breadcrumbs',
 			#	'feeds.context_processors.feeds',
 			#	'template_dynamicloader.context_processors.style',
-			#	'allauth.account.context_processors.account'
 			#),
 			"autoescape": True,
 			"auto_reload": True,
