@@ -5,28 +5,24 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 	background-repeat: no-repeat;
 }
 
-@mixin sprite-generated($def, $image, $setSize: true) {
-	background-image: map-get($def, _url);
-	background-size: map-get($def, _size);
-	background-position: map-get(map-get($def, $image), offset);
-	@if $setSize {
-		width: map-get(map-get($def, $image), w);
-		height: map-get(map-get($def, $image), h);
-	}
-	//@media #{$hdpi} {
-	//	background-image: map-get($def2x, _url);
-	//}
+.sprite {
+	background-image: map-get($sprites, _url);
+	background-size: map-get($sprites, _size);
 }
 
-@mixin sprite-generated-right($def, $image, $setSize: true) {
-	background-image: map-get($def, _url);
-	background-size: map-get($def, _size);
-	background-position: right (- map-get(map-get($def, $image), y));
+@mixin sprite-generated($image, $setSize: true, $right: false) {
+	@extend .sprite;
+	@if $right {
+		background-position: right (- map-get(map-get($sprites, $image), y));
+	}
+	@else {
+		background-position: map-get(map-get($sprites, $image), offset);
+	}
 	@if $setSize {
-		width: map-get(map-get($def, $image), w);
-		height: map-get(map-get($def, $image), h);
+		width: map-get(map-get($sprites, $image), w);
+		height: map-get(map-get($sprites, $image), h);
 	}
 	//@media #{$hdpi} {
-	//	background-image: map-get($def2x, _url);
+	//	background-image: map-get($sprites2x, _url);
 	//}
 }

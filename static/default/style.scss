@@ -280,7 +280,7 @@ textarea.wymeditor { width: auto; height: 15em; display: block; clear: both; }
 			overflow: hidden;
 			margin-top: 9px;
 			text-indent: -9999px;
-			@include sprite-generated($sprites, settings_icon_14, $setSize: false);
+			@include sprite-generated(settings_icon_14, $setSize: false);
 		}
 	}
 	textarea {
@@ -304,7 +304,7 @@ form .formatwrapper {
 	margin: 0 (-$module-padding);
 	color: $module-header-background;
 	text-shadow: 1px 1px 0px darken($header-bg, 10%);
-	@include sprite-generated($sprites, block_header_bg, $setSize: false);
+	@include sprite-generated(block_header_bg, $setSize: false);
 	background-color: $header-bg;
 	background-repeat: repeat-x;
 	line-height: 37px;
@@ -450,7 +450,7 @@ button:focus { outline: none; }
 		content: ".";
 	}
 	> span, > .search-input {
-		@include sprite-generated-right($sprites, btn_content_std, $setSize: false);
+		@include sprite-generated(btn_content_std, $setSize: false, $right: true);
 		display: block;
 		float: left;
 		padding-right: 12px;
@@ -464,7 +464,7 @@ button:focus { outline: none; }
 			margin-right: 15px;
 			position: relative;
 			.icon {
-				@include sprite-generated($sprites, dropdown_icon_14);
+				@include sprite-generated(dropdown_icon_14);
 				position: absolute;
 				right: -18px;
 				top: 11px;
@@ -480,15 +480,15 @@ button:focus { outline: none; }
 		&:hover {
 			background: none;
 		}
-		/*&.reply:before { @include btn_icon(); @include sprite-generated($sprites, comment_icon_14); }*/
-		&.watch:before { @include btn_icon(); @include sprite-generated($sprites, watch_icon_14); }
-		&.resolved:before { @include btn_icon(); @include sprite-generated($sprites, tick_icon_14); }
-		&.lock:before { @include btn_icon(); @include sprite-generated($sprites, lock_icon_14); }
-		&.delete:before { @include btn_icon(); @include sprite-generated($sprites, delete_icon_14); }
-		&.private:before { @include btn_icon(); @include sprite-generated($sprites, watch_icon_14); }
+		/*&.reply:before { @include btn_icon(); @include sprite-generated(comment_icon_14); }*/
+		&.watch:before { @include btn_icon(); @include sprite-generated(watch_icon_14); }
+		&.resolved:before { @include btn_icon(); @include sprite-generated(tick_icon_14); }
+		&.lock:before { @include btn_icon(); @include sprite-generated(lock_icon_14); }
+		&.delete:before { @include btn_icon(); @include sprite-generated(delete_icon_14); }
+		&.private:before { @include btn_icon(); @include sprite-generated(watch_icon_14); }
 		/*
-		&.up:before { @include btn_icon(); @include sprite-generated($sprites, up_icon_14); }
-		&.down:before { @include btn_icon(); @include sprite-generated($sprites, down_icon_14); }
+		&.up:before { @include btn_icon(); @include sprite-generated(up_icon_14); }
+		&.down:before { @include btn_icon(); @include sprite-generated(down_icon_14); }
 		*/
 	}
 	.dropdown.menu {
@@ -496,7 +496,7 @@ button:focus { outline: none; }
 	}
 	>span:before, >.search-input:before {
 		content: ".";
-		@include sprite-generated($sprites, btn_content_std, $setSize: false);
+		@include sprite-generated(btn_content_std, $setSize: false);
 		width: 12px;
 		margin-left: -12px;
 		text-indent: -9999px;
@@ -505,18 +505,18 @@ button:focus { outline: none; }
 		height: $btn-height;
 	}
 	&:hover {
-		>span { @include sprite-generated-right($sprites, btn_content_std_hover, $setSize: false); }
-		>span:before { @include sprite-generated($sprites, btn_content_std_hover, $setSize: false); }
+		>span { @include sprite-generated(btn_content_std_hover, $setSize: false, $right: true); }
+		>span:before { @include sprite-generated(btn_content_std_hover, $setSize: false); }
 		>span.dropdown { background: none; }
 		.dropdown { display: block; }
 	}
 	&:active, &:focus {
-		>span { @include sprite-generated-right($sprites, btn_content_act, $setSize: false); }
-		>span:before, &:focus span:before { @include sprite-generated($sprites, btn_content_act, $setSize: false); }
+		>span { @include sprite-generated(btn_content_act, $setSize: false, $right: true); }
+		>span:before, &:focus span:before { @include sprite-generated(btn_content_act, $setSize: false); }
 	}
 	&:active:hover {
-		>span { @include sprite-generated-right($sprites, btn_content_act_hover, $setSize: false); }
-		>span:before { @include sprite-generated($sprites, btn_content_act_hover, $setSize: false); }
+		>span { @include sprite-generated(btn_content_act_hover, $setSize: false, $right: true); }
+		>span:before { @include sprite-generated(btn_content_act_hover, $setSize: false); }
 	}
 	&.reply, .login {
 		float: right;
@@ -582,7 +582,7 @@ button:focus { outline: none; }
 	@include no-space();
 	line-height: $big-btn-height;
 	>span, >.search-input {
-		@include sprite-generated-right($sprites, btn_std, $setSize: false);
+		@include sprite-generated(btn_std, $setSize: false, $right: true);
 		padding-right: 15px;
 		font-size: 14px;
 		font-weight: bold;
@@ -597,28 +597,28 @@ button:focus { outline: none; }
 	}
 	>span:before, >.search-input:before {
 		content: ".";
-		@include sprite-generated($sprites, btn_std, $setSize: false);
+		@include sprite-generated(btn_std, $setSize: false);
 		width: 15px; margin-left: -15px;
 		text-indent: -9999px; overflow: hidden;
 		float: left;
 		height: $big-btn-height;
 	}
 	&:hover {
-		>span { @include sprite-generated-right($sprites, btn_std_hover, $setSize: false); }
-		>span:before { @include sprite-generated($sprites, btn_std_hover, $setSize: false); }
+		>span { @include sprite-generated(btn_std_hover, $setSize: false, $right: true); }
+		>span:before { @include sprite-generated(btn_std_hover, $setSize: false); }
 		>span.dropdown { background: none; }
 	}
 	&:active, &:focus {
-		>span { @include sprite-generated-right($sprites, btn_act, $setSize: false); }
-		>span:before, &:focus span:before { @include sprite-generated($sprites, btn_act, $setSize: false); }
+		>span { @include sprite-generated(btn_act, $setSize: false, $right: true); }
+		>span:before, &:focus span:before { @include sprite-generated(btn_act, $setSize: false); }
 	}
 	&:active:hover {
-		>span { @include sprite-generated-right($sprites, btn_act_hover, $setSize: false); }
-		>span:before { @include sprite-generated($sprites, btn_act_hover, $setSize: false); }
+		>span { @include sprite-generated(btn_act_hover, $setSize: false, $right: true); }
+		>span:before { @include sprite-generated(btn_act_hover, $setSize: false); }
 	}
 	.username .icon-user {
 		margin: 12px 5px 0 3px;
-		@include sprite-generated($sprites, profile_icon_14);
+		@include sprite-generated(profile_icon_14);
 		float: left;
 	}
 }
@@ -712,7 +712,7 @@ button:focus { outline: none; }
 
 .submit-row {
 	height: 41px; margin: 0 (-$module-padding);
-	@include sprite-generated($sprites, submit_row_bg, $setSize: false);
+	@include sprite-generated(submit_row_bg, $setSize: false);
 	background-repeat: repeat-x;
 	background-color: #8cccfe;
 	.positive { float: right; }
@@ -724,7 +724,7 @@ input[type="text"], input[type="password"] {
 }
 
 input[type="text"], input[type="password"] {
-	@include sprite-generated($sprites, input_bg, $setSize: false);
+	@include sprite-generated(input_bg, $setSize: false);
 	background-repeat: repeat-x;
 	background-color: #fff;
 }
@@ -773,7 +773,7 @@ textarea {
 	text-indent: -9999px;
 }
 
-.trashcan-icon { @include icon(); @include sprite-generated($sprites, trashcan); }
+.trashcan-icon { @include icon(); @include sprite-generated(trashcan); }
 
 /* === Hlavička === */
 
@@ -783,7 +783,7 @@ textarea {
 	margin: 0px auto;
 	overflow: hidden;
 	text-indent: -9999px;
-	@include sprite-generated($sprites, logo);
+	@include sprite-generated(logo);
 }
 
 .hdrleft {
@@ -816,12 +816,12 @@ textarea {
 			color: #e5f4ff;
 			text-shadow: 0px 1px 0px #2c6c99;
 			text-decoration: none;
-			@include sprite-generated-right($sprites, tabs_std, $setSize: false);
+			@include sprite-generated(tabs_std, $setSize: false, $right: true);
 			margin-right: 5px;
 		}
 		a:before {
 			content: ".";
-			@include sprite-generated($sprites, tabs_std, $setSize: false);
+			@include sprite-generated(tabs_std, $setSize: false);
 			width: 10px; margin-left: -10px;
 			text-indent: -9999px; overflow: hidden;
 			float: left;
@@ -830,7 +830,7 @@ textarea {
 		}
 		&:hover, &.active {
 			a {
-				@include sprite-generated-right($sprites, tabs_act, $setSize: false);
+				@include sprite-generated(tabs_act, $setSize: false, $right: true);
 				border-radius: 0px;
 				color: $link-color;
 				text-shadow: 0px 1px 0px $generic-background;
@@ -838,7 +838,7 @@ textarea {
 				padding-top: 3px;
 			}
 			a:before {
-				@include sprite-generated($sprites, tabs_act, $setSize: false);
+				@include sprite-generated(tabs_act, $setSize: false);
 				margin-top: -3px;
 			}
 		}
@@ -895,7 +895,7 @@ ul#main_menu {
 #top_header {
 	height: 80px;
 	.pull-right { right: 0px; position: absolute; }
-	@include sprite-generated($sprites, header_bg, $setSize: false);
+	@include sprite-generated(header_bg, $setSize: false);
 	background-repeat: repeat-x;
 	background-color: #4d9dd9;
 	@mixin btn_icon() {
@@ -936,7 +936,7 @@ ul#main_menu {
 	}
 	.btn-search {
 		@include btn_icon();
-		@include sprite-generated($sprites, search_icon);
+		@include sprite-generated(search_icon);
 	}
 	#user_panel {
 		float: right;
@@ -962,10 +962,10 @@ ul#main_menu {
 		position: relative;
 		.rss-icon {
 			@include btn_icon();
-			@include sprite-generated($sprites, rss_icon);
+			@include sprite-generated(rss_icon);
 			&:hover {
 				border-radius: 0px;
-				@include sprite-generated($sprites, rss_icon);
+				@include sprite-generated(rss_icon);
 			}
 		}
 		&:hover #rsslinks {
@@ -979,7 +979,7 @@ ul#main_menu {
 			text-indent: -9999px;
 			overflow: hidden;
 			top: -7px; right: 10px;
-			@include sprite-generated($sprites, corner_arrow_up);
+			@include sprite-generated(corner_arrow_up);
 			position: absolute;
 			display: block;
 		}
@@ -1015,24 +1015,24 @@ dl.profile {
 
 #site_breadcrumbs {
 	height: 36px; bottom: 0px; margin-left: -3px; padding-left: 5px;
-	@include sprite-generated($sprites, breadcrumb_bg, $setSize: false);
+	@include sprite-generated(breadcrumb_bg, $setSize: false);
 	margin-top: 44px;
 	ul {
 		@include no-space();
 		height: 36px;
-		@include sprite-generated($sprites, breadcrumb_panel_bg, $setSize: false);
+		@include sprite-generated(breadcrumb_panel_bg, $setSize: false);
 		background-repeat: repeat-x;
 	}
 	li {
 		height: 31px; line-height: 31px; margin-top: 5px; padding-right: 5px;
 		list-style: none;
 		float: left;
-		@include sprite-generated-right($sprites, breadcrumb_std, $setSize: false);
+		@include sprite-generated(breadcrumb_std, $setSize: false, $right: true);
 		.crumb {
 			display: block;
 			position: relative;
 			right: 17px; height: 31px; padding-left: 25px;
-			@include sprite-generated($sprites, breadcrumb_std, $setSize: false);
+			@include sprite-generated(breadcrumb_std, $setSize: false);
 			font-weight: bold; font-size: 0.875em;
 			text-shadow: 0px -1px 0px #cedfeb, 0px 1px 0px #fcfdfe;
 			color: $link-color;
@@ -1058,13 +1058,13 @@ dl.profile {
 			.icon {
 				top: 6px; left: 8px;
 				position: absolute;
-				@include sprite-generated($sprites, breadcrumb_home);
+				@include sprite-generated(breadcrumb_home);
 			}
 		}
 		&:hover {
-			@include sprite-generated-right($sprites, breadcrumb_act, $setSize: false);
+			@include sprite-generated(breadcrumb_act, $setSize: false, $right: true);
 			.crumb {
-				@include sprite-generated($sprites, breadcrumb_act, $setSize: false);
+				@include sprite-generated(breadcrumb_act, $setSize: false);
 			}
 		}
 	}
@@ -1242,13 +1242,13 @@ ul.messages {
 		width: 20px;
 		height: 36px;
 		margin: -3px 0 0 8px;
-		&.admin { @include sprite-generated($sprites, user_rating_admin, $setSize: false); }
-		&.rating_0 { @include sprite-generated($sprites, user_rating_0, $setSize: false); }
-		&.rating_1 { @include sprite-generated($sprites, user_rating_1, $setSize: false); }
-		&.rating_2 { @include sprite-generated($sprites, user_rating_2, $setSize: false); }
-		&.rating_3 { @include sprite-generated($sprites, user_rating_3, $setSize: false); }
-		&.rating_4 { @include sprite-generated($sprites, user_rating_4, $setSize: false); }
-		&.rating_5 { @include sprite-generated($sprites, user_rating_5, $setSize: false); }
+		&.admin { @include sprite-generated(user_rating_admin, $setSize: false); }
+		&.rating_0 { @include sprite-generated(user_rating_0, $setSize: false); }
+		&.rating_1 { @include sprite-generated(user_rating_1, $setSize: false); }
+		&.rating_2 { @include sprite-generated(user_rating_2, $setSize: false); }
+		&.rating_3 { @include sprite-generated(user_rating_3, $setSize: false); }
+		&.rating_4 { @include sprite-generated(user_rating_4, $setSize: false); }
+		&.rating_5 { @include sprite-generated(user_rating_5, $setSize: false); }
 	}
 	.icon {
 		display: block;
@@ -1259,7 +1259,7 @@ ul.messages {
 		position: absolute;
 		right: 0px;
 		top: 0px;
-		@include sprite-generated($sprites, avatar_placeholder, $setSize: false);
+		@include sprite-generated(avatar_placeholder, $setSize: false);
 	}
 	.comment_link {
 		position: absolute;
@@ -1409,7 +1409,7 @@ ul.messages {
 	border-radius: 3px;
 	height: 13px;
 	margin: .3em 0;
-	@include sprite-generated($sprites, progress, $setSize: false);
+	@include sprite-generated(progress, $setSize: false);
 	background-repeat: repeat-x;
 	.bar {
 		border: solid 1px #2f83bb;
@@ -1422,7 +1422,7 @@ ul.messages {
 		//$ypos: -$backgrounds_progress_bar_y1 - 1px;
 		//$pos: 0px $ypos;
 		//.sprite($pos, repeat-x);
-		@include sprite-generated($sprites, progress, $setSize: false);
+		@include sprite-generated(progress, $setSize: false);
 	}
 }
 
@@ -1546,19 +1546,19 @@ td.status, td.comments, td.date {
 
 .label {
 	&.label-new {
-		@include sprite-generated($sprites, new_icon);
+		@include sprite-generated(new_icon);
 	}
 
 	&.label-resolved {
-		@include sprite-generated($sprites, tick_icon);
+		@include sprite-generated(tick_icon);
 	}
 
 	&.label-locked {
-		@include sprite-generated($sprites, locked_icon);
+		@include sprite-generated(locked_icon);
 	}
 
 	&.label-watch {
-		@include sprite-generated($sprites, watch_icon);
+		@include sprite-generated(watch_icon);
 	}
 }
 
