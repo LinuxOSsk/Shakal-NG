@@ -1419,10 +1419,7 @@ ul.messages {
 		position: relative;
 		top: -1px; left: -1px; height: 13px;
 		background-repeat: repeat-x;
-		//$ypos: -$backgrounds_progress_bar_y1 - 1px;
-		//$pos: 0px $ypos;
-		//.sprite($pos, repeat-x);
-		@include sprite-generated(progress, $setSize: false);
+		@include sprite-generated(progress_bar, $setSize: false);
 	}
 }
 

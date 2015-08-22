@@ -71,7 +71,7 @@ SPRITES = (
 			{ 'name': 'submit_row_bg', 'src': 'default/images/submit_row_bg.png', 'mode': 'repeat-x' },
 			{ 'name': 'input_bg', 'src': 'default/images/input_bg.png', 'mode': 'repeat-x' },
 			{ 'name': 'progress', 'src': 'default/images/progressbar.png', 'mode': 'repeat-x' },
-			{ 'name': 'progress_bar', 'src': 'default/images/progressbar.png', 'mode': 'repeat-x' },
+			{ 'name': 'progress_bar', 'src': 'default/images/progressbar_bar.png', 'mode': 'repeat-x' },
 		),
 	},
 )
