@@ -449,6 +449,12 @@ button:focus { outline: none; }
 		text-indent: -9999px; overflow: hidden;
 		content: ".";
 	}
+	> span {
+		margin-left: 12px;
+	}
+	> .search-input {
+		margin-left: 0;
+	}
 	> span, > .search-input {
 		@include sprite-generated(btn_content_std, $setSize: false, $right: true);
 		display: block;
@@ -458,7 +464,6 @@ button:focus { outline: none; }
 		color: $generic-foreground;
 		text-shadow: 0px 1px 0px white;
 		text-decoration: none;
-		margin-left: 12px;
 		span.dropdown {
 			display: block;
 			margin-right: 15px;
@@ -940,6 +945,7 @@ ul#main_menu {
 	.btn-search {
 		@include btn_icon();
 		@include sprite-generated(search_icon);
+		background-color: transparent;
 	}
 	#user_panel {
 		float: right;
