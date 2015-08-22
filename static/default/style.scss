@@ -818,6 +818,9 @@ textarea {
 			text-decoration: none;
 			@include sprite-generated(tabs_std, $setSize: false, $right: true);
 			margin-right: 5px;
+			&:hover {
+				background-color: transparent;
+			}
 		}
 		a:before {
 			content: ".";
