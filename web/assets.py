@@ -242,7 +242,7 @@ SPRITES = (
 			},
 			{
 				'name': 'breadcrumb_act',
-				'src': 'default/images/breadcrumb.png',
+				'src': 'default/images/breadcrumb_act.png',
 				'mode': 'no-repeat', 'width': 800, 'height': 31,
 			},
 			{
