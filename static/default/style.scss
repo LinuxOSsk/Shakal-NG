@@ -540,19 +540,19 @@ button:focus { outline: none; }
 		margin-right: 0px;
 		float: left;
 		>span {
-			//background-position: -16px -$backgrounds_btn_content_std_y1;
+			background-position: (- map-get(map-get($sprites, btn_content_std), x) - 16px) (- map-get(map-get($sprites, btn_content_std), y));
 			background-repeat: repeat-x;
 			padding: 0px 7px;
 			margin-left: 0px;
 			&:active, &:focus {
-				//background-position: -16px -$backgrounds_btn_content_std_y1;
+				background-position: (- map-get(map-get($sprites, btn_content_std), x) - 16px) (- map-get(map-get($sprites, btn_content_std), y));
 				background-repeat: repeat-x;
 			}
 		}
 		>span:before {
 			width: 1px;
 			margin-left: -7px;
-			//background-position: (-$backgrounds_btn_std_x2 + 4px) -($backgrounds_btn_content_std_y1);
+			background-position: (- map-get(map-get($sprites, btn_content_std), w) + 4px) (- map-get(map-get($sprites, btn_content_std), y));
 		}
 		&:first-child {
 			margin-left: -7px;
@@ -563,19 +563,19 @@ button:focus { outline: none; }
 				margin-left: 12px;
 			}
 			>span:before {
-				//background-position: 0px -$backgrounds_btn_content_std_y1;
+				background-position: (0px) (- map-get(map-get($sprites, btn_content_std), y));
 				margin-left: -12px;
 				width: 5px;
 			}
 		}
 		&:last-child {
 			>span {
-				//background-position: right -$backgrounds_btn_content_std_y1;
+				background-position: right (- map-get(map-get($sprites, btn_content_std), y));
 				background-repeat: no-repeat;
 				padding-right: 12px;
 				margin-right: 5px;
 				&:active, &:focus {
-					//background-position: right -$backgrounds_btn_content_std_y1;
+					background-position: right (- map-get(map-get($sprites, btn_content_std), y));
 					background-repeat: no-repeat;
 				}
 			}
