@@ -11,6 +11,7 @@ django-mptt
 django-qsstats-magic
 django-reversion
 django-static-sitemaps
+django-suit
 ipython
 pip-tools
 python-dateutil
