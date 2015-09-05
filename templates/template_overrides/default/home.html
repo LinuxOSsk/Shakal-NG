@@ -12,12 +12,8 @@
 {% endblock %}
 
 {% block content %}
-{{ add_discussion_attributes(articles) }}
-{{ add_discussion_attributes(top_articles) }}
-{{ add_discussion_attributes(posts) }}
-{{ add_discussion_attributes(top_posts) }}
-{{ add_hitcount(articles) }}
-{{ add_hitcount(top_articles) }}
+{{ add_discussion_attributes(articles,top_articles,posts,top_posts) }}
+{{ add_hitcount(articles,top_articles) }}
 <div class="module forum">
 	<h2>Diskusné fórum</h2>
 	<div class="module-row">
