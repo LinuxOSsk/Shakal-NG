@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 from django.db.models import Count
 from django.http.response import HttpResponseRedirect
 
-from .feeds import TopicFeed as CoreTopicFeed
 from .forms import TopicForm
 from .models import Topic, Section
 from common_utils.generic import ListView, DetailUserProtectedView, PreviewCreateView
@@ -52,7 +51,3 @@ class TopicCreateView(PreviewCreateView):
 		if self.object:
 			form.move_attachments(self.object)
 		return ret
-
-
-class TopicFeed(CoreTopicFeed):
-	pass

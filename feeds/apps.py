@@ -12,7 +12,7 @@ class FeedsConfig(AppConfig):
 
 	def ready(self):
 		from article.feeds import ArticleFeed
-		#from blog.blog_feeds import PostFeed
+		from blog.feeds import PostFeed
 		#from forum.feeds import TopicFeed
 		#from news.feeds import NewsFeed
 		from threaded_comments.feeds import CommentFeed
@@ -20,5 +20,5 @@ class FeedsConfig(AppConfig):
 		FeedsRegister.register_standard_feed(ArticleFeed())
 		#FeedsRegister.register_standard_feed(TopicFeed())
 		#FeedsRegister.register_standard_feed(NewsFeed())
-		#FeedsRegister.register_standard_feed(PostFeed())
+		FeedsRegister.register_standard_feed(PostFeed())
 		FeedsRegister.register_standard_feed(CommentFeed())

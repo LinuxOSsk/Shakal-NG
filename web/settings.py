@@ -60,6 +60,7 @@ INSTALLED_APPS = (
 	'accounts',
 	'article',
 	'attachment',
+	'blog',
 	'breadcrumbs',
 	'feeds',
 	'forum',

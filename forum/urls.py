@@ -16,6 +16,7 @@ class Patterns(object):
 			url('^pridat/$', 'TopicCreateView', name='create'),
 			url(r'^(?P<pk>\d+)/$', 'TopicDetailView', name='topic-detail'),
 			url(r'^(?P<category>[-\w]+)/(?:(?P<page>\d+)/)?$', 'TopicListView', name='section'),
+		) + patterns('forum.feeds',
 			url(r'^feeds/latest/$', 'TopicFeed', name='feed-latest'),
 		)
 		return (pat, self.app_name, self.name)

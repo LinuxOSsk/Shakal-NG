@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+from __future__ import unicode_literals, absolute_import
 
 from braces.views import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy, reverse
@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.views.generic import RedirectView
 from django.views.generic.edit import FormView
 
-from blog.blog_feeds import PostFeed
+from .feeds import PostFeed
 from blog.forms import BlogForm, PostForm, BlogAttachmentForm
 from blog.models import Blog, Post
 from common_utils.generic import ListView, PreviewCreateView, PreviewUpdateView, DetailUserProtectedView
