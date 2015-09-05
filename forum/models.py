@@ -9,7 +9,6 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import permalink
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
 
 from attachment.models import Attachment
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
@@ -96,8 +95,8 @@ class Topic(models.Model):
 	comments_header = GenericRelation(RootHeader)
 	attachments = GenericRelation(Attachment)
 	comments = GenericRelation(Comment)
-	is_removed = models.BooleanField(_('deleted'), default=False)
-	is_resolved = models.BooleanField(_('resolved'), default=False)
+	is_removed = models.BooleanField('vymazané', default=False)
+	is_resolved = models.BooleanField('vyriešené', default=False)
 
 	breadcrumb_label = 'fórum'
 
@@ -132,7 +131,7 @@ class Topic(models.Model):
 				return self.author.username
 		else:
 			return self.authors_name
-	get_authors_name.short_description = _('user name')
+	get_authors_name.short_description = 'meno autora'
 
 	@permalink
 	def get_absolute_url(self):

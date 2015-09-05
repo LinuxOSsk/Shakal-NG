@@ -8,7 +8,7 @@ from accounts import urls as accounts_urls
 from admin_dashboard import urls as admin_dashboard_urls
 from article import urls as article_urls
 #from blog import urls as blog_urls
-#from forum import urls as forum_urls
+from forum import urls as forum_urls
 #from maintenance import urls as maintenance_urls
 #from news import urls as news_urls
 #from notifications import urls as notifications_urls
@@ -28,7 +28,7 @@ urlpatterns = patterns('',
 	url(_(r'^article/'), include(article_urls.urlpatterns)),
 	#url(_(r'^blog/'), include(blog_urls.urlpatterns)),
 	url(_(r'^comments/'), include(comments_urls.urlpatterns)),
-	#url(_(r'^forum/'), include(forum_urls.urlpatterns)),
+	url(_(r'^forum/'), include(forum_urls.urlpatterns)),
 	#url(_(r'^maintenance/'), include(maintenance_urls.urlpatterns)),
 	#url(_(r'^news/'), include(news_urls.urlpatterns)),
 	#url(_(r'^notifications/'), include(notifications_urls.urlpatterns)),
@@ -36,7 +36,7 @@ urlpatterns = patterns('',
 	#url(_(r'^wiki/'), include(wiki_urls.urlpatterns)),
 	#url(_(r'^template-change/$'), 'template_dynamicloader.views.change', name='template-change'),
 	#url(_(r'^search/'), SearchView(), name='haystack_search'),
-	#url(r'^v/(?P<content_type_id>\d+)/(?P<object_id>.+)/$', contenttype_views.shortcut, name='view-object'),
+	url(r'^v/(?P<content_type_id>\d+)/(?P<object_id>.+)/$', contenttype_views.shortcut, name='view-object'),
 	url(_(r'^admin/'), include(admin.site.urls)),
 	url(_(r'^admin_dashboard/'), include(admin_dashboard_urls.urlpatterns)),
 )

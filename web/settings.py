@@ -62,6 +62,7 @@ INSTALLED_APPS = (
 	'attachment',
 	'breadcrumbs',
 	'feeds',
+	'forum',
 	'hitcount',
 	'threaded_comments',
 )
