@@ -1,3 +1,4 @@
+{% if comment.parent_id %}
 {% with %}
 	{% set comment_type="entry" %}
 	{% set user=comment.user %}
@@ -90,3 +91,4 @@
 	</div>
 {% endif %}
 <div class="clear"></div>
+{% endif %}
