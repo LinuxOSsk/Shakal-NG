@@ -27,8 +27,6 @@ SECRET_KEY = '*h4+%(b@_+-au@mmh^lp3v=^wkddzp(n63883zzm_i5xdnmb+v'
 
 DEBUG = True
 
-TEMPLATE_DEBUG = True
-
 ADMINS = (('Miroslav Bendik', 'mireq@linuxos.sk'),)
 MANAGERS = ADMINS
 
