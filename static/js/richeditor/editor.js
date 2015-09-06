@@ -385,21 +385,56 @@ function initialize_rich_editor(name, settings) {
 
 (function (_) {
 
-var RichEditor = function(element, options) {
+var SimpleEditorHtml = function() {
+
+};
+
+var CkEditorHtml = function(element, options) {
+	var self = this;
+	var destroy = false;
+
+	this.editor = undefined;
+
 	var initializeEditor = function() {
+		if (CKEDITOR._customized === undefined) {
+			CKEDITOR._customized = true;
+
+			CKEDITOR._extraCss = [CKEDITOR.getCss()];
+
+			CKEDITOR.addCss = function(css) {
+				CKEDITOR._extraCss.push(css);
+			};
+
+			CKEDITOR.getCss = function(css) {
+				return CKEDITOR._extraCss.join('\n');
+			};
+
+			CKEDITOR.plugins.add('close', {
+				init: function(editor) {
+					editor.addCommand('close', {
+						exec: function() {
+							options._selector.selectEditor('simple_html');
+						}
+					});
+					editor.ui.addButton('Close', {
+						label: 'Prepnúť na obyčajný editor',
+						command: 'close'
+					});
+				}
+			});
+
+			CKEDITOR.on('instanceReady', function() {
+				_.forEach(_.cls(document.body, 'cke_button__close'), function(btn) {
+					var toolbar = btn.parentNode.parentNode;
+					toolbar.style.float = 'right';
+					btn.parentNode.style.marginRight = '0';
+				});
+			});
+		}
+
 		var config = {};
-
-		CKEDITOR._extraCss = [CKEDITOR.getCss()];
-
-		CKEDITOR.addCss = function(css) {
-			CKEDITOR._extraCss.push(css);
-		};
-
-		CKEDITOR.getCss = function(css) {
-			return CKEDITOR._extraCss.join('\n');
-		};
-
 		config.toolbar = [
+			{ name: 'close', items: [ 'Close' ] },
 			{ name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates' ] },
 			{ name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
 			{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' ] },
@@ -415,8 +450,9 @@ var RichEditor = function(element, options) {
 			{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
 			{ name: 'insert', items: [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
 		];
-		config.plugins = 'basicstyles,blockquote,clipboard,contextmenu,dialogadvtab,enterkey,find,format,horizontalrule,image,indentblock,indentlist,justify,link,list,magicline,maximize,pastetext,removeformat,showblocks,showborders,sourcearea,specialchar,tab,table,tabletools,toolbar,undo,wysiwygarea';
+		config.plugins = 'basicstyles,blockquote,clipboard,contextmenu,dialogadvtab,enterkey,find,format,horizontalrule,image,indentblock,indentlist,justify,link,list,magicline,maximize,pastetext,removeformat,showblocks,showborders,sourcearea,specialchar,tab,table,tabletools,toolbar,undo,wysiwygarea,close';
 		config.format_tags = 'p;h1;h2;h3;h4;h5;h6;pre'
+
 		if (options.tags) {
 			var allowedTags = '';
 			var allowedTagsRestrict = '';
@@ -444,11 +480,46 @@ var RichEditor = function(element, options) {
 		}
 		config.startupOutlineBlocks = true;
 		CKEDITOR.addCss(options.tags.unsupported.join(', ') + '{ background-color: #ff9999 !important; border: 1px solid red !important; }');
-		var editor = CKEDITOR.replace(element, config);
+		self.editor = CKEDITOR.replace(element, config);
+		self.editor._editorInstance = self;
 		CKEDITOR._extraCss.pop();
 	};
 
-	_.loaderJs([window._urls.static_base + 'vendor/ckeditor/ckeditor.js'], initializeEditor);
+	this.destroy = function() {
+		destroy = true;
+		if (self.editor !== undefined) {
+			self.editor.destroy(false);
+			self.editor = undefined;
+		}
+	};
+
+	_.loaderJs([window._urls.static_base + 'vendor/ckeditor/ckeditor.js'], function() {
+		if (destroy) {
+			return;
+		}
+		initializeEditor();
+	});
+};
+
+var RichEditor = function(element, options) {
+	var self = this;
+	var currentEditorWidget = undefined;
+
+	var editors = {
+		'simple_html': SimpleEditorHtml,
+		'ckeditor_html': CkEditorHtml
+	}
+
+	this.selectEditor = function(name) {
+		if (currentEditorWidget !== undefined) {
+			currentEditorWidget.destroy();
+			currentEditorWidget = undefined;
+		}
+		options._selector = self;
+		currentEditorWidget = new editors[name](element, options);
+	};
+
+	this.selectEditor('ckeditor_html');
 };
 
 _.RichEditor = RichEditor;
