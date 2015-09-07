@@ -21,7 +21,7 @@ SPRITES = (
 		'scss_output': 'default/_sprites.scss',
 		'extra_sizes': (),
 		'width': 800,
-		'height': 800,
+		'height': 1200,
 		'images': (
 			{ 'name': 'logo', 'src': 'default/images/logo.png' },
 			{ 'name': 'avatar_placeholder', 'src': 'default/images/avatar_placeholder.png' },
