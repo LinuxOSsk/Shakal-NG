@@ -12,7 +12,7 @@ from hitcount.models import HitCount
 
 
 class CategoryGenerator(ModelGenerator):
-	name = samples.NameSample()
+	name = samples.NameSample(unique=True)
 	description = samples.ParagraphSample()
 
 	def get_object(self):
@@ -22,7 +22,7 @@ class CategoryGenerator(ModelGenerator):
 
 
 class ArticleGenerator(ModelGenerator):
-	title = samples.SentenceSample()
+	title = samples.SentenceSample(unique=True)
 	category_id = samples.RelationSample(queryset=Category.objects.all().order_by("pk"), random_data=True, only_pk=True, fetch_all=True)
 	perex = samples.ParagraphSample()
 	content = LongHtmlGenerator()
