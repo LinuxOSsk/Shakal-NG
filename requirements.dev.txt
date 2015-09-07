@@ -30,6 +30,7 @@ django-static-sitemaps==2.1.7
 django-suit==0.2.14
 django==1.8.4
 docopt==0.6.2             # via ptpython
+feedparser==5.2.1
 first==2.0.1              # via pip-tools
 ipython-genutils==0.1.0   # via traitlets
 ipython==4.0.0
@@ -45,8 +46,8 @@ pexpect==3.3              # via ipython
 pickleshare==0.5          # via ipython
 pillow==2.9.0
 pip-tools==1.1.4
-prompt-toolkit==0.46      # via ptpython
-ptpython==0.21
+prompt-toolkit==0.50      # via ptpython
+ptpython==0.22
 pygments==2.0.2           # via prompt-toolkit
 pylint-django==0.6.1
 pylint-plugin-utils==0.2.3  # via pylint-django
@@ -70,4 +71,4 @@ werkzeug==0.10.4
 
 # The following packages are commented out because they are
 # considered to be unsafe in a requirements file:
-# setuptools==18.2          # via django-static-sitemaps, logilab-common
+# setuptools==18.3.1        # via django-static-sitemaps, logilab-common

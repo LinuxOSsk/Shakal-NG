@@ -24,6 +24,7 @@ django-reversion==1.9.3
 django-static-sitemaps==2.1.7
 django-suit==0.2.14
 django==1.8.4
+feedparser==5.2.1
 first==2.0.1              # via pip-tools
 ipython-genutils==0.1.0   # via traitlets
 ipython==4.0.0
@@ -50,4 +51,4 @@ traitlets==4.0.0          # via ipython
 
 # The following packages are commented out because they are
 # considered to be unsafe in a requirements file:
-# setuptools==18.2          # via django-static-sitemaps
+# setuptools==18.3.1        # via django-static-sitemaps
