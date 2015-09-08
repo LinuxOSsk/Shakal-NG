@@ -24,7 +24,7 @@ class CommentsConfig(AppConfig):
 		if not created:
 			return
 		watchers = get_user_model().objects.\
-			filter(userdiscussionattribute__discussion=instance.root_header(), userdiscussionattribute__watch=True).\
+			filter(userdiscussionattribute__discussion=instance.get_or_create_root_header(), userdiscussionattribute__watch=True).\
 			distinct()
 		title = u"Pridaný komentár v diskusii " + unicode(instance.content_object)
 		author = None
