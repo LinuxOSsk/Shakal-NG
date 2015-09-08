@@ -4,8 +4,7 @@ from __future__ import unicode_literals
 from django.db.models import Q, Manager
 from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView, UpdateView, DetailView, ListView as OriginalListView
-
-from paginator import Paginator
+from django_simple_paginator import Paginator
 
 
 class AddLoggedFormArgumentMixin(object):

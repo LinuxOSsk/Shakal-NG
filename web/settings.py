@@ -50,6 +50,7 @@ INSTALLED_APPS = (
 	'django_assets_manager',
 	'django_autoslugfield',
 	'django_sample_generator',
+	'django_simple_paginator',
 	'allauth',
 	'allauth.account',
 	'compressor',

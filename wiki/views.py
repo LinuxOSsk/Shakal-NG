@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
-
+import reversion
 from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Q
 from django.http import HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 from django.utils.decorators import method_decorator
-from models import Page
-from forms import WikiEditForm
+from django_simple_paginator.utils import paginate_queryset
+
+from .forms import WikiEditForm
+from .models import Page
 from common_utils.generic import PreviewCreateView, PreviewUpdateView
-from paginator.utils import paginate_queryset
-import reversion
 
 
 def show_page(request, slug = None, page = None, history = None):
@@ -103,6 +103,7 @@ class PageCreateView(PreviewCreateView):
 	model = Page
 	template_name = 'wiki/create.html'
 	form_class = WikiEditForm
+	extra_context = {}
 
 	@method_decorator(check_perms)
 	def dispatch(self, *args, **kwargs):
