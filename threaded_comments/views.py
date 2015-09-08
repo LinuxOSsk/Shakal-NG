@@ -57,7 +57,7 @@ class Reply(FormView):
 		form = ctx['form']
 		content_object = self.parent.content_object
 		ctx.update({
-			'next': self.request.POST.get('next', ''),
+			'next': self.request.POST.get('next', self.request.GET.get('next', content_object.get_absolute_url())),
 			'comment': form.get_comment_object(),
 			'parent': self.parent if self.parent.parent_id else False,
 			'content_object': content_object,
