@@ -109,6 +109,8 @@ class CommentForm(SecurityFormMixin, TemporaryAttachmentFormMixin, AntispamFormM
 		self.request = get_current_request()
 		if self.request.user.is_authenticated():
 			del self.fields['user_name']
+		else:
+			self.fields['user_name'].required = True
 		self.process_attachments()
 
 	def get_model(self):
