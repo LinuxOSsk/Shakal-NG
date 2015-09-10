@@ -20,7 +20,7 @@ class PostListView(ListView):
 	category_key = "slug"
 	category_field = "blog"
 	category_context = "blog"
-	category = Blog
+	category_model = Blog
 	paginate_by = 20
 
 	def get_queryset(self):

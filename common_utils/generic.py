@@ -94,7 +94,7 @@ class DetailUserProtectedView(DetailView):
 
 
 class ListView(OriginalListView):
-	category = None
+	category_model = None
 	category_key = 'slug'
 	category_field = 'category'
 	category_context = 'category'
@@ -105,18 +105,18 @@ class ListView(OriginalListView):
 		queryset = super(ListView, self).get_queryset()
 		if isinstance(queryset, Manager):
 			queryset = queryset.all()
-		if self.category is not None:
+		if self.category_model is not None:
 			category_object = None
 			if 'category' in self.kwargs:
-				category_object = get_object_or_404(self.category, **{self.category_key: self.kwargs['category']})
+				category_object = get_object_or_404(self.category_model, **{self.category_key: self.kwargs['category']})
 				queryset = queryset.filter(**{self.category_field: category_object})
 			self.category_object = category_object
 		return queryset
 
 	def get_context_data(self, **kwargs):
 		context = super(ListView, self).get_context_data(**kwargs)
-		if self.category:
-			context['category_list'] = self.category.objects.all()
+		if self.category_model:
+			context['category_list'] = self.category_model.objects.all()
 		if self.category_object:
 			context[self.category_context] = self.category_object
 		return context

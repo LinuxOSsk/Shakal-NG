@@ -13,5 +13,5 @@ class ArticleDetailView(DetailUserProtectedView):
 
 class ArticleListView(ListView):
 	queryset = Article.objects.all().defer('content').select_related('author', 'category')
-	category = Category
+	category_model = Category
 	paginate_by = 10

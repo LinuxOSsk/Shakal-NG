@@ -11,7 +11,7 @@ from common_utils.generic import ListView, DetailUserProtectedView, PreviewCreat
 
 class TopicListView(ListView):
 	queryset = Topic.topics.newest_topics()
-	category = Section
+	category_model = Section
 	category_field = 'section'
 	paginate_by = 50
 
