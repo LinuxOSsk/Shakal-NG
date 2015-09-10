@@ -98,6 +98,7 @@ class ListView(OriginalListView):
 	category_key = 'slug'
 	category_field = 'category'
 	category_context = 'category'
+	category_object = None
 	paginator_class = Paginator
 
 	def get_queryset(self):
@@ -106,17 +107,16 @@ class ListView(OriginalListView):
 			queryset = queryset.all()
 		if self.category is not None:
 			category_object = None
-			view_kwargs = getattr(self, 'kwargs')
-			if 'category' in view_kwargs:
-				category_object = get_object_or_404(self.category, **{self.category_key: view_kwargs['category']})
+			if 'category' in self.kwargs:
+				category_object = get_object_or_404(self.category, **{self.category_key: self.kwargs['category']})
 				queryset = queryset.filter(**{self.category_field: category_object})
-			view_kwargs['category_object'] = category_object
+			self.category_object = category_object
 		return queryset
 
 	def get_context_data(self, **kwargs):
 		context = super(ListView, self).get_context_data(**kwargs)
 		if self.category:
 			context['category_list'] = self.category.objects.all()
-		if 'category_object' in self.kwargs:
-			context[self.category_context] = self.kwargs['category_object']
+		if self.category_object:
+			context[self.category_context] = self.category_object
 		return context
