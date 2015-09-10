@@ -1,6 +1,6 @@
 {% extends "article/article_base.html" %}
 
-{% block title %}{{ article.title }}{% endblock %}
+{% block head_title %}{{ article.title }}{% endblock %}
 
 {% block breadcrumbs %}
 	{{ breadcrumb(article.title|truncatechars(80)) }}

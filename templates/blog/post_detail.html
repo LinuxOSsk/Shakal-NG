@@ -1,6 +1,6 @@
 {% extends "blog/blog_base.html" %}
 
-{% block title %}{{ object }}{% endblock %}
+{% block head_title %}{{ object }}{% endblock %}
 {% block breadcrumbs %}
 	{{ breadcrumb(object) }}
 	{{ breadcrumb(object.blog, url=object.blog.get_absolute_url()) }}

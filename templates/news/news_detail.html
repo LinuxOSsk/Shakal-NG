@@ -6,9 +6,9 @@
 	{{ super() }}
 {% endblock %}
 
-{% block title %}
+{% block head_title %}
 {{ news }}
-{% endblock title %}
+{% endblock %}
 
 {% block content %}
 {% if user.is_staff and perms.news.can_change %}

@@ -1,6 +1,6 @@
 {% extends "account/base.html" %}
 
-{% block title %}{{ user_profile }} - Profil{% endblock %}
+{% block head_title %}{{ user_profile }} - Profil{% endblock %}
 {% block breadcrumbs %}
 {{ breadcrumb(firstof(user_profile.get_full_name(), user_profile.username)) }}
 {{ super() }}
