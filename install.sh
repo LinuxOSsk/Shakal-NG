@@ -67,6 +67,7 @@ update: .stamp_settings
 	make update2
 
 update2: .stamp_settings
+	venv/bin/pip install -r shakal/requirements.dev.txt
 	${DJANGO_MANAGE} compilesprites
 	${DJANGO_MANAGE} migrate
 	${DJANGO_MANAGE} compilemessages
