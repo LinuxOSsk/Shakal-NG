@@ -76,6 +76,7 @@ update2: .stamp_settings
 	${DJANGO_MANAGE} compilesprites
 	${DJANGO_MANAGE} migrate
 	${DJANGO_MANAGE} compilemessages
+	${DJANGO_MANAGE} loaddata shakal/forum/data/categories.json
 	${DJANGO_MANAGE} create_sample_data
 	@touch .stamp_sampledata
 
