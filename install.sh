@@ -55,6 +55,9 @@ compilesprites: .stamp_settings
 migrate: .stamp_settings
 	${DJANGO_MANAGE} migrate
 
+compilemessages: .stamp_settings
+	${DJANGO_MANAGE} compilemessages
+
 runserver: .stamp_sampledata
 	${DJANGO_MANAGE} runserver_plus
 
@@ -66,10 +69,12 @@ update: .stamp_settings
 update2: .stamp_settings
 	${DJANGO_MANAGE} compilesprites
 	${DJANGO_MANAGE} migrate
+	${DJANGO_MANAGE} compilemessages
 
 .stamp_sampledata: .stamp_settings
 	${DJANGO_MANAGE} compilesprites
 	${DJANGO_MANAGE} migrate
+	${DJANGO_MANAGE} compilemessages
 	${DJANGO_MANAGE} create_sample_data
 	@touch .stamp_sampledata
 
