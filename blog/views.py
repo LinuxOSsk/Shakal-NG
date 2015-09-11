@@ -5,6 +5,7 @@ from braces.views import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from django.utils.functional import cached_property
 from django.views.generic import RedirectView
 from django.views.generic.edit import FormView
 
@@ -87,13 +88,15 @@ class PostAttachmentsUpdateView(LoginRequiredMixin, FormView):
 
 	def __init__(self, *args, **kwargs):
 		super(PostAttachmentsUpdateView, self).__init__(*args, **kwargs)
-		self.object = None
 
-	def dispatch(self, request, *args, **kwargs):
-		qs = Post.objects.all().\
+	def get_object(self):
+		qs = Post.all_objects.all().\
 			filter(blog__author=self.request.user, blog__slug=self.kwargs['category'])
-		self.object = get_object_or_404(qs, slug=self.kwargs['slug'])
-		return super(PostAttachmentsUpdateView, self).dispatch(request, *args, **kwargs)
+		return get_object_or_404(qs, slug=self.kwargs['slug'])
+
+	@cached_property
+	def object(self):
+		return self.get_object()
 
 	def get_form_kwargs(self):
 		kwargs = super(PostAttachmentsUpdateView, self).get_form_kwargs()
