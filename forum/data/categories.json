@@ -1,0 +1,56 @@
+[
+{
+	"fields": {
+		"description": "Probl\u00e9my a ot\u00e1zky t\u00fdkaj\u00face sa grafick\u00fdch prostred\u00ed (KDE, GNOME, XFCE... at\u010f) a v\u0161etk\u00fdch druhov aplik\u00e1ci\u00ed (internetov\u00e9 prehliada\u010de, kancel\u00e1rske bal\u00edky, multim\u00e9di\u00e1, hry...). ",
+		"name": "Aplik\u00e1cie & Desktop",
+		"slug": "aplikacie-desktop"
+	},
+	"model": "forum.section",
+	"pk": 1
+},
+{
+	"fields": {
+		"description": "Sekcia, ktor\u00e1 sp\u00e1ja diskusn\u00e9 f\u00f3ra o hardware, o ich podpore v Linuxe a o tom, kde h\u013eada\u0165 drivery a ako ich nain\u0161talova\u0165.",
+		"name": "Hardware a Drivery",
+		"slug": "hardware-drivery"
+	},
+	"model": "forum.section",
+	"pk": 2
+},
+{
+	"fields": {
+		"description": "Diskusn\u00e9 f\u00f3ra o tom, ako v Linuxe nastavi\u0165 r\u00f4zne slu\u017eby, internet, bezpe\u010dnos\u0165 at\u010f.",
+		"name": "Konfigur\u00e1cia",
+		"slug": "konfiguracia"
+	},
+	"model": "forum.section",
+	"pk": 3
+},
+{
+	"fields": {
+		"description": "V\u0161etko o programovan\u00ed v Linuxe - o programovac\u00edch jazykoch, IDE...",
+		"name": "Programovanie",
+		"slug": "programovanie"
+	},
+	"model": "forum.section",
+	"pk": 4
+},
+{
+	"fields": {
+		"description": "GNU, FSF, GPL, softv\u00e9rov\u00e9 patenty, Linuxov\u00e9 akcie...",
+		"name": "Komunita",
+		"slug": "komunita"
+	},
+	"model": "forum.section",
+	"pk": 5
+},
+{
+	"fields": {
+		"description": "Tu n\u00e1jdete v\u0161etko ostatn\u00e9, \u010do sa nezmestilo do predch\u00e1dzaj\u00facich sekci\u00ed",
+		"name": "Ostatn\u00e9",
+		"slug": "ostatne"
+	},
+	"model": "forum.section",
+	"pk": 6
+}
+]
