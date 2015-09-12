@@ -71,6 +71,7 @@ html, body {
 </style>
 {% endif %}
 -->
+	{% if form %}{{ form.media.css }}{% endif %}
 	{% block extrastyle %}{% endblock %}{% block extraheaders %}{% endblock %}
 </head>
 <body>
@@ -248,7 +249,7 @@ Hosting sponzorovaný <a href="https://vpsfree.cz/">vpsFree.cz</a> o.s.
 	//]]>
 	</script>
 	{% include "template_overrides/default/js.compress.html" %}
-	{% if form %}{{ form.media }}{% endif %}
+	{% if form %}{{ form.media.js }}{% endif %}
 </body>
 </html>
 
