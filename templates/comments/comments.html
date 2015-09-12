@@ -9,7 +9,7 @@
 
 {% block extraheaders %}
 <meta name="robots" content="noindex, nofollow" />
-{% if form %}{{ form.media }}{% endif %}
+{{ super() }}
 {% endblock %}
 
 {% block content %}
