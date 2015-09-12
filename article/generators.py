@@ -57,5 +57,5 @@ class HitCountGenerator(ModelGenerator):
 
 register = GeneratorRegister()
 register.register(CategoryGenerator(Category, 4))
-register.register(ArticleGenerator(Article, 10))
-register.register(HitCountGenerator(HitCount, 10))
+register.register(ArticleGenerator(Article, 20))
+register.register(HitCountGenerator(HitCount, 20))
