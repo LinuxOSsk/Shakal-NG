@@ -67,6 +67,7 @@ INSTALLED_APPS = (
 	'linuxos',
 	'news',
 	'notifications',
+	'polls',
 	'threaded_comments',
 )
 

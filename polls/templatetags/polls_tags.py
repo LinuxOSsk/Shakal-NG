@@ -1,19 +1,16 @@
 # -*- coding: utf-8 -*-
-from django import template
+from __future__ import unicode_literals
+
 from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
 from django_jinja import library
 from jinja2 import contextfunction
-from django.utils.safestring import mark_safe
 
 from polls.models import Poll
 
 
-register = template.Library()
-
-
 @library.global_function
 @contextfunction
-@register.simple_tag(takes_context=True)
 def polls_frontpage(context):
 	ctx = context.get_all()
 	ctx.update({

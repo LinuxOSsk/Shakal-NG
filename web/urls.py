@@ -12,7 +12,7 @@ from forum import urls as forum_urls
 #from maintenance import urls as maintenance_urls
 from news import urls as news_urls
 from notifications import urls as notifications_urls
-#from polls import urls as polls_urls
+from polls import urls as polls_urls
 #from search.views import SearchView
 from threaded_comments import urls as comments_urls
 #from wiki import urls as wiki_urls
@@ -32,7 +32,7 @@ urlpatterns = patterns('',
 	#url(_(r'^maintenance/'), include(maintenance_urls.urlpatterns)),
 	url(_(r'^news/'), include(news_urls.urlpatterns)),
 	url(_(r'^notifications/'), include(notifications_urls.urlpatterns)),
-	#url(_(r'^polls/'), include(polls_urls.urlpatterns)),
+	url(_(r'^polls/'), include(polls_urls.urlpatterns)),
 	#url(_(r'^wiki/'), include(wiki_urls.urlpatterns)),
 	url(_(r'^template-change/$'), 'template_dynamicloader.views.change', name='template-change'),
 	#url(_(r'^search/'), SearchView(), name='haystack_search'),

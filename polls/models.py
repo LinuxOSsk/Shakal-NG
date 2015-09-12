@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django_autoslugfield.fields import AutoSlugField
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
@@ -62,6 +63,18 @@ class Poll(models.Model):
 	def msg_id(self):
 		return 'poll-' + str(self.pk)
 
+	def can_vote(self, request):
+		if request.user.is_authenticated():
+			return not RecordUser.objects.filter(user=request.user, poll=self).exists()
+		else:
+			return not RecordIp.objects.filter(ip=request.META['REMOTE_ADDR'], poll=self).exists()
+
+	def record_vote(self, request):
+		if request.user.is_authenticated():
+			RecordUser(user=request.user, poll=self).save()
+		else:
+			RecordIp(ip=request.META['REMOTE_ADDR'], poll=self).save()
+
 	def clean(self):
 		if self.content_type and not self.object_id:
 			raise ValidationError(_('Field object id is required'))
@@ -119,13 +132,6 @@ class RecordUser(models.Model):
 
 	def __unicode__(self):
 		return str(self.poll.pk) + ' - ' + str(self.user.pk)
-
-
-def check_can_vote(request, poll):
-	if request.user.is_authenticated():
-		return not RecordUser.objects.filter(user=request.user, poll=poll).exists()
-	else:
-		return not RecordIp.objects.filter(ip=request.META['REMOTE_ADDR'], poll=poll).exists()
 
 
 def record_vote(request, poll):

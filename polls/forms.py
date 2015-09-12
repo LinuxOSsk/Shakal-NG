@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django import forms
 from django.forms.formsets import formset_factory, BaseFormSet
 from django.utils.translation import ugettext_lazy as _
@@ -24,6 +26,7 @@ class ChoiceForm(forms.ModelForm):
 	class Meta:
 		model = Choice
 		exclude = ('poll', 'votes', )
+
 
 ChoiceFormSet = formset_factory(ChoiceForm, formset=BaseChoiceFormSet, extra=10)
 ChoiceFormSet.label = _('Choices')
