@@ -89,6 +89,11 @@ TEMPLATES = [
 	{
 		"BACKEND": "template_dynamicloader.backend.Jinja2",
 		'DIRS': [os.path.join(BASE_DIR, 'templates'),],
+		"ENGINE_OPTIONS": {
+			'loaders': [
+				'template_dynamicloader.loader_jinja_filesystem.JinjaLoader',
+			]
+		},
 		"OPTIONS": {
 			"match_extension": None,
 			"match_regex": re.compile(r"^(?!(admin/|debug_toolbar/|suit/|profiler/)).*"),
