@@ -80,7 +80,7 @@ update2: .stamp_settings
 	${DJANGO_MANAGE} create_sample_data
 	@touch .stamp_sampledata
 
-.resetdb:
+resetdb:
 	rm -f shakal/db.sqlite3
 	${DJANGO_MANAGE} migrate
 	${DJANGO_MANAGE} loaddata forum/data/categories.json
