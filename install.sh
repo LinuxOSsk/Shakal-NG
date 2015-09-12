@@ -86,7 +86,7 @@ update2: .stamp_settings
 	${DJANGO_MANAGE} loaddata forum/data/categories.json
 	${DJANGO_MANAGE} create_sample_data
 
-loc${DJANGO_MANAGE} alinstall: .stamp_sampledata
+localinstall: .stamp_sampledata
 	@echo "================================================"
 	@echo "Inštalácia prebehla úspešne"
 	@echo "Používateľské meno je admin, heslo demo"
