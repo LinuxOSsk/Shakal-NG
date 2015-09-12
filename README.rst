@@ -53,6 +53,18 @@ aktualizáciu z gitu.
     make update
 
 
+Vytvorenie novej db
+-------------------
+
+Zatiaľ nie je dokončený prechod na db migrácie. V niektorých prípadoch môže po
+aktualizácii prestať fungovať aplikácia kvôli zmene db modelu. Ak nevadí
+vymazanie celej databázy je možné vytvoriť novú db príkazom:
+
+::
+
+    make resetdb
+
+
 ====
 TODO
 ====

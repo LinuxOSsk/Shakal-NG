@@ -17,7 +17,7 @@ fi
 
 mkdir -p shakal
 cat << 'EOF' > ${MAKEFILE}
-.PHONY: all cimpilesprites migrate update update2
+.PHONY: all cimpilesprites migrate update update2 resetdb
 
 PYTHON=python2.7
 VENV_PYTHON=venv/bin/python
@@ -80,7 +80,13 @@ update2: .stamp_settings
 	${DJANGO_MANAGE} create_sample_data
 	@touch .stamp_sampledata
 
-localinstall: .stamp_sampledata
+.resetdb:
+	rm -f shakal/db.sqlite3
+	${DJANGO_MANAGE} migrate
+	${DJANGO_MANAGE} loaddata forum/data/categories.json
+	${DJANGO_MANAGE} create_sample_data
+
+loc${DJANGO_MANAGE} alinstall: .stamp_sampledata
 	@echo "================================================"
 	@echo "Inštalácia prebehla úspešne"
 	@echo "Používateľské meno je admin, heslo demo"
