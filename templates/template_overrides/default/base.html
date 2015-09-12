@@ -14,7 +14,7 @@
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 <!--
-{# if style_options.small #}
+{% if style_options.small %}
 <style type="text/css" media="screen">
 html, body {
 	font-size: 90%;
@@ -32,8 +32,8 @@ html, body {
 	margin-top: .7em;
 }
 </style>
-{# endif #}
-{# if style_options.reverse #}
+{% endif %}
+{% if style_options.reverse %}
 <style type="text/css" media="screen">
 
 @media only screen and (max-width: 1279px) {
@@ -69,7 +69,7 @@ html, body {
 
 }
 </style>
-{# endif #}
+{% endif %}
 -->
 	{% block extrastyle %}{% endblock %}{% block extraheaders %}{% endblock %}
 </head>
@@ -180,10 +180,10 @@ html, body {
 								{% block left %}
 									<div class="module news">
 										<h2>Správy</h2>
-										{# news_frontpage() #}
+										{{ news_frontpage() }}
 										<div class="module-links bottom">
-											<a href="{# url('news:create') #}">Pridať správu</a> |
-											<a href="{# url('news:list') #}" class="next">Ďalšie</a>
+											<a href="{{ url('news:create') }}">Pridať správu</a> |
+											<a href="{{ url('news:list') }}" class="next">Ďalšie</a>
 										</div>
 									</div>
 								{% endblock %}

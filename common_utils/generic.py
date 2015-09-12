@@ -7,28 +7,6 @@ from django.views.generic import CreateView, UpdateView, DetailView, ListView as
 from django_simple_paginator import Paginator
 
 
-class AddLoggedFormArgumentMixin(object):
-	author_field = 'author'
-	authors_name_field = 'authors_name'
-
-	def get_form(self, form_class=None):
-		if form_class is None:
-			form_class = self.get_form_class()
-		return form_class(logged = self.request.user.is_authenticated(), **self.get_form_kwargs())
-
-	def form_valid(self, form):
-		obj = form.save(commit=False)
-		if hasattr(obj, self.authors_name_field):
-			if self.request.user.is_authenticated():
-				if self.request.user.get_full_name():
-					setattr(obj, self.authors_name_field, self.request.user.get_full_name())
-				else:
-					setattr(obj, self.authors_name_field, self.request.user.username)
-		if hasattr(obj, self.author_field) and self.request.user.is_authenticated():
-			setattr(obj, self.author_field, self.request.user)
-		return super(AddLoggedFormArgumentMixin, self).form_valid(form)
-
-
 class PreviewCreateView(CreateView):
 	def form_valid(self, form):
 		item = form.save(commit=False)
