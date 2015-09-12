@@ -1,6 +1,6 @@
 <li{% if section=='forum' %} class="active"{% endif %}><a href="{{ url('forum:overview') }}">Fórum</a></li>
 <li{% if section=='article' %} class="active"{% endif %}><a href="{{ url('article:list') }}">Články</a></li>
-<li{% if section=='news' %} class="active"{% endif %}><a href="{# url('news:list') #}">Správy</a></li>
+<li{% if section=='news' %} class="active"{% endif %}><a href="{{ url('news:list') }}">Správy</a></li>
 <li{% if section=='blog' %} class="active"{% endif %}><a href="{{ url('blog:post-list') }}">Blog</a></li>
 <li{% if section=='wiki' %} class="active"{% endif %}><a href="{# url('wiki:home') #}">Wiki</a></li>
 
