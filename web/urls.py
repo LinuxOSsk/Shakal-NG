@@ -23,7 +23,7 @@ from web.views import Home
 urlpatterns = patterns('',
 	url(r'^$', Home.as_view(), name='home'),
 	#url(r'^$', 'web.views.Home', name='home'),
-	#url(r'^', include('linuxos.urls')),
+	url(r'^', include('linuxos.urls')),
 	url(_(r'^accounts/'), include(accounts_urls.urlpatterns)),
 	url(_(r'^article/'), include(article_urls.urlpatterns)),
 	url(_(r'^blog/'), include(blog_urls.urlpatterns)),

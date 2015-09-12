@@ -64,6 +64,7 @@ INSTALLED_APPS = (
 	'feeds',
 	'forum',
 	'hitcount',
+	'linuxos',
 	'notifications',
 	'threaded_comments',
 )
