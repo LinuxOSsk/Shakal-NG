@@ -55,6 +55,7 @@ INSTALLED_APPS = (
 	'allauth.account',
 	'compressor',
 	'django_jinja',
+	'mptt',
 	# apps
 	'accounts',
 	'article',
