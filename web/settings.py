@@ -241,7 +241,7 @@ INITIAL_DATA_COUNT = {
 	'accounts_user': 10,
 	'article_article': 20,
 	'article_category': 4,
-	'news_news': 100,
+	'news_news': 30,
 }
 
 SAMPLE_DATA_GENERATORS = (
