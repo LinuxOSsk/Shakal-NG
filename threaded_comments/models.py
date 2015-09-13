@@ -74,11 +74,11 @@ class Comment(MPTTModel):
 				return header
 
 	def get_absolute_url(self):
-		return '%s#link_%d' % (reverse('comment', args=(self.pk,), kwargs={}), self.id)
+		return '%s#link_%d' % (reverse('threaded_comments:comment', args=(self.pk,), kwargs={}), self.id)
 
 	@models.permalink
 	def get_single_comment_url(self):
-		return ('comment-single', (self.pk,), {})
+		return ('threaded_comments:comment-single', (self.pk,), {})
 
 	def get_tags(self):
 		tags = []
@@ -155,7 +155,7 @@ class RootHeader(models.Model):
 
 	@models.permalink
 	def get_absolute_url(self):
-		return ('comments', (self.pk,), {})
+		return ('threaded_comments:comments', (self.pk,), {})
 
 	class Meta:
 		unique_together = (('content_type', 'object_id',),)
