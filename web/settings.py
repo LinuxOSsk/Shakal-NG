@@ -237,7 +237,10 @@ AUTHENTICATION_BACKENDS = (
 )
 
 INITIAL_DATA_COUNT = {
-	'user': 50,
+	'accounts_user': 10,
+	'article_article': 20,
+	'article_category': 4,
+	'news_news': 100,
 }
 
 SAMPLE_DATA_GENERATORS = (

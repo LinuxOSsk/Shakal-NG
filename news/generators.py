@@ -6,6 +6,7 @@ from django_sample_generator import GeneratorRegister, ModelGenerator, samples
 
 from .models import News
 from accounts.models import User
+from django.conf import settings
 
 
 class NewsGenerator(ModelGenerator):
@@ -28,4 +29,4 @@ class NewsGenerator(ModelGenerator):
 
 
 register = GeneratorRegister()
-register.register(NewsGenerator(News, 100))
+register.register(NewsGenerator(News, settings.INITIAL_DATA_COUNT['news_news']))

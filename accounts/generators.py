@@ -39,7 +39,7 @@ class SuperuserGenerator(ModelGenerator):
 
 
 class UserGenerator(ModelGenerator):
-	email = samples.EmailSample()
+	email = samples.EmailSample(unique=True)
 
 	def get_object(self):
 		obj = super(UserGenerator, self).get_object()
@@ -52,4 +52,4 @@ class UserGenerator(ModelGenerator):
 
 register = GeneratorRegister()
 register.register(SuperuserGenerator(User))
-register.register(UserGenerator(User, settings.INITIAL_DATA_COUNT['user'] - 2))
+register.register(UserGenerator(User, settings.INITIAL_DATA_COUNT['accounts_user'] - 2))
