@@ -117,7 +117,10 @@ class CommentForm(SecurityFormMixin, TemporaryAttachmentFormMixin, AntispamFormM
 		return Comment
 
 	def get_comment_object(self):
-		return self.save(commit=False)
+		if self.is_valid():
+			return self.save(commit=False)
+		else:
+			return None
 
 	def additional_security_data(self):
 		return {
