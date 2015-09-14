@@ -16,6 +16,7 @@ from .utils import update_comments_header
 class CommentGenerator(ModelGenerator):
 	GENERATE_FOR_MODELS = (
 		'article.article',
+		'forum.topic',
 		'news.news',
 	)
 

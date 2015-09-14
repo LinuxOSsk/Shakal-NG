@@ -242,11 +242,13 @@ INITIAL_DATA_COUNT = {
 	'article_article': 20,
 	'article_category': 4,
 	'news_news': 30,
+	'forum_topic': 30,
 }
 
 SAMPLE_DATA_GENERATORS = (
 	'accounts.generators.register',
 	'article.generators.register',
+	'forum.generators.register',
 	'news.generators.register',
 	'threaded_comments.generators.register',
 )
