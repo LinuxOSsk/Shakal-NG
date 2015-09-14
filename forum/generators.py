@@ -22,7 +22,7 @@ class TopicGenerator(ModelGenerator):
 		obj = super(TopicGenerator, self).get_object()
 		obj.filtered_text = obj.original_text[1]
 		obj.updated = obj.created
-		obj.title = obj.title[:100]
+		obj.title = obj.title[:60]
 		return obj
 
 
