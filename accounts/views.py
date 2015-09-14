@@ -12,6 +12,7 @@ from .forms import ProfileEditForm
 
 
 class UserZone(LoginRequiredMixin, RedirectView):
+	permanent = False
 	pattern_url = 'account_my_profile'
 
 

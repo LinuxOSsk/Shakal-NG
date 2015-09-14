@@ -127,11 +127,15 @@ class PostCreateView(LoginRequiredMixin, PreviewCreateView):
 
 
 class MyBlogView(LoginRequiredMixin, RedirectView):
+	permanent = False
+
 	def get_redirect_url(self):
 		return get_object_or_404(Blog, author=self.request.user).get_absolute_url()
 
 
 class MyBlogCreateOrUpdate(LoginRequiredMixin, RedirectView):
+	permanent = False
+
 	def get_redirect_url(self):
 		if hasattr(self.request.user, 'blog'):
 			return reverse('blog:blog-update')
