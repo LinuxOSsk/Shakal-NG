@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import sys
 
 from django.http import HttpResponseServerError, HttpResponseNotFound
 from django.template.loader import get_template
 from django.views.generic import TemplateView
-from common_utils.cache import cached_method
 
 from article.models import Article, Category
 from blog.models import Post
+from common_utils.cache import cached_method
 from forum.models import Topic as ForumTopic
 from linuxos.templatetags.linuxos import now
 
@@ -50,27 +52,22 @@ class Home(TemplateView):
 	def get_context_data(self, **kwargs):
 		ctx = super(Home, self).get_context_data(**kwargs)
 		articles, top_articles = self.get_articles()
+
+		try:
+			top_posts = Post.objects.all().filter(linux=True)
+			posts = Post.objects.all().exclude(pk=top_posts[0].pk)
+		except IndexError:
+			top_posts = Post.objects.all().none()
+			posts = Post.objects.all()
+
 		ctx.update({
 			'top_articles': top_articles,
 			'articles': articles,
+			'top_posts': top_posts[:1],
+			'posts': posts[:4],
+			'forum_new': ForumTopic.topics.newest_comments()[:20],
+			'forum_no_comments': ForumTopic.topics.no_comments()[:5],
+			'forum_most_comments': ForumTopic.topics.most_commented()[:5],
+			'article_categories': Category.objects.all(),
 		})
 		return ctx
-
-		#try:
-		#	top_posts = Post.objects.all().filter(linux=True)
-		#	posts = Post.objects.all().exclude(pk=top_posts[0].pk)
-		#except IndexError:
-		#	top_posts = Post.objects.all().none()
-		#	posts = Post.objects.all()
-
-		#ctx.update({
-		#	'top_articles': top_articles,
-		#	'articles': articles,
-		#	'top_posts': top_posts[:1],
-		#	'posts': posts[:4],
-		#	'forum_new': ForumTopic.topics.newest_comments()[:20],
-		#	'forum_no_comments': ForumTopic.topics.no_comments()[:5],
-		#	'forum_most_comments': ForumTopic.topics.most_commented()[:5],
-		#	'article_categories': Category.objects.all(),
-		#})
-		#return ctx
