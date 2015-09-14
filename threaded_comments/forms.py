@@ -7,7 +7,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core import validators
-from django.forms.util import ErrorDict
+from django.forms.utils import ErrorDict
 from django.forms.widgets import HiddenInput
 from django.utils.crypto import salted_hmac
 
