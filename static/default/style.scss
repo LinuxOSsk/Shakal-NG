@@ -67,6 +67,8 @@ $table-row-alternate-bg: mix($header-bg, $generic-background, 9%);
 }
 
 @mixin input() {
+	background-color: $generic-background;
+	color: $generic-foreground;
 	padding: 3px 6px; border: $light-border;
 }
 
