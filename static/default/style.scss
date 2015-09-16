@@ -740,6 +740,10 @@ textarea {
 	background: #fff url('images/input_bg.png') 0px 0px repeat-x;
 }
 
+.formset {
+	clear: both;
+}
+
 .formset-field {
 	padding: 0 3px;
 	input[type="text"], input[type="password"], textarea {
