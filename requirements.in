@@ -18,6 +18,7 @@ pip-tools
 python-dateutil
 python-memcached
 pytz
+queues
 queued-search
 redis
 -e git+git://github.com/mireq/django-assets-manager.git#egg=django_assets_manager
