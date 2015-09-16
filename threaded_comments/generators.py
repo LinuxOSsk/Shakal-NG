@@ -18,6 +18,7 @@ class CommentGenerator(ModelGenerator):
 		'article.article',
 		'forum.topic',
 		'news.news',
+		'blog.post',
 	)
 
 	next_id = 0
@@ -29,10 +30,10 @@ class CommentGenerator(ModelGenerator):
 	submit_date = samples.DateTimeSample()
 
 	def generate_tree(self, parent_id, lft, level):
-		if level > 9:
+		if level > 8:
 			return []
 		comments_flat = []
-		comments = [self.get_object() for comment in range(random.randrange(5))]
+		comments = [self.get_object() for comment in range(random.randrange(4))]
 		for comment in comments:
 			comment.id = self.next_id
 			comment.lft = lft
