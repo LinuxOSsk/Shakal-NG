@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.shortcuts import render_to_response
+from django_simple_paginator.utils import paginate_queryset
 from haystack.views import SearchView as HaystackSearchView
 
 from .forms import SearchForm
-from paginator.utils import paginate_queryset
 
 
 class SearchView(HaystackSearchView):

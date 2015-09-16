@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+import re
 
 from django.utils.html import strip_tags
 from haystack.utils.highlighting import Highlighter
-import re
+
 
 class XapianHighlighter(Highlighter):
 	def __init__(self, query, **kwargs):
@@ -24,7 +27,7 @@ class XapianHighlighter(Highlighter):
 			start_offset, end_offset = self.find_window(highlight_locations)
 			return self.render_html(highlight_locations, start_offset, end_offset)
 
-		self.query_words = set(re.findall('<em>Z([^<]+)<\/em>', xapian_text))
+		self.query_words = set(re.findall(r'<em>Z([^<]+)<\/em>', xapian_text))
 		self.text_block = strip_tags(xapian_text.replace('<em>Z', '<em>'))
 
 		highlight_locations = self.find_highlightable_words()

@@ -13,7 +13,7 @@ from forum import urls as forum_urls
 from news import urls as news_urls
 from notifications import urls as notifications_urls
 from polls import urls as polls_urls
-#from search.views import SearchView
+from search.views import SearchView
 from threaded_comments import urls as comments_urls
 #from wiki import urls as wiki_urls
 
@@ -21,8 +21,7 @@ from threaded_comments import urls as comments_urls
 from web.views import Home
 
 urlpatterns = patterns('',
-	url(r'^$', Home.as_view(), name='home'),
-	#url(r'^$', 'web.views.Home', name='home'),
+	url(r'^$', 'web.views.Home', name='home'),
 	url(r'^', include('linuxos.urls')),
 	url(_(r'^accounts/'), include(accounts_urls.urlpatterns)),
 	url(_(r'^article/'), include(article_urls.urlpatterns)),
@@ -35,7 +34,7 @@ urlpatterns = patterns('',
 	url(_(r'^polls/'), include(polls_urls.urlpatterns)),
 	#url(_(r'^wiki/'), include(wiki_urls.urlpatterns)),
 	url(_(r'^template-change/$'), 'template_dynamicloader.views.change', name='template-change'),
-	#url(_(r'^search/'), SearchView(), name='haystack_search'),
+	url(_(r'^search/'), SearchView(), name='haystack_search'),
 	url(r'^v/(?P<content_type_id>\d+)/(?P<object_id>.+)/$', contenttype_views.shortcut, name='view-object'),
 	url(_(r'^admin/'), include(admin.site.urls)),
 	url(_(r'^admin_dashboard/'), include(admin_dashboard_urls.urlpatterns)),

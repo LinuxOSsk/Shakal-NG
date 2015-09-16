@@ -56,6 +56,7 @@ INSTALLED_APPS = (
 	'compressor',
 	'django_jinja',
 	'mptt',
+	'haystack',
 	# apps
 	'accounts',
 	'article',
