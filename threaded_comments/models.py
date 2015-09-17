@@ -159,6 +159,8 @@ class RootHeader(models.Model):
 
 	class Meta:
 		unique_together = (('content_type', 'object_id',),)
+		verbose_name = 'diskusia'
+		verbose_name_plural = 'diskusie'
 
 
 class UserDiscussionAttribute(models.Model):
