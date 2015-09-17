@@ -78,6 +78,7 @@ update2: .stamp_settings
 	${DJANGO_MANAGE} compilemessages
 	${DJANGO_MANAGE} loaddata forum/data/categories.json
 	${DJANGO_MANAGE} create_sample_data
+	${DJANGO_MANAGE} rebuild_index --noinput
 	@touch .stamp_sampledata
 
 resetdb:
