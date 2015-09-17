@@ -57,6 +57,7 @@ INSTALLED_APPS = (
 	'django_jinja',
 	'mptt',
 	'haystack',
+	'reversion',
 	# apps
 	'accounts',
 	'article',
@@ -103,7 +104,7 @@ TEMPLATES = [
 		},
 		"OPTIONS": {
 			"match_extension": None,
-			"match_regex": re.compile(r"^(?!(admin/|debug_toolbar/|suit/|profiler/|search/indexes/)).*"),
+			"match_regex": re.compile(r"^(?!(admin/|debug_toolbar/|suit/|profiler/|search/indexes/|reversion/)).*"),
 			"newstyle_gettext": True,
 			"extensions": [
 				"jinja2.ext.do",
