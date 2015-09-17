@@ -33,7 +33,7 @@ class CommentGenerator(ModelGenerator):
 		if level > 8:
 			return []
 		comments_flat = []
-		comments = [self.get_object() for comment in range(random.randrange(4))]
+		comments = [self.get_object() for comment in range(random.randrange(6))]
 		for comment in comments:
 			comment.id = self.next_id
 			comment.lft = lft
@@ -43,7 +43,7 @@ class CommentGenerator(ModelGenerator):
 			lft += 2
 			self.next_id += 1
 			comments_flat.append(comment)
-			if random.randrange(2) == 0:
+			if random.randrange(3) == 0:
 				child_comments = self.generate_tree(parent_id=comment.id, lft=comment.rght, level=comment.level)
 				comments_flat += child_comments
 				lft += len(child_comments) * 2
