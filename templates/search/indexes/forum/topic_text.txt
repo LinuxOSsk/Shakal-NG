@@ -1,2 +1,2 @@
-{{ object.title }}
+{% load html_entity_decode %}{{ object.title }}
 {{ object.text|striptags|html_entity_decode }}

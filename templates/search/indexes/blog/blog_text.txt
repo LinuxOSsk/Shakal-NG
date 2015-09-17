@@ -1,3 +1,3 @@
-{{ object.title }}
+{% load html_entity_decode %}{{ object.title }}
 {{ object.description|striptags|html_entity_decode }}
 {{ object.sidebar|striptags|html_entity_decode }}

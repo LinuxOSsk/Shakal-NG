@@ -1,2 +1,2 @@
-{% if object.content_object %}{% for comment in get_threaded_comments_list(object.content_object) %}{{ comment.subject }}
+{% load threaded_comments_tags %}{% load html_entity_decode %}{% if object.content_object %}{% get_threaded_comments_list object.content_object as comments %}{% for comment in comments %}{{ comment.subject }}
 {{ comment.comment|striptags|html_entity_decode }}{% endfor %}{% endif %}
