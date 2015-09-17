@@ -32,11 +32,15 @@ def decode_switch_template(data):
 
 def get_template_settings(request):
 	template_skin = css = None
-	if request.method == 'GET' and 'switch_template' in request.GET:
-		template_skin, css = decode_switch_template(request.GET['switch_template'])
 
 	templates = settings.DYNAMIC_TEMPLATES
 	default = settings.DYNAMIC_TEMPLATES[0]
+
+	if request is None:
+		return (default, css)
+
+	if request.method == 'GET' and 'switch_template' in request.GET:
+		template_skin, css = decode_switch_template(request.GET['switch_template'])
 
 	if template_skin is None:
 		template_skin = request.session.get('template_skin', default)
