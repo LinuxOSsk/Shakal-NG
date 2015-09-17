@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django import template
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q, Count
 from django.template.loader import render_to_string
@@ -15,6 +16,9 @@ from ..models import RootHeader, UserDiscussionAttribute
 from common_utils import get_meta
 from common_utils.content_types import get_lookups
 from threaded_comments.models import Comment
+
+
+register = template.Library()
 
 
 class DiscussionLoader:
@@ -123,8 +127,6 @@ def load_user_discussion_attributes(headers, user):
 def add_discussion_attributes(context, *models):
 	discussion_lookups, content_types = get_lookups(models)
 
-	# odstránenie prázdnych
-	#discussion_lookups = {content_type: [i for i in id_list if (i, content_type.pk) not in cache] for content_type, id_list in discussion_lookups.iteritems()}
 	discussion_lookups = {content_type: id_list for content_type, id_list in discussion_lookups.iteritems() if id_list}
 
 	if not discussion_lookups:
@@ -187,3 +189,4 @@ def render_threaded_comments_toplevel(context, target):
 
 
 library.filter(mptt_tags.tree_info)
+register.assignment_tag(get_threaded_comments_list, takes_context=True)
