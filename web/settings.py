@@ -101,7 +101,7 @@ TEMPLATES = [
 		},
 		"OPTIONS": {
 			"match_extension": None,
-			"match_regex": re.compile(r"^(?!(admin/|debug_toolbar/|suit/|profiler/)).*"),
+			"match_regex": re.compile(r"^(?!(admin/|debug_toolbar/|suit/|profiler/|search/indexes/)).*"),
 			"newstyle_gettext": True,
 			"extensions": [
 				"jinja2.ext.do",
@@ -264,13 +264,12 @@ ATTACHMENT_SIZE_FOR_CONTENT = {
 	'blog_post': 1024 * 1024 * 8,
 }
 
+HAYSTACK_SIGNAL_PROCESSOR = 'queued_search.signals.QueuedSignalProcessor'
 HAYSTACK_CONNECTIONS = {
 	'default': {
 		'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
 	},
 }
-HAYSTACK_CUSTOM_HIGHLIGHTER = 'search.utils.XapianHighlighter'
-HAYSTACK_SIGNAL_PROCESSOR = 'queued_search.signals.QueuedSignalProcessor'
 
 SUIT_CONFIG = {
 	'ADMIN_NAME': 'Shakal CMS',
