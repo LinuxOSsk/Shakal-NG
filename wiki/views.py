@@ -99,7 +99,6 @@ class WikiDetailView(WikiBaseView):
 
 class PageEditMixin(UserPassesTestMixin):
 	def test_func(self, user):
-		print("test")
 		request = self.request
 		if not request.user.is_authenticated():
 			return False
