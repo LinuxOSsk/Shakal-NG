@@ -2,10 +2,9 @@
 from __future__ import unicode_literals
 
 import reversion
-from django.contrib.auth.decorators import user_passes_test
+from braces.views import UserPassesTestMixin
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
-from django.utils.decorators import method_decorator
 from django.views.generic import DetailView
 from django_simple_paginator.utils import paginate_queryset
 
@@ -98,33 +97,33 @@ class WikiDetailView(WikiBaseView):
 		return ctx
 
 
-def check_perms(view_func):
-	def decorator(request, slug, create, *args, **kwargs):
+class PageEditMixin(UserPassesTestMixin):
+	def test_func(self, user):
+		print("test")
+		request = self.request
 		if not request.user.is_authenticated():
-			return user_passes_test(lambda u: False)(view_func)(request)
-		wiki_page = get_object_or_404(Page, slug = slug)
+			return False
+
+		wiki_page = get_object_or_404(Page, slug=self.kwargs['slug'])
 		if request.user.is_staff and request.user.has_perm('admin:wiki_page_change'):
-			return view_func(request, slug = slug, *args, **kwargs)
+			return True
+
+		if self.create:
+			if wiki_page.page_type == 'p' or (wiki_page.page_type == 'h' and wiki_page.parent):
+				return True
 		else:
-			if create:
-				if wiki_page.page_type == 'p' or (wiki_page.page_type == 'h' and wiki_page.parent):
-					return view_func(request, slug = slug, *args, **kwargs)
-				else:
-					return user_passes_test(lambda u: False)(view_func)(request)
-			else:
-				if wiki_page.page_type == 'p':
-					return view_func(request, slug = slug, *args, **kwargs)
-				else:
-					return user_passes_test(lambda u: False)(view_func)(request)
-	return decorator
+			if wiki_page.page_type == 'p':
+				return True
+
+		return False
 
 
-class PageUpdateView(PreviewUpdateView):
+class PageUpdateView(PageEditMixin, PreviewUpdateView):
 	model = Page
 	template_name = 'wiki/edit.html'
 	form_class = WikiEditForm
+	create = False
 
-	@method_decorator(check_perms)
 	def dispatch(self, *args, **kwargs):
 		with reversion.create_revision():
 			response = super(PageUpdateView, self).dispatch(*args, **kwargs)
@@ -137,13 +136,13 @@ class PageUpdateView(PreviewUpdateView):
 		return super(PageUpdateView, self).form_valid(form)
 
 
-class PageCreateView(PreviewCreateView):
+class PageCreateView(PageEditMixin, PreviewCreateView):
 	model = Page
 	template_name = 'wiki/create.html'
 	form_class = WikiEditForm
 	extra_context = {}
+	create = True
 
-	@method_decorator(check_perms)
 	def dispatch(self, *args, **kwargs):
 		self.extra_context = {'slug': kwargs['slug'], 'page': get_object_or_404(Page, slug = kwargs['slug'])}
 		with reversion.create_revision():
