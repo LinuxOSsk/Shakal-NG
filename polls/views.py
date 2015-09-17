@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from braces.views import LoginRequiredMixin
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db import transaction
@@ -58,7 +59,7 @@ class PollPost(FormView):
 		return super(PollPost, self).form_valid(form)
 
 
-class PollCreate(CreateView):
+class PollCreate(LoginRequiredMixin, CreateView):
 	model = Poll
 	form_class = PollForm
 
