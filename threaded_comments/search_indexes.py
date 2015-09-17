@@ -7,7 +7,7 @@ from threaded_comments.models import RootHeader
 
 
 class CommentIndex(indexes.SearchIndex, indexes.Indexable):
-	created = indexes.DateTimeField()
+	created = indexes.DateTimeField(model_attr='pub_date')
 	updated = indexes.DateTimeField(model_attr='last_comment')
 	author = indexes.CharField()
 	title = indexes.CharField()
@@ -21,13 +21,6 @@ class CommentIndex(indexes.SearchIndex, indexes.Indexable):
 
 	def index_queryset(self, using=None):
 		return self.get_model().objects.all()
-
-	def prepare_created(self, object):
-		content_object = object.content_object
-		if hasattr(content_object, 'created'):
-			return content_object.created
-		else:
-			return None
 
 	def prepare_author(self, object):
 		content_object = object.content_object
