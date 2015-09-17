@@ -10,7 +10,7 @@ def update_comments_header(sender, instance, **kwargs): #pylint: disable=W0613
 	from threaded_comments.models import Comment
 	from .models import Topic
 
-	root, created = Comment.objects.get_root_comment(ctype=ContentType.objects.get_for_model(Topic), object_id=instance.pk)
+	root, created = Comment.objects.get_or_create_root_comment(ctype=ContentType.objects.get_for_model(Topic), object_id=instance.pk)
 	if created:
 		root.last_comment = instance.created
 	root.is_removed = instance.is_removed
