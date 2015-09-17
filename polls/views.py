@@ -26,11 +26,8 @@ class PollPost(FormView):
 	def get_message_tag(self):
 		return self.request.POST.get('msg_id', 'polls') # identifikácia ankety ak ich je na webe viacej
 
-	def get_next_url(self):
-		return self.request.POST.get('next', '/')
-
 	def get_success_url(self):
-		return self.get_next_url()
+		return self.request.POST.get('next', '/')
 
 	def get_form_kwargs(self):
 		kwargs = super(PollPost, self).get_form_kwargs()
@@ -39,7 +36,7 @@ class PollPost(FormView):
 
 	def form_invalid(self, form):
 		messages.error(self.request, 'Vyberte prosím odpoveď.', extra_tags=self.get_message_tag())
-		return HttpResponseRedirect(self.get_next_url())
+		return HttpResponseRedirect(self.get_success_url())
 
 	def form_valid(self, form):
 		choices = form.cleaned_data['choice']
@@ -49,7 +46,7 @@ class PollPost(FormView):
 		with transaction.atomic():
 			if not self.object.can_vote(self.request):
 				messages.error(self.request, 'Hlasovať je možné len raz.', extra_tags=self.get_message_tag())
-				return HttpResponseRedirect(self.request.POST['next'])
+				return HttpResponseRedirect(self.get_success_url())
 
 			Poll.objects.filter(pk=self.object.pk).update(choice_count=F('choice_count') + 1)
 			self.object.choice_set.filter(pk__in=[c.id for c in choices]).update(votes=F('votes') + 1)
