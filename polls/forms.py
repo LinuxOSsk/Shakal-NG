@@ -49,3 +49,11 @@ class PollForm(forms.ModelForm):
 		model = Poll
 		exclude = ('approved', 'active_from', 'choice_count', 'content_type', 'object_id', 'slug')
 		fields = ('question', 'checkbox')
+
+
+class VoteForm(forms.Form):
+	choice = forms.ModelMultipleChoiceField(queryset=Choice.objects.none())
+
+	def __init__(self, poll, *args, **kwargs):
+		super(VoteForm, self).__init__(*args, **kwargs)
+		self.fields['choice'].queryset = poll.choice_set.all()

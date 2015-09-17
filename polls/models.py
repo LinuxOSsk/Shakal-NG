@@ -43,7 +43,7 @@ class Poll(models.Model):
 	checkbox = models.BooleanField(_("more choices"), default=False)
 	approved = models.BooleanField(_("approved"), default=False)
 
-	choice_count = models.PositiveIntegerField(default=0)
+	choice_count = models.PositiveIntegerField(default=0) #TODO: premenovať na answer_count
 
 	comments = GenericRelation(Comment)
 	comments_header = GenericRelation(RootHeader)

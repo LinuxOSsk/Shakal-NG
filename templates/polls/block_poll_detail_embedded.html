@@ -3,9 +3,9 @@
 	<label>
 		{% if input %}
 			{% if poll.checkbox %}
-				<input type="checkbox" name="choice" value="{{ loop.index0 }}" />
+				<input type="checkbox" name="choice" value="{{ choice.pk }}" />
 			{% else %}
-				<input type="radio" name="choice" value="{{ loop.index0 }}" />
+				<input type="radio" name="choice" value="{{ choice.pk }}" />
 			{% endif %}
 		{% endif %}
 		{{ choice }}
