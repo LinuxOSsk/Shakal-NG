@@ -24,7 +24,7 @@ class PollPost(FormView):
 		return super(PollPost, self).post(request, **kwargs)
 
 	def get_message_tag(self):
-		return self.request.POST.get('msg_id', 'polls')
+		return self.request.POST.get('msg_id', 'polls') # identifikácia ankety ak ich je na webe viacej
 
 	def get_next_url(self):
 		return self.request.POST.get('next', '/')
@@ -66,7 +66,7 @@ class PollCreate(LoginRequiredMixin, CreateView):
 	def form_valid(self, form):
 		super(PollCreate, self).form_valid(form)
 		poll = self.object
-		choices = [Choice(poll=poll, choice=a['choice']) for a in form.cleaned_data['choices']]
+		choices = [Choice(poll=poll, choice=choice['choice']) for choice in form.cleaned_data['choices']]
 		Choice.objects.bulk_create(choices)
 		messages.success(self.request, 'Anketa bola vytvorená')
 		return HttpResponseRedirect(reverse('home'))
