@@ -70,6 +70,7 @@ INSTALLED_APPS = (
 	'news',
 	'notifications',
 	'polls',
+	'search',
 	'threaded_comments',
 )
 
