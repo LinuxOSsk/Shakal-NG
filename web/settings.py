@@ -265,12 +265,13 @@ ATTACHMENT_SIZE_FOR_CONTENT = {
 	'blog_post': 1024 * 1024 * 8,
 }
 
-HAYSTACK_SIGNAL_PROCESSOR = 'queued_search.signals.QueuedSignalProcessor'
 HAYSTACK_CONNECTIONS = {
 	'default': {
-		'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+		'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+		'PATH': os.path.join(BASE_DIR, 'whoosh_index')
 	},
 }
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 SUIT_CONFIG = {
 	'ADMIN_NAME': 'Shakal CMS',

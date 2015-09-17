@@ -21,6 +21,7 @@ pytz
 queues
 queued-search
 redis
+whoosh
 -e git+git://github.com/mireq/django-assets-manager.git#egg=django_assets_manager
 -e git+git://github.com/mireq/django-autoslugfield.git#egg=django_autoslugfield
 -e git+git://github.com/mireq/django-sample-data-generator.git#egg=django_sample_data_generator

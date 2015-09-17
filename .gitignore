@@ -22,6 +22,7 @@
 /virtualenv.py
 /dump.sql
 /xapian_index
+/whoosh_index
 /.coverage
 /htmlcov
 /static/CACHE

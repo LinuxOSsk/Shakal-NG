@@ -70,6 +70,7 @@ traitlets==4.0.0          # via ipython
 watchdog==0.8.3
 wcwidth==0.1.5            # via prompt-toolkit
 werkzeug==0.10.4
+whoosh==2.7.0
 
 # The following packages are commented out because they are
 # considered to be unsafe in a requirements file:
