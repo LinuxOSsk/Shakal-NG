@@ -72,6 +72,7 @@ INSTALLED_APPS = (
 	'polls',
 	'search',
 	'threaded_comments',
+	'wiki',
 )
 
 MIDDLEWARE_CLASSES = (

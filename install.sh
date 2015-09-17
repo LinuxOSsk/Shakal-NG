@@ -78,6 +78,7 @@ update2: .stamp_settings
 	${DJANGO_MANAGE} compilemessages
 	${DJANGO_MANAGE} loaddata forum/data/categories.json
 	${DJANGO_MANAGE} create_sample_data --verbosity 2
+	${DJANGO_MANAGE} loaddata wiki/data/pages.json
 	${DJANGO_MANAGE} rebuild_index --noinput
 	@touch .stamp_sampledata
 
@@ -86,6 +87,8 @@ resetdb:
 	${DJANGO_MANAGE} migrate
 	${DJANGO_MANAGE} loaddata forum/data/categories.json
 	${DJANGO_MANAGE} create_sample_data
+	${DJANGO_MANAGE} loaddata wiki/data/pages.json
+	${DJANGO_MANAGE} rebuild_index --noinput
 
 localinstall: .stamp_sampledata
 	@echo "================================================"

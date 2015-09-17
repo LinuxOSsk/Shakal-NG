@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import reversion
 from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Q

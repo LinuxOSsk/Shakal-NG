@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import reversion
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
 
-from wiki.models import Page
+from .models import Page
 
 
 class PageAdmin(reversion.VersionAdmin, MPTTModelAdmin):
