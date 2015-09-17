@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render_to_response
+from django.template.response import TemplateResponse
 from django_simple_paginator.utils import paginate_queryset
 from haystack.views import SearchView as HaystackSearchView
 
@@ -34,4 +34,4 @@ class SearchView(HaystackSearchView):
 			context['suggestion'] = self.form.get_suggestion()
 
 		context.update(self.extra_context())
-		return render_to_response(self.template, context, context_instance=self.context_class(self.request))
+		return TemplateResponse(self.request, self.template, context)
