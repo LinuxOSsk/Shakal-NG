@@ -4,10 +4,9 @@ from __future__ import unicode_literals
 import reversion
 from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Q
-from django.http import HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404
-from django.template.response import TemplateResponse
 from django.utils.decorators import method_decorator
+from django.views.generic import DetailView
 from django_simple_paginator.utils import paginate_queryset
 
 from .forms import WikiEditForm
@@ -15,51 +14,88 @@ from .models import Page
 from common_utils.generic import PreviewCreateView, PreviewUpdateView
 
 
-def show_page(request, slug = None, page = None, history = None):
-#items_per_page=50
-	if slug is None:
-		wiki_page = get_object_or_404(Page, parent = None, page_type = 'h')
-	else:
-		wiki_page = get_object_or_404(Page, ~Q(page_type = 'i'), slug = slug)
+class WikiBaseView(DetailView):
+	object = None
+	model = Page
+	context_object_name = 'page'
 
-	children = []
+	def get_children(self):
+		raise NotImplementedError()
 
-	if history and wiki_page.page_type != 'p':
-		return HttpResponseNotAllowed
+	def get_revision(self):
+		history = self.kwargs.get('history', '')
+		try:
+			history = int(history)
+		except ValueError:
+			return None
+		return get_object_or_404(self.get_history(), pk=history)
 
-	revision = None
-	if history:
-		revision = get_object_or_404(reversion.get_for_object(wiki_page).select_related('revision', 'revision__user'), pk = history)
-	history_data = reversion.get_for_object(wiki_page).select_related('revision', 'revision__user')
+	def get_history(self):
+		return (reversion
+			.get_for_object(self.object)
+			.select_related('revision', 'revision__user'))
 
-	template = "wiki/page.html"
-	if wiki_page.page_type == 'h':
-		if wiki_page.parent:
-			template = "wiki/category.html"
-			children = wiki_page.get_descendants().order_by('-updated')
+	def get_context_data(self, **kwargs):
+		ctx = super(WikiBaseView, self).get_context_data(**kwargs)
+		children = self.get_children()
+		revision = self.get_revision()
+		history = self.get_history()
+		ctx.update({
+			'children': children,
+			'revision': revision,
+			'history': history,
+			'tree': self.object.get_ancestors(),
+		})
+		return ctx
+
+
+class WikiHomeView(WikiBaseView):
+	template_name = "wiki/home.html"
+
+	def get_children(self):
+		children = self.object.get_children().filter(page_type='h')[:]
+		for child in children:
+			child.pages = child.get_descendants().order_by('-updated')
+		return children
+
+	def get_object(self, **kwargs):
+		return get_object_or_404(self.get_queryset(), parent=None, page_type='h')
+
+
+class WikiDetailView(WikiBaseView):
+	def get_template_names(self):
+		if self.object.page_type == 'h':
+			return ("wiki/category.html",)
 		else:
-			template = "wiki/home.html"
-			children = wiki_page.get_children().filter(page_type = 'h')[:]
-			for child in children:
-				child.pages = child.get_descendants().order_by('-updated')
-		paginator, page, children, is_paginated = paginate_queryset(children, page or 1, 50)
-	else:
-		children = wiki_page.get_children()
-		paginator, page, history_data, is_paginated = paginate_queryset(history_data, page or 1, 20)
+			return ("wiki/page.html",)
 
-	context = {
-		'page': wiki_page,
-		'children': children,
-		'paginator': paginator,
-		'page_obj': page,
-		'is_paginated': is_paginated,
-		'pagenum': page,
-		'tree': wiki_page.get_ancestors(),
-		'history': history_data,
-		'revision': revision
-	}
+	def get_object(self, **kwargs):
+		return get_object_or_404(self.get_queryset(), ~Q(page_type='i'), slug=self.kwargs['slug'])
 
-	return TemplateResponse(request, template, context)
+	def get_children(self):
+		if self.object.page_type == 'h':
+			return self.object.get_descendants().order_by('-updated')
+		else:
+			return self.object.get_children()
+
+	def get_context_data(self, **kwargs):
+		ctx = super(WikiDetailView, self).get_context_data(**kwargs)
+		children = ctx['children']
+		history = ctx['history']
+		page = self.kwargs.get('page', None)
+		if self.object.page_type == 'h':
+			paginator, page, children, is_paginated = paginate_queryset(children, page or 1, 50)
+		else:
+			paginator, page, history, is_paginated = paginate_queryset(history, page or 1, 20)
+		ctx.update({
+			'children': children,
+			'paginator': paginator,
+			'page_obj': page,
+			'is_paginated': is_paginated,
+			'pagenum': page,
+			'history': history,
+		})
+		return ctx
 
 
 def check_perms(view_func):
