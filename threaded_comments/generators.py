@@ -48,6 +48,8 @@ class CommentGenerator(ModelGenerator):
 				comments_flat += child_comments
 				lft += len(child_comments) * 2
 				comment.rght += len(child_comments) * 2
+		if self.command is not None and self.command.verbosity > 1:
+			self.command.stdout.write('+', ending='')
 		return comments_flat
 
 	def __iter__(self):
@@ -55,6 +57,8 @@ class CommentGenerator(ModelGenerator):
 			model_class = apps.get_model(model)
 			ctype = ContentType.objects.get_for_model(model_class)
 			for instance in get_default_manager(model_class).all():
+				if self.command is not None and self.command.verbosity > 1:
+					self.command.stdout.write('#', ending='')
 				Comment.objects.get_or_create_root_comment(ctype, instance.pk)
 
 		self.next_id = (Comment.objects.aggregate(max_id=Max('id'))['max_id'] or 0) + 1
@@ -82,6 +86,8 @@ class CommentGenerator(ModelGenerator):
 			for instance in get_default_manager(model_class).all():
 				root = Comment.objects.get_or_create_root_comment(ctype, instance.pk)[0]
 				update_comments_header(Comment, instance=root)
+				if self.command is not None and self.command.verbosity > 1:
+					self.command.stdout.write('#', ending='')
 
 
 register = GeneratorRegister()
