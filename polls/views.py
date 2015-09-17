@@ -64,11 +64,11 @@ class PollCreate(CreateView):
 
 
 class PollDetail(DetailView):
-	queryset = Poll.objects.filter(content_type=None)
+	queryset = Poll.objects.filter(content_type__isnull=True)
 	context_object_name = 'poll'
 
 
 class PollList(ListView):
-	queryset = Poll.objects.filter(content_type=None)
+	queryset = Poll.objects.filter(content_type__isnull=True)
 	paginate_by = 10
 	context_object_name = 'polls'
