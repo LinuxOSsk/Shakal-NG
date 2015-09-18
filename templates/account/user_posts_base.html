@@ -1,7 +1,7 @@
 {% extends "account/base.html" %}
 
 {% block breadcrumbs %}
+{{ breadcrumb("Zoznam príspevkov", url=url("accounts:user_posts", user_profile.pk)) }}
 {{ breadcrumb(firstof(user_profile.get_full_name(), user_profile.username), url=user_profile.get_absolute_url()) }}
 {{ super() }}
 {% endblock %}
-
