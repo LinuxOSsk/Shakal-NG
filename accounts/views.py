@@ -86,6 +86,7 @@ class UserStatsMixin(object):
 class UserPosts(UserStatsMixin, DetailView):
 	model = get_user_model()
 	template_name = 'account/user_posts.html'
+	context_object_name = 'user_profile'
 
 	def get_context_data(self, **kwargs):
 		ctx = super(UserPosts, self).get_context_data(**kwargs)
