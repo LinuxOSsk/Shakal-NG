@@ -4,7 +4,7 @@
 
 {% block breadcrumbs %}
 	{{ breadcrumb("Upraviť") }}
-	{{ breadcrumb(firstof(user.get_full_name(), user.username), url="account_profile", pk=user.pk) }}
+	{{ breadcrumb(firstof(user.get_full_name(), user.username), url="accounts:profile", pk=user.pk) }}
 	{{ super() }}
 {% endblock %}
 
@@ -20,12 +20,12 @@
 </ul>
 <h1>Upraviť profil</h1>
 
-<form action="{{ url("account_my_profile_edit") }}" method="post" id="edit-user-profile-form">{% csrf_token %}
+<form action="{{ url("accounts:my_profile_edit") }}" method="post" id="edit-user-profile-form">{% csrf_token %}
 	<fieldset>
 		{% include "includes/form_loop.html" %}
 		<div class="submit-row">
 			<div class="negative">
-				<div class="btn"><span><a href="{{ url("account_my_profile") }}">Späť do profilu</a></span></div>
+				<div class="btn"><span><a href="{{ url("accounts:my_profile") }}">Späť do profilu</a></span></div>
 			</div>
 			<div class="positive">
 				<button class="btn" type="submit" title="Uložiť"><span>Uložiť</span></button>

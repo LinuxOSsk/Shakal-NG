@@ -21,6 +21,7 @@ from wiki import urls as wiki_urls
 urlpatterns = patterns('',
 	url(r'^$', 'web.views.Home', name='home'),
 	url(r'^', include('linuxos.urls')),
+	url(_(r'^login/'), include('allauth.urls')),
 	url(_(r'^accounts/'), include(accounts_urls.urlpatterns)),
 	url(_(r'^article/'), include(article_urls.urlpatterns)),
 	url(_(r'^blog/'), include(blog_urls.urlpatterns)),

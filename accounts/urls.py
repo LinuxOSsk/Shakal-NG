@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.conf.urls import patterns, include, url
-from django.utils.translation import ugettext_lazy as _
+from django.conf.urls import patterns, url
 
 
 class Patterns(object):
@@ -13,13 +12,12 @@ class Patterns(object):
 	@property
 	def urls(self):
 		pat = patterns('accounts.views',
-			url(r'^$', 'UserZone', name='account_user_zone'),
-			url(r'^(?P<pk>\d+)/$', 'Profile', name='account_profile'),
-			url(_(r'^me/$'), 'MyProfile', name='account_my_profile'),
-			url(_(r'^me/edit/$'), 'MyProfileEdit', name='account_my_profile_edit'),
-			url(r'', include('allauth.urls')),
+			url(r'^$', 'UserZone', name='user_zone'),
+			url(r'^(?P<pk>\d+)/$', 'Profile', name='profile'),
+			url(r'^ja/$', 'MyProfile', name='my_profile'),
+			url(r'^ja/upravit/$', 'MyProfileEdit', name='my_profile_edit'),
 		)
-		return pat
+		return (pat, self.app_name, self.name)
 
 
 urlpatterns = Patterns().urls

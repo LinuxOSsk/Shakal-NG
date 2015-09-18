@@ -38,7 +38,7 @@ class User(AbstractUser):
 
 	@models.permalink
 	def get_absolute_url(self):
-		return ('account_profile', [], {'pk': self.pk})
+		return ('accounts:profile', [], {'pk': self.pk})
 
 	def get_full_name(self):
 		full_name = '%s %s' % (self.first_name, self.last_name)

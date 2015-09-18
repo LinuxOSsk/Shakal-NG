@@ -13,11 +13,11 @@ from .forms import ProfileEditForm
 
 class UserZone(LoginRequiredMixin, RedirectView):
 	permanent = False
-	pattern_url = 'account_my_profile'
+	pattern_url = 'accounts:my_profile'
 
 
 class Profile(DetailView):
-	pattern_url = 'account_my_profile'
+	pattern_url = 'accounts:my_profile'
 	model = get_user_model()
 	template_name = 'account/profile.html'
 	context_object_name = 'user_profile'
@@ -53,4 +53,4 @@ class MyProfileEdit(LoginRequiredMixin, MyProfileMixin, UpdateView):
 	form_class = ProfileEditForm
 
 	def get_success_url(self):
-		return reverse('account_my_profile')
+		return reverse('accounts:my_profile')

@@ -222,7 +222,7 @@ MEDIA_CACHE_URL = MEDIA_URL + 'cache/'
 
 # allauth
 LOGIN_URL = 'account_login'
-LOGIN_REDIRECT_URL = 'account_my_profile'
+LOGIN_REDIRECT_URL = 'accounts:my_profile'
 ACCOUNT_FORMS = {
 	'login': 'accounts.forms.LoginForm',
 	'add_email': 'accounts.forms.AddEmailForm',
