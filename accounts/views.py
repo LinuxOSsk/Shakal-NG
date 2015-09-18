@@ -2,11 +2,12 @@
 from __future__ import unicode_literals
 
 from braces.views import LoginRequiredMixin
-from django.views.generic import RedirectView, DetailView
-from django.views.generic import UpdateView
+from django.apps import apps
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
+from django.db.models import Max
 from django.utils.safestring import mark_safe
+from django.views.generic import RedirectView, DetailView, UpdateView
 
 from .forms import ProfileEditForm
 
@@ -54,3 +55,46 @@ class MyProfileEdit(LoginRequiredMixin, MyProfileMixin, UpdateView):
 
 	def get_success_url(self):
 		return reverse('accounts:my_profile')
+
+
+class UserStatsMixin(object):
+	def get_articles(self):
+		return apps.get_model('article.Article').objects.filter(author=self.object)
+
+	def get_blog_posts(self):
+		return apps.get_model('blog.Post').objects.filter(blog__author=self.object)
+
+	def get_forum_topics(self):
+		return apps.get_model('forum.Topic').objects.filter(author=self.object)
+
+	def get_news(self):
+		return apps.get_model('news.News').objects.filter(author=self.object)
+
+	def get_commented(self):
+		return (apps.get_model('threaded_comments.Comment')
+			.objects
+			.values_list('content_type_id', 'object_id')
+			.annotate(last_updated=Max('updated'))
+			.order_by('-last_updated'))
+
+	def get_last_updated_wiki_pages(self):
+		return (apps.get_model('wiki.Page')
+			.objects
+			.filter(last_author=self.object, parent__isnull=False))
+
+
+class UserPosts(UserStatsMixin, DetailView):
+	model = get_user_model()
+	template_name = 'account/user_posts.html'
+
+	def get_context_data(self, **kwargs):
+		ctx = super(UserPosts, self).get_context_data(**kwargs)
+		ctx['stats'] = (
+			{'label': 'Články', 'count': self.get_articles().count()},
+			{'label': 'Blogy', 'count': self.get_blog_posts().count()},
+			{'label': 'Správy', 'count': self.get_news().count()},
+			{'label': 'Témy vo fóre', 'count': self.get_forum_topics().count()},
+			{'label': 'Komentované diskusie', 'count': self.get_commented().count()},
+			{'label': 'Wiki stránky', 'count': self.get_last_updated_wiki_pages().count()},
+		)
+		return ctx

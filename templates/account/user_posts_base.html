@@ -1,0 +1,7 @@
+{% extends "account/base.html" %}
+
+{% block breadcrumbs %}
+{{ breadcrumb(firstof(user.get_full_name(), user.username), url=user.get_absolute_url()) }}
+{{ super() }}
+{% endblock %}
+

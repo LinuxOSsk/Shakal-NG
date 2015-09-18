@@ -1,0 +1,19 @@
+{% extends "account/user_posts_base.html" %}
+
+{% block head_title %}{{ user }} - Zoznam príspevkov{% endblock %}
+{% block breadcrumbs %}
+{{ breadcrumb("Zoznam príspevkov") }}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+
+<h1>{{ user }} - Zoznam príspevkov</h1>
+
+<ul>
+	{% for stat in stats %}
+		<li>{{ stat.label }} ({{ stat.count }})</li>
+	{% endfor %}
+</ul>
+
+{% endblock %}

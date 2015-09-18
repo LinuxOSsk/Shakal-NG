@@ -14,6 +14,7 @@ class Patterns(object):
 		pat = patterns('accounts.views',
 			url(r'^$', 'UserZone', name='user_zone'),
 			url(r'^(?P<pk>\d+)/$', 'Profile', name='profile'),
+			url(r'^(?P<pk>\d+)/prispevky/$', 'UserPosts', name='user_posts'),
 			url(r'^ja/$', 'MyProfile', name='my_profile'),
 			url(r'^ja/upravit/$', 'MyProfileEdit', name='my_profile_edit'),
 		)
