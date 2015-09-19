@@ -6,6 +6,7 @@ from django.apps import apps
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.db.models import Max
+from django.shortcuts import get_object_or_404
 from django.utils.safestring import mark_safe
 from django.views.generic import RedirectView, DetailView, UpdateView
 
@@ -77,6 +78,9 @@ class UserStatsMixin(object):
 			.annotate(last_updated=Max('updated'))
 			.order_by('-last_updated'))
 
+	def get_object(self):
+		return get_object_or_404(get_user_model(), pk=self.kwargs['pk'])
+
 	def get_last_updated_wiki_pages(self):
 		return (apps.get_model('wiki.Page')
 			.objects
@@ -84,7 +88,6 @@ class UserStatsMixin(object):
 
 
 class UserPosts(UserStatsMixin, DetailView):
-	model = get_user_model()
 	template_name = 'account/user_posts.html'
 	context_object_name = 'user_profile'
 
