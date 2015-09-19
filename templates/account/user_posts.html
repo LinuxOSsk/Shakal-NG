@@ -6,7 +6,9 @@
 
 <ul>
 	{% for stat in stats %}
-		<li>{{ stat.label }} ({{ stat.count }})</li>
+		{% if stat.count %}
+			<li>{{ stat.label }} ({{ stat.count }})</li>
+		{% endif %}
 	{% endfor %}
 </ul>
 
