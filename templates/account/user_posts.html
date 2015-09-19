@@ -7,7 +7,7 @@
 <ul>
 	{% for stat in stats %}
 		{% if stat.count %}
-			<li>{{ stat.label }} ({{ stat.count }})</li>
+			<li><a href="{{ stat.url }}">{{ stat.label }} ({{ stat.count }})</a></li>
 		{% endif %}
 	{% endfor %}
 </ul>

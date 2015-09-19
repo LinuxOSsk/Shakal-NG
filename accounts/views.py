@@ -101,9 +101,12 @@ class UserPosts(UserStatsMixin, DetailView):
 	template_name = 'account/user_posts.html'
 
 	def get_context_data(self, **kwargs):
+		def url(view_name):
+			return reverse('accounts:user_posts_' + view_name, args=(self.object.pk,), kwargs={})
+
 		ctx = super(UserPosts, self).get_context_data(**kwargs)
 		ctx['stats'] = (
-			{'label': 'Články', 'count': self.get_articles().count()},
+			{'label': 'Články', 'url': url('article'), 'count': self.get_articles().count()},
 			{'label': 'Blogy', 'count': self.get_blog_posts().count()},
 			{'label': 'Správy', 'count': self.get_news().count()},
 			{'label': 'Témy vo fóre', 'count': self.get_forum_topics().count()},
