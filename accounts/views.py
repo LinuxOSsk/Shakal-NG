@@ -9,6 +9,7 @@ from django.db.models import Max
 from django.shortcuts import get_object_or_404
 from django.utils.safestring import mark_safe
 from django.views.generic import RedirectView, DetailView, UpdateView
+from common_utils.generic import ListView
 
 from .forms import ProfileEditForm
 
@@ -86,10 +87,18 @@ class UserStatsMixin(object):
 			.objects
 			.filter(last_author=self.object, parent__isnull=False))
 
+	def get_context_data(self, **kwargs):
+		ctx = super(UserStatsMixin, self).get_context_data(**kwargs)
+		ctx['user_profile'] = self.object
+		return ctx
+
+	def get(self, request, **kwargs):
+		self.object = self.get_object()
+		return super(UserStatsMixin, self).get(request, **kwargs)
+
 
 class UserPosts(UserStatsMixin, DetailView):
 	template_name = 'account/user_posts.html'
-	context_object_name = 'user_profile'
 
 	def get_context_data(self, **kwargs):
 		ctx = super(UserPosts, self).get_context_data(**kwargs)
@@ -102,3 +111,10 @@ class UserPosts(UserStatsMixin, DetailView):
 			{'label': 'Wiki stránky', 'count': self.get_last_updated_wiki_pages().count()},
 		)
 		return ctx
+
+
+class UserPostsArticle(UserStatsMixin, ListView):
+	template_name = 'account/user_posts_article.html'
+
+	def get_queryset(self):
+		return self.get_articles().order_by('-pk')
