@@ -9,5 +9,8 @@
 
 <h1>{{ user_profile }} - Zoznam článkov</h1>
 
+{% with caption="Články" %}
+	{% include "account/partials/post_list.html" %}
+{% endwith %}
 
 {% endblock %}

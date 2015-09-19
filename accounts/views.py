@@ -60,6 +60,8 @@ class MyProfileEdit(LoginRequiredMixin, MyProfileMixin, UpdateView):
 
 
 class UserStatsMixin(object):
+	paginate_by = 50
+
 	def get_articles(self):
 		return apps.get_model('article.Article').objects.filter(author=self.object)
 

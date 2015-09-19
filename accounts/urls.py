@@ -15,7 +15,7 @@ class Patterns(object):
 			url(r'^$', 'UserZone', name='user_zone'),
 			url(r'^(?P<pk>\d+)/$', 'Profile', name='profile'),
 			url(r'^(?P<pk>\d+)/prispevky/$', 'UserPosts', name='user_posts'),
-			url(r'^(?P<pk>\d+)/prispevky/clanky/$', 'UserPostsArticle', name='user_posts_article'),
+			url(r'^(?P<pk>\d+)/prispevky/clanky/(?:(?P<page>\d+)/)?$', 'UserPostsArticle', name='user_posts_article'),
 			url(r'^ja/$', 'MyProfile', name='my_profile'),
 			url(r'^ja/upravit/$', 'MyProfileEdit', name='my_profile_edit'),
 		)
