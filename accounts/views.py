@@ -83,9 +83,10 @@ class UserStatsMixin(object):
 	def get_commented(self):
 		return (apps.get_model('threaded_comments.Comment')
 			.objects
+			.filter(user=self.object, parent__isnull=False)
 			.values_list('content_type_id', 'object_id')
-			.annotate(last_updated=Max('updated'))
-			.order_by('-last_updated'))
+			.annotate(max_pk=Max('pk'))
+			.order_by('-max_pk'))
 
 	def get_object(self):
 		return get_object_or_404(get_user_model(), pk=self.kwargs['pk'])
@@ -118,7 +119,7 @@ class UserPosts(UserStatsMixin, DetailView):
 			{'label': 'Blogy', 'url': url('blogpost'), 'count': self.get_blog_posts().count()},
 			{'label': 'Správy', 'url': url('news'), 'count': self.get_news().count()},
 			{'label': 'Témy vo fóre', 'url': url('forumtopic'), 'count': self.get_forum_topics().count()},
-			{'label': 'Komentované diskusie', 'count': self.get_commented().count()},
+			{'label': 'Komentované diskusie', 'url': url('commented'), 'count': self.get_commented().count()},
 			{'label': 'Wiki stránky', 'url': url('wikipage'), 'count': self.get_last_updated_wiki_pages().count()},
 		)
 		return ctx
@@ -153,13 +154,16 @@ class UserStatsListBase(UserStatsMixin, ListView):
 		return time_series_filled
 
 	def get_time_series(self, interval, time_stats_ago=365):
-		return (self.get_queryset()
+		return (self.get_stats_queryset()
 			.filter(**{self.stats_by_date_field + '__gte': now().date() + timedelta(-time_stats_ago)})
 			.annotate(**{interval: DateTime(self.stats_by_date_field, interval, get_current_timezone())})
 			.values(interval)
 			.annotate(count=Count('id'))
 			.order_by(interval)
 			.values_list(interval, 'count'))
+
+	def get_stats_queryset(self):
+		return self.get_queryset()
 
 	def get_stats_by_date(self):
 		monthly_stats = self.get_time_series('month', 365*10)
@@ -207,6 +211,17 @@ class UserPostsForumTopic(UserStatsListBase):
 
 	def get_queryset(self):
 		return self.get_forum_topics().order_by('-pk')
+
+
+class UserPostsCommented(UserStatsListBase):
+	template_name = 'account/user_posts_commented.html'
+	stats_by_date_field = 'submit_date'
+
+	def get_stats_queryset(self):
+		return apps.get_model('threaded_comments.Comment').objects.filter(parent__isnull=False, user=self.object)
+
+	def get_queryset(self):
+		return self.get_commented()
 
 
 class UserPostsWikiPage(UserStatsListBase):
