@@ -210,7 +210,7 @@ class UserPostsForumTopic(UserStatsListBase):
 
 
 class UserPostsWikiPage(UserStatsListBase):
-	template_name = 'account/user_posts_forum_wikipage.html'
+	template_name = 'account/user_posts_wikipage.html'
 	stats_by_date_field = 'updated'
 
 	def get_queryset(self):
