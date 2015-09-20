@@ -1,17 +1,21 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from datetime import timedelta
+
 from braces.views import LoginRequiredMixin
 from django.apps import apps
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
-from django.db.models import Max
+from django.db.models import Count, Max
+from django.db.models.expressions import DateTime
 from django.shortcuts import get_object_or_404
 from django.utils.safestring import mark_safe
+from django.utils.timezone import get_current_timezone, now
 from django.views.generic import RedirectView, DetailView, UpdateView
-from common_utils.generic import ListView
 
 from .forms import ProfileEditForm
+from common_utils.generic import ListView
 
 
 class UserZone(LoginRequiredMixin, RedirectView):
@@ -61,6 +65,7 @@ class MyProfileEdit(LoginRequiredMixin, MyProfileMixin, UpdateView):
 
 class UserStatsMixin(object):
 	paginate_by = 50
+	object = None
 
 	def get_articles(self):
 		return apps.get_model('article.Article').objects.filter(author=self.object)
@@ -118,8 +123,32 @@ class UserPosts(UserStatsMixin, DetailView):
 		return ctx
 
 
-class UserPostsArticle(UserStatsMixin, ListView):
+class UserStatsListBase(UserStatsMixin, ListView):
+	stats_by_date_field = None
+
+	def get_stats_by_date(self):
+		monthly_stats = (self.get_queryset()
+			.filter(**{self.stats_by_date_field + '__gte': now() + timedelta((-365) * 10)})
+			.annotate(month=DateTime(self.stats_by_date_field, 'month', get_current_timezone()))
+			.values('month')
+			.annotate(count=Count('id'))
+			.order_by('month')
+			.values_list('month', flat=True))
+		return {
+			'monthly_stats': monthly_stats
+		}
+
+
+	def get_context_data(self, **kwargs):
+		ctx = super(UserStatsListBase, self).get_context_data(**kwargs)
+		if self.stats_by_date_field is not None:
+			ctx.update(self.get_stats_by_date())
+		return ctx
+
+
+class UserPostsArticle(UserStatsListBase):
 	template_name = 'account/user_posts_article.html'
+	stats_by_date_field = 'pub_time'
 
 	def get_queryset(self):
 		return self.get_articles().order_by('-pk')
