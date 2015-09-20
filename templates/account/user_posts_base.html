@@ -157,10 +157,20 @@ var transparentImg = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAA
 
 _.forEach(daily_stats, function(day, i) {
 	if (currentColumn === undefined || day[0][3] === 0) {
+		var isFirst = currentColumn === undefined;
+		var columnOuter = document.createElement('DIV');
+		columnOuter.style.float = 'left';
+		columnOuter.style.width = weekPercentWidth + '%';
+		columnOuter.style.minHeight = '1px';
+		dailyStatsContainer.appendChild(columnOuter);
+
 		currentColumn = document.createElement('DIV');
-		currentColumn.style.float = 'left';
-		currentColumn.style.width = weekPercentWidth + '%';
-		dailyStatsContainer.appendChild(currentColumn);
+		if (isFirst) {
+			currentColumn.style.position = 'absolute';
+			currentColumn.style.bottom = '0px';
+			currentColumn.style.width = weekPercentWidth + '%';
+		}
+		columnOuter.appendChild(currentColumn);
 	}
 
 	var block = document.createElement('DIV');
