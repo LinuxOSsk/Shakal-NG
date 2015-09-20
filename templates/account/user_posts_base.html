@@ -180,7 +180,8 @@ _.forEach(daily_stats, function(day, i) {
 		case 4: title = 'Piatok'; break;
 		case 5: title = 'Sobota'; break;
 		case 6: title = 'Nedeľa'; break;
-	 }
+	}
+	title += ' ' + time[2] + '. ' + time[1] + '. ' + time[0];
 	var img = document.createElement('IMG');
 	img.style.width = '100%';
 	img.style.display = 'block';
