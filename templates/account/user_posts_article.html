@@ -9,6 +9,8 @@
 
 <h1>{{ user_profile }} - Zoznam článkov</h1>
 
+{{ super() }}
+
 {% with caption="Články" %}
 	{% include "account/partials/post_list.html" %}
 {% endwith %}

@@ -5,3 +5,162 @@
 {{ breadcrumb(firstof(user_profile.get_full_name(), user_profile.username), url=user_profile.get_absolute_url()) }}
 {{ super() }}
 {% endblock %}
+
+{% block content %}
+	{% if daily_stats and monthly_stats and page_obj.number == 1 %}
+		<div class="module daily-stats-container">
+			<div class="daily-stats">
+				<div id="daily_stats"></div>
+				<div style="clear: both"></div>
+			</div>
+		</div>
+		<div id="monthly_stats"></div>
+	{% endif %}
+{% endblock %}
+
+{% block extrajs %}
+{{ super() }}
+{% if daily_stats and monthly_stats and page_obj.number == 1 %}
+<script src="{{ static('js/dygraph-combined.js') }}" type="text/javascript" charset="utf-8"></script>
+{% endif %}
+<script type="text/javascript">
+//<![CDATA[
+{% if daily_stats and monthly_stats and page_obj.number == 1 %}
+(function (_) {
+
+var HSVtoRGB = function(h, s, v) {
+	var r, g, b, i, f, p, q, t;
+	if (arguments.length === 1) {
+		s = h.s, v = h.v, h = h.h;
+	}
+	i = Math.floor(h * 6);
+	f = h * 6 - i;
+	p = v * (1 - s);
+	q = v * (1 - f * s);
+	t = v * (1 - (1 - f) * s);
+	switch (i % 6) {
+		case 0: r = v, g = t, b = p; break;
+		case 1: r = q, g = v, b = p; break;
+		case 2: r = p, g = v, b = t; break;
+		case 3: r = p, g = q, b = v; break;
+		case 4: r = t, g = p, b = v; break;
+		case 5: r = v, g = p, b = q; break;
+	}
+	return {
+		r: Math.round(r * 255),
+		g: Math.round(g * 255),
+		b: Math.round(b * 255)
+	};
+};
+
+var RGBtoHSV = function(r, g, b) {
+	if (arguments.length === 1) {
+		g = r.g, b = r.b, r = r.r;
+	}
+	var max = Math.max(r, g, b), min = Math.min(r, g, b),
+		d = max - min,
+		h,
+		s = (max === 0 ? 0 : d / max),
+		v = max / 255;
+
+	switch (max) {
+		case min: h = 0; break;
+		case r: h = (g - b) + d * (g < b ? 6: 0); h /= 6 * d; break;
+		case g: h = (b - r) + d * 2; h /= 6 * d; break;
+		case b: h = (r - g) + d * 4; h /= 6 * d; break;
+	}
+
+	return {
+		h: h,
+		s: s,
+		v: v
+	};
+};
+
+var calcColor = function(val) {
+	var left = [0.6, 0.1, 0.835];
+	var mid = [0.3, 1.00, 0.965];
+	var right = [0.2975, 1.0, 0.5];
+
+	if (val < 0.5) {
+		var pos = val * 2;
+		var rpos = 1.0 - pos;
+		var rgb = HSVtoRGB(mid[0] * pos + left[0] * rpos, mid[1] * pos + left[1] * rpos, mid[2] * pos + left[2] * rpos);
+	}
+	else {
+		var pos = (val - 0.5) * 2;
+		var rpos = 1.0 - pos;
+		var rgb = HSVtoRGB(right[0] * pos + mid[0] * rpos, right[1] * pos + mid[1] * rpos, right[2] * pos + mid[2] * rpos);
+	}
+
+	return 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
+};
+
+var daily_stats = [
+{% for day, count in daily_stats %}
+[[{{ day.year }}, {{ day.month }}, {{ day.day }}, {{ day.weekday() }}], {{ count }}]{% if not loop.last %},{% endif %}
+{% endfor %}
+];
+var monthly_stats = [
+{% for month, count in monthly_stats %}
+[[{{ month.year }}, {{ month.month }}, {{ month.day }}], {{ count }}]{% if not loop.last %},{% endif %}
+{% endfor %}
+];
+
+var countWeeks = 0;
+var maxDayValue = 0;
+
+_.forEach(daily_stats, function(day, i) {
+	if (day[0][3] === 0 || i === 0) {
+		countWeeks++;
+	}
+	maxDayValue = Math.max(maxDayValue, day[1]);
+});
+
+var weekPercentWidth = 100 / countWeeks;
+var dailyStatsContainer = _.id('daily_stats');
+var currentColumn = undefined;
+var transparentImg = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
+_.forEach(daily_stats, function(day, i) {
+	if (currentColumn === undefined || day[0][3] === 0) {
+		currentColumn = document.createElement('DIV');
+		currentColumn.style.float = 'left';
+		currentColumn.style.width = weekPercentWidth + '%';
+		dailyStatsContainer.appendChild(currentColumn);
+	}
+
+	var block = document.createElement('DIV');
+	block.style.background = '#eeeeee';
+	if (day[1]) {
+		block.style.background = calcColor(day[1] / maxDayValue);
+	}
+	block.style.border = '1px solid white';
+
+	var time = day[0];
+	var title = '';
+	switch (time[3]) {
+		case 0: title = 'Pondelok'; break;
+		case 1: title = 'Utorok'; break;
+		case 2: title = 'Streda'; break;
+		case 3: title = 'Štvrtok'; break;
+		case 4: title = 'Piatok'; break;
+		case 5: title = 'Sobota'; break;
+		case 6: title = 'Nedeľa'; break;
+	 }
+	var img = document.createElement('IMG');
+	img.style.width = '100%';
+	img.style.display = 'block';
+	img.src = transparentImg;
+	img.setAttribute('title', title + ' - ' + day[1]);
+
+	block.appendChild(img);
+	currentColumn.appendChild(block);
+});
+
+
+}(_utils));
+{% endif %}
+//]]>
+</script>
+{% endblock %}
