@@ -119,7 +119,7 @@ class UserPosts(UserStatsMixin, DetailView):
 			{'label': 'Správy', 'url': url('news'), 'count': self.get_news().count()},
 			{'label': 'Témy vo fóre', 'url': url('forumtopic'), 'count': self.get_forum_topics().count()},
 			{'label': 'Komentované diskusie', 'count': self.get_commented().count()},
-			{'label': 'Wiki stránky', 'count': self.get_last_updated_wiki_pages().count()},
+			{'label': 'Wiki stránky', 'url': url('wikipage'), 'count': self.get_last_updated_wiki_pages().count()},
 		)
 		return ctx
 
@@ -207,3 +207,11 @@ class UserPostsForumTopic(UserStatsListBase):
 
 	def get_queryset(self):
 		return self.get_forum_topics().order_by('-pk')
+
+
+class UserPostsWikiPage(UserStatsListBase):
+	template_name = 'account/user_posts_forum_wikipage.html'
+	stats_by_date_field = 'updated'
+
+	def get_queryset(self):
+		return self.get_last_updated_wiki_pages().order_by('-pk')

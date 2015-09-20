@@ -1,17 +1,17 @@
 {% extends "account/user_posts_base.html" %}
 
 {% block breadcrumbs %}
-{{ breadcrumb("Témy vo fóre") }}
+{{ breadcrumb("Wiki stránky") }}
 {{ super() }}
 {% endblock %}
 
 {% block content %}
 
-<h1>{{ user_profile }} - Zoznam tém</h1>
+<h1>{{ user_profile }} - Zoznam wiki stránok</h1>
 
 {{ super() }}
 
-{% with caption="Témy vo fóre" %}
+{% with caption="Wiki stránky" %}
 	{% include "account/partials/post_list.html" %}
 {% endwith %}
 
