@@ -8,13 +8,17 @@
 
 {% block content %}
 	{% if daily_stats and monthly_stats and page_obj.number == 1 %}
+		<div class="module monthly-stats-container">
+			<div class="monthly-stats">
+				<div id="monthly_stats"></div>
+			</div>
+		</div>
 		<div class="module daily-stats-container">
 			<div class="daily-stats">
 				<div id="daily_stats"></div>
 				<div style="clear: both"></div>
 			</div>
 		</div>
-		<div id="monthly_stats"></div>
 	{% endif %}
 {% endblock %}
 
@@ -75,6 +79,35 @@ var RGBtoHSV = function(r, g, b) {
 		s: s,
 		v: v
 	};
+};
+
+var BarChartPlotter = function(e) {
+	var ctx = e.drawingContext;
+	var points = e.points;
+	var y_bottom = e.dygraph.toDomYCoord(0);
+
+	var bar_width = 1;
+	var xmin = points[0].xval;
+	var xmax = points[points.length - 1].xval;
+	var xdiff = xmax - xmin;
+	for (var i = 0; i < points.length - 1; i++) {
+		xdiff = Math.min(points[i+1].xval - points[i].xval, xdiff);
+	}
+	var bar_width = 2/3 * (points[1].canvasx - points[0].canvasx) * (xdiff / (points[1].xval - points[0].xval));
+
+	var color = new RGBColorParser(e.color);
+	color.r = Math.floor((255 + color.r) / 2);
+	color.g = Math.floor((255 + color.g) / 2);
+	color.b = Math.floor((255 + color.b) / 2);
+	ctx.fillStyle = color.toRGB();
+
+	for (var i = 0; i < points.length; i++) {
+		var p = points[i];
+		var center_x = p.canvasx;
+
+		ctx.fillRect(center_x - bar_width / 2, p.canvasy, bar_width, y_bottom - p.canvasy);
+		ctx.strokeRect(center_x - bar_width / 2, p.canvasy, bar_width, y_bottom - p.canvasy);
+	}
 };
 
 var calcColor = function(val) {
@@ -158,6 +191,28 @@ _.forEach(daily_stats, function(day, i) {
 	currentColumn.appendChild(block);
 });
 
+var monthlyStatsContainer = _.id('monthly_stats');
+if (monthly_stats.length < 2) {
+	monthlyStatsContainer.parentNode.parentNode.style.display = "none";
+	return;
+}
+
+var data = [];
+_.forEach(monthly_stats, function(day, i) {
+	var date = new Date(day[0][0], day[0][1] - 1, day[0][2]);
+	data.push([date, day[1]]);
+});
+
+var opts = {
+	plotter: BarChartPlotter,
+	axes: {
+		x: {
+			valueFormatter: Dygraph.dateString_,
+			ticker: Dygraph.dateTicker
+		}
+	}
+};
+var graph = new Dygraph(monthlyStatsContainer, data, opts);
 
 }(_utils));
 {% endif %}
