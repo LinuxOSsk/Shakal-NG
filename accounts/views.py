@@ -127,28 +127,34 @@ class UserPosts(UserStatsMixin, DetailView):
 class UserStatsListBase(UserStatsMixin, ListView):
 	stats_by_date_field = None
 
-	def fill_time_series_gap(self, time_series, interval, last_time=None):
+	def fill_time_series_gap(self, time_series, interval, start_time=None):
 		time_series = list(time_series)
 		if len(time_series) < 2:
 			return time_series
 
+		end_time = now()
+		last_time = start_time
 		time_series_filled = []
 		for series_item in time_series:
 			item_time = series_item[0]
 
 			if last_time is not None:
-				last_time += relativedelta(**{interval: 1})
 				while last_time < item_time:
-					last_time += relativedelta(**{interval: 1})
 					time_series_filled.append((last_time, 0))
+					last_time += relativedelta(**{interval: 1})
 
 			time_series_filled.append(series_item)
-			last_time = item_time
+			last_time = item_time + relativedelta(**{interval: 1})
+
+		while last_time < end_time:
+			time_series_filled.append((last_time, 0))
+			last_time += relativedelta(**{interval: 1})
+
 		return time_series_filled
 
 	def get_time_series(self, interval, time_stats_ago=365):
 		return (self.get_queryset()
-			.filter(**{self.stats_by_date_field + '__gte': now().date() + timedelta((-365) * 10)})
+			.filter(**{self.stats_by_date_field + '__gte': now().date() + timedelta(-time_stats_ago)})
 			.annotate(**{interval: DateTime(self.stats_by_date_field, interval, get_current_timezone())})
 			.values(interval)
 			.annotate(count=Count('id'))
@@ -158,9 +164,10 @@ class UserStatsListBase(UserStatsMixin, ListView):
 	def get_stats_by_date(self):
 		monthly_stats = self.get_time_series('month', 365*10)
 		daily_stats = self.get_time_series('day', 365)
+		year_ago = (now() + timedelta(-365)).replace(hour=0, minute=0, second=0, microsecond=0)
 		return {
 			'monthly_stats': self.fill_time_series_gap(monthly_stats, 'months'),
-			'daily_stats': self.fill_time_series_gap(daily_stats, 'days'),
+			'daily_stats': self.fill_time_series_gap(daily_stats, 'days', start_time=year_ago),
 		}
 
 	def get_context_data(self, **kwargs):
