@@ -18,6 +18,7 @@ class Patterns(object):
 			url(r'^(?P<pk>\d+)/prispevky/clanky/(?:(?P<page>\d+)/)?$', 'UserPostsArticle', name='user_posts_article'),
 			url(r'^(?P<pk>\d+)/prispevky/blogy/(?:(?P<page>\d+)/)?$', 'UserPostsBlogpost', name='user_posts_blogpost'),
 			url(r'^(?P<pk>\d+)/prispevky/spravy/(?:(?P<page>\d+)/)?$', 'UserPostsNews', name='user_posts_news'),
+			url(r'^(?P<pk>\d+)/prispevky/forum-temy/(?:(?P<page>\d+)/)?$', 'UserPostsForumTopic', name='user_posts_forumtopic'),
 			url(r'^ja/$', 'MyProfile', name='my_profile'),
 			url(r'^ja/upravit/$', 'MyProfileEdit', name='my_profile_edit'),
 		)

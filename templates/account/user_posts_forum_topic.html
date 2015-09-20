@@ -1,0 +1,19 @@
+{% extends "account/user_posts_base.html" %}
+
+{% block breadcrumbs %}
+{{ breadcrumb("Témy vo fóre") }}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+
+<h1>{{ user_profile }} - Zoznam tém</h1>
+
+{{ super() }}
+
+{% with caption="Témy vo fóre" %}
+	{% include "account/partials/post_list.html" %}
+{% endwith %}
+
+{% endblock %}
+
