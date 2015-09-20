@@ -129,7 +129,7 @@ class UserStatsListBase(UserStatsMixin, ListView):
 
 	def fill_time_series_gap(self, time_series, interval, start_time=None):
 		time_series = list(time_series)
-		if len(time_series) < 2:
+		if len(time_series) < 2 and start_time is None:
 			return time_series
 
 		end_time = now().date()
