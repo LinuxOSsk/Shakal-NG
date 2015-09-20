@@ -146,16 +146,21 @@ class UserStatsListBase(UserStatsMixin, ListView):
 			last_time = item_time
 		return time_series_filled
 
-	def get_stats_by_date(self):
-		monthly_stats = (self.get_queryset()
-			.filter(**{self.stats_by_date_field + '__gte': now() + timedelta((-365) * 10)})
-			.annotate(month=DateTime(self.stats_by_date_field, 'month', get_current_timezone()))
-			.values('month')
+	def get_time_series(self, interval, time_stats_ago=365):
+		return (self.get_queryset()
+			.filter(**{self.stats_by_date_field + '__gte': now().date() + timedelta((-365) * 10)})
+			.annotate(**{interval: DateTime(self.stats_by_date_field, interval, get_current_timezone())})
+			.values(interval)
 			.annotate(count=Count('id'))
-			.order_by('month')
-			.values_list('month', 'count'))
+			.order_by(interval)
+			.values_list(interval, 'count'))
+
+	def get_stats_by_date(self):
+		monthly_stats = self.get_time_series('month', 365*10)
+		daily_stats = self.get_time_series('day', 365)
 		return {
-			'monthly_stats': self.fill_time_series_gap(monthly_stats, 'months')
+			'monthly_stats': self.fill_time_series_gap(monthly_stats, 'months'),
+			'daily_stats': self.fill_time_series_gap(daily_stats, 'days'),
 		}
 
 	def get_context_data(self, **kwargs):
