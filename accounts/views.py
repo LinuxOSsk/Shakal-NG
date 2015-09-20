@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from datetime import timedelta
 
+from dateutil.relativedelta import relativedelta
 from braces.views import LoginRequiredMixin
 from django.apps import apps
 from django.contrib.auth import get_user_model
@@ -126,6 +127,25 @@ class UserPosts(UserStatsMixin, DetailView):
 class UserStatsListBase(UserStatsMixin, ListView):
 	stats_by_date_field = None
 
+	def fill_time_series_gap(self, time_series, interval, last_time=None):
+		time_series = list(time_series)
+		if len(time_series) < 2:
+			return time_series
+
+		time_series_filled = []
+		for series_item in time_series:
+			item_time = series_item[0]
+
+			if last_time is not None:
+				last_time += relativedelta(**{interval: 1})
+				while last_time < item_time:
+					last_time += relativedelta(**{interval: 1})
+					time_series_filled.append((last_time, 0))
+
+			time_series_filled.append(series_item)
+			last_time = item_time
+		return time_series_filled
+
 	def get_stats_by_date(self):
 		monthly_stats = (self.get_queryset()
 			.filter(**{self.stats_by_date_field + '__gte': now() + timedelta((-365) * 10)})
@@ -133,11 +153,10 @@ class UserStatsListBase(UserStatsMixin, ListView):
 			.values('month')
 			.annotate(count=Count('id'))
 			.order_by('month')
-			.values_list('month', flat=True))
+			.values_list('month', 'count'))
 		return {
-			'monthly_stats': monthly_stats
+			'monthly_stats': self.fill_time_series_gap(monthly_stats, 'months')
 		}
-
 
 	def get_context_data(self, **kwargs):
 		ctx = super(UserStatsListBase, self).get_context_data(**kwargs)
