@@ -1,0 +1,18 @@
+{% extends "account/user_posts_base.html" %}
+
+{% block breadcrumbs %}
+{{ breadcrumb("Zoznam blogov") }}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+
+<h1>{{ user_profile }} - Zoznam blogov</h1>
+
+{{ super() }}
+
+{% with caption="Blogy" %}
+	{% include "account/partials/post_list.html" %}
+{% endwith %}
+
+{% endblock %}
