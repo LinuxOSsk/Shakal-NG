@@ -132,11 +132,11 @@ class UserStatsListBase(UserStatsMixin, ListView):
 		if len(time_series) < 2:
 			return time_series
 
-		end_time = now()
-		last_time = start_time
+		end_time = now().date()
+		last_time = start_time.date() if start_time else None
 		time_series_filled = []
 		for series_item in time_series:
-			item_time = series_item[0]
+			item_time = series_item[0].date()
 
 			if last_time is not None:
 				while last_time < item_time:
@@ -146,7 +146,7 @@ class UserStatsListBase(UserStatsMixin, ListView):
 			time_series_filled.append(series_item)
 			last_time = item_time + relativedelta(**{interval: 1})
 
-		while last_time < end_time:
+		while last_time <= end_time:
 			time_series_filled.append((last_time, 0))
 			last_time += relativedelta(**{interval: 1})
 
