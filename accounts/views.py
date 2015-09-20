@@ -116,7 +116,7 @@ class UserPosts(UserStatsMixin, DetailView):
 		ctx['stats'] = (
 			{'label': 'Články', 'url': url('article'), 'count': self.get_articles().count()},
 			{'label': 'Blogy', 'url': url('blogpost'), 'count': self.get_blog_posts().count()},
-			{'label': 'Správy', 'count': self.get_news().count()},
+			{'label': 'Správy', 'url': url('news'), 'count': self.get_news().count()},
 			{'label': 'Témy vo fóre', 'count': self.get_forum_topics().count()},
 			{'label': 'Komentované diskusie', 'count': self.get_commented().count()},
 			{'label': 'Wiki stránky', 'count': self.get_last_updated_wiki_pages().count()},
@@ -191,3 +191,11 @@ class UserPostsBlogpost(UserStatsListBase):
 
 	def get_queryset(self):
 		return self.get_blog_posts().order_by('-pk')
+
+
+class UserPostsNews(UserStatsListBase):
+	template_name = 'account/user_posts_news.html'
+	stats_by_date_field = 'created'
+
+	def get_queryset(self):
+		return self.get_news().order_by('-pk')
