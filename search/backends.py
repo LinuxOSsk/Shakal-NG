@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# pylint: disable=abstract-method,too-many-locals,protected-access,no-member
+# pylint: disable=abstract-method,too-many-locals,protected-access,no-member,unused-argument
 from __future__ import unicode_literals
 
 from django.db.models import Q
@@ -58,6 +58,12 @@ class SimpleSearchBackend(CoreSimpleSearchBackend):
 			'results': results,
 			'hits': hits,
 		}
+
+	def update(self, index, iterable, commit=True):
+		pass
+
+	def clear(self, models=None, commit=True):
+		pass
 
 
 class SimpleEngine(BaseEngine):
