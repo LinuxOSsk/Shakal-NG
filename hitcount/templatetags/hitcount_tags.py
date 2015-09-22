@@ -15,9 +15,12 @@ def add_hitcount(*models):
 
 	cache = get_cache()
 
-	# odstránenie prázdnych
 	hitcounts_lookups = {content_type: [i for i in id_list if (i, content_type.pk) not in cache] for content_type, id_list in hitcounts_lookups.iteritems()}
 	hitcounts_lookups = {content_type: id_list for content_type, id_list in hitcounts_lookups.iteritems() if id_list}
+
+	for model, content_type in zip(models, content_types):
+		for obj in model:
+			obj.display_count = cache.get((obj.pk, content_type.pk), None)
 
 	if not hitcounts_lookups:
 		return ''
