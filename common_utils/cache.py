@@ -1,10 +1,36 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import collections
 import hashlib
 import pickle
-
 from django.core.cache import caches
+
+
+class LRUCache:
+	def __init__(self, maxsize):
+		self.__maxsize = maxsize
+		self.__cache = collections.OrderedDict()
+
+	def __getitem__(self, key):
+		value = self.__cache.pop(key)
+		self.__cache[key] = value
+		return value
+
+	def __setitem__(self, key, value):
+		self.__cache.pop(key, None)
+		if len(self.__cache) >= self.__maxsize - 1:
+			self.__cache.popitem(last=False)
+		self.__cache[key] = value
+
+	def __delitem__(self, key):
+		self.__cache.pop(key)
+
+	def __contains__(self, key):
+		return key in self.__cache
+
+	def get(self, key, default=None):
+		return self.__cache.get(key, default)
 
 
 class Cache(object):

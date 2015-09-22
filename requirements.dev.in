@@ -1,6 +1,5 @@
 Django
 Pillow
-cachetools
 django-allauth
 django-braces
 django-compressor

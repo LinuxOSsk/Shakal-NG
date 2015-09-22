@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from cachetools import LRUCache
 from django.core.cache import caches
+
+from common_utils.cache import LRUCache
 
 
 default_cache = caches['default']
