@@ -3,6 +3,7 @@ django-debug-toolbar
 django-debugtools
 django-extensions
 django-extensions
+ipython
 ptpython
 pylint-django
 watchdog

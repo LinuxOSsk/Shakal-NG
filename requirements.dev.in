@@ -12,7 +12,6 @@ django-reversion
 django-static-sitemaps
 django-suit
 feedparser
-ipython
 pip-tools
 python-dateutil
 pytz
@@ -25,6 +24,7 @@ django-debug-toolbar
 django-debugtools
 django-extensions
 django-extensions
+ipython
 ptpython
 pylint-django
 watchdog

@@ -2,4 +2,6 @@ python-memcached
 queues
 queued-search
 redis
+ipython
+ptpython
 -e git+git://github.com/notanumber/xapian-haystack.git#egg=xapian_haystack

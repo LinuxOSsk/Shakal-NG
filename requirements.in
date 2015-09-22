@@ -12,7 +12,6 @@ django-reversion
 django-static-sitemaps
 django-suit
 feedparser
-ipython
 pip-tools
 python-dateutil
 pytz
