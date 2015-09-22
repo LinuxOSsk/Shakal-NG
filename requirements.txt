@@ -8,7 +8,6 @@
 -e git+git://github.com/mireq/django-autoslugfield.git#egg=django_autoslugfield
 -e git+git://github.com/mireq/django-sample-data-generator.git#egg=django_sample_data_generator
 -e git+git://github.com/mireq/django-simple-paginator.git@#egg=django_simple_paginator
--e git+git://github.com/notanumber/xapian-haystack.git#egg=xapian_haystack
 cachetools==1.1.3
 click==5.1                # via pip-tools
 decorator==4.0.2          # via ipython, traitlets
@@ -39,19 +38,14 @@ pickleshare==0.5          # via ipython
 pillow==2.9.0
 pip-tools==1.1.4
 python-dateutil==2.4.2
-python-memcached==1.57
 python-openid==2.2.5      # via django-allauth
-pytz==2015.4
-queued-search==2.1.0
-queues==0.6.3
-redis==2.10.3
+pytz==2015.6
 requests-oauthlib==0.5.0  # via django-allauth
 requests==2.7.0           # via django-allauth, requests-oauthlib
 simplegeneric==0.8.1      # via ipython
-six==1.9.0                # via django-appconf, django-braces, libsass, pip-tools, python-dateutil, python-memcached
+six==1.9.0                # via django-appconf, django-braces, libsass, pip-tools, python-dateutil
 traitlets==4.0.0          # via ipython
-whoosh==2.7.0
 
 # The following packages are commented out because they are
 # considered to be unsafe in a requirements file:
-# setuptools==18.3.1        # via django-static-sitemaps
+# setuptools==18.3.2        # via django-static-sitemaps

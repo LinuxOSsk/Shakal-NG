@@ -1,0 +1,5 @@
+python-memcached
+queues
+queued-search
+redis
+-e git+git://github.com/notanumber/xapian-haystack.git#egg=xapian_haystack

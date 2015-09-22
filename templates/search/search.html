@@ -29,7 +29,9 @@
 			{% with content_type=result.content_type() %}
 				{% include "widgets/content_type_label.html" %}
 			{% endwith %}
-			{{ highlight(result.text + "", query, max_length=300) }}
+			{% if result.text %}
+				{{ highlight(result.text + "", query, max_length=300) }}
+			{% endif %}
 			<div class="info">
 			{% if result.author %}Autor: {{ result.author }}&nbsp;|&nbsp;{% endif %}
 			{% if result.created %}Vytvorené: {{ result.created|date("d.m.Y H:i") }}&nbsp;|&nbsp;{% endif %}

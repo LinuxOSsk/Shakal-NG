@@ -269,8 +269,7 @@ ATTACHMENT_SIZE_FOR_CONTENT = {
 
 HAYSTACK_CONNECTIONS = {
 	'default': {
-		'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
-		'PATH': os.path.join(BASE_DIR, 'whoosh_index')
+		'ENGINE': 'search.backends.SimpleEngine',
 	},
 }
 
