@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 
 from datetime import timedelta
 
-from dateutil.relativedelta import relativedelta
 from braces.views import LoginRequiredMixin
+from dateutil.relativedelta import relativedelta
 from django.apps import apps
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
@@ -17,6 +17,7 @@ from django.utils.timezone import get_current_timezone, now
 from django.views.generic import RedirectView, DetailView, UpdateView
 
 from .forms import ProfileEditForm
+from common_utils import get_meta
 from common_utils.generic import ListView
 
 
@@ -128,6 +129,7 @@ class UserPosts(UserStatsMixin, DetailView):
 
 class UserStatsListBase(UserStatsMixin, ListView):
 	stats_by_date_field = None
+	template_name = 'account/user_posts_detail.html'
 
 	def fill_time_series_gap(self, time_series, interval, start_time=None):
 		time_series = list(time_series)
@@ -175,15 +177,18 @@ class UserStatsListBase(UserStatsMixin, ListView):
 			'daily_stats': self.fill_time_series_gap(daily_stats, 'days', start_time=year_ago),
 		}
 
+	def get_objects_name(self):
+		return get_meta(self.get_queryset().model).verbose_name_plural
+
 	def get_context_data(self, **kwargs):
 		ctx = super(UserStatsListBase, self).get_context_data(**kwargs)
 		if self.stats_by_date_field is not None:
 			ctx.update(self.get_stats_by_date())
+		ctx['objects_name'] = self.get_objects_name()
 		return ctx
 
 
 class UserPostsArticle(UserStatsListBase):
-	template_name = 'account/user_posts_article.html'
 	stats_by_date_field = 'pub_time'
 
 	def get_queryset(self):
@@ -191,7 +196,6 @@ class UserPostsArticle(UserStatsListBase):
 
 
 class UserPostsBlogpost(UserStatsListBase):
-	template_name = 'account/user_posts_blogpost.html'
 	stats_by_date_field = 'pub_time'
 
 	def get_queryset(self):
@@ -199,7 +203,6 @@ class UserPostsBlogpost(UserStatsListBase):
 
 
 class UserPostsNews(UserStatsListBase):
-	template_name = 'account/user_posts_news.html'
 	stats_by_date_field = 'created'
 
 	def get_queryset(self):
@@ -207,7 +210,6 @@ class UserPostsNews(UserStatsListBase):
 
 
 class UserPostsForumTopic(UserStatsListBase):
-	template_name = 'account/user_posts_forum_topic.html'
 	stats_by_date_field = 'created'
 
 	def get_queryset(self):
@@ -251,7 +253,6 @@ class UserPostsCommented(UserStatsListBase):
 
 
 class UserPostsWikiPage(UserStatsListBase):
-	template_name = 'account/user_posts_wikipage.html'
 	stats_by_date_field = 'updated'
 
 	def get_queryset(self):
