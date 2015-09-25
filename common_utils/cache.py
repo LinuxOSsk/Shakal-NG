@@ -7,7 +7,7 @@ import pickle
 from django.core.cache import caches
 
 
-class LRUCache:
+class LRUCache(collections.MutableMapping):
 	def __init__(self, maxsize):
 		self.__maxsize = maxsize
 		self.__cache = collections.OrderedDict()
@@ -19,15 +19,24 @@ class LRUCache:
 
 	def __setitem__(self, key, value):
 		self.__cache.pop(key, None)
-		if len(self.__cache) >= self.__maxsize - 1:
-			self.__cache.popitem(last=False)
 		self.__cache[key] = value
+		if len(self.__cache) > self.__maxsize:
+			self.__cache.popitem(last=False)
 
 	def __delitem__(self, key):
 		self.__cache.pop(key)
 
 	def __contains__(self, key):
 		return key in self.__cache
+
+	def __iter__(self):
+		return iter(self.__cache)
+
+	def __len__(self):
+		return len(self.__cache)
+
+	def __repr__(self):
+		return repr(self.__cache)
 
 	def get(self, key, default=None):
 		return self.__cache.get(key, default)
