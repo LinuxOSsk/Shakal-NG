@@ -36,7 +36,7 @@ def error_404(request):
 class Home(TemplateView):
 	template_name = 'home.html'
 
-	@cached_method(tag='article.Article')
+	@cached_method(tag='article.article')
 	def get_articles(self):
 		try:
 			top_articles = Article.objects.all().filter(top=True)
@@ -49,7 +49,7 @@ class Home(TemplateView):
 		top_articles = list(top_articles.select_related('author', 'category')[:1])
 		return articles, top_articles
 
-	@cached_method(tag='blog.Post')
+	@cached_method(tag='blog.post')
 	def get_posts(self):
 		try:
 			top_posts = list(Post.objects.all().filter(linux=True)[:1])
@@ -59,18 +59,26 @@ class Home(TemplateView):
 			posts = Post.objects.all()
 		return list(posts[:4]), top_posts
 
+	@cached_method(tag='forum.topic')
+	def get_topics(self):
+		forum_new = list(ForumTopic.topics.newest_comments()[:20])
+		forum_no_comments = list(ForumTopic.topics.no_comments()[:5])
+		forum_most_comments = list(ForumTopic.topics.most_commented()[:5])
+		return forum_new, forum_no_comments, forum_most_comments
+
 	def get_context_data(self, **kwargs):
 		ctx = super(Home, self).get_context_data(**kwargs)
 		articles, top_articles = self.get_articles()
 		posts, top_posts = self.get_posts()
+		forum_new, forum_no_comments, forum_most_comments = self.get_topics()
 		ctx.update({
 			'top_articles': top_articles,
 			'articles': articles,
 			'top_posts': top_posts,
 			'posts': posts,
-			'forum_new': ForumTopic.topics.newest_comments()[:20],
-			'forum_no_comments': ForumTopic.topics.no_comments()[:5],
-			'forum_most_comments': ForumTopic.topics.most_commented()[:5],
+			'forum_new': forum_new,
+			'forum_no_comments': forum_no_comments,
+			'forum_most_comments': forum_most_comments,
 			'article_categories': Category.objects.all(),
 		})
 		return ctx

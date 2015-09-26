@@ -5,6 +5,9 @@ import collections
 import hashlib
 import pickle
 from django.core.cache import caches
+from django.db.models.signals import post_delete, post_save
+
+from common_utils import get_meta
 
 
 class LRUCache(collections.MutableMapping):
@@ -155,15 +158,18 @@ def cached_method_factory(cache):
 	return decorator
 
 
-def delete_tag_handler_factory(cache):
-	def delete_tag_handler(name):
-		def delete_tag_wrap(*args, **kwargs):
-			cache.delete_tag(name)
-		return delete_tag_wrap
-	return delete_tag_handler
-
-
 cache_instance = SimpleCache()
 cached_fn = cached_fn_factory(cache_instance)
 cached_method = cached_method_factory(cache_instance)
-delete_tag_factory = delete_tag_handler_factory(cache_instance)
+
+
+def delete_model_cache(sender, **kwargs):
+	meta = get_meta(sender)
+	tag_name = '%s.%s' % (meta.app_label, meta.model_name)
+	cache_instance.delete_tag(tag_name)
+	if tag_name == 'threaded_comments.rootheader':
+		cache_instance.delete_tag('forum.topic')
+
+
+post_save.connect(delete_model_cache)
+post_delete.connect(delete_model_cache)
