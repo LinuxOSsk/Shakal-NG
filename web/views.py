@@ -36,7 +36,7 @@ def error_404(request):
 class Home(TemplateView):
 	template_name = 'home.html'
 
-	@cached_method(tag='web.views.Home.get_articles')
+	@cached_method(tag='article.Article')
 	def get_articles(self):
 		try:
 			top_articles = Article.objects.all().filter(top=True)
@@ -49,22 +49,25 @@ class Home(TemplateView):
 		top_articles = list(top_articles.select_related('author', 'category')[:1])
 		return articles, top_articles
 
-	def get_context_data(self, **kwargs):
-		ctx = super(Home, self).get_context_data(**kwargs)
-		articles, top_articles = self.get_articles()
-
+	@cached_method(tag='blog.Post')
+	def get_posts(self):
 		try:
-			top_posts = Post.objects.all().filter(linux=True)
+			top_posts = list(Post.objects.all().filter(linux=True)[:1])
 			posts = Post.objects.all().exclude(pk=top_posts[0].pk)
 		except IndexError:
 			top_posts = Post.objects.all().none()
 			posts = Post.objects.all()
+		return list(posts[:4]), top_posts
 
+	def get_context_data(self, **kwargs):
+		ctx = super(Home, self).get_context_data(**kwargs)
+		articles, top_articles = self.get_articles()
+		posts, top_posts = self.get_posts()
 		ctx.update({
 			'top_articles': top_articles,
 			'articles': articles,
-			'top_posts': top_posts[:1],
-			'posts': posts[:4],
+			'top_posts': top_posts,
+			'posts': posts,
 			'forum_new': ForumTopic.topics.newest_comments()[:20],
 			'forum_no_comments': ForumTopic.topics.no_comments()[:5],
 			'forum_most_comments': ForumTopic.topics.most_commented()[:5],
