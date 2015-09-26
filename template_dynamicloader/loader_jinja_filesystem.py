@@ -8,8 +8,12 @@ from .loader_filesystem import DynamicLoaderMixin
 
 
 class JinjaLoader(DynamicLoaderMixin, FileSystemLoader):
-	def __init__(self, *args, **kwargs):
-		super(JinjaLoader, self).__init__(*args, **kwargs)
+	is_usable = True
+	_accepts_engine_in_init = True
+
+	def __init__(self, engine):
+		from django.template.loaders import app_directories
+		super(JinjaLoader, self).__init__(tuple(engine.dirs) + app_directories.get_app_template_dirs('templates'))
 		from django.conf import settings
 		auto_reload = {t['BACKEND']: t for t in settings.TEMPLATES}['template_dynamicloader.backend.Jinja2']["OPTIONS"].get('auto_reload', False)
 		cache_enable = not auto_reload

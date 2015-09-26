@@ -1,0 +1,17 @@
+{% extends "account/user_posts_base.html" %}
+
+{% block head_title %}Zoznam príspevkov | {{ super() }}{% endblock %}
+
+{% block content %}
+
+<h1>{{ user_profile }} - Zoznam príspevkov</h1>
+
+<ul>
+	{% for stat in stats %}
+		{% if stat.count %}
+			<li><a href="{{ stat.url }}">{{ stat.label }} ({{ stat.count }})</a></li>
+		{% endif %}
+	{% endfor %}
+</ul>
+
+{% endblock %}

@@ -1,6 +1,6 @@
 {% extends "article/article_base.html" %}
 
-{% block title %}{% if category %}{{ category }}{% else %}Články{% endif %}{% endblock %}
+{% block head_title %}{% if category %}{{ category }}{% else %}Články{% endif %}{% endblock %}
 
 {% block breadcrumbs %}
 	{% if category %}

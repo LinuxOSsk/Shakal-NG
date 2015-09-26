@@ -2,16 +2,15 @@
 
 {% block breadcrumbs %}
 {{ breadcrumb("Diskusia") }}
-{{ breadcrumb(content_object|truncatechars(50), absolute_url=content_object.get_absolute_url()) }}
-{{ breadcrumb(module_name, absolute_url=module_url) }}
+{{ breadcrumb(content_object|truncatechars(50), url=content_object.get_absolute_url()) }}
+{{ breadcrumb(module_name, url=module_url) }}
 {{ super() }}
 {% endblock %}
 
-{% block title %}Pridať komentár{% endblock %}
+{% block head_title %}Pridať komentár{% endblock %}
 
 {% block extraheaders %}
 <meta name="robots" content="noindex, nofollow" />
-{% if form %}{{ form.media }}{% endif %}
 {% endblock %}
 
 {% block content %}

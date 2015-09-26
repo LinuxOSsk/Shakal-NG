@@ -1,6 +1,6 @@
 <div class="comments_tree">
 {% for comment, tree in comments|tree_info %}
-	{% if tree.new_level %}<ul class="comment_thread thread_{{ comment.level }}"><li class="comment">	{% else %}</li><li class="comment">{% endif %}
+	{% if tree.new_level %}<ul class="comment_thread thread_{{ comment.level }}"><li class="comment">{% else %}</li><li class="comment">{% endif %}
 	{% include "comments/comment_item.html" %}
 	{% for level in tree.closed_levels %}</li></ul>{% endfor %}
 {% endfor %}

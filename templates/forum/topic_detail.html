@@ -1,6 +1,6 @@
 {% extends "forum/forum_base.html" %}
 
-{% block title %}{{ topic }}{% endblock %}
+{% block head_title %}{{ topic }}{% endblock %}
 
 {% block breadcrumbs %}
 	{{ breadcrumb(topic|truncatechars(60)) }}

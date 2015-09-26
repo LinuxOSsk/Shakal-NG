@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django import forms
 from django.forms.formsets import formset_factory, BaseFormSet
 from django.utils.translation import ugettext_lazy as _
@@ -25,6 +27,7 @@ class ChoiceForm(forms.ModelForm):
 		model = Choice
 		exclude = ('poll', 'votes', )
 
+
 ChoiceFormSet = formset_factory(ChoiceForm, formset=BaseChoiceFormSet, extra=10)
 ChoiceFormSet.label = _('Choices')
 ChoiceFormSet.hide_table_labels = True
@@ -46,3 +49,11 @@ class PollForm(forms.ModelForm):
 		model = Poll
 		exclude = ('approved', 'active_from', 'choice_count', 'content_type', 'object_id', 'slug')
 		fields = ('question', 'checkbox')
+
+
+class VoteForm(forms.Form):
+	choice = forms.ModelMultipleChoiceField(queryset=Choice.objects.none())
+
+	def __init__(self, poll, *args, **kwargs):
+		super(VoteForm, self).__init__(*args, **kwargs)
+		self.fields['choice'].queryset = poll.choice_set.all()

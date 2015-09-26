@@ -1,1 +1,1 @@
-from feeds.api import *
+default_app_config = 'feeds.apps.FeedsConfig'

@@ -1,3 +1,4 @@
+{% if comment.parent_id %}
 {% with %}
 	{% set comment_type="entry" %}
 	{% set user=comment.user %}
@@ -32,7 +33,7 @@
 		{% if not is_locked %}
 			<div class="btn reply">
 				<span>
-					<a href="{{ url('comments-reply-comment', comment.pk) }}" class="reply" rel="nofollow">Odpovedať</a>
+					<a href="{{ url("threaded_comments:reply", comment.pk) }}" class="reply" rel="nofollow">Odpovedať</a>
 				</span>
 			</div>
 		{% endif %}
@@ -54,7 +55,7 @@
 		{% endif %}
 		{% if is_authenticated %}
 			{% if is_staff and perms.threaded_comments.change_threaded_comment or not is_locked %}
-				{% set comments_admin_url=url('comments-admin', comment.pk) %}
+				{% set comments_admin_url=url("threaded_comments:admin", comment.pk) %}
 				<div class="btn-group admin">
 					{% if is_staff and perms.threaded_comments.change_threaded_comment %}
 						<div class="btn">
@@ -90,3 +91,4 @@
 	</div>
 {% endif %}
 <div class="clear"></div>
+{% endif %}

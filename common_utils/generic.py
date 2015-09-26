@@ -4,45 +4,22 @@ from __future__ import unicode_literals
 from django.db.models import Q, Manager
 from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView, UpdateView, DetailView, ListView as OriginalListView
-
-from paginator import Paginator
-
-
-class AddLoggedFormArgumentMixin(object):
-	author_field = 'author'
-	authors_name_field = 'authors_name'
-
-	def get_form(self, form_class=None):
-		if form_class is None:
-			form_class = self.get_form_class()
-		return form_class(logged = self.request.user.is_authenticated(), **self.get_form_kwargs())
-
-	def form_valid(self, form):
-		obj = form.save(commit = False)
-		if hasattr(obj, self.authors_name_field):
-			if self.request.user.is_authenticated():
-				if self.request.user.get_full_name():
-					setattr(obj, self.authors_name_field, self.request.user.get_full_name())
-				else:
-					setattr(obj, self.authors_name_field, self.request.user.username)
-		if hasattr(obj, self.author_field) and self.request.user.is_authenticated():
-			setattr(obj, self.author_field, self.request.user)
-		return super(AddLoggedFormArgumentMixin, self).form_valid(form)
+from django_simple_paginator import Paginator
 
 
 class PreviewCreateView(CreateView):
 	def form_valid(self, form):
-		item = form.save(commit = False)
+		item = form.save(commit=False)
 		if not 'create' in self.request.POST:
-			return self.render_to_response(self.get_context_data(form = form, item = item, valid = True))
+			return self.render_to_response(self.get_context_data(form=form, item=item, valid=True))
 		return super(PreviewCreateView, self).form_valid(form)
 
 
 class PreviewUpdateView(UpdateView):
 	def form_valid(self, form):
-		item = form.save(commit = False)
+		item = form.save(commit=False)
 		if not 'update' in self.request.POST:
-			return self.render_to_response(self.get_context_data(form = form, item = item, valid = True))
+			return self.render_to_response(self.get_context_data(form=form, item=item, valid=True))
 		return super(PreviewUpdateView, self).form_valid(form)
 
 
@@ -87,7 +64,7 @@ class DetailUserProtectedView(DetailView):
 			return qs
 		return self.get_unprivileged_queryset()
 
-	def get_object(self, queryset = None):
+	def get_object(self, queryset=None):
 		obj = super(DetailUserProtectedView, self).get_object(queryset)
 		if hasattr(obj, 'hit'):
 			obj.hit()
@@ -95,29 +72,29 @@ class DetailUserProtectedView(DetailView):
 
 
 class ListView(OriginalListView):
-	category = None
+	category_model = None
 	category_key = 'slug'
 	category_field = 'category'
 	category_context = 'category'
+	category_object = None
 	paginator_class = Paginator
 
 	def get_queryset(self):
 		queryset = super(ListView, self).get_queryset()
 		if isinstance(queryset, Manager):
 			queryset = queryset.all()
-		if self.category is not None:
+		if self.category_model is not None:
 			category_object = None
-			view_kwargs = getattr(self, 'kwargs')
-			if 'category' in view_kwargs:
-				category_object = get_object_or_404(self.category, **{self.category_key: view_kwargs['category']})
+			if 'category' in self.kwargs:
+				category_object = get_object_or_404(self.category_model, **{self.category_key: self.kwargs['category']})
 				queryset = queryset.filter(**{self.category_field: category_object})
-			view_kwargs['category_object'] = category_object
+			self.category_object = category_object
 		return queryset
 
 	def get_context_data(self, **kwargs):
 		context = super(ListView, self).get_context_data(**kwargs)
-		if self.category:
-			context['category_list'] = self.category.objects.all()
-		if 'category_object' in self.kwargs:
-			context[self.category_context] = self.kwargs['category_object']
+		if self.category_model:
+			context['category_list'] = self.category_model.objects.all()
+		if self.category_object:
+			context[self.category_context] = self.category_object
 		return context

@@ -1,0 +1,19 @@
+{% extends "account/user_posts_base.html" %}
+
+{% block breadcrumbs %}
+{{ breadcrumb("Komentované diskusie") }}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+
+<h1>{{ user_profile }} - Zoznam komentovaných diskusí</h1>
+
+{{ super() }}
+
+{% with caption="Komentované diskusie" %}
+	{{ add_discussion_attributes(*object_list_by_content.values()) }}
+	{% include "account/partials/post_list.html" %}
+{% endwith %}
+
+{% endblock %}

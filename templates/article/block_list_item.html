@@ -22,7 +22,7 @@
 	<div class="info bottom">
 		<span class="stat first">Prečítané: {{ firstof(article.display_count, '0') }}x</span> |
 		<span class="comments">
-			{# get_comments_for_item(article, display_last=1) #}
+			{{ get_comments_for_item(article, display_last=1) }}
 		</span>
 	</div>
 </div>

@@ -27,8 +27,6 @@ SECRET_KEY = '*h4+%(b@_+-au@mmh^lp3v=^wkddzp(n63883zzm_i5xdnmb+v'
 
 DEBUG = True
 
-TEMPLATE_DEBUG = True
-
 ADMINS = (('Miroslav Bendik', 'mireq@linuxos.sk'),)
 MANAGERS = ADMINS
 
@@ -39,24 +37,43 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
 	'template_dynamicloader',
+	'suit',
 	# core
 	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
 	'django.contrib.sessions',
 	'django.contrib.messages',
+	'django.contrib.sites',
 	'django.contrib.staticfiles',
 	# vendor
 	'django_assets_manager',
 	'django_autoslugfield',
 	'django_sample_generator',
+	'django_simple_paginator',
+	'allauth',
+	'allauth.account',
 	'compressor',
 	'django_jinja',
+	'mptt',
+	'haystack',
+	'reversion',
 	# apps
 	'accounts',
 	'article',
 	'attachment',
+	'blog',
+	'breadcrumbs',
+	'feeds',
+	'forum',
 	'hitcount',
+	'linuxos',
+	'news',
+	'notifications',
+	'polls',
+	'search',
+	'threaded_comments',
+	'wiki',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -71,6 +88,7 @@ MIDDLEWARE_CLASSES = (
 	# custom
 	'common_utils.middlewares.ThreadLocal.ThreadLocalMiddleware',
 	'template_dynamicloader.middleware.TemplateSwitcherMiddleware',
+	'feeds.middleware.FeedsMiddleware',
 )
 
 ROOT_URLCONF = 'web.urls'
@@ -79,9 +97,14 @@ TEMPLATES = [
 	{
 		"BACKEND": "template_dynamicloader.backend.Jinja2",
 		'DIRS': [os.path.join(BASE_DIR, 'templates'),],
+		"ENGINE_OPTIONS": {
+			'loaders': [
+				'template_dynamicloader.loader_jinja_filesystem.JinjaLoader',
+			]
+		},
 		"OPTIONS": {
 			"match_extension": None,
-			"match_regex": re.compile(r"^(?!(admin/|debug_toolbar/|suit/|profiler/)).*"),
+			"match_regex": re.compile(r"^(?!(admin/|debug_toolbar/|suit/|profiler/|search/indexes/|reversion/)).*"),
 			"newstyle_gettext": True,
 			"extensions": [
 				"jinja2.ext.do",
@@ -101,16 +124,9 @@ TEMPLATES = [
 				'django.template.context_processors.request',
 				'django.contrib.auth.context_processors.auth',
 				'django.contrib.messages.context_processors.messages',
+				'breadcrumbs.context_processors.breadcrumbs',
+				'template_dynamicloader.context_processors.style',
 			],
-			#'context_processors': TCP + (
-			#	'django.core.context_processors.request',
-			#	'django.contrib.auth.context_processors.auth',
-			#	'django.contrib.messages.context_processors.messages',
-			#	'breadcrumbs.context_processors.breadcrumbs',
-			#	'feeds.context_processors.feeds',
-			#	'template_dynamicloader.context_processors.style',
-			#	'allauth.account.context_processors.account'
-			#),
 			"autoescape": True,
 			"auto_reload": True,
 			"translation_engine": "django.utils.translation",
@@ -134,7 +150,7 @@ TEMPLATES = [
 	},
 ]
 
-DYNAMIC_TEMPLATES = ('default',)
+DYNAMIC_TEMPLATES = ('default', 'new')
 
 CACHES = {
 	'default': {
@@ -143,16 +159,13 @@ CACHES = {
 		'LOCATION': 'linuxos-default',
 	},
 	'jinja': {
-		#'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
 		'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
 		'KEY_PREFIX': 'jinja',
 		'LOCATION': 'linuxos-jinja',
 	},
 }
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-
-WSGI_APPLICATION = 'web.wsgi.application'
+WSGI_APPLICATION = os.environ.get('DJANGO_WSGI_APPLICATION', 'web.wsgi.application')
 
 SITE_ID = 1
 
@@ -170,7 +183,9 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'sk'
+LANGUAGE_CODE = 'sk_SK'
+
+LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale'),)
 
 LANGUAGES = (('sk', 'Slovak'),)
 
@@ -182,6 +197,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+FEED_SIZE = 20
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
@@ -194,6 +212,8 @@ STATICFILES_FINDERS = (
 	'compressor.finders.CompressorFinder',
 )
 
+STATICSITEMAPS_BASE_DIR_SITEMAP = 'shakal.sitemaps.sitemaps'
+
 MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'media'))
 MEDIA_URL = '/media/'
 
@@ -202,7 +222,7 @@ MEDIA_CACHE_URL = MEDIA_URL + 'cache/'
 
 # allauth
 LOGIN_URL = 'account_login'
-LOGIN_REDIRECT_URL = 'account_my_profile'
+LOGIN_REDIRECT_URL = 'accounts:my_profile'
 ACCOUNT_FORMS = {
 	'login': 'accounts.forms.LoginForm',
 	'add_email': 'accounts.forms.AddEmailForm',
@@ -222,13 +242,143 @@ AUTHENTICATION_BACKENDS = (
 )
 
 INITIAL_DATA_COUNT = {
-	'user': 50,
+	'accounts_user': 10,
+	'article_article': 20,
+	'article_category': 4,
+	'blog_post': 30,
+	'forum_topic': 30,
+	'news_news': 30,
 }
 
 SAMPLE_DATA_GENERATORS = (
 	'accounts.generators.register',
 	'article.generators.register',
+	'blog.generators.register',
+	'forum.generators.register',
+	'news.generators.register',
+	'threaded_comments.generators.register',
 )
+
+ATTACHMENT_MAX_SIZE = 1024 * 1024 * 50
+ATTACHMENT_SIZE_FOR_CONTENT = {
+	'django_comments': 1024 * 1024 * 2,
+	'threaded_comments_comment': 1024 * 1024 * 2,
+	'forum_topic': 1024 * 1024 * 2,
+	'blog_post': 1024 * 1024 * 8,
+}
+
+HAYSTACK_CONNECTIONS = {
+	'default': {
+		'ENGINE': 'search.backends.SimpleEngine',
+	},
+}
+
+SUIT_CONFIG = {
+	'ADMIN_NAME': 'Shakal CMS',
+	'HEADER_DATE_FORMAT': 'l, d F Y',
+	'HEADER_TIME_FORMAT': 'H:i',
+	'SHOW_REQUIRED_ASTERISK': True,
+	'CONFIRM_UNSAVED_CHANGES': True,
+	'SEARCH_URL': '/administracia/accounts/user/',
+	'MENU_OPEN_FIRST_CHILD': True,
+	'MENU_ICONS': {
+		'sites': 'icon-leaf',
+		'auth': 'icon-lock',
+	},
+	'MENU_EXCLUDE': ('auth_remember',),
+	'LIST_PER_PAGE': 50,
+	'MENU': (
+		{
+			'label': u'Ankety',
+			'icon': 'icon-tasks',
+			'permissions': 'polls.change_poll',
+			'models': (
+				'polls.poll',
+			)
+		},
+		{
+			'label': u'Blogy',
+			'icon': 'icon-pencil',
+			'permissions': 'blog.change_post',
+			'models': (
+				'blog.post',
+				'blog.blog',
+			)
+		},
+		{
+			'label': u'Články',
+			'icon': 'icon-font',
+			'permissions': 'article.change_article',
+			'models': (
+				'article.article',
+				'article.category',
+			)
+		},
+		{
+			'label': u'Fórum',
+			'icon': 'icon-list',
+			'permissions': 'forum.change_topic',
+			'models': (
+				'forum.topic',
+				'forum.section',
+			)
+		},
+		{
+			'label': u'Používatelia',
+			'icon': 'icon-lock',
+			'permissions': 'accounts.change_user',
+			'models': (
+				'accounts.user',
+				'auth.group',
+			)
+		},
+		{
+			'label': u'Správy',
+			'icon': 'icon-globe',
+			'permissions': 'news.change_news',
+			'models': (
+				'news.news',
+			)
+		},
+		{
+			'label': u'Wiki',
+			'icon': 'icon-folder-open',
+			'permissions': 'wiki.change_page',
+			'models': (
+				'wiki.page',
+			)
+		},
+	),
+}
+
+GRAVATAR_DEFAULT_SIZE = 200
+GRAVATAR_URL_PREFIX = "http://sk.gravatar.com/"
+
+QUEUE_BACKEND = 'dummy'
+
+LOGGING = {
+	'version': 1,
+	'disable_existing_loggers': False,
+	'filters': {
+		'require_debug_false': {
+			'()': 'django.utils.log.RequireDebugFalse'
+		}
+	},
+	'handlers': {
+		'mail_admins': {
+			'level': 'ERROR',
+			'filters': ['require_debug_false'],
+			'class': 'django.utils.log.AdminEmailHandler'
+		}
+	},
+	'loggers': {
+		'django.request': {
+			'handlers': ['mail_admins'],
+			'level': 'ERROR',
+			'propagate': True,
+		},
+	}
+}
 
 JINJA2_BYTECODE_CACHE_NAME = "jinja"
 JINJA2_BYTECODE_CACHE_ENABLE = False

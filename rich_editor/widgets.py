@@ -8,35 +8,23 @@ from json import dumps
 from rich_editor.parser import ALL_TAGS
 
 
-class RichEditor(Textarea):
+class RichEditorMixin(Textarea):
 	class Media:
 		js = [
 			'js/lib.js',
 			'js/richeditor/editor.js',
 		]
 		css = {
-			'all': ('js/wymeditor/skins/shakal/skin.css', )
+			'screen': ['css/editor.css'],
 		}
 
-	def __init__(self, attrs = {}, **kwargs):
+	def __init__(self, attrs=None, **kwargs):
 		self.language = settings.LANGUAGE_CODE
 		self.formats = ()
 		self.skin = 'shakal'
-		attrs.update({'class': 'wymeditor input-xlarge'})
-		super(RichEditor, self).__init__(attrs)
-
-	def render(self, name, value, attrs = None, **kwargs):
-		supported_tags = self.attrs.pop('supported_tags', {})
-		widget = super(RichEditor, self).render(name, value, attrs)
-		self.attrs['supported_tags'] = supported_tags
-
-		context = {
-			'name': name,
-			'lang': self.language[:2],
-			'tags': dumps(self.get_tags_info()),
-			'widget': widget,
-		}
-		return mark_safe(render_to_string('widgets/editor.html', context))
+		attrs = attrs or {}
+		attrs.update({'class': 'input-xlarge'})
+		super(RichEditorMixin, self).__init__(attrs)
 
 	def get_tags_info(self):
 		supported_tags = self.attrs.get('supported_tags', {})
@@ -54,14 +42,29 @@ class RichEditor(Textarea):
 		}
 
 
-class RichOriginalEditor(RichEditor):
-	def __init__(self, formats = (('html', 'HTML'), ), *args, **kwargs):
+class RichEditor(RichEditorMixin):
+	def render(self, name, value, attrs=None, **kwargs):
+		supported_tags = self.attrs.pop('supported_tags', {})
+		widget = super(RichEditor, self).render(name, value, attrs)
+		self.attrs['supported_tags'] = supported_tags
+
+		context = {
+			'name': name,
+			'lang': self.language[:2],
+			'tags': dumps(self.get_tags_info()),
+			'widget': widget,
+		}
+		return mark_safe(render_to_string('widgets/editor.html', context))
+
+
+class RichOriginalEditor(RichEditorMixin):
+	def __init__(self, formats=(('html', 'HTML'), ), *args, **kwargs):
 		super(RichOriginalEditor, self).__init__(*args, **kwargs)
 		self.formats = formats
 
-	def render(self, name, value, attrs = None, **kwargs):
+	def render(self, name, value, attrs=None, **kwargs):
 		if value is None:
-			value = (None, None)
+			value=(None, None)
 		value_fmt, value = value
 
 		formats = []
@@ -71,7 +74,7 @@ class RichOriginalEditor(RichEditor):
 			formats[0]['checked'] = True
 
 		supported_tags = self.attrs.pop('supported_tags', {})
-		widget = super(RichEditor, self).render(name, value, attrs)
+		widget = super(RichOriginalEditor, self).render(name, value, attrs)
 		self.attrs['supported_tags'] = supported_tags
 
 		context = {
@@ -102,7 +105,6 @@ class AdminRichOriginalEditor(RichOriginalEditor):
 			'js/richeditor/editor.js',
 		]
 		css = {
-			'all': ('js/wymeditor/skins/suit/skin.css', )
 		}
 
 	def __init__(self, *args, **kwargs):

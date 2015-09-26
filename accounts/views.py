@@ -1,22 +1,33 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from datetime import timedelta
+
 from braces.views import LoginRequiredMixin
-from django.views.generic import RedirectView, DetailView
-from django.views.generic import UpdateView
+from dateutil.relativedelta import relativedelta
+from django.apps import apps
 from django.contrib.auth import get_user_model
+from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
+from django.db.models import Count, Max
+from django.db.models.expressions import DateTime
+from django.shortcuts import get_object_or_404
 from django.utils.safestring import mark_safe
+from django.utils.timezone import get_current_timezone, now
+from django.views.generic import RedirectView, DetailView, UpdateView
 
 from .forms import ProfileEditForm
+from common_utils import get_meta
+from common_utils.generic import ListView
 
 
 class UserZone(LoginRequiredMixin, RedirectView):
-	pattern_url = 'account_my_profile'
+	permanent = False
+	pattern_url = 'accounts:my_profile'
 
 
 class Profile(DetailView):
-	pattern_url = 'account_my_profile'
+	pattern_url = 'accounts:my_profile'
 	model = get_user_model()
 	template_name = 'account/profile.html'
 	context_object_name = 'user_profile'
@@ -52,4 +63,197 @@ class MyProfileEdit(LoginRequiredMixin, MyProfileMixin, UpdateView):
 	form_class = ProfileEditForm
 
 	def get_success_url(self):
-		return reverse('account_my_profile')
+		return reverse('accounts:my_profile')
+
+
+class UserStatsMixin(object):
+	paginate_by = 50
+	object = None
+
+	def get_articles(self):
+		return apps.get_model('article.Article').objects.filter(author=self.object)
+
+	def get_blog_posts(self):
+		return apps.get_model('blog.Post').objects.filter(blog__author=self.object)
+
+	def get_forum_topics(self):
+		return apps.get_model('forum.Topic').objects.filter(author=self.object)
+
+	def get_news(self):
+		return apps.get_model('news.News').objects.filter(author=self.object)
+
+	def get_commented(self):
+		return (apps.get_model('threaded_comments.Comment')
+			.objects
+			.filter(user=self.object, parent__isnull=False)
+			.values_list('content_type_id', 'object_id')
+			.annotate(max_pk=Max('pk'))
+			.order_by('-max_pk'))
+
+	def get_object(self):
+		return get_object_or_404(get_user_model(), pk=self.kwargs['pk'])
+
+	def get_last_updated_wiki_pages(self):
+		return (apps.get_model('wiki.Page')
+			.objects
+			.filter(last_author=self.object, parent__isnull=False))
+
+	def get_context_data(self, **kwargs):
+		ctx = super(UserStatsMixin, self).get_context_data(**kwargs)
+		ctx['user_profile'] = self.object
+		return ctx
+
+	def get(self, request, **kwargs):
+		self.object = self.get_object()
+		return super(UserStatsMixin, self).get(request, **kwargs)
+
+
+class UserPosts(UserStatsMixin, DetailView):
+	template_name = 'account/user_posts.html'
+
+	def get_context_data(self, **kwargs):
+		def url(view_name):
+			return reverse('accounts:user_posts_' + view_name, args=(self.object.pk,), kwargs={})
+
+		ctx = super(UserPosts, self).get_context_data(**kwargs)
+		ctx['stats'] = (
+			{'label': 'Články', 'url': url('article'), 'count': self.get_articles().count()},
+			{'label': 'Blogy', 'url': url('blogpost'), 'count': self.get_blog_posts().count()},
+			{'label': 'Správy', 'url': url('news'), 'count': self.get_news().count()},
+			{'label': 'Témy vo fóre', 'url': url('forumtopic'), 'count': self.get_forum_topics().count()},
+			{'label': 'Komentované diskusie', 'url': url('commented'), 'count': self.get_commented().count()},
+			{'label': 'Wiki stránky', 'url': url('wikipage'), 'count': self.get_last_updated_wiki_pages().count()},
+		)
+		return ctx
+
+
+class UserStatsListBase(UserStatsMixin, ListView):
+	stats_by_date_field = None
+	template_name = 'account/user_posts_detail.html'
+
+	def fill_time_series_gap(self, time_series, interval, start_time=None):
+		time_series = list(time_series)
+		if len(time_series) < 2 and start_time is None:
+			return time_series
+
+		end_time = now().date()
+		last_time = start_time.date() if start_time else None
+		time_series_filled = []
+		for series_item in time_series:
+			item_time = series_item[0].date()
+
+			if last_time is not None:
+				while last_time < item_time:
+					time_series_filled.append((last_time, 0))
+					last_time += relativedelta(**{interval: 1})
+
+			time_series_filled.append(series_item)
+			last_time = item_time + relativedelta(**{interval: 1})
+
+		while last_time <= end_time:
+			time_series_filled.append((last_time, 0))
+			last_time += relativedelta(**{interval: 1})
+
+		return time_series_filled
+
+	def get_time_series(self, interval, time_stats_ago=365):
+		return (self.get_stats_queryset()
+			.filter(**{self.stats_by_date_field + '__gte': now().date() + timedelta(-time_stats_ago)})
+			.annotate(**{interval: DateTime(self.stats_by_date_field, interval, get_current_timezone())})
+			.values(interval)
+			.annotate(count=Count('id'))
+			.order_by(interval)
+			.values_list(interval, 'count'))
+
+	def get_stats_queryset(self):
+		return self.get_queryset()
+
+	def get_stats_by_date(self):
+		monthly_stats = self.get_time_series('month', 365*10)
+		daily_stats = self.get_time_series('day', 365)
+		year_ago = (now() + timedelta(-365)).replace(hour=0, minute=0, second=0, microsecond=0)
+		return {
+			'monthly_stats': self.fill_time_series_gap(monthly_stats, 'months'),
+			'daily_stats': self.fill_time_series_gap(daily_stats, 'days', start_time=year_ago),
+		}
+
+	def get_objects_name(self):
+		return get_meta(self.get_queryset().model).verbose_name_plural
+
+	def get_context_data(self, **kwargs):
+		ctx = super(UserStatsListBase, self).get_context_data(**kwargs)
+		if self.stats_by_date_field is not None:
+			ctx.update(self.get_stats_by_date())
+		ctx['objects_name'] = self.get_objects_name()
+		return ctx
+
+
+class UserPostsArticle(UserStatsListBase):
+	stats_by_date_field = 'pub_time'
+
+	def get_queryset(self):
+		return self.get_articles().order_by('-pk')
+
+
+class UserPostsBlogpost(UserStatsListBase):
+	stats_by_date_field = 'pub_time'
+
+	def get_queryset(self):
+		return self.get_blog_posts().order_by('-pk')
+
+
+class UserPostsNews(UserStatsListBase):
+	stats_by_date_field = 'created'
+
+	def get_queryset(self):
+		return self.get_news().order_by('-pk')
+
+
+class UserPostsForumTopic(UserStatsListBase):
+	stats_by_date_field = 'created'
+
+	def get_queryset(self):
+		return self.get_forum_topics().order_by('-pk')
+
+
+class UserPostsCommented(UserStatsListBase):
+	template_name = 'account/user_posts_commented.html'
+	stats_by_date_field = 'submit_date'
+
+	def get_stats_queryset(self):
+		return apps.get_model('threaded_comments.Comment').objects.filter(parent__isnull=False, user=self.object)
+
+	def get_queryset(self):
+		return self.get_commented()
+
+	def get_context_data(self, **kwargs):
+		ctx = super(UserPostsCommented, self).get_context_data(**kwargs)
+		object_list = ctx['object_list']
+		object_list_by_content = {}
+		for obj in object_list:
+			object_list_by_content.setdefault(obj[0], [])
+			object_list_by_content[obj[0]].append(obj[1])
+		content_types = {obj.id: obj for obj in ContentType.objects.filter(pk__in=object_list_by_content.keys())}
+
+		for content_type, content_object_ids in object_list_by_content.iteritems():
+			object_list_by_content[content_type] = (content_types[content_type]
+				.model_class()
+				.objects
+				.filter(pk__in=content_object_ids))
+
+		objects_idx = {}
+		for content_type, content_objects in object_list_by_content.iteritems():
+			for content_object in content_objects:
+				objects_idx[(content_type, content_object.pk)] = content_object
+
+		ctx['object_list_by_content'] = object_list_by_content
+		ctx['object_list'] = [objects_idx[(o[0], int(o[1]))] for o in ctx['object_list'] if (o[0], int(o[1])) in objects_idx]
+
+		return ctx
+
+
+class UserPostsWikiPage(UserStatsListBase):
+	stats_by_date_field = 'updated'
+
+	def get_queryset(self):
+		return self.get_last_updated_wiki_pages().order_by('-pk')

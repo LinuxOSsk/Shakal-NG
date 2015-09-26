@@ -1,7 +1,7 @@
 {% extends "wiki/wiki_base.html" %}
 
 {% block breadcrumbs %}
-	{{ breadcrumb(page, absolute_url=page.get_absolute_url()) }}
+	{{ breadcrumb(page, url=page.get_absolute_url()) }}
 	{{ breadcrumb("Wiki", url="wiki:home") }}
 	{{ super() }}
 {% endblock %}

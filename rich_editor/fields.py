@@ -10,7 +10,6 @@ class RichTextOriginalField(Field):
 	__metaclass__ = SubfieldBase
 
 	def __init__(self, filtered_field, property_name, parsers=None, *args, **kwargs):
-		self.max_length = kwargs.pop('max_length', None)
 		super(RichTextOriginalField, self).__init__(*args, **kwargs)
 		self.filtered_field = filtered_field
 		self.property_name = property_name
@@ -30,8 +29,6 @@ class RichTextOriginalField(Field):
 			'form_class': RichOriginalField,
 			'parsers': self.parsers
 		}
-		if self.max_length is not None:
-			defaults['max_length'] = self.max_length
 		defaults.update(kwargs)
 		return super(RichTextOriginalField, self).formfield(**defaults)
 

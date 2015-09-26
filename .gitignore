@@ -10,6 +10,7 @@
 /static/default/images/backgrounds*.png
 /static/default/base.css
 /static/default/scss/_sprites*.scss
+/static/default/_sprites*.scss
 /static/old/images/backgrounds.png
 /static/old/base.css
 /static/old/_sprites*.scss
@@ -21,6 +22,7 @@
 /virtualenv.py
 /dump.sql
 /xapian_index
+/whoosh_index
 /.coverage
 /htmlcov
 /static/CACHE

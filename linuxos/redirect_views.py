@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# pylint: disable=unused-argument
 from __future__ import unicode_literals
 
 from django.core.urlresolvers import reverse
@@ -13,7 +12,7 @@ from wiki.models import Page as WikiPage
 
 
 def profile_redirect(request, pk):
-	return HttpResponsePermanentRedirect(reverse('account_profile', kwargs={'pk': pk}))
+	return HttpResponsePermanentRedirect(reverse('accounts:profile', kwargs={'pk': pk}))
 
 def article_redirect(request, pk):
 	article = get_object_or_404(Article, p =pk)

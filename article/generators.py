@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django_autoslugfield.utils import unique_slugify
 from django_sample_generator import GeneratorRegister, ModelGenerator, samples
@@ -12,7 +13,7 @@ from hitcount.models import HitCount
 
 
 class CategoryGenerator(ModelGenerator):
-	name = samples.NameSample()
+	name = samples.NameSample(unique=True)
 	description = samples.ParagraphSample()
 
 	def get_object(self):
@@ -22,7 +23,7 @@ class CategoryGenerator(ModelGenerator):
 
 
 class ArticleGenerator(ModelGenerator):
-	title = samples.SentenceSample()
+	title = samples.SentenceSample(unique=True)
 	category_id = samples.RelationSample(queryset=Category.objects.all().order_by("pk"), random_data=True, only_pk=True, fetch_all=True)
 	perex = samples.ParagraphSample()
 	content = LongHtmlGenerator()
@@ -56,6 +57,6 @@ class HitCountGenerator(ModelGenerator):
 
 
 register = GeneratorRegister()
-register.register(CategoryGenerator(Category, 4))
-register.register(ArticleGenerator(Article, 10))
-register.register(HitCountGenerator(HitCount, 10))
+register.register(CategoryGenerator(Category, settings.INITIAL_DATA_COUNT['article_category']))
+register.register(ArticleGenerator(Article, settings.INITIAL_DATA_COUNT['article_article']))
+register.register(HitCountGenerator(HitCount, settings.INITIAL_DATA_COUNT['article_article']))

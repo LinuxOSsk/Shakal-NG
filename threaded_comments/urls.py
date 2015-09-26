@@ -1,19 +1,26 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
 from django.conf.urls import patterns, url
-#from django.contrib.comments.urls import urlpatterns as original_urls
-from threaded_comments import feeds as threaded_comments_feeds
 
-urlpatterns = patterns('threaded_comments.views',
-	url(r'^reply/(\d+)/$', 'reply_comment', name = 'comments-reply-comment'),
-	url(r'^post/$', 'post_comment', name = 'comments-post-comment'),
-	url(r'^posted/$', 'done_comment', name = 'comments-comment-done'),
-	url(r'^lock/(\d+)/$', 'admin', name = 'comments-admin'),
-	url(r'^watch/(\d+)/$', 'watch', name = 'comments-watch'),
-	url(r'^view/(\d+)/$', 'comment', {'single': True}, name = 'comment-single'),
-	url(r'^id/(\d+)/$', 'comment', {'single': False}, name = 'comment'),
-	url(r'^(\d+)/$', 'comments', name = 'comments'),
-	url(r'^feeds/latest/$', threaded_comments_feeds.CommentFeed(), name = 'comments-feed-latest'),
-)
 
-#urlpatterns += original_urls
+class Patterns(object):
+	def __init__(self):
+		self.app_name = 'threaded_comments'
+		self.name = 'threaded_comments'
+
+	@property
+	def urls(self):
+		pat = patterns('threaded_comments.views',
+			url(r'^reply/(?P<parent>\d+)/$', 'Reply', name='reply'),
+			url(r'^lock/(?P<pk>\d+)/$', 'Admin', name='admin'),
+			url(r'^watch/(?P<pk>\d+)/$', 'Watch', name='watch'),
+			url(r'^(?P<pk>\d+)/$', 'Comments', name='comments'),
+			url(r'^view/(?P<pk>\d+)/$', 'CommentDetailSingle', name='comment-single'),
+			url(r'^id/(?P<pk>\d+)/$', 'CommentDetail', name='comment'),
+		) + patterns('threaded_comments.feeds',
+			url(r'^feeds/latest/$', 'CommentFeed', name='feed-latest'),
+		)
+		return (pat, self.app_name, self.name)
+
+urlpatterns = Patterns().urls

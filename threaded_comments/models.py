@@ -1,70 +1,29 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.conf import settings
-from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db import models, transaction
-from django.db.models import Count, Max
-from django.db.models.signals import post_save, post_delete
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 
 from attachment.models import Attachment
-#from notifications.models import Event
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
-
-
-COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)
-
-
-class HideRootQuerySet(models.query.QuerySet):
-	def __init__(self, *args, **kwargs):
-		super(HideRootQuerySet, self).__init__(*args, **kwargs)
-		self.__root_item = None
-		self.__cache = None
-
-	def has_root_item(self):
-		return self.get_root_item() is not None
-
-	def get_root_item(self):
-		self.__load_cache_and_root_item()
-		return self.__root_item
-
-	def iterator(self):
-		self.__load_cache_and_root_item()
-		for item in self.__cache:
-			if not self.__is_root(item):
-				yield item
-
-	def __load_cache_and_root_item(self):
-		if self.__cache is not None:
-			return
-		self.__cache = []
-		for item in super(HideRootQuerySet, self).iterator():
-			if self.__is_root(item):
-				self.__root_item = item
-			self.__cache.append(item)
-
-	def __is_root(self, item):
-		return item.parent_id is None
 
 
 class CommentManager(models.Manager):
 	use_for_related_fields = True
 
-	def __init__(self, qs_class = models.query.QuerySet):
-		self.__qs_class = qs_class
-		super(CommentManager, self).__init__()
-
-	def get_root_comment(self, ctype, object_id):
+	def get_or_create_root_comment(self, ctype, object_id):
+		# pylint: disable=no-member
 		try:
-			root_comment = self.model.all_comments.get(parent=None, content_type=ctype, object_id=object_id)
+			root_comment = self.model.objects.get(parent=None, content_type=ctype, object_id=object_id)
 			return (root_comment, False)
 		except self.model.DoesNotExist:
 			with transaction.atomic():
-				root_comment, created = self.model.all_comments.get_or_create(
+				root_comment, created = self.model.objects.get_or_create(
 					parent = None,
 					content_type = ctype,
 					object_id = object_id,
@@ -77,64 +36,54 @@ class CommentManager(models.Manager):
 				)
 				return (root_comment, created)
 
-	def get_queryset(self):
-		queryset = self.__qs_class(self.model)
-		return queryset
-
 
 class Comment(MPTTModel):
-	all_comments = CommentManager()
-	objects = CommentManager(HideRootQuerySet)
-	plain_objects = models.Manager()
+	objects = CommentManager()
 
-	content_type = models.ForeignKey(ContentType, verbose_name = _('content type'), related_name = "content_type_set_for_%(class)s")
-	object_id = models.TextField(_('object ID'))
-	content_object = GenericForeignKey("content_type", "object_id")
-	parent = TreeForeignKey('self', null = True, blank = True, related_name = 'children')
+	content_type = models.ForeignKey(ContentType, verbose_name='typ obsahu', related_name='content_type_set_for_%(class)s')
+	object_id = models.TextField('ID objektu')
+	content_object = GenericForeignKey('content_type', 'object_id')
+	parent = TreeForeignKey('self', null=True, blank=True, related_name='children', verbose_name='nadradený')
 
-	subject = models.CharField(max_length = 100)
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name = _('user'), blank = True, null = True, related_name = "%(class)s_comments", on_delete = models.SET_NULL)
-	user_name = models.CharField(_("user's name"), max_length = 50, blank = True)
-	original_comment = RichTextOriginalField(filtered_field = "filtered_comment", property_name = "comment")
+	subject = models.CharField('predmet', max_length=100)
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='používateľ', blank=True, null=True, related_name='%(class)s_comments', on_delete=models.SET_NULL)
+	user_name = models.CharField('používateľské meno', max_length=50, blank=True)
+	original_comment = RichTextOriginalField(filtered_field='filtered_comment', property_name='comment', verbose_name='obsah')
 	filtered_comment = RichTextFilteredField()
 
-	submit_date = models.DateTimeField(_('date/time submitted'), default = None)
-	ip_address = models.IPAddressField(_('IP address'), blank = True, null = True)
-	is_public = models.BooleanField(_('is public'), default = True)
-	is_removed = models.BooleanField(_('is removed'), default = False)
+	submit_date = models.DateTimeField('dátum odoslania', default=None)
+	ip_address = models.GenericIPAddressField('IP adresa', blank=True, null=True)
+	is_public = models.BooleanField('verejný', default=True)
+	is_removed = models.BooleanField('odstránený', default=False)
 
-	is_locked = models.BooleanField(_('is locked'), default = False)
-	updated = models.DateTimeField(editable = False)
+	is_locked = models.BooleanField('uzamknutý', default=False)
+	updated = models.DateTimeField('naposledy upravené', editable=False)
+
 	attachments = GenericRelation(Attachment)
 
-	def root_header(self):
+	def get_or_create_root_header(self):
 		try:
-			header = RootHeader.objects.get(content_type = self.content_type, object_id = self.object_id)
+			header = RootHeader.objects.get(content_type=self.content_type, object_id=self.object_id)
 			return header
 		except RootHeader.DoesNotExist:
 			with transaction.atomic():
-				header, created = RootHeader.objects.get_or_create(content_type = self.content_type, object_id = self.object_id)
+				header, created = RootHeader.objects.get_or_create(content_type=self.content_type, object_id=self.object_id)
 				if created:
 					header.pub_date = self.submit_date
 					header.save()
 				return header
 
 	def get_absolute_url(self):
-		return reverse('comment', args = [self.pk], kwargs = {}) + "#link_" + str(self.id)
-
-	def _get_name(self):
-		return self.user_name
-	name = property(_get_name)
+		return '%s#link_%d' % (reverse('threaded_comments:comment', args=(self.pk,), kwargs={}), self.id)
 
 	@models.permalink
 	def get_single_comment_url(self):
-		return ('comment-single', (self.pk,), {})
+		return ('threaded_comments:comment-single', (self.pk,), {})
 
 	def get_tags(self):
 		tags = []
-		if hasattr(self, 'is_new'):
-			if self.is_new:
-				tags.append('new')
+		if getattr(self, 'is_new', False):
+			tags.append('new')
 		if not self.is_public:
 			tags.append('private')
 		if self.is_removed:
@@ -144,12 +93,14 @@ class Comment(MPTTModel):
 		else:
 			return u''
 
+	def _get_name(self):
+		return self.user_name
+	name = property(_get_name)
+
 	def save(self, *args, **kwargs):
 		self.updated = timezone.now()
-		if not self.id:
+		if not self.id or not self.submit_date:
 			self.submit_date = self.updated
-		if self.submit_date is None:
-			self.submit_date = timezone.now()
 		if not self.user_name and self.user:
 			self.user_name = str(self.user)
 		return super(Comment, self).save(*args, **kwargs)
@@ -159,17 +110,17 @@ class Comment(MPTTModel):
 
 	class Meta:
 		ordering = ('tree_id', 'lft')
-		index_together = [['object_id', 'content_type']]
-		verbose_name = _('comment')
-		verbose_name_plural = _('comments')
+		index_together = (('object_id', 'content_type',),)
+		verbose_name = 'komentár'
+		verbose_name_plural = 'komentáre'
 		db_table = 'django_comments'
 
 
 class CommentFlag(models.Model):
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('user'), related_name="threadedcomment_flags")
-	comment = models.ForeignKey(Comment, verbose_name=_('comment'), related_name="flags")
-	flag = models.CharField(_('flag'), max_length=30, db_index=True)
-	flag_date = models.DateTimeField(_('date'), default=None)
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='používateľ', related_name="threadedcomment_flags")
+	comment = models.ForeignKey(Comment, verbose_name='komentár', related_name="flags")
+	flag = models.CharField('značka', max_length=30, db_index=True)
+	flag_date = models.DateTimeField('dátum', default=None)
 
 	SUGGEST_REMOVAL = "removal suggestion"
 	MODERATOR_DELETION = "moderator deletion"
@@ -178,8 +129,8 @@ class CommentFlag(models.Model):
 	class Meta:
 		db_table = 'django_comment_flags'
 		unique_together = [('user', 'comment', 'flag')]
-		verbose_name = _('comment flag')
-		verbose_name_plural = _('comment flags')
+		verbose_name = 'značka komenára'
+		verbose_name_plural = 'značky komentárov'
 
 	def __unicode__(self):
 		return u"%s flag of comment ID %s by %s" % (self.flag, self.comment_id, self.user.get_username())
@@ -191,72 +142,35 @@ class CommentFlag(models.Model):
 
 
 class RootHeader(models.Model):
-	pub_date = models.DateTimeField(null = False, blank = False, db_index = True)
-	last_comment = models.DateTimeField(null = False, blank = False, db_index = True)
-	comment_count = models.PositiveIntegerField(default = 0, db_index = True)
-	is_locked = models.BooleanField(default = False)
+	pub_date = models.DateTimeField(null=False, blank=False, db_index=True)
+	last_comment = models.DateTimeField(null=False, blank=False, db_index=True)
+	comment_count = models.PositiveIntegerField(default=0, db_index=True)
+	is_locked = models.BooleanField(default=False)
 	content_type = models.ForeignKey(ContentType)
 	object_id = models.PositiveIntegerField()
 	content_object = GenericForeignKey('content_type', 'object_id')
 
+	def __unicode__(self):
+		return '#%d' % self.id
+
 	@models.permalink
 	def get_absolute_url(self):
-		return ('comments', [self.pk], {})
+		return ('threaded_comments:comments', (self.pk,), {})
 
 	class Meta:
-		unique_together = (('content_type', 'object_id'),)
-		verbose_name = _('comment')
-		verbose_name_plural = _('comments')
-
-
-def update_comments_header(sender, **kwargs):
-	instance = kwargs['instance']
-	if instance.parent is None:
-		root = instance
-	else:
-		root = Comment.all_comments.get(content_type = instance.content_type, object_id = instance.object_id, parent = None)
-	statistics = Comment.all_comments
-	statistics = statistics.filter(content_type = root.content_type, object_id = root.object_id, is_public = True, is_removed = False)
-	statistics = statistics.exclude(pk = root.pk)
-	statistics = statistics.aggregate(Count('pk'), Max('submit_date'))
-
-	last_comment = statistics['submit_date__max']
-	if last_comment is None:
-		content_object = root.content_object
-		if hasattr(content_object, 'created'):
-			last_comment = content_object.created
-		elif hasattr(content_object, 'time'):
-			last_comment = content_object.time
-	header, created = RootHeader.objects.get_or_create(content_type = root.content_type, object_id = root.object_id, defaults = {'pub_date': root.submit_date, 'last_comment': last_comment})
-	header.is_locked = root.is_locked
-	header.last_comment = last_comment
-	header.pub_date = root.submit_date
-	header.comment_count = statistics['pk__count']
-	header.save()
-
-post_save.connect(update_comments_header, sender = Comment)
-post_delete.connect(update_comments_header, sender = Comment)
-
-
-#def send_notifications(sender, instance, created, **kwargs):
-#	if not created:
-#		return
-#	watchers = get_user_model().objects.filter(userdiscussionattribute__discussion = instance.root_header(), userdiscussionattribute__watch = True).distinct()
-#	title = u"Pridaný komentár v diskusii " + unicode(instance.content_object)
-#	author = None
-#	if instance.user:
-#		author = instance.user
-#	Event.objects.broadcast(title, instance.content_object, action = Event.CREATE_ACTION, author = author, users = watchers)
-#
-#
-#post_save.connect(send_notifications, sender = Comment)
+		unique_together = (('content_type', 'object_id',),)
+		verbose_name = 'diskusia'
+		verbose_name_plural = 'diskusie'
 
 
 class UserDiscussionAttribute(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL)
 	discussion = models.ForeignKey(RootHeader)
-	time = models.DateTimeField(null = True, blank = True)
-	watch = models.BooleanField(default = False)
+	time = models.DateTimeField(null=True, blank=True)
+	watch = models.BooleanField(default=False)
+
+	def __unicode__(self):
+		return '#%d' % self.id
 
 	class Meta:
 		unique_together = (('user', 'discussion'),)

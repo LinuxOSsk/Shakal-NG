@@ -1,10 +1,10 @@
 {% extends "wiki/edit_base.html" %}
 
-{% block title %}Pridať stránku{% endblock %}
+{% block head_title %}Pridať stránku{% endblock %}
 
 {% block breadcrumbs %}
 	{{ breadcrumb("Pridať stránku") }}
-	{{ breadcrumb(page, absolute_url=page.get_absolute_url()) }}
+	{{ breadcrumb(page, url=page.get_absolute_url()) }}
 	{{ breadcrumb("Wiki", url="wiki:home") }}
 	{{ super() }}
 {% endblock %}

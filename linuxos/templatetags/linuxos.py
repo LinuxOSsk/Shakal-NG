@@ -24,7 +24,7 @@ register = template.Library()
 
 @library.filter
 @register.filter
-def humandatetime(value, default = ''):
+def humandatetime(value, default=''):
 	if not value:
 		return default
 	today = timezone.now().date()
@@ -34,7 +34,7 @@ def humandatetime(value, default = ''):
 	else:
 		if today == value.date():
 			return mark_safe("Dnes&nbsp;|&nbsp;" + value.strftime("%H:%M"))
-		elif (today - timedelta(days = 1)) == value.date():
+		elif (today - timedelta(days=1)) == value.date():
 			return mark_safe("Včera&nbsp;|&nbsp;" + value.strftime("%H:%M"))
 		else:
 			return mark_safe(value.strftime("%d.%m&nbsp;|&nbsp;%H:%M"))
@@ -85,7 +85,7 @@ def render_messages(messages, *tags):
 @register.filter
 def labelize_content_type(content_type):
 	app_label, model = content_type.split('.')
-	return get_meta(ContentType.objects.get_by_natural_key(app_label = app_label, model = model).model_class()).verbose_name #pylint: disable=W0212
+	return get_meta(ContentType.objects.get_by_natural_key(app_label=app_label, model=model).model_class()).verbose_name
 
 
 @library.global_function

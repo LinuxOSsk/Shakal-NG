@@ -5,7 +5,7 @@
 {{ super() }}
 {% endblock %}
 
-{% block title %}Vyhľadávanie{% endblock %}
+{% block head_title %}Vyhľadávanie{% endblock %}
 
 {% block content %}
 <h1>Výsledky vyhľadávania</h1>
@@ -23,20 +23,23 @@
 
 {% if query %}
 {% for result in results %}
-	<div class="module-row">
-		<h3><a href="{{ result.object.get_absolute_url() }}">{{ highlight(result.title, query, max_length=0) }}</a></h3>
-		{% with content_type=result.content_type() %}
-			{% include "widgets/content_type_label.html" %}
-		{% endwith %}
-		{{ highlight(result.text+"<xapian>"+result.highlighted.text, query, max_length=300) }}
-		text
-		<div class="info">
-		{% if result.author %}Autor: {{ result.author }}&nbsp;|&nbsp;{% endif %}
-		{% if result.created %}Vytvorené: {{ result.created|date("d.m.Y H:i") }}&nbsp;|&nbsp;{% endif %}
-		Skóre: {{ result.score }}&nbsp;|&nbsp;
-		<a href="{{ result.object.get_absolute_url() }}">Čítať</a>
+	{% if result %}
+		<div class="module-row">
+			<h3><a href="{{ result.object.get_absolute_url() }}">{{ highlight(result.title+"", query, max_length=300) }}</a></h3>
+			{% with content_type=result.content_type() %}
+				{% include "widgets/content_type_label.html" %}
+			{% endwith %}
+			{% if result.text %}
+				{{ highlight(result.text + "", query, max_length=300) }}
+			{% endif %}
+			<div class="info">
+			{% if result.author %}Autor: {{ result.author }}&nbsp;|&nbsp;{% endif %}
+			{% if result.created %}Vytvorené: {{ result.created|date("d.m.Y H:i") }}&nbsp;|&nbsp;{% endif %}
+			Skóre: {{ result.score }}&nbsp;|&nbsp;
+			<a href="{{ result.object.get_absolute_url() }}">Čítať</a>
+			</div>
 		</div>
-	</div>
+	{% endif %}
 {% else %}
 	<p>Žiadne výsledky neboli nájdené.</p>
 {% endfor %}

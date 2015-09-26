@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+from __future__ import unicode_literals, absolute_import
 
 from braces.views import LoginRequiredMixin
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from django.utils.functional import cached_property
 from django.views.generic import RedirectView
 from django.views.generic.edit import FormView
 
-from blog.blog_feeds import PostFeed
+from .feeds import PostFeed
 from blog.forms import BlogForm, PostForm, BlogAttachmentForm
 from blog.models import Blog, Post
 from common_utils.generic import ListView, PreviewCreateView, PreviewUpdateView, DetailUserProtectedView
-from feeds import register_feed
+from feeds.register import register_feed
 
 
 class PostListView(ListView):
@@ -20,7 +21,7 @@ class PostListView(ListView):
 	category_key = "slug"
 	category_field = "blog"
 	category_context = "blog"
-	category = Blog
+	category_model = Blog
 	paginate_by = 20
 
 	def get_queryset(self):
@@ -87,13 +88,15 @@ class PostAttachmentsUpdateView(LoginRequiredMixin, FormView):
 
 	def __init__(self, *args, **kwargs):
 		super(PostAttachmentsUpdateView, self).__init__(*args, **kwargs)
-		self.object = None
 
-	def dispatch(self, request, *args, **kwargs):
-		qs = Post.objects.all().\
+	def get_object(self):
+		qs = Post.all_objects.all().\
 			filter(blog__author=self.request.user, blog__slug=self.kwargs['category'])
-		self.object = get_object_or_404(qs, slug=self.kwargs['slug'])
-		return super(PostAttachmentsUpdateView, self).dispatch(request, *args, **kwargs)
+		return get_object_or_404(qs, slug=self.kwargs['slug'])
+
+	@cached_property
+	def object(self):
+		return self.get_object()
 
 	def get_form_kwargs(self):
 		kwargs = super(PostAttachmentsUpdateView, self).get_form_kwargs()
@@ -124,11 +127,15 @@ class PostCreateView(LoginRequiredMixin, PreviewCreateView):
 
 
 class MyBlogView(LoginRequiredMixin, RedirectView):
+	permanent = False
+
 	def get_redirect_url(self):
 		return get_object_or_404(Blog, author=self.request.user).get_absolute_url()
 
 
 class MyBlogCreateOrUpdate(LoginRequiredMixin, RedirectView):
+	permanent = False
+
 	def get_redirect_url(self):
 		if hasattr(self.request.user, 'blog'):
 			return reverse('blog:blog-update')

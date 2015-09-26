@@ -1,29 +1,18 @@
 {% extends "admin/base.html" %}
+{% load i18n %}
 
+{% load admin_static %}
 {% load staticfiles %}
 
-{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
-
 {% block extrastyle %}
-{{ block.super }}
-<link rel="stylesheet" type="text/css" href="{% static "admin/css/extra.css" %}" />
+	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'admin/css/suit_extra.css' %}" media="all" />
 {% endblock %}
 
+{% block title %}{{ title }} | Shakal CMS{% endblock %}
 
 {% block branding %}
-<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></h1>
+<h1 id="site-name">Shakal CMS</h1>
 {% endblock %}
 
 {% block nav-global %}{% endblock %}
-
-{% block extrahead %}
-<script type="text/javascript">
-//<![CDATA[
-
-window._urls = window._urls || {};
-window._urls.static_base = '{% static "" %}';
-
-//]]>
-</script>
-{{ block.super }}
-{% endblock %}

@@ -1,0 +1,28 @@
+<div class="module">
+	<div class="module-row">
+		<table class="table table-striped table-condensed table-topics">
+			<caption>{{ caption }}</caption>
+			<tr>
+				<th class="title">Názov</th>
+				<th>Stav</th>
+				<th>Reakcií</th>
+				<th>Posledná</th>
+			</tr>
+			{% for object in object_list %}
+			<tr>
+				<td class="title"><a href="{{ object.get_absolute_url() }}">{{ object.title }}</a></td>
+				<td class="status">
+					{% if object.new_comments %}&nbsp;<span class="label label-success label-new">Nové komentáre</span>{% endif %}
+					{% if object.is_resolved %}&nbsp;<span class="label label-success label-resolved">Vyriešené</span>{% endif %}
+					{% if object.is_locked %}&nbsp;<span class="label label-warning label-locked">Zamknuté</span>{% endif %}
+					{% if object.discussion_watch %}&nbsp;<span class="label label-info label-watch">Sledované</span>{% endif %}
+				</td>
+				<td class="comments"><span class="badge badge-{{ object.new_comments|yesno("new,watch,default") }}">{{ object.comment_count }}</span></td>
+				<td class="date">{{ object.last_comment|humandatetime("Žiadna reakcia") }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+
+		{{ pagination() }}
+	</div>
+</div>

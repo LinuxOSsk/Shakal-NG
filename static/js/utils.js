@@ -403,9 +403,8 @@ window._utils.hasClass = hasClass;
 window._utils.addClass = addClass;
 window._utils.removeClass = removeClass;
 window._utils.toggleClass = toggleClass;
-window._utils.getElementsByClassName = getElementsByClassName;
-window._utils.byCls = getElementsByClassName;
-window._utils.byId = byId;
+window._utils.cls = getElementsByClassName;
+window._utils.id = byId;
 
 var loaderJs = (function () {
 	var head = document.getElementsByTagName('head')[0];

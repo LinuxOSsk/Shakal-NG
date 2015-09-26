@@ -1,0 +1,28 @@
+$hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx)";
+
+.icon {
+	display: block;
+	background-repeat: no-repeat;
+}
+
+.sprite {
+	background-image: map-get($sprites, _url);
+	background-size: map-get($sprites, _size);
+}
+
+@mixin sprite-generated($image, $setSize: true, $right: false) {
+	@extend .sprite;
+	@if $right {
+		background-position: right (- map-get(map-get($sprites, $image), y));
+	}
+	@else {
+		background-position: map-get(map-get($sprites, $image), offset);
+	}
+	@if $setSize {
+		width: map-get(map-get($sprites, $image), w);
+		height: map-get(map-get($sprites, $image), h);
+	}
+	//@media #{$hdpi} {
+	//	background-image: map-get($sprites2x, _url);
+	//}
+}

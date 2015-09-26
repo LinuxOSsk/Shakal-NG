@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.conf.urls import patterns, url
-import views
 
 
 class Patterns(object):
@@ -10,10 +11,10 @@ class Patterns(object):
 
 	@property
 	def urls(self):
-		urlpatterns = patterns('',
-			url(r'^$', views.list, name = 'list'),
-			url(r'^r/(?P<pk>\d+)/$', views.read, name = 'read'),
+		pat = patterns('notifications.views',
+			url(r'^$', 'List', name='list'),
+			url(r'^r/(?P<pk>\d+)/$', 'Read', name='read'),
 		)
-		return (urlpatterns, self.app_name, self.name)
+		return (pat, self.app_name, self.name)
 
 urlpatterns = Patterns().urls

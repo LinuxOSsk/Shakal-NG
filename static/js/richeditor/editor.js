@@ -385,57 +385,149 @@ function initialize_rich_editor(name, settings) {
 
 (function (_) {
 
-var RichEditor = function(element, options) {
+var SimpleEditorHtml = function() {
+
+};
+
+var CkEditorHtml = function(element, options) {
+	var self = this;
+	var destroy = false;
+
+	this.editor = undefined;
+
 	var initializeEditor = function() {
+		if (CKEDITOR._customized === undefined) {
+			CKEDITOR._customized = true;
+
+			CKEDITOR._extraCss = [CKEDITOR.getCss()];
+
+			CKEDITOR.addCss = function(css) {
+				CKEDITOR._extraCss.push(css);
+			};
+
+			CKEDITOR.getCss = function(css) {
+				return CKEDITOR._extraCss.join('\n');
+			};
+
+			CKEDITOR.plugins.add('close', {
+				init: function(editor) {
+					editor.addCommand('close', {
+						exec: function() {
+							options._selector.selectEditor('simple_html');
+						}
+					});
+					editor.ui.addButton('Close', {
+						label: 'Prepnúť na obyčajný editor',
+						command: 'close'
+					});
+				}
+			});
+
+			CKEDITOR.on('instanceReady', function() {
+				_.forEach(_.cls(document.body, 'cke_button__close'), function(btn) {
+					var toolbar = btn.parentNode.parentNode;
+					toolbar.style.float = 'right';
+					btn.parentNode.style.marginRight = '0';
+				});
+			});
+		}
+
 		var config = {};
-/*
-config.toolbar = [
-	{ name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates' ] },
-	{ name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
-	{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' ] },
-	{ name: 'forms', items: [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
-	'/',
-	{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
-	{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },
-	{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
-	{ name: 'insert', items: [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
-	'/',
-	{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
-	{ name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-	{ name: 'tools', items: [ 'Maximize', 'ShowBlocks' ] },
-	{ name: 'others', items: [ '-' ] },
-	{ name: 'about', items: [ 'About' ] }
-];
-config.toolbarGroups = [
-	{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
-	{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
-	{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ] },
-	{ name: 'forms' },
-	'/',
-	{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-	{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
-	{ name: 'links' },
-	{ name: 'insert' },
-	'/',
-	{ name: 'styles' },
-	{ name: 'colors' },
-	{ name: 'tools' },
-	{ name: 'others' },
-	{ name: 'about' }
-];
-*/
-		config.plugins = 'basicstyles,blockquote,clipboard,contextmenu,dialogadvtab,enterkey,find,format,horizontalrule,image,indentblock,indentlist,justify,link,list,magicline,maximize,pastetext,preview,print,removeformat,showblocks,showborders,sourcearea,specialchar,tab,table,tabletools,toolbar,undo,wysiwygarea';
+		config.toolbar = [
+			{ name: 'close', items: [ 'Close' ] },
+			{ name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates' ] },
+			{ name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+			{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' ] },
+			{ name: 'forms', items: [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
+			{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
+			{ name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+			{ name: 'tools', items: [ 'Maximize', 'ShowBlocks' ] },
+			{ name: 'others', items: [ '-' ] },
+			{ name: 'about', items: [ 'About' ] },
+			'/',
+			{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
+			{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },
+			{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+			{ name: 'insert', items: [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
+		];
+		config.plugins = 'basicstyles,blockquote,clipboard,contextmenu,dialogadvtab,enterkey,find,format,horizontalrule,image,indentblock,indentlist,justify,link,list,magicline,maximize,pastetext,removeformat,showblocks,showborders,sourcearea,specialchar,tab,table,tabletools,toolbar,undo,wysiwygarea,close';
 		config.format_tags = 'p;h1;h2;h3;h4;h5;h6;pre'
-		if (!options.tags) {
+
+		if (options.tags) {
+			var allowedTags = '';
+			var allowedTagsRestrict = '';
+			_.forEach(options.tags.known, function(element) {
+				if (element.length) {
+					if (element === 'a') {
+						allowedTagsRestrict += ';a[!href,rel]';
+					}
+					else if (element === 'img') {
+						allowedTagsRestrict += ';img[!src]';
+					}
+					else {
+						if (allowedTags.length > 0) {
+							allowedTags += ' ';
+						}
+						allowedTags += element;
+					}
+				}
+			});
+			config.allowedContent = allowedTags + allowedTagsRestrict;
+		}
+		else {
 			config.allowedContent = true;
 			config.extraAllowedContent = 'dl dt dd';
 		}
-		var editor = CKEDITOR.replace(element, config);
+		config.startupOutlineBlocks = true;
+		CKEDITOR.addCss(options.tags.unsupported.join(', ') + '{ background-color: #ff9999 !important; border: 1px solid red !important; }');
+		self.editor = CKEDITOR.replace(element, config);
+		self.editor._editorInstance = self;
+		CKEDITOR._extraCss.pop();
 	};
 
-	_.loaderJs([window._urls.static_base + 'vendor/ckeditor/ckeditor.js'], initializeEditor);
+	this.destroy = function() {
+		destroy = true;
+		if (self.editor !== undefined) {
+			self.editor.destroy(false);
+			self.editor = undefined;
+		}
+	};
+
+	_.loaderJs([window._urls.static_base + 'vendor/ckeditor/ckeditor.js'], function() {
+		if (destroy) {
+			return;
+		}
+		initializeEditor();
+	});
+};
+
+var RichEditor = function(element, options) {
+	var self = this;
+	var currentEditorWidget = undefined;
+
+	var editors = {
+		'simple_html': SimpleEditorHtml,
+		'ckeditor_html': CkEditorHtml
+	}
+
+	this.selectEditor = function(name) {
+		if (currentEditorWidget !== undefined) {
+			currentEditorWidget.destroy();
+			currentEditorWidget = undefined;
+		}
+		options._selector = self;
+		currentEditorWidget = new editors[name](element, options);
+	};
+
+	this.selectEditor('ckeditor_html');
 };
 
 _.RichEditor = RichEditor;
+
+var rich_editors = window.rich_editors || [];
+_.forEach(rich_editors, function(editorSettings) {
+	new RichEditor(editorSettings.element, editorSettings);
+});
+
 
 }(window._utils));

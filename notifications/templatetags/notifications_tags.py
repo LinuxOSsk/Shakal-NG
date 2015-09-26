@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django import template
 from django_jinja import library
 from jinja2 import contextfunction
@@ -11,7 +13,6 @@ register = template.Library()
 
 @library.global_function
 @contextfunction
-@register.assignment_tag(takes_context = True)
 def get_unread_notifications(context):
 	user = context['request'].user
 	if user.is_authenticated():

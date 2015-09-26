@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 from django.db.models import Count
 from django.http.response import HttpResponseRedirect
 
-from .feeds import TopicFeed as CoreTopicFeed
 from .forms import TopicForm
 from .models import Topic, Section
 from common_utils.generic import ListView, DetailUserProtectedView, PreviewCreateView
@@ -12,7 +11,7 @@ from common_utils.generic import ListView, DetailUserProtectedView, PreviewCreat
 
 class TopicListView(ListView):
 	queryset = Topic.topics.newest_topics()
-	category = Section
+	category_model = Section
 	category_field = 'section'
 	paginate_by = 50
 
@@ -52,7 +51,3 @@ class TopicCreateView(PreviewCreateView):
 		if self.object:
 			form.move_attachments(self.object)
 		return ret
-
-
-class TopicFeed(CoreTopicFeed):
-	pass

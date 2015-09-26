@@ -1,8 +1,23 @@
 #!/bin/sh
 
+DUMPMAKE=
+while true; do
+	case "$1" in
+		--dumpmake ) DUMPMAKE="$2"; shift 2 ;;
+		-- ) shift; break ;;
+		* ) break ;;
+	esac
+done
+
+MAKEFILE=$DUMPMAKE
+if [[ "$DUMPMAKE" == "" ]]
+then
+	MAKEFILE="shakal/Makefile"
+fi
+
 mkdir -p shakal
-cat << 'EOF' > shakal/Makefile
-.PHONY: all cimpilesprites migrate
+cat << 'EOF' > ${MAKEFILE}
+.PHONY: all cimpilesprites migrate update update2 resetdb
 
 PYTHON=python2.7
 VENV_PYTHON=venv/bin/python
@@ -27,8 +42,7 @@ all: localinstall
 	@touch .stamp_setuptools
 
 .stamp_requirements: .stamp_setuptools
-	venv/bin/pip install -r shakal/requirements.txt
-	venv/bin/pip install -r shakal/requirements.local.txt
+	venv/bin/pip install -r shakal/requirements.dev.txt
 	touch .stamp_requirements
 
 .stamp_settings: .stamp_requirements
@@ -41,19 +55,40 @@ compilesprites: .stamp_settings
 migrate: .stamp_settings
 	${DJANGO_MANAGE} migrate
 
+compilemessages: .stamp_settings
+	${DJANGO_MANAGE} compilemessages
+
 runserver: .stamp_sampledata
 	${DJANGO_MANAGE} runserver_plus
 
 update: .stamp_settings
 	cd shakal; git pull; git submodule sync --recursive
+	@./shakal/install.sh --dumpmake Makefile
+	make update2
+
+update2: .stamp_settings
+	venv/bin/pip install -r shakal/requirements.dev.txt
 	${DJANGO_MANAGE} compilesprites
 	${DJANGO_MANAGE} migrate
+	${DJANGO_MANAGE} compilemessages
 
 .stamp_sampledata: .stamp_settings
 	${DJANGO_MANAGE} compilesprites
 	${DJANGO_MANAGE} migrate
-	${DJANGO_MANAGE} create_sample_data
+	${DJANGO_MANAGE} compilemessages
+	${DJANGO_MANAGE} loaddata forum/data/categories.json
+	${DJANGO_MANAGE} create_sample_data --verbosity 2
+	${DJANGO_MANAGE} loaddata wiki/data/pages.json
+	${DJANGO_MANAGE} rebuild_index --noinput
 	@touch .stamp_sampledata
+
+resetdb:
+	rm -f shakal/db.sqlite3
+	${DJANGO_MANAGE} migrate
+	${DJANGO_MANAGE} loaddata forum/data/categories.json
+	${DJANGO_MANAGE} create_sample_data
+	${DJANGO_MANAGE} loaddata wiki/data/pages.json
+	${DJANGO_MANAGE} rebuild_index --noinput
 
 localinstall: .stamp_sampledata
 	@echo "================================================"
@@ -64,4 +99,7 @@ localinstall: .stamp_sampledata
 	@echo "================================================"
 EOF
 
-make -C shakal
+if [[ "$DUMPMAKE" == "" ]]
+then
+	make -C shakal
+fi

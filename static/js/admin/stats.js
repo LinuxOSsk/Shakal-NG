@@ -59,8 +59,9 @@ jQuery(function($) {
 		}
 
 		//$('.stats .group-tabs').tabs();
-		$('#suit_form_tabs').find("a").click(function() {
+		$('#suit_form_tabs').find("a").click(function(e) {
 			loadTabContent($('.suit-tab' + $(this).attr('href').replace("#", "-") + ' .stats_chart')[0]);
+			e.preventDefault();
 		});
 		$('#suit_form_tabs').suit_form_tabs();
 		//$('.stats .group-tabs').bind('tabsactivate', function(event, ui) { loadTabContent($('.stats_chart', ui.newPanel)[0]); });

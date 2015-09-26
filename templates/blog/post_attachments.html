@@ -1,11 +1,11 @@
 {% extends "blog/blog_base.html" %}
 
-{% block title %}{{ object }} - úprava{% endblock %}
+{% block head_title %}{{ object }} - úprava{% endblock %}
 
 {% block breadcrumbs %}
 	{{ breadcrumb("Správa príloh") }}
-	{{ breadcrumb(object, absolute_url=object.get_absolute_url()) }}
-	{{ breadcrumb(object.blog, absolute_url=object.blog.get_absolute_url()) }}
+	{{ breadcrumb(object, url=object.get_absolute_url()) }}
+	{{ breadcrumb(object.blog, url=object.blog.get_absolute_url()) }}
 	{{ breadcrumb("Blog", url='blog:post-list') }}
 	{{ super() }}
 {% endblock %}
