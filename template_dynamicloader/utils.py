@@ -67,5 +67,4 @@ def get_template_settings(request):
 	if not template_skin.split(',', 1)[0] in templates:
 		template_skin = default
 
-
 	return (template_skin, css, template_settings)
