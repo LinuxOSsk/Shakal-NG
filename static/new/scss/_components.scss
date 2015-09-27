@@ -8,7 +8,10 @@
 	span {
 		margin-left: auto;
 		margin-right: auto;
-		@include sprite-generated(penguin);
+		@include sprite-generated(logo);
+		@media #{$xlarge-up} {
+			@include sprite-generated(penguin);
+		}
 	}
 }
 

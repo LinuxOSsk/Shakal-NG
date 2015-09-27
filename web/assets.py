@@ -10,6 +10,7 @@ SPRITES = (
 		'width': 400,
 		'height': 400,
 		'images': (
+			{ 'name': 'logo', 'src': 'new/images/logo_white.png' },
 			{ 'name': 'penguin', 'src': 'new/images/penguin_white.png' },
 		),
 	},
@@ -21,6 +22,7 @@ SPRITES = (
 		'width': 400,
 		'height': 400,
 		'images': (
+			{ 'name': 'logo', 'src': 'new/images/logo_black.png' },
 			{ 'name': 'penguin', 'src': 'new/images/penguin_black.png' },
 		),
 	},
