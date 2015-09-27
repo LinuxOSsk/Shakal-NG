@@ -11,6 +11,8 @@
 /static/default/base.css
 /static/default/scss/_sprites*.scss
 /static/default/_sprites*.scss
+/static/new/images/sprites*.png
+/static/new/scss/_sprites*.png
 /static/old/images/backgrounds.png
 /static/old/base.css
 /static/old/_sprites*.scss

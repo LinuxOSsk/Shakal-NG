@@ -37,3 +37,31 @@
 		left: 0%;
 	}
 }
+
+@mixin holygrail-leftmenu-fixed($col-width) {
+	&.colmask {
+		overflow: hidden;
+	}
+
+	.colleft {
+		width: 200%;
+		left: $col-width;
+	}
+
+	.col1wrap {
+		float: right;
+		width: 50%;
+		position: relative;
+		right: $col-width;
+	}
+
+	.col1 {
+		right: 100%;
+		margin-left: $col-width;
+	}
+
+	.col2 {
+		width: $col-width;
+		right: $col-width;
+	}
+}
