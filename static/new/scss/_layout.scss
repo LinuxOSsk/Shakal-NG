@@ -1,6 +1,38 @@
 .holygrail.sitelayout {
 	@include holygrail-leftmenu-fixed(16em);
-	@media #{$medium-up} {
+	@media #{$large-up} {
 		@include holygrail-leftmenu-fixed(20em);
+	}
+}
+
+@media #{$small-down} {
+	.holygrail.sitelayout {
+		.colleft {
+			left: auto;
+			width: auto;
+			float: none;
+		}
+
+		.col1wrap {
+			width: auto;
+			float: none;
+			position: static;
+			right: auto;
+		}
+
+		.col1 {
+			right: auto;
+			margin-left: 0;
+			position: static;
+		}
+
+		.col2 {
+			width: auto;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			z-index: 1;
+		}
 	}
 }

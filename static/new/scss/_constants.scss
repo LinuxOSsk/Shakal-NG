@@ -21,9 +21,10 @@ $sidebar-background: $primary-color !default;
 
 $header-color: lighten(adjust-hue($primary-color, 2%), 15%) !default;
 
-$base-margin: 30px !default;
-$base-margin-reduction: 15px !default;
-$base-margin-reduced: $base-margin - $base-margin-reduction !default;
+$base-margin-horizontal: 30px !default;
+$base-margin-vertical: 20px !default;
+$base-margin-horizontal-reduced: $base-margin-horizontal / 2 !default;
+$base-margin-vertical-reduced: $base-margin-vertical / 2 !default;
 
 $header-line-height: 1.4 !default;
 $header-font-weight: 700 !default;

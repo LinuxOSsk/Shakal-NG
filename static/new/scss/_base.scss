@@ -85,43 +85,43 @@ h6 { font-size: $h6-font-size; }
 }
 
 .base-padding {
-	padding: 10px 15px;
+	padding: $base-margin-vertical-reduced $base-margin-horizontal-reduced;
 }
 
 .base-margin-b {
-	margin-bottom: 10px;
+	margin-bottom: $base-margin-vertical-reduced;
 }
 
 .base-margin-t {
-	margin-top: 10px;
+	margin-top: $base-margin-vertical-reduced;
 }
 
 .base-margin-halfb {
-	margin-bottom: 5px;
+	margin-bottom: $base-margin-vertical-reduced / 2;
 }
 
 .base-margin-halft {
-	margin-top: 5px;
+	margin-top: $base-margin-vertical-reduced / 2;
 }
 
 @media #{$large-up} {
 	.base-padding {
-		padding: 20px 30px;
+		padding: $base-margin-vertical $base-margin-horizontal;
 	}
 
 	.base-margin-b {
-		margin-bottom: 20px;
+		margin-bottom: $base-margin-vertical;
 	}
 
 	.base-margin-t {
-		margin-top: 20px;
+		margin-top: $base-margin-vertical;
 	}
 
 	.base-margin-halfb {
-		margin-bottom: 10px;
+		margin-bottom: $base-margin-vertical / 2;
 	}
 
 	.base-margin-halft {
-		margin-top: 10px;
+		margin-top: $base-margin-vertical / 2;
 	}
 }
