@@ -148,22 +148,6 @@ body.blocks {
 	}
 }
 
-#site_header {
-	@include sprite-generated-repeatx(header_bg);
-	background-color: $header-color;
-	border-top: 1px solid lighten($header-color, 40%);
-	border-bottom: 1px solid darken($header-color, 25%);
-
-}
-
-.logo {
-	.sprite {
-		margin-left: 10px;
-		margin-top: 6px;
-		@include sprite-generated(logo);
-	}
-}
-
 #main_menu {
 	margin: 0;
 	padding: 0;

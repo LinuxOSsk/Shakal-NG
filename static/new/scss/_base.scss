@@ -2,7 +2,7 @@ html, body {
 	padding: 0;
 	margin: 0;
 	font-family: sans-serif;
-	background: $body-color;
+	background: $body-color-background;
 	color: $text-color;
 }
 
@@ -59,7 +59,7 @@ h6 { font-size: $h6-font-size; }
 	background: $sidebar-background;
 
 	.col1 {
-		background: $body-color;
+		background: $body-color-background;
 		color: $text-color;
 	}
 
@@ -73,5 +73,47 @@ h6 { font-size: $h6-font-size; }
 
 	.colleft, .col2 {
 		background: $sidebar-background;
+	}
+}
+
+.base-padding {
+	padding: 10px 15px;
+}
+
+.base-margin-b {
+	margin-bottom: 10px;
+}
+
+.base-margin-t {
+	margin-top: 10px;
+}
+
+.base-margin-halfb {
+	margin-bottom: 5px;
+}
+
+.base-margin-halft {
+	margin-top: 5px;
+}
+
+@media #{$large-up} {
+	.base-padding {
+		padding: 20px 30px;
+	}
+
+	.base-margin-b {
+		margin-bottom: 20px;
+	}
+
+	.base-margin-t {
+		margin-top: 20px;
+	}
+
+	.base-margin-halfb {
+		margin-bottom: 10px;
+	}
+
+	.base-margin-halft {
+		margin-top: 10px;
 	}
 }

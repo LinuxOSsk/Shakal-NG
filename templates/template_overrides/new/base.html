@@ -20,22 +20,24 @@
 		{{ render_messages(messages) }}
 	{% endblock %}
 
-	<header>
-		<div id="site_header" class="sprite">
-			<a class="logo no-text-left" title="LinuxOS.sk - Slovenský linuxový portál" href="{{ url("home") }}"><span class="sprite">LinuxOS.sk - Slovenský linuxový portál</span></a>
-		</div>
-	</header>
-
 	<div class="holygrail colmask sitelayout">
 		<div class="colleft">
 			<div class="col1wrap">
 				<div class="col1">
+					<div id="site_top">
+						<header>
+							<h1>{% block site_title %}{% endblock %}</h1>
+						</header>
+					</div>
 					<div id="site_content">
 						{% block content %}{% endblock %}
 					</div>
 				</div>
 			</div>
 			<div class="col2">
+				<div id="site_header">
+					<a class="logo no-text-left" title="LinuxOS.sk - Slovenský linuxový portál" href="{{ url("home") }}"><span class="sprite">LinuxOS.sk - Slovenský linuxový portál</span></a>
+				</div>
 				<aside class="touchhover-emul">
 					<a id="menu-toggle" href="#">Menu</a>
 					<div class="sidebar sprite-after top-inner-shadow">

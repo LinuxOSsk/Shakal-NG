@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block head_title %}LinuxOS.sk - slovenský linuxový portál{% endblock %}
+{% block site_title %}Slovenský linuxový portál{% endblock %}
 
 {% block extraheaders %}
 {{ super() }}
@@ -12,8 +13,6 @@
 {% block content %}
 {{ add_hitcount(articles, top_articles) }}
 {{ add_discussion_attributes(articles, top_articles) }}
-
-<h1>Slovenský linuxový portál</h1>
 
 <div class="module article">
 	<div class="margin-container">

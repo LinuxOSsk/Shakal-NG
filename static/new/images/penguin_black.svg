@@ -9,13 +9,13 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
-   width="200"
-   height="218"
-   viewBox="0 0 160 174.4"
+   width="124"
+   height="140"
+   viewBox="0 0 99.2 112"
    preserveAspectRatio="xMidYMid meet"
    id="svg2"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="logo_white.svg">
+   sodipodi:docname="penguin_black.svg">
   <defs
      id="defs136" />
   <sodipodi:namedview
@@ -27,15 +27,15 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1012"
-     inkscape:window-height="853"
+     inkscape:window-width="1029"
+     inkscape:window-height="658"
      id="namedview134"
      showgrid="false"
-     inkscape:zoom="0.66015627"
-     inkscape:cx="160.02148"
-     inkscape:cy="167.03093"
-     inkscape:window-x="51"
-     inkscape:window-y="146"
+     inkscape:zoom="2.4807435"
+     inkscape:cx="115.07476"
+     inkscape:cy="55.128976"
+     inkscape:window-x="106"
+     inkscape:window-y="63"
      inkscape:window-maximized="0"
      inkscape:current-layer="g6"
      showguides="true"
@@ -49,16 +49,16 @@ Created by potrace 1.10, written by Peter Selinger 2001-2011
     <dc:format>image/svg+xml</dc:format>
     <dc:type
        rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-    <dc:title></dc:title>
+    <dc:title />
   </cc:Work>
 </rdf:RDF>
 </metadata>
   <g
-     transform="matrix(0.1,0,0,-0.1,0,174.4)"
+     transform="matrix(0.1,0,0,-0.1,0,112)"
      id="g6">
     <g
        id="g3021"
-       transform="matrix(1.3111669,0,0,1.3098732,-13.111669,-71.46086)">
+       transform="matrix(0.81292348,0,0,0.81212138,-8.1292348,-44.305733)">
       <path
          sodipodi:nodetypes="cccccccccscscccccccccccscc"
          inkscape:connector-curvature="0"
@@ -115,21 +115,21 @@ Created by potrace 1.10, written by Peter Selinger 2001-2011
     </g>
     <g
        id="g3115"
-       transform="matrix(1,0,0,-1,4.0687594e-6,-2866.6024)">
+       transform="matrix(0.62,0,0,-0.62,2.5226308e-6,-1777.2935)">
       <text
          sodipodi:linespacing="125%"
          id="text3100"
-         style="font-size:272px;font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Lato;-inkscape-font-specification:Lato Heavy;text-anchor:start;text-align:start;writing-mode:lr"
+         style="font-size:272px;font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Lato;-inkscape-font-specification:Lato Heavy"
          xml:space="preserve"><textPath
            id="textPath3112"
            xlink:href="#path3110"><tspan
    id="tspan3104"
-   style="-inkscape-font-specification:Lato Heavy;font-family:Lato;font-weight:900;font-style:normal;font-stretch:normal;font-variant:normal;font-size:272px;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%">LinuxOS.sk</tspan></textPath></text>
+   style="font-size:272px;font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Lato;-inkscape-font-specification:Lato Heavy">LinuxOS.sk</tspan></textPath></text>
       <path
          inkscape:connector-curvature="0"
          id="path3110"
          d="m 210.20773,-3212.7781 c 80.37321,-559.5229 193.44816,-569.4956 252.16079,-813.5507 104.51949,-434.4637 118.27615,-652.1985 470.52472,-647.1158"
-         style="fill:none;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+         style="fill:none;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          sodipodi:nodetypes="csc" />
     </g>
   </g>

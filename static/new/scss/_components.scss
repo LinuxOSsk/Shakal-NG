@@ -1,0 +1,25 @@
+#site_header .logo {
+	display: block;
+	text-align: center;
+	padding: 20px 0;
+	margin: 0 0 20px 0;
+	background: darken($sidebar-background, 10%);
+	border-bottom: 1px solid lighten($sidebar-background, 10%);
+	span {
+		margin-left: auto;
+		margin-right: auto;
+		@include sprite-generated(penguin);
+	}
+}
+
+#site_top {
+	@extend .base-padding;
+	@extend .base-margin-halfb;
+	margin-top: 0;
+	background: $body-color;
+	border-bottom: 1px solid mix($body-color-background, $text-color, 90%);
+	h1 {
+		padding: 0;
+		margin: 0;
+	}
+}

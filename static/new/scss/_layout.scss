@@ -1,5 +1,5 @@
 .holygrail.sitelayout {
-	@include holygrail-leftmenu-fixed(220px);
+	@include holygrail-leftmenu-fixed(16em);
 	@media #{$medium-up} {
 		@include holygrail-leftmenu-fixed(20em);
 	}
