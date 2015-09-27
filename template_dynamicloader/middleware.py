@@ -3,11 +3,12 @@ from __future__ import unicode_literals
 
 import re
 
+import json
 from django.template.loader import render_to_string
 from django.utils.encoding import smart_unicode
 
-from template_dynamicloader.forms import ChangeTemplateHiddenForm
-from template_dynamicloader.utils import decode_switch_template
+from .forms import ChangeTemplateHiddenForm
+from .utils import decode_switch_template
 
 
 class TemplateSwitcherMiddleware(object):
@@ -15,8 +16,12 @@ class TemplateSwitcherMiddleware(object):
 		match = re.search('<body[^>]*>', content)
 		if match is None:
 			raise ValueError
-		template, extra_css = template_data
-		form = ChangeTemplateHiddenForm({'template': template, 'css': extra_css})
+		template, extra_css, template_settings = template_data
+		form = ChangeTemplateHiddenForm({
+			'template': template,
+			'css': extra_css,
+			'settings': json.dumps(template_settings)
+		})
 		confirm = render_to_string('template_dynamicloader/switch_confirm_inline.html', {'form': form}, request=request)
 		return smart_unicode(content[0:match.end(0)]) + confirm + smart_unicode(content[match.end(0):])
 

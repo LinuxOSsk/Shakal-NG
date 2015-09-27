@@ -5,8 +5,9 @@ from django import forms
 
 
 class ChangeTemplateForm(forms.Form):
-	template = forms.CharField(required = False)
-	css = forms.CharField(required = False)
+	template = forms.CharField(required=False)
+	css = forms.CharField(required=False)
+	setting = forms.CharField(required=False)
 
 
 class ChangeTemplateHiddenForm(ChangeTemplateForm):
