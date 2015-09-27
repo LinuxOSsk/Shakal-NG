@@ -88,6 +88,10 @@ h6 { font-size: $h6-font-size; }
 	padding: $base-margin-vertical-reduced $base-margin-horizontal-reduced;
 }
 
+.base-margin {
+	margin: $base-margin-vertical-reduced;
+}
+
 .base-margin-b {
 	margin-bottom: $base-margin-vertical-reduced;
 }
@@ -107,6 +111,10 @@ h6 { font-size: $h6-font-size; }
 @media #{$large-up} {
 	.base-padding {
 		padding: $base-margin-vertical $base-margin-horizontal;
+	}
+
+	.base-margin {
+		margin: $base-margin-vertical;
 	}
 
 	.base-margin-b {
