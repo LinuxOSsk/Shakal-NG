@@ -66,6 +66,24 @@
 	border-right: 1px solid mix($text-color, $body-color-background, 7%);
 	border-bottom: 1px solid mix($text-color, $body-color-background, 15%);
 	@extend .base-margin;
+
+	h2 {
+		@extend .base-padding;
+		border-bottom: 1px solid mix($body-color, $text-color, 90%);
+		text-transform: uppercase;
+		margin: 0;
+		color: $link-color;
+	}
+
+	.module-row {
+		@extend .base-padding;
+		@extend .base-padding-half-v;
+		border-bottom: 1px solid mix($body-color, $text-color, 95%);
+	}
+
+	.module-links {
+		@extend .base-padding;
+	}
 }
 
 
