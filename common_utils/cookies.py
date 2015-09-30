@@ -6,7 +6,12 @@ from datetime import datetime, timedelta
 from django.conf import settings
 
 
-def set_cookie(response, cookie_name, cookie_value, cookie_age):
+DEFAULT_COOKIE_AGE = 3600 * 24 * 365 # rok
+
+
+def set_cookie(response, cookie_name, cookie_value, cookie_age=None):
+	if cookie_age is None:
+		cookie_age = DEFAULT_COOKIE_AGE
 	expires = datetime.utcnow() + timedelta(seconds=cookie_age)
 
 	response.set_cookie(

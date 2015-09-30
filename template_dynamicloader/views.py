@@ -12,6 +12,7 @@ from .utils import switch_template
 @require_POST
 def change(request):
 	form = ChangeTemplateHiddenForm(request.POST)
+	response = HttpResponseRedirect(reverse('home'))
 	if form.is_valid() and 'change_style' in request.POST:
-		switch_template(request, **form.cleaned_data)
-	return HttpResponseRedirect(reverse('home'))
+		switch_template(response, **form.cleaned_data)
+	return response
