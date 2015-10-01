@@ -343,7 +343,7 @@ if (el.classList == undefined) {
 				newClassNames.push(classNames[i]);
 			}
 		}
-		return " ".join(newClassNames);
+		elem.className = newClassNames.join(" ");
 	}
 
 	var toggleClass = function(elem, cls) {
