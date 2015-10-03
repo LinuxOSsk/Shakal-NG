@@ -111,10 +111,10 @@ def time_series(qs, date_field, aggregate, interval, date_from=None, date_to=Non
 
 	qs = (qs
 		.annotate(time_value=db_interval)
-		.values('time_value')
+		.values_list('time_value')
 		.order_by('time_value')
 		.annotate(**aggregate)
-		.values_list('time_value', *aggregate.keys()))
+		)
 
 	def convert_date(val):
 		if is_date and isinstance(val, datetime):
