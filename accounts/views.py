@@ -4,21 +4,20 @@ from __future__ import unicode_literals
 from datetime import timedelta
 
 from braces.views import LoginRequiredMixin
-from dateutil.relativedelta import relativedelta
 from django.apps import apps
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db.models import Count, Max
-from django.db.models.expressions import DateTime
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from django.utils.safestring import mark_safe
-from django.utils.timezone import get_current_timezone, now
 from django.views.generic import RedirectView, DetailView, UpdateView
 
 from .forms import ProfileEditForm
 from common_utils import get_meta
 from common_utils.generic import ListView
+from common_utils.time_series import time_series
 
 
 class UserZone(LoginRequiredMixin, RedirectView):
@@ -131,39 +130,15 @@ class UserStatsListBase(UserStatsMixin, ListView):
 	stats_by_date_field = None
 	template_name = 'account/user_posts_detail.html'
 
-	def fill_time_series_gap(self, time_series, interval, start_time=None):
-		time_series = list(time_series)
-		if len(time_series) < 2 and start_time is None:
-			return time_series
-
-		end_time = now().date()
-		last_time = start_time.date() if start_time else None
-		time_series_filled = []
-		for series_item in time_series:
-			item_time = series_item[0].date()
-
-			if last_time is not None:
-				while last_time < item_time:
-					time_series_filled.append((last_time, 0))
-					last_time += relativedelta(**{interval: 1})
-
-			time_series_filled.append(series_item)
-			last_time = item_time + relativedelta(**{interval: 1})
-
-		while last_time <= end_time:
-			time_series_filled.append((last_time, 0))
-			last_time += relativedelta(**{interval: 1})
-
-		return time_series_filled
-
 	def get_time_series(self, interval, time_stats_ago=365):
-		return (self.get_stats_queryset()
-			.filter(**{self.stats_by_date_field + '__gte': now().date() + timedelta(-time_stats_ago)})
-			.annotate(**{interval: DateTime(self.stats_by_date_field, interval, get_current_timezone())})
-			.values(interval)
-			.annotate(count=Count('id'))
-			.order_by(interval)
-			.values_list(interval, 'count'))
+		return time_series(
+			qs=self.get_stats_queryset(),
+			date_field=self.stats_by_date_field,
+			interval=interval,
+			aggregate=Count('id'),
+			date_from=timezone.localtime(timezone.now()).date() + timedelta(-time_stats_ago),
+			date_to=timezone.localtime(timezone.now()).date()
+		)
 
 	def get_stats_queryset(self):
 		return self.get_queryset()
@@ -171,10 +146,9 @@ class UserStatsListBase(UserStatsMixin, ListView):
 	def get_stats_by_date(self):
 		monthly_stats = self.get_time_series('month', 365*10)
 		daily_stats = self.get_time_series('day', 365)
-		year_ago = (now() + timedelta(-365)).replace(hour=0, minute=0, second=0, microsecond=0)
 		return {
-			'monthly_stats': self.fill_time_series_gap(monthly_stats, 'months'),
-			'daily_stats': self.fill_time_series_gap(daily_stats, 'days', start_time=year_ago),
+			'monthly_stats': monthly_stats,
+			'daily_stats': daily_stats,
 		}
 
 	def get_objects_name(self):
