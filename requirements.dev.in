@@ -7,13 +7,11 @@ django-haystack
 django-jinja
 django-libsass
 django-mptt
-django-qsstats-magic
 django-reversion
 django-static-sitemaps
 django-suit
 feedparser
 pip-tools
-python-dateutil
 pytz
 -e git+git://github.com/mireq/django-assets-manager.git#egg=django_assets_manager
 -e git+git://github.com/mireq/django-autoslugfield.git#egg=django_autoslugfield

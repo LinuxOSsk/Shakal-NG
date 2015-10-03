@@ -112,10 +112,10 @@ def time_series(qs, date_field, aggregate, interval, date_from=None, date_to=Non
 
 	empty_record = partial(SeriesRecord, **{k: None for k in aggregate.keys()})
 
+	records = fill_time_series_gap(records, empty_record, interval, date_from, date_to)
 	if is_week:
-		return sum_weeks(set_gaps_zero(fill_time_series_gap(records, empty_record, interval, date_from, date_to)))
-	else:
-		return fill_time_series_gap(records, empty_record, interval, date_from, date_to)
+		records = sum_weeks(set_gaps_zero(records))
+	return records
 
 
 # example:

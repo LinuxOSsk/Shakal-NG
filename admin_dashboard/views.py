@@ -5,15 +5,16 @@ import cStringIO
 import datetime
 
 import csv
-import qsstats
 from braces.views import StaffuserRequiredMixin
 from django.core.urlresolvers import reverse
+from django.db.models import Count
 from django.http.response import HttpResponse
 from django.utils.translation import ugettext as _
 from django.views.generic import View
 from json import dumps
 
 from article.models import Article
+from common_utils.time_series import time_series as get_time_series, set_gaps_zero
 from news.models import News
 from threaded_comments.models import Comment
 
@@ -131,8 +132,14 @@ class Stats(StaffuserRequiredMixin, View):
 
 			start_date, end_date, interval, aggregate = self.get_interval(request)
 
-			qss = qsstats.QuerySetStats(data_info['qs'], data_info['date_col'])
-			time_series = qss.time_series(start_date, end_date, interval=interval)
+			time_series = set_gaps_zero(get_time_series(
+				data_info['qs'],
+				date_field=data_info['date_col'],
+				aggregate=Count('id'),
+				interval=interval[:-1],
+				date_from=start_date,
+				date_to=end_date
+			))
 			data += self.acumulate(time_series, aggregate)
 		else:
 			data = self.data

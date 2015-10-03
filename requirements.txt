@@ -17,10 +17,9 @@ django-haystack==2.4.0
 django-jinja==1.4.1
 django-libsass==0.4
 django-mptt==0.7.4
-django-qsstats-magic==0.7.2
 django-reversion==1.9.3
 django-static-sitemaps==2.1.7
-django-suit==0.2.14
+django-suit==0.2.15
 django==1.8.4
 feedparser==5.2.1
 first==2.0.1              # via pip-tools
@@ -28,14 +27,13 @@ jinja2==2.8               # via django-jinja
 libsass==0.8.3            # via django-libsass
 markupsafe==0.23          # via jinja2
 oauthlib==1.0.3           # via requests-oauthlib
-pillow==2.9.0
+pillow==3.0.0
 pip-tools==1.1.4
-python-dateutil==2.4.2
 python-openid==2.2.5      # via django-allauth
 pytz==2015.6
 requests-oauthlib==0.5.0  # via django-allauth
 requests==2.7.0           # via django-allauth, requests-oauthlib
-six==1.9.0                # via django-appconf, django-braces, libsass, pip-tools, python-dateutil
+six==1.9.0                # via django-appconf, django-braces, libsass, pip-tools
 
 # The following packages are commented out because they are
 # considered to be unsafe in a requirements file:
