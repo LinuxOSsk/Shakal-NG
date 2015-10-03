@@ -28,5 +28,6 @@ def time_series(qs, date_field, aggregate, interval):
 		.values('interval')
 		.annotate(count=models.Count('id'))
 		.order_by('interval')
-		.values_list('interval'))
+		.annotate(**aggregate)
+		.values('interval', *aggregate.keys()))
 	return qs
