@@ -8,8 +8,8 @@ from django.utils import timezone
 from common_utils import get_meta
 
 
-DATETIME_SERIES = set(['minutes', 'hours'])
-DATE_SERIES = set(['days', 'weeks', 'months', 'years'])
+DATETIME_SERIES = set(['minute', 'hour'])
+DATE_SERIES = set(['day', 'week', 'month', 'year'])
 
 
 def time_series(qs, date_field, aggregate, interval):
@@ -24,5 +24,9 @@ def time_series(qs, date_field, aggregate, interval):
 		db_interval = Date(date_field, interval)
 
 	qs = (qs
-		.annotate(interval=db_interval))
+		.annotate(interval=db_interval)
+		.values('interval')
+		.annotate(count=models.Count('id'))
+		.order_by('interval')
+		.values_list('interval'))
 	return qs
