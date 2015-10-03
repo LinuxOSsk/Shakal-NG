@@ -13,7 +13,7 @@ from common_utils import get_meta
 
 
 DATETIME_SERIES = set(['minute', 'hour'])
-DATE_SERIES = set(['day', 'week', 'month', 'year'])
+DATE_SERIES = set(['day', 'month', 'year'])
 
 
 def add_minute(ts):
@@ -28,10 +28,6 @@ def add_day(ts):
 	return ts + timedelta(1)
 
 
-def add_week(ts):
-	return ts + timedelta(7)
-
-
 def add_month(ts):
 	return date(ts.year if ts.month < 12 else ts.year + 1, ts.month % 12 + 1, ts.day)
 
@@ -44,7 +40,6 @@ TICKS = {
 	'minute': add_minute,
 	'hour': add_hour,
 	'day': add_day,
-	'week': add_week,
 	'month': add_month,
 	'year': add_year,
 }
@@ -92,9 +87,6 @@ def fill_time_series_gap(records, empty_record, interval, date_from, date_to):
 def time_series(qs, date_field, aggregate, interval, date_from=None, date_to=None):
 	current_timezone = timezone.get_current_timezone()
 	is_date = interval in DATE_SERIES
-	is_week = interval == 'week'
-	if is_week:
-		interval = 'day'
 
 	if isinstance(get_meta(qs.model).get_field(date_field), models.DateTimeField):
 		db_interval = DateTime(date_field, interval, current_timezone)
