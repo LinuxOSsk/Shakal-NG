@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from collections import namedtuple
 from datetime import datetime, date, time, timedelta
-from functools import partial
 
+from collections import namedtuple
 from django.db import models
 from django.db.models.expressions import DateTime, Date
 from django.utils import timezone
+from functools import partial
 
 from common_utils import get_meta
 
@@ -16,32 +16,12 @@ DATETIME_SERIES = set(['minute', 'hour'])
 DATE_SERIES = set(['day', 'month', 'year'])
 
 
-def add_minute(ts):
-	return ts + timedelta(seconds=60)
-
-
-def add_hour(ts):
-	return ts + timedelta(seconds=3600)
-
-
-def add_day(ts):
-	return ts + timedelta(1)
-
-
-def add_month(ts):
-	return date(ts.year if ts.month < 12 else ts.year + 1, ts.month % 12 + 1, ts.day)
-
-
-def add_year(ts):
-	return date(ts.year + 1, ts.month, ts.day)
-
-
 TICKS = {
-	'minute': add_minute,
-	'hour': add_hour,
-	'day': add_day,
-	'month': add_month,
-	'year': add_year,
+	'minute': lambda ts: ts + timedelta(seconds=60),
+	'hour': lambda ts: ts + timedelta(seconds=3600),
+	'day': lambda ts: ts + timedelta(1),
+	'month': lambda ts: date(ts.year if ts.month < 12 else ts.year + 1, ts.month % 12 + 1, ts.day),
+	'year': lambda ts: date(ts.year + 1, ts.month, ts.day),
 }
 
 
