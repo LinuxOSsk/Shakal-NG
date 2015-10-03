@@ -126,3 +126,7 @@ def time_series(qs, date_field, aggregate, interval, date_from=None, date_to=Non
 #  SeriesRecord(time_value=datetime.date(2015, 9, 18), count=None),
 #  SeriesRecord(time_value=datetime.date(2015, 9, 19), count=None),
 #  ...
+
+
+def set_gaps_zero(data):
+	return [record.__class__(*(0 if val is None else val for val in record)) for record in data]
