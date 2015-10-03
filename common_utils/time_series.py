@@ -130,3 +130,24 @@ def time_series(qs, date_field, aggregate, interval, date_from=None, date_to=Non
 
 def set_gaps_zero(data):
 	return [record.__class__(*(0 if val is None else val for val in record)) for record in data]
+
+
+def sum_weeks(data):
+	if len(data) == 0:
+		return data
+	current = None
+	last_time = None
+	weekly = []
+	record_cls = data[0].__class__
+
+	for record in data:
+		if last_time != record.time_value - timedelta(record.time_value.weekday()):
+			if current is not None:
+				weekly.append(record_cls(last_time, *current))
+			current = [0] * (len(data[0]) - 1)
+			last_time = record.time_value - timedelta(record.time_value.weekday())
+		for i in range(len(data[0]) - 1):
+			current[i] += record[i + 1]
+
+	weekly.append(record_cls(last_time, *current))
+	return weekly
