@@ -130,3 +130,19 @@ def time_series(qs, date_field, aggregate, interval, date_from=None, date_to=Non
 	empty_record = partial(SeriesRecord, **{k: None for k in aggregate.keys()})
 
 	return fill_time_series_gap(records, empty_record, interval, date_from, date_to)
+
+
+# example:
+#
+# time_series(
+#     User.objects.all(),
+#     date_field='date_joined',
+#     aggregate={'count': Count('id')},
+#     interval='day',
+#     date_to=timezone.localtime(timezone.now()).date()
+# )
+#
+# [SeriesRecord(time_value=datetime.date(2015, 9, 17), count=10),
+#  SeriesRecord(time_value=datetime.date(2015, 9, 18), count=None),
+#  SeriesRecord(time_value=datetime.date(2015, 9, 19), count=None),
+#  ...
