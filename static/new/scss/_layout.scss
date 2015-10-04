@@ -6,6 +6,11 @@
 }
 
 @media #{$small-down} {
+	#site_top {
+		margin-bottom: 0;
+		height: 51px;
+	}
+
 	.holygrail.sitelayout {
 		.colright {
 			left: auto;
@@ -24,7 +29,6 @@
 			right: auto;
 			margin-left: 0;
 			position: static;
-			margin-top: 51px + ($base-margin-vertical-reduced * 2);
 		}
 
 		.col2 {
