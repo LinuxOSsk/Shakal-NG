@@ -8,9 +8,9 @@ from django.db.models import Max
 from django_sample_generator import GeneratorRegister, ModelGenerator, samples
 
 from .models import Comment
+from .utils import update_comments_header
 from accounts.models import User
 from common_utils import get_default_manager
-from .utils import update_comments_header
 
 
 class CommentGenerator(ModelGenerator):
@@ -22,6 +22,7 @@ class CommentGenerator(ModelGenerator):
 	)
 
 	next_id = 0
+	next_tree_id = 1
 
 	subject = samples.SentenceSample()
 	user_id = samples.RelationSample(queryset=User.objects.all().order_by("pk"), random_data=True, only_pk=True, fetch_all=True)
@@ -53,22 +54,36 @@ class CommentGenerator(ModelGenerator):
 		return comments_flat
 
 	def __iter__(self):
-		for model in self.GENERATE_FOR_MODELS:
-			model_class = apps.get_model(model)
-			ctype = ContentType.objects.get_for_model(model_class)
-			for instance in get_default_manager(model_class).all():
-				if self.command is not None and self.command.verbosity > 1:
-					self.command.stdout.write('#', ending='')
-				Comment.objects.get_or_create_root_comment(ctype, instance.pk)
-
 		self.next_id = (Comment.objects.aggregate(max_id=Max('id'))['max_id'] or 0) + 1
 
 		for model in self.GENERATE_FOR_MODELS:
 			model_class = apps.get_model(model)
 			ctype = ContentType.objects.get_for_model(model_class)
 			for instance in get_default_manager(model_class).all():
-				root_comment = Comment.objects.get_or_create_root_comment(ctype, instance.pk)[0]
-				tree = self.generate_tree(parent_id=root_comment.id, lft=root_comment.rght, level=root_comment.level)
+				submit_date = (
+					getattr(instance, 'created', None) or
+					getattr(instance, 'pub_time', None) or
+					getattr(instance, 'active_from')
+				)
+				root_comment = Comment(
+					parent=None,
+					level=0,
+					content_type=ctype,
+					object_id=instance.pk,
+					original_comment=('html', ''),
+					filtered_comment='',
+					user_name='',
+					submit_date=submit_date,
+					updated=submit_date,
+				)
+				root_comment.id = self.next_id
+				root_comment.tree_id = self.next_tree_id
+				self.next_id += 1
+				self.next_tree_id += 1
+				tree = self.generate_tree(parent_id=root_comment.id, lft=2, level=root_comment.level) # pylint: disable=no-member
+				root_comment.lft = 1
+				root_comment.rght = 2 + len(tree) * 2
+				yield root_comment
 				for comment in tree:
 					comment.content_type = ctype
 					comment.object_id = instance.pk
@@ -76,8 +91,6 @@ class CommentGenerator(ModelGenerator):
 					comment.updated = comment.submit_date
 					comment.tree_id = root_comment.tree_id
 					yield comment
-				root_comment.rght = root_comment.rght + len(tree) * 2
-				root_comment.save()
 
 	def done(self):
 		for model in self.GENERATE_FOR_MODELS:
