@@ -24,10 +24,10 @@ class CommentManager(models.Manager):
 		except self.model.DoesNotExist:
 			with transaction.atomic():
 				root_comment, created = self.model.objects.get_or_create(
-					parent = None,
-					content_type = ctype,
-					object_id = object_id,
-					defaults = {
+					parent=None,
+					content_type=ctype,
+					object_id=object_id,
+					defaults={
 						'original_comment': ('html', ''),
 						'filtered_comment': '',
 						'user_name': '',
