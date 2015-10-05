@@ -71,16 +71,19 @@ h6 { font-size: $h6-font-size; }
 		color: $text-color;
 	}
 
-	.col2 {
-		color: $sidebar-color;
-
-		h1, h2, h3, h4, h5, h6, a {
-			color: $sidebar-color;
-		}
-	}
-
 	.colright, .col2 {
 		background: $sidebar-background;
+	}
+}
+
+.no-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	li {
+		list-style: none;
+		margin: 0;
+		padding: 0;
 	}
 }
 

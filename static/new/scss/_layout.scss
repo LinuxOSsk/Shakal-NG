@@ -8,7 +8,7 @@
 @media #{$small-down} {
 	#site_top {
 		margin-bottom: 0;
-		height: 51px;
+		margin-top: 51px + ($base-margin-vertical-reduced * 2);
 	}
 
 	.holygrail.sitelayout {
