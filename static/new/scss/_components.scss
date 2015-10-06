@@ -114,9 +114,6 @@
 	#main_menu {
 		@extend .no-list;
 		li {
-			border-top: 1px solid lighten($sidebar-background, 5%);
-			border-bottom: 1px solid darken($sidebar-background, 5%);
-
 			a {
 				display: block;
 				@extend .base-padding;
@@ -126,7 +123,6 @@
 			}
 
 			&.active {
-				border-top-color: darken($sidebar-background, 15%);
 				a {
 					background: darken($sidebar-background, 12%);
 				}
