@@ -116,7 +116,10 @@ class UserStatsMixin(object):
 				objects_idx[(content_type, content_object.pk)] = content_object
 
 		object_list = [objects_idx[(o[0], int(o[1]))] for o in content_object_list if (o[0], int(o[1])) in objects_idx]
-		return object_list, object_list_by_content
+		return {
+			'list': object_list,
+			'by_content': object_list_by_content
+		}
 
 	def get_context_data(self, **kwargs):
 		ctx = super(UserStatsMixin, self).get_context_data(**kwargs)
@@ -224,7 +227,9 @@ class UserPostsCommented(UserStatsListBase):
 
 	def get_context_data(self, **kwargs):
 		ctx = super(UserPostsCommented, self).get_context_data(**kwargs)
-		ctx['object_list'], ctx['object_list_by_content'] = self.resolve_content_objects(ctx['object_list'])
+		objects = self.resolve_content_objects(ctx['object_list'])
+		ctx['object_list'] = objects['list']
+		ctx['object_list_by_content'] = objects['by_content']
 		return ctx
 
 
