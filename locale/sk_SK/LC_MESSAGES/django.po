@@ -102,7 +102,7 @@ msgid "^email/change/$"
 msgstr "^email/zmena/$"
 
 msgid "^email/change/done/$"
-msgstr "^email/zmena/done/$"
+msgstr "^email/zmena/hotovo/$"
 
 msgid "^email/change/activate/(?P<email>.*)/$"
 msgstr "^email/zmena/activate/(?P<email>.*)/$"
