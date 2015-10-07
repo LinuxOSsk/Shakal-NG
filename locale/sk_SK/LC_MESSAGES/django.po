@@ -96,7 +96,7 @@ msgid "^me/edit/$"
 msgstr "^ja/upravit/$"
 
 msgid "^login/$"
-msgstr "^prihlasit/$"
+msgstr "^prihlásiť/$"
 
 msgid "^email/change/$"
 msgstr "^email/zmena/$"
@@ -461,22 +461,22 @@ msgid "^accounts/"
 msgstr "^profil/"
 
 msgid "^article/"
-msgstr "^clanok/"
+msgstr "^článok/"
 
 msgid "^blog/"
 msgstr "^blog/"
 
 msgid "^comments/"
-msgstr "^komentare/"
+msgstr "^komentáre/"
 
 msgid "^forum/"
-msgstr "^forum/"
+msgstr "^fórum/"
 
 msgid "^maintenance/"
 msgstr "^maintenance/"
 
 msgid "^news/"
-msgstr "^spravy/"
+msgstr "^správy/"
 
 msgid "^notifications/"
 msgstr "^upozornenia/"
