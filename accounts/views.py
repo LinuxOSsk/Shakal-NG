@@ -17,7 +17,7 @@ from django.views.generic import RedirectView, DetailView, UpdateView
 from .forms import ProfileEditForm
 from common_utils import get_meta
 from common_utils.generic import ListView
-from common_utils.time_series import time_series
+from common_utils.time_series import time_series, set_gaps_zero
 
 
 class UserZone(LoginRequiredMixin, RedirectView):
@@ -131,14 +131,15 @@ class UserStatsListBase(UserStatsMixin, ListView):
 	template_name = 'account/user_posts_detail.html'
 
 	def get_time_series(self, interval, time_stats_ago=365):
-		return time_series(
+		now = timezone.localtime(timezone.now())
+		return set_gaps_zero(time_series(
 			qs=self.get_stats_queryset(),
 			date_field=self.stats_by_date_field,
 			interval=interval,
 			aggregate=Count('id'),
-			date_from=timezone.localtime(timezone.now()).date() + timedelta(-time_stats_ago),
-			date_to=timezone.localtime(timezone.now()).date()
-		)
+			date_from=now.date() + timedelta(-time_stats_ago),
+			date_to=now.date()
+		))
 
 	def get_stats_queryset(self):
 		return self.get_queryset()
