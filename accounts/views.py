@@ -90,6 +90,24 @@ class UserStatsMixin(object):
 			.annotate(max_pk=Max('pk'))
 			.order_by('-max_pk'))
 
+	def get_time_series(self, qs, date_field, interval, time_stats_ago=365):
+		return set_gaps_zero(time_series(
+			qs=qs,
+			date_field=date_field,
+			interval=interval,
+			aggregate=Count('id'),
+			date_from=self.cached_now.date() + timedelta(-time_stats_ago),
+			date_to=self.cached_now.date()
+		))
+
+	def get_stats(self, qs, date_field):
+		monthly_stats = self.get_time_series(qs, date_field, 'month', 365*10)
+		daily_stats = self.get_time_series(qs, date_field, 'day', 365)
+		return {
+			'monthly_stats': monthly_stats,
+			'daily_stats': daily_stats,
+		}
+
 	def get_object(self):
 		return get_object_or_404(get_user_model(), pk=self.kwargs['pk'])
 
@@ -126,6 +144,10 @@ class UserStatsMixin(object):
 		ctx = super(UserStatsMixin, self).get_context_data(**kwargs)
 		ctx['user_profile'] = self.object
 		return ctx
+
+	@cached_property
+	def cached_now(self):
+		return timezone.localtime(timezone.now())
 
 	def get_all_stats(self):
 		def url(view_name):
@@ -182,38 +204,17 @@ class UserStatsListBase(UserStatsMixin, ListView):
 	stats_by_date_field = None
 	template_name = 'account/user_posts_detail.html'
 
-	@cached_property
-	def cached_now(self):
-		return timezone.localtime(timezone.now())
-
-	def get_time_series(self, interval, time_stats_ago=365):
-		return set_gaps_zero(time_series(
-			qs=self.get_stats_queryset(),
-			date_field=self.stats_by_date_field,
-			interval=interval,
-			aggregate=Count('id'),
-			date_from=self.cached_now.date() + timedelta(-time_stats_ago),
-			date_to=self.cached_now.date()
-		))
-
 	def get_stats_queryset(self):
 		return self.get_queryset()
-
-	def get_stats_by_date(self):
-		monthly_stats = self.get_time_series('month', 365*10)
-		daily_stats = self.get_time_series('day', 365)
-		return {
-			'monthly_stats': monthly_stats,
-			'daily_stats': daily_stats,
-		}
 
 	def get_objects_name(self):
 		return get_meta(self.get_queryset().model).verbose_name_plural
 
 	def get_context_data(self, **kwargs):
 		ctx = super(UserStatsListBase, self).get_context_data(**kwargs)
+		qs = self.get_stats_queryset()
 		if self.stats_by_date_field is not None:
-			ctx.update(self.get_stats_by_date())
+			ctx.update(self.get_stats(qs, self.stats_by_date_field))
 		ctx['objects_name'] = self.get_objects_name()
 		return ctx
 
