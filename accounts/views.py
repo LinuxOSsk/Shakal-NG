@@ -11,6 +11,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import Count, Max
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.views.generic import RedirectView, DetailView, UpdateView
 
@@ -126,6 +127,43 @@ class UserStatsMixin(object):
 		ctx['user_profile'] = self.object
 		return ctx
 
+	def get_all_stats(self):
+		def url(view_name):
+			return reverse('accounts:user_posts_' + view_name, args=(self.object.pk,), kwargs={})
+
+		return (
+			{
+				'label': 'Články',
+				'url': url('article'),
+				'count': self.get_articles().count()
+			},
+			{
+				'label': 'Blogy',
+				'url': url('blogpost'),
+				'count': self.get_blog_posts().count()
+			},
+			{
+				'label': 'Správy',
+				'url': url('news'),
+				'count': self.get_news().count()
+			},
+			{
+				'label': 'Témy vo fóre',
+				'url': url('forumtopic'),
+				'count': self.get_forum_topics().count()
+			},
+			{
+				'label': 'Komentované diskusie',
+				'url': url('commented'),
+				'count': self.get_commented().count()
+			},
+			{
+				'label': 'Wiki stránky',
+				'url': url('wikipage'),
+				'count': self.get_last_updated_wiki_pages().count()
+			},
+		)
+
 	def get(self, request, **kwargs):
 		self.object = self.get_object()
 		return super(UserStatsMixin, self).get(request, **kwargs)
@@ -135,18 +173,8 @@ class UserPosts(UserStatsMixin, DetailView):
 	template_name = 'account/user_posts.html'
 
 	def get_context_data(self, **kwargs):
-		def url(view_name):
-			return reverse('accounts:user_posts_' + view_name, args=(self.object.pk,), kwargs={})
-
 		ctx = super(UserPosts, self).get_context_data(**kwargs)
-		ctx['stats'] = (
-			{'label': 'Články', 'url': url('article'), 'count': self.get_articles().count()},
-			{'label': 'Blogy', 'url': url('blogpost'), 'count': self.get_blog_posts().count()},
-			{'label': 'Správy', 'url': url('news'), 'count': self.get_news().count()},
-			{'label': 'Témy vo fóre', 'url': url('forumtopic'), 'count': self.get_forum_topics().count()},
-			{'label': 'Komentované diskusie', 'url': url('commented'), 'count': self.get_commented().count()},
-			{'label': 'Wiki stránky', 'url': url('wikipage'), 'count': self.get_last_updated_wiki_pages().count()},
-		)
+		ctx['stats'] = self.get_all_stats()
 		return ctx
 
 
@@ -154,15 +182,18 @@ class UserStatsListBase(UserStatsMixin, ListView):
 	stats_by_date_field = None
 	template_name = 'account/user_posts_detail.html'
 
+	@cached_property
+	def cached_now(self):
+		return timezone.localtime(timezone.now())
+
 	def get_time_series(self, interval, time_stats_ago=365):
-		now = timezone.localtime(timezone.now())
 		return set_gaps_zero(time_series(
 			qs=self.get_stats_queryset(),
 			date_field=self.stats_by_date_field,
 			interval=interval,
 			aggregate=Count('id'),
-			date_from=now.date() + timedelta(-time_stats_ago),
-			date_to=now.date()
+			date_from=self.cached_now.date() + timedelta(-time_stats_ago),
+			date_to=self.cached_now.date()
 		))
 
 	def get_stats_queryset(self):
