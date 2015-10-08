@@ -131,12 +131,12 @@ var calcColor = function(val) {
 
 var daily_stats = [
 {% for day, count in daily_stats %}
-[[{{ day.year }}, {{ day.month }}, {{ day.day }}, {{ day.weekday() }}], {{ count|default_if_none("0") }}]{% if not loop.last %},{% endif %}
+[[{{ day.year }}, {{ day.month }}, {{ day.day }}, {{ day.weekday() }}], {{ count }}]{% if not loop.last %},{% endif %}
 {% endfor %}
 ];
 var monthly_stats = [
 {% for month, count in monthly_stats %}
-[[{{ month.year }}, {{ month.month }}, {{ month.day }}], {{ count|default_if_none("0") }}]{% if not loop.last %},{% endif %}
+[[{{ month.year }}, {{ month.month }}, {{ month.day }}], {{ count }}]{% if not loop.last %},{% endif %}
 {% endfor %}
 ];
 
