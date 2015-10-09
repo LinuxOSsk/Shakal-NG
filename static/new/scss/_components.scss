@@ -113,6 +113,8 @@
 
 	#main_menu {
 		@extend .no-list;
+		@extend .base-margin-b;
+		@extend .base-margin-t;
 		li {
 			a {
 				display: block;
@@ -120,11 +122,14 @@
 				padding-top: $base-margin-vertical-reduced;
 				padding-bottom: $base-margin-vertical-reduced;
 				color: mix($sidebar-color, $sidebar-background, 70%);
+				&:hover {
+					background: darken($sidebar-background, 5%);
+				}
 			}
 
 			&.active {
 				a {
-					background: darken($sidebar-background, 12%);
+					background: darken($sidebar-background, 5%);
 				}
 			}
 		}
