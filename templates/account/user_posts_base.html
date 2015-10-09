@@ -161,9 +161,10 @@ columnOuter.style.width = (weekPercentWidth * 1) + '%';
 columnOuter.style.minHeight = '1px';
 dailyStatsContainer.appendChild(columnOuter);
 
-var days = ['PO', 'UT', 'ST', 'ŠT', 'PI', 'SO', 'NE'];
+var days = ['', 'PO', 'UT', 'ST', 'ŠT', 'PI', 'SO', 'NE'];
+var months = ['JAN', 'FEB', 'MAR', 'APR', 'MÁJ', 'JÚN', 'JÚL', 'AUG', 'SEP', 'OKT', 'NOV', 'DEC'];
 
-for (var i = 0; i < 7; ++i) {
+var createTextBlock = function(text) {
 	var block = document.createElement('DIV');
 	block.style.position = 'relative';
 
@@ -173,7 +174,7 @@ for (var i = 0; i < 7; ++i) {
 	span.style.top = '50%';
 	span.style.marginTop = '-4px';
 	span.style.fontSize = '8px';
-	span.innerHTML = days[i];
+	span.innerHTML = text;
 	block.appendChild(span);
 
 	var img = document.createElement('IMG');
@@ -182,8 +183,14 @@ for (var i = 0; i < 7; ++i) {
 	img.src = transparentImg;
 
 	block.appendChild(img);
-	columnOuter.appendChild(block);
+	return block;
+};
+
+for (var i = 0; i < 8; ++i) {
+	columnOuter.appendChild(createTextBlock(days[i]));
 }
+
+var currentMonth = undefined;
 
 _.forEach(daily_stats, function(day, i) {
 	if (currentColumn === undefined || day[0][3] === 0) {
@@ -200,7 +207,20 @@ _.forEach(daily_stats, function(day, i) {
 			currentColumn.style.bottom = '0px';
 			currentColumn.style.width = weekPercentWidth + '%';
 		}
+		else {
+			if (currentMonth !== day[0][1]) {
+				currentMonth = day[0][1];
+				var span = document.createElement('SPAN');
+				span.style.position = 'absolute';
+				span.style.color = '#888888';
+				span.style.top = '0';
+				span.style.fontSize = '8px';
+				span.innerHTML = months[currentMonth - 1];
+				currentColumn.appendChild(span);
+			}
+		}
 		columnOuter.appendChild(currentColumn);
+		currentColumn.appendChild(createTextBlock(''));
 	}
 
 	var block = document.createElement('DIV');
