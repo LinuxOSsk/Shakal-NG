@@ -121,7 +121,7 @@
 				@extend .base-padding;
 				padding-top: $base-margin-vertical-reduced;
 				padding-bottom: $base-margin-vertical-reduced;
-				color: mix($sidebar-color, $sidebar-background, 70%);
+				color: $menu-color;
 				&:hover {
 					background: darken($sidebar-background, 5%);
 				}
