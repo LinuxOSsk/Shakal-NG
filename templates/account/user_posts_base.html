@@ -208,10 +208,15 @@ if (monthly_stats.length < 2) {
 	return;
 }
 
+var skip = true;
 var data = [];
 _.forEach(monthly_stats, function(day, i) {
+	if (day[1] == 0 && skip) {
+		return;
+	}
 	var date = new Date(day[0][0], day[0][1] - 1, day[0][2]);
 	data.push([date, day[1]]);
+	skip = false;
 });
 
 var opts = {
