@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-	{% if daily_stats and monthly_stats and page_obj.number == 1 %}
+	{% if daily_stats and monthly_stats and (not page_obj or page_obj.number == 1) %}
 		<div class="module monthly-stats-container">
 			<div class="monthly-stats">
 				<div id="monthly_stats"></div>
@@ -24,12 +24,12 @@
 
 {% block extrajs %}
 {{ super() }}
-{% if daily_stats and monthly_stats and page_obj.number == 1 %}
+{% if daily_stats and monthly_stats and (not page_obj or page_obj.number == 1) %}
 <script src="{{ static('js/dygraph-combined.js') }}" type="text/javascript" charset="utf-8"></script>
 {% endif %}
 <script type="text/javascript">
 //<![CDATA[
-{% if daily_stats and monthly_stats and page_obj.number == 1 %}
+{% if daily_stats and monthly_stats and (not page_obj or page_obj.number == 1) %}
 (function (_) {
 
 var HSVtoRGB = function(h, s, v) {

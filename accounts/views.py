@@ -194,9 +194,29 @@ class UserStatsMixin(object):
 class UserPosts(UserStatsMixin, DetailView):
 	template_name = 'account/user_posts.html'
 
+	def get_stats_summary(self):
+		all_stats = (
+			('pub_time', self.get_articles()),
+			('pub_time', self.get_blog_posts()),
+			('created', self.get_news()),
+			('created', self.get_forum_topics()),
+			('submit_date', apps.get_model('threaded_comments.Comment').objects.filter(parent__isnull=False, user=self.object)),
+		)
+		stats_sum = None
+		for date_field, stats_qs in all_stats:
+			if stats_sum is None:
+				stats_sum = self.get_stats(stats_qs, date_field)
+			else:
+				stats = self.get_stats(stats_qs, date_field)
+				for key in stats:
+					stats_sum[key] = [a._replace(aggregate=a.aggregate + b.aggregate) for a, b in zip(stats_sum[key], stats[key])]
+		return stats_sum
+
+
 	def get_context_data(self, **kwargs):
 		ctx = super(UserPosts, self).get_context_data(**kwargs)
 		ctx['stats'] = self.get_all_stats()
+		ctx.update(self.get_stats_summary())
 		return ctx
 
 
