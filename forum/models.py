@@ -145,5 +145,5 @@ class Topic(models.Model):
 		return self.title
 
 	class Meta:
-		verbose_name = 'téma'
-		verbose_name_plural = 'témy'
+		verbose_name = 'téma vo fóre'
+		verbose_name_plural = 'témy vo fóre'

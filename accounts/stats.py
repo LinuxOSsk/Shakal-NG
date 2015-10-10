@@ -14,6 +14,7 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.views.generic import RedirectView, DetailView, UpdateView
+from django.template.defaultfilters import capfirst
 
 from .forms import ProfileEditForm
 from common_utils import get_meta
@@ -34,7 +35,7 @@ class Statistics(object):
 		return self.get_queryset().count()
 
 	def get_verbose_name_plural(self):
-		return self.verbose_name_plural or get_meta(self.get_queryset().model).verbose_name_plural
+		return capfirst(self.verbose_name_plural or get_meta(self.get_queryset().model).verbose_name_plural)
 
 
 class ArticleStatistics(Statistics):
