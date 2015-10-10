@@ -24,6 +24,7 @@ from common_utils.time_series import time_series, set_gaps_zero
 
 class Statistics(object):
 	verbose_name_plural = None
+	date_field = None
 
 	def __init__(self, user):
 		self.user = user
@@ -31,34 +32,69 @@ class Statistics(object):
 	def get_queryset(self):
 		raise NotImplementedError()
 
+	def get_graph_queryset(self):
+		return self.get_queryset()
+
 	def get_count(self):
 		return self.get_queryset().count()
 
 	def get_verbose_name_plural(self):
 		return capfirst(self.verbose_name_plural or get_meta(self.get_queryset().model).verbose_name_plural)
 
+	@cached_property
+	def cached_now(self):
+		return timezone.localtime(timezone.now())
+
+	def get_time_series(self, interval, time_stats_ago=365):
+		return set_gaps_zero(time_series(
+			qs=self.get_graph_queryset(),
+			date_field=self.date_field,
+			interval=interval,
+			aggregate=Count('id'),
+			date_from=self.cached_now.date() + timedelta(-time_stats_ago),
+			date_to=self.cached_now.date()
+		))
+
+	def get_stats(self):
+		monthly_stats = self.get_time_series('month', 365*10)
+		daily_stats = self.get_time_series('day', 365)
+		return {
+			'monthly_stats': monthly_stats,
+			'daily_stats': daily_stats,
+		}
+
 
 class ArticleStatistics(Statistics):
+	date_field = 'pub_time'
+
 	def get_queryset(self):
 		return apps.get_model('article.Article').objects.filter(author=self.user)
 
 
 class BlogpostStatistics(Statistics):
+	date_field = 'pub_time'
+
 	def get_queryset(self):
 		return apps.get_model('blog.Post').objects.filter(blog__author=self.user)
 
 
 class ForumtopicStatistics(Statistics):
+	date_field = 'created'
+
 	def get_queryset(self):
 		return apps.get_model('forum.Topic').objects.filter(author=self.user)
 
 
 class NewsStatistics(Statistics):
+	date_field = 'created'
+
 	def get_queryset(self):
 		return apps.get_model('news.News').objects.filter(author=self.user)
 
 
 class CommentedStatistics(Statistics):
+	date_field = 'submit_date'
+
 	def get_queryset(self):
 		return (apps.get_model('threaded_comments.Comment')
 			.objects
@@ -67,12 +103,18 @@ class CommentedStatistics(Statistics):
 			.annotate(max_pk=Max('pk'))
 			.order_by('-max_pk'))
 
+	def get_graph_queryset(self):
+		return (apps.get_model('threaded_comments.Comment')
+			.objects
+			.filter(parent__isnull=False, user=self.user))
+
 	def get_verbose_name_plural(self):
 		return 'Komentované diskusie'
 
 
 class WikipageStatistics(Statistics):
 	verbose_name_plural = 'Wiki stránky'
+	date_field = 'updated'
 
 	def get_queryset(self):
 		return (apps.get_model('wiki.Page')
