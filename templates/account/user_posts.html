@@ -6,6 +6,18 @@
 
 <h1>{{ user_profile }} - Zoznam príspevkov</h1>
 
+<div class="module">
+	<h2>Počet príspevkov</h2>
+
+	<ul>
+		{% for stat in stats %}
+			{% if stat.count %}
+				<li><a href="{{ stat.url }}">{{ stat.label }} ({{ stat.count }})</a></li>
+			{% endif %}
+		{% endfor %}
+	</ul>
+</div>
+
 {% if daily_stats and monthly_stats and (not page_obj or page_obj.number == 1) %}
 	<div class="module monthly-stats-container">
 		<div class="monthly-stats">
@@ -19,15 +31,5 @@
 		</div>
 	</div>
 {% endif %}
-
-<hr />
-
-<ul>
-	{% for stat in stats %}
-		{% if stat.count %}
-			<li><a href="{{ stat.url }}">{{ stat.label }} ({{ stat.count }})</a></li>
-		{% endif %}
-	{% endfor %}
-</ul>
 
 {% endblock %}
