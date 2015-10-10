@@ -3,22 +3,13 @@ from __future__ import unicode_literals
 
 from datetime import timedelta
 
-from braces.views import LoginRequiredMixin
 from django.apps import apps
-from django.contrib.auth import get_user_model
-from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
 from django.db.models import Count, Max
-from django.shortcuts import get_object_or_404
+from django.template.defaultfilters import capfirst
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.safestring import mark_safe
-from django.views.generic import RedirectView, DetailView, UpdateView
-from django.template.defaultfilters import capfirst
 
-from .forms import ProfileEditForm
 from common_utils import get_meta
-from common_utils.generic import ListView
 from common_utils.time_series import time_series, set_gaps_zero
 
 
@@ -100,8 +91,7 @@ class CommentedStatistics(Statistics):
 			.objects
 			.filter(user=self.user, parent__isnull=False)
 			.values_list('content_type_id', 'object_id')
-			.annotate(max_pk=Max('pk'))
-			.order_by('-max_pk'))
+			.annotate(max_pk=Max('pk')))
 
 	def get_graph_queryset(self):
 		return (apps.get_model('threaded_comments.Comment')
