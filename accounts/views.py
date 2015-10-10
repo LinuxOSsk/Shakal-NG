@@ -109,8 +109,15 @@ class UserPosts(UserStatsMixin, DetailView):
 		for _, statistic in register.get_all_statistics(self.object):
 			all_newest += list(statistic.get_time_annotated_queryset()
 				.order_by('-date_field')[:20])
-		all_newest.sort(key=lambda x: getattr(x, 'date_field', None) or x['date_field'], reverse=True)
-		print(all_newest)
+		all_newest = sorted(all_newest, key=lambda x: getattr(x, 'date_field', None) or x['date_field'], reverse=True)[:20]
+
+		ctype_lookups = [(obj['content_type_id'], obj['object_id'], obj['date_field'], i) for i, obj in enumerate(all_newest) if isinstance(obj, dict)]
+		if ctype_lookups:
+			for lookup, content_object in zip(ctype_lookups, resolve_content_objects(ctype_lookups)['list']):
+				setattr(content_object, 'from_comments', True)
+				setattr(content_object, 'date_field', lookup[2])
+				all_newest[lookup[3]] = content_object
+		return all_newest
 
 	def get_context_data(self, **kwargs):
 		ctx = super(UserPosts, self).get_context_data(**kwargs)
