@@ -12,7 +12,7 @@
 {{ super() }}
 
 {% with caption="Komentované diskusie" %}
-	{{ add_discussion_attributes(*object_list_by_content.values()) }}
+	{{ add_discussion_attributes_heterogenous(object_list) }}
 	{% include "account/partials/post_list.html" %}
 {% endwith %}
 

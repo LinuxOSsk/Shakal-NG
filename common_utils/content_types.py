@@ -49,8 +49,4 @@ def resolve_content_objects(content_object_list):
 			objects_idx[(content_type, content_object.pk)] = content_object
 
 	object_list = [objects_idx[(o[0], int(o[1]))] for o in content_object_list if (o[0], int(o[1])) in objects_idx]
-
-	return {
-		'list': object_list,
-		'by_content': object_list_by_content
-	}
+	return object_list

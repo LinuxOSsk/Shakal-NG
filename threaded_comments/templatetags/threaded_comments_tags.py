@@ -13,7 +13,7 @@ from jinja2 import contextfunction
 from mptt.templatetags import mptt_tags
 
 from ..models import RootHeader, UserDiscussionAttribute
-from common_utils import get_meta
+from common_utils import iterify, get_meta
 from common_utils.content_types import get_lookups
 from threaded_comments.models import Comment
 
@@ -160,6 +160,16 @@ def add_discussion_attributes(context, *models):
 				obj.new_comments = None
 
 	return ''
+
+
+@contextfunction
+@library.global_function
+def add_discussion_attributes_heterogenous(context, object_list):
+	objects_sorted = {}
+	for instance in iterify(object_list):
+		objects_sorted.setdefault(instance.__class__, [])
+		objects_sorted[instance.__class__].append(instance)
+	return add_discussion_attributes(context, *objects_sorted.values())
 
 
 @library.global_function

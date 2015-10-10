@@ -113,7 +113,7 @@ class UserPosts(UserStatsMixin, DetailView):
 
 		ctype_lookups = [(obj['content_type_id'], obj['object_id'], obj['date_field'], i) for i, obj in enumerate(all_newest) if isinstance(obj, dict)]
 		if ctype_lookups:
-			for lookup, content_object in zip(ctype_lookups, resolve_content_objects(ctype_lookups)['list']):
+			for lookup, content_object in zip(ctype_lookups, resolve_content_objects(ctype_lookups)):
 				setattr(content_object, 'from_comments', True)
 				setattr(content_object, 'date_field', lookup[2])
 				all_newest[lookup[3]] = content_object
@@ -178,8 +178,7 @@ class UserPostsCommented(UserStatsListBase):
 	def get_context_data(self, **kwargs):
 		ctx = super(UserPostsCommented, self).get_context_data(**kwargs)
 		objects = resolve_content_objects(ctx['object_list'])
-		ctx['object_list'] = objects['list']
-		ctx['object_list_by_content'] = objects['by_content']
+		ctx['object_list'] = objects
 		return ctx
 
 
