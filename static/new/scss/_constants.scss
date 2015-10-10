@@ -20,6 +20,7 @@ $sidebar-color: $primary-color-complement !default;
 $sidebar-background: $primary-color !default;
 
 $menu-color: mix($sidebar-color, $sidebar-background, 80%) !default;
+$menu-toggle-color: $primary-color-complement;
 
 $header-color: lighten(adjust-hue($primary-color, 2%), 15%) !default;
 
