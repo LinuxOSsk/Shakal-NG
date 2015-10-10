@@ -2,12 +2,13 @@
 
 inkscape penguin_black.svg -e penguin_black.png -d 90
 inkscape penguin_black.svg -e penguin_black@2x.png -d 180
-inkscape penguin_white.svg -e penguin_white.png -d 90
-inkscape penguin_white.svg -e penguin_white@2x.png -d 180
 inkscape logo_black.svg -e logo_black.png -d 90
 inkscape logo_black.svg -e logo_black@2x.png -d 180
-inkscape logo_white.svg -e logo_white.png -d 90
-inkscape logo_white.svg -e logo_white@2x.png -d 180
+
+convert -fuzz 100% -fill '#ffffff' -opaque '#000000' penguin_black.png penguin_white.png
+convert -fuzz 100% -fill '#ffffff' -opaque '#000000' penguin_black@2x.png penguin_white@2x.png
+convert -fuzz 100% -fill '#ffffff' -opaque '#000000' logo_black.png logo_white.png
+convert -fuzz 100% -fill '#ffffff' -opaque '#000000' logo_black@2x.png logo_white@2x.png
 
 compress_files=(
 	penguin_black.png
