@@ -23,6 +23,8 @@
 			{% endfor %}
 		</table>
 
-		{{ pagination() }}
+		{% if page_obj %}
+			{{ pagination() }}
+		{% endif %}
 	</div>
 </div>
