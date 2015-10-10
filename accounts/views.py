@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 from braces.views import LoginRequiredMixin
 from django.contrib.auth import get_user_model
-from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from django.utils.functional import cached_property
@@ -12,6 +11,7 @@ from django.views.generic import RedirectView, DetailView, UpdateView
 
 from .forms import ProfileEditForm
 from .stats import register
+from common_utils.content_types import resolve_content_objects
 from common_utils.generic import ListView
 
 
@@ -63,30 +63,6 @@ class MyProfileEdit(LoginRequiredMixin, MyProfileMixin, UpdateView):
 class UserStatsMixin(object):
 	paginate_by = 50
 	object = None
-
-	def resolve_content_objects(self, content_object_list):
-		object_list_by_content = {}
-		for obj in content_object_list:
-			object_list_by_content.setdefault(obj[0], [])
-			object_list_by_content[obj[0]].append(obj[1])
-		content_types = {obj.id: obj for obj in ContentType.objects.filter(pk__in=object_list_by_content.keys())}
-
-		for content_type, content_object_ids in object_list_by_content.iteritems():
-			object_list_by_content[content_type] = (content_types[content_type]
-				.model_class()
-				.objects
-				.filter(pk__in=content_object_ids))
-
-		objects_idx = {}
-		for content_type, content_objects in object_list_by_content.iteritems():
-			for content_object in content_objects:
-				objects_idx[(content_type, content_object.pk)] = content_object
-
-		object_list = [objects_idx[(o[0], int(o[1]))] for o in content_object_list if (o[0], int(o[1])) in objects_idx]
-		return {
-			'list': object_list,
-			'by_content': object_list_by_content
-		}
 
 	def get_context_data(self, **kwargs):
 		ctx = super(UserStatsMixin, self).get_context_data(**kwargs)
@@ -183,7 +159,7 @@ class UserPostsCommented(UserStatsListBase):
 
 	def get_context_data(self, **kwargs):
 		ctx = super(UserPostsCommented, self).get_context_data(**kwargs)
-		objects = self.resolve_content_objects(ctx['object_list'])
+		objects = resolve_content_objects(ctx['object_list'])
 		ctx['object_list'] = objects['list']
 		ctx['object_list_by_content'] = objects['by_content']
 		return ctx

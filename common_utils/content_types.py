@@ -28,3 +28,29 @@ def get_lookups(models):
 			content_types.append(None)
 
 	return lookups, content_types
+
+
+def resolve_content_objects(content_object_list):
+	object_list_by_content = {}
+	for obj in content_object_list:
+		object_list_by_content.setdefault(obj[0], [])
+		object_list_by_content[obj[0]].append(obj[1])
+	content_types = {obj.id: obj for obj in ContentType.objects.filter(pk__in=object_list_by_content.keys())}
+
+	for content_type, content_object_ids in object_list_by_content.iteritems():
+		object_list_by_content[content_type] = (content_types[content_type]
+			.model_class()
+			.objects
+			.filter(pk__in=content_object_ids))
+
+	objects_idx = {}
+	for content_type, content_objects in object_list_by_content.iteritems():
+		for content_object in content_objects:
+			objects_idx[(content_type, content_object.pk)] = content_object
+
+	object_list = [objects_idx[(o[0], int(o[1]))] for o in content_object_list if (o[0], int(o[1])) in objects_idx]
+
+	return {
+		'list': object_list,
+		'by_content': object_list_by_content
+	}
