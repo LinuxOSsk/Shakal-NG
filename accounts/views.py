@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from datetime import timedelta
 
+from .stats import register
 from braces.views import LoginRequiredMixin
 from django.apps import apps
 from django.contrib.auth import get_user_model
@@ -155,35 +156,11 @@ class UserStatsMixin(object):
 
 		return (
 			{
-				'label': 'Články',
-				'url': url('article'),
-				'count': self.get_articles().count()
-			},
-			{
-				'label': 'Blogy',
-				'url': url('blogpost'),
-				'count': self.get_blog_posts().count()
-			},
-			{
-				'label': 'Správy',
-				'url': url('news'),
-				'count': self.get_news().count()
-			},
-			{
-				'label': 'Témy vo fóre',
-				'url': url('forumtopic'),
-				'count': self.get_forum_topics().count()
-			},
-			{
-				'label': 'Komentované diskusie',
-				'url': url('commented'),
-				'count': self.get_commented().count()
-			},
-			{
-				'label': 'Wiki stránky',
-				'url': url('wikipage'),
-				'count': self.get_last_updated_wiki_pages().count()
-			},
+				'label': stats.get_verbose_name_plural(),
+				'count': stats.get_count(),
+				'url': url(name),
+			}
+			for name, stats in register.get_all_statistics(self.object)
 		)
 
 	def get(self, request, **kwargs):
