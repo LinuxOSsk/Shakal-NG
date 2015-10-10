@@ -104,10 +104,18 @@ class UserPosts(UserStatsMixin, DetailView):
 					stats_sum[key] = [a._replace(aggregate=a.aggregate + b.aggregate) for a, b in zip(stats_sum[key], stats[key])]
 		return stats_sum
 
+	def get_last_contributions(self):
+		all_newest = []
+		for _, statistic in register.get_all_statistics(self.object):
+			all_newest += list(statistic.get_time_annotated_queryset()
+				.order_by('-date_field')[:20])
+		all_newest.sort(key=lambda x: getattr(x, 'date_field', None) or x['date_field'], reverse=True)
+		print(all_newest)
 
 	def get_context_data(self, **kwargs):
 		ctx = super(UserPosts, self).get_context_data(**kwargs)
 		ctx['stats'] = self.get_all_stats()
+		ctx['last_contributions'] = self.get_last_contributions()
 		ctx.update(self.get_stats_summary())
 		return ctx
 
@@ -155,7 +163,10 @@ class UserPostsCommented(UserStatsListBase):
 	stats_name = 'commented'
 
 	def get_queryset(self):
-		return self.statistics.get_queryset().order_by('-max_pk')
+		return (self.statistics
+			.get_queryset()
+			.order_by('-max_pk')
+			.values_list('content_type_id', 'object_id'))
 
 	def get_context_data(self, **kwargs):
 		ctx = super(UserPostsCommented, self).get_context_data(**kwargs)

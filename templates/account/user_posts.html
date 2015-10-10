@@ -9,13 +9,22 @@
 <div class="module">
 	<h2>Počet príspevkov</h2>
 
-	<ul>
-		{% for stat in stats %}
-			{% if stat.count %}
-				<li><a href="{{ stat.url }}">{{ stat.label }} ({{ stat.count }})</a></li>
-			{% endif %}
-		{% endfor %}
-	</ul>
+	<div class="module-row">
+		<ul>
+			{% for stat in stats %}
+				{% if stat.count %}
+					<li><a href="{{ stat.url }}">{{ stat.label }} ({{ stat.count }})</a></li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+	</div>
+</div>
+
+<div class="module">
+	<h2>Najnovšie príspevky</h2>
+
+	<div class="module-row">
+	</div>
 </div>
 
 {% if daily_stats and monthly_stats and (not page_obj or page_obj.number == 1) %}

@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from datetime import timedelta
 
 from django.apps import apps
-from django.db.models import Count, Max
+from django.db.models import Count, Max, F
 from django.template.defaultfilters import capfirst
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -22,6 +22,10 @@ class Statistics(object):
 
 	def get_queryset(self):
 		raise NotImplementedError()
+
+	def get_time_annotated_queryset(self):
+		return (self.get_queryset()
+			.annotate(date_field=F(self.date_field)))
 
 	def get_graph_queryset(self):
 		return self.get_queryset()
@@ -90,7 +94,7 @@ class CommentedStatistics(Statistics):
 		return (apps.get_model('threaded_comments.Comment')
 			.objects
 			.filter(user=self.user, parent__isnull=False)
-			.values_list('content_type_id', 'object_id')
+			.values('content_type_id', 'object_id')
 			.annotate(max_pk=Max('pk')))
 
 	def get_graph_queryset(self):
