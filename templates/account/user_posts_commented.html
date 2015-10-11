@@ -1,5 +1,7 @@
 {% extends "account/user_posts_base.html" %}
 
+{% block head_title %}Zoznam komentovaných diskusií | {{ super() }}{% endblock %}
+
 {% block breadcrumbs %}
 {{ breadcrumb("Komentované diskusie") }}
 {{ super() }}
@@ -7,7 +9,7 @@
 
 {% block content %}
 
-<h1>{{ user_profile }} - Zoznam komentovaných diskusí</h1>
+<h1>{{ user_profile }} - Zoznam komentovaných diskusií</h1>
 
 {{ super() }}
 

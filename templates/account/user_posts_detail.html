@@ -1,5 +1,7 @@
 {% extends "account/user_posts_base.html" %}
 
+{% block head_title %}{{ objects_name|capfirst }}| {{ super() }}{% endblock %}
+
 {% block breadcrumbs %}
 {{ breadcrumb(objects_name|capfirst) }}
 {{ super() }}
