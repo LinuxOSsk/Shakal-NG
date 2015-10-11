@@ -79,7 +79,7 @@ class UserStatsMixin(object):
 				'count': stats.get_count(),
 				'url': url(name),
 			}
-			for name, stats in register.get_all_statistics(self.object)
+			for name, stats in register.get_all_statistics(self.object, self.request)
 		)
 
 	def get_object(self):
@@ -95,7 +95,7 @@ class UserPosts(UserStatsMixin, DetailView):
 
 	def get_stats_summary(self):
 		stats_sum = None
-		for _, statistic in register.get_all_statistics(self.object):
+		for _, statistic in register.get_all_statistics(self.object, self.request):
 			if stats_sum is None:
 				stats_sum = statistic.get_stats()
 			else:
@@ -106,7 +106,7 @@ class UserPosts(UserStatsMixin, DetailView):
 
 	def get_last_contributions(self):
 		all_newest = []
-		for _, statistic in register.get_all_statistics(self.object):
+		for _, statistic in register.get_all_statistics(self.object, self.request):
 			all_newest += list(statistic.get_time_annotated_queryset()
 				.order_by('-date_field')[:20])
 		all_newest = sorted(all_newest, key=lambda x: getattr(x, 'date_field', None) or x['date_field'], reverse=True)[:20]
@@ -133,7 +133,7 @@ class UserStatsListBase(UserStatsMixin, ListView):
 
 	@cached_property
 	def statistics(self):
-		return register.get_statistics(self.stats_name, self.object)
+		return register.get_statistics(self.stats_name, self.object, self.request)
 
 	def get_objects_name(self):
 		return self.statistics.get_verbose_name_plural()

@@ -6,7 +6,6 @@ from datetime import timedelta
 from django.apps import apps
 from django.db.models import Count, Max, F
 from django.template.defaultfilters import capfirst
-from django.utils import timezone
 from django.utils.functional import cached_property
 
 from common_utils import get_meta
@@ -17,8 +16,9 @@ class Statistics(object):
 	verbose_name_plural = None
 	date_field = None
 
-	def __init__(self, user):
+	def __init__(self, user, request=None):
 		self.user = user
+		self.request = request
 
 	def get_queryset(self):
 		raise NotImplementedError()
@@ -38,7 +38,7 @@ class Statistics(object):
 
 	@cached_property
 	def cached_now(self):
-		return timezone.localtime(timezone.now())
+		return self.request.request_time
 
 	def get_time_series(self, interval, time_stats_ago=365):
 		return set_gaps_zero(time_series(
@@ -127,11 +127,11 @@ STATISTICS = (
 
 
 class Register(object):
-	def get_statistics(self, name, user):
-		return dict(STATISTICS)[name](user)
+	def get_statistics(self, name, user, request):
+		return dict(STATISTICS)[name](user, request)
 
-	def get_all_statistics(self, user):
-		return tuple((k, v(user)) for k, v in STATISTICS)
+	def get_all_statistics(self, user, request):
+		return tuple((k, v(user, request)) for k, v in STATISTICS)
 
 
 register = Register()
