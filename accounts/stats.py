@@ -6,7 +6,6 @@ from datetime import timedelta
 from django.apps import apps
 from django.db.models import Count, Max, F
 from django.template.defaultfilters import capfirst
-from django.utils.functional import cached_property
 
 from common_utils import get_meta
 from common_utils.time_series import time_series, set_gaps_zero
@@ -36,18 +35,14 @@ class Statistics(object):
 	def get_verbose_name_plural(self):
 		return capfirst(self.verbose_name_plural or get_meta(self.get_queryset().model).verbose_name_plural)
 
-	@cached_property
-	def cached_now(self):
-		return self.request.request_time
-
 	def get_time_series(self, interval, time_stats_ago=365):
 		return set_gaps_zero(time_series(
 			qs=self.get_graph_queryset(),
 			date_field=self.date_field,
 			interval=interval,
 			aggregate=Count('id'),
-			date_from=self.cached_now.date() + timedelta(-time_stats_ago),
-			date_to=self.cached_now.date()
+			date_from=self.request.request_time.date() + timedelta(-time_stats_ago),
+			date_to=self.request.request_time.date()
 		))
 
 	def get_stats(self):
