@@ -15,9 +15,14 @@ def get_lookups(models):
 
 		id_list = []
 		last_object = None
+		object_cls = None
 		for o in model:
 			id_list.append(o.pk)
 			last_object = o
+			if object_cls is None:
+				object_cls = o.__class__
+			elif object_cls is not o.__class__:
+				raise ValueError('Heterogenous list')
 
 		if last_object is not None:
 			content_type = ContentType.objects.get_for_model(last_object.__class__)

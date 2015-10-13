@@ -169,7 +169,8 @@ def add_discussion_attributes_heterogenous(context, object_list):
 	for instance in iterify(object_list):
 		objects_sorted.setdefault(instance.__class__, [])
 		objects_sorted[instance.__class__].append(instance)
-	return add_discussion_attributes(context, *objects_sorted.values())
+	add_discussion_attributes(context, *objects_sorted.values())
+	return ''
 
 
 @library.global_function
