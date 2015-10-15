@@ -16,7 +16,10 @@ class AttachmentInline(GenericStackedInline):
 	ct_fk_field = 'object_id'
 	exclude = ('size', )
 	can_delete = True
-	template = "admin/edit_inline/stacked_collapse.html"
+	template = "admin/edit_inline/attachments.html"
+
+	def get_queryset(self, request):
+		return super(AttachmentInline, self).get_queryset(request).select_related('attachmentimage')
 
 
 class AttachmentAdmin(admin.ModelAdmin):
