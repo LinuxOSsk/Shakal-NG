@@ -16,16 +16,30 @@
 		{% if inline_admin_formset.formset.can_delete and inline_admin_form.original %}<span class="delete">{{ inline_admin_form.deletion_field.field }} {{ inline_admin_form.deletion_field.label_tag }}</span>{% endif %}
 	</h3>
 	{% if inline_admin_form.form.non_field_errors %}{{ inline_admin_form.form.non_field_errors }}{% endif %}
-	{% if inline_admin_form.original %}
-		{% if inline_admin_form.original.attachmentimage %}
-			<img src="{{ inline_admin_form.original.attachmentimage.attachment_standard.url }}" alt="{{ inline_admin_form.original.basename }}" />
-		{% else %}
-			...
-		{% endif %}
-	{% endif %}
 	{% for fieldset in inline_admin_form %}
 		{% include "admin/includes/fieldset.html" %}
 	{% endfor %}
+
+	{% if inline_admin_form.original %}
+		<fieldset class="module aligned ">
+			<div class="control-group form-row field-attachment ">
+				<div>
+					<div class="control-label">
+						<label>Informácie</label>
+					</div>
+					<div class="controls">
+						{% if inline_admin_form.original.attachmentimage %}
+							<img src="{{ inline_admin_form.original.attachmentimage.attachment_standard.url }}" alt="{{ inline_admin_form.original.basename }}" style="float: left; margin-right: 10px;" />
+						{% else %}
+						{% endif %}
+						<p>URL: <small>{{ inline_admin_form.original.attachment.url }}</small></p>
+						<p>Veľkosť: <small>{{ inline_admin_form.original.size|filesizeformat }}</small></p>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+	{% endif %}
+
 	{% if inline_admin_form.has_auto_field or inline_admin_form.needs_explicit_pk_field %}{{ inline_admin_form.pk_field.field }}{% endif %}
 	{{ inline_admin_form.fk_field.field }}
 </div>{% endfor %}
