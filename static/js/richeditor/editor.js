@@ -447,6 +447,13 @@ var SimpleEditorHtml = function(element, options) {
 			link.appendChild(label);
 		}
 
+		if (options.cls === 'dropdown') {
+			var arrow = document.createElement('SPAN');
+			arrow.className = 'richedit_combo_open';
+			arrow.innerHTML = '<span class="richedit_combo_arrow"></span>';
+			link.appendChild(arrow);
+		}
+
 		var updateCls = function() {
 			link.className = className + ' richedit_button_' + ((down || on) ? 'on': 'off');
 		}
@@ -490,9 +497,20 @@ var SimpleEditorHtml = function(element, options) {
 		group.appendChild(_.createDiv('richedit_toolbar_separator'));
 	};
 
+	var addCombo = function(group) {
+		var combo = document.createElement('SPAN');
+		combo.className = 'richedit_combo';
+		group.appendChild(combo);
+		return combo;
+	};
+
 	var tb = addToolbar();
 	addButton(tb, {cls: 'icon-source', toggle: true, down: true});
 	addButton(tb, {cls: 'icon-preview', toggle: true});
+
+	var tb = addToolbar();
+	var blocks = addCombo(tb);
+	addButton(tb, {label: 'Štýl', cls: 'dropdown', toggle: true});
 
 	var tb = addToolbar();
 	addButton(tb, {cls: 'icon-bold'});
