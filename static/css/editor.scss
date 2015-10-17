@@ -61,6 +61,8 @@ $richedit-separator-color2: rgba(0,0,0,.5) !default;
 $richedit-separator-shadow: rgba(255,255,255,.1) !default;
 */
 
+$hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx)";
+
 
 .richedit_chrome {
 	display: block;
@@ -183,7 +185,42 @@ a.richedit_button_disabled:active {
 	height: 16px;
 	float: left;
 	display: inline-block;
+
+	background-repeat: no-repeat;
+	background-image: url(static('images/editor_icons_moono.png'));
+	background-size: 16px 2040px;
+	@media #{$hdpi} {
+		background-image: static('images/editor_icons_moono@2x.png');
+	}
 }
+
+$icons: (
+	about, bold, italic, strike, subscript,
+	superscript, underline, bidiltr, bidirtl, blockquote,
+	copy, copy, cut, cut, paste,
+	paste, bgcolor, textcolor, templates, templates,
+	creatediv, find, find, replace, flash,
+	button, checkbox, form, hiddenfield, imagebutton,
+	radio, select, select, textarea, textarea,
+	textfield, textfield, horizontalrule, iframe, image,
+	indent, indent, outdent, outdent, smiley,
+	justifyblock, justifycenter, justifyleft, justifyright, language,
+	anchor, anchor, link, unlink, bulletedlist,
+	bulletedlist, numberedlist, numberedlist, maximize, newpage,
+	newpage, pagebreak, pagebreak, pastetext, pastetext,
+	pastefromword, pastefromword, preview, preview, print,
+	removeformat, save, selectall, showblocks, showblocks,
+	source, source, specialchar, scayt, table,
+	redo, redo, undo, undo, spellchecker
+);
+
+@for $i from 1 through length($icons) {
+	$icon: nth($icons, $i);
+	.icon-#{$icon} .richedit_button_icon {
+		background-position: 0px (-24px * ($i - 1));
+	}
+}
+
 
 .richedit_button_label {
 	padding-left: 3px;

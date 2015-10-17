@@ -442,7 +442,7 @@ var SimpleEditorHtml = function(element, options) {
 	};
 
 	var tb = addToolbar();
-	addButton(tb, {label: 'tralala'});
+	addButton(tb, {cls: 'icon-templates'});
 
 
 	element.parentNode.insertBefore(chrome, element);
