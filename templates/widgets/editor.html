@@ -23,6 +23,7 @@ window.rich_editors.push({
 	{% if force_editor %}force_editor: '{{ force_editor }}',{% endif %}
 	static_base: '{{ static("") }}',
 	skin: '{{ skin }}',
+	namespace: 'front',
 	element: document.getElementById("id_textareawrapper_{{ name }}").getElementsByTagName('TEXTAREA')[0]
 });
 

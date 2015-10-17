@@ -24,8 +24,8 @@ var checkFeatures = function(features) {
 window._utils.checkFeatures = checkFeatures;
 
 // cookies
-var getCookie = function(name) {
-	var cookieValue = null;
+var getCookie = function(name, defaultVal) {
+	var cookieValue = defaultVal;
 	if (document.cookie && document.cookie != '') {
 		var cookies = document.cookie.split(';');
 		for (var i = 0; i < cookies.length; i++) {

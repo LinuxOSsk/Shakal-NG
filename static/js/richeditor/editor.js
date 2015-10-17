@@ -523,7 +523,11 @@ var RichEditor = function(element, options) {
 		currentEditorWidget = new editors[name](element, o);
 	};
 
-	this.selectEditor('ckeditor_html');
+	var editor = _.getCookie(o.namespace + '_richeditor');
+	if (editors[editor] === undefined) {
+		editor = 'ckeditor_html';
+	}
+	this.selectEditor(editor);
 };
 
 _.RichEditor = RichEditor;
