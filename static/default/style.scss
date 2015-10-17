@@ -737,8 +737,6 @@ input[type="text"], input[type="password"] {
 }
 
 textarea {
-	@include sprite-generated(input_bg, $setSize: false);
-	background-repeat: repeat-x;
 	background-color: #fff;
 }
 
