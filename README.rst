@@ -83,6 +83,8 @@ TODO
    cookies, ale samostatne pre admin a samostatne pre web). Využiť utility pre
    prácu s cookies zo static/js/utils.js
 
+   Možno použiť http://kueblc.github.io/LDT/, http://users.dcc.uchile.cl/~jmunoz/
+
 .. [2] Využiť podľa možnosti čo najviac súčasného kódu (nerobiť zbytočne
    template overridy). V CSS podľa možnosti nepoužívať gradienty a tiene,
    spomaľujú zbytočne renderovanie. Sprity sa generujú príkazom

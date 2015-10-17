@@ -1,0 +1,178 @@
+$richedit-chrome-border: 1px solid #b6b6b6 !default;
+$richedit-inner-background: #ffffff;
+$richedit-top-background-u: #f5f5f5;
+$richedit-top-background-d: #cfd1cf;
+$richedit-bottom-background-u: #ebebeb;
+$richedit-bottom-background-d: #cfd1cf;
+$richedit-toolgroup-border: 1px solid #a6a6a6;
+$richedit-toolgroup-border-bottom: 1px solid 979797;
+$richedit-toolgroup-backkground: #e4e4e4;
+$richedit-toolgroup-backkground-u: #ffffff;
+$richedit-toolgroup-backkground-d: #e4e4e4;
+$richedit-buttonon-backkground: #b5b5b5;
+$richedit-buttonon-backkground-u: #aaa;
+$richedit-buttonon-backkground-d: #cacaca;
+$richedit-buttondis-backkground: #ccc;
+$richedit-buttondis-backkground-u: #f2f2f2;
+$richedit-buttondis-backkground-d: #ccc;
+$richedit-label-color: #474747;
+$richedit-separator-color: #c0c0c0;
+
+.richedit_chrome {
+	display: block;
+	border: $richedit-chrome-border;
+	padding: 0;
+	box-shadow: 0 0 3px rgba(0,0,0,.15);
+}
+
+.richedit_inner
+{
+	display: block;
+	background: $richedit-inner-background;
+	padding: 0;
+}
+
+.richedit_top,
+.richedit_contents,
+.richedit_bottom {
+	display: block;
+	overflow: hidden;
+}
+
+.richedit_top {
+	border-bottom: $richedit-chrome-border;
+	padding: 6px 8px 2px;
+	white-space: normal;
+	box-shadow: 0 1px 0 #fff inset;
+	background: $richedit-top-background-d;
+	background-image: linear-gradient(to bottom, $richedit-top-background-u, $richedit-top-background-d);
+}
+
+.richedit_bottom {
+	padding: 6px 8px 2px;
+	position: relative;
+	border-top: $richedit-chrome-border;
+	box-shadow: 0 1px 0 #fff inset;
+	background: $richedit-bottom-background-d;
+	background-image: linear-gradient(to bottom, $richedit-bottom-background-u, $richedit-bottom-background-d);
+}
+
+.richedit_contents {
+	overflow-y: auto;
+
+	textarea {
+		border: none;
+	}
+}
+
+.richedit_toolbar {
+	float: left;
+}
+
+.richedit_toolgroup {
+	float: left;
+	margin: 0 6px 5px 0;
+	border: $richedit-toolgroup-border;
+	border-bottom: $richedit-toolgroup-border-bottom;
+
+	border-radius: 3px;
+
+	box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
+
+	background: $richedit-toolgroup-backkground;
+	background-image: linear-gradient(to bottom, $richedit-toolgroup-backkground-u, $richedit-toolgroup-backkground-d);
+}
+
+a.richedit_button {
+	display: inline-block;
+	height: 18px;
+	padding: 4px 6px;
+	outline: none;
+	cursor: default;
+	float: left;
+	border: 0;
+	&:last-child {
+		border-radius: 0 2px 2px 0;
+	}
+	&:first-child {
+		border-radius: 2px 0 0 2px;
+	}
+}
+
+a.richedit_button_on {
+	box-shadow: 0 1px 5px rgba(0,0,0,.6) inset, 0 1px 0 rgba(0,0,0,.2);
+
+	background: $richedit-buttonon-backkground;
+	background-image: linear-gradient(to bottom, $richedit-buttonon-backkground-u, $richedit-buttonon-backkground-d);
+}
+
+.richedit_button_disabled .richedit_button_icon {
+	opacity: 0.3;
+}
+
+a.richedit_button_on:hover,
+a.richedit_button_on:focus,
+a.richedit_button_on:active {
+	box-shadow: 0 1px 6px rgba(0,0,0,.7) inset, 0 1px 0 rgba(0,0,0,.2);
+}
+
+a.richedit_button_off:hover,
+a.richedit_button_off:focus,
+a.richedit_button_off:active,
+a.richedit_button_disabled:hover,
+a.richedit_button_disabled:focus,
+a.richedit_button_disabled:active {
+	box-shadow: 0 0 1px rgba(0,0,0,.3) inset;
+
+	background: $richedit-buttondis-backkground;
+	background-image: linear-gradient(to bottom, $richedit-buttondis-backkground-u, $richedit-buttondis-backkground-d);
+}
+
+.richedit_button_icon {
+	cursor: inherit;
+	background-repeat: no-repeat;
+	margin-top: 1px;
+	width: 16px;
+	height: 16px;
+	float: left;
+	display: inline-block;
+}
+
+.richedit_button_label {
+	padding-left: 3px;
+	margin-top: 1px;
+	line-height: 17px;
+	vertical-align: middle;
+	float: left;
+	cursor: default;
+	color: $richedit-label-color;
+	text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+
+.richedit_button_arrow {
+	display: inline-block;
+	margin: 8px 0 0 1px;
+	width: 0;
+	height: 0;
+	cursor: default;
+	vertical-align: top;
+	border-left: 3px solid transparent;
+	border-right: 3px solid transparent;
+	border-top: 3px solid $richedit-label-color;
+}
+
+.richedit_toolbar_separator {
+	float: left;
+	background-color: $richedit-separator-color;
+	background-color: rgba(0,0,0,.2);
+	margin: 5px 2px 0;
+	height: 18px;
+	width: 1px;
+
+	box-shadow: 1px 0 1px rgba(255,255,255,.5);
+}
+
+.richedit_toolbar_break {
+	display: block;
+	clear: left;
+}

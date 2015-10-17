@@ -385,8 +385,73 @@ function initialize_rich_editor(name, settings) {
 
 (function (_) {
 
-var SimpleEditorHtml = function() {
+var SimpleEditorHtml = function(element, options) {
+	var chrome = _.createDiv('richedit_chrome');
+	var inner = _.createDiv('richedit_inner');
+	var top = _.createDiv('richedit_top');
+	var contents = _.createDiv('richedit_contents');
+	var bottom = _.createDiv('richedit_bottom');
+	var toolbox = _.createDiv('richedit_toolbox');
 
+	chrome.appendChild(inner);
+	inner.appendChild(top);
+	inner.appendChild(contents);
+	inner.appendChild(bottom);
+	top.appendChild(toolbox);
+
+	bottom.style.display = 'none';
+
+	var addToolbar = function(group) {
+		var toolbar = _.createDiv('richedit_toolbar');
+		var toolbarStart = _.createDiv('richedit_toolbar_start');
+		var toolbarGroup = _.createDiv(group === false ? undefined : 'richedit_toolgroup');
+		var toolbarEnd = _.createDiv('richedit_toolbar_end');
+		toolbar.appendChild(toolbarStart);
+		toolbar.appendChild(toolbarGroup);
+		toolbar.appendChild(toolbarEnd);
+		toolbox.appendChild(toolbar);
+		return toolbarGroup;
+	};
+
+	var addButton = function(group, options) {
+		var className = 'richedit_button';
+		if (options.cls !== undefined) {
+			className += ' ' + options.cls;
+		}
+
+		var link = document.createElement('A');
+		link.className = className;
+
+		if (options.title !== undefined) {
+			link.setAttribute('title', options.title);
+		}
+
+		var icon = document.createElement('SPAN');
+		icon.className = 'richedit_button_icon';
+		link.appendChild(icon);
+
+		if (options.label !== undefined) {
+			var label = document.createElement('SPAN');
+			label.className = 'richedit_button_label';
+			label.appendChild(document.createTextNode(options.label));
+			link.appendChild(label);
+		}
+
+		group.appendChild(link);
+		return link;
+	};
+
+	var tb = addToolbar();
+	addButton(tb, {label: 'tralala'});
+
+
+	element.parentNode.insertBefore(chrome, element);
+	contents.appendChild(element);
+
+	this.destroy = function() {
+		chrome.parentNode.insertBefore(element, chrome);
+		chrome.parentNode.removeChild(chrome);
+	};
 };
 
 var CkEditorHtml = function(element, options) {
@@ -521,6 +586,7 @@ var RichEditor = function(element, options) {
 		}
 		o.selector = self;
 		currentEditorWidget = new editors[name](element, o);
+		_.setCookie(o.namespace + '_richeditor', name, 3650);
 	};
 
 	var editor = _.getCookie(o.namespace + '_richeditor');
