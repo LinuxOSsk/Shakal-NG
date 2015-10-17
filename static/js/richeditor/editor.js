@@ -414,13 +414,19 @@ var SimpleEditorHtml = function(element, options) {
 	};
 
 	var addButton = function(group, options) {
-		var className = 'richedit_button richedit_button_off';
+		var self = this;
+
+		this.options = options;
+
+		var down = false;
+		var on = false;
+
+		var className = 'richedit_button';
 		if (options.cls !== undefined) {
 			className += ' ' + options.cls;
 		}
 
 		var link = document.createElement('A');
-		link.className = className;
 
 		if (options.title !== undefined) {
 			link.setAttribute('title', options.title);
@@ -437,12 +443,47 @@ var SimpleEditorHtml = function(element, options) {
 			link.appendChild(label);
 		}
 
+		var updateCls = function() {
+			link.className = className + ' richedit_button_' + ((down || on) ? 'on': 'off');
+		}
+		updateCls();
+
+		link.onmousedown = function() {
+			if (down) {
+				on = false;
+				updateCls();
+			}
+			else {
+				on = true;
+				updateCls();
+			}
+		};
+		link.onmouseup = function() {
+			on = false;
+			if (options.toggle) {
+				down = !down;
+				if (options.ontoggle) {
+					options.ontoggle(self, down);
+				}
+			}
+			else {
+				if (options.onclick) {
+					options.onclick(self);
+				}
+			}
+			updateCls();
+		};
+		link.onmouseout = function() {
+			on = false;
+			updateCls();
+		};
+
 		group.appendChild(link);
 		return link;
 	};
 
 	var tb = addToolbar();
-	addButton(tb, {cls: 'icon-templates'});
+	addButton(tb, {cls: 'icon-templates', toggle: true});
 
 
 	element.parentNode.insertBefore(chrome, element);
