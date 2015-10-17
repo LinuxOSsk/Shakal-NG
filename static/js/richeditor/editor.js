@@ -412,8 +412,8 @@ var CkEditorHtml = function(element, options) {
 			CKEDITOR.plugins.add('close', {
 				init: function(editor) {
 					editor.addCommand('close', {
-						exec: function() {
-							options._selector.selectEditor('simple_html');
+						exec: function(self) {
+							self._selector.selectEditor('simple_html');
 						}
 					});
 					editor.ui.addButton('Close', {
@@ -451,7 +451,7 @@ var CkEditorHtml = function(element, options) {
 			{ name: 'insert', items: [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
 		];
 		config.plugins = 'basicstyles,blockquote,clipboard,contextmenu,dialogadvtab,enterkey,find,format,horizontalrule,image,indentblock,indentlist,justify,link,list,magicline,maximize,pastetext,removeformat,showblocks,showborders,sourcearea,specialchar,tab,table,tabletools,toolbar,undo,wysiwygarea,close';
-		config.format_tags = 'p;h1;h2;h3;h4;h5;h6;pre'
+		config.format_tags = 'p;h1;h2;h3;h4;h5;h6;pre';
 
 		if (options.tags) {
 			var allowedTags = '';
@@ -482,6 +482,7 @@ var CkEditorHtml = function(element, options) {
 		CKEDITOR.addCss(options.tags.unsupported.join(', ') + '{ background-color: #ff9999 !important; border: 1px solid red !important; }');
 		self.editor = CKEDITOR.replace(element, config);
 		self.editor._editorInstance = self;
+		self.editor._selector = options.selector;
 		CKEDITOR._extraCss.pop();
 	};
 
@@ -518,7 +519,7 @@ var RichEditor = function(element, options) {
 			currentEditorWidget.destroy();
 			currentEditorWidget = undefined;
 		}
-		o._selector = self;
+		o.selector = self;
 		currentEditorWidget = new editors[name](element, o);
 	};
 
