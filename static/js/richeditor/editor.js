@@ -414,7 +414,7 @@ var SimpleEditorHtml = function(element, options) {
 	};
 
 	var addButton = function(group, options) {
-		var className = 'richedit_button';
+		var className = 'richedit_button richedit_button_off';
 		if (options.cls !== undefined) {
 			className += ' ' + options.cls;
 		}
