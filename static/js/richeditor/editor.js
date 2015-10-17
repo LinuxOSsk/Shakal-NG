@@ -505,6 +505,9 @@ var RichEditor = function(element, options) {
 	var self = this;
 	var currentEditorWidget = undefined;
 
+	var o = {};
+	for (var k in options) { if (options.hasOwnProperty(k)) o[k] = options[k]; }
+
 	var editors = {
 		'simple_html': SimpleEditorHtml,
 		'ckeditor_html': CkEditorHtml
@@ -515,8 +518,8 @@ var RichEditor = function(element, options) {
 			currentEditorWidget.destroy();
 			currentEditorWidget = undefined;
 		}
-		options._selector = self;
-		currentEditorWidget = new editors[name](element, options);
+		o._selector = self;
+		currentEditorWidget = new editors[name](element, o);
 	};
 
 	this.selectEditor('ckeditor_html');
