@@ -421,6 +421,10 @@ var SimpleEditorHtml = function(element, options) {
 		var down = false;
 		var on = false;
 
+		if (options.down) {
+			down = true;
+		}
+
 		var className = 'richedit_button';
 		if (options.cls !== undefined) {
 			className += ' ' + options.cls;
@@ -482,9 +486,39 @@ var SimpleEditorHtml = function(element, options) {
 		return link;
 	};
 
-	var tb = addToolbar();
-	addButton(tb, {cls: 'icon-templates', toggle: true});
+	var addSeparator = function(group) {
+		group.appendChild(_.createDiv('richedit_toolbar_separator'));
+	};
 
+	var tb = addToolbar();
+	addButton(tb, {cls: 'icon-source', toggle: true, down: true});
+	addButton(tb, {cls: 'icon-preview', toggle: true});
+
+	var tb = addToolbar();
+	addButton(tb, {cls: 'icon-bold'});
+	addButton(tb, {cls: 'icon-italic'});
+	addButton(tb, {cls: 'icon-strike'});
+	addButton(tb, {cls: 'icon-underline'});
+	addSeparator(tb);
+	addButton(tb, {cls: 'icon-removeformat'}); // code
+
+	var tb = addToolbar();
+	addButton(tb, {cls: 'icon-superscript'});
+	addButton(tb, {cls: 'icon-subscript'});
+
+	var tb = addToolbar();
+	addButton(tb, {cls: 'icon-blockquote'});
+	addButton(tb, {cls: 'icon-templates'}); // pre
+	addButton(tb, {cls: 'icon-pastetext'});
+
+	var tb = addToolbar();
+	addButton(tb, {cls: 'icon-bulletedlist'});
+	addButton(tb, {cls: 'icon-numberedlist'});
+
+	var tb = addToolbar();
+	addButton(tb, {cls: 'icon-link'});
+	addButton(tb, {cls: 'icon-table'});
+	addButton(tb, {cls: 'icon-image'});
 
 	element.parentNode.insertBefore(chrome, element);
 	contents.appendChild(element);
