@@ -737,7 +737,9 @@ input[type="text"], input[type="password"] {
 }
 
 textarea {
-	background: #fff url('images/input_bg.png') 0px 0px repeat-x;
+	@include sprite-generated(input_bg, $setSize: false);
+	background-repeat: repeat-x;
+	background-color: #fff;
 }
 
 .formset {
