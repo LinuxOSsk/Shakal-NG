@@ -489,6 +489,9 @@ var SimpleEditorHtml = function(element, options) {
 			on = false;
 			updateCls();
 		};
+		link.onclick = function() {
+			return false;
+		};
 
 		group.appendChild(link);
 		return link;
