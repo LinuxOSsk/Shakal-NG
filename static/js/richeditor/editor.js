@@ -543,7 +543,14 @@ var SimpleEditorHtml = function(element, options) {
 	var blocks = addCombo(tb);
 	addButton(tb, {label: 'Štýl', cls: 'dropdown', toggle: true});
 	var menu = addComboMenu(tb);
-	addComboMenuItem(menu, {label: 'Nadpis 1'})
+	addComboMenuItem(menu, {label: 'Nadpis 1', cls: 'h1'})
+	addComboMenuItem(menu, {label: 'Nadpis 2', cls: 'h2'})
+	addComboMenuItem(menu, {label: 'Nadpis 3', cls: 'h3'})
+	addComboMenuItem(menu, {label: 'Nadpis 4', cls: 'h4'})
+	addComboMenuItem(menu, {label: 'Nadpis 5', cls: 'h5'})
+	addComboMenuItem(menu, {label: 'Nadpis 6', cls: 'h6'})
+	addComboMenuItem(menu, {label: 'Odstavec', cls: 'p'})
+	addComboMenuItem(menu, {label: 'Citácia', cls: 'blockquote'})
 
 	var tb = addToolbar();
 	addButton(tb, {cls: 'icon-bold'});

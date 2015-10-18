@@ -1,4 +1,5 @@
 $richedit-chrome-border: 1px solid #b6b6b6 !default;
+$richedit-chrome-shadow: 0 0 3px rgba(0,0,0,.15) !default;
 $richedit-inner-background: #ffffff !default;
 $richedit-top-border: false !default;
 $richedit-top-border-bottom: 1px solid #b6b6b6 !default;
@@ -31,6 +32,7 @@ $richedit-separator-shadow: rgba(255,255,255,.5) !default;
 
 /*
 $richedit-chrome-border: 1px solid #b6b6b6 !default;
+$richedit-chrome-shadow: rgba(255,255,255,.1) !default;
 $richedit-inner-background: #ffffff !default;
 $richedit-top-border: 1px solid #0d0d0d !default;
 $richedit-top-border-bottom: false !default;
@@ -67,7 +69,7 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 .richedit_chrome {
 	display: block;
 	border: $richedit-chrome-border;
-	box-shadow: $richedit-separator-shadow;
+	box-shadow: $richedit-chrome-shadow;
 	padding: 0;
 }
 
@@ -226,7 +228,7 @@ $icons: (
 }
 
 .dropdown {
-	min-width: 120px;
+	min-width: 160px;
 
 	.richedit_button_icon {
 		display: none;
@@ -286,14 +288,16 @@ $icons: (
 }
 
 .richedit_chrome ul.richedit_combo_menu {
+	border: $richedit-chrome-border;
+	box-shadow: $richedit-chrome-shadow;
 	position: absolute;
 	left: 0;
 	top: 27px;
 	margin: 0;
 	padding: 4px;
 	background: white;
-	min-width: 124px;
-	border: $richedit-toolgroup-border;
+	min-width: 164px;
+	z-index: 100;
 
 	li {
 		padding: 0;
@@ -328,12 +332,56 @@ $icons: (
 
 .richedit_combo_menu_link {
 	display: block;
-	padding: 4px;
+	padding: 2px 4px;
 	color: #333;
 	text-decoration: none;
 	&:hover {
 		border-radius: 3px;
 		background: #333;
 		color: #fff;
+	}
+}
+
+.richedit_combo_menu_link.h1 {
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.richedit_combo_menu_link.h2 {
+	font-size: 22px;
+	font-weight: bold;
+}
+
+.richedit_combo_menu_link.h3 {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.richedit_combo_menu_link.h4 {
+	font-size: 17px;
+	font-weight: bold;
+}
+
+.richedit_combo_menu_link.h5 {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.richedit_combo_menu_link.h6 {
+	font-size: 15px;
+	font-weight: bold;
+}
+
+.richedit_combo_menu_link.p {
+	font-size: 15px;
+	font-weight: normal;
+}
+
+.richedit_combo_menu_link.blockquote {
+	font-size: 15px;
+	font-style: italic;
+	color: #888;
+	&:hover {
+		color: #ddd;
 	}
 }
