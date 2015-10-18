@@ -414,10 +414,6 @@ var SimpleEditorHtml = function(element, options) {
 	};
 
 	var addButton = function(group, options) {
-		var self = this;
-
-		this.options = options;
-
 		var down = false;
 		var on = false;
 
@@ -436,6 +432,8 @@ var SimpleEditorHtml = function(element, options) {
 		if (options.title !== undefined) {
 			link.setAttribute('title', options.title);
 		}
+
+		var btn = {options: options, link: link};
 
 		var icon = document.createElement('SPAN');
 		icon.className = 'richedit_button_icon';
@@ -475,12 +473,12 @@ var SimpleEditorHtml = function(element, options) {
 			if (options.toggle) {
 				down = !down;
 				if (options.ontoggle) {
-					options.ontoggle(self, down);
+					options.ontoggle(btn, down);
 				}
 			}
 			else {
 				if (options.onclick) {
-					options.onclick(self);
+					options.onclick(btn);
 				}
 			}
 			updateCls();
@@ -491,6 +489,10 @@ var SimpleEditorHtml = function(element, options) {
 		};
 		link.onclick = function() {
 			return false;
+		};
+		link.setDown = function(newDown) {
+			down = newDown;
+			updateCls();
 		};
 
 		group.appendChild(link);
@@ -539,13 +541,19 @@ var SimpleEditorHtml = function(element, options) {
 		return menu;
 	};
 
+	var triggerFunction = function(btn) {
+		console.log(btn.options);
+	};
+
+	var buttons = {};
+
 	var tb = addToolbar();
-	addButton(tb, {cls: 'icon-source', toggle: true, down: true});
-	addButton(tb, {cls: 'icon-preview', toggle: true});
+	buttons.source = addButton(tb, {cls: 'icon-source', toggle: true, down: true});
+	buttons.preview = addButton(tb, {cls: 'icon-preview', toggle: true});
 
 	var tb = addToolbar();
 	var blocks = addCombo(tb);
-	addButton(tb, {
+	buttons.style = addButton(tb, {
 		label: 'Štýl',
 		cls: 'dropdown',
 		toggle: true,
@@ -561,20 +569,21 @@ var SimpleEditorHtml = function(element, options) {
 
 	var styleMenu = addComboMenu(tb);
 	styleMenu.style.display = 'none';
-	addComboMenuItem(styleMenu, {label: 'Nadpis 1', cls: 'h1'})
-	addComboMenuItem(styleMenu, {label: 'Nadpis 2', cls: 'h2'})
-	addComboMenuItem(styleMenu, {label: 'Nadpis 3', cls: 'h3'})
-	addComboMenuItem(styleMenu, {label: 'Nadpis 4', cls: 'h4'})
-	addComboMenuItem(styleMenu, {label: 'Nadpis 5', cls: 'h5'})
-	addComboMenuItem(styleMenu, {label: 'Nadpis 6', cls: 'h6'})
-	addComboMenuItem(styleMenu, {label: 'Odstavec', cls: 'p'})
-	addComboMenuItem(styleMenu, {label: 'Citácia', cls: 'blockquote'})
+	addComboMenuItem(styleMenu, {label: 'Nadpis 1', cls: 'h1', onclick: triggerFunction})
+	addComboMenuItem(styleMenu, {label: 'Nadpis 2', cls: 'h2', onclick: triggerFunction})
+	addComboMenuItem(styleMenu, {label: 'Nadpis 3', cls: 'h3', onclick: triggerFunction})
+	addComboMenuItem(styleMenu, {label: 'Nadpis 4', cls: 'h4', onclick: triggerFunction})
+	addComboMenuItem(styleMenu, {label: 'Nadpis 5', cls: 'h5', onclick: triggerFunction})
+	addComboMenuItem(styleMenu, {label: 'Nadpis 6', cls: 'h6', onclick: triggerFunction})
+	addComboMenuItem(styleMenu, {label: 'Odstavec', cls: 'p', onclick: triggerFunction})
+	addComboMenuItem(styleMenu, {label: 'Citácia', cls: 'blockquote', onclick: triggerFunction})
 
 	var showMenu = function() {
 		if (styleMenu.style.display === 'block') {
 			return;
 		}
 		styleMenu.style.display = 'block';
+		_.bindEvent(document.body, 'mousedown', hideMenu);
 	};
 
 	var hideMenu = function() {
@@ -582,15 +591,16 @@ var SimpleEditorHtml = function(element, options) {
 			return;
 		}
 		styleMenu.style.display = 'none';
+		_.unbindEvent(document.body, 'mousedown', hideMenu);
 	};
 
 	var tb = addToolbar();
-	addButton(tb, {cls: 'icon-bold'});
-	addButton(tb, {cls: 'icon-italic'});
-	addButton(tb, {cls: 'icon-strike'});
-	addButton(tb, {cls: 'icon-underline'});
+	addButton(tb, {cls: 'icon-bold', onclick: triggerFunction});
+	addButton(tb, {cls: 'icon-italic', onclick: triggerFunction});
+	addButton(tb, {cls: 'icon-strike', onclick: triggerFunction});
+	addButton(tb, {cls: 'icon-underline', onclick: triggerFunction});
 	addSeparator(tb);
-	addButton(tb, {cls: 'icon-removeformat'}); // code
+	addButton(tb, {cls: 'icon-removeformat', onclick: triggerFunction}); // code
 
 	var tb = addToolbar();
 	addButton(tb, {cls: 'icon-superscript'});
