@@ -555,7 +555,12 @@ var SimpleEditorHtml = function(element, options) {
 	};
 
 	var triggerFunction = function(btn) {
-		console.log(btn.options);
+		if (btn.options.tag_pre) {
+			insert(btn.options.tag_pre, btn.options.tag_post);
+		}
+		else {
+			insert('<' + btn.options.tag + '>', '</' + btn.options.tag + '>');
+		}
 	};
 
 	var addText = function(btn) {
@@ -594,14 +599,14 @@ var SimpleEditorHtml = function(element, options) {
 
 	var styleMenu = addComboMenu(tb);
 	styleMenu.style.display = 'none';
-	addComboMenuItem(styleMenu, {label: 'Nadpis 1', cls: 'h1', onclick: triggerFunction})
-	addComboMenuItem(styleMenu, {label: 'Nadpis 2', cls: 'h2', onclick: triggerFunction})
-	addComboMenuItem(styleMenu, {label: 'Nadpis 3', cls: 'h3', onclick: triggerFunction})
-	addComboMenuItem(styleMenu, {label: 'Nadpis 4', cls: 'h4', onclick: triggerFunction})
-	addComboMenuItem(styleMenu, {label: 'Nadpis 5', cls: 'h5', onclick: triggerFunction})
-	addComboMenuItem(styleMenu, {label: 'Nadpis 6', cls: 'h6', onclick: triggerFunction})
-	addComboMenuItem(styleMenu, {label: 'Odstavec', cls: 'p', onclick: triggerFunction})
-	addComboMenuItem(styleMenu, {label: 'Citácia', cls: 'blockquote', onclick: triggerFunction})
+	addComboMenuItem(styleMenu, {label: 'Nadpis 1', cls: 'h1', tag: 'h1', onclick: triggerFunction})
+	addComboMenuItem(styleMenu, {label: 'Nadpis 2', cls: 'h2', tag: 'h2', onclick: triggerFunction})
+	addComboMenuItem(styleMenu, {label: 'Nadpis 3', cls: 'h3', tag: 'h3', onclick: triggerFunction})
+	addComboMenuItem(styleMenu, {label: 'Nadpis 4', cls: 'h4', tag: 'h4', onclick: triggerFunction})
+	addComboMenuItem(styleMenu, {label: 'Nadpis 5', cls: 'h5', tag: 'h5', onclick: triggerFunction})
+	addComboMenuItem(styleMenu, {label: 'Nadpis 6', cls: 'h6', tag: 'h6', onclick: triggerFunction})
+	addComboMenuItem(styleMenu, {label: 'Odstavec', cls: 'p', tag: 'p', onclick: triggerFunction})
+	addComboMenuItem(styleMenu, {label: 'Citácia', cls: 'blockquote', tag: 'blockquote', onclick: triggerFunction})
 
 	var showMenu = function() {
 		if (styleMenu.style.display === 'block') {
@@ -620,30 +625,53 @@ var SimpleEditorHtml = function(element, options) {
 		_.unbindEvent(document.body, 'mousedown', hideMenu);
 	};
 
+	var insert = function(pre, post) {
+		element.focus();
+		if (document.selection) {
+			var sel = document.selection.createRange();
+			sel.text = pre + sel.text + post;
+			sel.moveEnd('character', -pre.length);
+			sel.select();
+		}
+		else {
+			if (element.selectionStart != undefined) {
+				var start = element.selectionStart;
+				var end = element.selectionEnd;
+				var selection = element.value.substring(start,end);
+				element.value = element.value.substring(0, start) + pre + selection + post + element.value.substring(end, element.value.length);
+				element.setSelectionRange(start + pre.length, start + pre.length);
+			}
+			else {
+				element.focus();
+				element.value = element.value + pre + post;
+			}
+		}
+	};
+
 	var tb = addToolbar();
-	addButton(tb, {cls: 'icon-bold', onclick: triggerFunction});
-	addButton(tb, {cls: 'icon-italic', onclick: triggerFunction});
-	addButton(tb, {cls: 'icon-strike', onclick: triggerFunction});
-	addButton(tb, {cls: 'icon-underline', onclick: triggerFunction});
+	addButton(tb, {cls: 'icon-bold', tag: 'strong', onclick: triggerFunction});
+	addButton(tb, {cls: 'icon-italic', tag: 'em', onclick: triggerFunction});
+	addButton(tb, {cls: 'icon-strike', tag: 'del', onclick: triggerFunction});
+	addButton(tb, {cls: 'icon-underline', tag: 'u', onclick: triggerFunction});
 	addSeparator(tb);
-	addButton(tb, {cls: 'icon-removeformat', onclick: triggerFunction}); // code
+	addButton(tb, {cls: 'icon-removeformat', tag: 'code', onclick: triggerFunction}); // code
 
 	var tb = addToolbar();
-	addButton(tb, {cls: 'icon-superscript', onclick: triggerFunction});
-	addButton(tb, {cls: 'icon-subscript', onclick: triggerFunction});
+	addButton(tb, {cls: 'icon-superscript', tag: 'sup', onclick: triggerFunction});
+	addButton(tb, {cls: 'icon-subscript', tag: 'sub', onclick: triggerFunction});
 
 	var tb = addToolbar();
-	addButton(tb, {cls: 'icon-blockquote', onclick: triggerFunction});
+	addButton(tb, {cls: 'icon-blockquote', tag: 'blockquote', onclick: triggerFunction});
 	addButton(tb, {cls: 'icon-templates', onclick: addText}); // pre
 	addButton(tb, {cls: 'icon-pastetext', onclick: addText});
 
 	var tb = addToolbar();
-	addButton(tb, {cls: 'icon-bulletedlist', onclick: triggerFunction});
-	addButton(tb, {cls: 'icon-numberedlist', onclick: triggerFunction});
+	addButton(tb, {cls: 'icon-bulletedlist', tag_pre: '<ul>\n<li>', tag_post: '</li>\n</ul>', onclick: triggerFunction});
+	addButton(tb, {cls: 'icon-numberedlist', tag_pre: '<ol>\n<li>', tag_post: '</li>\n</ol>', onclick: triggerFunction});
 
 	var tb = addToolbar();
 	addButton(tb, {cls: 'icon-link', onclick: addLink});
-	addButton(tb, {cls: 'icon-table', onclick: addTable});
+	addButton(tb, {cls: 'icon-table', tag_pre: '<table>\n<tr><th>', tag_post: '</th><th></th></tr>\n<tr><td></td><td></td></tr>\n</table>', onclick: triggerFunction});
 	addButton(tb, {cls: 'icon-image', onclick: addImage});
 
 	addBreak(top);
