@@ -23,6 +23,6 @@ var register = function(root) {
 	});
 };
 
-_.onLoad(register);
+_.onLoad(function(e) { register(e.memo); });
 
 }(window._utils));

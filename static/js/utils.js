@@ -267,7 +267,7 @@ window._utils.serializeForm = serializeForm;
 window._utils.getUrlParameterByName = getUrlParameterByName;
 
 // events
-function triggerEvent(element, name, memo) {
+var triggerEvent = function(element, name, memo) {
 	var event;
 	if (document.createEvent) {
 		event = document.createEvent('HTMLEvents');
@@ -289,20 +289,28 @@ function triggerEvent(element, name, memo) {
 	}
 };
 
-function bindEvent(element, name, fn) {
-	var trig = function(event) {
-		return fn(event, event.memo);
-	}
+var bindEvent = function(element, name, fn) {
 	if (document.addEventListener) {
-		element.addEventListener(name, trig, false);
+		element.addEventListener(name, fn, false);
 	}
 	else {
-		element.attachEvent('on' + name, trig);
+		element.attachEvent('on' + name, fn);
 	}
 };
 
+var unbindEvent = function(element, name, fn) {
+	if (document.removeEventListener) {
+		element.removeEventListener(name, fn, false);
+	}
+	else {
+		element.detachEvent('on' + name, fn);
+	}
+
+}
+
 window._utils.triggerEvent = triggerEvent;
 window._utils.bindEvent = bindEvent;
+window._utils.unbindEvent = unbindEvent;
 
 // dom
 var el = document.createElement('DIV');
@@ -312,10 +320,8 @@ var insertAfter = function(newNode, referenceNode) {
 };
 
 var onLoad = function(callback) {
-	callback(document.body);
-	window._utils.bindEvent(document.body, 'contentloaded', function(event, element) {
-		callback(element);
-	});
+	callback({memo: document.body});
+	window._utils.bindEvent(document.body, 'contentloaded', callback);
 };
 
 var triggerLoad = function(element) {
