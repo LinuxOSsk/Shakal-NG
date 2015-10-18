@@ -301,6 +301,31 @@ $icons: (
 	}
 }
 
+.richedit_combo_open {
+	cursor: default;
+	display: inline-block;
+	font-size: 0;
+	height: 19px;
+	line-height: 17px;
+	margin: 1px 7px 1px;
+	width: 5px;
+	float: right;
+}
+
+.richedit_combo_arrow {
+	cursor: default;
+	margin: 7px 0 0;
+	float: left;
+
+	/* Pure CSS Arrow */
+	height: 0;
+	width: 0;
+	font-size: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-top: 4px solid $richedit-label-color;
+}
+
 .richedit_combo_menu_link {
 	display: block;
 	padding: 4px;
