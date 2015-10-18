@@ -483,6 +483,11 @@ var SimpleEditorHtml = function(element, options) {
 			}
 			updateCls();
 		};
+		link.onblur = function() {
+			if (options.onblur) {
+				options.onblur(btn);
+			}
+		};
 		link.onmouseout = function() {
 			on = false;
 			updateCls();
@@ -564,7 +569,8 @@ var SimpleEditorHtml = function(element, options) {
 			else {
 				hideMenu();
 			}
-		}
+		},
+		onblur: hideMenu
 	});
 
 	var styleMenu = addComboMenu(tb);
@@ -591,6 +597,7 @@ var SimpleEditorHtml = function(element, options) {
 			return;
 		}
 		styleMenu.style.display = 'none';
+		buttons.style.setDown(false);
 		_.unbindEvent(document.body, 'mousedown', hideMenu);
 	};
 
