@@ -170,11 +170,24 @@ var SimpleEditorHtml = function(element, options) {
 	};
 
 	var triggerFunction = function(btn) {
+		var parseSel = function(input) { return input; };
+
+		if (btn.options.row_pre) {
+			parseSel = function(input) {
+				var rows = input.split("\n");
+				var newRows = [];
+				_.forEach(rows, function(row) {
+					newRows.push(btn.options.row_pre + row + btn.options.row_post);
+				});
+				return newRows.join('');
+			}
+		}
+
 		if (btn.options.tag_pre) {
-			insert(btn.options.tag_pre, btn.options.tag_post);
+			insert(btn.options.tag_pre, btn.options.tag_post, parseSel);
 		}
 		else {
-			insert('<' + btn.options.tag + '>', '</' + btn.options.tag + '>');
+			insert('<' + btn.options.tag + '>', '</' + btn.options.tag + '>', parseSel);
 		}
 	};
 
@@ -282,12 +295,12 @@ var SimpleEditorHtml = function(element, options) {
 	addButton(tb, {cls: 'icon-pastetext', onclick: addText});
 
 	var tb = addToolbar();
-	addButton(tb, {cls: 'icon-bulletedlist', tag_pre: '<ul>\n<li>', tag_post: '</li>\n</ul>', onclick: triggerFunction});
-	addButton(tb, {cls: 'icon-numberedlist', tag_pre: '<ol>\n<li>', tag_post: '</li>\n</ol>', onclick: triggerFunction});
+	addButton(tb, {cls: 'icon-bulletedlist', tag_pre: '<ul>\n', tag_post: '</ul>', row_pre: '<li>', row_post: '</li>\n', onclick: triggerFunction});
+	addButton(tb, {cls: 'icon-numberedlist', tag_pre: '<ol>\n', tag_post: '</ol>', row_pre: '<li>', row_post: '</li>\n', onclick: triggerFunction});
 
 	var tb = addToolbar();
 	addButton(tb, {cls: 'icon-link', onclick: addLink});
-	addButton(tb, {cls: 'icon-table', tag_pre: '<table>\n<tr><th>', tag_post: '</th><th></th></tr>\n<tr><td></td><td></td></tr>\n</table>', onclick: triggerFunction});
+	addButton(tb, {cls: 'icon-table', tag_pre: '<table>\n', tag_post: '</table>', row_pre: '<tr><td>', row_post: '</td><td></td><tr>\n', onclick: triggerFunction});
 	addButton(tb, {cls: 'icon-image', onclick: addImage});
 
 	addBreak(top);
