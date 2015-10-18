@@ -118,6 +118,7 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 
 .richedit_toolbar {
 	float: left;
+	position: relative;
 }
 
 .richedit_toolgroup {
@@ -268,12 +269,12 @@ $icons: (
 	clear: left;
 }
 
-.cke_combo {
+.richedit_combo {
 	display: inline-block;
 	float: left;
 }
 
-.cke_combo_label {
+.richedit_combo_label {
 	display: none;
 	float: left;
 	line-height: 26px;
@@ -281,7 +282,7 @@ $icons: (
 	margin-right: 5px;
 }
 
-a.cke_combo_button {
+a.richedit_combo_button {
 	cursor: default;
 	display: inline-block;
 	float: left;
@@ -322,4 +323,14 @@ a.cke_combo_button {
 	border-left: 4px solid transparent;
 	border-right: 4px solid transparent;
 	border-top: 4px solid $richedit-label-color;
+}
+
+.richedit_chrome ul.richedit_combo_menu {
+	background: red;
+	position: absolute;
+	left: 0;
+	top: 26px;
+	margin: 0;
+	padding: 0;
+
 }

@@ -504,6 +504,29 @@ var SimpleEditorHtml = function(element, options) {
 		return combo;
 	};
 
+	var addComboMenu = function(group) {
+		var comboMenu = document.createElement('UL');
+		comboMenu.className = 'richedit_combo_menu';
+		group.appendChild(comboMenu);
+		return comboMenu;
+	};
+
+	var addComboMenuItem = function(menu, options) {
+		var item = document.createElement('LI');
+		var link = document.createElement('A');
+		if (options.cls !== undefined) {
+			item.className = options.cls;
+		}
+		if (options.onclick !== undefined) {
+			link.onclick = options.onclick;
+		}
+		link.setAttribute('href', '#');
+		link.appendChild(document.createTextNode(options.label));
+		item.appendChild(link);
+		menu.appendChild(item);
+		return menu;
+	};
+
 	var tb = addToolbar();
 	addButton(tb, {cls: 'icon-source', toggle: true, down: true});
 	addButton(tb, {cls: 'icon-preview', toggle: true});
@@ -511,6 +534,8 @@ var SimpleEditorHtml = function(element, options) {
 	var tb = addToolbar();
 	var blocks = addCombo(tb);
 	addButton(tb, {label: 'Štýl', cls: 'dropdown', toggle: true});
+	var menu = addComboMenu(tb);
+	addComboMenuItem(menu, {label: 'Nadpis 1'})
 
 	var tb = addToolbar();
 	addButton(tb, {cls: 'icon-bold'});
