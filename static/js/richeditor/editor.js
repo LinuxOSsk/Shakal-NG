@@ -468,7 +468,7 @@ var SimpleEditorHtml = function(element, options) {
 				updateCls();
 			}
 		};
-		link.onmouseup = function() {
+		link.onmouseup = function(e) {
 			on = false;
 			if (options.toggle) {
 				down = !down;
@@ -482,6 +482,10 @@ var SimpleEditorHtml = function(element, options) {
 				}
 			}
 			updateCls();
+			if (options.cls !== 'dropdown') {
+				e.preventDefault();
+				element.focus();
+			}
 		};
 		link.onblur = function() {
 			if (options.onblur) {
