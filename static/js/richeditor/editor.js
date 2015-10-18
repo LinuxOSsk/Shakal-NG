@@ -458,7 +458,7 @@ var SimpleEditorHtml = function(element, options) {
 		}
 		updateCls();
 
-		link.onmousedown = function() {
+		link.onmousedown = function(e) {
 			if (down) {
 				on = false;
 				updateCls();
@@ -467,6 +467,7 @@ var SimpleEditorHtml = function(element, options) {
 				on = true;
 				updateCls();
 			}
+			e.stopPropagation();
 		};
 		link.onmouseup = function(e) {
 			on = false;
@@ -482,8 +483,8 @@ var SimpleEditorHtml = function(element, options) {
 				}
 			}
 			updateCls();
+			e.preventDefault();
 			if (options.cls !== 'dropdown') {
-				e.preventDefault();
 				element.focus();
 			}
 		};
@@ -573,8 +574,7 @@ var SimpleEditorHtml = function(element, options) {
 			else {
 				hideMenu();
 			}
-		},
-		onblur: hideMenu
+		}
 	});
 
 	var styleMenu = addComboMenu(tb);
