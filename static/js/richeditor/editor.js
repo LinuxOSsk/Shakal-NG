@@ -555,6 +555,18 @@ var SimpleEditorHtml = function(element, options) {
 		console.log(btn.options);
 	};
 
+	var addText = function(btn) {
+	};
+
+	var addLink = function(btn) {
+	};
+
+	var addTable = function(btn) {
+	};
+
+	var addImage = function(btn) {
+	};
+
 	var buttons = {};
 
 	var tb = addToolbar();
@@ -614,22 +626,22 @@ var SimpleEditorHtml = function(element, options) {
 	addButton(tb, {cls: 'icon-removeformat', onclick: triggerFunction}); // code
 
 	var tb = addToolbar();
-	addButton(tb, {cls: 'icon-superscript'});
-	addButton(tb, {cls: 'icon-subscript'});
+	addButton(tb, {cls: 'icon-superscript', onclick: triggerFunction});
+	addButton(tb, {cls: 'icon-subscript', onclick: triggerFunction});
 
 	var tb = addToolbar();
-	addButton(tb, {cls: 'icon-blockquote'});
-	addButton(tb, {cls: 'icon-templates'}); // pre
-	addButton(tb, {cls: 'icon-pastetext'});
+	addButton(tb, {cls: 'icon-blockquote', onclick: triggerFunction});
+	addButton(tb, {cls: 'icon-templates', onclick: addText}); // pre
+	addButton(tb, {cls: 'icon-pastetext', onclick: addText});
 
 	var tb = addToolbar();
-	addButton(tb, {cls: 'icon-bulletedlist'});
-	addButton(tb, {cls: 'icon-numberedlist'});
+	addButton(tb, {cls: 'icon-bulletedlist', onclick: triggerFunction});
+	addButton(tb, {cls: 'icon-numberedlist', onclick: triggerFunction});
 
 	var tb = addToolbar();
-	addButton(tb, {cls: 'icon-link'});
-	addButton(tb, {cls: 'icon-table'});
-	addButton(tb, {cls: 'icon-image'});
+	addButton(tb, {cls: 'icon-link', onclick: addLink});
+	addButton(tb, {cls: 'icon-table', onclick: addTable});
+	addButton(tb, {cls: 'icon-image', onclick: addImage});
 
 	addBreak(top);
 	addBreak(contents);
