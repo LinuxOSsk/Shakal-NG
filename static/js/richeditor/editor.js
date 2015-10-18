@@ -625,11 +625,12 @@ var SimpleEditorHtml = function(element, options) {
 		_.unbindEvent(document.body, 'mousedown', hideMenu);
 	};
 
-	var insert = function(pre, post) {
+	var insert = function(pre, post, parseSel) {
+		var parseSel = parseSel || function(input) { return input; };
 		element.focus();
 		if (document.selection) {
 			var sel = document.selection.createRange();
-			sel.text = pre + sel.text + post;
+			sel.text = pre + parseSel(sel.text) + post;
 			sel.moveEnd('character', -pre.length);
 			sel.select();
 		}
@@ -638,12 +639,12 @@ var SimpleEditorHtml = function(element, options) {
 				var start = element.selectionStart;
 				var end = element.selectionEnd;
 				var selection = element.value.substring(start,end);
-				element.value = element.value.substring(0, start) + pre + selection + post + element.value.substring(end, element.value.length);
+				element.value = element.value.substring(0, start) + pre + parseSel(selection) + post + element.value.substring(end, element.value.length);
 				element.setSelectionRange(start + pre.length, start + pre.length);
 			}
 			else {
 				element.focus();
-				element.value = element.value + pre + post;
+				element.value = element.value + pre + parseSel('') + post;
 			}
 		}
 	};
