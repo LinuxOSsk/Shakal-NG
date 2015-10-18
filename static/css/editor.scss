@@ -282,49 +282,6 @@ $icons: (
 	margin-right: 5px;
 }
 
-a.richedit_combo_button {
-	cursor: default;
-	display: inline-block;
-	float: left;
-	margin: 0 6px 5px 0;
-
-	border: 1px solid #a6a6a6;
-	border-bottom-color: #979797;
-
-	border-radius: 3px;
-
-	box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 0 2px rgba(255,255,255,.15) inset, 0 1px 0 rgba(255,255,255,.15) inset;
-
-	background: #e4e4e4;
-	background-image: linear-gradient(to bottom, #ffffff, #e4e4e4);
-	filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#ffffff', endColorstr='#e4e4e4');
-}
-
-.richedit_combo_open {
-	cursor: default;
-	display: inline-block;
-	font-size: 0;
-	height: 19px;
-	line-height: 17px;
-	margin: 1px 7px 1px;
-	width: 5px;
-	float: right;
-}
-
-.richedit_combo_arrow {
-	cursor: default;
-	margin: 7px 0 0;
-	float: left;
-
-	/* Pure CSS Arrow */
-	height: 0;
-	width: 0;
-	font-size: 0;
-	border-left: 4px solid transparent;
-	border-right: 4px solid transparent;
-	border-top: 4px solid $richedit-label-color;
-}
-
 .richedit_chrome ul.richedit_combo_menu {
 	background: red;
 	position: absolute;
@@ -332,5 +289,4 @@ a.richedit_combo_button {
 	top: 26px;
 	margin: 0;
 	padding: 0;
-
 }
