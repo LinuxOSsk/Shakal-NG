@@ -520,6 +520,10 @@ var SimpleEditorHtml = function(element, options) {
 		var link = document.createElement('A');
 		if (options.cls !== undefined) {
 			item.className = options.cls;
+			link.className = 'richedit_combo_menu_link ' + options.cls;
+		}
+		else {
+			link.className = 'richedit_combo_menu_link';
 		}
 		if (options.onclick !== undefined) {
 			link.onclick = options.onclick;

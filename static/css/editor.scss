@@ -142,6 +142,10 @@ a.richedit_button {
 	cursor: default;
 	float: left;
 	border: 0;
+	border-radius: 0;
+	&:hover {
+		border-radius: 0;
+	}
 	&:last-child {
 		border-radius: 0 2px 2px 0;
 	}
@@ -282,10 +286,29 @@ $icons: (
 }
 
 .richedit_chrome ul.richedit_combo_menu {
-	background: red;
 	position: absolute;
 	left: 0;
-	top: 28px;
+	top: 27px;
 	margin: 0;
-	padding: 0;
+	padding: 4px;
+	background: white;
+	min-width: 124px;
+	border: $richedit-toolgroup-border;
+
+	li {
+		padding: 0;
+		margin: 0;
+	}
+}
+
+.richedit_combo_menu_link {
+	display: block;
+	padding: 4px;
+	color: #333;
+	text-decoration: none;
+	&:hover {
+		border-radius: 3px;
+		background: #333;
+		color: #fff;
+	}
 }
