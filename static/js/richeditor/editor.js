@@ -541,16 +541,37 @@ var SimpleEditorHtml = function(element, options) {
 
 	var tb = addToolbar();
 	var blocks = addCombo(tb);
-	addButton(tb, {label: 'Štýl', cls: 'dropdown', toggle: true});
-	var menu = addComboMenu(tb);
-	addComboMenuItem(menu, {label: 'Nadpis 1', cls: 'h1'})
-	addComboMenuItem(menu, {label: 'Nadpis 2', cls: 'h2'})
-	addComboMenuItem(menu, {label: 'Nadpis 3', cls: 'h3'})
-	addComboMenuItem(menu, {label: 'Nadpis 4', cls: 'h4'})
-	addComboMenuItem(menu, {label: 'Nadpis 5', cls: 'h5'})
-	addComboMenuItem(menu, {label: 'Nadpis 6', cls: 'h6'})
-	addComboMenuItem(menu, {label: 'Odstavec', cls: 'p'})
-	addComboMenuItem(menu, {label: 'Citácia', cls: 'blockquote'})
+	addButton(tb, {
+		label: 'Štýl',
+		cls: 'dropdown',
+		toggle: true,
+		ontoggle: function(self, status) {
+			if (status) {
+				showMenu();
+			}
+			else {
+				hideMenu();
+			}
+		}
+	});
+
+	var styleMenu = addComboMenu(tb);
+	addComboMenuItem(styleMenu, {label: 'Nadpis 1', cls: 'h1'})
+	addComboMenuItem(styleMenu, {label: 'Nadpis 2', cls: 'h2'})
+	addComboMenuItem(styleMenu, {label: 'Nadpis 3', cls: 'h3'})
+	addComboMenuItem(styleMenu, {label: 'Nadpis 4', cls: 'h4'})
+	addComboMenuItem(styleMenu, {label: 'Nadpis 5', cls: 'h5'})
+	addComboMenuItem(styleMenu, {label: 'Nadpis 6', cls: 'h6'})
+	addComboMenuItem(styleMenu, {label: 'Odstavec', cls: 'p'})
+	addComboMenuItem(styleMenu, {label: 'Citácia', cls: 'blockquote'})
+
+	var showMenu = function() {
+		styleMenu.style.display = 'block';
+	};
+
+	var hideMenu = function() {
+		styleMenu.style.display = 'none';
+	};
 
 	var tb = addToolbar();
 	addButton(tb, {cls: 'icon-bold'});
