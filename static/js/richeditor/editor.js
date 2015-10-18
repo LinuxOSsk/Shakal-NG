@@ -497,6 +497,10 @@ var SimpleEditorHtml = function(element, options) {
 		group.appendChild(_.createDiv('richedit_toolbar_separator'));
 	};
 
+	var addBreak = function(toolbar) {
+		toolbar.appendChild(_.createDiv('richedit_toolbar_break'));
+	};
+
 	var addCombo = function(group) {
 		var combo = document.createElement('SPAN');
 		combo.className = 'richedit_combo';
@@ -562,6 +566,10 @@ var SimpleEditorHtml = function(element, options) {
 	addButton(tb, {cls: 'icon-link'});
 	addButton(tb, {cls: 'icon-table'});
 	addButton(tb, {cls: 'icon-image'});
+
+	addBreak(top);
+	addBreak(contents);
+	addBreak(bottom);
 
 	element.parentNode.insertBefore(chrome, element);
 	contents.appendChild(element);

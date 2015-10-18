@@ -82,7 +82,6 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 .richedit_contents,
 .richedit_bottom {
 	display: block;
-	overflow: hidden;
 }
 
 .richedit_top {
@@ -286,7 +285,7 @@ $icons: (
 	background: red;
 	position: absolute;
 	left: 0;
-	top: 26px;
+	top: 28px;
 	margin: 0;
 	padding: 0;
 }
