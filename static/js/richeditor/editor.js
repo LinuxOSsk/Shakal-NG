@@ -431,6 +431,7 @@ var SimpleEditorHtml = function(element, options) {
 		}
 
 		var link = document.createElement('A');
+		link.setAttribute('href', '#');
 
 		if (options.title !== undefined) {
 			link.setAttribute('title', options.title);
