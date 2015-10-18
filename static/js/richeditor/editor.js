@@ -534,6 +534,7 @@ var SimpleEditorHtml = function(element, options) {
 	var addComboMenuItem = function(menu, options) {
 		var item = document.createElement('LI');
 		var link = document.createElement('A');
+		var btn = {options: options, link: link};
 		if (options.cls !== undefined) {
 			item.className = options.cls;
 			link.className = 'richedit_combo_menu_link ' + options.cls;
@@ -542,7 +543,9 @@ var SimpleEditorHtml = function(element, options) {
 			link.className = 'richedit_combo_menu_link';
 		}
 		if (options.onclick !== undefined) {
-			link.onclick = options.onclick;
+			link.onmousedown = function() {
+				options.onclick(btn);
+			}
 		}
 		link.setAttribute('href', '#');
 		link.appendChild(document.createTextNode(options.label));
