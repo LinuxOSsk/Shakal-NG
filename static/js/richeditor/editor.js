@@ -557,6 +557,7 @@ var SimpleEditorHtml = function(element, options) {
 	});
 
 	var styleMenu = addComboMenu(tb);
+	styleMenu.style.display = 'none';
 	addComboMenuItem(styleMenu, {label: 'Nadpis 1', cls: 'h1'})
 	addComboMenuItem(styleMenu, {label: 'Nadpis 2', cls: 'h2'})
 	addComboMenuItem(styleMenu, {label: 'Nadpis 3', cls: 'h3'})
@@ -567,10 +568,16 @@ var SimpleEditorHtml = function(element, options) {
 	addComboMenuItem(styleMenu, {label: 'Citácia', cls: 'blockquote'})
 
 	var showMenu = function() {
+		if (styleMenu.style.display === 'block') {
+			return;
+		}
 		styleMenu.style.display = 'block';
 	};
 
 	var hideMenu = function() {
+		if (styleMenu.style.display === 'none') {
+			return;
+		}
 		styleMenu.style.display = 'none';
 	};
 
