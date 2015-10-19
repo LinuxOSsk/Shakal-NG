@@ -235,6 +235,7 @@ var SimpleEditorHtml = function(element, options) {
 	addComboMenuItem(styleMenu, {label: 'Nadpis 6', cls: 'h6', tag: 'h6', onclick: triggerFunction})
 	addComboMenuItem(styleMenu, {label: 'Odstavec', cls: 'p', tag: 'p', onclick: triggerFunction})
 	addComboMenuItem(styleMenu, {label: 'Citácia', cls: 'blockquote', tag: 'blockquote', onclick: triggerFunction})
+	addComboMenuItem(styleMenu, {label: 'Kód', cls: 'pre', tag: 'pre', onclick: triggerFunction})
 
 	var showMenu = function() {
 		if (styleMenu.style.display === 'block') {
@@ -291,7 +292,6 @@ var SimpleEditorHtml = function(element, options) {
 
 	var tb = addToolbar();
 	addButton(tb, {cls: 'icon-blockquote', tag: 'blockquote', onclick: triggerFunction});
-	addButton(tb, {cls: 'icon-templates', onclick: addText}); // pre
 	addButton(tb, {cls: 'icon-pastetext', onclick: addText});
 
 	var tb = addToolbar();
