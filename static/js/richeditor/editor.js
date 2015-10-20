@@ -7,12 +7,16 @@ var SimpleEditorHtml = function(element, options) {
 	var contents = _.createDiv('richedit_contents');
 	var bottom = _.createDiv('richedit_bottom');
 	var toolbox = _.createDiv('richedit_toolbox');
+	var modal = _.createDiv('richedit_modal');
+	var modalContent = _.createDiv('richedit_modal_content');
 
 	chrome.appendChild(inner);
 	inner.appendChild(top);
 	inner.appendChild(contents);
 	inner.appendChild(bottom);
 	top.appendChild(toolbox);
+	modal.appendChild(modalContent);
+	contents.appendChild(modal);
 
 	bottom.style.display = 'none';
 
@@ -191,7 +195,13 @@ var SimpleEditorHtml = function(element, options) {
 		}
 	};
 
+	var addModal = function() {
+		modal.className = 'richedit_modal visible';
+		modalContent.innerHTML = 'text';
+	};
+
 	var addText = function(btn) {
+		addModal();
 	};
 
 	var addLink = function(btn) {
