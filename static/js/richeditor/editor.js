@@ -215,6 +215,7 @@ var SimpleEditorHtml = function(element, options) {
 	var addText = function(btn) {
 		var htmlTemplate = '\
 			<h1>Vložiť text</h1>\
+			<div class="form-row"><textarea></textarea></div>\
 		'
 		addModal(htmlTemplate);
 	};

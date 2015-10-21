@@ -121,21 +121,37 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 	font-weight: normal;
 	color: #222;
 
+	.form-row {
+		display: block;
+		margin: 0 0 10px 0;
+		padding: 0;
+		clear: both;
+
+		textarea {
+			width: 100%;
+			height: 300px;
+			border: 1px solid #eee;
+			color: black;
+			background: white;
+		}
+	}
+
 	h1 {
 		color: #444;
 		font-weight: 300;
 		font-size: 20px;
-		margin: 5px 0;
+		margin: 5px 0 10px 0;
 		padding: 5px 0;
 		border-bottom: 1px solid #ddd;
 	}
+
 }
 
 .richedit_modal_close {
 	position: absolute;
 	color: #888;
-	top: 8px;
-	right: 26px;
+	top: 16px;
+	right: 30px;
 	z-index: 3;
 	text-decoration: none;
 	cursor: pointer;
