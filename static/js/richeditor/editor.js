@@ -8,13 +8,20 @@ var SimpleEditorHtml = function(element, options) {
 	var bottom = _.createDiv('richedit_bottom');
 	var toolbox = _.createDiv('richedit_toolbox');
 	var modal = _.createDiv('richedit_modal');
+	var modalClose = document.createElement('A');
 	var modalContent = _.createDiv('richedit_modal_content');
+
+	modalClose.innerHTML = 'x';
+	modalClose.className = 'richedit_modal_close';
+	modalClose.setAttribute('href', '#');
+	modalClose.onclick = function() { removeModal(); return false; }
 
 	chrome.appendChild(inner);
 	inner.appendChild(top);
 	inner.appendChild(contents);
 	inner.appendChild(bottom);
 	top.appendChild(toolbox);
+	modal.appendChild(modalClose);
 	modal.appendChild(modalContent);
 	contents.appendChild(modal);
 
@@ -198,6 +205,11 @@ var SimpleEditorHtml = function(element, options) {
 	var addModal = function() {
 		modal.className = 'richedit_modal visible';
 		modalContent.innerHTML = 'text';
+	};
+
+	var removeModal = function() {
+		modal.className = 'richedit_modal';
+		modalContent.innerHTML = '';
 	};
 
 	var addText = function(btn) {

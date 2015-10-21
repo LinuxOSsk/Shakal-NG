@@ -117,6 +117,21 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 	color: black;
 }
 
+.richedit_modal_close {
+	position: absolute;
+	color: #888;
+	top: 8px;
+	right: 26px;
+	z-index: 3;
+	text-decoration: none;
+	cursor: pointer;
+	padding: 0 5px;
+	&:hover {
+		background: none;
+		color: #444;
+	}
+}
+
 .richedit_top {
 	@if $richedit-top-border {
 		border: $richedit-top-border;
