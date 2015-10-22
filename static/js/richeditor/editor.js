@@ -202,9 +202,9 @@ var SimpleEditorHtml = function(element, options) {
 		}
 	};
 
-	var addModal = function(html) {
+	var addModal = function(options) {
 		modal.className = 'richedit_modal visible';
-		modalContent.innerHTML = html;
+		modalContent.innerHTML = options.template;
 	};
 
 	var removeModal = function() {
@@ -213,11 +213,12 @@ var SimpleEditorHtml = function(element, options) {
 	};
 
 	var addText = function(btn) {
-		var htmlTemplate = '\
-			<h1>Vložiť text</h1>\
-			<div class="form-row"><textarea></textarea></div>\
-		'
-		addModal(htmlTemplate);
+		var options = {
+			template: '\
+				<h1>Vložiť text</h1>\
+				<div class="form-row"><textarea></textarea></div>'
+		}
+		addModal(options);
 	};
 
 	var addLink = function(btn) {

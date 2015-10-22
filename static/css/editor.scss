@@ -126,6 +126,7 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 		margin: 0 0 10px 0;
 		padding: 0;
 		clear: both;
+		border: none;
 
 		textarea {
 			width: 100%;
@@ -133,6 +134,9 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 			border: 1px solid #eee;
 			color: black;
 			background: white;
+			&:focus {
+				border: 1px solid #dde;
+			}
 		}
 	}
 
