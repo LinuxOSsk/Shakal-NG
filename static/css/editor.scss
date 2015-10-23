@@ -100,10 +100,10 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 	right: -1px;
 	bottom: -1px;
 	display: none;
+}
 
-	&.visible {
-		display: block;
-	}
+.richedit_chrome.has_modal .richedit_modal {
+	display: block;
 }
 
 .richedit_modal_content {
@@ -173,11 +173,27 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 	@if $richedit-top-border-bottom {
 		border-bottom: $richedit-top-border-bottom;
 	}
+	position: relative;
 	padding: 6px 8px 2px;
 	white-space: normal;
 	box-shadow: $richedit-top-box-shadow;
 	background: $richedit-top-background-d;
 	background-image: linear-gradient(to bottom, $richedit-top-background-u, $richedit-top-background-d);
+}
+
+.richedit_top_overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 1;
+	background: rgba(255, 255, 255, 0.3);
+	display: none;
+}
+
+.richedit_chrome.has_modal .richedit_top_overlay {
+	display: block;
 }
 
 .richedit_bottom {
