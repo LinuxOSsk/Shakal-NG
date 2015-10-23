@@ -218,7 +218,11 @@ var SimpleEditorHtml = function(element, options) {
 		var options = {
 			template: '\
 				<h1>Vložiť text</h1>\
-				<div class="form-row"><textarea></textarea></div>'
+				<div class="form-row">\
+					<label><input name="richedit_insert_text_type" type="radio" checked="checked" /> Odstavec</label>&nbsp;&nbsp;&nbsp;&nbsp;\
+					<label><input name="richedit_insert_text_type" type="radio" /> Kód</label>\
+				</div>\
+				<div class="form-row"><textarea placeholder="Sem vložte text"></textarea></div>'
 		}
 		addModal(options);
 	};
