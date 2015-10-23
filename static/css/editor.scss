@@ -171,11 +171,35 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 	right: 30px;
 	z-index: 3;
 	text-decoration: none;
-	cursor: pointer;
 	padding: 0 5px;
+	display: block;
 	&:hover {
 		background: none;
 		color: #444;
+	}
+}
+
+.richedit_modal_submit {
+	display: block;
+	position: absolute;
+	border: 1px solid #52a452;
+	padding: 6px 10px;
+	border-radius: 3px;
+	color: white;
+	top: 12px;
+	right: 60px;
+	z-index: 3;
+	text-decoration: none;
+	font-size: 11px;
+	font-weight: bold;
+
+	background: #51a351;
+	background-image: linear-gradient(to bottom, #61c261, #51a351);
+
+	&:hover {
+		color: white;
+		background: #489948;
+		background-image: linear-gradient(to bottom, #51a351, #489948);
 	}
 }
 

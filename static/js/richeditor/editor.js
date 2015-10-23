@@ -10,12 +10,18 @@ var SimpleEditorHtml = function(element, options) {
 	var toolbox = _.createDiv('richedit_toolbox');
 	var modal = _.createDiv('richedit_modal');
 	var modalClose = document.createElement('A');
+	var modalSubmit = document.createElement('A');
 	var modalContent = _.createDiv('richedit_modal_content');
 
 	modalClose.innerHTML = 'x';
 	modalClose.className = 'richedit_modal_close';
 	modalClose.setAttribute('href', '#');
 	modalClose.onclick = function() { removeModal(); return false; }
+
+	modalSubmit.innerHTML = 'VLOŽIŤ';
+	modalSubmit.className = 'richedit_modal_submit';
+	modalSubmit.setAttribute('href', '#');
+	modalSubmit.onclick = function() { removeModal(); return false; }
 
 	chrome.appendChild(inner);
 	inner.appendChild(top);
@@ -24,6 +30,7 @@ var SimpleEditorHtml = function(element, options) {
 	top.appendChild(topOverlay);
 	top.appendChild(toolbox);
 	modal.appendChild(modalClose);
+	modal.appendChild(modalSubmit);
 	modal.appendChild(modalContent);
 	contents.appendChild(modal);
 
