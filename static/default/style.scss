@@ -268,7 +268,7 @@ blockquote {
 	}
 }
 
-textarea { width: 30em; height: 10em; @include input(); }
+textarea { width: 30em; height: 20em; @include input(); }
 textarea.wymeditor { width: auto; height: 15em; display: block; clear: both; }
 .textareawrapper {
 	clear: both;
