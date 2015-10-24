@@ -265,9 +265,9 @@ var SimpleEditorHtml = function(element, options) {
 				</div>\
 				<div class="form-row"><textarea placeholder="Sem vložte text"></textarea></div>',
 			onSubmitted: function() {
-				var element = paragraphInput.checked ? 'p' : 'pre';
+				var tag = paragraphInput.checked ? 'p' : 'pre';
 				var content = textInput.value;
-				console.log(element, content);
+				insert('<' + tag + '>' + _.escapeHTML(content) + '</' + tag + '>\n', '');
 			}
 		};
 		addModal(options);
@@ -277,6 +277,28 @@ var SimpleEditorHtml = function(element, options) {
 	};
 
 	var addLink = function(btn) {
+		var options = {
+			template: '\
+				<h1>Pridať odkaz</h1>\
+				<div class="form-row horizontal">\
+					<div class="formrow-label"><label>URL</label></div>\
+					<div class="formrow-input"><input type="text" placeholder="http://www.adresa.sk/" /></div>\
+				</div>\
+				<div class="form-row horizontal">\
+					<div class="formrow-label"><label>Text</label></div>\
+					<div class="formrow-input"><input type="text" placeholder="Text odkazu" /></div>\
+				</div>',
+			onSubmitted: function() {
+				var url = urlInput.value;
+				var text = textInput.value;
+				insert('<a href="' + _.escapeHTMLAttr(url) + '">' + text, '</a>');
+			}
+		};
+		addModal(options);
+
+		var inputs = modalContent.getElementsByTagName('INPUT');
+		var urlInput = inputs[0];
+		var textInput = inputs[1];
 	};
 
 	var addTable = function(btn) {

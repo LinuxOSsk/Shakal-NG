@@ -419,6 +419,12 @@ var escapeHTML = function(text) {
 		.replace(/>/g, "&gt;");
 };
 
+var escapeHTMLAttr = function(text) {
+	return escapeHTML(text)
+		.replace(/"/g, "&quot;")
+		.replace(/'/g, "&#039;");
+};
+
 window._utils.insertAfter = insertAfter;
 window._utils.onLoad = onLoad;
 window._utils.triggerLoad = triggerLoad;
@@ -431,6 +437,7 @@ window._utils.cls = getElementsByClassName;
 window._utils.id = byId;
 window._utils.createDiv = createDiv;
 window._utils.escapeHTML = escapeHTML;
+window._utils.escapeHTMLAttr = escapeHTMLAttr;
 
 var loaderJs = (function () {
 	var head = document.getElementsByTagName('head')[0];
