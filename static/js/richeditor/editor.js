@@ -626,7 +626,7 @@ var RichEditor = function(element, options) {
 
 	var editor = _.getCookie(o.namespace + '_richeditor');
 	if (editors[editor] === undefined) {
-		editor = 'ckeditor_html';
+		editor = 'simple_html';
 	}
 	this.selectEditor(editor);
 };
