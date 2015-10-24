@@ -243,7 +243,12 @@ var SimpleEditorHtml = function(element, options) {
 					<label><input name="richedit_insert_text_type" type="radio" checked="checked" /> Odstavec</label>&nbsp;&nbsp;&nbsp;&nbsp;\
 					<label><input name="richedit_insert_text_type" type="radio" /> Kód</label>\
 				</div>\
-				<div class="form-row"><textarea placeholder="Sem vložte text"></textarea></div>'
+				<div class="form-row"><textarea placeholder="Sem vložte text"></textarea></div>',
+			onSubmitted: function() {
+				var element = paragraphInput.checked ? 'p' : 'pre';
+				var content = textInput.value;
+				console.log(element, content);
+			}
 		};
 		addModal(options);
 
