@@ -1,6 +1,8 @@
 (function (_) {
 
 var SimpleEditorHtml = function(element, options) {
+	var hasModal = false;
+
 	var chrome = _.createDiv('richedit_chrome');
 	var inner = _.createDiv('richedit_inner');
 	var top = _.createDiv('richedit_top');
@@ -37,6 +39,14 @@ var SimpleEditorHtml = function(element, options) {
 	contents.appendChild(modal);
 
 	bottom.style.display = 'none';
+
+	var updateChromeClass = function() {
+		var cls = 'richedit_chrome';
+		if (hasModal) {
+			cls += ' has_modal';
+		}
+		chrome.className = cls;
+	};
 
 	var updatePreviewCss = function() {
 		var inlineCss = document.createElement('STYLE');
@@ -221,7 +231,8 @@ var SimpleEditorHtml = function(element, options) {
 		else {
 			modalSubmit.style.display = 'block';
 		}
-		chrome.className = 'richedit_chrome has_modal';
+		hasModal = true;
+		updateChromeClass();
 		modalContent.innerHTML = options.template;
 		modalContent.scrollTop = 0;
 		modalClose.onclick = function(event) {
@@ -242,7 +253,8 @@ var SimpleEditorHtml = function(element, options) {
 	};
 
 	var removeModal = function() {
-		chrome.className = 'richedit_chrome';
+		hasModal = false;
+		updateChromeClass();
 		modalContent.innerHTML = '';
 		modalClose.onclick = undefined;
 		modalSubmit.onclick = undefined;
@@ -264,7 +276,7 @@ var SimpleEditorHtml = function(element, options) {
 			'
 		};
 		addModal(options);
-	}
+	};
 
 	var addText = function(btn) {
 		var options = {
