@@ -16,12 +16,10 @@ var SimpleEditorHtml = function(element, options) {
 	modalClose.innerHTML = 'x';
 	modalClose.className = 'richedit_modal_close';
 	modalClose.setAttribute('href', '#');
-	modalClose.onclick = function() { removeModal(); return false; }
 
 	modalSubmit.innerHTML = 'VLOŽIŤ';
 	modalSubmit.className = 'richedit_modal_submit';
 	modalSubmit.setAttribute('href', '#');
-	modalSubmit.onclick = function() { removeModal(); return false; }
 
 	chrome.appendChild(inner);
 	inner.appendChild(top);
@@ -214,11 +212,27 @@ var SimpleEditorHtml = function(element, options) {
 	var addModal = function(options) {
 		chrome.className = 'richedit_chrome has_modal';
 		modalContent.innerHTML = options.template;
+		modalClose.onclick = function() {
+			if (options.onClosed && options.onClosed()) {
+				return;
+			}
+			removeModal();
+			return false;
+		}
+		modalSubmit.onclick = function() {
+			if (options.onSubmitted && options.onSubmitted()) {
+				return;
+			}
+			removeModal();
+			return false;
+		}
 	};
 
 	var removeModal = function() {
 		chrome.className = 'richedit_chrome';
 		modalContent.innerHTML = '';
+		modalClose.onclick = undefined;
+		modalSubmit.onclick = undefined;
 	};
 
 	var addText = function(btn) {
@@ -230,8 +244,11 @@ var SimpleEditorHtml = function(element, options) {
 					<label><input name="richedit_insert_text_type" type="radio" /> Kód</label>\
 				</div>\
 				<div class="form-row"><textarea placeholder="Sem vložte text"></textarea></div>'
-		}
+		};
 		addModal(options);
+
+		var paragraphInput = modalContent.getElementsByTagName('INPUT')[0];
+		var textInput = modalContent.getElementsByTagName('TEXTAREA')[0];
 	};
 
 	var addLink = function(btn) {
