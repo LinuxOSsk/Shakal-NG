@@ -13,6 +13,7 @@ var SimpleEditorHtml = function(element, options) {
 	var modalSubmit = document.createElement('A');
 	var modalContent = _.createDiv('richedit_modal_content');
 	var preview = document.createElement('IFRAME');
+	preview.onload = function() { updatePreviewCss(); };
 	preview.setAttribute('src', options.static_base + 'js/richeditor/iframe.html');
 
 	modalClose.innerHTML = 'x';
@@ -35,9 +36,14 @@ var SimpleEditorHtml = function(element, options) {
 	contents.appendChild(preview);
 	contents.appendChild(modal);
 
-	//console.log(options.tags.unsupported.join(', ') + '{ background-color: #ff9999 !important; border: 1px solid red !important; }');
-
 	bottom.style.display = 'none';
+
+	var updatePreviewCss = function() {
+		var inlineCss = document.createElement('STYLE');
+		inlineCss.setAttribute('type', 'text/css');
+		inlineCss.innerHTML = options.tags.unsupported.join(', ') + '{ background-color: #ff9999 !important; border: 1px solid red !important; }';
+		preview.contentDocument.head.appendChild(inlineCss);
+	};
 
 	var addToolbar = function(group) {
 		var toolbar = _.createDiv('richedit_toolbar');
