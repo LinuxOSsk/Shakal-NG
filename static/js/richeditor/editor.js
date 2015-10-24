@@ -12,6 +12,8 @@ var SimpleEditorHtml = function(element, options) {
 	var modalClose = document.createElement('A');
 	var modalSubmit = document.createElement('A');
 	var modalContent = _.createDiv('richedit_modal_content');
+	var preview = document.createElement('IFRAME');
+	preview.setAttribute('src', options.static_base + 'js/richeditor/iframe.html');
 
 	modalClose.innerHTML = 'x';
 	modalClose.className = 'richedit_modal_close';
@@ -30,7 +32,10 @@ var SimpleEditorHtml = function(element, options) {
 	modal.appendChild(modalClose);
 	modal.appendChild(modalSubmit);
 	modal.appendChild(modalContent);
+	contents.appendChild(preview);
 	contents.appendChild(modal);
+
+	//console.log(options.tags.unsupported.join(', ') + '{ background-color: #ff9999 !important; border: 1px solid red !important; }');
 
 	bottom.style.display = 'none';
 
