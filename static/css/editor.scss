@@ -121,6 +121,13 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 	font-weight: normal;
 	color: #222;
 
+	p {
+		color: #444;
+		font-size: 15px;
+		padding: 0;
+		margin: 0 0 5px 0;
+	}
+
 	.form-row {
 		display: block;
 		margin: 0 0 10px 0;
@@ -153,15 +160,42 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 		}
 	}
 
-	h1 {
+	hr {
+		display: block;
+		border: none;
+		height: 1px;
+		margin: 5px 0;
+		padding: 0;
+		background: #ddd;
+	}
+
+	h1, h2 {
 		color: #444;
 		font-weight: 300;
+		background: none;
+		text-shadow: none;
+	}
+
+	h1 {
 		font-size: 20px;
 		margin: 5px 0 10px 0;
 		padding: 5px 0;
 		border-bottom: 1px solid #ddd;
 	}
 
+	h2 {
+		font-size: 17px;
+		margin: 5px 0 5px 0;
+		padding: 0;
+	}
+}
+
+.richedit_key_shortcut {
+	color: #222;
+	background: #eee;
+	border: 1px solid #ddd;
+	padding: 0 2px;
+	border-radius: 2px;
 }
 
 .richedit_modal_close {

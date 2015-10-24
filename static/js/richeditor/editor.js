@@ -204,6 +204,12 @@ var SimpleEditorHtml = function(element, options) {
 	};
 
 	var addModal = function(options) {
+		if (options.onSubmitted === undefined) {
+			modalSubmit.style.display = 'none';
+		}
+		else {
+			modalSubmit.style.display = 'block';
+		}
 		chrome.className = 'richedit_chrome has_modal';
 		modalContent.innerHTML = options.template;
 		modalClose.onclick = function() {
@@ -228,6 +234,18 @@ var SimpleEditorHtml = function(element, options) {
 		modalClose.onclick = undefined;
 		modalSubmit.onclick = undefined;
 	};
+
+	var aboutEditor = function(btn) {
+		var options = {
+			template: '\
+				<h1>O tomto editore</h1>\
+				<p>Tento editor používa časti <a href="http://ckeditor.com/about/license">open source</a> editoru <a href="http://ckeditor.com/">CKEditor</a>.</p>\
+				<h2>Klávesové skratky</h2>\
+				<p><span class="richedit_key_shortcut">Shift + Enter</span> - nový riadok</p>\
+			'
+		};
+		addModal(options);
+	}
 
 	var addText = function(btn) {
 		var options = {
@@ -395,6 +413,9 @@ var SimpleEditorHtml = function(element, options) {
 	addButton(tb, {cls: 'icon-link', onclick: addLink});
 	addButton(tb, {cls: 'icon-table', tag_pre: '<table>\n', tag_post: '</table>', parse: formatTableContent, onclick: triggerFunction});
 	addButton(tb, {cls: 'icon-image', onclick: addImage});
+
+	var tb = addToolbar();
+	addButton(tb, {cls: 'icon-about', onclick: aboutEditor});
 
 	addBreak(top);
 	addBreak(contents);
