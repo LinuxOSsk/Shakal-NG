@@ -120,7 +120,7 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 	font-size: 16px;
 	font-weight: normal;
 	color: #222;
-	max-height: 272px;
+	max-height: 282px;
 	overflow-y: auto;
 
 	p {
@@ -312,13 +312,17 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 }
 
 .richedit_contents {
+	.richedit_contents_edit {
+		display: none;
+		padding: 5px;
+	}
+
 	textarea {
 		border: 0px none transparent;
 		outline: none;
 		margin: 0;
 		padding: 0;
 		height: 300px;
-		display: none;
 	}
 
 	iframe {
@@ -339,13 +343,13 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 }
 
 .richedit_chrome.has_code .richedit_contents {
-	textarea {
+	.richedit_contents_edit {
 		display: block;
 	}
 }
 
 .richedit_chrome.has_code.has_preview .richedit_contents {
-	textarea {
+	.richedit_contents_edit {
 		border-top: 1px solid #eee;
 		display: block;
 	}

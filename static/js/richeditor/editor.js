@@ -2,7 +2,7 @@
 
 var SimpleEditorHtml = function(element, options) {
 	var hasModal = false;
-	var hasPreview = true;
+	var hasPreview = false;
 	var hasCode = true;
 
 	var chrome = _.createDiv('richedit_chrome');
@@ -10,6 +10,7 @@ var SimpleEditorHtml = function(element, options) {
 	var top = _.createDiv('richedit_top');
 	var topOverlay = _.createDiv('richedit_top_overlay');
 	var contents = _.createDiv('richedit_contents');
+	var contentsEdit = _.createDiv('richedit_contents_edit');
 	var bottom = _.createDiv('richedit_bottom');
 	var toolbox = _.createDiv('richedit_toolbox');
 	var modal = _.createDiv('richedit_modal');
@@ -39,6 +40,7 @@ var SimpleEditorHtml = function(element, options) {
 	modal.appendChild(modalContent);
 	contents.appendChild(preview);
 	contents.appendChild(modal);
+	contents.appendChild(contentsEdit);
 
 	bottom.style.display = 'none';
 
@@ -503,7 +505,7 @@ var SimpleEditorHtml = function(element, options) {
 	addBreak(bottom);
 
 	element.parentNode.insertBefore(chrome, element);
-	contents.appendChild(element);
+	contentsEdit.appendChild(element);
 
 	element.onkeyup = function(event) {
 		if (event.keyCode === 13) { // enter
