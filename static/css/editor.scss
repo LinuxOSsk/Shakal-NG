@@ -194,6 +194,7 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 	pre {
 		color: #222;
 		background: #eee;
+		background: rgba(0, 0, 0, 0.0625);
 		border: 1px solid #ddd;
 		padding: 5px;
 		margin: 0 0 5px 0;
@@ -204,6 +205,7 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 .richedit_key_shortcut, .richedit_menu_help {
 	color: #222;
 	background: #eee;
+	background: rgba(0, 0, 0, 0.0625);
 	border: 1px solid #ddd;
 	padding: 0 2px;
 	border-radius: 2px;

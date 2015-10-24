@@ -212,6 +212,7 @@ var SimpleEditorHtml = function(element, options) {
 		}
 		chrome.className = 'richedit_chrome has_modal';
 		modalContent.innerHTML = options.template;
+		modalContent.scrollTop = 0;
 		modalClose.onclick = function() {
 			if (options.onClosed && options.onClosed()) {
 				return;
@@ -247,7 +248,7 @@ var SimpleEditorHtml = function(element, options) {
 				<p>Text je možné transformovať na zoznam označením a kliknutím na ikonu zoznamu.</p>\
 				<pre>          &lt;ul&gt;\nLinux       &lt;li&gt;Linux&lt;/li&gt;\nWindows     &lt;li&gt;Windows&lt;/li&gt;\nMac OS      &lt;li&gt;Mac OS&lt;/li&gt;\n          &lt;/ul&gt;</pre>\
 				<p>Podobným spôsobom je možné transformovať tabuľku</p>\
-				<pre>*Nadpis ; *Nadpis2\n Obsah  ; Obsah ...\n\n&lt;table&gt;\n  &lt;tr&gt;\n    &lt;th&gt;Nadpis&lt;/th&gt;\n    &lt;th&gt;Nadpis2&lt;/th&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n    &lt;td&gt;Obsah&lt;/td&gt;\n    &lt;td&gt;Obsah ...&lt;/td&gt;\n  &lt;/tr&gt;\n&lt;/table&gt;</pre>\
+				<pre>*Nadpis ; *Nadpis2\n Obsah  ;  Obsah ...\n\n&lt;table&gt;\n  &lt;tr&gt;\n    &lt;th&gt;Nadpis&lt;/th&gt;\n    &lt;th&gt;Nadpis2&lt;/th&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n    &lt;td&gt;Obsah&lt;/td&gt;\n    &lt;td&gt;Obsah ...&lt;/td&gt;\n  &lt;/tr&gt;\n&lt;/table&gt;</pre>\
 			'
 		};
 		addModal(options);
