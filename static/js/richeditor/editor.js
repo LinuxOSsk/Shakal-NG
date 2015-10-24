@@ -213,20 +213,21 @@ var SimpleEditorHtml = function(element, options) {
 		chrome.className = 'richedit_chrome has_modal';
 		modalContent.innerHTML = options.template;
 		modalContent.scrollTop = 0;
-		modalClose.onclick = function() {
+		modalClose.onclick = function(event) {
 			if (options.onClosed && options.onClosed()) {
 				return;
 			}
 			removeModal();
 			return false;
-		}
-		modalSubmit.onclick = function() {
+		};
+		modalSubmit.onclick = function(event) {
 			if (options.onSubmitted && options.onSubmitted()) {
 				return;
 			}
 			removeModal();
 			return false;
-		}
+		};
+		modalContent.focus();
 	};
 
 	var removeModal = function() {
@@ -449,11 +450,20 @@ var SimpleEditorHtml = function(element, options) {
 		}
 	};
 
+	var escModal = function(event) {
+		if (event.keyCode === 27) {
+			removeModal();
+		}
+	};
+
+	_.bindEvent(document.body, 'keyup', escModal);
+
 	this.destroy = function() {
 		chrome.parentNode.insertBefore(element, chrome);
 		chrome.parentNode.removeChild(chrome);
 		element.onkeyup = undefined;
 		element.onkeypress = undefined;
+		_.unbindEvent(document.body, 'keyup', escModal);
 	};
 };
 
