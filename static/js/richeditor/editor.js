@@ -62,7 +62,8 @@ var SimpleEditorHtml = function(element, options) {
 		var inlineCss = document.createElement('STYLE');
 		inlineCss.setAttribute('type', 'text/css');
 		inlineCss.innerHTML = options.tags.unsupported.join(', ') + '{ background-color: #ff9999 !important; border: 1px solid red !important; }';
-		preview.contentDocument.head.appendChild(inlineCss);
+		var head = preview.contentDocument.head || preview.contentDocument.getElementsByTagName('HEAD')[0];
+		head.appendChild(inlineCss);
 	};
 
 	var addToolbar = function(group) {
