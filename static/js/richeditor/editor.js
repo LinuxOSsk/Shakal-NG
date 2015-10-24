@@ -242,6 +242,12 @@ var SimpleEditorHtml = function(element, options) {
 				<p>Tento editor používa časti <a href="http://ckeditor.com/about/license">open source</a> editoru <a href="http://ckeditor.com/">CKEditor</a>.</p>\
 				<h2>Klávesové skratky</h2>\
 				<p><span class="richedit_key_shortcut">Shift + Enter</span> - nový riadok</p>\
+				<h2>Tipy</h2>\
+				<p>Výpisy alebo zdrojové kódy je možné do editoru vložiť priamo. Po vložeí stačí kód označiť a vybrať <span class="richedit_menu_help">Štýl</span> / <span class="richedit_menu_help">Kód</span>. Editor sa sám postará o ošetrenie znakov.</p>\
+				<p>Text je možné transformovať na zoznam označením a kliknutím na ikonu zoznamu.</p>\
+				<pre>          &lt;ul&gt;\nLinux       &lt;li&gt;Linux&lt;/li&gt;\nWindows     &lt;li&gt;Windows&lt;/li&gt;\nMac OS      &lt;li&gt;Mac OS&lt;/li&gt;\n          &lt;/ul&gt;</pre>\
+				<p>Podobným spôsobom je možné transformovať tabuľku</p>\
+				<pre>*Nadpis ; *Nadpis2\n Obsah  ; Obsah ...\n\n&lt;table&gt;\n  &lt;tr&gt;\n    &lt;th&gt;Nadpis&lt;/th&gt;\n    &lt;th&gt;Nadpis2&lt;/th&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n    &lt;td&gt;Obsah&lt;/td&gt;\n    &lt;td&gt;Obsah ...&lt;/td&gt;\n  &lt;/tr&gt;\n&lt;/table&gt;</pre>\
 			'
 		};
 		addModal(options);
@@ -374,6 +380,7 @@ var SimpleEditorHtml = function(element, options) {
 			var columns = row.split(';');
 			var newColumns = [];
 			_.forEach(columns, function(column) {
+				var column = column.trim();
 				var tag = 'td';
 				if (column[0] === '*') {
 					tag = 'th';

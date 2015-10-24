@@ -120,6 +120,8 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 	font-size: 16px;
 	font-weight: normal;
 	color: #222;
+	max-height: 272px;
+	overflow-y: auto;
 
 	p {
 		color: #444;
@@ -188,9 +190,18 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 		margin: 5px 0 5px 0;
 		padding: 0;
 	}
+
+	pre {
+		color: #222;
+		background: #eee;
+		border: 1px solid #ddd;
+		padding: 5px;
+		margin: 0 0 5px 0;
+		border-radius: 2px;
+	}
 }
 
-.richedit_key_shortcut {
+.richedit_key_shortcut, .richedit_menu_help {
 	color: #222;
 	background: #eee;
 	border: 1px solid #ddd;
