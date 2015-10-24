@@ -301,10 +301,29 @@ var SimpleEditorHtml = function(element, options) {
 		var textInput = inputs[1];
 	};
 
-	var addTable = function(btn) {
-	};
-
 	var addImage = function(btn) {
+		var options = {
+			template: '\
+				<h1>Pridať obrázok</h1>\
+				<div class="form-row horizontal">\
+					<div class="formrow-label"><label>URL</label></div>\
+					<div class="formrow-input"><input type="text" placeholder="http://www.adresa.sk/obrazok.png" /></div>\
+				</div>\
+				<div class="form-row horizontal">\
+					<div class="formrow-label"><label>Alternatívny text</label></div>\
+					<div class="formrow-input"><input type="text" placeholder="Alternatívny text napr. Tux" /></div>\
+				</div>',
+			onSubmitted: function() {
+				var url = urlInput.value;
+				var alt = altInput.value;
+				insert('<img src="' + _.escapeHTMLAttr(url) + '" alt="' + _.escapeHTMLAttr(alt) + '"/>\n', '');
+			}
+		};
+		addModal(options);
+
+		var inputs = modalContent.getElementsByTagName('INPUT');
+		var urlInput = inputs[0];
+		var altInput = inputs[1];
 	};
 
 	var buttons = {};
