@@ -338,7 +338,35 @@ var SimpleEditorHtml = function(element, options) {
 		var rows = input.split('\n');
 		var newRows = [];
 		_.forEach(rows, function(row) {
+			if (row[0] === '-' || row[0] === '*' || row[0] === '#') {
+				row = row.substr(1);
+				if (row[0] === ' ') {
+					row = row.substr(1);
+				}
+			}
 			newRows.push('<li>' + row + '</li>\n');
+		});
+		return newRows.join('');
+	};
+
+	var formatTableContent = function(input) {
+		var rows = input.split('\n');
+		var newRows = [];
+		_.forEach(rows, function(row) {
+			var columns = row.split(';');
+			var newColumns = [];
+			_.forEach(columns, function(column) {
+				var tag = 'td';
+				if (column[0] === '*') {
+					tag = 'th';
+					column = column.substr(1);
+					if (column[0] === ' ') {
+						column = column.substr(1);
+					}
+				}
+				newColumns.push('    <' + tag + '>' + _.escapeHtml(column.trim()) + '</' + tag + '>\n');
+			});
+			newRows.push('  <tr>\n' + (newColumns.join('')) + '  </tr>\n');
 		});
 		return newRows.join('');
 	};
@@ -365,7 +393,7 @@ var SimpleEditorHtml = function(element, options) {
 
 	var tb = addToolbar();
 	addButton(tb, {cls: 'icon-link', onclick: addLink});
-	addButton(tb, {cls: 'icon-table', tag_pre: '<table>\n', tag_post: '</table>', row_pre: '<tr><td>', row_post: '</td><td></td><tr>\n', onclick: triggerFunction});
+	addButton(tb, {cls: 'icon-table', tag_pre: '<table>\n', tag_post: '</table>', parse: formatTableContent, onclick: triggerFunction});
 	addButton(tb, {cls: 'icon-image', onclick: addImage});
 
 	addBreak(top);
@@ -375,9 +403,28 @@ var SimpleEditorHtml = function(element, options) {
 	element.parentNode.insertBefore(chrome, element);
 	contents.appendChild(element);
 
+	element.onkeyup = function(event) {
+		if (event.keyCode === 13) { // enter
+			if (event.shiftKey) {
+				insert('<br />\n', '');
+				event.stopPropagation();
+				return false;
+			}
+		}
+	};
+	element.onkeypress = function(event) {
+		if (event.keyCode === 13) { // enter
+			if (event.shiftKey) {
+				return false;
+			}
+		}
+	};
+
 	this.destroy = function() {
 		chrome.parentNode.insertBefore(element, chrome);
 		chrome.parentNode.removeChild(chrome);
+		element.onkeyup = undefined;
+		element.onkeypress = undefined;
 	};
 };
 
