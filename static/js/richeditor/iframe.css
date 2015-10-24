@@ -8,7 +8,8 @@
 }
 
 /* basic */
-body	{ background: #fafafa;}
+html { padding: 0; margin: 0; }
+body { background: #fafafa; padding 0; margin: 5;}
 
 /* make HTML blocs visible */
 div, p, h1, h2, h3, h4, h5, h6, ul, ol, table, address, blockquote, pre { background: #FFFFFF; padding:8px 5px 5px; margin:10px; }
