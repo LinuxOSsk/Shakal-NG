@@ -504,7 +504,13 @@ var SimpleEditorHtml = function(element, options) {
 
 	_.bindEvent(document.body, 'keyup', escModal);
 
+	var updateTimer = setInterval(function() {
+		var text = element.value;
+		preview.contentDocument.body.innerHTML = text;
+	}, 1000);
+
 	this.destroy = function() {
+		clearInterval(updateTimer);
 		chrome.parentNode.insertBefore(element, chrome);
 		chrome.parentNode.removeChild(chrome);
 		element.onkeyup = undefined;
