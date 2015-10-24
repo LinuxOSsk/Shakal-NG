@@ -209,14 +209,16 @@ _.forEach(daily_stats, function(day, i) {
 		}
 		else {
 			if (currentMonth !== day[0][1]) {
-				currentMonth = day[0][1];
-				var span = document.createElement('SPAN');
-				span.style.position = 'absolute';
-				span.style.color = '#888888';
-				span.style.top = '0';
-				span.style.fontSize = '8px';
-				span.innerHTML = months[currentMonth - 1];
-				currentColumn.appendChild(span);
+				if (i > 14) {
+					currentMonth = day[0][1];
+					var span = document.createElement('SPAN');
+					span.style.position = 'absolute';
+					span.style.color = '#888888';
+					span.style.top = '0';
+					span.style.fontSize = '8px';
+					span.innerHTML = months[currentMonth - 1];
+					currentColumn.appendChild(span);
+				}
 			}
 		}
 		columnOuter.appendChild(currentColumn);
