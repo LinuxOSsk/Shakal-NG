@@ -362,8 +362,23 @@ var SimpleEditorHtml = function(element, options) {
 	var buttons = {};
 
 	var tb = addToolbar();
-	buttons.source = addButton(tb, {cls: 'icon-source', toggle: true, down: true});
-	buttons.preview = addButton(tb, {cls: 'icon-preview', toggle: true});
+	buttons.source = addButton(tb, {
+		cls: 'icon-source',
+		toggle: true,
+		down: true,
+		ontoggle: function(self, status) {
+			hasCode = status;
+			updateChromeClass();
+		}
+	});
+	buttons.preview = addButton(tb, {
+		cls: 'icon-preview',
+		toggle: true,
+		ontoggle: function(self, status) {
+			hasPreview = status;
+			updateChromeClass();
+		}
+	});
 
 	var tb = addToolbar();
 	var blocks = addCombo(tb);
