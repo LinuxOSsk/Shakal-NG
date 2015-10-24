@@ -59,11 +59,8 @@ var SimpleEditorHtml = function(element, options) {
 	};
 
 	var updatePreviewCss = function() {
-		var inlineCss = document.createElement('STYLE');
-		inlineCss.setAttribute('type', 'text/css');
+		var inlineCss = preview.documentElement.getElementsByTagName('STYLE')[0];
 		inlineCss.innerHTML = options.tags.unsupported.join(', ') + '{ background-color: #ff9999 !important; border: 1px solid red !important; }';
-		var head = preview.contentDocument.head || preview.contentDocument.getElementsByTagName('HEAD')[0];
-		head.appendChild(inlineCss);
 	};
 
 	var addToolbar = function(group) {
