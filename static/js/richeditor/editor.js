@@ -2,6 +2,8 @@
 
 var SimpleEditorHtml = function(element, options) {
 	var hasModal = false;
+	var hasPreview = true;
+	var hasCode = true;
 
 	var chrome = _.createDiv('richedit_chrome');
 	var inner = _.createDiv('richedit_inner');
@@ -44,6 +46,12 @@ var SimpleEditorHtml = function(element, options) {
 		var cls = 'richedit_chrome';
 		if (hasModal) {
 			cls += ' has_modal';
+		}
+		if (hasPreview) {
+			cls += ' has_preview';
+		}
+		if (hasCode) {
+			cls += ' has_code';
 		}
 		chrome.className = cls;
 	};
@@ -526,6 +534,8 @@ var SimpleEditorHtml = function(element, options) {
 		var text = element.value;
 		preview.contentDocument.body.innerHTML = text;
 	}, 1000);
+
+	updateChromeClass();
 
 	this.destroy = function() {
 		clearInterval(updateTimer);

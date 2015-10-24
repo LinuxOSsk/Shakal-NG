@@ -318,6 +318,7 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 		margin: 0;
 		padding: 0;
 		height: 300px;
+		display: none;
 	}
 
 	iframe {
@@ -327,6 +328,26 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 		padding: 0;
 		height: 300px;
 		width: 100%;
+		display: none;
+	}
+}
+
+.richedit_chrome.has_preview .richedit_contents {
+	iframe {
+		display: block;
+	}
+}
+
+.richedit_chrome.has_code .richedit_contents {
+	textarea {
+		display: block;
+	}
+}
+
+.richedit_chrome.has_code.has_preview .richedit_contents {
+	textarea {
+		border-top: 1px solid #eee;
+		display: block;
 	}
 }
 
