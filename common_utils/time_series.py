@@ -20,8 +20,8 @@ TICKS = {
 	'minute': lambda ts: ts + timedelta(seconds=60),
 	'hour': lambda ts: ts + timedelta(seconds=3600),
 	'day': lambda ts: ts + timedelta(1),
-	'month': lambda ts: date(ts.year if ts.month < 12 else ts.year + 1, ts.month % 12 + 1, ts.day),
-	'year': lambda ts: date(ts.year + 1, ts.month, ts.day),
+	'month': lambda ts: date(ts.year if ts.month < 12 else ts.year + 1, ts.month % 12 + 1, 1),
+	'year': lambda ts: date(ts.year + 1, 1, 1),
 }
 
 
