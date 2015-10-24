@@ -291,7 +291,7 @@ var SimpleEditorHtml = function(element, options) {
 	addComboMenuItem(styleMenu, {label: 'Nadpis 6', cls: 'h6', tag: 'h6', onclick: triggerFunction})
 	addComboMenuItem(styleMenu, {label: 'Odstavec', cls: 'p', tag: 'p', onclick: triggerFunction})
 	addComboMenuItem(styleMenu, {label: 'Citácia', cls: 'blockquote', tag: 'blockquote', onclick: triggerFunction})
-	addComboMenuItem(styleMenu, {label: 'Kód', cls: 'pre', tag: 'pre', onclick: triggerFunction})
+	addComboMenuItem(styleMenu, {label: 'Kód', cls: 'pre', tag: 'pre', onclick: triggerFunction, parse: _.escapeHTML})
 
 	var showMenu = function() {
 		if (styleMenu.style.display === 'block') {
@@ -364,7 +364,7 @@ var SimpleEditorHtml = function(element, options) {
 						column = column.substr(1);
 					}
 				}
-				newColumns.push('    <' + tag + '>' + _.escapeHtml(column.trim()) + '</' + tag + '>\n');
+				newColumns.push('    <' + tag + '>' + _.escapeHTML(column.trim()) + '</' + tag + '>\n');
 			});
 			newRows.push('  <tr>\n' + (newColumns.join('')) + '  </tr>\n');
 		});
@@ -377,7 +377,7 @@ var SimpleEditorHtml = function(element, options) {
 	addButton(tb, {cls: 'icon-strike', tag: 'del', onclick: triggerFunction});
 	addButton(tb, {cls: 'icon-underline', tag: 'u', onclick: triggerFunction});
 	addSeparator(tb);
-	addButton(tb, {cls: 'icon-removeformat', tag: 'code', onclick: triggerFunction}); // code
+	addButton(tb, {cls: 'icon-removeformat', tag: 'code', onclick: triggerFunction, parse: _.escapeHTML}); // code
 
 	var tb = addToolbar();
 	addButton(tb, {cls: 'icon-superscript', tag: 'sup', onclick: triggerFunction});

@@ -412,7 +412,7 @@ var createDiv = function(className, id) {
 	return div;
 };
 
-var escapeHtml = function(text) {
+var escapeHTML = function(text) {
 	return text
 		.replace(/&/g, "&amp;")
 		.replace(/</g, "&lt;")
@@ -430,7 +430,7 @@ window._utils.toggleClass = toggleClass;
 window._utils.cls = getElementsByClassName;
 window._utils.id = byId;
 window._utils.createDiv = createDiv;
-window._utils.escapeHtml = escapeHtml;
+window._utils.escapeHTML = escapeHTML;
 
 var loaderJs = (function () {
 	var head = document.getElementsByTagName('head')[0];
