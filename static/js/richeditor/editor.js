@@ -262,11 +262,13 @@ var SimpleEditorHtml = function(element, options) {
 	};
 
 	var removeModal = function() {
-		hasModal = false;
-		updateChromeClass();
-		modalContent.innerHTML = '';
-		modalClose.onclick = undefined;
-		modalSubmit.onclick = undefined;
+		if (hasModal) {
+			hasModal = false;
+			updateChromeClass();
+			modalContent.innerHTML = '';
+			modalClose.onclick = undefined;
+			modalSubmit.onclick = undefined;
+		}
 	};
 
 	var aboutEditor = function(btn) {
@@ -567,7 +569,10 @@ var SimpleEditorHtml = function(element, options) {
 
 	var escModal = function(event) {
 		if (event.keyCode === 27) {
-			removeModal();
+			if (hasModal) {
+				removeModal();
+				element.focus();
+			}
 		}
 	};
 
