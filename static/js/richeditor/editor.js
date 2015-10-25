@@ -718,7 +718,19 @@ var RichEditor = function(element, options) {
 	var editors = {
 		'simple_html': SimpleEditorHtml,
 		'ckeditor_html': CkEditorHtml
-	}
+	};
+
+	var switchToolgroup = _.createDiv('richedit_toolgroup richedit_switch_toolgroup');
+	var switchButton = document.createElement('A');
+	switchButton.setAttribute('href', '#');
+	switchButton.className = 'richedit_button';
+	var label = document.createElement('SPAN');
+	label.className = 'richedit_button_label';
+	label.innerHTML = 'Prepnúť na CKEditor';
+	switchButton.appendChild(label);
+	switchToolgroup.appendChild(switchButton);
+
+	element.parentNode.insertBefore(switchToolgroup, element);
 
 	this.selectEditor = function(name) {
 		if (currentEditorWidget !== undefined) {
