@@ -553,6 +553,9 @@ var SimpleEditorHtml = function(element, options) {
 		else if (event.keyCode === 69 && event.ctrlKey) { // ctrl + e
 			insert('', '', _.escapeHTML);
 		}
+		else if (event.keyCode === 112) { // help
+			aboutEditor();
+		}
 	};
 	element.onkeypress = function(event) {
 		if (event.keyCode === 13) { // enter
