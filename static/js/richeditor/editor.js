@@ -276,6 +276,7 @@ var SimpleEditorHtml = function(element, options) {
 				<p>Tento editor používa časti <a href="http://ckeditor.com/about/license">open source</a> editoru <a href="http://ckeditor.com/">CKEditor</a>.</p>\
 				<h2>Klávesové skratky</h2>\
 				<p><span class="richedit_key_shortcut">Shift + Enter</span> - nový riadok</p>\
+				<p><span class="richedit_key_shortcut">Ctrl + Medzera</span> - nový odstavec</p>\
 				<h2>Tipy</h2>\
 				<p>Výpisy alebo zdrojové kódy je možné do editoru vložiť priamo. Po vložeí stačí kód označiť a vybrať <span class="richedit_menu_help">Štýl</span> / <span class="richedit_menu_help">Kód</span>. Editor sa sám postará o ošetrenie znakov.</p>\
 				<p>Text je možné transformovať na zoznam označením a kliknutím na ikonu zoznamu.</p>\
@@ -527,6 +528,11 @@ var SimpleEditorHtml = function(element, options) {
 				insert('<br />\n', '');
 				event.stopPropagation();
 				return false;
+			}
+		}
+		if (event.keyCode === 32) { // medzera
+			if (event.ctrlKey) {
+				insert('<p>', '</p>\n');
 			}
 		}
 	};
