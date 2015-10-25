@@ -277,6 +277,11 @@ var SimpleEditorHtml = function(element, options) {
 				<h2>Klávesové skratky</h2>\
 				<p><span class="richedit_key_shortcut">Shift + Enter</span> - nový riadok</p>\
 				<p><span class="richedit_key_shortcut">Ctrl + Medzera</span> - nový odstavec</p>\
+				<p><span class="richedit_key_shortcut">Ctrl + B</span> - tučné písmo</p>\
+				<p><span class="richedit_key_shortcut">Ctrl + I</span> - šikmé písmo</p>\
+				<p><span class="richedit_key_shortcut">Ctrl + C</span> - kód</p>\
+				<p><span class="richedit_key_shortcut">Ctrl + Y</span> - riadok zoznamu</p>\
+				<p><span class="richedit_key_shortcut">Ctrl + E</span> - prevod na HTML entity</p>\
 				<h2>Tipy</h2>\
 				<p>Výpisy alebo zdrojové kódy je možné do editoru vložiť priamo. Po vložeí stačí kód označiť a vybrať <span class="richedit_menu_help">Štýl</span> / <span class="richedit_menu_help">Kód</span>. Editor sa sám postará o ošetrenie znakov.</p>\
 				<p>Text je možné transformovať na zoznam označením a kliknutím na ikonu zoznamu.</p>\
@@ -530,10 +535,23 @@ var SimpleEditorHtml = function(element, options) {
 				return false;
 			}
 		}
-		if (event.keyCode === 32) { // medzera
-			if (event.ctrlKey) {
-				insert('<p>', '</p>\n');
-			}
+		else if (event.keyCode === 32 && event.ctrlKey) { // ctrl + medzera
+			insert('<p>', '</p>\n');
+		}
+		else if (event.keyCode === 66 && event.ctrlKey) { // ctrl + b
+			insert('<strong>', '</strong>');
+		}
+		else if (event.keyCode === 73 && event.ctrlKey) { // ctrl + i
+			insert('<em>', '</em>');
+		}
+		else if (event.keyCode === 67 && event.ctrlKey) { // ctrl + c
+			insert('<code>', '</code>', _.escapeHTML);
+		}
+		else if (event.keyCode === 89 && event.ctrlKey) { // ctrl + y
+			insert('<li>', '</li>');
+		}
+		else if (event.keyCode === 69 && event.ctrlKey) { // ctrl + e
+			insert('', '', _.escapeHTML);
 		}
 	};
 	element.onkeypress = function(event) {
