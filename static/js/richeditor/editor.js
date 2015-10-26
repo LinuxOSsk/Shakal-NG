@@ -507,6 +507,7 @@ var SimpleEditorHtml = function(element, options) {
 	addButton(tb, {cls: 'icon-subscript', tag: 'sub', onclick: triggerFunction});
 
 	var tb = addToolbar();
+	addButton(tb, {cls: 'icon-bidiltr', tag: 'p', onclick: triggerFunction});
 	addButton(tb, {cls: 'icon-blockquote', tag: 'blockquote', onclick: triggerFunction});
 	addButton(tb, {cls: 'icon-pastetext', onclick: addText});
 
