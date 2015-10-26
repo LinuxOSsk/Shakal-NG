@@ -374,11 +374,11 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 	background-image: linear-gradient(to bottom, $richedit-toolgroup-backkground-u, $richedit-toolgroup-backkground-d);
 }
 
-.richedit_switch_toolgroup {
+.richedit_switch_toolgroup_container {
 	position: relative;
 	float: right;
 	z-index: 1;
-	margin: 6px 8px 0px;
+	padding: 7px 8px 0px;
 }
 
 a.richedit_button {

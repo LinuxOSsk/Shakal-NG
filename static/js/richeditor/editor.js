@@ -711,6 +711,7 @@ var CkEditorHtml = function(element, options) {
 var RichEditor = function(element, options) {
 	var self = this;
 	var currentEditorWidget = undefined;
+	var currentEditor = undefined;
 
 	var o = {};
 	for (var k in options) { if (options.hasOwnProperty(k)) o[k] = options[k]; }
@@ -720,19 +721,32 @@ var RichEditor = function(element, options) {
 		'ckeditor_html': CkEditorHtml
 	};
 
+	var switchToolgroupContainer = _.createDiv('richedit_switch_toolgroup_container');
 	var switchToolgroup = _.createDiv('richedit_toolgroup richedit_switch_toolgroup');
 	var switchButton = document.createElement('A');
 	switchButton.setAttribute('href', '#');
 	switchButton.className = 'richedit_button';
 	var label = document.createElement('SPAN');
 	label.className = 'richedit_button_label';
-	label.innerHTML = 'Prepnúť na CKEditor';
+	label.innerHTML = 'CKEditor';
 	switchButton.appendChild(label);
 	switchToolgroup.appendChild(switchButton);
+	switchToolgroupContainer.appendChild(switchToolgroup);
 
-	element.parentNode.insertBefore(switchToolgroup, element);
+	element.parentNode.insertBefore(switchToolgroupContainer, element);
+
+	switchButton.onclick = function() {
+		if (currentEditor === 'simple_html') {
+			self.selectEditor('ckeditor_html');
+		}
+		else {
+			self.selectEditor('simple_html');
+		}
+		return false;
+	};
 
 	this.selectEditor = function(name) {
+		currentEditor = name;
 		if (currentEditorWidget !== undefined) {
 			currentEditorWidget.destroy();
 			currentEditorWidget = undefined;
