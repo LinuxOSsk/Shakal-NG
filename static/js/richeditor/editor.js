@@ -620,6 +620,7 @@ var CkEditorHtml = function(element, options) {
 				init: function(editor) {
 					editor.addCommand('close', {
 						exec: function(self) {
+							self._switchContainer.style.display = 'block';
 							self._selector.selectEditor('simple_html');
 						}
 					});
@@ -635,6 +636,7 @@ var CkEditorHtml = function(element, options) {
 					var toolbar = btn.parentNode.parentNode;
 					toolbar.style.float = 'right';
 					btn.parentNode.style.marginRight = '0';
+					options.switchContainer.style.display = 'none';
 				});
 			});
 		}
@@ -690,6 +692,7 @@ var CkEditorHtml = function(element, options) {
 		self.editor = CKEDITOR.replace(element, config);
 		self.editor._editorInstance = self;
 		self.editor._selector = options.selector;
+		self.editor._switchContainer = options.switchContainer;
 		CKEDITOR._extraCss.pop();
 	};
 
@@ -753,6 +756,7 @@ var RichEditor = function(element, options) {
 			currentEditorWidget = undefined;
 		}
 		o.selector = self;
+		o.switchContainer = switchToolgroupContainer;
 		currentEditorWidget = new editors[name](element, o);
 		_.setCookie(o.namespace + '_richeditor', name, 3650);
 	};
