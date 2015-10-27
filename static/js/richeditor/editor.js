@@ -631,12 +631,12 @@ var CkEditorHtml = function(element, options) {
 				}
 			});
 
-			CKEDITOR.on('instanceReady', function() {
+			CKEDITOR.on('instanceReady', function(self) {
+				self.editor._switchContainer.style.display = 'none';
 				_.forEach(_.cls(document.body, 'cke_button__close'), function(btn) {
 					var toolbar = btn.parentNode.parentNode;
 					toolbar.style.float = 'right';
 					btn.parentNode.style.marginRight = '0';
-					options.switchContainer.style.display = 'none';
 				});
 			});
 		}
@@ -739,6 +739,9 @@ var RichEditor = function(element, options) {
 
 	element.parentNode.insertBefore(switchToolgroupContainer, element);
 
+	o.selector = self;
+	o.switchContainer = switchToolgroupContainer;
+
 	switchButton.onclick = function() {
 		if (currentEditor === 'simple_html') {
 			self.selectEditor('ckeditor_html');
@@ -750,13 +753,18 @@ var RichEditor = function(element, options) {
 	};
 
 	this.selectEditor = function(name) {
+		if (name === 'simple_html') {
+			label.innerHTML = 'CKEditor';
+		}
+		else {
+			label.innerHTML = 'Prepnúť na obyčajný editor';
+		}
+
 		currentEditor = name;
 		if (currentEditorWidget !== undefined) {
 			currentEditorWidget.destroy();
 			currentEditorWidget = undefined;
 		}
-		o.selector = self;
-		o.switchContainer = switchToolgroupContainer;
 		currentEditorWidget = new editors[name](element, o);
 		_.setCookie(o.namespace + '_richeditor', name, 3650);
 	};
