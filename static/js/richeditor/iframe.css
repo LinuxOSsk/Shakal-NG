@@ -7,20 +7,28 @@
 }
 
 html { padding: 0; margin: 0; }
-body { background: #fff; padding 0; margin: 5;}
+body { background: #fff; color: #000; padding 0; margin: 5; font-style: 15px; font-family: sans-serif; }
 
-/*
-div, p, h1, h2, h3, h4, h5, h6, ul, ol, table, address, blockquote, pre { background: #FFFFFF; padding:8px 5px 5px; margin:10px; }
-ul, ol, dl { background: #B9C4D0; margin: 10px; padding: 0 0 0 10px; list-style-position: outside; min-height: 1.6em; }
+h1 { font-size: 24px; font-weight: bold; }
+h2 { font-size: 22px; font-weight: bold; }
+h3 { font-size: 18px; font-weight: bold; }
+h4 { font-size: 17px; font-weight: bold; }
+h5 { font-size: 16px; font-weight: bold; }
+h6 { font-size: 15px; font-weight: bold; }
 
-ul ul, ul ol, ol ol, ol ul { margin: 5px 0 0 -5px }
-ul > li ul, ul > li ol, ol > li ul, ol > li ol { border-top: 4px solid #B9C4D0 }
-li > p:first-child, li > div:first-child { margin-top: 0 }
-li > p:last-child, li > div:last-child {	margin-bottom: 0 }
-li, dd, dt { background: white; margin: 0px 0 4px 20px; padding: 8px 0 0 5px; }
+div, p, h1, h2, h3, h4, h5, h6, ul, ol, table, address, blockquote, pre { background: #fafafa; padding:8px 5px 5px; margin:10px; }
+p, div { border: 1px dashed #eee; background: #fff; }
+
+ul, ol, dl { background: #fafafa; margin: 10px; padding: 5px 0 5px 20px; list-style-position: outside; min-height: 1.6em; border-left: 5px solid #eee; }
+ul ul, ul ol, ol ol, ol ul { margin: 5px 0 0 -15px }
+ul > li ul, ul > li ol, ol > li ul, ol > li ol { border-top: 1px solid #eee }
+li, dd, dt { margin: 0px 0 4px 20px; padding: 4px 0 0 5px; }
 dt { margin-bottom: 0 }
 dd + dt { margin-top: 4px; }
 dd { margin: 2px 0 0 4em }
+
+/*
+
 td { background: #F0F4F8; width: 25%; }
 th { background: #ffffcc; }
 caption { background: #E4E4B0; padding: 5px; font-weight: bold; }
