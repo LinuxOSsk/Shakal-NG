@@ -121,7 +121,7 @@ var SimpleEditorHtml = function(element, options) {
 		}
 		updateCls();
 
-		link.onmousedown = function(e) {
+		_.bindEvent(link, 'mousedown', function() {
 			if (down) {
 				on = false;
 				updateCls();
@@ -130,9 +130,8 @@ var SimpleEditorHtml = function(element, options) {
 				on = true;
 				updateCls();
 			}
-			e.stopPropagation();
-		};
-		link.onmouseup = function(e) {
+		});
+		link.onclick = function(e) {
 			on = false;
 			if (options.toggle) {
 				down = !down;
@@ -149,6 +148,7 @@ var SimpleEditorHtml = function(element, options) {
 			if (options.cls !== 'dropdown') {
 				element.focus();
 			}
+			return false;
 		};
 		link.onblur = function() {
 			if (options.onblur) {
@@ -158,9 +158,6 @@ var SimpleEditorHtml = function(element, options) {
 		link.onmouseout = function() {
 			on = false;
 			updateCls();
-		};
-		link.onclick = function() {
-			return false;
 		};
 		link.setDown = function(newDown) {
 			down = newDown;
