@@ -1,6 +1,15 @@
 (function (_) {
 
 var SimpleEditorHtml = function(element, options) {
+	var hasTag = function(tagName) {
+		if (options.tags.known.indexOf(tagName) !== -1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	};
+
 	var hasModal = false;
 	var hasPreview = false;
 	var hasCode = true;
@@ -293,23 +302,41 @@ var SimpleEditorHtml = function(element, options) {
 	};
 
 	var addText = function(btn) {
+		var inputs = [];
+		var checked = true;
+		if (hasTag('p')) {
+			inputs.push('<label><input name="richedit_insert_text_type" type="radio"' + (checked ? 'checked="checked"' : '') + ' value="p" /> Odstavec</label>&nbsp;&nbsp;&nbsp;&nbsp;');
+			checked = false;
+		}
+		if (hasTag('pre')) {
+			inputs.push('<label><input name="richedit_insert_text_type" type="radio"' + (checked ? 'checked="checked"' : '') + ' value="radio" /> Kód</label>&nbsp;&nbsp;&nbsp;&nbsp;');
+			checked = false;
+		}
+
 		var options = {
 			template: '\
 				<h1>Vložiť text</h1>\
-				<div class="form-row">\
-					<label><input name="richedit_insert_text_type" type="radio" checked="checked" /> Odstavec</label>&nbsp;&nbsp;&nbsp;&nbsp;\
-					<label><input name="richedit_insert_text_type" type="radio" /> Kód</label>\
-				</div>\
+				<div class="form-row">' + (inputs.join('')) + '</div>\
 				<div class="form-row"><textarea placeholder="Sem vložte text"></textarea></div>',
 			onSubmitted: function() {
-				var tag = paragraphInput.checked ? 'p' : 'pre';
+				var tag = undefined;
+				_.forEach(inputs, function(input) {
+					if (input.checked) {
+						tag = input.value;
+					}
+				});
 				var content = textInput.value;
-				insert('<' + tag + '>' + _.escapeHTML(content) + '</' + tag + '>\n', '');
+				if (tag !== undefined) {
+					insert('<' + tag + '>' + _.escapeHTML(content) + '</' + tag + '>\n', '');
+				}
+				else {
+					insert(_.escapeHTML(content) + '\n', '');
+				}
 			}
 		};
 		addModal(options);
 
-		var paragraphInput = modalContent.getElementsByTagName('INPUT')[0];
+		var inputs = modalContent.getElementsByTagName('INPUT');
 		var textInput = modalContent.getElementsByTagName('TEXTAREA')[0];
 	};
 
@@ -361,76 +388,6 @@ var SimpleEditorHtml = function(element, options) {
 		var inputs = modalContent.getElementsByTagName('INPUT');
 		var urlInput = inputs[0];
 		var altInput = inputs[1];
-	};
-
-	var buttons = {};
-
-	var tb = addToolbar();
-	buttons.source = addButton(tb, {
-		cls: 'icon-source',
-		toggle: true,
-		down: true,
-		ontoggle: function(self, status) {
-			hasCode = status;
-			updateChromeClass();
-		}
-	});
-	buttons.preview = addButton(tb, {
-		cls: 'icon-preview',
-		toggle: true,
-		ontoggle: function(self, status) {
-			hasPreview = status;
-			updateChromeClass();
-		}
-	});
-
-	var tb = addToolbar();
-	var blocks = addCombo(tb);
-	buttons.style = addButton(tb, {
-		label: 'Štýl',
-		cls: 'dropdown',
-		toggle: true,
-		ontoggle: function(self, status) {
-			if (status) {
-				showMenu();
-			}
-			else {
-				hideMenu();
-			}
-		}
-	});
-
-	var styleMenu = addComboMenu(tb);
-	styleMenu.style.display = 'none';
-	addComboMenuItem(styleMenu, {label: 'Nadpis 1', cls: 'h1', tag: 'h1', onclick: triggerFunction})
-	addComboMenuItem(styleMenu, {label: 'Nadpis 2', cls: 'h2', tag: 'h2', onclick: triggerFunction})
-	addComboMenuItem(styleMenu, {label: 'Nadpis 3', cls: 'h3', tag: 'h3', onclick: triggerFunction})
-	addComboMenuItem(styleMenu, {label: 'Nadpis 4', cls: 'h4', tag: 'h4', onclick: triggerFunction})
-	addComboMenuItem(styleMenu, {label: 'Nadpis 5', cls: 'h5', tag: 'h5', onclick: triggerFunction})
-	addComboMenuItem(styleMenu, {label: 'Nadpis 6', cls: 'h6', tag: 'h6', onclick: triggerFunction})
-	addComboMenuItem(styleMenu, {label: 'Odstavec', cls: 'p', tag: 'p', onclick: triggerFunction})
-	addComboMenuItem(styleMenu, {label: 'Citácia', cls: 'blockquote', tag: 'blockquote', onclick: triggerFunction})
-	addComboMenuItem(styleMenu, {label: 'Kód', cls: 'pre', tag: 'pre', onclick: triggerFunction, parse: _.escapeHTML})
-
-	var hideMenuTrigger = function() {
-		setTimeout(hideMenu, 0);
-	};
-
-	var showMenu = function() {
-		if (styleMenu.style.display === 'block') {
-			return;
-		}
-		styleMenu.style.display = 'block';
-		_.bindEvent(document.body, 'mouseup', hideMenuTrigger);
-	};
-
-	var hideMenu = function() {
-		if (styleMenu.style.display === 'none') {
-			return;
-		}
-		styleMenu.style.display = 'none';
-		buttons.style.setDown(false);
-		_.unbindEvent(document.body, 'mouseup', hideMenuTrigger);
 	};
 
 	var insert = function(pre, post, parseSel) {
@@ -495,31 +452,113 @@ var SimpleEditorHtml = function(element, options) {
 		return newRows.join('');
 	};
 
-	var tb = addToolbar();
-	addButton(tb, {cls: 'icon-bold', tag: 'strong', onclick: triggerFunction});
-	addButton(tb, {cls: 'icon-italic', tag: 'em', onclick: triggerFunction});
-	addButton(tb, {cls: 'icon-strike', tag: 'del', onclick: triggerFunction});
-	addButton(tb, {cls: 'icon-underline', tag: 'u', onclick: triggerFunction});
-	addSeparator(tb);
-	addButton(tb, {cls: 'icon-removeformat', tag: 'code', onclick: triggerFunction, parse: _.escapeHTML}); // code
+	var buttons = {};
 
 	var tb = addToolbar();
-	addButton(tb, {cls: 'icon-superscript', tag: 'sup', onclick: triggerFunction});
-	addButton(tb, {cls: 'icon-subscript', tag: 'sub', onclick: triggerFunction});
+	buttons.source = addButton(tb, {
+		cls: 'icon-source',
+		toggle: true,
+		down: true,
+		ontoggle: function(self, status) {
+			hasCode = status;
+			updateChromeClass();
+		}
+	});
+	buttons.preview = addButton(tb, {
+		cls: 'icon-preview',
+		toggle: true,
+		ontoggle: function(self, status) {
+			hasPreview = status;
+			updateChromeClass();
+		}
+	});
+
+	if (hasTag('h1') || hasTag('h2') || hasTag('h3') || hasTag('h4') || hasTag('h5') || hasTag('h6') || hasTag('p') || hasTag('blockquote') || hasTag('pre')) {
+		var tb = addToolbar();
+		var blocks = addCombo(tb);
+		buttons.style = addButton(tb, {
+			label: 'Štýl',
+			cls: 'dropdown',
+			toggle: true,
+			ontoggle: function(self, status) {
+				if (status) {
+					showMenu();
+				}
+				else {
+					hideMenu();
+				}
+			}
+		});
+
+		var styleMenu = addComboMenu(tb);
+		styleMenu.style.display = 'none';
+		if (hasTag('h1')) addComboMenuItem(styleMenu, {label: 'Nadpis 1', cls: 'h1', tag: 'h1', onclick: triggerFunction});
+		if (hasTag('h2')) addComboMenuItem(styleMenu, {label: 'Nadpis 2', cls: 'h2', tag: 'h2', onclick: triggerFunction});
+		if (hasTag('h3')) addComboMenuItem(styleMenu, {label: 'Nadpis 3', cls: 'h3', tag: 'h3', onclick: triggerFunction});
+		if (hasTag('h4')) addComboMenuItem(styleMenu, {label: 'Nadpis 4', cls: 'h4', tag: 'h4', onclick: triggerFunction});
+		if (hasTag('h5')) addComboMenuItem(styleMenu, {label: 'Nadpis 5', cls: 'h5', tag: 'h5', onclick: triggerFunction});
+		if (hasTag('h6')) addComboMenuItem(styleMenu, {label: 'Nadpis 6', cls: 'h6', tag: 'h6', onclick: triggerFunction});
+		if (hasTag('p')) addComboMenuItem(styleMenu, {label: 'Odstavec', cls: 'p', tag: 'p', onclick: triggerFunction});
+		if (hasTag('blockquote')) addComboMenuItem(styleMenu, {label: 'Citácia', cls: 'blockquote', tag: 'blockquote', onclick: triggerFunction});
+		if (hasTag('pre')) addComboMenuItem(styleMenu, {label: 'Kód', cls: 'pre', tag: 'pre', onclick: triggerFunction, parse: _.escapeHTML});
+
+		var hideMenuTrigger = function() {
+			setTimeout(hideMenu, 0);
+		};
+
+		var showMenu = function() {
+			if (styleMenu.style.display === 'block') {
+				return;
+			}
+			styleMenu.style.display = 'block';
+			_.bindEvent(document.body, 'mouseup', hideMenuTrigger);
+		};
+
+		var hideMenu = function() {
+			if (styleMenu.style.display === 'none') {
+				return;
+			}
+			styleMenu.style.display = 'none';
+			buttons.style.setDown(false);
+			_.unbindEvent(document.body, 'mouseup', hideMenuTrigger);
+		};
+	}
+
+	if (hasTag('strong') || hasTag('em') || hasTag('del') || hasTag('u') || hasTag('code')) {
+		var tb = addToolbar();
+		if (hasTag('strong')) addButton(tb, {cls: 'icon-bold', tag: 'strong', onclick: triggerFunction});
+		if (hasTag('em')) addButton(tb, {cls: 'icon-italic', tag: 'em', onclick: triggerFunction});
+		if (hasTag('del')) addButton(tb, {cls: 'icon-strike', tag: 'del', onclick: triggerFunction});
+		if (hasTag('u')) addButton(tb, {cls: 'icon-underline', tag: 'u', onclick: triggerFunction});
+		if (hasTag('code')) {
+			addSeparator(tb);
+			addButton(tb, {cls: 'icon-removeformat', tag: 'code', onclick: triggerFunction, parse: _.escapeHTML}); // code
+		}
+	}
+
+	if (hasTag('sup') || hasTag('sub')) {
+		var tb = addToolbar();
+		if (hasTag('sup')) addButton(tb, {cls: 'icon-superscript', tag: 'sup', onclick: triggerFunction});
+		if (hasTag('sup')) addButton(tb, {cls: 'icon-subscript', tag: 'sub', onclick: triggerFunction});
+	}
 
 	var tb = addToolbar();
-	addButton(tb, {cls: 'icon-bidiltr', tag: 'p', onclick: triggerFunction});
-	addButton(tb, {cls: 'icon-blockquote', tag: 'blockquote', onclick: triggerFunction});
+	if (hasTag('p')) addButton(tb, {cls: 'icon-bidiltr', tag: 'p', onclick: triggerFunction});
+	if (hasTag('pre')) addButton(tb, {cls: 'icon-blockquote', tag: 'blockquote', onclick: triggerFunction});
 	addButton(tb, {cls: 'icon-pastetext', onclick: addText});
 
-	var tb = addToolbar();
-	addButton(tb, {cls: 'icon-bulletedlist', tag_pre: '<ul>\n', tag_post: '</ul>', parse: formatListContent, onclick: triggerFunction});
-	addButton(tb, {cls: 'icon-numberedlist', tag_pre: '<ol>\n', tag_post: '</ol>', parse: formatListContent, onclick: triggerFunction});
+	if (hasTag('ul') || hasTag('ol')) {
+		var tb = addToolbar();
+		if (hasTag('ul')) addButton(tb, {cls: 'icon-bulletedlist', tag_pre: '<ul>\n', tag_post: '</ul>', parse: formatListContent, onclick: triggerFunction});
+		if (hasTag('ol')) addButton(tb, {cls: 'icon-numberedlist', tag_pre: '<ol>\n', tag_post: '</ol>', parse: formatListContent, onclick: triggerFunction});
+	}
 
-	var tb = addToolbar();
-	addButton(tb, {cls: 'icon-link', onclick: addLink});
-	addButton(tb, {cls: 'icon-table', tag_pre: '<table>\n', tag_post: '</table>', parse: formatTableContent, onclick: triggerFunction});
-	addButton(tb, {cls: 'icon-image', onclick: addImage});
+	if (hasTag('a') || hasTag('table') || hasTag('image')) {
+		var tb = addToolbar();
+		if (hasTag('a')) addButton(tb, {cls: 'icon-link', onclick: addLink});
+		if (hasTag('table')) addButton(tb, {cls: 'icon-table', tag_pre: '<table>\n', tag_post: '</table>', parse: formatTableContent, onclick: triggerFunction});
+		if (hasTag('img')) addButton(tb, {cls: 'icon-image', onclick: addImage});
+	}
 
 	var tb = addToolbar();
 	addButton(tb, {cls: 'icon-about', onclick: aboutEditor});
