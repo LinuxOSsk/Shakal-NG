@@ -19,7 +19,7 @@ h6 { font-size: 15px; font-weight: bold; }
 div, p, h1, h2, h3, h4, h5, h6, ul, ol, address, blockquote, pre { background: #fafafa; padding: 8px 5px 5px; margin: 10px; }
 p, div { border: 1px dashed #eee; background: #fff; }
 
-ul, ol, dl { background: #fafafa; margin: 10px; padding: 5px 0 5px 20px; list-style-position: outside; min-height: 1.6em; border-left: 5px solid #eee; }
+ul, ol, dl { background: #fafafa; margin: 10px; padding: 5px 0 5px 12px; list-style-position: outside; min-height: 1.6em; border-left: 5px solid #eee; }
 ul ul, ul ol, ol ol, ol ul { margin: 5px 0 0 -15px }
 ul > li ul, ul > li ol, ol > li ul, ol > li ol { border-top: 1px solid #eee }
 li, dd, dt { margin: 0px 0 4px 20px; padding: 4px 0 0 5px; }
@@ -27,7 +27,7 @@ dt { margin-bottom: 0 }
 dd + dt { margin-top: 4px; }
 dd { margin: 2px 0 0 4em }
 
-table { border-collapse: collapse; border: 1px solid #e0e0e0; font-size: 15px; }
+table { border-collapse: collapse; border: 1px solid #ddd; font-size: 15px; }
 th, td { padding: 4px 8px; border: 1px solid #f0f0f0; }
 td { color: #333; }
 th { font-weight: bold; color: black; background: #f8f8f8; text-align: left; }
@@ -35,17 +35,13 @@ caption { color: #333; font-style: italic; text-align: center; }
 
 blockquote { margin-left: 30px; font-style: italic; color: #333; padding: 12px 5px; }
 blockquote:before { content: "“"; margin-left: -30px; font-size: 50px; color: #eee; position: absolute; }
-/*
+pre { background-color: #eee; border: 1px solid #ddd; font-family: monospace; font-size: 15px; }
 
-pre { background-color:transparent; border: 1px solid white; }
-
-td{ height: 1.6em; }
-
-caption { text-align: left; }
-img { margin-right: 5px; border-style: solid; border-color: gray; border-width: 0; }
+img { margin: 10px; border-style: solid; border-color: #ddd; border-width: 1px; }
 a img { border-width: 1px; border-color: blue; }
+
 acronym { border: 1px solid gray; }
-span { background-color: #eef; }
+span { background-color: #eee; }
 
 h1 h1, h1 h2, h1 h3, h1 h4, h1 h5, h1 h6, h1 p, h1 pre, h1 address,
 h2 h1, h2 h2, h2 h3, h2 h4, h2 h5, h2 h6, h2 p, h2 pre, h2 address,
@@ -61,8 +57,7 @@ address p, address pre, address address
 
 br { height: 5px; line-height: 5px; }
 
-div, p, ol, ul, dl, li, dt, dd, h1, h2, h3, h4, h5, h6, blockquote,
-pre, address { position: relative; }
+div, p, ol, ul, dl, li, dt, dd, h1, h2, h3, h4, h5, h6, blockquote, pre, address { position: relative; }
 div::before, p::before, ol::before, ul::before, dl::before, li::before, dt::before, dd::before, h1::before, h2::before, h3::before, h4::before, h5::before, h6::before, blockquote::before, pre::before, address::before {
 	position: absolute;
 	left: -1px;
@@ -307,4 +302,3 @@ sub:hover { background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAA
 						url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAgSURBVAiZY/z//z8DDDhlPfrPxIAGMAQYHTMf/kcWAABxJAgb2YLYKgAAAABJRU5ErkJggg==) bottom right no-repeat }
 
 
-*/
