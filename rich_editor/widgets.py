@@ -15,7 +15,7 @@ class RichEditorMixin(Textarea):
 			'js/richeditor/editor.js',
 		]
 		css = {
-			'screen': ['css/editor.css'],
+			'screen': ['css/editor.light.css'],
 		}
 
 	def __init__(self, attrs=None, **kwargs):
@@ -105,6 +105,7 @@ class AdminRichOriginalEditor(RichOriginalEditor):
 			'js/richeditor/editor.js',
 		]
 		css = {
+			'screen': ['css/editor.light.css'],
 		}
 
 	def __init__(self, *args, **kwargs):
