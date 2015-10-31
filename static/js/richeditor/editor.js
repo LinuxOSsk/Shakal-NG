@@ -146,7 +146,6 @@ var SimpleEditorHtml = function(element, options) {
 				}
 			}
 			updateCls();
-			e.preventDefault();
 			if (options.cls !== 'dropdown') {
 				element.focus();
 			}
