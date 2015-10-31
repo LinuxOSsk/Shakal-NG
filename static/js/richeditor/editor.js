@@ -753,6 +753,7 @@ var RichEditor = function(element, options) {
 	};
 
 	this.selectEditor = function(name) {
+		_.setCookie(o.namespace + '_richeditor', name, 3650);
 		if (name === 'simple_html') {
 			label.innerHTML = 'CKEditor';
 		}
@@ -761,12 +762,15 @@ var RichEditor = function(element, options) {
 		}
 
 		currentEditor = name;
-		if (currentEditorWidget !== undefined) {
-			currentEditorWidget.destroy();
-			currentEditorWidget = undefined;
+		try {
+			if (currentEditorWidget !== undefined) {
+				currentEditorWidget.destroy();
+				currentEditorWidget = undefined;
+			}
 		}
-		currentEditorWidget = new editors[name](element, o);
-		_.setCookie(o.namespace + '_richeditor', name, 3650);
+		finally {
+			currentEditorWidget = new editors[name](element, o);
+		}
 	};
 
 	var editor = _.getCookie(o.namespace + '_richeditor');
