@@ -202,9 +202,10 @@ var SimpleEditorHtml = function(element, options) {
 			link.className = 'richedit_combo_menu_link';
 		}
 		if (options.onclick !== undefined) {
-			link.onmousedown = function() {
+			_.bindEvent(link, 'click', function() {
 				options.onclick(btn);
-			}
+				hideMenuTrigger();
+			});
 		}
 		link.setAttribute('href', '#');
 		link.appendChild(document.createTextNode(options.label));
@@ -411,12 +412,16 @@ var SimpleEditorHtml = function(element, options) {
 	addComboMenuItem(styleMenu, {label: 'Citácia', cls: 'blockquote', tag: 'blockquote', onclick: triggerFunction})
 	addComboMenuItem(styleMenu, {label: 'Kód', cls: 'pre', tag: 'pre', onclick: triggerFunction, parse: _.escapeHTML})
 
+	var hideMenuTrigger = function() {
+		setTimeout(hideMenu, 0);
+	};
+
 	var showMenu = function() {
 		if (styleMenu.style.display === 'block') {
 			return;
 		}
 		styleMenu.style.display = 'block';
-		_.bindEvent(document.body, 'mousedown', hideMenu);
+		_.bindEvent(document.body, 'mouseup', hideMenuTrigger);
 	};
 
 	var hideMenu = function() {
@@ -425,7 +430,7 @@ var SimpleEditorHtml = function(element, options) {
 		}
 		styleMenu.style.display = 'none';
 		buttons.style.setDown(false);
-		_.unbindEvent(document.body, 'mousedown', hideMenu);
+		_.unbindEvent(document.body, 'mouseup', hideMenuTrigger);
 	};
 
 	var insert = function(pre, post, parseSel) {
