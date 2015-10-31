@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.forms import CharField
 
-from rich_editor.parser import HtmlParser, RawParser
-from .widgets import RichOriginalEditor, RichEditor, AdminRichOriginalEditor
+from .widgets import RichOriginalEditor, RichEditor
+from rich_editor.parser import HtmlParser
 
 
 class RichTextField(CharField):
@@ -41,11 +41,3 @@ class RichOriginalField(CharField):
 		parser.parse(txt)
 		parsed = parser.get_output()
 		return (fmt, txt, parsed)
-
-
-class AdminRichOriginalField(RichOriginalField):
-	widget = AdminRichOriginalEditor
-
-	def __init__(self, parsers, *args, **kwargs):
-		parsers['raw'] = RawParser()
-		super(AdminRichOriginalField, self).__init__(parsers, *args, **kwargs)

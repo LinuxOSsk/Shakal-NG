@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
 from django.db.models import signals, TextField, SubfieldBase, Field
 
-from .forms import RichOriginalField, AdminRichOriginalField
+from .forms import RichOriginalField
 from .parser import HtmlParser
 
 
@@ -91,6 +90,3 @@ class RichTextFilteredField(TextField):
 	def __init__(self, *args, **kwargs):
 		kwargs['editable'] = False
 		super(RichTextFilteredField, self).__init__(*args, **kwargs)
-
-
-FORMFIELD_FOR_DBFIELD_DEFAULTS[RichTextOriginalField] = {'form_class': AdminRichOriginalField}

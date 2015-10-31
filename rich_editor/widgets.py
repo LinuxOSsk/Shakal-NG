@@ -11,7 +11,6 @@ from rich_editor.parser import ALL_TAGS
 class RichEditorMixin(Textarea):
 	class Media:
 		js = [
-			'js/lib.js',
 			'js/richeditor/editor.js',
 		]
 		css = {
@@ -58,6 +57,8 @@ class RichEditor(RichEditorMixin):
 
 
 class RichOriginalEditor(RichEditorMixin):
+	template_name = 'widgets/editor.html'
+
 	def __init__(self, formats=(('html', 'HTML'), ), *args, **kwargs):
 		super(RichOriginalEditor, self).__init__(*args, **kwargs)
 		self.formats = formats
@@ -65,7 +66,10 @@ class RichOriginalEditor(RichEditorMixin):
 	def render(self, name, value, attrs=None, **kwargs):
 		if value is None:
 			value=(None, None)
-		value_fmt, value = value
+		try:
+			value_fmt, value = value
+		except ValueError:
+			value_fmt = self.formats[0][0]
 
 		formats = []
 		for fmt, label in self.formats:
@@ -86,7 +90,7 @@ class RichOriginalEditor(RichEditorMixin):
 			'formats': formats,
 			'skin': self.skin
 		}
-		return mark_safe(render_to_string('widgets/editor.html', context))
+		return mark_safe(render_to_string(self.template_name, context))
 
 	def value_from_datadict(self, data, files, name):
 		text = data.get(name)
@@ -96,19 +100,3 @@ class RichOriginalEditor(RichEditorMixin):
 			return ('html', text)
 		fmt = data.get(name + "_format")
 		return (fmt, text)
-
-
-class AdminRichOriginalEditor(RichOriginalEditor):
-	class Media:
-		js = [
-			'js/lib.js',
-			'js/richeditor/editor.js',
-		]
-		css = {
-			'screen': ['css/editor.light.css'],
-		}
-
-	def __init__(self, *args, **kwargs):
-		super(AdminRichOriginalEditor, self).__init__(*args, **kwargs)
-		self.formats = self.formats + (('raw', 'RAW'), )
-		self.skin = 'compact'
