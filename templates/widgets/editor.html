@@ -1,15 +1,15 @@
-{% if formats %}
-	<div class="formatwrapper">
-		{% for format in formats %}
-			<label class="format">
-				<input type="radio" name="{{ name }}_format" value="{{ format.format }}"{% if format.checked %} checked="checked"{% endif %} />
-				{{ format.label }}
-			</label>
-		{% endfor %}
-	</div>
-{% endif %}
-
 <div id="id_textareawrapper_{{ name }}" class="textareawrapper">
+	{% if formats %}
+		<div class="formatwrapper">
+			{% for format in formats %}
+				<label class="format">
+					<input type="radio" name="{{ name }}_format" value="{{ format.format }}"{% if format.checked %} checked="checked"{% endif %} />
+					{{ format.label }}
+				</label>
+			{% endfor %}
+		</div>
+	{% endif %}
+
 	{{ widget|safe }}
 </div>
 
@@ -20,7 +20,6 @@ window.rich_editors = window.rich_editors || [];
 window.rich_editors.push({
 	lang: '{{ lang }}',
 	{% if tags %}tags: {{ tags|safe }},{% endif %}
-	{% if force_editor %}force_editor: '{{ force_editor }}',{% endif %}
 	static_base: '{{ static("") }}',
 	skin: '{{ skin }}',
 	namespace: 'front',
