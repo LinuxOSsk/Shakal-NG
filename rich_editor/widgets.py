@@ -21,8 +21,6 @@ class RichEditorMixin(Textarea):
 		self.language = settings.LANGUAGE_CODE
 		self.formats = ()
 		self.skin = 'shakal'
-		attrs = attrs or {}
-		attrs.update({'class': 'input-xlarge'})
 		super(RichEditorMixin, self).__init__(attrs)
 
 	def get_tags_info(self):
@@ -99,4 +97,7 @@ class RichOriginalEditor(RichEditorMixin):
 		if not text:
 			return ('html', text)
 		fmt = data.get(name + "_format")
-		return (fmt, text)
+		if self.attrs.get('no_format'):
+			return text
+		else:
+			return (fmt, text)
