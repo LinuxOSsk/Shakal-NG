@@ -73,6 +73,9 @@ var SimpleEditorHtml = function(element, options) {
 	};
 
 	var updatePreviewCss = function() {
+		if (options.format !== 'html') {
+			return;
+		}
 		var doc = preview.documentElement ? preview.documentElement : (preview.contentDocument ? preview.contentDocument : preview.contentWindow.document)
 		var inlineCss = doc.getElementsByTagName('STYLE')[0];
 		inlineCss.innerHTML = options.tags.unsupported.join(', ') + '{ background-color: #ff9999 !important; border: 1px solid red !important; }';
