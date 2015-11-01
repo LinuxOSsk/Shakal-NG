@@ -85,6 +85,14 @@ div.richedit_container {
 			color: #555;
 			font-size: 15px;
 			padding: 0;
+			margin: 0;
+			display: inline;
+			line-height: 1.5;
+		}
+
+		input[type=radio], input[type=checkbox] {
+			vertical-align: middle;
+			margin: 0 4px 0 0;
 		}
 
 		input[type=text], textarea {
@@ -96,6 +104,9 @@ div.richedit_container {
 			padding: 4px 6px;
 			width: 100%;
 			box-sizing: border-box;
+			border-radius: 0;
+			box-shadow: none;
+			height: auto;
 		}
 
 		textarea {
@@ -186,6 +197,7 @@ div.richedit_container {
 	text-decoration: none;
 	padding: 0 5px;
 	display: block;
+	line-height: 1.2;
 	&:hover {
 		background: none;
 		color: #444;
@@ -205,6 +217,7 @@ div.richedit_container {
 	text-decoration: none;
 	font-size: 11px;
 	font-weight: bold;
+	line-height: 1.2;
 
 	background: #51a351;
 	background-image: linear-gradient(to bottom, #61c261, #51a351);
@@ -267,6 +280,13 @@ div.richedit_container {
 		margin: 0;
 		padding: 0;
 		height: 300px;
+		width: 100%;
+		border-radius: 0;
+		box-shadow: none;
+		&:focus, &:active {
+			outline: none;
+			box-shadow: none;
+		}
 	}
 
 	iframe {
