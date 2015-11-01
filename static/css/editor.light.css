@@ -671,7 +671,8 @@ div.richedit_container .richedit_combo_menu_link {
   display: block;
   padding: 2px 4px;
   color: #333;
-  text-decoration: none; }
+  text-decoration: none;
+  line-height: 1.5; }
   div.richedit_container .richedit_combo_menu_link:hover {
     border-radius: 3px;
     background: #333;
