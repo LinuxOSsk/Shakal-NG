@@ -2,11 +2,16 @@
 
 var SimpleEditorHtml = function(element, options) {
 	var hasTag = function(tagName) {
-		if (options.tags.known.indexOf(tagName) !== -1) {
-			return true;
+		if (options.format === 'html') {
+			if (options.tags.known.indexOf(tagName) !== -1) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 		else {
-			return false;
+			return true;
 		}
 	};
 
@@ -703,7 +708,7 @@ var CkEditorHtml = function(element, options) {
 		config.plugins = 'basicstyles,blockquote,clipboard,contextmenu,dialogadvtab,enterkey,find,format,horizontalrule,image,indentblock,indentlist,justify,link,list,magicline,maximize,pastetext,removeformat,showblocks,showborders,sourcearea,specialchar,tab,table,tabletools,toolbar,undo,wysiwygarea,close';
 		config.format_tags = 'p;h1;h2;h3;h4;h5;h6;pre';
 
-		if (options.tags) {
+		if (options.format === 'html' && options.tags) {
 			var allowedTags = '';
 			var allowedTagsRestrict = '';
 			_.forEach(options.tags.known, function(element) {
@@ -758,9 +763,25 @@ var RichEditor = function(element, options) {
 	var currentEditorWidget = undefined;
 	var currentEditor = undefined;
 	var formats = _.cls(element.parentNode, 'formatwrapper')[0];
+	var format = 'html';
+
+	var selectFormat = function() {
+		formats = formats.getElementsByTagName('INPUT');
+		_.forEach(formats, function(formatInput) {
+			if (formatInput.checked) {
+				format = formatInput.value;
+			}
+		});
+	};
+
+	if (formats !== undefined) {
+		selectFormat();
+	}
+
 
 	var o = {};
 	for (var k in options) { if (options.hasOwnProperty(k)) o[k] = options[k]; }
+	o.format = format;
 
 	var editors = {
 		'simple_html': SimpleEditorHtml,
