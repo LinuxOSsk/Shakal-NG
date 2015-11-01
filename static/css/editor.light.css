@@ -295,11 +295,11 @@ a.richedit_button_disabled:active {
   float: left;
   display: inline-block;
   background-repeat: no-repeat;
-  background-image: url(static("images/editor_icons_moono.png"));
+  background-image: url("../images/editor_icons_moono.png");
   background-size: 16px 2040px; }
   @media (-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx) {
     .richedit_button_icon {
-      background-image: static("images/editor_icons_moono@2x.png"); } }
+      background-image: static("../images/editor_icons_moono@2x.png"); } }
 
 .icon-about .richedit_button_icon {
   background-position: 0px 0px; }

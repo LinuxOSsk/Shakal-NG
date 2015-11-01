@@ -383,10 +383,10 @@ a.richedit_button_disabled:active {
 	display: inline-block;
 
 	background-repeat: no-repeat;
-	background-image: url(static('images/editor_icons_moono.png'));
+	background-image: url('../images/editor_icons_moono.png');
 	background-size: 16px 2040px;
 	@media #{$hdpi} {
-		background-image: static('images/editor_icons_moono@2x.png');
+		background-image: static('../images/editor_icons_moono@2x.png');
 	}
 }
 
