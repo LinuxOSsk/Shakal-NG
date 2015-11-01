@@ -141,3 +141,13 @@ ALTER TABLE threaded_comments_rootheader ALTER COLUMN last_comment SET NOT NULL;
 --
 
 ALTER TABLE ONLY django_migrations ALTER COLUMN id SET DEFAULT nextval('django_migrations_id_seq'::regclass);
+
+ALTER TABLE ONLY attachment_attachmentimage ADD CONSTRAINT attachment_attachmentimage_pkey PRIMARY KEY (attachment_ptr_id);
+ALTER TABLE ONLY django_content_type DROP CONSTRAINT django_content_type_app_label_model_key UNIQUE (app_label, model);
+ALTER TABLE ONLY django_content_type ADD CONSTRAINT django_content_type_app_label_45f3b1d93ec8c61c_uniq UNIQUE (app_label, model);
+ALTER TABLE ONLY django_migrations ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+-- CREATE INDEX account_emailaddress_e8701ad4 ON account_emailaddress USING btree (user_id);
+-- CREATE INDEX account_emailaddress_email_206527469d8e1918_like ON account_emailaddress USING btree (email varchar_pattern_ops);
+-- CREATE INDEX account_emailconfirmation_6f1edeac ON account_emailconfirmation USING btree (email_address_id);
+-- CREATE INDEX account_emailconfirmation_key_7033a271201d424f_like ON account_emailconfirmation USING btree (key varchar_pattern_ops);
+-- CREATE INDEX accounts_remembertoken_e8701ad4 ON accounts_remembertoken USING btree (user_id);
