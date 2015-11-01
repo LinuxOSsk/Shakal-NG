@@ -27,6 +27,11 @@ class ArticleAdmin(AdminActionsMixin, admin.ModelAdmin):
 	ordering = ('-id', )
 	inlines = [AttachmentInline]
 	form = ArticleForm
+	fieldsets = (
+		(None, {'fields': ('title', 'slug', 'category', ('author', 'authors_name'), 'pub_time', 'top', 'image',)}),
+		('Obsah', {'fields': ('perex', 'annotation',)}),
+		(None, {'fields': ('content',), 'classes': ('full-width',)}),
+	)
 
 	def get_queryset(self, request):
 		qs = super(ArticleAdmin, self).get_queryset(request)
