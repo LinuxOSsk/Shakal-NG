@@ -69,7 +69,7 @@ class HtmlTag:
 ALL_TAGS = ['a', 'abbr', 'acronym', 'address', 'applet', 'area', 'article', 'aside', 'audio', 'b', 'base', 'basefont', 'bdi', 'bdo', 'big', 'blockquote', 'body', 'br', 'button', 'canvas', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'command', 'datalist', 'dd', 'del', 'details', 'dfn', 'dir', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset', 'figcaption', 'figure', 'font', 'footer', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'hr', 'html', 'i', 'iframe', 'img', 'input', 'ins', 'kbd', 'keygen', 'label', 'legend', 'li', 'link', 'map', 'mark', 'menu', 'meta', 'meter', 'nav', 'noframes', 'noscript', 'object', 'ol', 'optgroup', 'option', 'output', 'p', 'param', 'pre', 'progress', 'q', 'rp', 'rt', 'ruby', 's', 'samp', 'script', 'section', 'select', 'small', 'source', 'span', 'strike', 'strong', 'style', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'title', 'tr', 'track', 'tt', 'u', 'ul', 'var', 'video', 'wbr']
 
 
-TEXT_TAGS_LIST = ['', 'b', 'u', 'i', 'em', 'strong', 'a', 'br', 'del', 'ins']
+TEXT_TAGS_LIST = ['', 'b', 'u', 'i', 'em', 'strong', 'a', 'br', 'del', 'ins', 'sub', 'sup']
 ONELINE_TAGS_LIST = TEXT_TAGS_LIST[:-1]
 
 DEFAULT_TAGS = dict((t.name, t) for t in [
@@ -85,13 +85,15 @@ DEFAULT_TAGS = dict((t.name, t) for t in [
 	HtmlTag('br', empty=True),
 	HtmlTag('del', opt=TEXT_TAGS_LIST, empty=False),
 	HtmlTag('ins', opt=TEXT_TAGS_LIST, empty=False),
+	HtmlTag('sub', opt=TEXT_TAGS_LIST, empty=False),
+	HtmlTag('sup', opt=TEXT_TAGS_LIST, empty=False),
 	HtmlTag('code', opt=['', 'b', 'u', 'i', 'em', 'strong'], empty=False),
 	HtmlTag('blockquote', opt=TEXT_TAGS_LIST + ['p', 'code', 'pre', 'cite', 'span', 'ol', 'ul'], empty=False),
 	HtmlTag('cite', opt=TEXT_TAGS_LIST, empty=False),
 	HtmlTag('ol', req=['li'], empty=True),
 	HtmlTag('ul', req=['li'], empty=True),
 	HtmlTag('li', opt=TEXT_TAGS_LIST + ['ol', 'ul'], empty=None),
-	HtmlTag('', opt=['', 'a', 'b', 'u', 'br', 'p', 'i', 'em', 'code', 'strong', 'pre', 'blockquote', 'ol', 'ul', 'span', 'cite']),
+	HtmlTag('', opt=['', 'a', 'b', 'u', 'br', 'del', 'ins', 'sub', 'sup', 'p', 'i', 'em', 'code', 'strong', 'pre', 'blockquote', 'ol', 'ul', 'span', 'cite']),
 ])
 ONELINE_TAGS = dict((t.name, t) for t in [
 	HtmlTag('b', opt=ONELINE_TAGS_LIST, empty=False),
@@ -102,7 +104,7 @@ ONELINE_TAGS = dict((t.name, t) for t in [
 	HtmlTag('a', opt=[''], req_attributes={'href': '#'}, empty=False, attribute_validators = {'href': [HrefValidator()]}),
 	HtmlTag('', opt=['', 'a', 'b', 'u', 'i', 'em']),
 ])
-FULL_TEXT_TAGS_LIST = ['', 'b', 'u', 'i', 'em', 'strong', 'a', 'br', 'del', 'ins', 'abbr', 'img']
+FULL_TEXT_TAGS_LIST = ['', 'b', 'u', 'i', 'em', 'strong', 'a', 'br', 'del', 'ins', 'abbr', 'img', 'sub', 'sup']
 FULL_TAGS = dict((t.name, t) for t in [
 	HtmlTag('b', opt=FULL_TEXT_TAGS_LIST, empty=False),
 	HtmlTag('u', opt=FULL_TEXT_TAGS_LIST, empty=False),
@@ -116,6 +118,8 @@ FULL_TAGS = dict((t.name, t) for t in [
 	HtmlTag('br', empty=True),
 	HtmlTag('del', opt=FULL_TEXT_TAGS_LIST, empty=False),
 	HtmlTag('ins', opt=FULL_TEXT_TAGS_LIST, empty=False),
+	HtmlTag('sub', opt=FULL_TEXT_TAGS_LIST, empty=False),
+	HtmlTag('sup', opt=FULL_TEXT_TAGS_LIST, empty=False),
 	HtmlTag('code', opt=['', 'b', 'u', 'i', 'em', 'strong'], empty=False),
 	HtmlTag('blockquote', opt=FULL_TEXT_TAGS_LIST + ['p', 'code', 'pre', 'cite', 'span', 'ol', 'ul'], empty=False),
 	HtmlTag('cite', opt=FULL_TEXT_TAGS_LIST, empty=False),
@@ -140,7 +144,7 @@ FULL_TAGS = dict((t.name, t) for t in [
 	HtmlTag('tr', opt=['td', 'th'], empty=True),
 	HtmlTag('th', opt=FULL_TEXT_TAGS_LIST, opt_attributes=['colpan', 'rowspan'], attribute_validators={'colspan': [TableSpanValidator()], 'rowspan': [TableSpanValidator()]}, empty=False),
 	HtmlTag('td', opt=FULL_TEXT_TAGS_LIST, opt_attributes=['colpan', 'rowspan'], attribute_validators={'colspan': [TableSpanValidator()], 'rowspan': [TableSpanValidator()]}, empty=False),
-	HtmlTag('', opt=['', 'a', 'b', 'u', 'br', 'p', 'i', 'em', 'code', 'strong', 'pre', 'blockquote', 'ol', 'ul', 'span', 'cite', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'abbr', 'dl', 'img', 'table']),
+	HtmlTag('', opt=['', 'a', 'b', 'u', 'br', 'del', 'ins', 'sub', 'sup', 'p', 'i', 'em', 'code', 'strong', 'pre', 'blockquote', 'ol', 'ul', 'span', 'cite', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'abbr', 'dl', 'img', 'table']),
 ])
 
 
