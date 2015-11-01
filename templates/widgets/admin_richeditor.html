@@ -1,5 +1,5 @@
 {% if formats %}
-	<div class="formatwrapper">
+	<div class="formatwrapper" style="display: none">
 		{% for format in formats %}
 			<label class="format">
 				<input type="radio" name="{{ name }}_format" value="{{ format.format }}"{% if format.checked %} checked="checked"{% endif %} />
