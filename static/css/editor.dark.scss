@@ -30,4 +30,7 @@ $richedit-separator-color: #272727 !default;
 $richedit-separator-color2: rgba(0,0,0,.5) !default;
 $richedit-separator-shadow: rgba(255,255,255,.1) !default;
 
+$richedit-icons: '../images/editor_icons_moono_dark.png';
+$richedit-icons-2x: '../images/editor_icons_moono_dark@2x.png';
+
 @import "editor";
