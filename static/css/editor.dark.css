@@ -245,7 +245,7 @@ div.richedit_container .richedit_switch_toolgroup_container {
   position: relative;
   float: right;
   z-index: 1;
-  padding: 7px 8px 0px; }
+  padding: 8px 8px 0px; }
 
 div.richedit_container a.richedit_button {
   display: inline-block;
