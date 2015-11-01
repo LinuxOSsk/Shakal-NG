@@ -11,8 +11,8 @@ class ArticleForm(forms.ModelForm):
 		widgets = {
 			'pub_time':  DateTimeInput,
 			'authors_name': EnclosedInput(append='icon-user'),
-			'perex': RichEditorWidget,
-			'annotation': RichEditorWidget,
-			'content': RichEditorWidget,
+			'perex': RichEditorWidget(attrs={'no_format': True}),
+			'annotation': RichEditorWidget(attrs={'no_format': True}),
+			'content': RichEditorWidget(attrs={'no_format': True}),
 		}
 		fields = '__all__'
