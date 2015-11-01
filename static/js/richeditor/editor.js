@@ -211,9 +211,10 @@ var SimpleEditorHtml = function(element, options) {
 			link.className = 'richedit_combo_menu_link';
 		}
 		if (options.onclick !== undefined) {
-			_.bindEvent(link, 'click', function() {
+			_.bindEvent(link, 'click', function(e) {
 				options.onclick(btn);
 				hideMenuTrigger();
+				e.preventDefault();
 			});
 		}
 		link.setAttribute('href', '#');
