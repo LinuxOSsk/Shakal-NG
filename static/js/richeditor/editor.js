@@ -745,7 +745,7 @@ var CkEditorHtml = function(element, options) {
 		}
 	};
 
-	_.loaderJs([window._urls.static_base + 'vendor/ckeditor/ckeditor.js'], function() {
+	_.loaderJs([options.static_base + 'vendor/ckeditor/ckeditor.js'], function() {
 		if (destroy) {
 			return;
 		}
@@ -757,6 +757,7 @@ var RichEditor = function(element, options) {
 	var self = this;
 	var currentEditorWidget = undefined;
 	var currentEditor = undefined;
+	var formats = _.cls(element.parentNode, 'formatwrapper')[0];
 
 	var o = {};
 	for (var k in options) { if (options.hasOwnProperty(k)) o[k] = options[k]; }
