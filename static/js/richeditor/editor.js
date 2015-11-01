@@ -778,7 +778,11 @@ var RichEditor = function(element, options) {
 	switchToolgroup.appendChild(switchButton);
 	switchToolgroupContainer.appendChild(switchToolgroup);
 
-	element.parentNode.insertBefore(switchToolgroupContainer, element);
+	var richeditContainer = _.createDiv('richedit_container');
+	element.parentNode.insertBefore(richeditContainer, element);
+	element.parentNode.removeChild(element);
+	richeditContainer.appendChild(switchToolgroupContainer);
+	richeditContainer.appendChild(element);
 
 	o.selector = self;
 	o.switchContainer = switchToolgroupContainer;
