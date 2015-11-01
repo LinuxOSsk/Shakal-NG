@@ -256,7 +256,11 @@ div.richedit_container a.richedit_button {
   float: left;
   border: 0;
   border-radius: 0;
-  text-decoration: none; }
+  text-decoration: none;
+  background: none;
+  vertical-align: auto;
+  line-height: 1;
+  margin: 0; }
   div.richedit_container a.richedit_button:hover {
     border-radius: 0; }
   div.richedit_container a.richedit_button:last-child {
@@ -618,7 +622,8 @@ div.richedit_container .richedit_chrome ul.richedit_combo_menu {
   padding: 4px;
   background: white;
   min-width: 144px;
-  z-index: 100; }
+  z-index: 100;
+  list-style: none; }
   div.richedit_container .richedit_chrome ul.richedit_combo_menu li {
     padding: 0;
     margin: 0; }

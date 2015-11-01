@@ -335,6 +335,10 @@ a.richedit_button {
 	border: 0;
 	border-radius: 0;
 	text-decoration: none;
+	background: none;
+	vertical-align: auto;
+	line-height: 1;
+	margin: 0;
 	&:hover {
 		border-radius: 0;
 	}
@@ -489,6 +493,7 @@ $icons: (
 	background: white;
 	min-width: 144px;
 	z-index: 100;
+	list-style: none;
 
 	li {
 		padding: 0;
