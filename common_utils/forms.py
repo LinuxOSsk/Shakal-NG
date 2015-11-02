@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django import forms
 
 from common_utils.middlewares.ThreadLocal import get_current_request
+from django.core import validators
 
 
 class AuthorsNameFormMixin(object):
@@ -18,7 +19,12 @@ class AuthorsNameFormMixin(object):
 				del self.fields[authors_name_field]
 		else:
 			if not authors_name_field in self.fields:
-				self.fields[authors_name_field] = forms.CharField(max_length=255)
+				self.fields[authors_name_field] = forms.CharField(
+					max_length=30,
+					validators=[validators.RegexValidator(r'^[\w.@+-]+$', 'Meno môže obsahovať len alfanumerické znaky, čísla a znaky @/./+/-/_.', 'invalid')]
+				)
+			else:
+				self.fields[authors_name_field].validators = [validators.RegexValidator(r'^[\w.@+-]+$', 'Meno môže obsahovať len alfanumerické znaky, čísla a znaky @/./+/-/_.', 'invalid')]
 
 	def get_authors_name_field(self):
 		return self.authors_name_field
