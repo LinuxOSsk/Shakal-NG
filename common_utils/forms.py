@@ -24,6 +24,7 @@ class AuthorsNameFormMixin(object):
 					validators=[validators.RegexValidator(r'^[\w.@+-]+$', 'Meno môže obsahovať len alfanumerické znaky, čísla a znaky @/./+/-/_.', 'invalid')]
 				)
 			else:
+				self.fields[authors_name_field].required = True
 				self.fields[authors_name_field].validators = [validators.RegexValidator(r'^[\w.@+-]+$', 'Meno môže obsahovať len alfanumerické znaky, čísla a znaky @/./+/-/_.', 'invalid')]
 
 	def get_authors_name_field(self):

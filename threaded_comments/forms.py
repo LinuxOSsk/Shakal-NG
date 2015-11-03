@@ -10,6 +10,7 @@ from django.core import validators
 from django.forms.utils import ErrorDict
 from django.forms.widgets import HiddenInput
 from django.utils.crypto import salted_hmac
+from common_utils.forms import AuthorsNameFormMixin
 
 from antispam.forms import AntispamFormMixin
 from attachment.fields import AttachmentField
@@ -73,7 +74,9 @@ class SecurityFormMixin(object):
 		return actual_hash
 
 
-class CommentForm(SecurityFormMixin, TemporaryAttachmentFormMixin, AntispamFormMixin, forms.ModelForm):
+class CommentForm(SecurityFormMixin, AuthorsNameFormMixin, TemporaryAttachmentFormMixin, AntispamFormMixin, forms.ModelForm):
+	authors_name_field = 'user_name'
+
 	original_comment = RichOriginalField(
 		parsers=get_meta(Comment).get_field('original_comment').parsers,
 		label='Komentár',
@@ -107,10 +110,6 @@ class CommentForm(SecurityFormMixin, TemporaryAttachmentFormMixin, AntispamFormM
 		super(CommentForm, self).__init__(data=data, initial=initial, *args, **kwargs)
 		self.fields['parent'].required = True
 		self.request = get_current_request()
-		if self.request.user.is_authenticated():
-			del self.fields['user_name']
-		else:
-			self.fields['user_name'].required = True
 		self.process_attachments()
 
 	def get_model(self):
