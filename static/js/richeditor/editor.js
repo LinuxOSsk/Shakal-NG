@@ -318,7 +318,7 @@ var SimpleEditorHtml = function(element, options) {
 			checked = false;
 		}
 		if (hasTag('pre')) {
-			inputs.push('<label><input name="richedit_insert_text_type" type="radio"' + (checked ? 'checked="checked"' : '') + ' value="radio" /> Kód</label>&nbsp;&nbsp;&nbsp;&nbsp;');
+			inputs.push('<label><input name="richedit_insert_text_type" type="radio"' + (checked ? 'checked="checked"' : '') + ' value="pre" /> Kód</label>&nbsp;&nbsp;&nbsp;&nbsp;');
 			checked = false;
 		}
 
