@@ -7,6 +7,9 @@ from common_utils.middlewares.ThreadLocal import get_current_request
 from django.core import validators
 
 
+USERNAME_VALIDATOR = validators.RegexValidator(r'^[\w.@+-]+$', 'Meno môže obsahovať len alfanumerické znaky, čísla a znaky @/./+/-/_.', 'invalid')
+
+
 class AuthorsNameFormMixin(object):
 	authors_name_field = 'authors_name'
 
@@ -21,11 +24,11 @@ class AuthorsNameFormMixin(object):
 			if not authors_name_field in self.fields:
 				self.fields[authors_name_field] = forms.CharField(
 					max_length=30,
-					validators=[validators.RegexValidator(r'^[\w.@+-]+$', 'Meno môže obsahovať len alfanumerické znaky, čísla a znaky @/./+/-/_.', 'invalid')]
+					validators=[USERNAME_VALIDATOR]
 				)
 			else:
 				self.fields[authors_name_field].required = True
-				self.fields[authors_name_field].validators = [validators.RegexValidator(r'^[\w.@+-]+$', 'Meno môže obsahovať len alfanumerické znaky, čísla a znaky @/./+/-/_.', 'invalid')]
+				self.fields[authors_name_field].validators = [USERNAME_VALIDATOR]
 
 	def get_authors_name_field(self):
 		return self.authors_name_field
