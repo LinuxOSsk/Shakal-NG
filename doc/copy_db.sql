@@ -28,7 +28,7 @@
 -- │ public │ [*] django_site                               │ table │ linuxos │
 -- │ public │ [*] forum_section                             │ table │ linuxos │
 -- │ public │ [*] forum_topic                               │ table │ linuxos │
--- │ public │ [ ] hitcount_hitcount                         │ table │ linuxos │
+-- │ public │ [*] hitcount_hitcount                         │ table │ linuxos │
 -- │ public │ [ ] news_news                                 │ table │ linuxos │
 -- │ public │ [ ] notifications_event                       │ table │ linuxos │
 -- │ public │ [ ] notifications_inbox                       │ table │ linuxos │
@@ -205,4 +205,11 @@ INSERT INTO forum_section(id, name, slug, description)
 INSERT INTO forum_topic(id, title, original_text, filtered_text, created, updated, authors_name, is_removed, is_resolved, author_id, section_id)
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, title, original_text, filtered_text, created, updated, authors_name, is_removed, is_resolved, author_id, section_id FROM forum_topic')
-		AS t1(id integer, title character varying(100), original_text text, filtered_text text, created timestamp with time zone, updated timestamp with time zone, authors_name character varying(50), is_removed boolean, is_resolved boolean, author_id integer, section_id integer);
+
+
+-- hitcount
+
+INSERT INTO hitcount_hitcount(id, hits, object_id, content_type_id)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT id, hits, object_id, content_type_id FROM hitcount_hitcount')
+		AS t1(id integer, hits integer, object_id integer, content_type_id integer);
