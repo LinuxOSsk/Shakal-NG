@@ -1,12 +1,12 @@
 -- ┌────────┬───────────────────────────────────────────────┬───────┬─────────┐
 -- │ Schema │                     Name                      │ Type  │  Owner  │
 -- ├────────┼───────────────────────────────────────────────┼───────┼─────────┤
--- │ public │ [x] account_emailaddress                      │ table │ linuxos │
+-- │ public │ [*] account_emailaddress                      │ table │ linuxos │
 -- │ public │ [x] account_emailconfirmation                 │ table │ linuxos │
 -- │ public │ [x] accounts_remembertoken                    │ table │ linuxos │
 -- │ public │ [*] accounts_userrating                       │ table │ linuxos │
--- │ public │ [ ] article_article                           │ table │ linuxos │
--- │ public │ [ ] article_category                          │ table │ linuxos │
+-- │ public │ [*] article_article                           │ table │ linuxos │
+-- │ public │ [*] article_category                          │ table │ linuxos │
 -- │ public │ [ ] attachment_attachment                     │ table │ linuxos │
 -- │ public │ [ ] attachment_attachmentimage                │ table │ linuxos │
 -- │ public │ [ ] attachment_temporaryattachment            │ table │ linuxos │
@@ -116,10 +116,22 @@ INSERT INTO account_emailaddress(email, verified, "primary", user_id)
 		AS t1(email character varying(254), verified boolean, "primary" boolean, user_id integer);
 
 
-
 -- accounts
 
 INSERT INTO accounts_userrating(id, comments, articles, helped, news, wiki, rating, user_id)
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, comments, articles, helped, news, wiki, rating, user_id FROM accounts_userrating')
 		AS t1(id integer, comments integer, articles integer, helped integer, news integer, wiki integer, rating integer, user_id integer);
+
+
+-- article
+
+INSERT INTO article_category(id, name, slug, description)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT id, name, slug, description FROM article_category')
+		AS t1(id integer, name character varying(255), slug character varying(50), description text);
+
+INSERT INTO article_article(id, title, slug, perex, annotation, content, authors_name, pub_time, updated, published, top, image, author_id, category_id)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT id, title, slug, perex, annotation, content, authors_name, pub_time, updated, published, top, image, author_id, category_id FROM article_article')
+		AS t1(id integer, title character varying(255), slug character varying(50), perex text, annotation text, content text, authors_name character varying(255), pub_time timestamp with time zone, updated timestamp with time zone, published boolean, top boolean, image character varying(100), author_id integer, category_id integer);
