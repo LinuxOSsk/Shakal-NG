@@ -103,6 +103,20 @@ INSERT INTO django_site(id, domain, name)
 		AS t1(id integer, domain character varying(100), name character varying(50));
 
 
+-- account
+
+INSERT INTO account_emailaddress(email, verified, "primary", user_id)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT email, true, true, MAX(id) FROM auth_user WHERE is_active = true AND email LIKE ''%@%'' GROUP BY email')
+		AS t1(email character varying(254), verified boolean, "primary" boolean, user_id integer);
+
+INSERT INTO account_emailaddress(email, verified, "primary", user_id)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT email, false, true, MAX(id) FROM auth_user WHERE is_active = false AND email LIKE ''%@%'' GROUP BY email')
+		AS t1(email character varying(254), verified boolean, "primary" boolean, user_id integer);
+
+
+
 -- accounts
 
 INSERT INTO accounts_userrating(id, comments, articles, helped, news, wiki, rating, user_id)
