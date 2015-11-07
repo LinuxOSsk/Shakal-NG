@@ -19,13 +19,13 @@
 -- │ public │ [*] auth_user_user_permissions                │ table │ linuxos │
 -- │ public │ [ ] blog_blog                                 │ table │ linuxos │
 -- │ public │ [ ] blog_post                                 │ table │ linuxos │
--- │ public │ [ ] django_admin_log                          │ table │ linuxos │
+-- │ public │ [*] django_admin_log                          │ table │ linuxos │
 -- │ public │ [ ] django_comment_flags                      │ table │ linuxos │
 -- │ public │ [ ] django_comments                           │ table │ linuxos │
 -- │ public │ [*] django_content_type                       │ table │ linuxos │
 -- │ public │ [x] django_migrations                         │ table │ linuxos │
 -- │ public │ [x] django_session                            │ table │ linuxos │
--- │ public │ [ ] django_site                               │ table │ linuxos │
+-- │ public │ [*] django_site                               │ table │ linuxos │
 -- │ public │ [ ] forum_section                             │ table │ linuxos │
 -- │ public │ [ ] forum_topic                               │ table │ linuxos │
 -- │ public │ [ ] hitcount_hitcount                         │ table │ linuxos │
@@ -49,6 +49,7 @@ CREATE EXTENSION dblink;
 
 DELETE FROM auth_permission;
 DELETE FROM django_content_type;
+DELETE FROM django_site;
 
 
 -- auth
@@ -87,3 +88,16 @@ INSERT INTO auth_user_user_permissions(id, user_id, permission_id)
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, user_id, permission_id FROM auth_user_user_permissions')
 		AS t1(id integer, user_id integer, permission_id integer);
+
+
+-- django
+
+INSERT INTO django_admin_log(id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id FROM django_admin_log')
+		AS t1(id integer, action_time timestamp with time zone, object_id text, object_repr character varying(200), action_flag smallint, change_message text, content_type_id integer, user_id integer);
+
+INSERT INTO django_site(id, domain, name)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT id, domain, name FROM django_site')
+		AS t1(id integer, domain character varying(100), name character varying(50));
