@@ -29,7 +29,7 @@
 -- │ public │ [*] forum_section                             │ table │ linuxos │
 -- │ public │ [*] forum_topic                               │ table │ linuxos │
 -- │ public │ [*] hitcount_hitcount                         │ table │ linuxos │
--- │ public │ [ ] news_news                                 │ table │ linuxos │
+-- │ public │ [*] news_news                                 │ table │ linuxos │
 -- │ public │ [ ] notifications_event                       │ table │ linuxos │
 -- │ public │ [ ] notifications_inbox                       │ table │ linuxos │
 -- │ public │ [ ] polls_choice                              │ table │ linuxos │
@@ -213,3 +213,11 @@ INSERT INTO hitcount_hitcount(id, hits, object_id, content_type_id)
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, hits, object_id, content_type_id FROM hitcount_hitcount')
 		AS t1(id integer, hits integer, object_id integer, content_type_id integer);
+
+
+-- news
+
+INSERT INTO news_news(id, title, slug, original_short_text, filtered_short_text, original_long_text, filtered_long_text, created, updated, authors_name, approved, author_id)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT id, title, slug, original_short_text, filtered_short_text, original_long_text, filtered_long_text, created, updated, authors_name, approved, author_id FROM news_news')
+		AS t1(id integer, title character varying(255), slug character varying(50), original_short_text text, filtered_short_text text, original_long_text text, filtered_long_text text, created timestamp with time zone, updated timestamp with time zone, authors_name character varying(255), approved boolean, author_id integer);
