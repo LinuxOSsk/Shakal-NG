@@ -43,6 +43,10 @@
 -- │ public │ [ ] wiki_page                                 │ table │ linuxos │
 -- └────────┴───────────────────────────────────────────────┴───────┴─────────┘
 
+
+CREATE EXTENSION dblink;
+
+
 DELETE FROM auth_permission;
 DELETE FROM django_content_type;
 
