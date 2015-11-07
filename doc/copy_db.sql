@@ -30,8 +30,8 @@
 -- │ public │ [*] forum_topic                               │ table │ linuxos │
 -- │ public │ [*] hitcount_hitcount                         │ table │ linuxos │
 -- │ public │ [*] news_news                                 │ table │ linuxos │
--- │ public │ [ ] notifications_event                       │ table │ linuxos │
--- │ public │ [ ] notifications_inbox                       │ table │ linuxos │
+-- │ public │ [*] notifications_event                       │ table │ linuxos │
+-- │ public │ [*] notifications_inbox                       │ table │ linuxos │
 -- │ public │ [ ] polls_choice                              │ table │ linuxos │
 -- │ public │ [ ] polls_poll                                │ table │ linuxos │
 -- │ public │ [ ] polls_recordip                            │ table │ linuxos │
@@ -221,3 +221,16 @@ INSERT INTO news_news(id, title, slug, original_short_text, filtered_short_text,
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, title, slug, original_short_text, filtered_short_text, original_long_text, filtered_long_text, created, updated, authors_name, approved, author_id FROM news_news')
 		AS t1(id integer, title character varying(255), slug character varying(50), original_short_text text, filtered_short_text text, original_long_text text, filtered_long_text text, created timestamp with time zone, updated timestamp with time zone, authors_name character varying(255), approved boolean, author_id integer);
+
+
+-- notifications
+
+INSERT INTO notifications_event(id, object_id, time, action, level, message, author_id, content_type_id)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT id, object_id, time, action, level, message, author_id, content_type_id FROM notifications_event')
+		AS t1(id integer, object_id integer, time timestamp with time zone, action character varying(1), level integer, message text, author_id integer, content_type_id integer);
+
+INSERT INTO notifications_inbox(id, readed, event_id, recipient_id)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT id, readed, event_id, recipient_id FROM notifications_inbox')
+		AS t1(id integer, readed boolean, event_id integer, recipient_id integer);
