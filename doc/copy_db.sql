@@ -23,8 +23,8 @@
 -- │ public │ [ ] django_comment_flags                      │ table │ linuxos │
 -- │ public │ [ ] django_comments                           │ table │ linuxos │
 -- │ public │ [*] django_content_type                       │ table │ linuxos │
--- │ public │ [ ] django_migrations                         │ table │ linuxos │
--- │ public │ [ ] django_session                            │ table │ linuxos │
+-- │ public │ [x] django_migrations                         │ table │ linuxos │
+-- │ public │ [x] django_session                            │ table │ linuxos │
 -- │ public │ [ ] django_site                               │ table │ linuxos │
 -- │ public │ [ ] forum_section                             │ table │ linuxos │
 -- │ public │ [ ] forum_topic                               │ table │ linuxos │
