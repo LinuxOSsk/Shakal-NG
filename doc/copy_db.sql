@@ -32,10 +32,10 @@
 -- │ public │ [*] news_news                                 │ table │ linuxos │
 -- │ public │ [*] notifications_event                       │ table │ linuxos │
 -- │ public │ [*] notifications_inbox                       │ table │ linuxos │
--- │ public │ [ ] polls_choice                              │ table │ linuxos │
--- │ public │ [ ] polls_poll                                │ table │ linuxos │
--- │ public │ [ ] polls_recordip                            │ table │ linuxos │
--- │ public │ [ ] polls_recorduser                          │ table │ linuxos │
+-- │ public │ [*] polls_choice                              │ table │ linuxos │
+-- │ public │ [*] polls_poll                                │ table │ linuxos │
+-- │ public │ [*] polls_recordip                            │ table │ linuxos │
+-- │ public │ [*] polls_recorduser                          │ table │ linuxos │
 -- │ public │ [ ] reversion_revision                        │ table │ linuxos │
 -- │ public │ [ ] reversion_version                         │ table │ linuxos │
 -- │ public │ [*] threaded_comments_rootheader              │ table │ linuxos │
@@ -234,3 +234,26 @@ INSERT INTO notifications_inbox(id, readed, event_id, recipient_id)
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, readed, event_id, recipient_id FROM notifications_inbox')
 		AS t1(id integer, readed boolean, event_id integer, recipient_id integer);
+
+
+-- polls
+
+INSERT INTO polls_poll(id, question, slug, object_id, active_from, checkbox, approved, choice_count, content_type_id)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT id, question, slug, object_id, active_from, checkbox, approved, choice_count, content_type_id FROM polls_poll')
+		AS t1(id integer, question text, slug character varying(50), object_id integer, active_from timestamp with time zone, checkbox boolean, approved boolean, choice_count integer, content_type_id integer);
+
+INSERT INTO polls_choice(id, choice, votes, poll_id)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT id, choice, votes, poll_id FROM polls_choice')
+		AS t1(id integer, choice character varying(255), votes integer, poll_id integer);
+
+INSERT INTO polls_recordip(id, ip, date, poll_id)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT id, ip, date, poll_id FROM polls_recordip')
+		AS t1(id integer, ip inet, date timestamp with time zone, poll_id integer);
+
+INSERT INTO polls_recorduser(id, date, poll_id, user_id)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT id, date, poll_id, user_id FROM polls_recorduser')
+		AS t1(id integer, date timestamp with time zone, poll_id integer, user_id integer);
