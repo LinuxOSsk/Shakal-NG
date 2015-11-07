@@ -1,10 +1,10 @@
 -- ┌────────┬───────────────────────────────────────────────┬───────┬─────────┐
 -- │ Schema │                     Name                      │ Type  │  Owner  │
 -- ├────────┼───────────────────────────────────────────────┼───────┼─────────┤
--- │ public │ [ ] account_emailaddress                      │ table │ linuxos │
--- │ public │ [ ] account_emailconfirmation                 │ table │ linuxos │
--- │ public │ [ ] accounts_remembertoken                    │ table │ linuxos │
--- │ public │ [ ] accounts_userrating                       │ table │ linuxos │
+-- │ public │ [x] account_emailaddress                      │ table │ linuxos │
+-- │ public │ [x] account_emailconfirmation                 │ table │ linuxos │
+-- │ public │ [x] accounts_remembertoken                    │ table │ linuxos │
+-- │ public │ [*] accounts_userrating                       │ table │ linuxos │
 -- │ public │ [ ] article_article                           │ table │ linuxos │
 -- │ public │ [ ] article_category                          │ table │ linuxos │
 -- │ public │ [ ] attachment_attachment                     │ table │ linuxos │
@@ -101,3 +101,11 @@ INSERT INTO django_site(id, domain, name)
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, domain, name FROM django_site')
 		AS t1(id integer, domain character varying(100), name character varying(50));
+
+
+-- accounts
+
+INSERT INTO accounts_userrating(id, comments, articles, helped, news, wiki, rating, user_id)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT id, comments, articles, helped, news, wiki, rating, user_id FROM accounts_userrating')
+		AS t1(id integer, comments integer, articles integer, helped integer, news integer, wiki integer, rating integer, user_id integer);
