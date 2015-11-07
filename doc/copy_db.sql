@@ -26,8 +26,8 @@
 -- │ public │ [x] django_migrations                         │ table │ linuxos │
 -- │ public │ [x] django_session                            │ table │ linuxos │
 -- │ public │ [*] django_site                               │ table │ linuxos │
--- │ public │ [ ] forum_section                             │ table │ linuxos │
--- │ public │ [ ] forum_topic                               │ table │ linuxos │
+-- │ public │ [*] forum_section                             │ table │ linuxos │
+-- │ public │ [*] forum_topic                               │ table │ linuxos │
 -- │ public │ [ ] hitcount_hitcount                         │ table │ linuxos │
 -- │ public │ [ ] news_news                                 │ table │ linuxos │
 -- │ public │ [ ] notifications_event                       │ table │ linuxos │
@@ -193,3 +193,16 @@ INSERT INTO threaded_comments_userdiscussionattribute(id, time, watch, discussio
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, time, watch, discussion_id, user_id FROM threaded_comments_userdiscussionattribute')
 		AS t1(id integer, time timestamp with time zone, watch boolean, discussion_id integer, user_id integer);
+
+
+-- forum
+
+INSERT INTO forum_section(id, name, slug, description)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT id, name, slug, description FROM forum_section')
+		AS t1(id integer, name character varying(255), slug character varying(50), description text);
+
+INSERT INTO forum_topic(id, title, original_text, filtered_text, created, updated, authors_name, is_removed, is_resolved, author_id, section_id)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT id, title, original_text, filtered_text, created, updated, authors_name, is_removed, is_resolved, author_id, section_id FROM forum_topic')
+		AS t1(id integer, title character varying(100), original_text text, filtered_text text, created timestamp with time zone, updated timestamp with time zone, authors_name character varying(50), is_removed boolean, is_resolved boolean, author_id integer, section_id integer);
