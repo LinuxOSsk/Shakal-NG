@@ -17,8 +17,8 @@
 -- │ public │ [*] auth_user                                 │ table │ linuxos │
 -- │ public │ [*] auth_user_groups                          │ table │ linuxos │
 -- │ public │ [*] auth_user_user_permissions                │ table │ linuxos │
--- │ public │ [ ] blog_blog                                 │ table │ linuxos │
--- │ public │ [ ] blog_post                                 │ table │ linuxos │
+-- │ public │ [*] blog_blog                                 │ table │ linuxos │
+-- │ public │ [*] blog_post                                 │ table │ linuxos │
 -- │ public │ [*] django_admin_log                          │ table │ linuxos │
 -- │ public │ [ ] django_comment_flags                      │ table │ linuxos │
 -- │ public │ [ ] django_comments                           │ table │ linuxos │
@@ -153,3 +153,16 @@ INSERT INTO article_article(id, title, slug, perex, annotation, content, authors
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, title, slug, perex, annotation, content, authors_name, pub_time, updated, published, top, image, author_id, category_id FROM article_article')
 		AS t1(id integer, title character varying(255), slug character varying(50), perex text, annotation text, content text, authors_name character varying(255), pub_time timestamp with time zone, updated timestamp with time zone, published boolean, top boolean, image character varying(100), author_id integer, category_id integer);
+
+
+-- blog
+
+INSERT INTO blog_blog(id, title, slug, original_description, filtered_description, original_sidebar, filtered_sidebar, created, updated, author_id)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT id, title, slug, original_description, filtered_description, original_sidebar, filtered_sidebar, created, updated, author_id FROM blog_blog')
+		AS t1(id integer, title character varying(100), slug character varying(50), original_description text, filtered_description text, original_sidebar text, filtered_sidebar text, created timestamp with time zone, updated timestamp with time zone, author_id integer);
+
+INSERT INTO blog_post(id, title, slug, original_perex, filtered_perex, original_content, filtered_content, pub_time, created, updated, linux, blog_id)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT id, title, slug, original_perex, filtered_perex, original_content, filtered_content, pub_time, created, updated, linux, blog_id FROM blog_post')
+		AS t1(id integer, title character varying(100), slug character varying(50), original_perex text, filtered_perex text, original_content text, filtered_content text, pub_time timestamp with time zone, created timestamp with time zone, updated timestamp with time zone, linux boolean, blog_id integer);
