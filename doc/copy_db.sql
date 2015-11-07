@@ -270,3 +270,11 @@ INSERT INTO reversion_version(id, object_id, object_id_int, format, serialized_d
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, object_id, object_id_int, format, serialized_data, object_repr, content_type_id, revision_id FROM reversion_version')
 		AS t1(id integer, object_id text, object_id_int integer, format character varying(255), serialized_data text, object_repr text, content_type_id integer, revision_id integer);
+
+
+-- wiki_page
+
+INSERT INTO wiki_page(id, title, created, updated, slug, original_text, filtered_text, page_type, lft, rght, tree_id, level, last_author_id, parent_id)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT id, title, created, updated, slug, original_text, filtered_text, page_type, lft, rght, tree_id, level, last_author_id, parent_id FROM wiki_page')
+		AS t1(id integer, title character varying(255), created timestamp with time zone, updated timestamp with time zone, slug character varying(50), original_text text, filtered_text text, page_type character varying(1), lft integer, rght integer, tree_id integer, level integer, last_author_id integer, parent_id integer);
