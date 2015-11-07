@@ -7,6 +7,8 @@ import inspect
 
 from .middlewares.ThreadLocal import get_current_request
 
+default_app_config = 'common_utils.apps.AppConfig'
+
 
 def iterify(items):
 	try:
