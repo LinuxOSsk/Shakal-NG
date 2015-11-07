@@ -278,3 +278,44 @@ INSERT INTO wiki_page(id, title, created, updated, slug, original_text, filtered
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, title, created, updated, slug, original_text, filtered_text, page_type, lft, rght, tree_id, level, last_author_id, parent_id FROM wiki_page')
 		AS t1(id integer, title character varying(255), created timestamp with time zone, updated timestamp with time zone, slug character varying(50), original_text text, filtered_text text, page_type character varying(1), lft integer, rght integer, tree_id integer, level integer, last_author_id integer, parent_id integer);
+
+
+BEGIN;
+SELECT setval(pg_get_serial_sequence('"django_admin_log"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "django_admin_log";
+SELECT setval(pg_get_serial_sequence('"auth_permission"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "auth_permission";
+SELECT setval(pg_get_serial_sequence('"auth_group_permissions"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "auth_group_permissions";
+SELECT setval(pg_get_serial_sequence('"auth_group"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "auth_group";
+SELECT setval(pg_get_serial_sequence('"django_content_type"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "django_content_type";
+SELECT setval(pg_get_serial_sequence('"django_site"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "django_site";
+SELECT setval(pg_get_serial_sequence('"account_emailaddress"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "account_emailaddress";
+SELECT setval(pg_get_serial_sequence('"account_emailconfirmation"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "account_emailconfirmation";
+SELECT setval(pg_get_serial_sequence('"reversion_revision"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "reversion_revision";
+SELECT setval(pg_get_serial_sequence('"reversion_version"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "reversion_version";
+SELECT setval(pg_get_serial_sequence('"auth_user_groups"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "auth_user_groups";
+SELECT setval(pg_get_serial_sequence('"auth_user_user_permissions"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "auth_user_user_permissions";
+SELECT setval(pg_get_serial_sequence('"auth_user"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "auth_user";
+SELECT setval(pg_get_serial_sequence('"accounts_userrating"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "accounts_userrating";
+SELECT setval(pg_get_serial_sequence('"article_category"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "article_category";
+SELECT setval(pg_get_serial_sequence('"article_article"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "article_article";
+SELECT setval(pg_get_serial_sequence('"attachment_attachment"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "attachment_attachment";
+SELECT setval(pg_get_serial_sequence('"attachment_uploadsession"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "attachment_uploadsession";
+SELECT setval(pg_get_serial_sequence('"attachment_temporaryattachment"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "attachment_temporaryattachment";
+SELECT setval(pg_get_serial_sequence('"blog_blog"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "blog_blog";
+SELECT setval(pg_get_serial_sequence('"blog_post"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "blog_post";
+SELECT setval(pg_get_serial_sequence('"forum_section"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "forum_section";
+SELECT setval(pg_get_serial_sequence('"forum_topic"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "forum_topic";
+SELECT setval(pg_get_serial_sequence('"hitcount_hitcount"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "hitcount_hitcount";
+SELECT setval(pg_get_serial_sequence('"news_news"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "news_news";
+SELECT setval(pg_get_serial_sequence('"notifications_event"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "notifications_event";
+SELECT setval(pg_get_serial_sequence('"notifications_inbox"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "notifications_inbox";
+SELECT setval(pg_get_serial_sequence('"polls_poll"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "polls_poll";
+SELECT setval(pg_get_serial_sequence('"polls_choice"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "polls_choice";
+SELECT setval(pg_get_serial_sequence('"polls_recordip"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "polls_recordip";
+SELECT setval(pg_get_serial_sequence('"polls_recorduser"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "polls_recorduser";
+SELECT setval(pg_get_serial_sequence('"django_comments"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "django_comments";
+SELECT setval(pg_get_serial_sequence('"django_comment_flags"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "django_comment_flags";
+SELECT setval(pg_get_serial_sequence('"threaded_comments_rootheader"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "threaded_comments_rootheader";
+SELECT setval(pg_get_serial_sequence('"threaded_comments_userdiscussionattribute"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "threaded_comments_userdiscussionattribute";
+SELECT setval(pg_get_serial_sequence('"wiki_page"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "wiki_page";
+
+COMMIT;
