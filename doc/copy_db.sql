@@ -36,8 +36,8 @@
 -- │ public │ [*] polls_poll                                │ table │ linuxos │
 -- │ public │ [*] polls_recordip                            │ table │ linuxos │
 -- │ public │ [*] polls_recorduser                          │ table │ linuxos │
--- │ public │ [ ] reversion_revision                        │ table │ linuxos │
--- │ public │ [ ] reversion_version                         │ table │ linuxos │
+-- │ public │ [*] reversion_revision                        │ table │ linuxos │
+-- │ public │ [*] reversion_version                         │ table │ linuxos │
 -- │ public │ [*] threaded_comments_rootheader              │ table │ linuxos │
 -- │ public │ [*] threaded_comments_userdiscussionattribute │ table │ linuxos │
 -- │ public │ [ ] wiki_page                                 │ table │ linuxos │
@@ -257,3 +257,16 @@ INSERT INTO polls_recorduser(id, date, poll_id, user_id)
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, date, poll_id, user_id FROM polls_recorduser')
 		AS t1(id integer, date timestamp with time zone, poll_id integer, user_id integer);
+
+
+-- reversion
+
+INSERT INTO reversion_revision(id, manager_slug, date_created, comment, user_id)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT id, manager_slug, date_created, comment, user_id FROM reversion_revision')
+		AS t1(id integer, manager_slug character varying(191), date_created timestamp with time zone, comment text, user_id integer);
+
+INSERT INTO reversion_version(id, object_id, object_id_int, format, serialized_data, object_repr, content_type_id, revision_id)
+	SELECT * FROM
+		dblink('dbname=linuxos', 'SELECT id, object_id, object_id_int, format, serialized_data, object_repr, content_type_id, revision_id FROM reversion_version')
+		AS t1(id integer, object_id text, object_id_int integer, format character varying(255), serialized_data text, object_repr text, content_type_id integer, revision_id integer);
