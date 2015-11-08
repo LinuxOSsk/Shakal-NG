@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.utils import timezone
+from datetime import datetime, time
 from braces.views import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
@@ -67,6 +69,7 @@ class UserStatsMixin(object):
 	def get_context_data(self, **kwargs):
 		ctx = super(UserStatsMixin, self).get_context_data(**kwargs)
 		ctx['user_profile'] = self.object
+		ctx['day'] = self.get_day()
 		return ctx
 
 	def get_all_stats(self):
@@ -85,9 +88,35 @@ class UserStatsMixin(object):
 	def get_object(self):
 		return get_object_or_404(get_user_model(), pk=self.kwargs['pk'])
 
+	def get_day(self):
+		if not 'day' in self.request.GET:
+			return None
+		day = self.request.GET['day']
+		try:
+			return datetime.strptime(day, '%Y-%m-%d').date()
+		except ValueError:
+			return None
+
+	def get_day_range(self):
+		day = self.get_day()
+		if day is None:
+			return None
+
+		current_timezone = timezone.get_current_timezone()
+		time_from = current_timezone.localize(datetime.combine(day, time.min))
+		time_to = current_timezone.localize(datetime.combine(day, time.max))
+		return (time_from, time_to)
+
 	def get(self, request, **kwargs):
 		self.object = self.get_object()
 		return super(UserStatsMixin, self).get(request, **kwargs)
+
+	def get_queryset(self):
+		qs = self.get_list_queryset()
+		day_range = self.get_day_range()
+		if day_range:
+			qs = qs.filter(date_field__range=day_range)
+		return qs
 
 
 class UserPosts(UserStatsMixin, DetailView):
@@ -106,9 +135,12 @@ class UserPosts(UserStatsMixin, DetailView):
 
 	def get_last_contributions(self):
 		all_newest = []
+		day_range = self.get_day_range()
 		for _, statistic in register.get_all_statistics(self.object, self.request):
-			all_newest += list(statistic.get_time_annotated_queryset()
-				.order_by('-date_field')[:20])
+			newest = statistic.get_time_annotated_queryset()
+			if day_range:
+				newest = newest.filter(date_field__range=day_range)
+			all_newest += list(newest.order_by('-date_field')[:20])
 		all_newest = sorted(all_newest, key=lambda x: getattr(x, 'date_field', None) or x['date_field'], reverse=True)[:20]
 
 		ctype_lookups = [(obj['content_type_id'], obj['object_id'], obj['date_field'], i) for i, obj in enumerate(all_newest) if isinstance(obj, dict)]
@@ -145,8 +177,8 @@ class UserStatsListBase(UserStatsMixin, ListView):
 			ctx['objects_name'] = self.get_objects_name()
 		return ctx
 
-	def get_queryset(self):
-		return self.statistics.get_queryset().order_by('-pk')
+	def get_list_queryset(self):
+		return self.statistics.get_time_annotated_queryset().order_by('-pk')
 
 
 class UserPostsArticle(UserStatsListBase):
@@ -169,9 +201,9 @@ class UserPostsCommented(UserStatsListBase):
 	template_name = 'account/user_posts_commented.html'
 	stats_name = 'commented'
 
-	def get_queryset(self):
+	def get_list_queryset(self):
 		return (self.statistics
-			.get_queryset()
+			.get_time_annotated_queryset()
 			.order_by('-max_pk')
 			.values_list('content_type_id', 'object_id'))
 

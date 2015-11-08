@@ -3,7 +3,8 @@
 {% block head_title %}{{ objects_name|capfirst }}| {{ super() }}{% endblock %}
 
 {% block breadcrumbs %}
-{{ breadcrumb(objects_name|capfirst) }}
+{% if day %}{{ breadcrumb(day|date("SHORT_DATE_FORMAT")) }}{% endif %}
+{{ breadcrumb(objects_name|capfirst, url=url(request.resolver_match.view_name, pk=view.kwargs.pk)) }}
 {{ super() }}
 {% endblock %}
 

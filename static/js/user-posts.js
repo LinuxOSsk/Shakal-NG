@@ -148,6 +148,13 @@ for (var i = 0; i < 8; ++i) {
 }
 
 var currentMonth = undefined;
+var currentDay = current_day;
+if (currentDay !== undefined) {
+	currentDay = current_day.split('-');
+	currentDay[0] = parseInt(currentDay[0], 10);
+	currentDay[1] = parseInt(currentDay[1], 10);
+	currentDay[2] = parseInt(currentDay[2], 10);
+}
 
 _.forEach(daily_stats, function(day, i) {
 	if (currentColumn === undefined || day[0][3] === 0) {
@@ -207,7 +214,24 @@ _.forEach(daily_stats, function(day, i) {
 	img.src = transparentImg;
 	img.setAttribute('title', title + ' - ' + day[1]);
 
-	block.appendChild(img);
+	if (day[1]) {
+		var link = document.createElement('a');
+		link.setAttribute('href', current_path + '?day=' + time[0] + '-' + time[1] + '-' + time[2]);
+		if (currentDay !== undefined) {
+			if (currentDay[0] != time[0] || currentDay[1] != time[1] || currentDay[2] != time[2]) {
+				block.style.opacity = 0.5;
+			}
+			else {
+				block.style.borderColor = '#888';
+				link.setAttribute('href', current_path);
+			}
+		}
+		link.appendChild(img);
+		block.appendChild(link);
+	}
+	else {
+		block.appendChild(img);
+	}
 	currentColumn.appendChild(block);
 });
 

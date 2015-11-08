@@ -2,6 +2,11 @@
 
 {% block head_title %}Zoznam príspevkov | {{ super() }}{% endblock %}
 
+{% block breadcrumbs %}
+{% if day %}{{ breadcrumb(day|date("SHORT_DATE_FORMAT")) }}{% endif %}
+{{ super() }}
+{% endblock %}
+
 {% block content %}
 
 <h1>{{ user_profile }} - Zoznam príspevkov</h1>
