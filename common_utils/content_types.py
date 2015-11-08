@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib.contenttypes.models import ContentType
 
-from common_utils import iterify
+from common_utils import iterify, get_default_manager
 
 
 def get_lookups(models):
@@ -43,9 +43,7 @@ def resolve_content_objects(content_object_list):
 	content_types = {obj.id: obj for obj in ContentType.objects.filter(pk__in=object_list_by_content.keys())}
 
 	for content_type, content_object_ids in object_list_by_content.iteritems():
-		object_list_by_content[content_type] = (content_types[content_type]
-			.model_class()
-			.objects
+		object_list_by_content[content_type] = (get_default_manager(content_types[content_type].model_class())
 			.filter(pk__in=content_object_ids))
 
 	objects_idx = {}
