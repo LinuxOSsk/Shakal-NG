@@ -53,5 +53,5 @@ def resolve_content_objects(content_object_list):
 		for content_object in content_objects:
 			objects_idx[(content_type, content_object.pk)] = content_object
 
-	object_list = [objects_idx[(o[0], int(o[1]))] for o in content_object_list if (o[0], int(o[1])) in objects_idx]
+	object_list = [objects_idx.get((o[0], int(o[1]))) for o in content_object_list]
 	return object_list
