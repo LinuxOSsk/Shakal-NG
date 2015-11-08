@@ -6,6 +6,11 @@
 {{ super() }}
 {% endblock %}
 
+{% block extraheaders %}
+<meta name="robots" content="noindex, nofollow" />
+{{ super() }}
+{% endblock %}
+
 {% block content %}
 	{% if daily_stats and monthly_stats and (not page_obj or page_obj.number == 1) %}
 		<div class="module monthly-stats-container">
