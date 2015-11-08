@@ -205,6 +205,7 @@ INSERT INTO forum_section(id, name, slug, description)
 INSERT INTO forum_topic(id, title, original_text, filtered_text, created, updated, authors_name, is_removed, is_resolved, author_id, section_id)
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, title, original_text, filtered_text, created, updated, authors_name, is_removed, is_resolved, author_id, section_id FROM forum_topic')
+		AS t1(id integer, title character varying(100), original_text text, filtered_text text, created timestamp with time zone, updated timestamp with time zone, authors_name character varying(50), is_removed boolean, is_resolved boolean, author_id integer, section_id integer);
 
 
 -- hitcount
