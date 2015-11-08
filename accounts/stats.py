@@ -53,6 +53,9 @@ class Statistics(object):
 			'daily_stats': daily_stats,
 		}
 
+	def get_list_queryset(self):
+		return self.get_time_annotated_queryset().order_by('-pk')
+
 
 class ArticleStatistics(Statistics):
 	date_field = 'pub_time'
@@ -90,12 +93,17 @@ class CommentedStatistics(Statistics):
 			.objects
 			.filter(user=self.user, parent__isnull=False)
 			.values('content_type_id', 'object_id')
-			.annotate(max_pk=Max('pk')))
+			.annotate(max_pk=Max('pk'), date_field=Max('submit_date')))
 
 	def get_graph_queryset(self):
 		return (apps.get_model('threaded_comments.Comment')
 			.objects
 			.filter(parent__isnull=False, user=self.user))
+
+	def get_list_queryset(self):
+		return (self.get_queryset()
+			.order_by('-max_pk')
+			.values('content_type_id', 'object_id', 'date_field'))
 
 	def get_verbose_name_plural(self):
 		return 'Komentované diskusie'

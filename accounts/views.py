@@ -112,7 +112,7 @@ class UserStatsMixin(object):
 		return super(UserStatsMixin, self).get(request, **kwargs)
 
 	def get_queryset(self):
-		qs = self.get_list_queryset()
+		qs = self.statistics.get_list_queryset()
 		day_range = self.get_day_range()
 		if day_range:
 			qs = qs.filter(date_field__range=day_range)
@@ -137,7 +137,7 @@ class UserPosts(UserStatsMixin, DetailView):
 		all_newest = []
 		day_range = self.get_day_range()
 		for _, statistic in register.get_all_statistics(self.object, self.request):
-			newest = statistic.get_time_annotated_queryset()
+			newest = statistic.get_list_queryset()
 			if day_range:
 				newest = newest.filter(date_field__range=day_range)
 			all_newest += list(newest.order_by('-date_field')[:20])
@@ -177,9 +177,6 @@ class UserStatsListBase(UserStatsMixin, ListView):
 			ctx['objects_name'] = self.get_objects_name()
 		return ctx
 
-	def get_list_queryset(self):
-		return self.statistics.get_time_annotated_queryset().order_by('-pk')
-
 
 class UserPostsArticle(UserStatsListBase):
 	stats_name = 'article'
@@ -201,15 +198,9 @@ class UserPostsCommented(UserStatsListBase):
 	template_name = 'account/user_posts_commented.html'
 	stats_name = 'commented'
 
-	def get_list_queryset(self):
-		return (self.statistics
-			.get_time_annotated_queryset()
-			.order_by('-max_pk')
-			.values_list('content_type_id', 'object_id'))
-
 	def get_context_data(self, **kwargs):
 		ctx = super(UserPostsCommented, self).get_context_data(**kwargs)
-		objects = resolve_content_objects(ctx['object_list'])
+		objects = resolve_content_objects(tuple((obj['content_type_id'], obj['object_id']) for obj in ctx['object_list']))
 		ctx['object_list'] = objects
 		return ctx
 
