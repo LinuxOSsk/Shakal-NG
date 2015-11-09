@@ -18,14 +18,14 @@ class Migration(migrations.Migration):
 			name='Blog',
 			fields=[
 				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+				('created', models.DateTimeField(auto_now_add=True)),
+				('updated', models.DateTimeField(auto_now=True)),
 				('title', models.CharField(max_length=100, verbose_name='title')),
 				('slug', django_autoslugfield.fields.AutoSlugField(unique=True)),
 				('original_description', rich_editor.fields.RichTextOriginalField(max_length=1000, verbose_name='description', property_name='description', filtered_field='filtered_description')),
 				('filtered_description', rich_editor.fields.RichTextFilteredField(editable=False)),
 				('original_sidebar', rich_editor.fields.RichTextOriginalField(max_length=1000, verbose_name='sidebar', property_name='sidebar', filtered_field='filtered_sidebar')),
 				('filtered_sidebar', rich_editor.fields.RichTextFilteredField(editable=False)),
-				('created', models.DateTimeField(auto_now_add=True)),
-				('updated', models.DateTimeField(auto_now=True)),
 				('author', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
 			],
 			options={

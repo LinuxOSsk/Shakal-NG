@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django_autoslugfield.fields import AutoSlugField
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
@@ -9,8 +8,10 @@ from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from django_autoslugfield.fields import AutoSlugField
 
 from attachment.models import Attachment
+from common_utils.models import TimestampModelMixin
 from hitcount.models import HitCountField
 from polls.models import Poll
 from rich_editor import get_parser
@@ -18,7 +19,7 @@ from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 from threaded_comments.models import RootHeader, Comment
 
 
-class Blog(models.Model):
+class Blog(TimestampModelMixin, models.Model):
 	author = models.OneToOneField(settings.AUTH_USER_MODEL)
 	title = models.CharField(max_length=100, verbose_name=_('title'))
 	slug = AutoSlugField(title_field="title", unique=True)
@@ -26,9 +27,6 @@ class Blog(models.Model):
 	filtered_description = RichTextFilteredField()
 	original_sidebar = RichTextOriginalField(filtered_field="filtered_sidebar", property_name="sidebar", verbose_name=_('sidebar'), max_length=1000)
 	filtered_sidebar = RichTextFilteredField()
-
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
 
 	@models.permalink
 	def get_absolute_url(self):
