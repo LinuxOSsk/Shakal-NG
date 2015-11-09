@@ -10,6 +10,7 @@ from django.utils.timezone import now
 
 from attachment.models import Attachment
 from autoimagefield.fields import AutoImageField
+from common_utils.models import TimestampModelMixin
 from hitcount.models import HitCountField
 from polls.models import Poll
 from threaded_comments.models import RootHeader, Comment
@@ -40,7 +41,7 @@ class ArticleManager(models.Manager):
 			.order_by('-pk')
 
 
-class Article(models.Model):
+class Article(TimestampModelMixin, models.Model):
 	all_articles = models.Manager()
 	objects = ArticleManager()
 
@@ -53,7 +54,6 @@ class Article(models.Model):
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='autor', on_delete=models.SET_NULL, blank=True, null=True)
 	authors_name = models.CharField('meno autora', max_length=255)
 	pub_time = models.DateTimeField('čas publikácie', default=now)
-	updated = models.DateTimeField('aktualizované', editable=False)
 	published = models.BooleanField('publikované', default=False)
 	top = models.BooleanField('hodnotný článok', default=False)
 	image = AutoImageField('obrázok', upload_to='article/thumbnails', size=(512, 512), thumbnail={'standard': (100, 100)}, blank=True, null=True)
@@ -62,12 +62,6 @@ class Article(models.Model):
 	comments = GenericRelation(Comment)
 	attachments = GenericRelation(Attachment)
 	hit = HitCountField()
-
-	def save(self, *args, **kwargs):
-		self.updated = now()
-		if not self.id and not self.pub_time:
-			self.pub_time = self.updated
-		return super(Article, self).save(*args, **kwargs)
 
 	@property
 	def poll_set(self):
