@@ -32,9 +32,10 @@ class PostListView(ListView):
 			return queryset.published()
 
 	def get(self, request, *args, **kwargs):
+		response = super(PostListView, self).get(request, *args, **kwargs)
 		if "category" in kwargs:
 			register_feed(request, PostFeed(blog_slug=kwargs['category']))
-		return super(PostListView, self).get(request, *args, **kwargs)
+		return response
 
 
 class BlogCreateView(LoginRequiredMixin, PreviewCreateView):
