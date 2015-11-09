@@ -3,10 +3,11 @@ from __future__ import unicode_literals
 
 from django.db.models import Count
 from django.http.response import HttpResponseRedirect
+from django.views.generic import DetailView
 
 from .forms import TopicForm
 from .models import Topic, Section
-from common_utils.generic import ListView, DetailUserProtectedView, PreviewCreateView
+from common_utils.generic import ListView, PreviewCreateView
 
 
 class TopicListView(ListView):
@@ -16,10 +17,8 @@ class TopicListView(ListView):
 	paginate_by = 50
 
 
-class TopicDetailView(DetailUserProtectedView):
-	superuser_perm = 'forum.delete_topic'
+class TopicDetailView(DetailView):
 	queryset = Topic.objects.all().select_related("author", "section", "author__rating").annotate(attachment_count=Count('attachments'))
-	unprivileged_queryset = Topic.objects.topics().select_related("author", "section", "author__rating")
 
 	def get_object(self, queryset = None):
 		topic = super(TopicDetailView, self).get_object(queryset)
