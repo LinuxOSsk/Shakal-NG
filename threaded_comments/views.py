@@ -146,6 +146,7 @@ class Comments(DetailView):
 			'module_name': get_module_name(obj),
 			'module_url': get_module_url(obj),
 		})
+		return ctx
 
 
 class CommentDetail(DetailView):
