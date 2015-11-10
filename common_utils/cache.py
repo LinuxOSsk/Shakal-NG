@@ -8,6 +8,7 @@ from django.core.cache import caches
 from django.db.models.signals import post_delete, post_save
 
 from common_utils import get_meta
+default_cache = caches['default']
 
 
 class LRUCache(collections.MutableMapping):
@@ -173,3 +174,25 @@ def delete_model_cache(sender, **kwargs):
 
 post_save.connect(delete_model_cache)
 post_delete.connect(delete_model_cache)
+
+
+class ObjectCache(object):
+	def __init__(self, cache_name, size=1000):
+		super(ObjectCache, self).__init__()
+		self.cache_name = cache_name
+		self.size = size
+		self.__cacheobj = None
+
+	@property
+	def cache(self):
+		if self.__cacheobj is None:
+			self.__cacheobj = default_cache.get(self.cache_name)
+			if not self.__cacheobj:
+				self.__cacheobj = LRUCache(self.size)
+		return self.__cacheobj
+
+	def save(self):
+		if self.__cacheobj is None:
+			return
+		default_cache.set(self.cache_name, self.__cacheobj)
+		self.__cacheobj = None

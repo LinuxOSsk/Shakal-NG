@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.db.models import Q
 from django_jinja import library
 
-from ..cache import get_cache, set_cache
+from ..cache import cache
 from ..models import HitCount
 from common_utils.content_types import get_lookups
 
@@ -13,14 +13,12 @@ from common_utils.content_types import get_lookups
 def add_hitcount(*models):
 	hitcounts_lookups, content_types = get_lookups(models)
 
-	cache = get_cache()
-
-	hitcounts_lookups = {content_type: [i for i in id_list if (i, content_type.pk) not in cache] for content_type, id_list in hitcounts_lookups.iteritems()}
+	hitcounts_lookups = {content_type: [i for i in id_list if (i, content_type.pk) not in cache.cache] for content_type, id_list in hitcounts_lookups.iteritems()}
 	hitcounts_lookups = {content_type: id_list for content_type, id_list in hitcounts_lookups.iteritems() if id_list}
 
 	for model, content_type in zip(models, content_types):
 		for obj in model:
-			obj.display_count = cache.get((obj.pk, content_type.pk), None)
+			obj.display_count = cache.cache.get((obj.pk, content_type.pk), None)
 
 	if not hitcounts_lookups:
 		return ''
@@ -38,10 +36,10 @@ def add_hitcount(*models):
 	for model, content_type in zip(models, content_types):
 		for obj in model:
 			key = (obj.pk, content_type.pk)
-			count = cache.get(key, hitcounts_dict.get(key))
+			count = cache.cache.get(key, hitcounts_dict.get(key))
 			obj.display_count = count
-			cache[key] = count
+			cache.cache[key] = count
 
-	set_cache(cache)
+	cache.save()
 
 	return ''
