@@ -5,6 +5,7 @@ from django.db import transaction
 from django.db.models import Count, Max
 
 from . import signals
+from .cache import header_cache
 from .models import CommentFlag, RootHeader, Comment
 
 
@@ -45,6 +46,7 @@ def perform_approve(request, comment):
 
 
 def update_comments_header(sender, instance, **kwargs): #pylint: disable=unused-argument
+	header_cache.delete()
 	if instance.parent is None:
 		root = instance
 	else:

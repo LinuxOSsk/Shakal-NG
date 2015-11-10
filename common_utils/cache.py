@@ -199,3 +199,4 @@ class ObjectCache(object):
 
 	def delete(self):
 		default_cache.set(self.cache_name, None)
+		self.save()

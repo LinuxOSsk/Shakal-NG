@@ -24,7 +24,6 @@ def add_hitcount(*models):
 		return ''
 
 	hitcount_q = Q()
-
 	for content_type, ids in hitcounts_lookups.iteritems():
 		hitcount_q = hitcount_q | Q(content_type=content_type, object_id__in=ids)
 

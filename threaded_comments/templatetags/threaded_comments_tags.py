@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from operator import or_
 from django import template
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q, Count
@@ -12,6 +13,7 @@ from django_jinja import library
 from jinja2 import contextfunction
 from mptt.templatetags import mptt_tags
 
+from ..cache import header_cache
 from ..models import RootHeader, UserDiscussionAttribute
 from common_utils import iterify, get_meta
 from common_utils.content_types import get_lookups
@@ -126,38 +128,55 @@ def load_user_discussion_attributes(headers, user):
 @library.global_function
 def add_discussion_attributes(context, *models):
 	discussion_lookups, content_types = get_lookups(models)
+	user = context['user'] if 'user' in context and context['user'].is_authenticated() else None
 
-	discussion_lookups = {content_type: id_list for content_type, id_list in discussion_lookups.iteritems() if id_list}
+	discussion_lookups = {
+		content_type: [obj for obj in id_list if (obj, content_type.pk) not in header_cache.cache or user is not None]
+		for content_type, id_list in discussion_lookups.iteritems()
+	}
+	discussion_lookups = {
+		content_type: id_list
+		for content_type, id_list in discussion_lookups.iteritems() if id_list
+	}
+
+	if user is None:
+		for model, content_type in zip(models, content_types):
+			for obj in model:
+				for name, value in header_cache.cache.get((obj.pk, content_type.pk), {}).iteritems():
+					setattr(obj, name, value)
 
 	if not discussion_lookups:
 		return ''
 
-	discussion_q = Q()
-	for content_type, ids in discussion_lookups.iteritems():
-		discussion_q = discussion_q | Q(content_type=content_type, object_id__in=ids)
-
-	headers = RootHeader.objects \
-		.filter(discussion_q) \
+	headers = (RootHeader.objects
+		.filter(reduce(or_, (Q(content_type=content_type, object_id__in=id_list) for content_type, id_list in discussion_lookups.iteritems()), Q()))
 		.values('id', 'object_id', 'content_type_id', 'last_comment', 'comment_count', 'is_locked')
-	headers_dict = {(h['object_id'], h['content_type_id']): h for h in headers}
+	)
+	headers_dict = {(obj['object_id'], obj['content_type_id']): obj for obj in headers}
 
-	if 'user' in context and context['user'].is_authenticated():
-		load_user_discussion_attributes(headers, context['user'])
+	if user is not None:
+		load_user_discussion_attributes(headers, user)
 
 	for model, content_type in zip(models, content_types):
 		for obj in model:
-			key = (obj.pk, content_type.pk)
-			header = headers_dict.get(key, {})
-			obj.last_comment = header.get('last_comment', None)
-			obj.comment_count = header.get('comment_count', 0)
-			obj.is_locked = header.get('is_locked', False)
-			obj.rootheader_id = header.get('id', None)
-			obj.discussion_display_time = header.get('time', None)
+			header = headers_dict.get((obj.pk, content_type.pk), {})
+			cache_data = {
+				'last_comment': header.get('last_comment', None),
+				'comment_count': header.get('comment_count', 0),
+				'is_locked': header.get('is_locked', False),
+				'rootheader_id': header.get('id', None),
+				'discussion_display_time': header.get('time', None),
+				'discusison_watch': None,
+				'new_comments': None,
+			}
+			for name, value in cache_data.iteritems():
+				setattr(obj, name, value)
 			obj.discussion_watch = header.get('watch', None)
 			if obj.last_comment and obj.discussion_display_time:
 				obj.new_comments = obj.discussion_display_time < obj.last_comment
 			else:
 				obj.new_comments = None
+			header_cache.cache[(obj.pk, content_type.pk)] = cache_data
 
 	return ''
 
