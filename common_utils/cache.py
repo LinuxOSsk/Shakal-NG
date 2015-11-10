@@ -196,3 +196,6 @@ class ObjectCache(object):
 			return
 		default_cache.set(self.cache_name, self.__cacheobj)
 		self.__cacheobj = None
+
+	def delete(self):
+		default_cache.set(self.cache_name, None)
