@@ -124,6 +124,11 @@ def load_user_discussion_attributes(headers, user):
 		header.update(user_attributes.get(header['id'], {}))
 
 
+def copy_attributes(obj, attributes):
+	for name, value in attributes.iteritems():
+		setattr(obj, name, value)
+
+
 @contextfunction
 @library.global_function
 def add_discussion_attributes(context, *models):
@@ -142,8 +147,7 @@ def add_discussion_attributes(context, *models):
 	if user is None:
 		for model, content_type in zip(models, content_types):
 			for obj in model:
-				for name, value in header_cache.cache.get((obj.pk, content_type.pk), {}).iteritems():
-					setattr(obj, name, value)
+				copy_attributes(obj, header_cache.cache.get((obj.pk, content_type.pk), {}))
 
 	if not discussion_lookups:
 		return ''
@@ -159,6 +163,8 @@ def add_discussion_attributes(context, *models):
 
 	for model, content_type in zip(models, content_types):
 		for obj in model:
+			if hasattr(obj, 'last_comment'):
+				continue
 			header = headers_dict.get((obj.pk, content_type.pk), {})
 			cache_data = {
 				'last_comment': header.get('last_comment', None),
@@ -169,14 +175,14 @@ def add_discussion_attributes(context, *models):
 				'discusison_watch': None,
 				'new_comments': None,
 			}
-			for name, value in cache_data.iteritems():
-				setattr(obj, name, value)
+			copy_attributes(obj, cache_data)
 			obj.discussion_watch = header.get('watch', None)
 			if obj.last_comment and obj.discussion_display_time:
 				obj.new_comments = obj.discussion_display_time < obj.last_comment
 			else:
 				obj.new_comments = None
-			header_cache.cache[(obj.pk, content_type.pk)] = cache_data
+			if header:
+				header_cache.cache[(obj.pk, content_type.pk)] = cache_data
 
 	return ''
 
