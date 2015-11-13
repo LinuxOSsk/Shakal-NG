@@ -38,6 +38,7 @@ class ArticleGenerator(ModelGenerator):
 		obj.title = obj.title[:50]
 		obj.annotation = obj.perex
 		obj.published = True
+		obj.created = obj.updated
 		unique_slugify(obj, 'slug')
 		return obj
 
