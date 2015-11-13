@@ -11,6 +11,7 @@ from django.db.models import permalink
 from django.utils import timezone
 
 from attachment.models import Attachment
+from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 from threaded_comments.models import RootHeader, Comment
 
@@ -80,7 +81,7 @@ class TopicListManager(models.Manager):
 		return queryset
 
 
-class Topic(models.Model):
+class Topic(TimestampModelMixin, models.Model):
 	objects = TopicManager()
 	topics = TopicListManager()
 
@@ -88,8 +89,6 @@ class Topic(models.Model):
 	title = models.CharField('predmet', max_length=100)
 	original_text = RichTextOriginalField(filtered_field="filtered_text", property_name="text", verbose_name='text')
 	filtered_text = RichTextFilteredField()
-	created = models.DateTimeField('čas')
-	updated = models.DateTimeField(editable=False)
 	authors_name = models.CharField('meno autora', max_length=50, blank=False)
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name='autor')
 	comments_header = GenericRelation(RootHeader)
@@ -116,12 +115,6 @@ class Topic(models.Model):
 
 	def get_attachments(self):
 		return self.attachments.all()
-
-	def save(self, *args, **kwargs):
-		self.updated = timezone.now()
-		if not self.id:
-			self.created = self.updated
-		return super(Topic, self).save(*args, **kwargs)
 
 	def get_authors_name(self):
 		if self.author:
