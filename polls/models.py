@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django_autoslugfield.fields import AutoSlugField
+
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django_autoslugfield.fields import AutoSlugField
 
 from threaded_comments.models import RootHeader, Comment
 
@@ -17,7 +17,7 @@ class ActivePollsListManager(models.Manager):
 		return super(ActivePollsListManager, self) \
 			.get_queryset() \
 			.filter(approved=True, active_from__lte=timezone.now()) \
-			.order_by("-active_from")
+			.order_by('-active_from')
 
 
 class PollListManager(ActivePollsListManager):
@@ -32,18 +32,18 @@ class Poll(models.Model):
 	objects = PollListManager()
 	active_polls = ActivePollsListManager()
 
-	question = models.TextField(_("question"))
+	question = models.TextField('otázka')
 	slug = AutoSlugField(unique=True, title_field='question')
 
-	content_type = models.ForeignKey(ContentType, limit_choices_to={"model__in": ("article",)}, null=True, blank=True, verbose_name=_("content type"))
-	object_id = models.PositiveIntegerField(verbose_name=_("object id"), null=True, blank=True)
+	content_type = models.ForeignKey(ContentType, limit_choices_to={'model__in': ('article',)}, null=True, blank=True, verbose_name='typ obsahu')
+	object_id = models.PositiveIntegerField(verbose_name='id objektu', null=True, blank=True)
 	content_object = GenericForeignKey('content_type', 'object_id')
 
-	active_from = models.DateTimeField(verbose_name=_("active from"), blank=True, null=True)
-	checkbox = models.BooleanField(_("more choices"), default=False)
-	approved = models.BooleanField(_("approved"), default=False)
+	active_from = models.DateTimeField(verbose_name='aktívne od', blank=True, null=True)
+	checkbox = models.BooleanField('viac odpovedí', default=False)
+	approved = models.BooleanField('schválené', default=False)
 
-	choice_count = models.PositiveIntegerField(default=0) #TODO: premenovať na answer_count
+	answer_count = models.PositiveIntegerField(default=0)
 
 	comments = GenericRelation(Comment)
 	comments_header = GenericRelation(RootHeader)
@@ -77,9 +77,9 @@ class Poll(models.Model):
 
 	def clean(self):
 		if self.content_type and not self.object_id:
-			raise ValidationError(_('Field object id is required'))
+			raise ValidationError('Pole id objektu je povinné')
 		if self.object_id and not self.content_type:
-			raise ValidationError(_('Field content type is required'))
+			raise ValidationError('Pole typ obsahu je povinné')
 		if self.content_type:
 			self.slug = self.content_type.model + '-' + str(self.object_id)
 
@@ -87,27 +87,27 @@ class Poll(models.Model):
 		return self.question
 
 	class Meta:
-		verbose_name = _('poll')
-		verbose_name_plural = _('polls')
+		verbose_name = 'anketa'
+		verbose_name_plural = 'ankety'
 
 
 class Choice(models.Model):
-	poll = models.ForeignKey(Poll, verbose_name=_("poll"))
-	choice = models.CharField(_("poll choice"), max_length=255)
-	votes = models.PositiveIntegerField(_("votes"), default=0)
+	poll = models.ForeignKey(Poll, verbose_name='anketa')
+	choice = models.CharField('odpoveď', max_length=255)
+	votes = models.PositiveIntegerField('hlasov', default=0)
 
 	def percent(self):
-		if self.poll.choice_count == 0:
+		if self.poll.answer_count == 0:
 			return 0
 		else:
-			return 100.0 * self.votes / self.poll.choice_count
+			return 100.0 * self.votes / self.poll.answer_count
 
 	def __unicode__(self):
 		return self.choice
 
 	class Meta:
-		verbose_name = _('choice')
-		verbose_name_plural = _('choices')
+		verbose_name = 'odpoveď'
+		verbose_name_plural = 'odpovede'
 
 
 class RecordIp(models.Model):

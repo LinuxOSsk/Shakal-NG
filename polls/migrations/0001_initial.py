@@ -18,30 +18,30 @@ class Migration(migrations.Migration):
 			name='Choice',
 			fields=[
 				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-				('choice', models.CharField(max_length=255, verbose_name='poll choice')),
-				('votes', models.PositiveIntegerField(default=0, verbose_name='votes')),
+				('choice', models.CharField(max_length=255, verbose_name='odpove\u010f')),
+				('votes', models.PositiveIntegerField(default=0, verbose_name='hlasov')),
 			],
 			options={
-				'verbose_name': 'choice',
-				'verbose_name_plural': 'choices',
+				'verbose_name': 'odpove\u010f',
+				'verbose_name_plural': 'odpovede',
 			},
 		),
 		migrations.CreateModel(
 			name='Poll',
 			fields=[
 				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-				('question', models.TextField(verbose_name='question')),
+				('question', models.TextField(verbose_name='ot\xe1zka')),
 				('slug', django_autoslugfield.fields.AutoSlugField(unique=True)),
-				('object_id', models.PositiveIntegerField(null=True, verbose_name='object id', blank=True)),
-				('active_from', models.DateTimeField(null=True, verbose_name='active from', blank=True)),
-				('checkbox', models.BooleanField(default=False, verbose_name='more choices')),
-				('approved', models.BooleanField(default=False, verbose_name='approved')),
-				('choice_count', models.PositiveIntegerField(default=0)),
-				('content_type', models.ForeignKey(verbose_name='content type', blank=True, to='contenttypes.ContentType', null=True)),
+				('object_id', models.PositiveIntegerField(null=True, verbose_name='id objektu', blank=True)),
+				('active_from', models.DateTimeField(null=True, verbose_name='akt\xedvne od', blank=True)),
+				('checkbox', models.BooleanField(default=False, verbose_name='viac odpoved\xed')),
+				('approved', models.BooleanField(default=False, verbose_name='schv\xe1len\xe9')),
+				('answer_count', models.PositiveIntegerField(default=0)),
+				('content_type', models.ForeignKey(verbose_name='typ obsahu', blank=True, to='contenttypes.ContentType', null=True)),
 			],
 			options={
-				'verbose_name': 'poll',
-				'verbose_name_plural': 'polls',
+				'verbose_name': 'anketa',
+				'verbose_name_plural': 'ankety',
 			},
 		),
 		migrations.CreateModel(
@@ -65,7 +65,7 @@ class Migration(migrations.Migration):
 		migrations.AddField(
 			model_name='choice',
 			name='poll',
-			field=models.ForeignKey(verbose_name='poll', to='polls.Poll'),
+			field=models.ForeignKey(verbose_name='anketa', to='polls.Poll'),
 		),
 		migrations.AlterUniqueTogether(
 			name='recorduser',
