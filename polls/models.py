@@ -8,6 +8,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from django_autoslugfield.fields import AutoSlugField
+from common_utils.models import TimestampModelMixin
 
 from threaded_comments.models import RootHeader, Comment
 
@@ -27,7 +28,7 @@ class PollListManager(ActivePollsListManager):
 			.filter(content_type_id=None)
 
 
-class Poll(models.Model):
+class Poll(TimestampModelMixin, models.Model):
 	all_objects = models.Manager()
 	objects = PollListManager()
 	active_polls = ActivePollsListManager()

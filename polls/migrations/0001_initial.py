@@ -30,6 +30,8 @@ class Migration(migrations.Migration):
 			name='Poll',
 			fields=[
 				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+				('created', models.DateTimeField(verbose_name='vytvoren\xe9', editable=False)),
+				('updated', models.DateTimeField(verbose_name='upraven\xe9', editable=False)),
 				('question', models.TextField(verbose_name='ot\xe1zka')),
 				('slug', django_autoslugfield.fields.AutoSlugField(unique=True)),
 				('object_id', models.PositiveIntegerField(null=True, verbose_name='id objektu', blank=True)),
