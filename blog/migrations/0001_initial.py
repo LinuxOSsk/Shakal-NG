@@ -18,8 +18,8 @@ class Migration(migrations.Migration):
 			name='Blog',
 			fields=[
 				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-				('created', models.DateTimeField(auto_now_add=True)),
-				('updated', models.DateTimeField(auto_now=True)),
+				('created', models.DateTimeField(verbose_name='vytvoren\xe9', editable=False)),
+				('updated', models.DateTimeField(verbose_name='upraven\xe9', editable=False)),
 				('title', models.CharField(max_length=100, verbose_name='title')),
 				('slug', django_autoslugfield.fields.AutoSlugField(unique=True)),
 				('original_description', rich_editor.fields.RichTextOriginalField(max_length=1000, verbose_name='description', property_name='description', filtered_field='filtered_description')),

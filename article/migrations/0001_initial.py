@@ -19,8 +19,8 @@ class Migration(migrations.Migration):
 			name='Article',
 			fields=[
 				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-				('created', models.DateTimeField(auto_now_add=True)),
-				('updated', models.DateTimeField(auto_now=True)),
+				('created', models.DateTimeField(verbose_name='vytvoren\xe9', editable=False)),
+				('updated', models.DateTimeField(verbose_name='upraven\xe9', editable=False)),
 				('title', models.CharField(max_length=255, verbose_name='n\xe1zov')),
 				('slug', models.SlugField(unique=True, verbose_name='skratka URL')),
 				('perex', models.TextField(help_text='Text na titulnej str\xe1nke', verbose_name='perex')),
