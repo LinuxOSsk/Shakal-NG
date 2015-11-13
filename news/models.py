@@ -5,10 +5,10 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models import permalink
-from django.utils import timezone
 from django_autoslugfield.fields import AutoSlugField
 
 from attachment.models import Attachment
+from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 from threaded_comments.models import RootHeader, Comment
 
@@ -23,7 +23,7 @@ class NewsListManager(models.Manager):
 		return super(NewsListManager, self).get_queryset().select_related('author').filter(approved=True).order_by('-pk')
 
 
-class News(models.Model):
+class News(TimestampModelMixin, models.Model):
 	all_news = NewsManager()
 	objects = NewsListManager()
 
@@ -33,8 +33,6 @@ class News(models.Model):
 	filtered_short_text = RichTextFilteredField()
 	original_long_text = RichTextOriginalField(filtered_field="filtered_long_text", property_name="long_text", verbose_name='dlhý text')
 	filtered_long_text = RichTextFilteredField()
-	created = models.DateTimeField(verbose_name='čas vytvorenia')
-	updated = models.DateTimeField(editable=False)
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='author')
 	authors_name = models.CharField(max_length=255, verbose_name='meno authora')
 	approved = models.BooleanField(default=False, verbose_name='schválená')
@@ -45,12 +43,6 @@ class News(models.Model):
 	class Meta:
 		verbose_name = 'správa'
 		verbose_name_plural = 'správy'
-
-	def save(self, *args, **kwargs):
-		self.updated = timezone.now()
-		if not self.id:
-			self.created = self.updated
-		return super(News, self).save(*args, **kwargs)
 
 	@permalink
 	def get_absolute_url(self):
