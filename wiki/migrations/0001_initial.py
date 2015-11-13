@@ -18,9 +18,9 @@ class Migration(migrations.Migration):
 			name='Page',
 			fields=[
 				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+				('created', models.DateTimeField(verbose_name='vytvoren\xe9', editable=False)),
+				('updated', models.DateTimeField(verbose_name='upraven\xe9', editable=False)),
 				('title', models.CharField(max_length=255, verbose_name='titulok')),
-				('created', models.DateTimeField(editable=False)),
-				('updated', models.DateTimeField(editable=False)),
 				('slug', django_autoslugfield.fields.AutoSlugField(unique=True, verbose_name='slug')),
 				('original_text', rich_editor.fields.RichTextOriginalField(property_name='text', filtered_field='filtered_text')),
 				('filtered_text', rich_editor.fields.RichTextFilteredField(editable=False)),
