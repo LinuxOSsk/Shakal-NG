@@ -27,7 +27,7 @@ class CommentFeed(Feed):
 			return None
 
 	def item_pubdate(self, item):
-		return item.submit_date
+		return item.created
 
 	def items(self):
 		return Comment.objects.filter(level__gt=0).select_related('user').order_by('-id')[:settings.FEED_SIZE]

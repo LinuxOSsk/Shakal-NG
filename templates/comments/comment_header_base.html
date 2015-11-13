@@ -2,7 +2,7 @@
 	<div class="comment_info">
 		<span class="subject">{% block comment_title %}{% endblock %}{% if comment.pk %}{% endif %}</span>
 		<span class="info">
-			{% if comment.submit_date %}{{ comment.submit_date|humandatetime }}{% else %}{{ comment.created|humandatetime }}{% endif %}
+			{% if comment.created %}{{ comment.created|humandatetime }}{% else %}{{ comment.created|humandatetime }}{% endif %}
 			{% if comment.prev_new %} | <a href="#link_{{ comment.prev_new }}" class="comment-link next">Predchádzajúci</a>{% endif %}
 			{% if comment.next_new %} | <a href="#link_{{ comment.next_new }}" class="comment-link prev">Nasledujúci</a>{% endif %}
 		</span>

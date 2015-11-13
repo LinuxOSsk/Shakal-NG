@@ -7,9 +7,11 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db import models, transaction
 from django.utils import timezone
+from django.utils.encoding import force_unicode
 from mptt.models import MPTTModel, TreeForeignKey
 
 from attachment.models import Attachment
+from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
@@ -31,13 +33,13 @@ class CommentManager(models.Manager):
 						'original_comment': ('html', ''),
 						'filtered_comment': '',
 						'user_name': '',
-						'submit_date': timezone.now(),
+						'created': timezone.now(),
 					}
 				)
 				return (root_comment, created)
 
 
-class Comment(MPTTModel):
+class Comment(MPTTModel, TimestampModelMixin):
 	objects = CommentManager()
 
 	content_type = models.ForeignKey(ContentType, verbose_name='typ obsahu', related_name='content_type_set_for_%(class)s')
@@ -51,13 +53,11 @@ class Comment(MPTTModel):
 	original_comment = RichTextOriginalField(filtered_field='filtered_comment', property_name='comment', verbose_name='obsah')
 	filtered_comment = RichTextFilteredField()
 
-	submit_date = models.DateTimeField('dátum odoslania', default=None)
 	ip_address = models.GenericIPAddressField('IP adresa', blank=True, null=True)
 	is_public = models.BooleanField('verejný', default=True)
 	is_removed = models.BooleanField('odstránený', default=False)
 
 	is_locked = models.BooleanField('uzamknutý', default=False)
-	updated = models.DateTimeField('naposledy upravené', editable=False)
 
 	attachments = GenericRelation(Attachment)
 
@@ -69,7 +69,7 @@ class Comment(MPTTModel):
 			with transaction.atomic():
 				header, created = RootHeader.objects.get_or_create(content_type=self.content_type, object_id=self.object_id)
 				if created:
-					header.pub_date = self.submit_date
+					header.pub_date = self.created
 					header.save()
 				return header
 
@@ -98,11 +98,8 @@ class Comment(MPTTModel):
 	name = property(_get_name)
 
 	def save(self, *args, **kwargs):
-		self.updated = timezone.now()
-		if not self.id or not self.submit_date:
-			self.submit_date = self.updated
 		if not self.user_name and self.user:
-			self.user_name = str(self.user)
+			self.user_name = force_unicode(self.user)
 		return super(Comment, self).save(*args, **kwargs)
 
 	def __unicode__(self):

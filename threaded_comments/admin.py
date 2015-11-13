@@ -22,13 +22,13 @@ class CommentAdmin(MPTTModelAdmin):
 		),
 		(
 			'Metainformácie',
-			{'fields': ('submit_date', 'ip_address', 'is_public', 'is_removed', 'is_locked')}
+			{'fields': ('created', 'ip_address', 'is_public', 'is_removed', 'is_locked')}
 		),
 	)
-	list_display = ('subject', 'name', 'content_type', 'ip_address', 'submit_date', 'is_public', 'is_removed', 'is_locked')
-	list_filter = ('submit_date', 'is_public', 'is_removed')
-	date_hierarchy = 'submit_date'
-	ordering = ('-submit_date',)
+	list_display = ('subject', 'name', 'content_type', 'ip_address', 'created', 'is_public', 'is_removed', 'is_locked')
+	list_filter = ('created', 'is_public', 'is_removed')
+	date_hierarchy = 'created'
+	ordering = ('-created',)
 	raw_id_fields = ('user', 'parent',)
 	search_fields = ('filtered_comment', 'user__username', 'user_name', 'ip_address')
 	actions = ["flag_comments", "approve_comments", "remove_comments"]

@@ -2,9 +2,10 @@
 from __future__ import unicode_literals
 
 from operator import or_
+
 from django import template
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import Q, Count
+from django.db.models import Count, F, Q
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -104,7 +105,7 @@ class DiscussionLoader:
 			attrib = self.get_discussion_attribute()
 			last_display_time = self.get_last_display_time(attrib)
 			self.update_discussion_attribute(attrib)
-			query_set = query_set.extra(select={'is_new': 'submit_date >= %s'}, select_params=(last_display_time, ))[:]
+			query_set = query_set.annotate(is_new=F(created__gte=last_display_time))
 			self.highlight_new(query_set)
 		root_item = query_set.get(level=0)
 		setattr(query_set, 'root_item', root_item)

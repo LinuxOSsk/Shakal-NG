@@ -13,7 +13,7 @@ from common_utils.time_series import time_series, set_gaps_zero
 
 class Statistics(object):
 	verbose_name_plural = None
-	date_field = None
+	date_field = 'created'
 
 	def __init__(self, user, request=None):
 		self.user = user
@@ -72,28 +72,22 @@ class BlogpostStatistics(Statistics):
 
 
 class ForumtopicStatistics(Statistics):
-	date_field = 'created'
-
 	def get_queryset(self):
 		return apps.get_model('forum.Topic').objects.filter(author=self.user)
 
 
 class NewsStatistics(Statistics):
-	date_field = 'created'
-
 	def get_queryset(self):
 		return apps.get_model('news.News').objects.filter(author=self.user)
 
 
 class CommentedStatistics(Statistics):
-	date_field = 'submit_date'
-
 	def get_queryset(self):
 		return (apps.get_model('threaded_comments.Comment')
 			.objects
 			.filter(user=self.user, parent__isnull=False)
 			.values('content_type_id', 'object_id')
-			.annotate(max_pk=Max('pk'), date_field=Max('submit_date')))
+			.annotate(max_pk=Max('pk'), date_field=Max('created')))
 
 	def get_graph_queryset(self):
 		return (apps.get_model('threaded_comments.Comment')

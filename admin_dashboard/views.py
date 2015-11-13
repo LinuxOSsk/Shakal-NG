@@ -46,7 +46,7 @@ class Stats(StaffuserRequiredMixin, View):
 				'comments', {
 					'name': _('Comments'),
 					'qs': Comment.objects.all().exclude(parent_id = 0),
-					'date_col': 'submit_date',
+					'date_col': 'created',
 					'choices': self.generate_choices('comments'),
 				}
 			),

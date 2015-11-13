@@ -135,6 +135,6 @@ class CommentForm(SecurityFormMixin, AuthorsNameFormMixin, TemporaryAttachmentFo
 			user_name=new.user_name,
 		)
 		for old in possible_duplicates:
-			if old.submit_date.date() == new.submit_date.date() and old.original_comment == new.original_comment:
+			if old.created.date() == new.created.date() and old.original_comment == new.original_comment:
 				return old
 		return new

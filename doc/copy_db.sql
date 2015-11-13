@@ -170,10 +170,10 @@ INSERT INTO blog_post(id, title, slug, original_perex, filtered_perex, original_
 
 -- threaded_comments
 
-INSERT INTO django_comments(id, object_id, subject, user_name, original_comment, filtered_comment, submit_date, ip_address, is_public, is_removed, is_locked, updated, lft, rght, tree_id, level, content_type_id, parent_id, user_id)
+INSERT INTO django_comments(id, object_id, subject, user_name, original_comment, filtered_comment, created, ip_address, is_public, is_removed, is_locked, updated, lft, rght, tree_id, level, content_type_id, parent_id, user_id)
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, object_id, subject, user_name, original_comment, filtered_comment, submit_date, ip_address, is_public, is_removed, is_locked, updated, lft, rght, tree_id, level, content_type_id, parent_id, user_id FROM django_comments')
-		AS t1(id integer, object_id text, subject character varying(100), user_name character varying(50), original_comment text, filtered_comment text, submit_date timestamp with time zone, ip_address inet, is_public boolean, is_removed boolean, is_locked boolean, updated timestamp with time zone, lft integer, rght integer, tree_id integer, level integer, content_type_id integer, parent_id integer, user_id integer);
+		AS t1(id integer, object_id text, subject character varying(100), user_name character varying(50), original_comment text, filtered_comment text, created timestamp with time zone, ip_address inet, is_public boolean, is_removed boolean, is_locked boolean, updated timestamp with time zone, lft integer, rght integer, tree_id integer, level integer, content_type_id integer, parent_id integer, user_id integer);
 
 INSERT INTO django_comment_flags(id, flag, flag_date, comment_id, user_id)
 	SELECT * FROM

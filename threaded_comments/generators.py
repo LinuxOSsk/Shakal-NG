@@ -28,7 +28,7 @@ class CommentGenerator(ModelGenerator):
 	user_id = samples.RelationSample(queryset=User.objects.all().order_by("pk"), random_data=True, only_pk=True, fetch_all=True)
 	user_name = samples.NameSample()
 	original_comment = samples.ParagraphSample()
-	submit_date = samples.DateTimeSample()
+	created = samples.DateTimeSample()
 
 	def generate_tree(self, parent_id, lft, level):
 		if level > 8:
@@ -60,7 +60,7 @@ class CommentGenerator(ModelGenerator):
 			model_class = apps.get_model(model)
 			ctype = ContentType.objects.get_for_model(model_class)
 			for instance in get_default_manager(model_class).all():
-				submit_date = (
+				created = (
 					getattr(instance, 'created', None) or
 					getattr(instance, 'pub_time', None) or
 					getattr(instance, 'active_from')
@@ -73,8 +73,8 @@ class CommentGenerator(ModelGenerator):
 					original_comment=('html', ''),
 					filtered_comment='',
 					user_name='',
-					submit_date=submit_date,
-					updated=submit_date,
+					created=created,
+					updated=created,
 				)
 				root_comment.id = self.next_id
 				root_comment.tree_id = self.next_tree_id
@@ -88,7 +88,7 @@ class CommentGenerator(ModelGenerator):
 					comment.content_type = ctype
 					comment.object_id = instance.pk
 					comment.filtered_comment = comment.original_comment[1]
-					comment.updated = comment.submit_date
+					comment.updated = comment.created
 					comment.tree_id = root_comment.tree_id
 					yield comment
 
