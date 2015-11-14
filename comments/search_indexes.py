@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from haystack import indexes
 
-from threaded_comments.models import RootHeader
+from comments.models import RootHeader
 
 
 class CommentIndex(indexes.SearchIndex, indexes.Indexable):

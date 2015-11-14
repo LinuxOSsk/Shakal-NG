@@ -6,8 +6,8 @@ from django.db.models.signals import post_save
 
 
 def update_comments_header(sender, instance, **kwargs): #pylint: disable=W0613
+	from comments.models import Comment
 	from django.contrib.contenttypes.models import ContentType
-	from threaded_comments.models import Comment
 	from .models import Topic
 
 	root, created = Comment.objects.get_or_create_root_comment(ctype=ContentType.objects.get_for_model(Topic), object_id=instance.pk)

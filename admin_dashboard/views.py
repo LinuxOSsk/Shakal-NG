@@ -14,9 +14,9 @@ from django.views.generic import View
 from json import dumps
 
 from article.models import Article
+from comments.models import Comment
 from common_utils.time_series import time_series as get_time_series, set_gaps_zero
 from news.models import News
-from threaded_comments.models import Comment
 
 
 class Stats(StaffuserRequiredMixin, View):

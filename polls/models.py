@@ -8,9 +8,9 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from django_autoslugfield.fields import AutoSlugField
-from common_utils.models import TimestampModelMixin
 
-from threaded_comments.models import RootHeader, Comment
+from comments.models import RootHeader, Comment
+from common_utils.models import TimestampModelMixin
 
 
 class ActivePollsListManager(models.Manager):

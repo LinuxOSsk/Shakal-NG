@@ -168,7 +168,7 @@ def delete_model_cache(sender, **kwargs):
 	meta = get_meta(sender)
 	tag_name = '%s.%s' % (meta.app_label, meta.model_name)
 	cache_instance.delete_tag(tag_name)
-	if tag_name == 'threaded_comments.rootheader':
+	if tag_name == 'comments.rootheader':
 		cache_instance.delete_tag('forum.topic')
 
 

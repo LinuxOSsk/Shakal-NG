@@ -11,9 +11,9 @@ from django.db.models import permalink
 from django.utils import timezone
 
 from attachment.models import Attachment
+from comments.models import RootHeader, Comment
 from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
-from threaded_comments.models import RootHeader, Comment
 
 
 class Section(models.Model):

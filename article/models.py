@@ -10,10 +10,10 @@ from django.utils.timezone import now
 
 from attachment.models import Attachment
 from autoimagefield.fields import AutoImageField
+from comments.models import RootHeader, Comment
 from common_utils.models import TimestampModelMixin
 from hitcount.models import HitCountField
 from polls.models import Poll
-from threaded_comments.models import RootHeader, Comment
 
 
 class Category(models.Model):

@@ -19,9 +19,11 @@
 -- │ public │ [*] auth_user_user_permissions                │ table │ linuxos │
 -- │ public │ [*] blog_blog                                 │ table │ linuxos │
 -- │ public │ [*] blog_post                                 │ table │ linuxos │
--- │ public │ [*] django_admin_log                          │ table │ linuxos │
 -- │ public │ [*] django_comment_flags                      │ table │ linuxos │
 -- │ public │ [*] django_comments                           │ table │ linuxos │
+-- │ public │ [*] threaded_comments_rootheader              │ table │ linuxos │
+-- │ public │ [*] threaded_comments_userdiscussionattribute │ table │ linuxos │
+-- │ public │ [*] django_admin_log                          │ table │ linuxos │
 -- │ public │ [*] django_content_type                       │ table │ linuxos │
 -- │ public │ [x] django_migrations                         │ table │ linuxos │
 -- │ public │ [x] django_session                            │ table │ linuxos │
@@ -38,9 +40,7 @@
 -- │ public │ [*] polls_recorduser                          │ table │ linuxos │
 -- │ public │ [*] reversion_revision                        │ table │ linuxos │
 -- │ public │ [*] reversion_version                         │ table │ linuxos │
--- │ public │ [*] threaded_comments_rootheader              │ table │ linuxos │
--- │ public │ [*] threaded_comments_userdiscussionattribute │ table │ linuxos │
--- │ public │ [ ] wiki_page                                 │ table │ linuxos │
+-- │ public │ [*] wiki_page                                 │ table │ linuxos │
 -- └────────┴───────────────────────────────────────────────┴───────┴─────────┘
 
 
@@ -52,12 +52,14 @@ DELETE FROM django_content_type;
 DELETE FROM django_site;
 
 
--- auth
-
 INSERT INTO django_content_type (id, app_label, model)
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, app_label, model FROM django_content_type')
 		AS t1(id integer, app_label character varying(100), model character varying(100));
+
+UPDATE django_content_type SET app_label = 'comments' WHERE app_label = 'threaded_comments';
+
+-- auth
 
 INSERT INTO auth_group(id, name)
 	SELECT * FROM

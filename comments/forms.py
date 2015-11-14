@@ -10,15 +10,15 @@ from django.core import validators
 from django.forms.utils import ErrorDict
 from django.forms.widgets import HiddenInput
 from django.utils.crypto import salted_hmac
-from common_utils.forms import AuthorsNameFormMixin
 
 from antispam.forms import AntispamFormMixin
 from attachment.fields import AttachmentField
 from attachment.forms import TemporaryAttachmentFormMixin
+from comments.models import Comment
 from common_utils import get_meta
+from common_utils.forms import AuthorsNameFormMixin
 from common_utils.middlewares.ThreadLocal import get_current_request
 from rich_editor.forms import RichOriginalField
-from threaded_comments.models import Comment
 
 
 COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 50000)

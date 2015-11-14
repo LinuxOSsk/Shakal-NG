@@ -5,14 +5,14 @@ from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse_lazy
 
-from threaded_comments.models import Comment
+from comments.models import Comment
 
 
 class CommentFeed(Feed):
 	title = 'Diskusné príspevky'
 	description = 'Zoznam posledných diskusných príspevkov'
 	link = reverse_lazy('home')
-	feed_url = reverse_lazy('threaded_comments:feed-latest')
+	feed_url = reverse_lazy('comments:feed-latest')
 
 	def item_description(self, item):
 		return item.comment

@@ -11,12 +11,12 @@ from django.utils.translation import ugettext_lazy as _
 from django_autoslugfield.fields import AutoSlugField
 
 from attachment.models import Attachment
+from comments.models import RootHeader, Comment
 from common_utils.models import TimestampModelMixin
 from hitcount.models import HitCountField
 from polls.models import Poll
 from rich_editor import get_parser
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
-from threaded_comments.models import RootHeader, Comment
 
 
 class Blog(TimestampModelMixin, models.Model):

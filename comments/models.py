@@ -74,11 +74,11 @@ class Comment(MPTTModel, TimestampModelMixin):
 				return header
 
 	def get_absolute_url(self):
-		return '%s#link_%d' % (reverse('threaded_comments:comment', args=(self.pk,), kwargs={}), self.id)
+		return '%s#link_%d' % (reverse('comments:comment', args=(self.pk,), kwargs={}), self.id)
 
 	@models.permalink
 	def get_single_comment_url(self):
-		return ('threaded_comments:comment-single', (self.pk,), {})
+		return ('comments:comment-single', (self.pk,), {})
 
 	def get_tags(self):
 		tags = []
@@ -110,7 +110,6 @@ class Comment(MPTTModel, TimestampModelMixin):
 		index_together = (('object_id', 'content_type',),)
 		verbose_name = 'komentár'
 		verbose_name_plural = 'komentáre'
-		db_table = 'django_comments'
 
 
 class CommentFlag(models.Model):
@@ -124,7 +123,6 @@ class CommentFlag(models.Model):
 	MODERATOR_APPROVAL = "moderator approval"
 
 	class Meta:
-		db_table = 'django_comment_flags'
 		unique_together = [('user', 'comment', 'flag')]
 		verbose_name = 'značka komenára'
 		verbose_name_plural = 'značky komentárov'
@@ -152,7 +150,7 @@ class RootHeader(models.Model):
 
 	@models.permalink
 	def get_absolute_url(self):
-		return ('threaded_comments:comments', (self.pk,), {})
+		return ('comments:comments', (self.pk,), {})
 
 	class Meta:
 		unique_together = (('content_type', 'object_id',),)

@@ -2,9 +2,10 @@
 from __future__ import unicode_literals
 
 from django.apps import AppConfig
-from django.utils.functional import cached_property
-from django.db.models.signals import post_save, pre_save, pre_delete
 from django.contrib.auth.signals import user_logged_out
+from django.db.models.signals import post_save, pre_save, pre_delete
+from django.utils.functional import cached_property
+
 from .auth_remember_utils import preset_cookie
 
 
@@ -21,10 +22,10 @@ class AccountsConfig(AppConfig):
 	}
 
 	@cached_property
-	def senders(self):
+	def user_content(self):
 		from article.models import Article
+		from comments.models import Comment
 		from news.models import News
-		from threaded_comments.models import Comment
 		from wiki.models import Page as WikiPage
 
 		return {
@@ -43,15 +44,15 @@ class AccountsConfig(AppConfig):
 			rating.save()
 
 	def update_count_post_save(self, sender, instance, **kwargs):
-		if not sender in self.senders:
+		if not sender in self.user_content:
 			return
-		author_property, property_name, count_fun = self.senders[sender]
+		author_property, property_name, count_fun = self.user_content[sender]
 		self.update_user_rating(instance, author_property, property_name, int(count_fun(instance)))
 
 	def update_count_pre_save(self, sender, instance, **kwargs):
-		if not sender in self.senders:
+		if not sender in self.user_content:
 			return
-		author_property, property_name, count_fun = self.senders[sender]
+		author_property, property_name, count_fun = self.user_content[sender]
 		if instance.pk:
 			try:
 				instance = instance.__class__.objects.get(pk=instance.pk)

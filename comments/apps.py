@@ -6,11 +6,8 @@ from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save, post_delete
 
 
-from notifications.models import Event
-
-
 class CommentsConfig(AppConfig):
-	name = 'threaded_comments'
+	name = 'comments'
 	verbose_name = 'Komentáre'
 
 	def ready(self):
@@ -21,11 +18,13 @@ class CommentsConfig(AppConfig):
 		post_save.connect(self.send_notifications, sender=Comment)
 
 	def send_notifications(self, sender, instance, created, **kwargs): #pylint: disable=unused-argument
+		from notifications.models import Event
+
 		if not created:
 			return
-		watchers = get_user_model().objects.\
-			filter(userdiscussionattribute__discussion=instance.get_or_create_root_header(), userdiscussionattribute__watch=True).\
-			distinct()
+		watchers = (get_user_model().objects
+			.filter(userdiscussionattribute__discussion=instance.get_or_create_root_header(), userdiscussionattribute__watch=True)
+			.distinct())
 		title = u"Pridaný komentár v diskusii " + unicode(instance.content_object)
 		author = None
 		if instance.user:

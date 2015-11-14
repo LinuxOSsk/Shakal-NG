@@ -64,6 +64,7 @@ INSTALLED_APPS = (
 	'attachment',
 	'blog',
 	'breadcrumbs',
+	'comments',
 	'common_utils',
 	'feeds',
 	'forum',
@@ -73,7 +74,6 @@ INSTALLED_APPS = (
 	'notifications',
 	'polls',
 	'search',
-	'threaded_comments',
 	'wiki',
 )
 
@@ -260,13 +260,12 @@ SAMPLE_DATA_GENERATORS = (
 	'blog.generators.register',
 	'forum.generators.register',
 	'news.generators.register',
-	'threaded_comments.generators.register',
+	'comments.generators.register',
 )
 
 ATTACHMENT_MAX_SIZE = 1024 * 1024 * 50
 ATTACHMENT_SIZE_FOR_CONTENT = {
-	'django_comments': 1024 * 1024 * 2,
-	'threaded_comments_comment': 1024 * 1024 * 2,
+	'comments_comment': 1024 * 1024 * 2,
 	'forum_topic': 1024 * 1024 * 2,
 	'blog_post': 1024 * 1024 * 8,
 }

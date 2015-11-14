@@ -16,9 +16,9 @@ from mptt.templatetags import mptt_tags
 
 from ..cache import header_cache
 from ..models import RootHeader, UserDiscussionAttribute
+from comments.models import Comment
 from common_utils import iterify, get_meta
 from common_utils.content_types import get_lookups
-from threaded_comments.models import Comment
 
 
 register = template.Library()
@@ -206,14 +206,14 @@ def get_comments_for_item(item, display_last=False):
 
 @library.global_function
 @contextfunction
-def get_threaded_comments_list(context, target):
+def get_comments_list(context, target):
 	loader = DiscussionLoader()
 	return loader.load(context, target)
 
 
 @library.global_function
 @contextfunction
-def render_threaded_comments_toplevel(context, target):
+def render_comments_toplevel(context, target):
 	context = dict(context)
 	model_class = target.__class__
 	templates = (
@@ -226,4 +226,4 @@ def render_threaded_comments_toplevel(context, target):
 
 
 library.filter(mptt_tags.tree_info)
-register.assignment_tag(get_threaded_comments_list, takes_context=True)
+register.assignment_tag(get_comments_list, takes_context=True)

@@ -13,8 +13,8 @@ from django.views.generic.edit import FormView
 from .forms import CommentForm
 from .models import Comment
 from .utils import update_comments_header
+from comments.models import RootHeader, UserDiscussionAttribute
 from common_utils import get_meta
-from threaded_comments.models import RootHeader, UserDiscussionAttribute
 
 
 def get_module_name(content_object):
@@ -93,7 +93,7 @@ class Reply(FormView):
 
 class Admin(PermissionRequiredMixin, DetailView):
 	model = Comment
-	permission_required = 'threaded_comments.change_threaded_comment'
+	permission_required = 'comments.change_threaded_comment'
 
 	def get(self, request, **kwargs):
 		comment = self.get_object()

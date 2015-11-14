@@ -10,8 +10,8 @@ from django.utils import timezone
 from accounts.models import UserRating, RATING_WEIGHTS
 from article.models import Article
 from attachment.models import TemporaryAttachment
+from comments.models import Comment
 from news.models import News
-from threaded_comments.models import Comment
 from wiki.models import Page as WikiPage
 
 
