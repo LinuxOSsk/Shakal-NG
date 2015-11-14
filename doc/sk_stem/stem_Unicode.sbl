@@ -1,0 +1,164 @@
+routines (
+	//RV R1
+	lower_case
+	mark_regions
+	rule1
+	un_accent
+)
+
+stringescapes {}
+
+groupings ( v )
+
+integers ( pV p1 p2 )
+
+externals ( stem )
+
+// Znaky UTF8
+
+stringdef A"   hex 'C1'    // dlhe a
+stringdef A:   hex 'C4'    // siroke a
+stringdef C<   hex '10C'   // c s makcenom
+stringdef D<   hex '10E'   // d s makcenom
+stringdef DZ<  hex '64 17D' // dz s makcenom
+stringdef E"   hex 'C9'    // e s dlznom
+stringdef E<   hex '11A'   // e s makcenom
+stringdef I"   hex 'CD'    // i s dlznom
+stringdef L"   hex '139'   // l s dlznom
+stringdef L<   hex '13E'   // l s makcenom
+stringdef N<   hex '13D'   // n s makcenom
+stringdef O>   hex 'D4'    // o s vokanom
+stringdef O"   hex 'D3'    // o s dlznom
+stringdef R"   hex '154'   // r s dlznom
+stringdef R<   hex '158'   // r s makcenom
+stringdef S<   hex '160'   // s s makcenom
+stringdef T<   hex '164'   // t s makcenom
+stringdef U"   hex 'DA'    // u s dlznom
+stringdef U^   hex '16E'   // u s kruzkom
+stringdef Y"   hex 'DD'    // y s dlznom
+stringdef Z<   hex '17D'   // z s makcenom
+
+
+stringdef a"   hex 'E1'    // dlhe a
+stringdef a:   hex 'E4'    // siroke a
+stringdef c<   hex '10D'   // c s makcenom
+stringdef d<   hex '10F'   // d s makcenom
+stringdef dz   'dz'        // dz
+stringdef dz<  hex '64 17E' // dz s makcenom
+stringdef e"   hex 'E9'    // e s dlznom
+stringdef e<   hex '11B'   // e s makcenom
+stringdef ch   'ch'        // ch
+stringdef i"   hex 'ED'    // i s dlznom
+stringdef l"   hex '13A'   // l s dlznom
+stringdef l<   hex '13E'   // l s makcenom
+stringdef n<   hex '148'   // n s makcenom
+stringdef o>   hex 'F4'    // o s vokanom
+stringdef o"   hex 'F3'    // o s dlznom
+stringdef r"   hex '155'   // r s dlznom
+stringdef r<   hex '159'   // r s makcenom
+stringdef s<   hex '161'   // s s makcenom
+stringdef t<   hex '165'   // t s makcenom
+stringdef u"   hex 'FA'    // u s dlznom
+stringdef u^   hex '16F'   // u s kruzkom
+stringdef y"   hex 'FD'    // y s dlznom
+stringdef z<   hex '17E'   // z s makcenom
+stringdef ia   'ia'        // ia
+stringdef ie   'ie'        // ie
+stringdef iu   'iu'        // iu
+
+// samohlasky
+define v 'a{a"}{a:}e{e"}{e<}i{i"}y{y"}o{o"}{o>}u{u"}{u^}'
+
+
+define mark_regions as (
+	$pV = limit
+	$p1 = limit
+
+	do (
+		gopast non-v setmark pV
+		gopast non-v gopast v setmark p1
+	)
+)
+
+
+backwardmode (
+	//define RV as $pV <= cursor
+	//define R1 as $p1 <= cursor
+
+	define rule1 as (
+		[substring] among (
+			'nove' (<-'nove')
+			'ovy{ch}' 'ovali' 'ovalo' 'ovala' 'ovymi' 'ovym' 'ovy' 'ova' 'ove' 'ovo' 'ovu' 'ovou' 'ovom' 'ovi' 'ovho' 'ovmu' 'ovej'
+			'ujeme' 'ujete' 'ujme' 'ujte' 'ujuc' 'ujes' 'ujem'
+			'ych' 'ymi' 'eho' 'emu' 'och'
+			'jte' 'jme' 'ska'
+			'om' 'ou' 'ej' 'ov' 'ym' 'te' 'me' 'ho' 'mu' 'in' 'mi'
+			'i' 'e' 'u' 'm' 'a'
+			(delete)
+		)
+	)
+)
+
+define un_accent as repeat (
+	[substring] among (
+		'{a"}' (<-'a')
+		'{a:}' (<-'a')
+		'{c<}' (<-'c')
+		'{d<}' (<-'d')
+		'{dz<}' (<-'dz')
+		'{e"}' (<-'e')
+		'{e<}' (<-'e')
+		'{i"}' (<-'i')
+		'{l"}' (<-'l')
+		'{l<}' (<-'l')
+		'{n<}' (<-'n')
+		'{o>}' (<-'o')
+		'{o"}' (<-'o')
+		'{r"}' (<-'r')
+		'{r<}' (<-'r')
+		'{s<}' (<-'s')
+		'{t<}' (<-'t')
+		'{u"}' (<-'u')
+		'{u^}' (<-'u')
+		'{y"}' (<-'y')
+		'{z<}' (<-'z')
+		'' (next)
+	)
+)
+
+define lower_case as repeat (
+	[substring] among (
+		'{A"}' (<-'{a"}')
+		'{A:}' (<-'{a:}')
+		'{C<}' (<-'{c<}')
+		'{D<}' (<-'{d<}')
+		'{DZ<}' (<-'{dz<}')
+		'{E"}' (<-'{e"}')
+		'{E<}' (<-'{e<}')
+		'{I"}' (<-'{i"}')
+		'{L"}' (<-'{l"}')
+		'{L<}' (<-'{l<}')
+		'{N<}' (<-'{n<}')
+		'{O>}' (<-'{o>}')
+		'{O"}' (<-'{o"}')
+		'{R"}' (<-'{r"}')
+		'{R<}' (<-'{r<}')
+		'{S<}' (<-'{s<}')
+		'{T<}' (<-'{t<}')
+		'{U"}' (<-'{u"}')
+		'{U^}' (<-'{u^}')
+		'{Y"}' (<-'{y"}')
+		'{Z<}' (<-'{z<}')
+		'' (next)
+	)
+)
+
+
+define stem as (
+	do lower_case
+	do un_accent
+	do mark_regions
+	backwards (
+		do rule1
+	)
+)
