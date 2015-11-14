@@ -19,10 +19,10 @@
 -- │ public │ [*] auth_user_user_permissions                │ table │ linuxos │
 -- │ public │ [*] blog_blog                                 │ table │ linuxos │
 -- │ public │ [*] blog_post                                 │ table │ linuxos │
--- │ public │ [*] django_comment_flags                      │ table │ linuxos │
--- │ public │ [*] django_comments                           │ table │ linuxos │
--- │ public │ [*] threaded_comments_rootheader              │ table │ linuxos │
--- │ public │ [*] threaded_comments_userdiscussionattribute │ table │ linuxos │
+-- │ public │ [*] comments_commentflag                      │ table │ linuxos │
+-- │ public │ [*] comments_comment                          │ table │ linuxos │
+-- │ public │ [*] comments_rootheader                       │ table │ linuxos │
+-- │ public │ [*] comments_userdiscussionattribute          │ table │ linuxos │
 -- │ public │ [*] django_admin_log                          │ table │ linuxos │
 -- │ public │ [*] django_content_type                       │ table │ linuxos │
 -- │ public │ [x] django_migrations                         │ table │ linuxos │
@@ -172,26 +172,26 @@ INSERT INTO blog_post(id, title, slug, original_perex, filtered_perex, original_
 
 -- threaded_comments
 
-INSERT INTO django_comments(id, object_id, subject, user_name, original_comment, filtered_comment, created, ip_address, is_public, is_removed, is_locked, updated, lft, rght, tree_id, level, content_type_id, parent_id, user_id)
+INSERT INTO comments_comment(id, object_id, subject, user_name, original_comment, filtered_comment, created, ip_address, is_public, is_removed, is_locked, updated, lft, rght, tree_id, level, content_type_id, parent_id, user_id)
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, object_id, subject, user_name, original_comment, filtered_comment, submit_date, ip_address, is_public, is_removed, is_locked, updated, lft, rght, tree_id, level, content_type_id, parent_id, user_id FROM django_comments')
 		AS t1(id integer, object_id text, subject character varying(100), user_name character varying(50), original_comment text, filtered_comment text, created timestamp with time zone, ip_address inet, is_public boolean, is_removed boolean, is_locked boolean, updated timestamp with time zone, lft integer, rght integer, tree_id integer, level integer, content_type_id integer, parent_id integer, user_id integer);
 
-INSERT INTO django_comment_flags(id, flag, flag_date, comment_id, user_id)
+INSERT INTO comments_commentflag(id, flag, flag_date, comment_id, user_id)
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, flag, flag_date, comment_id, user_id FROM django_comment_flags')
 		AS t1(id integer, flag character varying(30), flag_date timestamp with time zone, comment_id integer, user_id integer);
 
-ALTER TABLE threaded_comments_rootheader ALTER COLUMN last_comment DROP NOT NULL;
-INSERT INTO threaded_comments_rootheader(id, pub_date, last_comment, comment_count, is_locked, object_id, content_type_id)
+ALTER TABLE comments_rootheader ALTER COLUMN last_comment DROP NOT NULL;
+INSERT INTO comments_rootheader(id, pub_date, last_comment, comment_count, is_locked, object_id, content_type_id)
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, pub_date, last_comment, comment_count, is_locked, object_id, content_type_id FROM threaded_comments_rootheader')
 		AS t1(id integer, pub_date timestamp with time zone, last_comment timestamp with time zone, comment_count integer, is_locked boolean, object_id integer, content_type_id integer);
-UPDATE threaded_comments_rootheader SET last_comment = (SELECT MAX(submit_date) FROM django_comments WHERE cast(django_comments.object_id as integer) = threaded_comments_rootheader.object_id AND django_comments.content_type_id = threaded_comments_rootheader.content_type_id) WHERE last_comment IS NULL;
+UPDATE comments_rootheader SET last_comment = (SELECT MAX(submit_date) FROM django_comments WHERE cast(django_comments.object_id as integer) = threaded_comments_rootheader.object_id AND django_comments.content_type_id = threaded_comments_rootheader.content_type_id) WHERE last_comment IS NULL;
 UPDATE threaded_comments_rootheader SET last_comment = NOW() WHERE last_comment IS NULL;
-ALTER TABLE threaded_comments_rootheader ALTER COLUMN last_comment SET NOT NULL;
+ALTER TABLE comments_rootheader ALTER COLUMN last_comment SET NOT NULL;
 
-INSERT INTO threaded_comments_userdiscussionattribute(id, time, watch, discussion_id, user_id)
+INSERT INTO comments_userdiscussionattribute(id, time, watch, discussion_id, user_id)
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, time, watch, discussion_id, user_id FROM threaded_comments_userdiscussionattribute')
 		AS t1(id integer, time timestamp with time zone, watch boolean, discussion_id integer, user_id integer);
