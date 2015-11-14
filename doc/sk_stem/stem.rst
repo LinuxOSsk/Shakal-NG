@@ -42,3 +42,4 @@ Užitočné odkazy
 - http://korpus.sk/morphology_database.html - morfologická databáza
 - http://vi.ikt.ui.sav.sk/Projekty/Projekty_2008%2F%2F2009/Hana_Pifkov%C3%A1_-_Stemer - implementácia v jave
 - http://vi.ikt.ui.sav.sk/Projekty/Projekty_2008%2F%2F2009/Stanislav_Balocky - (dosť slabá) implementácia v snowballe
+- https://github.com/elastic/hunspell/blob/master/src/test-resources/stemming-data/sk.txt - malé testovacie dáta pre myspell
