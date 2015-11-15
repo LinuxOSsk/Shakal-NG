@@ -3,21 +3,7 @@ from __future__ import unicode_literals
 
 from django.core.management.base import BaseCommand
 
-from ...tasks import delete_old_attachments, update_user_ratings
-
-
-#import datetime
-#
-#from django.core.management.base import BaseCommand
-#from django.db.models import Count, F
-#from django.utils import timezone
-#
-#from ...tasks import delete_old_attachments
-#from accounts.models import UserRating, RATING_WEIGHTS
-#from article.models import Article
-#from comments.models import Comment
-#from news.models import News
-#from wiki.models import Page as WikiPage
+from ...tasks import delete_old_attachments, update_user_ratings, delete_old_events
 
 
 class Command(BaseCommand):
@@ -29,15 +15,5 @@ class Command(BaseCommand):
 
 	def handle(self, *args, **kwargs):
 		delete_old_attachments()
+		delete_old_events()
 		update_user_ratings()
-		#self.delete_old_events()
-
-	#def delete_old_events(self):
-	#	from notifications.models import Event, Inbox
-
-	#	now = timezone.now()
-	#	old_date = now - datetime.timedelta(days=30)
-	#	old_events = Event.objects.filter(time__lte=old_date)
-
-	#	Inbox.objects.filter(event__in=old_events).delete()
-	#	old_events.delete()

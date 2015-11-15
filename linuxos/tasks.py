@@ -11,14 +11,8 @@ from article.models import Article
 from attachment.models import TemporaryAttachment
 from comments.models import Comment
 from news.models import News
+from notifications.models import Event, Inbox
 from wiki.models import Page as WikiPage
-
-
-def _update_rating_data(new_ratings, field_name):
-	current_ratings = dict(UserRating.objects.values_list('user_id', field_name))
-	for user_id, count in new_ratings:
-		if count != current_ratings.get(user_id, 0):
-			UserRating.objects.update_or_create(user_id=user_id, defaults={field_name: count})
 
 
 def delete_old_attachments():
@@ -28,12 +22,25 @@ def delete_old_attachments():
 		old_attachment.delete()
 
 
+def delete_old_events():
+	old_events = Event.objects.filter(time__lte=timezone.now() - timedelta(30))
+	Inbox.objects.filter(event__in=old_events).delete()
+	old_events.delete()
+
+
 def update_user_ratings():
 	update_user_ratings_comments()
 	update_user_ratings_articles()
 	update_user_ratings_news()
 	update_user_ratings_wiki()
 	update_user_ratings_sum()
+
+
+def _update_rating_data(new_ratings, field_name):
+	current_ratings = dict(UserRating.objects.values_list('user_id', field_name))
+	for user_id, count in new_ratings:
+		if count != current_ratings.get(user_id, 0):
+			UserRating.objects.update_or_create(user_id=user_id, defaults={field_name: count})
 
 
 def update_user_ratings_comments():
