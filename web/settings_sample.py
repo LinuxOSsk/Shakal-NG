@@ -11,3 +11,12 @@ INSTALLED_APPS += (
 	'django_extensions',
 	#'debug_toolbar',
 )
+
+#HAYSTACK_CONNECTIONS = {
+#	'default': {
+#		'ENGINE': 'xapian_backend.XapianEngine',
+#		'PATH': os.path.join(ROOT, 'xapian_index'),
+#		'INCLUDE_SPELLING': False
+#	},
+#}
+#HAYSTACK_XAPIAN_LANGUAGE = 'sk'
