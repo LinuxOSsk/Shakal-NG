@@ -7,9 +7,9 @@ from django.core.management.base import BaseCommand
 from django.db.models import Count, F
 from django.utils import timezone
 
+from ...tasks import delete_old_attachments
 from accounts.models import UserRating, RATING_WEIGHTS
 from article.models import Article
-from attachment.models import TemporaryAttachment
 from comments.models import Comment
 from news.models import News
 from wiki.models import Page as WikiPage
@@ -23,16 +23,9 @@ class Command(BaseCommand):
 		super(Command, self).__init__(*args, **kwargs)
 
 	def handle(self, *args, **kwargs):
-		self.delete_old_attachments()
+		delete_old_attachments()
 		self.update_user_ratings()
 		self.delete_old_events()
-
-	def delete_old_attachments(self):
-		now = timezone.now()
-		old_date = now - datetime.timedelta(days = 1)
-		old_attachments = TemporaryAttachment.objects.filter(created__lt = old_date)[:]
-		for old_attachment in old_attachments:
-			old_attachment.delete()
 
 	def update_user_ratings(self):
 		columns = (
