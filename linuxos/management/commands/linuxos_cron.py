@@ -30,24 +30,7 @@ class Command(BaseCommand):
 	def handle(self, *args, **kwargs):
 		delete_old_attachments()
 		update_user_ratings()
-		#self.update_user_ratings()
 		#self.delete_old_events()
-
-	#def update_user_ratings(self):
-	#	columns = (
-	#		'user',
-	#		'comments',
-	#		'articles',
-	#		'helped',
-	#		'news',
-	#		'wiki'
-	#	)
-	#	ratings = UserRating.objects.values_list(*columns)
-	#	ratings = [dict(zip(columns, r)) for r in ratings]
-	#	ratings = dict([(r['user'], r) for r in ratings])
-
-
-	#	UserRating.objects.update(rating = sum([(F(w[0]) * w[1]) for w in RATING_WEIGHTS.iteritems()]))
 
 	#def delete_old_events(self):
 	#	from notifications.models import Event, Inbox

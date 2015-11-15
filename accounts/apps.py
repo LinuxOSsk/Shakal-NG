@@ -13,14 +13,6 @@ class AccountsConfig(AppConfig):
 	name = 'accounts'
 	verbose_name = 'Používateľské kontá'
 
-	RATING_WEIGHTS = {
-		'comments': 1,
-		'articles': 200,
-		'helped': 20,
-		'news': 10,
-		'wiki': 50,
-	}
-
 	@cached_property
 	def user_content(self):
 		from article.models import Article
@@ -36,11 +28,12 @@ class AccountsConfig(AppConfig):
 		}
 
 	def update_user_rating(self, instance, author_property, property_name, change):
+		UserRating = self.get_model('UserRating')
 		user = getattr(instance, author_property)
 		if user:
-			rating = self.get_model('UserRating').objects.get_or_create(user=user)[0]
+			rating = UserRating.objects.get_or_create(user=user)[0]
 			setattr(rating, property_name, max(getattr(rating, property_name) + change, 0))
-			rating.rating = sum(getattr(rating, w[0]) * w[1] for w in self.RATING_WEIGHTS.iteritems())
+			rating.rating = sum(getattr(rating, w[0]) * w[1] for w in UserRating.RATING_WEIGHTS.iteritems())
 			rating.save()
 
 	def update_count_post_save(self, sender, instance, **kwargs):

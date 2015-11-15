@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from datetime import timedelta
 
-from django.db.models import Count
+from django.db.models import Count, F
 from django.utils import timezone
 
 from accounts.models import UserRating
@@ -33,6 +33,7 @@ def update_user_ratings():
 	update_user_ratings_articles()
 	update_user_ratings_news()
 	update_user_ratings_wiki()
+	update_user_ratings_sum()
 
 
 def update_user_ratings_comments():
@@ -73,3 +74,9 @@ def update_user_ratings_wiki():
 		.annotate(wiki_count=Count('pk'))
 		.values_list('last_author_id', 'wiki_count'))
 	_update_rating_data(ratings, 'wiki')
+
+
+def update_user_ratings_sum():
+	UserRating.objects.update(
+		rating=sum([(F(column) * weight) for column, weight in UserRating.RATING_WEIGHTS.iteritems()])
+	)

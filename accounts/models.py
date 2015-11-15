@@ -56,6 +56,14 @@ class User(AbstractUser):
 
 
 class UserRating(models.Model):
+	RATING_WEIGHTS = {
+		'comments': 1,
+		'articles': 200,
+		'helped': 20,
+		'news': 10,
+		'wiki': 50,
+	}
+
 	user = models.OneToOneField(User, related_name='rating')
 	comments = models.IntegerField(default=0)
 	articles = models.IntegerField(default=0)
