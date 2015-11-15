@@ -7,6 +7,7 @@ from django.db.models import Count
 from django.utils import timezone
 
 from accounts.models import UserRating
+from article.models import Article
 from attachment.models import TemporaryAttachment
 from comments.models import Comment
 
@@ -27,13 +28,24 @@ def delete_old_attachments():
 
 def update_user_ratings():
 	update_user_ratings_comments()
+	update_user_ratings_articles()
 
 
 def update_user_ratings_comments():
-	new_ratings = (Comment.objects
+	ratings = (Comment.objects
 		.filter(user_id__isnull=False, is_removed=False, is_public=True)
 		.order_by('user_id')
 		.values('user_id')
 		.annotate(comment_count=Count('pk'))
 		.values_list('user_id', 'comment_count'))
-	_update_rating_data(new_ratings, 'comments')
+	_update_rating_data(ratings, 'comments')
+
+
+def update_user_ratings_articles():
+	ratings = (Article.objects
+		.filter(author_id__isnull=False)
+		.order_by('author_id')
+		.values('author_id')
+		.annotate(articles_count=Count('pk'))
+		.values_list('author_id', 'articles_count'))
+	_update_rating_data(ratings, 'articles')

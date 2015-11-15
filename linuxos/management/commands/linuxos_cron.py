@@ -46,16 +46,6 @@ class Command(BaseCommand):
 	#	ratings = [dict(zip(columns, r)) for r in ratings]
 	#	ratings = dict([(r['user'], r) for r in ratings])
 
-
-	#	user_articles = Article.objects.filter(author_id__isnull = False).values('author_id').annotate(Count('pk')).values_list('author_id', 'pk__count')
-	#	user_articles_changed = filter(lambda c: c[0] not in ratings or c[1] != ratings[c[0]]['articles'], user_articles)
-	#	for user_id, comment_count in user_articles_changed:
-	#		rating, created = UserRating.objects.get_or_create(user_id = user_id)
-	#		rating.articles = comment_count
-	#		rating.save()
-	#	del(user_articles)
-	#	del(user_articles_changed)
-
 	#	user_news = News.objects.filter(author_id__isnull = False, approved = True).values('author_id').annotate(Count('pk')).values_list('author_id', 'pk__count')
 	#	user_news_changed = filter(lambda c: c[0] not in ratings or c[1] != ratings[c[0]]['news'], user_news)
 	#	for user_id, comment_count in user_news_changed:
