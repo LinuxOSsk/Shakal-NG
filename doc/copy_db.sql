@@ -187,7 +187,7 @@ INSERT INTO comments_rootheader(id, pub_date, last_comment, comment_count, is_lo
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, pub_date, last_comment, comment_count, is_locked, object_id, content_type_id FROM threaded_comments_rootheader')
 		AS t1(id integer, pub_date timestamp with time zone, last_comment timestamp with time zone, comment_count integer, is_locked boolean, object_id integer, content_type_id integer);
-UPDATE comments_rootheader SET last_comment = (SELECT MAX(submit_date) FROM django_comments WHERE cast(django_comments.object_id as integer) = comments_rootheader.object_id AND django_comments.content_type_id = comments_rootheader.content_type_id) WHERE last_comment IS NULL;
+UPDATE comments_rootheader SET last_comment = (SELECT MAX(submit_date) FROM comments_comment WHERE cast(comments_comment.object_id as integer) = comments_rootheader.object_id AND comments_comment.content_type_id = comments_rootheader.content_type_id) WHERE last_comment IS NULL;
 UPDATE comments_rootheader SET last_comment = NOW() WHERE last_comment IS NULL;
 ALTER TABLE comments_rootheader ALTER COLUMN last_comment SET NOT NULL;
 
@@ -315,10 +315,10 @@ SELECT setval(pg_get_serial_sequence('"polls_poll"','id'), coalesce(max("id"), 1
 SELECT setval(pg_get_serial_sequence('"polls_choice"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "polls_choice";
 SELECT setval(pg_get_serial_sequence('"polls_recordip"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "polls_recordip";
 SELECT setval(pg_get_serial_sequence('"polls_recorduser"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "polls_recorduser";
-SELECT setval(pg_get_serial_sequence('"django_comments"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "django_comments";
-SELECT setval(pg_get_serial_sequence('"django_comment_flags"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "django_comment_flags";
-SELECT setval(pg_get_serial_sequence('"threaded_comments_rootheader"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "threaded_comments_rootheader";
-SELECT setval(pg_get_serial_sequence('"threaded_comments_userdiscussionattribute"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "threaded_comments_userdiscussionattribute";
+SELECT setval(pg_get_serial_sequence('"comments_comment"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "d_commentjango_comments";
+SELECT setval(pg_get_serial_sequence('"comments_commentflag"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "comments_commentflag";
+SELECT setval(pg_get_serial_sequence('"comments_rootheader"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "comments_rootheader";
+SELECT setval(pg_get_serial_sequence('"comments_userdiscussionattribute"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "comments_userdiscussionattribute";
 SELECT setval(pg_get_serial_sequence('"wiki_page"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "wiki_page";
 
 COMMIT;
