@@ -46,23 +46,6 @@ class Command(BaseCommand):
 	#	ratings = [dict(zip(columns, r)) for r in ratings]
 	#	ratings = dict([(r['user'], r) for r in ratings])
 
-	#	user_news = News.objects.filter(author_id__isnull = False, approved = True).values('author_id').annotate(Count('pk')).values_list('author_id', 'pk__count')
-	#	user_news_changed = filter(lambda c: c[0] not in ratings or c[1] != ratings[c[0]]['news'], user_news)
-	#	for user_id, comment_count in user_news_changed:
-	#		rating, created = UserRating.objects.get_or_create(user_id = user_id)
-	#		rating.news = comment_count
-	#		rating.save()
-	#	del(user_news)
-	#	del(user_news_changed)
-
-	#	user_wiki = WikiPage.objects.filter(last_author_id__isnull = False).values('last_author_id').annotate(Count('pk')).values_list('last_author_id', 'pk__count')
-	#	user_wiki_changed = filter(lambda c: c[0] not in ratings or c[1] != ratings[c[0]]['news'], user_wiki)
-	#	for user_id, comment_count in user_wiki_changed:
-	#		rating, created = UserRating.objects.get_or_create(user_id = user_id)
-	#		rating.wiki = comment_count
-	#		rating.save()
-	#	del(user_wiki)
-	#	del(user_wiki_changed)
 
 	#	UserRating.objects.update(rating = sum([(F(w[0]) * w[1]) for w in RATING_WEIGHTS.iteritems()]))
 

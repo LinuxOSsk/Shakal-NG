@@ -11,6 +11,7 @@ from article.models import Article
 from attachment.models import TemporaryAttachment
 from comments.models import Comment
 from news.models import News
+from wiki.models import Page as WikiPage
 
 
 def _update_rating_data(new_ratings, field_name):
@@ -31,6 +32,7 @@ def update_user_ratings():
 	update_user_ratings_comments()
 	update_user_ratings_articles()
 	update_user_ratings_news()
+	update_user_ratings_wiki()
 
 
 def update_user_ratings_comments():
@@ -61,3 +63,13 @@ def update_user_ratings_news():
 		.annotate(news_count=Count('pk'))
 		.values_list('author_id', 'news_count'))
 	_update_rating_data(ratings, 'news')
+
+
+def update_user_ratings_wiki():
+	ratings = (WikiPage.objects
+		.filter(last_author_id__isnull=False)
+		.order_by('last_author_id')
+		.values('last_author_id')
+		.annotate(wiki_count=Count('pk'))
+		.values_list('last_author_id', 'wiki_count'))
+	_update_rating_data(ratings, 'wiki')
