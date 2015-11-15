@@ -45,6 +45,7 @@ INSTALLED_APPS = (
 	'django.contrib.sessions',
 	'django.contrib.messages',
 	'django.contrib.sites',
+	'django.contrib.sitemaps',
 	'django.contrib.staticfiles',
 	# vendor
 	'django_assets_manager',
@@ -58,6 +59,7 @@ INSTALLED_APPS = (
 	'mptt',
 	'haystack',
 	'reversion',
+	'static_sitemaps',
 	# apps
 	'accounts',
 	'article',
@@ -105,7 +107,7 @@ TEMPLATES = [
 		},
 		"OPTIONS": {
 			"match_extension": None,
-			"match_regex": re.compile(r"^(?!(admin/|debug_toolbar/|suit/|profiler/|search/indexes/|reversion/)).*"),
+			"match_regex": re.compile(r"^(?!(admin/|debug_toolbar/|suit/|profiler/|search/indexes/|reversion/|sitemap.xml|static_sitemaps/)).*"),
 			"newstyle_gettext": True,
 			"extensions": [
 				"jinja2.ext.do",
@@ -216,7 +218,7 @@ STATICFILES_FINDERS = (
 	'compressor.finders.CompressorFinder',
 )
 
-STATICSITEMAPS_BASE_DIR_SITEMAP = 'shakal.sitemaps.sitemaps'
+STATICSITEMAPS_ROOT_SITEMAP = 'web.sitemaps.sitemaps'
 
 MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'media'))
 MEDIA_URL = '/media/'

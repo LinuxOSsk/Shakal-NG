@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+from django.contrib import sitemaps
+from django.contrib.sitemaps import GenericSitemap
+from django.core.urlresolvers import reverse
+
 from accounts.models import User
 from article.models import Article
 from blog.models import Blog, Post
 from forum.models import Topic
+from linuxos.static_urls import sites
 from news.models import News
 from wiki.models import Page as WikiPage
-from linuxos.static_urls import sites
-from django.contrib import sitemaps
-from django.contrib.sitemaps import GenericSitemap
-from django.core.urlresolvers import reverse
 
 
 class StaticPagesSitemap(sitemaps.Sitemap):
