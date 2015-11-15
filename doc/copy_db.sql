@@ -241,7 +241,7 @@ INSERT INTO notifications_inbox(id, readed, event_id, recipient_id)
 
 -- polls
 
-INSERT INTO polls_poll(id, question, slug, object_id, active_from, checkbox, approved, answer_count, content_type_id)
+INSERT INTO polls_poll(id, question, slug, object_id, active_from, created, updated, checkbox, approved, answer_count, content_type_id)
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, question, slug, object_id, active_from, CASE WHEN active_from IS NULL THEN NOW() ELSE active_from END created, CASE WHEN active_from IS NULL THEN NOW() ELSE active_from END created, checkbox, approved, choice_count, content_type_id FROM polls_poll')
 		AS t1(id integer, question text, slug character varying(50), object_id integer, active_from timestamp with time zone, created timestamp with time zone, updated timestamp with time zone, checkbox boolean, approved boolean, answer_count integer, content_type_id integer);
