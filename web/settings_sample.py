@@ -14,7 +14,7 @@ INSTALLED_APPS += (
 
 #HAYSTACK_CONNECTIONS = {
 #	'default': {
-#		'ENGINE': 'xapian_backend.XapianEngine',
+#		'ENGINE': 'linuxos.search.XapianEngine',
 #		'PATH': os.path.join(ROOT, 'xapian_index'),
 #		'INCLUDE_SPELLING': False
 #	},

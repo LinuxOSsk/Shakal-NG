@@ -1,3 +1,4 @@
 * * * * * django-admin.py update_index -a 1
 0 * * * * django-admin.py refresh_sitemap
 0 * * * * django-admin.py linuxos_cron
+50 2 * * * django-admin.py rebuild_index --noinput
