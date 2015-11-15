@@ -1,6 +1,4 @@
 python-memcached
-queues
-queued-search
 redis
 ipython
 ptpython
