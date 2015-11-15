@@ -1,0 +1,4 @@
+#!/bin/bash
+
+find ~/backup/db/ -ctime +14 -exec rm {} \;
+pg_dump -U linuxos linuxos -Fc > ~/backup/db/$(date +%Y-%m-%d).psql
