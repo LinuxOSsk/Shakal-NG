@@ -315,7 +315,7 @@ SELECT setval(pg_get_serial_sequence('"polls_poll"','id'), coalesce(max("id"), 1
 SELECT setval(pg_get_serial_sequence('"polls_choice"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "polls_choice";
 SELECT setval(pg_get_serial_sequence('"polls_recordip"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "polls_recordip";
 SELECT setval(pg_get_serial_sequence('"polls_recorduser"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "polls_recorduser";
-SELECT setval(pg_get_serial_sequence('"comments_comment"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "d_commentjango_comments";
+SELECT setval(pg_get_serial_sequence('"comments_comment"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "comments_comment";
 SELECT setval(pg_get_serial_sequence('"comments_commentflag"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "comments_commentflag";
 SELECT setval(pg_get_serial_sequence('"comments_rootheader"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "comments_rootheader";
 SELECT setval(pg_get_serial_sequence('"comments_userdiscussionattribute"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "comments_userdiscussionattribute";
