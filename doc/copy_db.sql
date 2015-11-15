@@ -187,7 +187,7 @@ INSERT INTO comments_rootheader(id, pub_date, last_comment, comment_count, is_lo
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, pub_date, last_comment, comment_count, is_locked, object_id, content_type_id FROM threaded_comments_rootheader')
 		AS t1(id integer, pub_date timestamp with time zone, last_comment timestamp with time zone, comment_count integer, is_locked boolean, object_id integer, content_type_id integer);
-UPDATE comments_rootheader SET last_comment = (SELECT MAX(submit_date) FROM comments_comment WHERE cast(comments_comment.object_id as integer) = comments_rootheader.object_id AND comments_comment.content_type_id = comments_rootheader.content_type_id) WHERE last_comment IS NULL;
+UPDATE comments_rootheader SET last_comment = (SELECT MAX(created) FROM comments_comment WHERE cast(comments_comment.object_id as integer) = comments_rootheader.object_id AND comments_comment.content_type_id = comments_rootheader.content_type_id) WHERE last_comment IS NULL;
 UPDATE comments_rootheader SET last_comment = NOW() WHERE last_comment IS NULL;
 ALTER TABLE comments_rootheader ALTER COLUMN last_comment SET NOT NULL;
 
