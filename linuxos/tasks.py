@@ -10,6 +10,7 @@ from accounts.models import UserRating
 from article.models import Article
 from attachment.models import TemporaryAttachment
 from comments.models import Comment
+from news.models import News
 
 
 def _update_rating_data(new_ratings, field_name):
@@ -29,6 +30,7 @@ def delete_old_attachments():
 def update_user_ratings():
 	update_user_ratings_comments()
 	update_user_ratings_articles()
+	update_user_ratings_news()
 
 
 def update_user_ratings_comments():
@@ -49,3 +51,13 @@ def update_user_ratings_articles():
 		.annotate(articles_count=Count('pk'))
 		.values_list('author_id', 'articles_count'))
 	_update_rating_data(ratings, 'articles')
+
+
+def update_user_ratings_news():
+	ratings = (News.objects
+		.filter(author_id__isnull=False, approved=True)
+		.order_by('author_id')
+		.values('author_id')
+		.annotate(news_count=Count('pk'))
+		.values_list('author_id', 'news_count'))
+	_update_rating_data(ratings, 'news')
