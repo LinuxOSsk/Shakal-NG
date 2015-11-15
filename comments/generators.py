@@ -60,11 +60,6 @@ class CommentGenerator(ModelGenerator):
 			model_class = apps.get_model(model)
 			ctype = ContentType.objects.get_for_model(model_class)
 			for instance in get_default_manager(model_class).all():
-				created = (
-					getattr(instance, 'created', None) or
-					getattr(instance, 'pub_time', None) or
-					getattr(instance, 'active_from')
-				)
 				root_comment = Comment(
 					parent=None,
 					level=0,
@@ -73,8 +68,8 @@ class CommentGenerator(ModelGenerator):
 					original_comment=('html', ''),
 					filtered_comment='',
 					user_name='',
-					created=created,
-					updated=created,
+					created=instance.created,
+					updated=instance.created,
 				)
 				root_comment.id = self.next_id
 				root_comment.tree_id = self.next_tree_id

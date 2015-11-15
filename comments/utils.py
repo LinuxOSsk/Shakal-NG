@@ -60,12 +60,7 @@ def update_comments_header(sender, instance, **kwargs): #pylint: disable=unused-
 	last_comment = statistics['created__max']
 	if last_comment is None:
 		content_object = root.content_object
-		last_comment = ( # TODO: zjednotiť
-			getattr(content_object, 'created', None) or
-			getattr(content_object, 'pub_time', None) or
-			getattr(content_object, 'active_from', None)
-		)
-
+		last_comment = content_object.created
 
 	with transaction.atomic():
 		header, _ = RootHeader.objects.get_or_create(
