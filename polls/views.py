@@ -48,7 +48,7 @@ class PollPost(FormView):
 				messages.error(self.request, 'Hlasovať je možné len raz.', extra_tags=self.get_message_tag())
 				return HttpResponseRedirect(self.get_success_url())
 
-			Poll.objects.filter(pk=self.object.pk).update(choice_count=F('choice_count') + 1)
+			Poll.objects.filter(pk=self.object.pk).update(answer_count=F('answer_count') + 1)
 			self.object.choice_set.filter(pk__in=[c.id for c in choices]).update(votes=F('votes') + 1)
 			self.object.record_vote(self.request)
 			messages.success(self.request, 'Hlas bol prijatý.', extra_tags=self.get_message_tag())

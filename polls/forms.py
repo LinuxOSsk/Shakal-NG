@@ -47,7 +47,7 @@ class PollForm(forms.ModelForm):
 
 	class Meta:
 		model = Poll
-		exclude = ('approved', 'active_from', 'choice_count', 'content_type', 'object_id', 'slug')
+		exclude = ('approved', 'active_from', 'answer_count', 'content_type', 'object_id', 'slug')
 		fields = ('question', 'checkbox')
 
 

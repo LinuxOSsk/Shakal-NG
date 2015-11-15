@@ -20,7 +20,7 @@ class PollAdmin(admin.ModelAdmin):
 	list_filter = ('approved', 'content_type', )
 	ordering = ('-id', )
 	inlines = [ChoiceInline, ]
-	exclude = ('choice_count', )
+	exclude = ('answer_count', )
 
 
 admin.site.register(Poll, PollAdmin)
