@@ -16,6 +16,9 @@ from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
+COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)
+
+
 class Section(models.Model):
 	name = models.CharField('Názov', max_length=255)
 	slug = models.SlugField(unique=True)
@@ -87,7 +90,7 @@ class Topic(TimestampModelMixin, models.Model):
 
 	section = models.ForeignKey(Section, verbose_name='sekcia')
 	title = models.CharField('predmet', max_length=100)
-	original_text = RichTextOriginalField(filtered_field="filtered_text", property_name="text", verbose_name='text')
+	original_text = RichTextOriginalField(filtered_field="filtered_text", property_name="text", verbose_name='text', max_length=COMMENT_MAX_LENGTH)
 	filtered_text = RichTextFilteredField()
 	authors_name = models.CharField('meno autora', max_length=50, blank=False)
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name='autor')

@@ -13,6 +13,9 @@ from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
+NEWS_MAX_LENGTH = getattr(settings, 'NEWS_MAX_LENGTH', 3000)
+
+
 class NewsManager(models.Manager):
 	def get_queryset(self):
 		return super(NewsManager, self).get_queryset().select_related('author')
@@ -29,7 +32,7 @@ class News(TimestampModelMixin, models.Model):
 
 	title = models.CharField(max_length=255, verbose_name='titulok')
 	slug = AutoSlugField(title_field="title", unique=True)
-	original_short_text = RichTextOriginalField(filtered_field="filtered_short_text", property_name="short_text", verbose_name='krátky text')
+	original_short_text = RichTextOriginalField(filtered_field="filtered_short_text", property_name="short_text", verbose_name='krátky text', max_length=NEWS_MAX_LENGTH)
 	filtered_short_text = RichTextFilteredField()
 	original_long_text = RichTextOriginalField(filtered_field="filtered_long_text", property_name="long_text", verbose_name='dlhý text')
 	filtered_long_text = RichTextFilteredField()

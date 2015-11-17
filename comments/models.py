@@ -15,6 +15,9 @@ from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
+COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 50000)
+
+
 class CommentManager(models.Manager):
 	use_for_related_fields = True
 
@@ -50,7 +53,7 @@ class Comment(MPTTModel, TimestampModelMixin):
 	subject = models.CharField('predmet', max_length=100)
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='používateľ', blank=True, null=True, related_name='%(class)s_comments', on_delete=models.SET_NULL)
 	user_name = models.CharField('používateľské meno', max_length=50, blank=True)
-	original_comment = RichTextOriginalField(filtered_field='filtered_comment', property_name='comment', verbose_name='obsah')
+	original_comment = RichTextOriginalField(filtered_field='filtered_comment', property_name='comment', verbose_name='obsah', max_length=COMMENT_MAX_LENGTH)
 	filtered_comment = RichTextFilteredField()
 
 	ip_address = models.GenericIPAddressField('IP adresa', blank=True, null=True)

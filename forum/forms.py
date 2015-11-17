@@ -12,9 +12,7 @@ from .models import Topic, Section
 from antispam.forms import AntispamFormMixin
 from attachment.fields import AttachmentField
 from attachment.forms import TemporaryAttachmentFormMixin
-from common_utils import get_meta
 from common_utils.forms import AuthorsNameFormMixin
-from rich_editor.forms import RichOriginalField
 
 
 COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)
@@ -35,7 +33,6 @@ class DescriptionRadioSelect(RadioSelect):
 
 class TopicForm(AntispamFormMixin, AuthorsNameFormMixin, TemporaryAttachmentFormMixin, forms.ModelForm):
 	section = ModelChoiceField(Section.objects.all(), empty_label=None, widget=DescriptionRadioSelect(), label='Sekcia')
-	original_text = RichOriginalField(parsers=get_meta(Topic).get_field('original_text').parsers, label='Text', max_length=COMMENT_MAX_LENGTH)
 	attachment = AttachmentField(label='Príloha', required=False)
 	upload_session = forms.CharField(widget=HiddenInput, required=False)
 
@@ -51,5 +48,4 @@ class TopicForm(AntispamFormMixin, AuthorsNameFormMixin, TemporaryAttachmentForm
 
 	class Meta:
 		model = Topic
-		exclude = ('author', 'created', )
 		fields = ('section', 'authors_name', 'title', 'original_text', )

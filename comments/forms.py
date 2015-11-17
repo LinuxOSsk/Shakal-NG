@@ -4,9 +4,7 @@ from __future__ import unicode_literals
 from time import time
 
 from django import forms
-from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
-from django.core import validators
 from django.forms.utils import ErrorDict
 from django.forms.widgets import HiddenInput
 from django.utils.crypto import salted_hmac
@@ -15,13 +13,8 @@ from antispam.forms import AntispamFormMixin
 from attachment.fields import AttachmentField
 from attachment.forms import TemporaryAttachmentFormMixin
 from comments.models import Comment
-from common_utils import get_meta
 from common_utils.forms import AuthorsNameFormMixin
 from common_utils.middlewares.ThreadLocal import get_current_request
-from rich_editor.forms import RichOriginalField
-
-
-COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 50000)
 
 
 class SecurityFormMixin(object):
@@ -77,25 +70,12 @@ class SecurityFormMixin(object):
 class CommentForm(SecurityFormMixin, AuthorsNameFormMixin, TemporaryAttachmentFormMixin, AntispamFormMixin, forms.ModelForm):
 	authors_name_field = 'user_name'
 
-	original_comment = RichOriginalField(
-		parsers=get_meta(Comment).get_field('original_comment').parsers,
-		label='Komentár',
-		validators=[validators.MaxLengthValidator(COMMENT_MAX_LENGTH)]
-	)
-
 	attachment = AttachmentField(label='Príloha', required=False)
 	upload_session = forms.CharField(widget=HiddenInput, required=False)
 
 	class Meta:
 		model = Comment
-		fields = [
-			'content_type',
-			'object_id',
-			'parent',
-			'subject',
-			'user_name',
-			'original_comment'
-		]
+		fields = ('content_type', 'object_id', 'parent', 'subject', 'user_name', 'original_comment')
 		widgets = {
 			'content_type': forms.HiddenInput,
 			'object_id': forms.HiddenInput,
