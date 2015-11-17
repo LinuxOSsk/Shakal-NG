@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models, migrations
+from django.db import migrations, models
 import django_autoslugfield.fields
 from django.conf import settings
 import rich_editor.fields
@@ -20,11 +20,11 @@ class Migration(migrations.Migration):
 				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
 				('created', models.DateTimeField(verbose_name='vytvoren\xe9', editable=False)),
 				('updated', models.DateTimeField(verbose_name='upraven\xe9', editable=False)),
-				('title', models.CharField(max_length=100, verbose_name='title')),
+				('title', models.CharField(max_length=100, verbose_name='n\xe1zov blogu')),
 				('slug', django_autoslugfield.fields.AutoSlugField(unique=True)),
-				('original_description', rich_editor.fields.RichTextOriginalField(max_length=1000, verbose_name='description', property_name='description', filtered_field='filtered_description')),
+				('original_description', rich_editor.fields.RichTextOriginalField(max_length=1000, verbose_name='popis blogu', property_name='description', filtered_field='filtered_description')),
 				('filtered_description', rich_editor.fields.RichTextFilteredField(editable=False)),
-				('original_sidebar', rich_editor.fields.RichTextOriginalField(max_length=1000, verbose_name='sidebar', property_name='sidebar', filtered_field='filtered_sidebar')),
+				('original_sidebar', rich_editor.fields.RichTextOriginalField(max_length=1000, verbose_name='bo\u010dn\xfd panel', property_name='sidebar', filtered_field='filtered_sidebar')),
 				('filtered_sidebar', rich_editor.fields.RichTextFilteredField(editable=False)),
 				('author', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
 			],
@@ -37,16 +37,16 @@ class Migration(migrations.Migration):
 			name='Post',
 			fields=[
 				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-				('title', models.CharField(max_length=100, verbose_name='title')),
+				('created', models.DateTimeField(verbose_name='vytvoren\xe9', editable=False)),
+				('updated', models.DateTimeField(verbose_name='upraven\xe9', editable=False)),
+				('title', models.CharField(max_length=100, verbose_name='n\xe1zov')),
 				('slug', django_autoslugfield.fields.AutoSlugField()),
 				('original_perex', rich_editor.fields.RichTextOriginalField(max_length=1000, verbose_name='perex', property_name='perex', filtered_field='filtered_perex')),
 				('filtered_perex', rich_editor.fields.RichTextFilteredField(editable=False)),
-				('original_content', rich_editor.fields.RichTextOriginalField(max_length=100000, verbose_name='content', property_name='content', filtered_field='filtered_content')),
+				('original_content', rich_editor.fields.RichTextOriginalField(max_length=100000, verbose_name='obsah', property_name='content', filtered_field='filtered_content')),
 				('filtered_content', rich_editor.fields.RichTextFilteredField(editable=False)),
-				('pub_time', models.DateTimeField(verbose_name='publication date', db_index=True)),
-				('created', models.DateTimeField(auto_now_add=True)),
-				('updated', models.DateTimeField(auto_now=True)),
-				('linux', models.BooleanField(default=False, verbose_name='linux blog')),
+				('pub_time', models.DateTimeField(verbose_name='\u010das publik\xe1cie', db_index=True)),
+				('linux', models.BooleanField(default=False, verbose_name='linuxov\xfd blog')),
 				('blog', models.ForeignKey(to='blog.Blog')),
 			],
 			options={

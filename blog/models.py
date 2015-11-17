@@ -7,7 +7,6 @@ from django.db import models
 from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
 from django_autoslugfield.fields import AutoSlugField
 
 from attachment.models import Attachment
@@ -21,23 +20,23 @@ from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 class Blog(TimestampModelMixin, models.Model):
 	author = models.OneToOneField(settings.AUTH_USER_MODEL)
-	title = models.CharField(max_length=100, verbose_name=_('title'))
-	slug = AutoSlugField(title_field="title", unique=True)
-	original_description = RichTextOriginalField(filtered_field="filtered_description", property_name = "description", verbose_name=_('description'), max_length=1000)
+	title = models.CharField(max_length=100, verbose_name='názov blogu')
+	slug = AutoSlugField(title_field='title', unique=True)
+	original_description = RichTextOriginalField(filtered_field='filtered_description', property_name = 'description', verbose_name='popis blogu', max_length=1000)
 	filtered_description = RichTextFilteredField()
-	original_sidebar = RichTextOriginalField(filtered_field="filtered_sidebar", property_name="sidebar", verbose_name=_('sidebar'), max_length=1000)
+	original_sidebar = RichTextOriginalField(filtered_field='filtered_sidebar', property_name='sidebar', verbose_name='bočný panel', max_length=1000)
 	filtered_sidebar = RichTextFilteredField()
 
 	@models.permalink
 	def get_absolute_url(self):
-		return ("blog:post-list-category", [self.slug], {})
+		return ('blog:post-list-category', [self.slug], {})
 
 	def __unicode__(self):
 		return self.title
 
 	class Meta:
-		verbose_name = "blog"
-		verbose_name_plural = "blogy"
+		verbose_name = 'blog'
+		verbose_name_plural = 'blogy'
 
 
 class PostQuerySet(QuerySet):
@@ -50,7 +49,7 @@ class PostQuerySet(QuerySet):
 
 class PostManager(models.Manager):
 	def get_queryset(self):
-		return PostQuerySet(self.model, using=self._db).select_related("blog", "blog__author") #pylint: disable=no-member
+		return PostQuerySet(self.model, using=self._db).select_related('blog', 'blog__author') #pylint: disable=no-member
 
 	def published(self):
 		return self.get_queryset().published()
@@ -64,21 +63,19 @@ class PublishedPostManager(PostManager):
 		return super(PublishedPostManager, self).get_queryset().filter(pub_time__lt=timezone.now())
 
 
-class Post(models.Model):
+class Post(TimestampModelMixin, models.Model):
 	all_objects = PostManager()
 	objects = PublishedPostManager()
 
 	blog = models.ForeignKey(Blog)
-	title = models.CharField(max_length=100, verbose_name=_('title'))
-	slug = AutoSlugField(title_field="title", filter_fields=('blog',))
-	original_perex = RichTextOriginalField(filtered_field="filtered_perex", property_name="perex", verbose_name=_('perex'), max_length=1000)
+	title = models.CharField(max_length=100, verbose_name='názov')
+	slug = AutoSlugField(title_field='title', filter_fields=('blog',))
+	original_perex = RichTextOriginalField(filtered_field='filtered_perex', property_name='perex', verbose_name='perex', max_length=1000)
 	filtered_perex = RichTextFilteredField()
-	original_content = RichTextOriginalField(filtered_field="filtered_content", property_name="content", verbose_name=_('content'), parsers={'html': get_parser('blog')}, max_length=100000)
+	original_content = RichTextOriginalField(filtered_field='filtered_content', property_name='content', verbose_name='obsah', parsers={'html': get_parser('blog')}, max_length=100000)
 	filtered_content = RichTextFilteredField()
-	pub_time = models.DateTimeField(verbose_name=_('publication date'), db_index=True)
-	created = models.DateTimeField(auto_now_add=True)
-	updated = models.DateTimeField(auto_now=True)
-	linux = models.BooleanField(_('linux blog'), default=False)
+	pub_time = models.DateTimeField(verbose_name='čas publikácie', db_index=True)
+	linux = models.BooleanField('linuxový blog', default=False)
 	polls = GenericRelation(Poll)
 	comments_header = GenericRelation(RootHeader)
 	comments = GenericRelation(Comment)
@@ -87,13 +84,13 @@ class Post(models.Model):
 
 	@models.permalink
 	def get_absolute_url(self):
-		return ("blog:post-detail", [self.blog.slug, self.slug], {})
+		return ('blog:post-detail', [self.blog.slug, self.slug], {})
 
 	def published(self):
 		if not self.pub_time:
 			return False
 		return self.pub_time < timezone.now()
-	published.short_description = _('is published')
+	published.short_description = 'je publikovaný'
 	published.boolean = True
 
 	def author(self):
@@ -104,7 +101,7 @@ class Post(models.Model):
 		return self.title
 
 	class Meta:
-		verbose_name = u"príspevok blogu"
-		verbose_name_plural = u"príspevky blogu"
+		verbose_name = u'príspevok blogu'
+		verbose_name_plural = u'príspevky blogu'
 		unique_together = (('blog', 'slug'),)
 		ordering = ('-pub_time',)
