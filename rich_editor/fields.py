@@ -26,7 +26,8 @@ class RichTextOriginalField(Field):
 	def formfield(self, **kwargs):
 		defaults = {
 			'form_class': RichOriginalField,
-			'parsers': self.parsers
+			'parsers': self.parsers,
+			'max_length': self.max_length
 		}
 		defaults.update(kwargs)
 		return super(RichTextOriginalField, self).formfield(**defaults)
