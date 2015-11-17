@@ -7,21 +7,15 @@ from django.utils.timezone import now
 from .models import Blog, Post
 from attachment.fields import AttachmentField
 from attachment.forms import AttachmentFormMixin
-from common_utils import get_meta
-from rich_editor.forms import RichOriginalField
 
 
 class BlogForm(forms.ModelForm):
-	original_description = RichOriginalField(get_meta(Blog).get_field('original_description').parsers, label=u'Popis', max_length=1000)
-	original_sidebar = RichOriginalField(get_meta(Blog).get_field('original_sidebar').parsers, label=u'Bočný panel', max_length=1000)
 	class Meta:
 		model = Blog
-		exclude = ('author', 'slug')
+		fields = ('title', 'original_description', 'original_sidebar',)
 
 
 class PostForm(forms.ModelForm):
-	original_perex = RichOriginalField(get_meta(Post).get_field('original_perex').parsers, label=u'Perex', max_length=1000)
-	original_content = RichOriginalField(get_meta(Post).get_field('original_content').parsers, label=u'Obsah', max_length=100000)
 	pub_now = forms.BooleanField(label=u'Publikovať teraz', required=False)
 
 	def __init__(self, *args, **kwargs):
@@ -43,7 +37,7 @@ class PostForm(forms.ModelForm):
 
 	class Meta:
 		model = Post
-		exclude = ('blog', 'slug', 'linux')
+		fields = ('title', 'original_perex', 'original_content', 'pub_time',)
 
 
 class BlogAttachmentForm(AttachmentFormMixin, forms.Form):
