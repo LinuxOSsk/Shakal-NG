@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.core.management.base import BaseCommand
 
-from ...tasks import delete_old_attachments, update_user_ratings, delete_old_events
+from ...cron_tasks import delete_old_attachments, update_user_ratings, delete_old_events
 
 
 class Command(BaseCommand):
