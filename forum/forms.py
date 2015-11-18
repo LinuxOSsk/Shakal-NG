@@ -4,13 +4,12 @@ from __future__ import unicode_literals
 from django import forms
 from django.conf import settings
 from django.forms import ModelChoiceField
-from django.forms.widgets import HiddenInput, RadioSelect
+from django.forms.widgets import RadioSelect
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
 from .models import Topic, Section
 from antispam.forms import AntispamFormMixin
-from attachment.fields import AttachmentField
 from attachment.forms import TemporaryAttachmentFormMixin
 from common_utils.forms import AuthorsNameFormMixin
 
@@ -33,8 +32,6 @@ class DescriptionRadioSelect(RadioSelect):
 
 class TopicForm(AntispamFormMixin, AuthorsNameFormMixin, TemporaryAttachmentFormMixin, forms.ModelForm):
 	section = ModelChoiceField(Section.objects.all(), empty_label=None, widget=DescriptionRadioSelect(), label='Sekcia')
-	attachment = AttachmentField(label='Príloha', required=False)
-	upload_session = forms.CharField(widget=HiddenInput, required=False)
 
 	def __init__(self, *args, **kwargs):
 		super(TopicForm, self).__init__(*args, **kwargs)

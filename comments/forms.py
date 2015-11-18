@@ -6,15 +6,12 @@ from time import time
 from django import forms
 from django.contrib.contenttypes.models import ContentType
 from django.forms.utils import ErrorDict
-from django.forms.widgets import HiddenInput
 from django.utils.crypto import salted_hmac
 
 from antispam.forms import AntispamFormMixin
-from attachment.fields import AttachmentField
 from attachment.forms import TemporaryAttachmentFormMixin
 from comments.models import Comment
 from common_utils.forms import AuthorsNameFormMixin
-from common_utils.middlewares.ThreadLocal import get_current_request
 
 
 class SecurityFormMixin(object):
@@ -70,9 +67,6 @@ class SecurityFormMixin(object):
 class CommentForm(SecurityFormMixin, AuthorsNameFormMixin, TemporaryAttachmentFormMixin, AntispamFormMixin, forms.ModelForm):
 	authors_name_field = 'user_name'
 
-	attachment = AttachmentField(label='Príloha', required=False)
-	upload_session = forms.CharField(widget=HiddenInput, required=False)
-
 	class Meta:
 		model = Comment
 		fields = ('content_type', 'object_id', 'parent', 'subject', 'user_name', 'original_comment')
@@ -89,8 +83,6 @@ class CommentForm(SecurityFormMixin, AuthorsNameFormMixin, TemporaryAttachmentFo
 		initial.update(self.generate_security_data())
 		super(CommentForm, self).__init__(data=data, initial=initial, *args, **kwargs)
 		self.fields['parent'].required = True
-		self.request = get_current_request()
-		self.process_attachments()
 
 	def get_model(self):
 		return Comment

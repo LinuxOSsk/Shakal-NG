@@ -5,7 +5,9 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.db.models import Sum
 from django.forms.models import modelformset_factory
+from django import forms
 
+from .fields import AttachmentField
 from .models import UploadSession, TemporaryAttachment, Attachment
 from .utils import get_available_size
 
@@ -14,10 +16,13 @@ TemporaryAttachmentFormSet = modelformset_factory(TemporaryAttachment, can_delet
 AttachmentFormSet = modelformset_factory(Attachment, can_delete=True, extra=0, fields=())
 
 
-class TemporaryAttachmentFormMixin(object):
+class TemporaryAttachmentFormMixin(forms.BaseForm):
 	def __init__(self, *args, **kwargs):
 		super(TemporaryAttachmentFormMixin, self).__init__(*args, **kwargs)
 		self._attachments = None
+		self.fields['attachment'] = AttachmentField(label='Príloha', required=False)
+		self.fields['upload_session'] = forms.CharField(widget=forms.HiddenInput, required=False)
+		self.process_attachments()
 
 	def get_uploadsession(self):
 		try:
