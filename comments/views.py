@@ -69,12 +69,11 @@ class Reply(FormView):
 
 	def dispatch(self, request, **kwargs):
 		self.parent = self.get_parent_comment()
-		form = self.get_form()
-		if form.security_errors():
-			return http.HttpResponseBadRequest()
 		return super(Reply, self).dispatch(request, **kwargs)
 
 	def form_valid(self, form):
+		if form.security_errors():
+			return http.HttpResponseBadRequest()
 		if not 'create' in self.request.POST:
 			return self.render_to_response(self.get_context_data(form=form, valid=True))
 		if self.parent.is_locked:

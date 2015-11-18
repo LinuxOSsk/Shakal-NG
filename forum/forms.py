@@ -33,10 +33,6 @@ class DescriptionRadioSelect(RadioSelect):
 class TopicForm(AntispamFormMixin, AuthorsNameFormMixin, TemporaryAttachmentFormMixin, forms.ModelForm):
 	section = ModelChoiceField(Section.objects.all(), empty_label=None, widget=DescriptionRadioSelect(), label='Sekcia')
 
-	def __init__(self, *args, **kwargs):
-		super(TopicForm, self).__init__(*args, **kwargs)
-		self.process_attachments()
-
 	def get_model(self):
 		return Topic
 
