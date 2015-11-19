@@ -470,6 +470,8 @@ var SimpleEditorHtml = function(element, options) {
 		down: true,
 		ontoggle: function(self, status) {
 			hasCode = status;
+			hasPreview = !status;
+			buttons.preview.setDown(hasPreview);
 			updateChromeClass();
 		}
 	});
@@ -478,6 +480,8 @@ var SimpleEditorHtml = function(element, options) {
 		toggle: true,
 		ontoggle: function(self, status) {
 			hasPreview = status;
+			hasCode = !status;
+			buttons.source.setDown(hasCode);
 			updateChromeClass();
 		}
 	});
