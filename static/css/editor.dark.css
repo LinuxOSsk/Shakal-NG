@@ -10,8 +10,7 @@ div.richedit_container .richedit_chrome {
   box-shadow: rgba(255, 255, 255, 0.1);
   padding: 0; }
 
-div.richedit_container
-.richedit_inner {
+div.richedit_container .richedit_inner {
   display: block;
   background: #ffffff;
   padding: 0; }
@@ -88,7 +87,8 @@ div.richedit_container .richedit_modal_content {
       box-shadow: none;
       height: auto; }
     div.richedit_container .richedit_modal_content .form-row textarea {
-      height: 160px; }
+      height: 160px;
+      font-family: monospace; }
       div.richedit_container .richedit_modal_content .form-row textarea:focus {
         border: 1px solid #dde; }
     div.richedit_container .richedit_modal_content .form-row.horizontal label {
@@ -220,7 +220,8 @@ div.richedit_container .richedit_contents textarea {
   height: 300px;
   width: 100%;
   border-radius: 0;
-  box-shadow: none; }
+  box-shadow: none;
+  font-family: monospace; }
   div.richedit_container .richedit_contents textarea:focus, div.richedit_container .richedit_contents textarea:active {
     outline: none;
     box-shadow: none; }
@@ -319,7 +320,7 @@ div.richedit_container .richedit_button_icon {
   background-repeat: no-repeat;
   background-image: url("../images/editor_icons_moono_dark.png");
   background-size: 16px 2040px; }
-  @media (-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx) {
+  @media (-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3 / 2), (min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx) {
     div.richedit_container .richedit_button_icon {
       background-image: static("../images/editor_icons_moono_dark@2x.png"); } }
 

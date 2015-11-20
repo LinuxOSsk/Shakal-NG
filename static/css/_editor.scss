@@ -111,6 +111,7 @@ div.richedit_container {
 
 		textarea {
 			height: 160px;
+			font-family: monospace;
 			&:focus {
 				border: 1px solid #dde;
 			}
@@ -283,6 +284,7 @@ div.richedit_container {
 		width: 100%;
 		border-radius: 0;
 		box-shadow: none;
+		font-family: monospace;
 		&:focus, &:active {
 			outline: none;
 			box-shadow: none;
