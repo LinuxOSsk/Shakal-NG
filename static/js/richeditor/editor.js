@@ -463,6 +463,11 @@ var SimpleEditorHtml = function(element, options) {
 
 	var buttons = {};
 
+	var updatePreview = function() {
+		var text = element.value;
+		preview.contentDocument.body.innerHTML = text;
+	};
+
 	var tb = addToolbar();
 	buttons.source = addButton(tb, {
 		cls: 'icon-source',
@@ -473,6 +478,9 @@ var SimpleEditorHtml = function(element, options) {
 			hasPreview = !status;
 			buttons.preview.setDown(hasPreview);
 			updateChromeClass();
+			if (hasPreview) {
+				updatePreview();
+			}
 		}
 	});
 	buttons.preview = addButton(tb, {
@@ -483,6 +491,9 @@ var SimpleEditorHtml = function(element, options) {
 			hasCode = !status;
 			buttons.source.setDown(hasCode);
 			updateChromeClass();
+			if (hasPreview) {
+				updatePreview();
+			}
 		}
 	});
 
@@ -631,11 +642,6 @@ var SimpleEditorHtml = function(element, options) {
 	};
 
 	_.bindEvent(document.body, 'keyup', escModal);
-
-	var updateTimer = setInterval(function() {
-		var text = element.value;
-		preview.contentDocument.body.innerHTML = text;
-	}, 1000);
 
 	updateChromeClass();
 
