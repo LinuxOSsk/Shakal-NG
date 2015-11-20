@@ -21,7 +21,7 @@ window.rich_editors.push({
 	lang: '{{ lang }}',
 	{% if tags %}tags: {{ tags|safe }},{% endif %}
 	static_base: '{{ static("") }}',
-	skin: '{{ skin }}',
+	parsers: {{ parsers|safe }},
 	namespace: 'front',
 	element: document.getElementById("id_textareawrapper_{{ name }}").getElementsByTagName('TEXTAREA')[0]
 });

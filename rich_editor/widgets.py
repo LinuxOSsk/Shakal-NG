@@ -23,8 +23,7 @@ class RichEditorMixin(Textarea):
 		self.skin = 'shakal'
 		super(RichEditorMixin, self).__init__(attrs)
 
-	def get_tags_info(self):
-		supported_tags = self.attrs.get('supported_tags', {})
+	def get_tags_info(self, supported_tags):
 		unsupported_tags = set(ALL_TAGS) - set(supported_tags.keys()) - set(('html', 'body'))
 		defined_tags = set(supported_tags.keys()) - set('')
 		for tag in supported_tags:
@@ -42,13 +41,14 @@ class RichEditorMixin(Textarea):
 class RichEditor(RichEditorMixin):
 	def render(self, name, value, attrs=None, **kwargs):
 		supported_tags = self.attrs.pop('supported_tags', {})
+		parsers_conf = self.attrs.pop('parsers_conf', {})
 		widget = super(RichEditor, self).render(name, value, attrs)
-		self.attrs['supported_tags'] = supported_tags
 
 		context = {
 			'name': name,
 			'lang': self.language[:2],
-			'tags': dumps(self.get_tags_info()),
+			'tags': dumps(self.get_tags_info(supported_tags)),
+			'parsers': dumps(parsers_conf),
 			'widget': widget,
 		}
 		return mark_safe(render_to_string('widgets/editor.html', context))
@@ -76,13 +76,14 @@ class RichOriginalEditor(RichEditorMixin):
 			formats[0]['checked'] = True
 
 		supported_tags = self.attrs.pop('supported_tags', {})
+		parsers_conf = self.attrs.pop('parsers_conf', {})
 		widget = super(RichOriginalEditor, self).render(name, value, attrs)
-		self.attrs['supported_tags'] = supported_tags
 
 		context = {
 			'name': name,
 			'lang': self.language[:2],
-			'tags': dumps(self.get_tags_info()),
+			'tags': dumps(self.get_tags_info(supported_tags)),
+			'parsers': dumps(parsers_conf),
 			'widget': widget,
 			'format': value_fmt,
 			'formats': formats,

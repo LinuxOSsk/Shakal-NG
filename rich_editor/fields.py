@@ -15,6 +15,7 @@ class RichTextOriginalField(Field):
 		self.filtered_field = filtered_field
 		self.property_name = property_name
 		self.parsers = parsers or {'html': ''}
+		self.parsers_conf = self.parsers
 		self.parsers = {fmt: get_parser(editor_type, fmt) for fmt, editor_type in self.parsers.items()}
 
 	def deconstruct(self):
@@ -30,6 +31,7 @@ class RichTextOriginalField(Field):
 		defaults = {
 			'form_class': RichOriginalField,
 			'parsers': self.parsers,
+			'parsers_conf': self.parsers_conf,
 			'max_length': self.max_length
 		}
 		defaults.update(kwargs)
