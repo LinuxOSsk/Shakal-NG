@@ -14,7 +14,6 @@ from comments.models import RootHeader, Comment
 from common_utils.models import TimestampModelMixin
 from hitcount.models import HitCountField
 from polls.models import Poll
-from rich_editor import get_parser
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
@@ -72,7 +71,7 @@ class Post(TimestampModelMixin, models.Model):
 	slug = AutoSlugField(title_field='title', filter_fields=('blog',))
 	original_perex = RichTextOriginalField(filtered_field='filtered_perex', property_name='perex', verbose_name='perex', max_length=1000)
 	filtered_perex = RichTextFilteredField()
-	original_content = RichTextOriginalField(filtered_field='filtered_content', property_name='content', verbose_name='obsah', parsers={'html': get_parser('blog')}, max_length=100000)
+	original_content = RichTextOriginalField(filtered_field='filtered_content', property_name='content', verbose_name='obsah', parsers={'html': 'blog'}, max_length=100000)
 	filtered_content = RichTextFilteredField()
 	pub_time = models.DateTimeField(verbose_name='čas publikácie', db_index=True)
 	linux = models.BooleanField('linuxový blog', default=False)

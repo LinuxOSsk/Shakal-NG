@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.db.models import signals, TextField, SubfieldBase, Field
 
 from .forms import RichOriginalField
-from .parser import HtmlParser
+from . import get_parser
 
 
 class RichTextOriginalField(Field):
@@ -12,7 +14,8 @@ class RichTextOriginalField(Field):
 		super(RichTextOriginalField, self).__init__(*args, **kwargs)
 		self.filtered_field = filtered_field
 		self.property_name = property_name
-		self.parsers = parsers or {'html': HtmlParser()}
+		self.parsers = parsers or {'html': ''}
+		self.parsers = {fmt: get_parser(editor_type, fmt) for fmt, editor_type in self.parsers.items()}
 
 	def deconstruct(self):
 		name, path, args, kwargs = super(RichTextOriginalField, self).deconstruct()
@@ -43,7 +46,7 @@ class RichTextOriginalField(Field):
 	def get_prep_value(self, value):
 		return value[0] + ":" + value[1]
 
-	def contribute_to_class(self, cls, name):
+	def contribute_to_class(self, cls, name, **kwargs):
 		signals.pre_save.connect(self.update_filtered_field, sender = cls)
 		signals.post_init.connect(self.save_old_value, sender = cls)
 		self.create_filtered_property(cls, name)

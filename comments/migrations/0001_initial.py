@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models, migrations
+from django.db import migrations, models
 import mptt.fields
 import django.db.models.deletion
 from django.conf import settings
@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
 				('object_id', models.TextField(verbose_name='ID objektu')),
 				('subject', models.CharField(max_length=100, verbose_name='predmet')),
 				('user_name', models.CharField(max_length=50, verbose_name='pou\u017e\xedvate\u013esk\xe9 meno', blank=True)),
-				('original_comment', rich_editor.fields.RichTextOriginalField(verbose_name='obsah', property_name='comment', filtered_field='filtered_comment')),
+				('original_comment', rich_editor.fields.RichTextOriginalField(max_length=50000, verbose_name='obsah', property_name='comment', filtered_field='filtered_comment')),
 				('filtered_comment', rich_editor.fields.RichTextFilteredField(editable=False)),
 				('ip_address', models.GenericIPAddressField(null=True, verbose_name='IP adresa', blank=True)),
 				('is_public', models.BooleanField(default=True, verbose_name='verejn\xfd')),

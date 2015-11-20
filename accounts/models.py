@@ -4,16 +4,15 @@ from __future__ import unicode_literals
 from datetime import timedelta
 
 from django.conf import settings
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator, MaxLengthValidator
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.hashers import check_password
 
 from . import accounts_settings
 from common_utils import get_default_manager
-from rich_editor import get_parser
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
@@ -25,7 +24,7 @@ class User(AbstractUser):
 	signature = models.CharField('pospis', max_length=255, blank=True)
 	display_mail = models.BooleanField('zobrazovať e-mail', default=False)
 	distribution = models.CharField('linuxová distribúcia', max_length=50, blank=True)
-	original_info = RichTextOriginalField(filtered_field="filtered_info", property_name="info", parsers={'html': get_parser('profile')}, verbose_name='informácie', validators=[MaxLengthValidator(100000)], blank=True)
+	original_info = RichTextOriginalField(filtered_field="filtered_info", property_name="info", parsers={'html': 'profile'}, verbose_name='informácie', validators=[MaxLengthValidator(100000)], blank=True)
 	filtered_info = RichTextFilteredField(blank=True)
 	year = models.SmallIntegerField('rok narodenia', validators=[MinValueValidator(1900), MaxValueValidator(2015)], blank=True, null=True)
 

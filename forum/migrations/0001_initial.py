@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models, migrations
+from django.db import migrations, models
 from django.conf import settings
 import rich_editor.fields
 
@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
 				('created', models.DateTimeField(verbose_name='vytvoren\xe9', editable=False)),
 				('updated', models.DateTimeField(verbose_name='upraven\xe9', editable=False)),
 				('title', models.CharField(max_length=100, verbose_name='predmet')),
-				('original_text', rich_editor.fields.RichTextOriginalField(verbose_name='text', property_name='text', filtered_field='filtered_text')),
+				('original_text', rich_editor.fields.RichTextOriginalField(max_length=3000, verbose_name='text', property_name='text', filtered_field='filtered_text')),
 				('filtered_text', rich_editor.fields.RichTextFilteredField(editable=False)),
 				('authors_name', models.CharField(max_length=50, verbose_name='meno autora')),
 				('is_removed', models.BooleanField(default=False, verbose_name='vymazan\xe9')),

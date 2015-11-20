@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models, migrations
+from django.db import migrations, models
 import django_autoslugfield.fields
 import django.db.models.deletion
 import rich_editor.fields
@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
 				('updated', models.DateTimeField(verbose_name='upraven\xe9', editable=False)),
 				('title', models.CharField(max_length=255, verbose_name='titulok')),
 				('slug', django_autoslugfield.fields.AutoSlugField(unique=True)),
-				('original_short_text', rich_editor.fields.RichTextOriginalField(verbose_name='kr\xe1tky text', property_name='short_text', filtered_field='filtered_short_text')),
+				('original_short_text', rich_editor.fields.RichTextOriginalField(max_length=3000, verbose_name='kr\xe1tky text', property_name='short_text', filtered_field='filtered_short_text')),
 				('filtered_short_text', rich_editor.fields.RichTextFilteredField(editable=False)),
 				('original_long_text', rich_editor.fields.RichTextOriginalField(verbose_name='dlh\xfd text', property_name='long_text', filtered_field='filtered_long_text')),
 				('filtered_long_text', rich_editor.fields.RichTextFilteredField(editable=False)),
