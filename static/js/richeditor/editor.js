@@ -296,7 +296,6 @@ var SimpleEditorHtml = function(element, options) {
 				<p><span class="richedit_key_shortcut">Ctrl + Medzera</span> - nový odstavec</p>\
 				<p><span class="richedit_key_shortcut">Ctrl + B</span> - tučné písmo</p>\
 				<p><span class="richedit_key_shortcut">Ctrl + I</span> - šikmé písmo</p>\
-				<p><span class="richedit_key_shortcut">Ctrl + C</span> - kód</p>\
 				<p><span class="richedit_key_shortcut">Ctrl + Y</span> - riadok zoznamu</p>\
 				<p><span class="richedit_key_shortcut">Ctrl + E</span> - prevod na HTML entity</p>\
 				<h2>Tipy</h2>\
@@ -610,9 +609,6 @@ var SimpleEditorHtml = function(element, options) {
 		}
 		else if (event.keyCode === 73 && event.ctrlKey) { // ctrl + i
 			insert('<em>', '</em>');
-		}
-		else if (event.keyCode === 67 && event.ctrlKey) { // ctrl + c
-			insert('<code>', '</code>', _.escapeHTML);
 		}
 		else if (event.keyCode === 89 && event.ctrlKey) { // ctrl + y
 			insert('<li>', '</li>');
