@@ -16,7 +16,7 @@ class RichTextOriginalField(Field):
 		self.property_name = property_name
 		self.parsers = parsers or {'html': ''}
 		self.parsers_conf = self.parsers
-		self.parsers = {fmt: get_parser(editor_type, fmt) for fmt, editor_type in self.parsers.items()}
+		self.parsers = {fmt: get_parser(parser, fmt) for fmt, parser in self.parsers.items()}
 
 	def deconstruct(self):
 		name, path, args, kwargs = super(RichTextOriginalField, self).deconstruct()

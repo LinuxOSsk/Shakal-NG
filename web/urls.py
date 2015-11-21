@@ -26,6 +26,7 @@ urlpatterns = patterns('',
 	url(r'^v/(?P<content_type_id>\d+)/(?P<object_id>.+)/$', contenttype_views.shortcut, name='view-object'),
 	url(_(r'^admin/'), include(admin.site.urls)),
 	url(_(r'^admin_dashboard/'), include('admin_dashboard.urls', namespace='admin_dashboard')),
+	url(r'^api/editor/', include('rich_editor.urls', namespace='rich_editor')),
 )
 
 if settings.DEBUG:

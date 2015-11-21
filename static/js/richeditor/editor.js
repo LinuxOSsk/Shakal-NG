@@ -465,6 +465,16 @@ var SimpleEditorHtml = function(element, options) {
 	var updatePreview = function() {
 		var text = element.value;
 		preview.contentDocument.body.innerHTML = text;
+		var format = options.format;
+		var parser = options.parsers[format];
+		_.xhrSend({
+			type: 'POST',
+			url: options.preview,
+			data: 'format=' + encodeURIComponent(format) + '&parser=' + encodeURIComponent(parser) + '&text=' + encodeURIComponent(text),
+			successFn: function(response) {
+				preview.contentDocument.body.innerHTML = response;
+			}
+		});
 	};
 
 	var tb = addToolbar();
