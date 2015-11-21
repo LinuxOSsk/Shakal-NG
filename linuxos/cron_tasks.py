@@ -36,51 +36,41 @@ def update_user_ratings():
 	update_user_ratings_sum()
 
 
-def _update_rating_data(new_ratings, field_name):
+def _update_rating_data(new_ratings, field_name, author_field):
+	new_ratings_stats = (new_ratings
+		.order_by(author_field)
+		.values(author_field)
+		.annotate(cnt=Count('pk'))
+		.values_list(author_field, 'cnt'))
+
 	current_ratings = dict(UserRating.objects.values_list('user_id', field_name))
-	for user_id, count in new_ratings:
+	for user_id, count in new_ratings_stats:
 		if count != current_ratings.get(user_id, 0):
 			UserRating.objects.update_or_create(user_id=user_id, defaults={field_name: count})
 
 
 def update_user_ratings_comments():
 	ratings = (Comment.objects
-		.filter(user_id__isnull=False, is_removed=False, is_public=True)
-		.order_by('user_id')
-		.values('user_id')
-		.annotate(comment_count=Count('pk'))
-		.values_list('user_id', 'comment_count'))
-	_update_rating_data(ratings, 'comments')
+		.filter(user_id__isnull=False, is_removed=False, is_public=True))
+	_update_rating_data(ratings, 'comments', 'user_id')
 
 
 def update_user_ratings_articles():
 	ratings = (Article.objects
-		.filter(author_id__isnull=False)
-		.order_by('author_id')
-		.values('author_id')
-		.annotate(articles_count=Count('pk'))
-		.values_list('author_id', 'articles_count'))
-	_update_rating_data(ratings, 'articles')
+		.filter(author_id__isnull=False))
+	_update_rating_data(ratings, 'articles', 'author_id')
 
 
 def update_user_ratings_news():
 	ratings = (News.objects
-		.filter(author_id__isnull=False, approved=True)
-		.order_by('author_id')
-		.values('author_id')
-		.annotate(news_count=Count('pk'))
-		.values_list('author_id', 'news_count'))
-	_update_rating_data(ratings, 'news')
+		.filter(author_id__isnull=False, approved=True))
+	_update_rating_data(ratings, 'news', 'author_id')
 
 
 def update_user_ratings_wiki():
 	ratings = (WikiPage.objects
-		.filter(last_author_id__isnull=False)
-		.order_by('last_author_id')
-		.values('last_author_id')
-		.annotate(wiki_count=Count('pk'))
-		.values_list('last_author_id', 'wiki_count'))
-	_update_rating_data(ratings, 'wiki')
+		.filter(last_author_id__isnull=False))
+	_update_rating_data(ratings, 'wiki', 'last_author_id')
 
 
 def update_user_ratings_sum():
