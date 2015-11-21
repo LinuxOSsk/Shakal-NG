@@ -87,3 +87,29 @@ def update_user_ratings_sum():
 	UserRating.objects.update(
 		rating=sum([(F(column) * weight) for column, weight in UserRating.RATING_WEIGHTS.iteritems()])
 	)
+
+
+def fix_duplicate_headers():
+	duplicate_content_types = (Comment.objects
+		.filter(level=0)
+		.values('content_type', 'object_id')
+		.order_by('content_type', 'object_id')
+		.annotate(cnt=Count('id'))
+		.filter(cnt__gt=1))
+
+	for content in duplicate_content_types:
+		roots = (Comment.objects
+			.filter(object_id=content['object_id'], content_type=content['content_type'], level=0))
+		first_root = None
+
+		for root in roots:
+			child_nodes = Comment.objects.filter(parent=root)
+			if child_nodes.count() == 0:
+				root.delete()
+			else:
+				if first_root is None:
+					first_root = root
+				else:
+					for node in list(child_nodes):
+						node.move_to(first_root, 'last-child')
+					root.delete()
