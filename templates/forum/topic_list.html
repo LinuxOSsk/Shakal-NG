@@ -45,6 +45,7 @@
 <div class="module forum">
 	<div class="module-row">
 		{% with caption="Témy" %}
+			{{ add_discussion_attributes(topic_list) }}
 			{% include "forum/block_topics_table.html" %}
 		{% endwith %}
 	</div>

@@ -14,7 +14,6 @@ from django_jinja import library
 from jinja2 import contextfunction
 from mptt.templatetags import mptt_tags
 
-from ..cache import header_cache
 from ..models import RootHeader, UserDiscussionAttribute
 from comments.models import Comment
 from common_utils import iterify, get_meta
@@ -141,18 +140,9 @@ def add_discussion_attributes(context, *models):
 	user = context['user'] if 'user' in context and context['user'].is_authenticated() else None
 
 	discussion_lookups = {
-		content_type: [obj for obj in id_list if (obj, content_type.pk) not in header_cache.cache or user is not None]
-		for content_type, id_list in discussion_lookups.iteritems()
-	}
-	discussion_lookups = {
 		content_type: id_list
 		for content_type, id_list in discussion_lookups.iteritems() if id_list
 	}
-
-	if user is None:
-		for model, content_type in zip(models, content_types):
-			for obj in model:
-				copy_attributes(obj, header_cache.cache.get((obj.pk, content_type.pk), {}))
 
 	if not discussion_lookups:
 		return ''
@@ -186,8 +176,6 @@ def add_discussion_attributes(context, *models):
 				obj.new_comments = obj.discussion_display_time < obj.last_comment
 			else:
 				obj.new_comments = None
-			if header:
-				header_cache.cache[(obj.pk, content_type.pk)] = cache_data
 
 	return ''
 
