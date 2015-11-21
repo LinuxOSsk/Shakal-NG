@@ -120,7 +120,7 @@ class Watch(LoginRequiredMixin, DetailView):
 
 	def get(self, request, **kwargs):
 		header = self.get_object()
-		attributes = UserDiscussionAttribute.objects.get_or_create(user=request.user, discussion=header)
+		attributes = UserDiscussionAttribute.objects.get_or_create(user=request.user, discussion=header)[0]
 		if 'watch' in request.GET:
 			if request.GET['watch']:
 				attributes.watch = 1
