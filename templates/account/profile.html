@@ -8,12 +8,9 @@
 
 {% block content %}
 
-{% if is_my_profile %}
-<ul class="object-tools">
-	<li class="btn"><span><a href="{{ url("accounts:my_profile_edit") }}">Uprviť profil</a></span></li>
-</ul>
-{% endif %}
 <h1>{{ user_profile }} - Profil</h1>
+
+{% include "account/partials/profile_tabs.html" %}
 
 <div class="vcard">
 
@@ -47,10 +44,5 @@
 {% endif %}
 
 </div>
-
-<hr />
-
-
-<p><a href="{{ url("accounts:user_posts", user_profile.pk) }}">Zobraziť moje príspevky</a></p>
 
 {% endblock %}

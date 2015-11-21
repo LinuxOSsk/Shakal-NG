@@ -20,6 +20,8 @@
 </ul>
 <h1>Upraviť profil</h1>
 
+{% include "account/partials/profile_tabs.html" %}
+
 <form action="{{ url("accounts:my_profile_edit") }}" method="post" id="edit-user-profile-form">{% csrf_token %}
 	<fieldset>
 		{% include "includes/form_loop.html" %}

@@ -12,6 +12,8 @@
 
 <h1>{{ user_profile }} - {{ objects_name }}</h1>
 
+{% include "account/partials/profile_tabs.html" %}
+
 {{ super() }}
 
 {% with caption=objects_name|capfirst %}

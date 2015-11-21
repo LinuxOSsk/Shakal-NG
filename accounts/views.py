@@ -42,8 +42,8 @@ class Profile(DetailView):
 			email = user.email.replace('@', ' ZAVINÁČ ').replace('.', ' BODKA ')
 			user_table = user_table + ({'name': 'E-mail', 'value': email}, )
 		ctx['user_table'] = user_table
-		ctx['is_my_profile'] = self.request.user.pk == user.pk
 		return ctx
+
 
 class MyProfileMixin(object):
 	def get_object(self):

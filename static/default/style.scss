@@ -1624,3 +1624,37 @@ td.status, td.comments, td.date {
 #monthly_stats {
 	height: 200px;
 }
+
+.content-tabs {
+	padding: ($module-margin / 2) 0;
+	margin: 0;
+	display: block;
+	list-style: none;
+	border-bottom: $light-border;
+	overflow: auto;
+
+	li {
+		list-style: none;
+		display: inline;
+		margin: 0;
+		padding: 0;
+	}
+
+	a {
+		display: block;
+		float: left;
+		margin-right: $module-margin / 2;
+		padding: 3px 4px;
+		text-decoration: none;
+		border-radius: 10px;
+		&:hover, &:active {
+			background: mix($link-color, $generic-background);
+			color: $generic-background;
+		}
+	}
+
+	.active a {
+		background: $link-color;
+		color: $generic-background;
+	}
+}
