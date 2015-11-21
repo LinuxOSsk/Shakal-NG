@@ -159,7 +159,7 @@ def cached_method_factory(cache):
 	return decorator
 
 
-cache_instance = SimpleCache()
+cache_instance = DjangoCache()
 cached_fn = cached_fn_factory(cache_instance)
 cached_method = cached_method_factory(cache_instance)
 
