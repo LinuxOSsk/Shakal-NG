@@ -15,13 +15,13 @@ decorator==4.0.4          # via ipython, traitlets
 django-allauth==0.24.1
 django-appconf==1.0.1     # via django-compressor
 django-braces==1.8.1
-django-compressor==1.5
+django-compressor==1.6
 django-debug-toolbar==1.4
 django-debugtools==1.4
 django-extensions==1.5.9
 django-haystack==2.4.1
 django-jinja==1.4.1
-django-libsass==0.4
+django-libsass==0.5
 django-mptt==0.7.4
 django-reversion==1.9.3
 django-static-sitemaps==2.1.7
@@ -54,6 +54,7 @@ pylint==1.4.4             # via pylint-django, pylint-plugin-utils
 python-openid==2.2.5      # via django-allauth
 pytz==2015.7
 pyyaml==3.11              # via watchdog
+raven==5.8.1
 requests-oauthlib==0.5.0  # via django-allauth
 requests==2.8.1           # via django-allauth, requests-oauthlib
 simplegeneric==0.8.1      # via ipython
