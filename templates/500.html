@@ -5,7 +5,7 @@ Táto chyba by sa štandardne nemala vyskytnúť. Znamená buď internú chybu v
 {% endblock %}
 
 {% block more_details %}
-	{% if request.sentry.id %}
+	{% if request.sentry and request.sentry.id %}
 	{% else %}
 		<li>Typ výnimky: {{ exception_type }}</li>
 		<li>Chybové hlásenie: {{ exception_value }}</li>
@@ -14,7 +14,7 @@ Táto chyba by sa štandardne nemala vyskytnúť. Znamená buď internú chybu v
 
 {% block details %}
 	{{ super() }}
-	{% if request.sentry.id %}
+	{% if request.sentry and  request.sentry.id %}
 		<p>Ak chyba pretrváva hláste administrátorovi ID tejto chyby: {{ request.sentry.id }}</p>
 	{% endif %}
 {% endblock %}
