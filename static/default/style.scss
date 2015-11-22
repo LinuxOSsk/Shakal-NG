@@ -1502,19 +1502,27 @@ td.status, td.comments, td.date {
 .label, .badge {
 	display: inline-block;
 	padding: 2px 4px;
-	font-size: 0.85em; font-weight: bold;
+	font-size: 0.85em;
+	font-weight: bold;
+	text-decoration: none;
 	line-height: 1.1em;
 	color: white;
 	text-shadow: 0 -1px 0 darken(#999, 10%);
 	white-space: nowrap;
 	vertical-align: baseline;
 	background-color: #999;
+	&:hover {
+		color: white;
+	}
 }
 
 .badge {
 	padding-right: 0.8em;
 	padding-left: 0.8em;
 	border-radius: 0.8em;
+	&:hover {
+		border-radius: 0.8em;
+	}
 }
 
 .btn .badge {
@@ -1530,21 +1538,23 @@ td.status, td.comments, td.date {
 .badge-info, .label-info, .badge-watch {
 	text-shadow: 0 -1px 0 darken(#3a87ad, 10%);
 	background-color: #3a87ad;
+	&:hover { background-color: #3a87ad; }
 }
 
 .badge-warning, .label-warning {
 	text-shadow: 0 -1px 0 darken(#f89406, 10%);
 	background-color: #f89406;
+	&:hover { background-color: #f89406; }
 }
 
 .badge-success, .label-success, .badge-new {
 	text-shadow: 0 -1px 0 darken(#468847, 10%);
-	background-color: #468847;
+	&:hover { background-color: #468847; }
 }
 
 .badge-important, .label-important {
 	text-shadow: 0 -1px 0 darken(#b94a48, 10%);
-	background-color: #b94a48;
+	&:hover { background-color: #b94a48; }
 }
 
 .label.label-new, .label.label-locked, .label.label-resolved, .label.label-watch {
@@ -1572,6 +1582,7 @@ td.status, td.comments, td.date {
 
 	&.label-watch {
 		@include sprite-generated(watch_icon);
+		&:hover { background-color: transparent; }
 	}
 }
 

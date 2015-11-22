@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from braces.views import PermissionRequiredMixin, LoginRequiredMixin
 from django import http
+from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import capfirst
@@ -134,6 +135,18 @@ class Watch(LoginRequiredMixin, DetailView):
 		else:
 			obj = header.content_object
 			return HttpResponseRedirect(obj.get_absolute_url())
+
+
+class Forget(LoginRequiredMixin, DetailView):
+	model = RootHeader
+
+	def get(self, request, **kwargs):
+		header = self.get_object()
+		UserDiscussionAttribute.objects.filter(user=request.user, discussion=header).delete()
+		if 'next' in request.GET:
+			return HttpResponseRedirect(request.GET['next'])
+		else:
+			return HttpResponseRedirect(reverse('home'))
 
 
 class Comments(DetailView):
