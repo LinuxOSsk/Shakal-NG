@@ -129,8 +129,11 @@ class Watch(LoginRequiredMixin, DetailView):
 		else:
 			attributes.watch = 1
 		attributes.save()
-		obj = header.content_object
-		return HttpResponseRedirect(obj.get_absolute_url())
+		if 'next' in request.GET:
+			return HttpResponseRedirect(request.GET['next'])
+		else:
+			obj = header.content_object
+			return HttpResponseRedirect(obj.get_absolute_url())
 
 
 class Comments(DetailView):
