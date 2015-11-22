@@ -16,7 +16,7 @@ def last_objects():
 		for app_label, model_name in MODELS:
 			last = (apps.get_model(app_label, model_name).objects
 				.order_by('-created')
-				.values_list('created'))
+				.values_list('created')[:99])
 			objects_cache[(app_label, model_name)] = last
 		default_cache.set('last_objects', objects_cache)
 	return objects_cache
