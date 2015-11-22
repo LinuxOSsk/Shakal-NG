@@ -7,6 +7,7 @@ from django import template
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.template.defaulttags import date
+from django.template.defaultfilters import urlencode
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.encoding import smart_unicode
@@ -114,3 +115,8 @@ def firstof(*args):
 def now(format_string):
 	tzinfo = timezone.get_current_timezone() if settings.USE_TZ else None
 	return date(datetime.now(tz=tzinfo), format_string)
+
+
+@library.filter
+def urlquote(string):
+	return urlencode(string, '')
