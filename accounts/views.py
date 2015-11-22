@@ -79,6 +79,22 @@ class MyWatched(LoginRequiredMixin, ListView):
 		return ctx
 
 
+class MyViewed(LoginRequiredMixin, ListView):
+	template_name = 'account/my_viewed.html'
+	paginate_by = 50
+
+	def get_queryset(self, *args, **kwargs):
+		return (UserDiscussionAttribute.objects
+			.filter(user=self.request.user)
+			.order_by('-time')
+			.values_list('discussion__content_type_id', 'discussion__object_id'))
+
+	def get_context_data(self, **kwargs):
+		ctx = super(MyViewed, self).get_context_data(**kwargs)
+		ctx['object_list'] = resolve_content_objects(ctx['object_list'])
+		return ctx
+
+
 class UserStatsMixin(object):
 	paginate_by = 50
 	object = None

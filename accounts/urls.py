@@ -15,6 +15,7 @@ urlpatterns = patterns('accounts.views',
 	url(r'^(?P<pk>\d+)/prispevky/komentare/(?:(?P<page>\d+)/)?$', 'UserPostsCommented', name='user_posts_commented'),
 	url(r'^(?P<pk>\d+)/prispevky/wiki/(?:(?P<page>\d+)/)?$', 'UserPostsWikiPage', name='user_posts_wikipage'),
 	url(r'^ja/$', 'MyProfile', name='my_profile'),
-	url(r'^ja/sledovane/$', 'MyWatched', name='my_watched'),
+	url(r'^ja/sledovane/(?:(?P<page>\d+)/)?$', 'MyWatched', name='my_watched'),
+	url(r'^ja/navstivene/(?:(?P<page>\d+)/)?$', 'MyViewed', name='my_viewed'),
 	url(r'^ja/upravit/$', 'MyProfileEdit', name='my_profile_edit'),
 )

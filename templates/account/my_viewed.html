@@ -1,0 +1,26 @@
+{% extends "account/base.html" %}
+
+{% block head_title %}Navštívené diskusie{% endblock %}
+
+{% block breadcrumbs %}
+	{{ breadcrumb("Navštívené diskusie") }}
+	{{ breadcrumb(firstof(user.get_full_name(), user.username), url="accounts:profile", pk=user.pk) }}
+	{{ super() }}
+{% endblock %}
+
+{% block extraheaders %}
+<meta name="robots" content="noindex, nofollow" />
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+<h1>Sledované diskusie</h1>
+
+{% include "account/partials/profile_tabs.html" %}
+
+{% with caption="Zoznam navštívených diskusií" %}
+	{{ add_discussion_attributes_heterogenous(object_list) }}
+	{% include "account/partials/post_list.html" %}
+{% endwith %}
+
+{% endblock %}
