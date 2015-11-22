@@ -37,10 +37,11 @@
 		{{ add_discussion_attributes(posts) }}
 		<ul>
 			{% for post in posts %}
-			<li><a href="{{ post.get_absolute_url() }}">{{ post }}</a><span class="comments info"> | {{ get_comments_for_item(post) }}</span></li>
+				<li><a href="{{ post.get_absolute_url() }}">{{ post }}</a><span class="comments info"> | {{ get_comments_for_item(post) }}</span></li>
 			{% endfor %}
 		</ul>
 	{% endwith %}
+	<p><a href="{{ user_profile.blog.get_absolute_url() }}">Zobraziť všetky blogy</a></p>
 {% endif %}
 
 </div>
