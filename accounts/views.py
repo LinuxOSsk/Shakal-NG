@@ -13,6 +13,7 @@ from django.views.generic import RedirectView, DetailView, UpdateView
 
 from .forms import ProfileEditForm
 from .stats import register
+from comments.models import UserDiscussionAttribute
 from common_utils.content_types import resolve_content_objects
 from common_utils.generic import ListView
 
@@ -60,6 +61,22 @@ class MyProfileEdit(LoginRequiredMixin, MyProfileMixin, UpdateView):
 
 	def get_success_url(self):
 		return reverse('accounts:my_profile')
+
+
+class MyWatched(LoginRequiredMixin, ListView):
+	template_name = 'account/my_watched.html'
+	paginate_by = 50
+
+	def get_queryset(self, *args, **kwargs):
+		return (UserDiscussionAttribute.objects
+			.filter(user=self.request.user, watch=True)
+			.order_by('-pk')
+			.values_list('discussion__content_type_id', 'discussion__object_id'))
+
+	def get_context_data(self, **kwargs):
+		ctx = super(MyWatched, self).get_context_data(**kwargs)
+		ctx['object_list'] = resolve_content_objects(ctx['object_list'])
+		return ctx
 
 
 class UserStatsMixin(object):
@@ -200,7 +217,7 @@ class UserPostsCommented(UserStatsListBase):
 
 	def get_context_data(self, **kwargs):
 		ctx = super(UserPostsCommented, self).get_context_data(**kwargs)
-		objects = resolve_content_objects(tuple((obj['content_type_id'], obj['object_id']) for obj in ctx['object_list']))
+		objects = resolve_content_objects([(obj['content_type_id'], obj['object_id']) for obj in ctx['object_list']])
 		ctx['object_list'] = objects
 		return ctx
 
