@@ -3,10 +3,12 @@ from __future__ import unicode_literals
 
 from datetime import timedelta
 
+import json
 from django.conf import settings
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.core.exceptions import ValidationError
+from django.core.serializers.json import DjangoJSONEncoder
 from django.core.validators import MinValueValidator, MaxValueValidator, MaxLengthValidator
 from django.db import models
 from django.utils import timezone
@@ -27,6 +29,7 @@ class User(AbstractUser):
 	original_info = RichTextOriginalField(filtered_field="filtered_info", property_name="info", parsers={'html': 'profile'}, verbose_name='informácie', validators=[MaxLengthValidator(100000)], blank=True)
 	filtered_info = RichTextFilteredField(blank=True)
 	year = models.SmallIntegerField('rok narodenia', validators=[MinValueValidator(1900), MaxValueValidator(2015)], blank=True, null=True)
+	settings = models.TextField('nastavenia', blank=True)
 
 	def clean_fields(self, exclude=None):
 		if self.email:
@@ -44,6 +47,17 @@ class User(AbstractUser):
 		return full_name.strip()
 	get_full_name.short_description = 'celé meno'
 	get_full_name.admin_order_field = 'last_name,first_name,username'
+
+	@property
+	def user_settings(self):
+		try:
+			return json.loads(self.settings)
+		except ValueError:
+			return {}
+
+	@user_settings.setter
+	def user_settings(self, val):
+		self.settings = json.dumps(val, cls=DjangoJSONEncoder)
 
 	def __unicode__(self):
 		return self.get_full_name() or self.username

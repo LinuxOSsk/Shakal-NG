@@ -89,6 +89,7 @@ MIDDLEWARE_CLASSES = (
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
 	'django.middleware.security.SecurityMiddleware',
 	# custom
+	'accounts.middleware.LastViewedMiddleware',
 	'common_utils.middlewares.ThreadLocal.ThreadLocalMiddleware',
 	'template_dynamicloader.middleware.TemplateSwitcherMiddleware',
 	'feeds.middleware.FeedsMiddleware',

@@ -1,31 +1,33 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.contrib import auth
-from . import auth_remember_utils
-
-from .accounts_settings import COOKIE_NAME
+from django.utils import timezone
 
 
-class AuthRememberMiddleware(object):
-	def process_request(self, request):
-		if request.user.is_authenticated():
-			return
+UPDATE_LAST_VIEW_TIME = {
+	'article:list': 'article.article',
+	'blog:post-list': 'blog.post',
+	'forum:overview': 'forum.topic',
+	'news:list': 'news.news',
+	'wiki:home': 'wiki.page',
+}
 
-		token = request.COOKIES.get(COOKIE_NAME, None)
-		if not token:
-			return
 
-		user = auth.authenticate(token_string=token, request=request)
-		if user:
-			auth.login(request, user)
-
+class LastViewedMiddleware(object):
 	def process_response(self, request, response):
-		auth_remember_token = getattr(request, '_auth_remember_token', None)
-
-		if auth_remember_token is not None:
-			if auth_remember_token:
-				auth_remember_utils.set_cookie(response, auth_remember_token)
-			else:
-				auth_remember_utils.delete_cookie(response)
+		if request.user.is_authenticated:
+			content_type = UPDATE_LAST_VIEW_TIME.get(request.resolver_match.view_name)
+			if content_type is not None:
+				self.update_last_visited(request.user, content_type)
 		return response
+
+	def update_last_visited(self, user, content_type):
+		now = timezone.now()
+		user_settings = user.user_settings
+		user_settings.setdefault('last_visited', {})
+		last_visited = user_settings['last_visited']
+		last_visited[content_type] = now
+		for content_type in UPDATE_LAST_VIEW_TIME.values():
+			last_visited.setdefault(content_type, now)
+		user.user_settings = user_settings
+		user.save()

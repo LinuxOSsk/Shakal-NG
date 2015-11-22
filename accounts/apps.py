@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.apps import AppConfig
 from django.contrib.auth.signals import user_logged_out
-from django.db.models.signals import post_save, pre_save, pre_delete
+from django.db.models.signals import post_save, pre_save, pre_delete, post_delete
 from django.utils.functional import cached_property
 
 from .auth_remember_utils import preset_cookie
@@ -75,9 +75,16 @@ class AccountsConfig(AppConfig):
 		user_signed_up.connect(self.set_inactive)
 		email_confirmed.connect(self.set_active)
 
+	def clear_last_objects_cache(self):
+		from .utils import clear_last_objects_cache
+
+		post_save.connect(clear_last_objects_cache)
+		post_delete.connect(clear_last_objects_cache)
+
 	def ready(self):
 		pre_save.connect(self.update_count_pre_save)
 		pre_delete.connect(self.update_count_pre_save)
 		post_save.connect(self.update_count_post_save)
 		user_logged_out.connect(self.remove_auth_token)
 		self.set_registration_active()
+		self.clear_last_objects_cache()

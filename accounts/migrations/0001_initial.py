@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models, migrations
+from django.db import migrations, models
 import rich_editor.fields
 import django.contrib.auth.models
 import django.utils.timezone
@@ -38,6 +38,7 @@ class Migration(migrations.Migration):
 				('original_info', rich_editor.fields.RichTextOriginalField(blank=True, verbose_name='inform\xe1cie', property_name='info', filtered_field='filtered_info', validators=[django.core.validators.MaxLengthValidator(100000)])),
 				('filtered_info', rich_editor.fields.RichTextFilteredField(editable=False, blank=True)),
 				('year', models.SmallIntegerField(blank=True, null=True, verbose_name='rok narodenia', validators=[django.core.validators.MinValueValidator(1900), django.core.validators.MaxValueValidator(2015)])),
+				('settings', models.TextField(verbose_name='nastavenia', blank=True)),
 				('groups', models.ManyToManyField(related_query_name='user', related_name='user_set', to='auth.Group', blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', verbose_name='groups')),
 				('user_permissions', models.ManyToManyField(related_query_name='user', related_name='user_set', to='auth.Permission', blank=True, help_text='Specific permissions for this user.', verbose_name='user permissions')),
 			],
