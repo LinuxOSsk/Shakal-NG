@@ -36,7 +36,7 @@ def last_objects():
 
 def clear_last_objects_cache(sender, **kwargs):
 	opts = get_meta(sender)
-	if (opts.app_label, opts.model_name) not in MODELS:
+	if '.'.join((opts.app_label, opts.model_name)) not in MODELS:
 		return
 	default_cache.delete('last_objects')
 
