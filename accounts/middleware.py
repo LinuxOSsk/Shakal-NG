@@ -17,7 +17,7 @@ class LastViewedMiddleware(object):
 	def process_response(self, request, response):
 		if request.user.is_authenticated:
 			content_type = UPDATE_LAST_VIEW_TIME.get(request.resolver_match.view_name)
-			if content_type is not None:
+			if content_type is not None or not request.user.user_settings:
 				self.update_last_visited(request.user, content_type)
 		return response
 
@@ -26,7 +26,8 @@ class LastViewedMiddleware(object):
 		user_settings = user.user_settings
 		user_settings.setdefault('last_visited', {})
 		last_visited = user_settings['last_visited']
-		last_visited[content_type] = now
+		if content_type:
+			last_visited[content_type] = now
 		for content_type in UPDATE_LAST_VIEW_TIME.values():
 			last_visited.setdefault(content_type, now)
 		user.user_settings = user_settings
