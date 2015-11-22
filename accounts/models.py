@@ -14,6 +14,7 @@ from django.db import models
 from django.utils import timezone
 
 from . import accounts_settings
+from .utils import get_count_new
 from common_utils import get_default_manager
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
@@ -58,6 +59,10 @@ class User(AbstractUser):
 	@user_settings.setter
 	def user_settings(self, val):
 		self.settings = json.dumps(val, cls=DjangoJSONEncoder)
+
+	@property
+	def count_new(self):
+		return {k.replace('.', '_'): v for k, v in get_count_new(self).iteritems()}
 
 	def __unicode__(self):
 		return self.get_full_name() or self.username

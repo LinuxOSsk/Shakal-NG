@@ -667,6 +667,7 @@ button:focus { outline: none; }
 	}
 	padding: 0; margin: 0;
 	li {
+		position: relative;
 		list-style: none; padding: 0px $title-padding; margin: 0px;
 		&:hover {
 			background: $menu-active-background;
@@ -890,8 +891,22 @@ textarea {
 
 ul#main_menu {
 	padding-left: 6px;
+
+	li {
+		position: relative;
+	}
+
 	li:first-child {
 		margin-left: 2px;
+	}
+
+	.badge {
+		position: absolute;
+		top: 0;
+		right: 0;
+		margin-right: 4px;
+		margin-top: -4px;
+		z-index: 1;
 	}
 }
 

@@ -4,6 +4,8 @@ from __future__ import unicode_literals
 from bisect import bisect_left
 from django.apps import apps
 from django.core.cache import caches
+from django.utils import timezone
+from django.utils.dateparse import parse_datetime
 
 from common_utils import get_meta
 
@@ -39,11 +41,29 @@ def clear_last_objects_cache(sender, **kwargs):
 	default_cache.delete('last_objects')
 
 
-def count_new(last_display_time):
+def count_new(last_visited):
 	counts = {}
 	for model, dates in last_objects().iteritems():
-		if model in last_display_time:
-			counts[model] = len(dates) - bisect_left(dates, last_display_time[model])
+		if model in last_visited:
+			counts[model] = len(dates) - bisect_left(dates, parse_datetime(last_visited[model]))
 		else:
 			counts[model] = None
 	return counts
+
+
+def update_last_visited(user, content_type):
+	now = timezone.now()
+	user_settings = user.user_settings
+	user_settings.setdefault('last_visited', {})
+	last_visited = user_settings['last_visited']
+	if content_type:
+		last_visited[content_type] = now
+	for content_type in MODELS:
+		last_visited.setdefault(content_type, now)
+	user.user_settings = user_settings
+	user.save()
+
+
+def get_count_new(user):
+	last_visited = user.user_settings.get('last_visited', {})
+	return count_new(last_visited)
