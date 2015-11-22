@@ -76,10 +76,10 @@ INSERT INTO auth_group_permissions(id, group_id, permission_id)
 		dblink('dbname=linuxos', 'SELECT id, group_id, permission_id FROM auth_group_permissions')
 		AS t1(id integer, group_id integer, permission_id integer);
 
-INSERT INTO auth_user(id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined, jabber, url, signature, display_mail, distribution, original_info, filtered_info, year)
+INSERT INTO auth_user(id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined, jabber, url, signature, display_mail, distribution, original_info, filtered_info, year, settings)
 	SELECT * FROM
-		dblink('dbname=linuxos', 'SELECT id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined, jabber, url, signature, display_mail, distribution, original_info, filtered_info, year FROM auth_user')
-		AS t1(id integer, password character varying(128), last_login timestamp with time zone, is_superuser boolean, username character varying(30), first_name character varying(30), last_name character varying(30), email character varying(254), is_staff boolean, is_active boolean, date_joined timestamp with time zone, jabber character varying(127), url character varying(255), signature character varying(255), display_mail boolean, distribution character varying(50), original_info text, filtered_info text, year smallint);
+		dblink('dbname=linuxos', 'SELECT id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined, jabber, url, signature, display_mail, distribution, original_info, filtered_info, year, '''' FROM auth_user')
+		AS t1(id integer, password character varying(128), last_login timestamp with time zone, is_superuser boolean, username character varying(30), first_name character varying(30), last_name character varying(30), email character varying(254), is_staff boolean, is_active boolean, date_joined timestamp with time zone, jabber character varying(127), url character varying(255), signature character varying(255), display_mail boolean, distribution character varying(50), original_info text, filtered_info text, year smallint, settings text);
 
 INSERT INTO auth_user_groups(id, user_id, group_id)
 	SELECT * FROM
