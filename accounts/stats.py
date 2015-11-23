@@ -128,7 +128,7 @@ class Register(object):
 		return dict(STATISTICS)[name](user, request)
 
 	def get_all_statistics(self, user, request):
-		return tuple((k, v(user, request)) for k, v in STATISTICS)
+		return tuple((name, cls(user, request)) for name, cls in STATISTICS)
 
 
 register = Register()
