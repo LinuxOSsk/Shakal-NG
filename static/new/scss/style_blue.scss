@@ -4,14 +4,14 @@ $sidebar-color: #223344;
 $menu-color: #223344;
 $menu-toggle-color: white;
 
-@import "sprites_white";
-@import "sprites_white_2x";
-@import "utils";
-@import "constants";
-@import "holygrail";
-@import "base";
-@import "components";
-@import "layout";
+@import "new/scss/sprites_white";
+@import "new/scss/sprites_white_2x";
+@import "new/scss/utils";
+@import "new/scss/constants";
+@import "new/scss/holygrail";
+@import "new/scss/base";
+@import "new/scss/components";
+@import "new/scss/layout";
 
 #site_header .logo {
 	border-bottom: 1px solid lighten($sidebar-background, 7%);
