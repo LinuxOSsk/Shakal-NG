@@ -652,7 +652,6 @@ var SimpleEditorHtml = function(element, options) {
 	updateChromeClass();
 
 	this.destroy = function() {
-		clearInterval(updateTimer);
 		chrome.parentNode.insertBefore(element, chrome);
 		chrome.parentNode.removeChild(chrome);
 		element.onkeyup = undefined;
