@@ -71,6 +71,20 @@ class Home(TemplateView):
 		articles, top_articles = self.get_articles()
 		posts, top_posts = self.get_posts()
 		forum_new, forum_no_comments, forum_most_comments = self.get_topics()
+
+		new_items = []
+		for article in top_articles:
+			new_items.append(article)
+			break
+		for article in articles:
+			new_items.append(article)
+			break
+		for i, post in enumerate(posts):
+			new_items.append(post)
+			if i == 1:
+				break
+		new_items.sort(key=lambda x: x.created, reverse=True)
+
 		ctx.update({
 			'top_articles': top_articles,
 			'articles': articles,
@@ -79,6 +93,7 @@ class Home(TemplateView):
 			'forum_new': forum_new,
 			'forum_no_comments': forum_no_comments,
 			'forum_most_comments': forum_most_comments,
+			'new_items': new_items,
 			'article_categories': Category.objects.all(),
 		})
 		return ctx

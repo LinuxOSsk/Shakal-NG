@@ -15,6 +15,12 @@
 {{ add_discussion_attributes(articles,top_articles,posts,top_posts,forum_new,forum_no_comments,forum_most_comments,posts) }}
 {{ add_hitcount(articles,top_articles) }}
 <div class="module forum">
+	<h2>Články a blogy</h2>
+	<div class="module-row">
+		{% with caption="Najnovšie články a blogy", topic_list=new_items %}
+			{% include "forum/block_topics_table.html" %}
+		{% endwith %}
+	</div>
 	<h2>Diskusné fórum</h2>
 	<div class="module-row">
 		{% with caption="Najnovšie komentáre", topic_list=forum_new %}
