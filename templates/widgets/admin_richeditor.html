@@ -1,6 +1,6 @@
 <div id="id_textareawrapper_{{ name }}" class="textareawrapper">
 	{% if formats %}
-		<div class="formatwrapper" style="display: none">
+		<div class="formatwrapper" {% if formats|length < 2 %}style="display: none"{% endif %}>
 			{% for format in formats %}
 				<label class="format">
 					<input type="radio" name="{{ name }}_format" value="{{ format.format }}"{% if format.checked %} checked="checked"{% endif %} />
