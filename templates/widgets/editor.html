@@ -1,6 +1,6 @@
 <div id="id_textareawrapper_{{ name }}" class="textareawrapper">
 	{% if formats %}
-		<div class="formatwrapper">
+		<div class="formatwrapper" {% if formats|length < 2 %}style="display: none"{% endif %}>
 			{% for format in formats %}
 				<label class="format">
 					<input type="radio" name="{{ name }}_format" value="{{ format.format }}"{% if format.checked %} checked="checked"{% endif %} />
@@ -16,16 +16,20 @@
 <script type="text/javascript">
 //<![CDATA[
 
-window.rich_editors = window.rich_editors || [];
-window.rich_editors.push({
+var settings = {
 	lang: '{{ lang }}',
 	{% if tags %}tags: {{ tags|safe }},{% endif %}
 	static_base: '{{ static("") }}',
 	parsers: {{ parsers|safe }},
 	preview: '{{ url("rich_editor:preview") }}',
-	namespace: 'front',
+	namespace: '{% block namespace %}front{% endblock %}',
 	element: document.getElementById("id_textareawrapper_{{ name }}").getElementsByTagName('TEXTAREA')[0]
-});
+};
+
+{% block init_editor %}
+	window.rich_editors = window.rich_editors || [];
+	window.rich_editors.push(settings);
+{% endblock %}
 
 //]]>
 </script>
