@@ -21,23 +21,21 @@
 	{% endfor %}
 
 	{% if inline_admin_form.original %}
-		<fieldset class="module aligned ">
-			<div class="control-group form-row field-attachment ">
-				<div>
-					<div class="control-label">
-						<label>Informácie</label>
-					</div>
-					<div class="controls">
-						{% if inline_admin_form.original.attachmentimage %}
-							<img src="{{ inline_admin_form.original.attachmentimage.attachment_standard.url }}" alt="{{ inline_admin_form.original.basename }}" style="float: left; margin-right: 10px;" />
-						{% else %}
-						{% endif %}
-						<p>URL: <small>{{ inline_admin_form.original.attachment.url }}</small></p>
-						<p>Veľkosť: <small>{{ inline_admin_form.original.size|filesizeformat }}</small></p>
-					</div>
+		<div class="control-group form-row field-attachment ">
+			<div>
+				<div class="control-label">
+					<label>Informácie</label>
+				</div>
+				<div class="controls">
+					{% if inline_admin_form.original.attachmentimage %}
+						<img src="{{ inline_admin_form.original.attachmentimage.attachment_standard.url }}" alt="{{ inline_admin_form.original.basename }}" style="float: left; margin-right: 10px;" />
+					{% else %}
+					{% endif %}
+					<p>URL: <small>{{ inline_admin_form.original.attachment.url }}</small></p>
+					<p>Veľkosť: <small>{{ inline_admin_form.original.size|filesizeformat }}</small></p>
 				</div>
 			</div>
-		</fieldset>
+		</div>
 	{% endif %}
 
 	{% if inline_admin_form.has_auto_field or inline_admin_form.needs_explicit_pk_field %}{{ inline_admin_form.pk_field.field }}{% endif %}
