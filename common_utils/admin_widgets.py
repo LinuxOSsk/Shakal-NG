@@ -29,5 +29,5 @@ class RichEditorWidget(RichOriginalEditor):
 
 	def __init__(self, *args, **kwargs):
 		super(RichEditorWidget, self).__init__(*args, **kwargs)
-		self.formats = (('raw', 'RAW'), ) + self.formats
+		self.formats = (('raw', 'Nefiltrovaný text'), ) + self.formats
 		self.skin = 'compact'
