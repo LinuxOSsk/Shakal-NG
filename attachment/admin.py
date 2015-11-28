@@ -2,13 +2,13 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from django.contrib.contenttypes.admin import GenericStackedInline
+from django.contrib.contenttypes.admin import GenericTabularInline
 from django.utils.translation import ugettext_lazy as _
 
 from attachment.models import Attachment
 
 
-class AttachmentInline(GenericStackedInline):
+class AttachmentInline(GenericTabularInline):
 	model = Attachment
 	verbose_name = _('attachment')
 	verbose_name_plural = _('attachments')
