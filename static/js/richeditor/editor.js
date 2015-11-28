@@ -677,7 +677,7 @@ var CkEditorHtml = function(element, options) {
 					editor.addCommand('close', {
 						exec: function(self) {
 							self._switchContainer.style.display = 'block';
-							self._selector.selectEditor('simple_html');
+							self._selector.selectEditor('default');
 						}
 					});
 					editor.ui.addButton('Close', {
@@ -788,15 +788,20 @@ var RichEditor = function(element, options) {
 		selectFormat();
 	}
 
+	var editors = {
+		'html': {
+			'default': SimpleEditorHtml,
+			'ckeditor_html': CkEditorHtml
+		},
+		'raw': {
+			'default': SimpleEditorHtml,
+			'ckeditor_html': CkEditorHtml
+		}
+	};
 
 	var o = {};
 	for (var k in options) { if (options.hasOwnProperty(k)) o[k] = options[k]; }
 	o.format = format;
-
-	var editors = {
-		'simple_html': SimpleEditorHtml,
-		'ckeditor_html': CkEditorHtml
-	};
 
 	var switchToolgroupContainer = _.createDiv('richedit_switch_toolgroup_container');
 	var switchToolgroup = _.createDiv('richedit_toolgroup richedit_switch_toolgroup');
@@ -820,18 +825,18 @@ var RichEditor = function(element, options) {
 	o.switchContainer = switchToolgroupContainer;
 
 	switchButton.onclick = function() {
-		if (currentEditor === 'simple_html') {
+		if (currentEditor === 'default') {
 			self.selectEditor('ckeditor_html');
 		}
 		else {
-			self.selectEditor('simple_html');
+			self.selectEditor('default');
 		}
 		return false;
 	};
 
 	this.selectEditor = function(name) {
-		_.setCookie(o.namespace + '_richeditor', name, 3650);
-		if (name === 'simple_html') {
+		_.setCookie(o.namespace + '_' + format + '_richeditor', name, 3650);
+		if (name === 'default') {
 			label.innerHTML = 'CKEditor';
 		}
 		else {
@@ -846,13 +851,13 @@ var RichEditor = function(element, options) {
 			}
 		}
 		finally {
-			currentEditorWidget = new editors[name](element, o);
+			currentEditorWidget = new editors[format][name](element, o);
 		}
 	};
 
-	var editor = _.getCookie(o.namespace + '_richeditor');
-	if (editors[editor] === undefined) {
-		editor = 'simple_html';
+	var editor = _.getCookie(o.namespace + '_' + format + '_richeditor');
+	if (editors[format][editor] === undefined) {
+		editor = 'default';
 	}
 	this.selectEditor(editor);
 };
