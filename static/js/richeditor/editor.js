@@ -76,7 +76,7 @@ var SimpleEditorHtml = function(element, options) {
 		if (options.format !== 'html') {
 			return;
 		}
-		var doc = preview.documentElement ? preview.documentElement : (preview.contentDocument ? preview.contentDocument : preview.contentWindow.document)
+		var doc = preview.documentElement ? preview.documentElement : (preview.contentDocument ? preview.contentDocument : preview.contentWindow.document);
 		var inlineCss = doc.getElementsByTagName('STYLE')[0];
 		inlineCss.innerHTML = options.tags.unsupported.join(', ') + '{ background-color: #ff9999 !important; border: 1px solid red !important; }';
 	};
@@ -135,7 +135,7 @@ var SimpleEditorHtml = function(element, options) {
 
 		var updateCls = function() {
 			link.className = className + ' richedit_button_' + ((down || on) ? 'on': 'off');
-		}
+		};
 		updateCls();
 
 		_.bindEvent(link, 'mousedown', function() {
@@ -233,12 +233,7 @@ var SimpleEditorHtml = function(element, options) {
 	};
 
 	var triggerFunction = function(btn) {
-		if (btn.options.parse) {
-			var parseSel = btn.options.parse;
-		}
-		else {
-			var parseSel = function(input) { return input; };
-		}
+		var parseSel = btn.options.parse || function(input) { return input; };
 
 		if (btn.options.tag_pre) {
 			insert(btn.options.tag_pre, btn.options.tag_post, parseSel);
@@ -288,23 +283,22 @@ var SimpleEditorHtml = function(element, options) {
 
 	var aboutEditor = function(btn) {
 		var options = {
-			template: '\
-				<h1>O tomto editore</h1>\
-				<p>Tento editor používa časti <a href="http://ckeditor.com/about/license">open source</a> editoru <a href="http://ckeditor.com/">CKEditor</a>.</p>\
-				<h2>Klávesové skratky</h2>\
-				<p><span class="richedit_key_shortcut">Shift + Enter</span> - nový riadok</p>\
-				<p><span class="richedit_key_shortcut">Ctrl + Medzera</span> - nový odstavec</p>\
-				<p><span class="richedit_key_shortcut">Ctrl + B</span> - tučné písmo</p>\
-				<p><span class="richedit_key_shortcut">Ctrl + I</span> - šikmé písmo</p>\
-				<p><span class="richedit_key_shortcut">Ctrl + Y</span> - riadok zoznamu</p>\
-				<p><span class="richedit_key_shortcut">Ctrl + E</span> - prevod na HTML entity</p>\
-				<h2>Tipy</h2>\
-				<p>Výpisy alebo zdrojové kódy je možné do editoru vložiť priamo. Po vložeí stačí kód označiť a vybrať <span class="richedit_menu_help">Štýl</span> / <span class="richedit_menu_help">Kód</span>. Editor sa sám postará o ošetrenie znakov.</p>\
-				<p>Text je možné transformovať na zoznam označením a kliknutím na ikonu zoznamu.</p>\
-				<pre>          &lt;ul&gt;\nLinux       &lt;li&gt;Linux&lt;/li&gt;\nWindows     &lt;li&gt;Windows&lt;/li&gt;\nMac OS      &lt;li&gt;Mac OS&lt;/li&gt;\n          &lt;/ul&gt;</pre>\
-				<p>Podobným spôsobom je možné transformovať tabuľku</p>\
-				<pre>*Nadpis ; *Nadpis2\n Obsah  ;  Obsah ...\n\n&lt;table&gt;\n  &lt;tr&gt;\n    &lt;th&gt;Nadpis&lt;/th&gt;\n    &lt;th&gt;Nadpis2&lt;/th&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n    &lt;td&gt;Obsah&lt;/td&gt;\n    &lt;td&gt;Obsah ...&lt;/td&gt;\n  &lt;/tr&gt;\n&lt;/table&gt;</pre>\
-			'
+			template: ''+
+				'<h1>O tomto editore</h1>'+
+				'<p>Tento editor používa časti <a href="http://ckeditor.com/about/license">open source</a> editoru <a href="http://ckeditor.com/">CKEditor</a>.</p>'+
+				'<h2>Klávesové skratky</h2>'+
+				'<p><span class="richedit_key_shortcut">Shift + Enter</span> - nový riadok</p>'+
+				'<p><span class="richedit_key_shortcut">Ctrl + Medzera</span> - nový odstavec</p>'+
+				'<p><span class="richedit_key_shortcut">Ctrl + B</span> - tučné písmo</p>'+
+				'<p><span class="richedit_key_shortcut">Ctrl + I</span> - šikmé písmo</p>'+
+				'<p><span class="richedit_key_shortcut">Ctrl + Y</span> - riadok zoznamu</p>'+
+				'<p><span class="richedit_key_shortcut">Ctrl + E</span> - prevod na HTML entity</p>'+
+				'<h2>Tipy</h2>'+
+				'<p>Výpisy alebo zdrojové kódy je možné do editoru vložiť priamo. Po vložeí stačí kód označiť a vybrať <span class="richedit_menu_help">Štýl</span> / <span class="richedit_menu_help">Kód</span>. Editor sa sám postará o ošetrenie znakov.</p>'+
+				'<p>Text je možné transformovať na zoznam označením a kliknutím na ikonu zoznamu.</p>'+
+				'<pre>          &lt;ul&gt;\nLinux       &lt;li&gt;Linux&lt;/li&gt;\nWindows     &lt;li&gt;Windows&lt;/li&gt;\nMac OS      &lt;li&gt;Mac OS&lt;/li&gt;\n          &lt;/ul&gt;</pre>'+
+				'<p>Podobným spôsobom je možné transformovať tabuľku</p>'+
+				'<pre>*Nadpis ; *Nadpis2\n Obsah  ;  Obsah ...\n\n&lt;table&gt;\n  &lt;tr&gt;\n    &lt;th&gt;Nadpis&lt;/th&gt;\n    &lt;th&gt;Nadpis2&lt;/th&gt;\n  &lt;/tr&gt;\n  &lt;tr&gt;\n    &lt;td&gt;Obsah&lt;/td&gt;\n    &lt;td&gt;Obsah ...&lt;/td&gt;\n  &lt;/tr&gt;\n&lt;/table&gt;</pre>'
 		};
 		addModal(options);
 	};
@@ -322,12 +316,12 @@ var SimpleEditorHtml = function(element, options) {
 		}
 
 		var options = {
-			template: '\
-				<h1>Vložiť text</h1>\
-				<div class="form-row">' + (inputs.join('')) + '</div>\
-				<div class="form-row"><textarea placeholder="Sem vložte text"></textarea></div>',
+			template: ''+
+				'<h1>Vložiť text</h1>'+
+				'<div class="form-row">' + (inputs.join('')) + '</div>'+
+				'<div class="form-row"><textarea placeholder="Sem vložte text"></textarea></div>',
 			onSubmitted: function() {
-				var tag = undefined;
+				var tag;
 				_.forEach(inputs, function(input) {
 					if (input.checked) {
 						tag = input.value;
@@ -343,23 +337,20 @@ var SimpleEditorHtml = function(element, options) {
 			}
 		};
 		addModal(options);
-
-		var inputs = modalContent.getElementsByTagName('INPUT');
-		var textInput = modalContent.getElementsByTagName('TEXTAREA')[0];
 	};
 
 	var addLink = function(btn) {
 		var options = {
-			template: '\
-				<h1>Pridať odkaz</h1>\
-				<div class="form-row horizontal">\
-					<div class="formrow-label"><label>URL</label></div>\
-					<div class="formrow-input"><input type="text" placeholder="http://www.adresa.sk/" /></div>\
-				</div>\
-				<div class="form-row horizontal">\
-					<div class="formrow-label"><label>Text</label></div>\
-					<div class="formrow-input"><input type="text" placeholder="Text odkazu" /></div>\
-				</div>',
+			template: ''+
+				'<h1>Pridať odkaz</h1>'+
+				'<div class="form-row horizontal">'+
+					'<div class="formrow-label"><label>URL</label></div>'+
+					'<div class="formrow-input"><input type="text" placeholder="http://www.adresa.sk/" /></div>'+
+				'</div>'+
+				'<div class="form-row horizontal">'+
+					'<div class="formrow-label"><label>Text</label></div>'+
+					'<div class="formrow-input"><input type="text" placeholder="Text odkazu" /></div>'+
+				'</div>',
 			onSubmitted: function() {
 				var url = urlInput.value;
 				var text = textInput.value;
@@ -375,16 +366,16 @@ var SimpleEditorHtml = function(element, options) {
 
 	var addImage = function(btn) {
 		var options = {
-			template: '\
-				<h1>Pridať obrázok</h1>\
-				<div class="form-row horizontal">\
-					<div class="formrow-label"><label>URL</label></div>\
-					<div class="formrow-input"><input type="text" placeholder="http://www.adresa.sk/obrazok.png" /></div>\
-				</div>\
-				<div class="form-row horizontal">\
-					<div class="formrow-label"><label>Alternatívny text</label></div>\
-					<div class="formrow-input"><input type="text" placeholder="Alternatívny text napr. Tux" /></div>\
-				</div>',
+			template: ''+
+				'<h1>Pridať obrázok</h1>'+
+				'<div class="form-row horizontal">'+
+					'<div class="formrow-label"><label>URL</label></div>'+
+					'<div class="formrow-input"><input type="text" placeholder="http://www.adresa.sk/obrazok.png" /></div>'+
+				'</div>'+
+				'<div class="form-row horizontal">'+
+					'<div class="formrow-label"><label>Alternatívny text</label></div>'+
+					'<div class="formrow-input"><input type="text" placeholder="Alternatívny text napr. Tux" /></div>'+
+				'</div>',
 			onSubmitted: function() {
 				var url = urlInput.value;
 				var alt = altInput.value;
@@ -398,8 +389,8 @@ var SimpleEditorHtml = function(element, options) {
 		var altInput = inputs[1];
 	};
 
-	var insert = function(pre, post, parseSel) {
-		var parseSel = parseSel || function(input) { return input; };
+	var insert = function(pre, post, parseSelFilter) {
+		var parseSel = parseSelFilter || function(input) { return input; };
 		element.focus();
 		if (document.selection) {
 			var sel = document.selection.createRange();
@@ -408,7 +399,7 @@ var SimpleEditorHtml = function(element, options) {
 			sel.select();
 		}
 		else {
-			if (element.selectionStart != undefined) {
+			if (element.selectionStart !== undefined) {
 				var start = element.selectionStart;
 				var end = element.selectionEnd;
 				var selection = element.value.substring(start,end);
@@ -443,8 +434,8 @@ var SimpleEditorHtml = function(element, options) {
 		_.forEach(rows, function(row) {
 			var columns = row.split(';');
 			var newColumns = [];
-			_.forEach(columns, function(column) {
-				var column = column.trim();
+			_.forEach(columns, function(col) {
+				var column = col.trim();
 				var tag = 'td';
 				if (column[0] === '*') {
 					tag = 'th';
@@ -477,7 +468,8 @@ var SimpleEditorHtml = function(element, options) {
 		});
 	};
 
-	var tb = addToolbar();
+	var tb;
+	tb = addToolbar();
 	buttons.source = addButton(tb, {
 		cls: 'icon-source',
 		toggle: true,
@@ -507,7 +499,7 @@ var SimpleEditorHtml = function(element, options) {
 	});
 
 	if (hasTag('h1') || hasTag('h2') || hasTag('h3') || hasTag('h4') || hasTag('h5') || hasTag('h6') || hasTag('p') || hasTag('blockquote') || hasTag('pre')) {
-		var tb = addToolbar();
+		tb = addToolbar();
 		var blocks = addCombo(tb);
 		buttons.style = addButton(tb, {
 			label: 'Štýl',
@@ -558,7 +550,7 @@ var SimpleEditorHtml = function(element, options) {
 	}
 
 	if (hasTag('strong') || hasTag('em') || hasTag('del') || hasTag('u') || hasTag('code')) {
-		var tb = addToolbar();
+		tb = addToolbar();
 		if (hasTag('strong')) addButton(tb, {cls: 'icon-bold', tag: 'strong', onclick: triggerFunction});
 		if (hasTag('em')) addButton(tb, {cls: 'icon-italic', tag: 'em', onclick: triggerFunction});
 		if (hasTag('del')) addButton(tb, {cls: 'icon-strike', tag: 'del', onclick: triggerFunction});
@@ -570,30 +562,30 @@ var SimpleEditorHtml = function(element, options) {
 	}
 
 	if (hasTag('sup') || hasTag('sub')) {
-		var tb = addToolbar();
+		tb = addToolbar();
 		if (hasTag('sup')) addButton(tb, {cls: 'icon-superscript', tag: 'sup', onclick: triggerFunction});
 		if (hasTag('sup')) addButton(tb, {cls: 'icon-subscript', tag: 'sub', onclick: triggerFunction});
 	}
 
-	var tb = addToolbar();
+	tb = addToolbar();
 	if (hasTag('p')) addButton(tb, {cls: 'icon-bidiltr', tag: 'p', onclick: triggerFunction});
 	if (hasTag('pre')) addButton(tb, {cls: 'icon-blockquote', tag: 'blockquote', onclick: triggerFunction});
 	addButton(tb, {cls: 'icon-pastetext', onclick: addText});
 
 	if (hasTag('ul') || hasTag('ol')) {
-		var tb = addToolbar();
+		tb = addToolbar();
 		if (hasTag('ul')) addButton(tb, {cls: 'icon-bulletedlist', tag_pre: '<ul>\n', tag_post: '</ul>', parse: formatListContent, onclick: triggerFunction});
 		if (hasTag('ol')) addButton(tb, {cls: 'icon-numberedlist', tag_pre: '<ol>\n', tag_post: '</ol>', parse: formatListContent, onclick: triggerFunction});
 	}
 
 	if (hasTag('a') || hasTag('table') || hasTag('image')) {
-		var tb = addToolbar();
+		tb = addToolbar();
 		if (hasTag('a')) addButton(tb, {cls: 'icon-link', onclick: addLink});
 		if (hasTag('table')) addButton(tb, {cls: 'icon-table', tag_pre: '<table>\n', tag_post: '</table>', parse: formatTableContent, onclick: triggerFunction});
 		if (hasTag('img')) addButton(tb, {cls: 'icon-image', onclick: addImage});
 	}
 
-	var tb = addToolbar();
+	tb = addToolbar();
 	addButton(tb, {cls: 'icon-about', onclick: aboutEditor});
 
 	addBreak(top);
@@ -778,8 +770,8 @@ var CkEditorHtml = function(element, options) {
 
 var RichEditor = function(element, options) {
 	var self = this;
-	var currentEditorWidget = undefined;
-	var currentEditor = undefined;
+	var currentEditorWidget;
+	var currentEditor;
 	var formats = _.cls(element.parentNode, 'formatwrapper')[0];
 	var format = 'html';
 
