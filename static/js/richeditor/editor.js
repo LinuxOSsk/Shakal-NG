@@ -773,19 +773,36 @@ var RichEditor = function(element, options) {
 	var currentEditorWidget;
 	var currentEditor;
 	var formats = _.cls(element.parentNode, 'formatwrapper')[0];
-	var format = 'html';
+	var format = '';
 
-	var selectFormat = function() {
+	if (formats !== undefined) {
 		formats = formats.getElementsByTagName('INPUT');
-		_.forEach(formats, function(formatInput) {
-			if (formatInput.checked) {
-				format = formatInput.value;
-			}
-		});
+	}
+
+	var getFormat = function() {
+		var format = 'html';
+		if (formats !== undefined) {
+			_.forEach(formats, function(formatInput) {
+				if (formatInput.checked) {
+					format = formatInput.value;
+				}
+			});
+		}
+		return format;
+	};
+
+	var onChangeFormat = function() {
+		var newFormat = getFormat();
+		if (format !== newFormat) {
+			format = newFormat;
+			initializeEditor();
+		}
 	};
 
 	if (formats !== undefined) {
-		selectFormat();
+		_.forEach(formats, function(formatInput) {
+			formatInput.onchange = onChangeFormat;
+		});
 	}
 
 	var editors = {
@@ -799,67 +816,83 @@ var RichEditor = function(element, options) {
 		}
 	};
 
-	var o = {};
-	for (var k in options) { if (options.hasOwnProperty(k)) o[k] = options[k]; }
-	o.format = format;
-
-	var switchToolgroupContainer = _.createDiv('richedit_switch_toolgroup_container');
-	var switchToolgroup = _.createDiv('richedit_toolgroup richedit_switch_toolgroup');
-	var switchButton = document.createElement('A');
-	switchButton.setAttribute('href', '#');
-	switchButton.className = 'richedit_button';
-	var label = document.createElement('SPAN');
-	label.className = 'richedit_button_label';
-	label.innerHTML = 'CKEditor';
-	switchButton.appendChild(label);
-	switchToolgroup.appendChild(switchButton);
-	switchToolgroupContainer.appendChild(switchToolgroup);
+	var switchToolgroupContainer;
 
 	var richeditContainer = _.createDiv('richedit_container');
 	element.parentNode.insertBefore(richeditContainer, element);
 	element.parentNode.removeChild(element);
-	richeditContainer.appendChild(switchToolgroupContainer);
 	richeditContainer.appendChild(element);
 
-	o.selector = self;
-	o.switchContainer = switchToolgroupContainer;
-
-	switchButton.onclick = function() {
-		if (currentEditor === 'default') {
-			self.selectEditor('ckeditor_html');
+	var initializeEditor = function() {
+		if (switchToolgroupContainer !== undefined) {
+			switchToolgroupContainer.parentNode.removeChild(switchToolgroupContainer);
+			switchToolgroupContainer = undefined;
 		}
-		else {
-			self.selectEditor('default');
-		}
-		return false;
-	};
-
-	this.selectEditor = function(name) {
-		_.setCookie(o.namespace + '_' + format + '_richeditor', name, 3650);
-		if (name === 'default') {
-			label.innerHTML = 'CKEditor';
-		}
-		else {
-			label.innerHTML = 'Prepnúť na obyčajný editor';
+		if (currentEditorWidget !== undefined) {
+			currentEditorWidget.destroy();
+			currentEditorWidget = undefined;
 		}
 
-		currentEditor = name;
-		try {
-			if (currentEditorWidget !== undefined) {
-				currentEditorWidget.destroy();
-				currentEditorWidget = undefined;
+		var o = {};
+		for (var k in options) { if (options.hasOwnProperty(k)) o[k] = options[k]; }
+		o.format = format;
+
+		switchToolgroupContainer = _.createDiv('richedit_switch_toolgroup_container');
+		var switchToolgroup = _.createDiv('richedit_toolgroup richedit_switch_toolgroup');
+		var switchButton = document.createElement('A');
+		switchButton.setAttribute('href', '#');
+		switchButton.className = 'richedit_button';
+		var label = document.createElement('SPAN');
+		label.className = 'richedit_button_label';
+		label.innerHTML = 'CKEditor';
+
+		switchButton.appendChild(label);
+		switchToolgroup.appendChild(switchButton);
+		switchToolgroupContainer.appendChild(switchToolgroup);
+		richeditContainer.insertBefore(switchToolgroupContainer, element);
+
+		o.selector = self;
+		o.switchContainer = switchToolgroupContainer;
+
+		switchButton.onclick = function() {
+			if (currentEditor === 'default') {
+				self.selectEditor('ckeditor_html');
 			}
+			else {
+				self.selectEditor('default');
+			}
+			return false;
+		};
+
+		self.selectEditor = function(name) {
+			_.setCookie(o.namespace + '_' + format + '_richeditor', name, 3650);
+			if (name === 'default') {
+				label.innerHTML = 'CKEditor';
+			}
+			else {
+				label.innerHTML = 'Prepnúť na obyčajný editor';
+			}
+
+			currentEditor = name;
+			try {
+				if (currentEditorWidget !== undefined) {
+					currentEditorWidget.destroy();
+					currentEditorWidget = undefined;
+				}
+			}
+			finally {
+				currentEditorWidget = new editors[format][name](element, o);
+			}
+		};
+
+		var editor = _.getCookie(o.namespace + '_' + format + '_richeditor');
+		if (editors[format][editor] === undefined) {
+			editor = 'default';
 		}
-		finally {
-			currentEditorWidget = new editors[format][name](element, o);
-		}
+		self.selectEditor(editor);
 	};
 
-	var editor = _.getCookie(o.namespace + '_' + format + '_richeditor');
-	if (editors[format][editor] === undefined) {
-		editor = 'default';
-	}
-	this.selectEditor(editor);
+	onChangeFormat();
 };
 
 _.RichEditor = RichEditor;
