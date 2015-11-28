@@ -38,6 +38,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = (
 	'template_dynamicloader',
 	'suit',
+	'common_utils',
 	# core
 	'django.contrib.admin',
 	'django.contrib.auth',
@@ -67,7 +68,6 @@ INSTALLED_APPS = (
 	'blog',
 	'breadcrumbs',
 	'comments',
-	'common_utils',
 	'feeds',
 	'forum',
 	'hitcount',

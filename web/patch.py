@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 from django.conf import urls
 from django.contrib.syndication.views import Feed
-from django.db.models.signals import post_init
 from django.views.generic import View
 
 
