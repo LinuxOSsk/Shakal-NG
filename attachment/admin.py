@@ -17,6 +17,7 @@ class AttachmentInline(GenericTabularInline):
 	exclude = ('size', )
 	can_delete = True
 	template = "admin/edit_inline/attachments.html"
+	extra = 1
 
 	def get_queryset(self, request):
 		return super(AttachmentInline, self).get_queryset(request).select_related('attachmentimage')
