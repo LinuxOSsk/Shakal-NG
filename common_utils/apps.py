@@ -6,18 +6,20 @@ import re
 from django.apps import AppConfig as CoreAppConfig
 
 
-def unexpand_tabs(text):
-	for length in range(16, 0, -4):
-		rx = re.compile('^' + '[ ]' * length, re.MULTILINE)
-		text = rx.sub('\t' * (length / 4), str(text))
-	return text
-
-
 class AppConfig(CoreAppConfig):
 	name = 'common_utils'
 	verbose_name = 'Utility'
 
 	def ready(self):
+		self.patch_migrations()
+
+	def patch_migrations(self):
+		def unexpand_tabs(text):
+			for length in range(16, 0, -4):
+				rx = re.compile('^' + '[ ]' * length, re.MULTILINE)
+				text = rx.sub('\t' * (length / 4), str(text))
+			return text
+
 		from django.db.migrations.writer import MigrationWriter
 
 		old_as_string = MigrationWriter.as_string
