@@ -5,3 +5,14 @@
 .form-horizontal fieldset.inline-group > h2 {
 	margin: -30px 0 0 0;
 }
+
+.formatwrapper label {
+	display: inline-block;
+	padding: 4px 8px;
+	margin-right: 1px;
+}
+
+.formatwrapper input {
+	display: inline-block;
+	vertical-align: middle;
+}
