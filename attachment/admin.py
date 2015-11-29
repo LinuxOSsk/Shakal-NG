@@ -4,18 +4,25 @@ from __future__ import unicode_literals
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline
 
-from attachment.models import Attachment
+from .admin_forms import AttachmentForm
+from .models import Attachment
 
 
 class AttachmentInline(GenericTabularInline):
 	model = Attachment
+	form = AttachmentForm
+
+	template = 'admin/edit_inline/attachments.html'
+
 	verbose_name = 'príloha'
 	verbose_name_plural = 'prílohy'
+
 	ct_field = 'content_type'
 	ct_fk_field = 'object_id'
-	exclude = ('size', )
+
+	fields = ('attachment',)
+
 	can_delete = True
-	template = 'admin/edit_inline/attachments.html'
 	extra = 3
 
 	def get_queryset(self, request):
