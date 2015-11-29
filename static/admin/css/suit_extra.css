@@ -17,10 +17,10 @@
 	vertical-align: middle;
 }
 
-th.attachment-thumbnail {
+th.field-thumbnail {
 	width: 64px;
 }
 
-td.attachment-thumbnail img {
+td.field-thumbnail img {
 	width: 64px;
 }
