@@ -36,12 +36,15 @@
 						{% for fieldset in inline_admin_form %}
 							{% for line in fieldset %}
 								{% for field in line %}
-									{% if field.is_hidden %} {{ field.field }} {% endif %}
+									{% if field.is_readonly %}
+										{{ field.contents }}
+									{% else %}
+										{{ field.field }}
+									{% endif %}
 								{% endfor %}
 							{% endfor %}
 						{% endfor %}
 					{% endspaceless %}
-					<a href="{{ inline_admin_form.original.attachment.url }}">{{ inline_admin_form.original.attachment.name }}</a>
 				</td>
 				<td class="field-details">
 					<p>URL: <small>{{ inline_admin_form.original.attachment.url }}</small></p>
