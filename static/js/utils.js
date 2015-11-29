@@ -9,7 +9,7 @@ var checkFeatures = function(features) {
 	for (var i = 0; i < features.length; ++i) {
 		switch (features[i]) {
 			case "ajax":
-				return window.XMLHttpRequest != undefined;
+				return window.XMLHttpRequest !== undefined;
 			case "history_push":
 				return window.history && window.history.pushState;
 			case "touch":
@@ -26,7 +26,7 @@ window._utils.checkFeatures = checkFeatures;
 // cookies
 var getCookie = function(name, defaultVal) {
 	var cookieValue = defaultVal;
-	if (document.cookie && document.cookie != '') {
+	if (document.cookie && document.cookie !== '') {
 		var cookies = document.cookie.split(';');
 		for (var i = 0; i < cookies.length; i++) {
 			var cookie = cookies[i].trim();
@@ -40,57 +40,20 @@ var getCookie = function(name, defaultVal) {
 };
 
 var setCookie = function(name, value, days) {
+	var expires;
 	if (days) {
 		var date = new Date();
 		date.setTime(date.getTime()+(days*24*60*60*1000));
-		var expires = "; expires="+date.toGMTString();
+		expires = '; expires='+date.toGMTString();
 	}
-	else var expires = "";
-	document.cookie = name+"="+value+expires+"; path=/";
+	else {
+		expires = '';
+	}
+	document.cookie = name+'='+value+expires+'; path=/';
 };
 
 window._utils.getCookie = getCookie;
 window._utils.setCookie = setCookie;
-
-
-// scroll
-var findVerticalPos = function(obj) {
-	var curtop = 0;
-	if (obj.offsetParent) {
-		do {
-			curtop += obj.offsetTop;
-		} while (obj = obj.offsetParent);
-		return [curtop];
-	}
-};
-
-var scrollToElement = function(element) {
-	if (window.scroll) {
-		var posOffset = 0;
-		if (window.innerHeight !== undefined) {
-			posOffset = window.innerHeight / 2;
-		}
-		window.scroll(0, Math.max(window.findVerticalPos(element) - posOffset, 0));
-	}
-};
-
-var getScroll = function(){
-	if(window.pageYOffset != undefined){
-		return [pageXOffset, pageYOffset];
-	}
-	else {
-		var sx, sy;
-		var d = document.documentElement;
-		var b = document.body;
-		sx = d.scrollLeft || b.scrollLeft || 0;
-		sy = d.scrollTop || b.scrollTop || 0;
-		return [sx, sy];
-	}
-};
-
-window._utils.findVerticalPos = findVerticalPos;
-window._utils.scrollToElement = scrollToElement;
-window._utils.getScroll = getScroll;
 
 
 // debounce
@@ -109,43 +72,46 @@ window._utils.debounce = debounce;
 
 
 // iteration
+var forEach;
 if (Array.prototype.forEach) {
 	var coreForEach = Array.prototype.forEach;
-	var forEach = function(collection, fn) {
+	forEach = function(collection, fn) {
 		coreForEach.call(collection, fn);
-	}
+	};
 }
 else {
-	var forEach = function(collection, fn) {
+	forEach = function(collection, fn) {
 		for (var i = 0, len = collection.length; i < len; i++) {
 			fn(collection[i], i);
 		}
 	};
 }
 
+var filter;
 if (Array.prototype.filter) {
-	var filter = function(array, fun) {
+	filter = function(array, fun) {
 		return array.filter(fun);
-	}
+	};
 }
 else {
-	var filter = function(array, fun) {
+	filter = function(array, fun) {
 		var res = [];
 		forEach(array, function(val) {
 			if (fun.call(val)) {
 				res.push(val);
 			}
 		});
-	}
+	};
 }
 
+var some;
 if (Array.prototype.some) {
-	var some = function(array, test) {
+	some = function(array, test) {
 		return array.some(test);
-	}
+	};
 }
 else {
-	var some = function(array, test) {
+	some = function(array, test) {
 		var ret = false;
 
 		for (var i = 0, len = array.length; i < len; i++) {
@@ -155,16 +121,17 @@ else {
 			}
 		}
 		return ret;
-	}
+	};
 }
 
+var every;
 if (Array.prototype.every) {
-	var every = function(array, test) {
+	every = function(array, test) {
 		return array.every(test);
-	}
+	};
 }
 else {
-	var some = function(array, test) {
+	every = function(array, test) {
 		var ret = true;
 
 		for (var i = 0, len = array.length; i < len; i++) {
@@ -174,7 +141,7 @@ else {
 			}
 		}
 		return ret;
-	}
+	};
 }
 
 window._utils.forEach = forEach;
@@ -182,89 +149,6 @@ window._utils.filter = filter;
 window._utils.some = some;
 window._utils.every = every;
 
-// forms
-var serializeForm = function(formElement, raw) {
-	var q = [];
-	if (raw) {
-		var addParameter = function(name, value) {
-			q.push([name, value]);
-		}
-	}
-	else {
-		var addParameter = function(name, value) {
-			q.push(name + '=' + encodeURIComponent(value));
-		}
-	}
-
-	var elements = formElement.elements;
-	_utils.forEach(elements, function(element) {
-		if (element.name == '' || element.disabled) {
-			return;
-		}
-
-		switch (element.nodeName.toLowerCase()) {
-			case 'input':
-				switch (element.type) {
-					case 'text':
-					case 'hidden':
-					case 'password':
-					case 'button':
-					case 'number':
-					case 'email':
-						addParameter(element.name, element.value);
-						break;
-					case 'checkbox':
-					case 'radio':
-						if (element.checked) {
-							addParameter(element.name, element.value);
-						}
-						break;
-					case 'file':
-					case 'reset':
-					case 'submit':
-						break;
-				}
-				break;
-			case 'textarea':
-				addParameter(element.name, element.value);
-				break;
-			case 'select':
-				switch (element.type) {
-					case 'select-one':
-						addParameter(element.name, element.value);
-						break;
-					case 'select-multiple':
-						_utils.forEach(formElement.options, function(option) {
-							if (option.selected) {
-								addParameter(element.name, option.value);
-							}
-						});
-						break;
-				}
-				break;
-			case 'button':
-				break;
-		}
-	});
-
-	if (raw) {
-		return q;
-	}
-	else {
-		return q.join('&');
-	}
-};
-
-var getUrlParameterByName = function(name, url) {
-	var location = url || window.location;
-	var name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-	var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-	var results = regex.exec(location);
-	return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, " "));
-};
-
-window._utils.serializeForm = serializeForm;
-window._utils.getUrlParameterByName = getUrlParameterByName;
 
 // events
 var triggerEvent = function(element, name, memo) {
@@ -306,7 +190,7 @@ var unbindEvent = function(element, name, fn) {
 		element.detachEvent('on' + name, fn);
 	}
 
-}
+};
 
 window._utils.triggerEvent = triggerEvent;
 window._utils.bindEvent = bindEvent;
@@ -332,16 +216,17 @@ var isInPage = function(element) {
 	return document.body.contains(element);
 };
 
-if (el.classList == undefined) {
-	var hasClass = function(elem, cls) {
+var hasClass, addClass, removeClass, toggleClass;
+if (el.classList === undefined) {
+	hasClass = function(elem, cls) {
 		return elem.className.split(" ").indexOf(cls) !== -1;
-	}
+	};
 
-	var addClass = function(elem, cls) {
+	addClass = function(elem, cls) {
 		elem.className += " " + cls;
-	}
+	};
 
-	var removeClass = function(elem, cls) {
+	removeClass = function(elem, cls) {
 		var classNames = elem.className.split(" ");
 		var newClassNames = [];
 		for (var i = 0, leni = classNames.length; i < leni; i++) {
@@ -350,37 +235,38 @@ if (el.classList == undefined) {
 			}
 		}
 		elem.className = newClassNames.join(" ");
-	}
+	};
 
-	var toggleClass = function(elem, cls) {
+	toggleClass = function(elem, cls) {
 		if (hasClass(elem, cls)) {
 			removeClass(elem, cls);
 		}
 		else {
 			addClass(elem, cls);
 		}
-	}
+	};
 }
 else {
-	var hasClass = function(elem, cls) {
+	hasClass = function(elem, cls) {
 		return elem.classList.contains(cls);
-	}
+	};
 
-	var addClass = function(elem, cls) {
+	addClass = function(elem, cls) {
 		return elem.classList.add(cls);
-	}
+	};
 
-	var removeClass = function(elem, cls) {
+	removeClass = function(elem, cls) {
 		return elem.classList.remove(cls);
-	}
+	};
 
-	var toggleClass = function(elem, cls) {
+	toggleClass = function(elem, cls) {
 		return elem.classList.toggle(cls);
-	}
+	};
 }
 
-if (el.getElementsByClassName == undefined) {
-	var getElementsByClassName = function(parent, cls) {
+var getElementsByClassName;
+if (el.getElementsByClassName === undefined) {
+	getElementsByClassName = function(parent, cls) {
 		var elements = parent.getElementsByTagName('*');
 		var match = [];
 		for (var i = 0, leni = elements.length; i < leni; i++) {
@@ -389,12 +275,12 @@ if (el.getElementsByClassName == undefined) {
 			}
 		}
 		return match;
-	}
+	};
 }
 else {
-	var getElementsByClassName = function(parent, cls) {
+	getElementsByClassName = function(parent, cls) {
 		return parent.getElementsByClassName(cls);
-	}
+	};
 }
 
 var byId = function(elementId) {
@@ -447,7 +333,7 @@ var loaderJs = (function () {
 
 	var scriptIsReady = function(state) {
 		return (state === 'loaded' || state === 'complete' || state === 'uninitialized' || !state);
-	}
+	};
 
 	var fireCallbacks = function() {
 		var firedCallbacks = [];
@@ -492,7 +378,7 @@ var loaderJs = (function () {
 		});
 
 		setTimeout(fireCallbacks, 0);
-	}
+	};
 }());
 
 window._utils.loaderJs = loaderJs;
