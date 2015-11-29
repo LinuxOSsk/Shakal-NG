@@ -204,8 +204,16 @@ var insertAfter = function(newNode, referenceNode) {
 };
 
 var onLoad = function(callback) {
-	callback({memo: document.body});
-	window._utils.bindEvent(document.body, 'contentloaded', callback);
+	if (document.body === null) {
+		window._utils.bindEvent(document, 'DOMContentLoaded', function() {
+			callback({memo: document.body});
+			window._utils.bindEvent(document.body, 'contentloaded', callback);
+		});
+	}
+	else {
+		callback({memo: document.body});
+		window._utils.bindEvent(document.body, 'contentloaded', callback);
+	}
 };
 
 var triggerLoad = function(element) {
