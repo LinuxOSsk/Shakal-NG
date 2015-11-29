@@ -24,3 +24,19 @@ th.field-thumbnail {
 td.field-thumbnail img {
 	width: 64px;
 }
+
+.attachment-upload .attachment-upload-fallback {
+	display: block;
+}
+
+.attachment-upload .attachment-upload-ajax {
+	display: none;
+}
+
+.attachment-upload.ajax .attachment-upload-fallback {
+	display: none;
+}
+
+.attachment-upload.ajax .attachment-upload-ajax {
+	display: block;
+}
