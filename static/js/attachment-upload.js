@@ -6,7 +6,12 @@
 // https://developer.mozilla.org/en-US/docs/Using_files_from_web_applications
 
 var createUploader = function(element) {
-	_.addClass(uploadElement, 'element');
+	_.addClass(element, 'ajax');
+
+	var uploadAjax = _.cls(element, 'attachment-upload-ajax')[0];
+	if (uploadAjax === undefined) {
+		return;
+	}
 };
 
 
