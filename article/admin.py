@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from .admin_forms import ArticleForm
 from .models import Category, Article
 from admin_actions.views import AdminActionsMixin
-from attachment.admin import AttachmentInline
+from attachment.admin import AttachmentInline, AttachmentAdminMixin
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -18,7 +18,7 @@ class CategoryAdmin(admin.ModelAdmin):
 	prepopulated_fields = {'slug': ('name', )}
 
 
-class ArticleAdmin(AdminActionsMixin, admin.ModelAdmin):
+class ArticleAdmin(AttachmentAdminMixin, AdminActionsMixin, admin.ModelAdmin):
 	list_display = ('title', 'author', 'pub_time', 'published', )
 	search_fields = ('title', 'slug', )
 	prepopulated_fields = {'slug': ('title', )}
