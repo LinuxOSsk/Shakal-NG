@@ -4,10 +4,12 @@ from __future__ import unicode_literals
 from django.contrib import admin
 from django.contrib.admin.utils import unquote
 from django.contrib.contenttypes.admin import GenericTabularInline
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponseBadRequest
 
 from .admin_forms import AttachmentForm
 from .models import Attachment
+from attachment.views import AttachmentManagementMixin
+from common_utils.json_utils import create_json_response
 
 
 class AttachmentInline(GenericTabularInline):
@@ -35,11 +37,13 @@ class AttachmentAdmin(admin.ModelAdmin):
 	exclude = ('size', )
 
 
-class AttachmentAdminMixin(object):
+class AttachmentAdminMixin(AttachmentManagementMixin):
 	def attachments_list(self, request, object_id):
 		obj = self.get_object(request, unquote(object_id))
-		print(obj)
-		return HttpResponse('')
+		attachments = (obj.attachments.all()
+			.order_by('pk')
+			.select_related('attachmentimage'))
+		return create_json_response(self.get_attachments_list(attachments))
 
 	def change_view(self, request, object_id, **kwargs):
 		attachment_action = request.POST.get('attachment-action', request.GET.get('attachment-action', ''))
