@@ -323,6 +323,22 @@ var escapeHTMLAttr = function(text) {
 		.replace(/'/g, "&#039;");
 };
 
+var elem = function(elementName, attrs, content) {
+	var element = document.createElement(elementName);
+	if (attrs !== undefined) {
+		for (var attrName in attrs) {
+			if (_.has(attrs, attrName)) {
+				element.setAttribute(attrName, attrs[attrName]);
+			}
+		}
+	}
+
+	if (content !== undefined) {
+		element.appendChild(document.createTextNode(content));
+	}
+	return element;
+};
+
 window._utils.insertAfter = insertAfter;
 window._utils.onLoad = onLoad;
 window._utils.triggerLoad = triggerLoad;
@@ -336,6 +352,7 @@ window._utils.id = byId;
 window._utils.createDiv = createDiv;
 window._utils.escapeHTML = escapeHTML;
 window._utils.escapeHTMLAttr = escapeHTMLAttr;
+window._utils.elem = elem;
 
 var loaderJs = (function () {
 	var head = document.getElementsByTagName('head')[0];
