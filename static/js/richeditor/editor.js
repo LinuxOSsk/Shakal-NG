@@ -28,20 +28,12 @@ var SimpleEditorHtml = function(element, options) {
 	var bottom = _.createDiv('richedit_bottom');
 	var toolbox = _.createDiv('richedit_toolbox');
 	var modal = _.createDiv('richedit_modal');
-	var modalClose = document.createElement('A');
-	var modalSubmit = document.createElement('A');
+	var modalClose = _.elem('A', {'class': 'richedit_modal_close', 'href': '#'}, 'x');
+	var modalSubmit = _.elem('A', {'class': 'richedit_modal_submit', 'href': '#'}, 'VLOŽIŤ');
 	var modalContent = _.createDiv('richedit_modal_content');
-	var preview = document.createElement('IFRAME');
+	var preview = _.elem('IFRAME');
 	preview.onload = function() { updatePreviewCss(); };
 	preview.setAttribute('src', options.static_base + 'js/richeditor/iframe.html');
-
-	modalClose.innerHTML = 'x';
-	modalClose.className = 'richedit_modal_close';
-	modalClose.setAttribute('href', '#');
-
-	modalSubmit.innerHTML = 'VLOŽIŤ';
-	modalSubmit.className = 'richedit_modal_submit';
-	modalSubmit.setAttribute('href', '#');
 
 	chrome.appendChild(inner);
 	inner.appendChild(top);
@@ -106,8 +98,7 @@ var SimpleEditorHtml = function(element, options) {
 			className += ' ' + options.cls;
 		}
 
-		var link = document.createElement('A');
-		link.setAttribute('href', '#');
+		var link = _.elem('A', {'href': '#'});
 
 		if (options.title !== undefined) {
 			link.setAttribute('title', options.title);
@@ -115,20 +106,16 @@ var SimpleEditorHtml = function(element, options) {
 
 		var btn = {options: options, link: link};
 
-		var icon = document.createElement('SPAN');
-		icon.className = 'richedit_button_icon';
+		var icon = _.elem('SPAN', {'class': 'richedit_button_icon'});
 		link.appendChild(icon);
 
 		if (options.label !== undefined) {
-			var label = document.createElement('SPAN');
-			label.className = 'richedit_button_label';
-			label.appendChild(document.createTextNode(options.label));
+			var label = _.elem('SPAN', {'class': 'richedit_button_label'}, options.label);
 			link.appendChild(label);
 		}
 
 		if (options.cls === 'dropdown') {
-			var arrow = document.createElement('SPAN');
-			arrow.className = 'richedit_combo_open';
+			var arrow = _.elem('SPAN', {'class': 'richedit_combo_open'}, options.label);
 			arrow.innerHTML = '<span class="richedit_combo_arrow"></span>';
 			link.appendChild(arrow);
 		}
@@ -194,22 +181,20 @@ var SimpleEditorHtml = function(element, options) {
 	};
 
 	var addCombo = function(group) {
-		var combo = document.createElement('SPAN');
-		combo.className = 'richedit_combo';
+		var combo = _.elem('SPAN', {'class': 'richedit_combo'});
 		group.appendChild(combo);
 		return combo;
 	};
 
 	var addComboMenu = function(group) {
-		var comboMenu = document.createElement('UL');
-		comboMenu.className = 'richedit_combo_menu';
+		var comboMenu = _.elem('UL', {'class': 'richedit_combo_menu'});
 		group.appendChild(comboMenu);
 		return comboMenu;
 	};
 
 	var addComboMenuItem = function(menu, options) {
-		var item = document.createElement('LI');
-		var link = document.createElement('A');
+		var item = _.elem('LI');
+		var link = _.elem('A');
 		var btn = {options: options, link: link};
 		if (options.cls !== undefined) {
 			item.className = options.cls;
@@ -839,12 +824,8 @@ var RichEditor = function(element, options) {
 
 		switchToolgroupContainer = _.createDiv('richedit_switch_toolgroup_container');
 		var switchToolgroup = _.createDiv('richedit_toolgroup richedit_switch_toolgroup');
-		var switchButton = document.createElement('A');
-		switchButton.setAttribute('href', '#');
-		switchButton.className = 'richedit_button';
-		var label = document.createElement('SPAN');
-		label.className = 'richedit_button_label';
-		label.innerHTML = 'CKEditor';
+		var switchButton = _.elem('A', {'class': 'richedit_button', 'href': '#'});
+		var label = _.elem('SPAN', {'class': 'richedit_button_label'}, 'CKEditor');
 
 		switchButton.appendChild(label);
 		switchToolgroup.appendChild(switchButton);

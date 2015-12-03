@@ -228,6 +228,10 @@ var isInPage = function(element) {
 	return document.body.contains(element);
 };
 
+var has = function(array, key) {
+	return Object.prototype.hasOwnProperty.call(array, key);
+};
+
 var hasClass, addClass, removeClass, toggleClass;
 if (el.classList === undefined) {
 	hasClass = function(elem, cls) {
@@ -327,7 +331,7 @@ var elem = function(elementName, attrs, content) {
 	var element = document.createElement(elementName);
 	if (attrs !== undefined) {
 		for (var attrName in attrs) {
-			if (_.has(attrs, attrName)) {
+			if (has(attrs, attrName)) {
 				element.setAttribute(attrName, attrs[attrName]);
 			}
 		}
@@ -343,6 +347,7 @@ window._utils.insertAfter = insertAfter;
 window._utils.onLoad = onLoad;
 window._utils.triggerLoad = triggerLoad;
 window._utils.isInPage = isInPage;
+window._utils.has= has;
 window._utils.hasClass = hasClass;
 window._utils.addClass = addClass;
 window._utils.removeClass = removeClass;
