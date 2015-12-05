@@ -60,7 +60,12 @@ var xhrSend = function(options) {
 				failFn(data, req, options);
 			}
 		}
+	};
+
+	if (options.progress) {
+		_.bindEvent(req, 'progress', options.progress);
 	}
+
 	req.send(data);
 	return req;
 };

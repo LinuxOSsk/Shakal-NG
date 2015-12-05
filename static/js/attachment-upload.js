@@ -57,12 +57,13 @@ var createUploader = function(element) {
 					uploading = false;
 					updatePreviews();
 					processNextFile();
-				}
-			});
-			_.bindEvent(req, 'progress', function(e) {
-				var percent = 100 - (e.loaded / e.total * 100);
-				if (attachment.progress.value) {
-					attachment.progress.value.style.width = percent + '%';
+				},
+				progress: function(e) {
+					console.log(e);
+					var percent = 100 - (e.loaded / e.total * 100);
+					if (attachment.progress.value) {
+						attachment.progress.value.style.width = percent + '%';
+					}
 				}
 			});
 		};
