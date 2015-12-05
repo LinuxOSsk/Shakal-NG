@@ -10,24 +10,40 @@ var createUploader = function(element) {
 	if (uploadAjax === undefined) {
 		return;
 	}
-	var templateAttachment = _.cls(uploadAjax, 'template-attachment')[0];
-	if (templateAttachment === undefined) {
+	var attachmentTemplate = _.cls(uploadAjax, 'attachment-template')[0];
+	if (attachmentTemplate === undefined) {
 		return;
 	}
 
 	_.addClass(element, 'ajax');
-	templateAttachment.style.display = 'none';
 
 	var urls = {
 		list: uploadAjax.getAttribute('data-list-url')
 	};
 
-	_.xhrSend({
-		url: urls.list,
-		successFn: function(data) {
-			console.log(data);
-		}
-	});
+	var previews = [];
+	var updatePreviews = function() {
+		_.forEach(previews, function(preview) {
+			preview.element.parentNode.removeChild(preview.element);
+		});
+		previews = [];
+
+		_.xhrSend({
+			url: urls.list,
+			successFn: function(data) {
+				_.forEach(data, function(preview) {
+					var element = attachmentTemplate.cloneNode(true);
+					_.removeClass(element, 'attachment-template');
+					attachmentTemplate.parentNode.insertBefore(element, attachmentTemplate);
+					previews.push({
+						element: element
+					});
+				});
+			}
+		});
+	};
+
+	updatePreviews();
 };
 
 

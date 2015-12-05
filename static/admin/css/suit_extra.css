@@ -40,3 +40,7 @@ td.field-thumbnail img {
 .attachment-upload.ajax .attachment-upload-ajax {
 	display: block;
 }
+
+.attachment-template {
+	display: none;
+}
