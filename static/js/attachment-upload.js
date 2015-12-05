@@ -1,10 +1,6 @@
 (function(_) {
 "use strict";
 
-// http://stackoverflow.com/questions/14069421/show-an-image-preview-before-upload
-// http://www.sitepoint.com/html5-javascript-file-upload-progress-bar/
-// https://developer.mozilla.org/en-US/docs/Using_files_from_web_applications
-
 var createUploader = function(element) {
 	var uploadAjax = _.cls(element, 'attachment-upload-ajax')[0];
 	if (uploadAjax === undefined) {
@@ -43,7 +39,7 @@ var createUploader = function(element) {
 			formData.append('attachment-action', 'upload');
 			formData.append('attachment', attachment.data.fileObject);
 
-			_.xhrSend({
+			var req = _.xhrSend({
 				url: urls.manage,
 				type: 'POST',
 				data: formData,
@@ -61,6 +57,12 @@ var createUploader = function(element) {
 					uploading = false;
 					updatePreviews();
 					processNextFile();
+				}
+			});
+			_.bindEvent(req, 'progress', function(e) {
+				var percent = 100 - (e.loaded / e.total * 100);
+				if (attachment.progress.value) {
+					attachment.progress.value.style.width = percent + '%';
 				}
 			});
 		};
@@ -189,6 +191,18 @@ var createUploader = function(element) {
 			filesizeTemplate.appendChild(document.createTextNode(_.filesizeformat(data.filesize)));
 		}
 
+		var progressTemplate = _.cls(element, 'template-progress')[0];
+		var progressValue, progressContainer;
+		if (data.persistent) {
+			if (progressTemplate !== undefined) {
+				progressContainer = _.elem('DIV', {'class': 'progress-container'});
+				progressValue = _.elem('DIV', {'class': 'progress-value'});
+				progressValue.style.width = '0%';
+				progressContainer.appendChild(progressValue);
+				progressTemplate.appendChild(progressContainer);
+			}
+		}
+
 		var deleteTemplate = _.cls(element, 'template-delete')[0];
 		if (deleteTemplate !== undefined) {
 			if (data.persistent) {
@@ -214,7 +228,11 @@ var createUploader = function(element) {
 		var preview = {
 			element: element,
 			img: img,
-			data: data
+			data: data,
+			progress: {
+				value: progressValue,
+				container: progressContainer
+			}
 		};
 
 		if (data.persistent) {

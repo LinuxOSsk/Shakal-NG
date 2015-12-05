@@ -62,6 +62,7 @@ var xhrSend = function(options) {
 		}
 	}
 	req.send(data);
+	return req;
 };
 
 window._utils.xhrSend = xhrSend;

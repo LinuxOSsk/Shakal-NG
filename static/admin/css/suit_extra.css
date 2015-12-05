@@ -61,3 +61,16 @@ td.field-thumbnail img {
 .attachment-upload-container h2 {
 	margin: 50px 0 10px 0;
 }
+
+.progress-container {
+	clear: both;
+	border: 1px solid #ddd;
+	height: 7px;
+}
+
+.progress-container .progress-value {
+	border-top: 1px solid white;
+	border-bottom: 1px solid white;
+	background: #57c;
+	height: 5px;
+}
