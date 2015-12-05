@@ -29,7 +29,13 @@ var createUploader = function(element) {
 	};
 
 	var uploadFile = function(fileObject) {
-		console.log(fileObject);
+		var mimetype = fileObject.type;
+		var previewData = {
+			name: fileObject.name,
+			filesize: fileObject.size,
+			filesize_human: fileObject.size
+		};
+		createPreview(previewData);
 	};
 
 	var onUploadChanged = function() {
