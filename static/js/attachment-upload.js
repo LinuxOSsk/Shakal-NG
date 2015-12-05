@@ -28,10 +28,14 @@ var createUploader = function(element) {
 		list: uploadAjax.getAttribute('data-list-url')
 	};
 
+	var uploadFile = function(fileObject) {
+		console.log(fileObject);
+	};
+
 	var onUploadChanged = function() {
 		_.unbindEvent(uploadInput, 'change');
 		_.forEach(uploadInput.files, function(fileObject) {
-			console.log(fileObject);
+			uploadFile(fileObject);
 		});
 		var newInput = uploadInput.cloneNode(true);
 		uploadInput.parentNode.insertBefore(newInput, uploadInput);
@@ -53,6 +57,20 @@ var createUploader = function(element) {
 	_.bindEvent(uploadContainer, 'dragleave', function(e) {
 		e.stopPropagation();
 		e.preventDefault();
+		_.removeClass(uploadContainer, 'dragover');
+	});
+
+	_.bindEvent(uploadContainer, 'drop', function(e) {
+		e.stopPropagation();
+		e.preventDefault();
+		var dt = e.dataTransfer;
+		if (!dt) {
+			return;
+		}
+		var files = dt.files;
+		_.forEach(files, function(fileObject) {
+			uploadFile(fileObject);
+		});
 		_.removeClass(uploadContainer, 'dragover');
 	});
 
