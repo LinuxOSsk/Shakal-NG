@@ -136,6 +136,19 @@ var createUploader = function(element) {
 			filesizeTemplate.appendChild(document.createTextNode(_.filesizeformat(data.filesize)));
 		}
 
+		var deleteTemplate = _.cls(element, 'template-delete')[0];
+		if (deleteTemplate !== undefined) {
+			if (data.persistent) {
+				deleteTemplate.style.display = 'none';
+			}
+			else {
+				deleteTemplate.onclick = function() {
+					console.log(data);
+					return false;
+				};
+			}
+		}
+
 		var preview = {
 			element: element,
 			img: img,
