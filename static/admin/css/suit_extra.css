@@ -50,6 +50,12 @@ td.field-thumbnail img {
 	padding: 10px;
 	height: 200px;
 	text-align: center;
+	border: 2px dashed transparent;
+	border-radius: 5px;
+}
+
+.attachment-upload-container.dragover {
+	border: 2px dashed #569;
 }
 
 .attachment-upload-container h2 {

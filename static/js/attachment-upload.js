@@ -44,6 +44,18 @@ var createUploader = function(element) {
 		uploadInput.click();
 	});
 
+	_.bindEvent(uploadContainer, 'dragover', function(e) {
+		e.stopPropagation();
+		e.preventDefault();
+		_.addClass(uploadContainer, 'dragover');
+	});
+
+	_.bindEvent(uploadContainer, 'dragleave', function(e) {
+		e.stopPropagation();
+		e.preventDefault();
+		_.removeClass(uploadContainer, 'dragover');
+	});
+
 	_.bindEvent(uploadInput, 'change', onUploadChanged);
 
 	var previews = [];
