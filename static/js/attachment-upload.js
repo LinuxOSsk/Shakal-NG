@@ -28,9 +28,23 @@ var createUploader = function(element) {
 		list: uploadAjax.getAttribute('data-list-url')
 	};
 
+	var onUploadChanged = function() {
+		_.unbindEvent(uploadInput, 'change');
+		_.forEach(uploadInput.files, function(fileObject) {
+			console.log(fileObject);
+		});
+		var newInput = uploadInput.cloneNode(true);
+		uploadInput.parentNode.insertBefore(newInput, uploadInput);
+		uploadInput.parentNode.removeChild(uploadInput);
+		uploadInput = newInput;
+		_.bindEvent(uploadInput, 'change', onUploadChanged);
+	};
+
 	_.bindEvent(uploadContainer, 'click', function() {
 		uploadInput.click();
 	});
+
+	_.bindEvent(uploadInput, 'change', onUploadChanged);
 
 	var previews = [];
 
