@@ -1,7 +1,8 @@
 {% load i18n admin_static admin_modify suit_tags admin_urls %}
 {% suit_django_version as django_version %}
-<div class="attachment-upload inline-group {{ inline_admin_formset.opts.suit_classes }}" id="{{ inline_admin_formset.formset.prefix }}-group">
-<div class="tabular inline-related {% if forloop.last %}last-related{% endif %} attachment-upload-fallback">
+<div class="attachment-upload inline-group {{ inline_admin_formset.opts.suit_classes }}">
+<div class="attachment-upload-fallback" id="{{ inline_admin_formset.formset.prefix }}-group">
+<div class="tabular inline-related {% if forloop.last %}last-related{% endif %}">
 
 {{ inline_admin_formset.formset.management_form }}
 <fieldset class="module">
@@ -60,8 +61,36 @@
 </fieldset>
 
 </div>
+</div>
 
-<div class="attachment-upload-ajax" data-list-url="{{ request.path }}?attachment-action=list">
+<div class="tabular inline-related {% if forloop.last %}last-related{% endif %} attachment-upload-ajax" data-list-url="{{ request.path }}?attachment-action=list">
+<fieldset class="module">
+	<h2>{{ inline_admin_formset.opts.verbose_name_plural|capfirst }}</h2>
+	<table class="table table-bordered table-condensed table-striped">
+		<thead>
+			<tr>
+				<th class="attachment-thumbnail">&nbsp;</th>
+				<th>Príloha</th>
+				<th>Podrobnosti</th>
+				<th>{% trans "Delete?" %}</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr class="form-row template-attachment">
+				<td class="field-thumbnail template-thumbnail" data-style="width: 64px">
+				</td>
+				<td class="field-attachment template-attachment">
+				</td>
+				<td class="field-details">
+					<p>URL: <small class="template-url"></small></p>
+					<p>Veľkosť: <small class="template-filesize"></small></p>
+				</td>
+				<td class="delete template-delete"></td>
+			</tr>
+		</tbody>
+	</table>
+</fieldset>
 </div>
 
 </div>
