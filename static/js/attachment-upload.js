@@ -13,6 +13,7 @@ var createUploader = function(element) {
 	var attachmentTemplate = _.cls(uploadAjax, 'attachment-template')[0];
 	var uploadContainer = _.cls(element, 'attachment-upload-container')[0];
 	var uploadInput = _.cls(element, 'attachment-upload')[0];
+	var attachedFiles = [];
 	if (attachmentTemplate === undefined || uploadContainer === undefined || uploadInput === undefined) {
 		return;
 	}
@@ -25,7 +26,52 @@ var createUploader = function(element) {
 	uploadInput.style.position = 'absolute';
 
 	var urls = {
-		list: uploadAjax.getAttribute('data-list-url')
+		list: uploadAjax.getAttribute('data-list-url'),
+		upload: uploadAjax.getAttribute('data-upload-url')
+	};
+
+	var uploading = false;
+	var processNextFile = function() {
+		if (uploading) {
+			return;
+		}
+		uploading = true;
+
+		var performUpload = function(attachment) {
+			var formData = new FormData();
+			formData.append('attachment-action', 'upload');
+			formData.append('attachment', attachment.fileObject);
+
+			_.xhrSend({
+				url: urls.upload,
+				type: 'POST',
+				data: formData,
+				successFn: function() {
+					attachment.data.persistent = false;
+					attachment.data.fileObject = undefined;
+					uploading = false;
+				},
+				failFn: function() {
+					attachment.data.persistent = false;
+					attachment.data.fileObject = undefined;
+					uploading = false;
+				}
+			});
+		};
+
+		var found = false;
+		for (var i = 0, leni = attachedFiles.length; i < leni; i++) {
+			var attachment = attachedFiles[i];
+			if (attachment.data.fileObject !== undefined) {
+				found = true;
+				performUpload(attachment);
+				break;
+			}
+		}
+
+		if (!found) {
+			uploading = false;
+		}
 	};
 
 	var uploadFile = function(fileObject) {
@@ -33,7 +79,8 @@ var createUploader = function(element) {
 		var previewData = {
 			name: fileObject.name,
 			filesize: fileObject.size,
-			persistent: true
+			persistent: true,
+			fileObject: fileObject
 		};
 		var preview = createPreview(previewData);
 		if (mimetype === 'image/jpeg' || mimetype === 'image/png') {
@@ -44,6 +91,8 @@ var createUploader = function(element) {
 			};
 			reader.readAsDataURL(fileObject);
 		}
+
+		processNextFile();
 	};
 
 	var onUploadChanged = function() {
@@ -89,8 +138,6 @@ var createUploader = function(element) {
 	});
 
 	_.bindEvent(uploadInput, 'change', onUploadChanged);
-
-	var previews = [];
 
 	var createPreview = function(data) {
 		var element = attachmentTemplate.cloneNode(true);
@@ -156,18 +203,18 @@ var createUploader = function(element) {
 		};
 
 		attachmentTemplate.parentNode.insertBefore(element, attachmentTemplate);
-		previews.push(preview);
+		attachedFiles.push(preview);
 		return preview;
 	};
 
 	var updatePreviews = function() {
 		var toDelete = [];
-		_.forEach(previews, function(preview) {
+		_.forEach(attachedFiles, function(preview) {
 			if (!preview.data.persistent) {
 				toDelete.push(preview);
 			}
 		});
-		previews = _.filter(previews, function(preview) {
+		attachedFiles = _.filter(attachedFiles, function(preview) {
 			return preview.data.persistent;
 		});
 		_.forEach(toDelete, function(preview) {
