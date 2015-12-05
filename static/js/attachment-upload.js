@@ -52,12 +52,14 @@ var createUploader = function(element) {
 					attachment.data.fileObject = undefined;
 					uploading = false;
 					updatePreviews();
+					processNextFile();
 				},
 				failFn: function() {
 					attachment.data.persistent = false;
 					attachment.data.fileObject = undefined;
 					uploading = false;
 					updatePreviews();
+					processNextFile();
 				}
 			});
 		};
