@@ -19,6 +19,11 @@ var xhrSend = function(options) {
 	var headersFn = options.headersFn;
 	var req = createXMLHttpRequest();
 	var extraHeaders = options.extraHeaders || {};
+
+	if (options.progress) {
+		_.bindEvent(req, 'progress', options.progress);
+	}
+
 	req.open(type, url, true);
 	req.setRequestHeader('X-CSRFToken', _utils.getCookie('csrftoken'));
 	req.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
@@ -61,10 +66,6 @@ var xhrSend = function(options) {
 			}
 		}
 	};
-
-	if (options.progress) {
-		_.bindEvent(req, 'progress', options.progress);
-	}
 
 	req.send(data);
 	return req;
