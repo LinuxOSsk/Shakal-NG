@@ -17,6 +17,7 @@ var createUploader = function(element) {
 	if (attachmentTemplate === undefined || uploadContainer === undefined || uploadInput === undefined) {
 		return;
 	}
+	var attachmentTemplateSibling = attachmentTemplate.nextSibling;
 
 	_.addClass(element, 'ajax');
 	uploadInput.style.visibility = 'hidden';
@@ -218,7 +219,17 @@ var createUploader = function(element) {
 			data: data
 		};
 
-		attachmentTemplate.parentNode.insertBefore(element, attachmentTemplate);
+		if (data.persistent) {
+			if (attachmentTemplateSibling) {
+				attachmentTemplate.parentNode.insertBefore(element, attachmentTemplateSibling);
+			}
+			else {
+				attachmentTemplate.parentNode.appendChild(element);
+			}
+		}
+		else {
+			attachmentTemplate.parentNode.insertBefore(element, attachmentTemplate);
+		}
 		attachedFiles.push(preview);
 		return preview;
 	};
