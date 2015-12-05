@@ -59,8 +59,7 @@ var createUploader = function(element) {
 					processNextFile();
 				},
 				progress: function(e) {
-					console.log(e);
-					var percent = 100 - (e.loaded / e.total * 100);
+					var percent = (e.loaded / e.total * 100);
 					if (attachment.progress.value) {
 						attachment.progress.value.style.width = percent + '%';
 					}
