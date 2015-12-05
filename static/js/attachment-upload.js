@@ -12,6 +12,17 @@ var createUploader = function(element) {
 	if (uploadAjax === undefined) {
 		return;
 	}
+
+	var urls = {
+		list: uploadAjax.getAttribute('data-list-url')
+	};
+
+	_.xhrSend({
+		url: urls.list,
+		successFn: function(data) {
+			console.log(data);
+		}
+	});
 };
 
 
