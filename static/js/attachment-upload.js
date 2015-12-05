@@ -33,7 +33,6 @@ var createUploader = function(element) {
 		var previewData = {
 			name: fileObject.name,
 			filesize: fileObject.size,
-			filesize_human: fileObject.size
 		};
 		createPreview(previewData);
 	};
@@ -103,17 +102,22 @@ var createUploader = function(element) {
 
 		var urlTemplate = _.cls(element, 'template-url')[0];
 		if (urlTemplate !== undefined) {
-			urlTemplate.appendChild(_.elem('A', {'href': data.url}, data.url));
+			if (data.url === undefined) {
+				urlTemplate.appendChild(document.createTextNode(data.name));
+			}
+			else {
+				urlTemplate.appendChild(_.elem('A', {'href': data.url}, data.name));
+			}
 		}
 
 		var urlnameTemplate = _.cls(element, 'template-urlname')[0];
 		if (urlnameTemplate !== undefined) {
-			urlnameTemplate.appendChild(document.createTextNode(data.url));
+			urlnameTemplate.appendChild(document.createTextNode(data.url || data.name));
 		}
 
 		var filesizeTemplate = _.cls(element, 'template-filesize')[0];
 		if (filesizeTemplate !== undefined) {
-			filesizeTemplate.appendChild(document.createTextNode(data.filesize_human));
+			filesizeTemplate.appendChild(document.createTextNode(_.filesizeformat(data.filesize)));
 		}
 
 		attachmentTemplate.parentNode.insertBefore(element, attachmentTemplate);

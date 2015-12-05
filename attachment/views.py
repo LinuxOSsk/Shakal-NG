@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.template.defaultfilters import filesizeformat
+from os.path import basename
 
 
 class AttachmentManagementMixin(object):
@@ -11,8 +11,8 @@ class AttachmentManagementMixin(object):
 			attachment_data = {
 				'id': attachment.id,
 				'url': attachment.attachment.url,
+				'name': basename(attachment.attachment.name),
 				'filesize': attachment.size,
-				'filesize_human': filesizeformat(attachment.size)
 			}
 			if hasattr(attachment, 'attachmentimage'):
 				attachment_data['width'] = attachment.attachmentimage.width

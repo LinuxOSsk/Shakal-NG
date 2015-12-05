@@ -417,5 +417,26 @@ var loaderJs = (function () {
 
 window._utils.loaderJs = loaderJs;
 
+var filesizeformat = function(bytes) {
+	var KB = 1 << 10;
+	var MB = 1 << 20;
+	var GB = 1 << 30;
+	var TB = 1 << 40;
+	var PB = 1 << 50;
+
+	var formatFloat = function(val) {
+		return (Math.round(val * 100.0)) / 100.0;
+	};
+
+	if (bytes < KB) {
+		return bytes + ' B';
+	}
+	else if (bytes < MB) {
+		return formatFloat(bytes / KB) + ' KB';
+	}
+};
+
+window._utils.filesizeformat = filesizeformat;
+
 
 }());
