@@ -24,8 +24,23 @@ var createUploader = function(element) {
 	var previews = [];
 
 	var createPreview = function(data) {
+
 		var element = attachmentTemplate.cloneNode(true);
+
 		_.removeClass(element, 'attachment-template');
+
+		if (data.thumbnails !== undefined && data.thumbnails.standard !== undefined) {
+			var thumbnailTemplate = _.cls(element, 'template-thumbnail')[0];
+			if (thumbnailTemplate !== undefined) {
+				var style = thumbnailTemplate.getAttribute('data-style');
+				var img = _.elem('IMG', {src: data.thumbnails.standard});
+				if (style !== undefined) {
+					img.setAttribute('style', style);
+				}
+				thumbnailTemplate.appendChild(img);
+			}
+		}
+
 		attachmentTemplate.parentNode.insertBefore(element, attachmentTemplate);
 		previews.push({
 			element: element
