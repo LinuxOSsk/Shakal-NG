@@ -57,12 +57,23 @@ class AttachmentAdminMixin(AttachmentManagementMixin):
 			attachment.save()
 		return HttpResponse('')
 
+	def attachments_delete(self, request, object_id):
+		pk = int(request.POST.get('pk', ''))
+		obj = self.get_object(request, unquote(object_id))
+		content_type = ContentType.objects.get_for_model(obj.__class__)
+		object_id = obj.pk
+		attachment = Attachment.objects.get(pk=pk, content_type_id=content_type, object_id=object_id)
+		attachment.delete()
+		return HttpResponse('')
+
 	def change_view(self, request, object_id, **kwargs):
 		attachment_action = request.POST.get('attachment-action', request.GET.get('attachment-action', ''))
 		if attachment_action == 'list' and request.method == 'GET':
 			return self.attachments_list(request, object_id)
 		elif attachment_action == 'upload' and request.method == 'POST':
 			return self.attachments_upload(request, object_id)
+		elif attachment_action == 'delete' and request.method == 'POST':
+			return self.attachments_delete(request, object_id)
 		elif attachment_action == '':
 			return super(AttachmentAdminMixin, self).change_view(request, object_id, **kwargs)
 		else:

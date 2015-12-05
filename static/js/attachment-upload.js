@@ -27,7 +27,7 @@ var createUploader = function(element) {
 
 	var urls = {
 		list: uploadAjax.getAttribute('data-list-url'),
-		upload: uploadAjax.getAttribute('data-upload-url')
+		manage: uploadAjax.getAttribute('data-manage-url')
 	};
 
 	var uploading = false;
@@ -43,7 +43,7 @@ var createUploader = function(element) {
 			formData.append('attachment', attachment.data.fileObject);
 
 			_.xhrSend({
-				url: urls.upload,
+				url: urls.manage,
 				type: 'POST',
 				data: formData,
 				contentType: null,
@@ -195,7 +195,18 @@ var createUploader = function(element) {
 			}
 			else {
 				deleteTemplate.onclick = function() {
-					console.log(data);
+					_.xhrSend({
+						url: urls.manage,
+						type: 'POST',
+						data: 'attachment-action=delete&pk=' + data.id,
+						successFn: function() {
+							updatePreviews();
+						},
+						failFn: function() {
+							updatePreviews();
+						}
+					});
+
 					return false;
 				};
 			}
@@ -213,22 +224,22 @@ var createUploader = function(element) {
 	};
 
 	var updatePreviews = function() {
-		var toDelete = [];
-		_.forEach(attachedFiles, function(preview) {
-			if (!preview.data.persistent) {
-				toDelete.push(preview);
-			}
-		});
-		attachedFiles = _.filter(attachedFiles, function(preview) {
-			return preview.data.persistent;
-		});
-		_.forEach(toDelete, function(preview) {
-			preview.element.parentNode.removeChild(preview.element);
-		});
-
 		_.xhrSend({
 			url: urls.list,
 			successFn: function(data) {
+				var toDelete = [];
+				_.forEach(attachedFiles, function(preview) {
+					if (!preview.data.persistent) {
+						toDelete.push(preview);
+					}
+				});
+				attachedFiles = _.filter(attachedFiles, function(preview) {
+					return preview.data.persistent;
+				});
+				_.forEach(toDelete, function(preview) {
+					preview.element.parentNode.removeChild(preview.element);
+				});
+
 				_.forEach(data, function(preview) {
 					createPreview(preview);
 				});
