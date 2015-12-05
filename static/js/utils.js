@@ -434,6 +434,15 @@ var filesizeformat = function(bytes) {
 	else if (bytes < MB) {
 		return formatFloat(bytes / KB) + ' KB';
 	}
+	else if (bytes < GB) {
+		return formatFloat(bytes / MB) + ' MB';
+	}
+	else if (bytes < TB) {
+		return formatFloat(bytes / GB) + ' GB';
+	}
+	else {
+		return formatFloat(bytes / PB) + ' PB';
+	}
 };
 
 window._utils.filesizeformat = filesizeformat;
