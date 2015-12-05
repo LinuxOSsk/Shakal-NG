@@ -22,6 +22,16 @@ var createUploader = function(element) {
 	};
 
 	var previews = [];
+
+	var createPreview = function(data) {
+		var element = attachmentTemplate.cloneNode(true);
+		_.removeClass(element, 'attachment-template');
+		attachmentTemplate.parentNode.insertBefore(element, attachmentTemplate);
+		previews.push({
+			element: element
+		});
+	};
+
 	var updatePreviews = function() {
 		_.forEach(previews, function(preview) {
 			preview.element.parentNode.removeChild(preview.element);
@@ -32,12 +42,7 @@ var createUploader = function(element) {
 			url: urls.list,
 			successFn: function(data) {
 				_.forEach(data, function(preview) {
-					var element = attachmentTemplate.cloneNode(true);
-					_.removeClass(element, 'attachment-template');
-					attachmentTemplate.parentNode.insertBefore(element, attachmentTemplate);
-					previews.push({
-						element: element
-					});
+					createPreview(preview);
 				});
 			}
 		});
