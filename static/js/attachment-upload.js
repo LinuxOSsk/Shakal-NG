@@ -24,7 +24,7 @@ var createUploader = function(element) {
 	var previews = [];
 
 	var createPreview = function(data) {
-
+		console.log(data);
 		var element = attachmentTemplate.cloneNode(true);
 
 		_.removeClass(element, 'attachment-template');
@@ -39,6 +39,11 @@ var createUploader = function(element) {
 				}
 				thumbnailTemplate.appendChild(img);
 			}
+		}
+
+		var urlTemplate = _.cls(element, 'template-url')[0];
+		if (urlTemplate !== undefined) {
+			urlTemplate.appendChild(_.elem('A', {'href': data.url}, data.url));
 		}
 
 		attachmentTemplate.parentNode.insertBefore(element, attachmentTemplate);
