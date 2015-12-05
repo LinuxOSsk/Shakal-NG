@@ -4,10 +4,11 @@ from __future__ import unicode_literals
 from django.contrib import admin
 from django.contrib.admin.utils import unquote
 from django.contrib.contenttypes.admin import GenericTabularInline
-from django.http import HttpResponseBadRequest
+from django.contrib.contenttypes.models import ContentType
+from django.http.response import HttpResponseBadRequest, HttpResponse
 
 from .admin_forms import AttachmentForm
-from .models import Attachment
+from attachment.models import Attachment
 from attachment.views import AttachmentManagementMixin
 from common_utils.json_utils import create_json_response
 
@@ -45,10 +46,23 @@ class AttachmentAdminMixin(AttachmentManagementMixin):
 			.select_related('attachmentimage'))
 		return create_json_response(self.get_attachments_list(attachments))
 
+	def attachments_upload(self, request, object_id):
+		if 'attachment' in request.FILES:
+			obj = self.get_object(request, unquote(object_id))
+			attachment = Attachment(
+				attachment=request.FILES['attachment'],
+				content_type=ContentType.objects.get_for_model(obj.__class__),
+				object_id=obj.pk
+			)
+			attachment.save()
+		return HttpResponse('')
+
 	def change_view(self, request, object_id, **kwargs):
 		attachment_action = request.POST.get('attachment-action', request.GET.get('attachment-action', ''))
 		if attachment_action == 'list' and request.method == 'GET':
 			return self.attachments_list(request, object_id)
+		elif attachment_action == 'upload' and request.method == 'POST':
+			return self.attachments_upload(request, object_id)
 		elif attachment_action == '':
 			return super(AttachmentAdminMixin, self).change_view(request, object_id, **kwargs)
 		else:

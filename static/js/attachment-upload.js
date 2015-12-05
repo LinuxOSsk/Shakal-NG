@@ -40,21 +40,24 @@ var createUploader = function(element) {
 		var performUpload = function(attachment) {
 			var formData = new FormData();
 			formData.append('attachment-action', 'upload');
-			formData.append('attachment', attachment.fileObject);
+			formData.append('attachment', attachment.data.fileObject);
 
 			_.xhrSend({
 				url: urls.upload,
 				type: 'POST',
 				data: formData,
+				contentType: null,
 				successFn: function() {
 					attachment.data.persistent = false;
 					attachment.data.fileObject = undefined;
 					uploading = false;
+					updatePreviews();
 				},
 				failFn: function() {
 					attachment.data.persistent = false;
 					attachment.data.fileObject = undefined;
 					uploading = false;
+					updatePreviews();
 				}
 			});
 		};

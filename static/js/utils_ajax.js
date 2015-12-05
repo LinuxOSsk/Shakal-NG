@@ -20,10 +20,17 @@ var xhrSend = function(options) {
 	var req = createXMLHttpRequest();
 	var extraHeaders = options.extraHeaders || {};
 	req.open(type, url, true);
-	req.setRequestHeader("X-CSRFToken", _utils.getCookie("csrftoken"));
+	req.setRequestHeader('X-CSRFToken', _utils.getCookie('csrftoken'));
 	req.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-	if (type == "POST") {
-		req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	if (options.contentType !== undefined) {
+		if (options.contentType !== null) {
+			req.setRequestHeader('Content-type', options.contentType);
+		}
+	}
+	else {
+		if (type == 'POST') {
+			req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+		}
 	}
 	for (var header in extraHeaders) {
 		req.setRequestHeader(header, extraHeaders[header]);
