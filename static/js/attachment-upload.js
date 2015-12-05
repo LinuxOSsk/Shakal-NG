@@ -46,6 +46,16 @@ var createUploader = function(element) {
 			urlTemplate.appendChild(_.elem('A', {'href': data.url}, data.url));
 		}
 
+		var urlnameTemplate = _.cls(element, 'template-urlname')[0];
+		if (urlnameTemplate !== undefined) {
+			urlnameTemplate.appendChild(document.createTextNode(data.url));
+		}
+
+		var filesizeTemplate = _.cls(element, 'template-filesize')[0];
+		if (filesizeTemplate !== undefined) {
+			filesizeTemplate.appendChild(document.createTextNode(data.filesize_human));
+		}
+
 		attachmentTemplate.parentNode.insertBefore(element, attachmentTemplate);
 		previews.push({
 			element: element

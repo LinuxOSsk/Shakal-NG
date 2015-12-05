@@ -11,8 +11,8 @@ class AttachmentManagementMixin(object):
 			attachment_data = {
 				'id': attachment.id,
 				'url': attachment.attachment.url,
-				'size': attachment.size,
-				'size_human': filesizeformat(attachment.size)
+				'filesize': attachment.size,
+				'filesize_human': filesizeformat(attachment.size)
 			}
 			if hasattr(attachment, 'attachmentimage'):
 				attachment_data['width'] = attachment.attachmentimage.width
