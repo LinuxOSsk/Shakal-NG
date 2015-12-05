@@ -11,20 +11,30 @@ var createUploader = function(element) {
 		return;
 	}
 	var attachmentTemplate = _.cls(uploadAjax, 'attachment-template')[0];
-	if (attachmentTemplate === undefined) {
+	var uploadContainer = _.cls(element, 'attachment-upload-container')[0];
+	var uploadInput = _.cls(element, 'attachment-upload')[0];
+	if (attachmentTemplate === undefined || uploadContainer === undefined || uploadInput === undefined) {
 		return;
 	}
 
 	_.addClass(element, 'ajax');
+	uploadInput.style.visibility = 'hidden';
+	uploadInput.style.display = 'block';
+	uploadInput.style.width = '1px';
+	uploadInput.style.height = '1px';
+	uploadInput.style.position = 'absolute';
 
 	var urls = {
 		list: uploadAjax.getAttribute('data-list-url')
 	};
 
+	_.bindEvent(uploadContainer, 'click', function() {
+		uploadInput.click();
+	});
+
 	var previews = [];
 
 	var createPreview = function(data) {
-		console.log(data);
 		var element = attachmentTemplate.cloneNode(true);
 
 		_.removeClass(element, 'attachment-template');

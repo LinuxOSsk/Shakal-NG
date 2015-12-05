@@ -44,3 +44,14 @@ td.field-thumbnail img {
 .attachment-template {
 	display: none;
 }
+
+.attachment-upload-container {
+	margin: 4px;
+	padding: 10px;
+	height: 200px;
+	text-align: center;
+}
+
+.attachment-upload-container h2 {
+	margin: 50px 0 10px 0;
+}
