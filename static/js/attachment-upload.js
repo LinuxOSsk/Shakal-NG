@@ -34,7 +34,15 @@ var createUploader = function(element) {
 			name: fileObject.name,
 			filesize: fileObject.size,
 		};
-		createPreview(previewData);
+		var preview = createPreview(previewData);
+		if (mimetype === 'image/jpeg' || mimetype === 'image/png') {
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				preview.img.setAttribute('src', e.target.result);
+				preview.img.style.display = 'block';
+			};
+			reader.readAsDataURL(fileObject);
+		}
 	};
 
 	var onUploadChanged = function() {
@@ -85,19 +93,26 @@ var createUploader = function(element) {
 
 	var createPreview = function(data) {
 		var element = attachmentTemplate.cloneNode(true);
+		var img;
 
 		_.removeClass(element, 'attachment-template');
 
-		if (data.thumbnails !== undefined && data.thumbnails.standard !== undefined) {
-			var thumbnailTemplate = _.cls(element, 'template-thumbnail')[0];
-			if (thumbnailTemplate !== undefined) {
-				var style = thumbnailTemplate.getAttribute('data-style');
-				var img = _.elem('IMG', {src: data.thumbnails.standard});
-				if (style !== undefined) {
-					img.setAttribute('style', style);
-				}
-				thumbnailTemplate.appendChild(img);
+		var thumbnailTemplate = _.cls(element, 'template-thumbnail')[0];
+		if (thumbnailTemplate !== undefined) {
+			var style = thumbnailTemplate.getAttribute('data-style');
+			img = _.elem('IMG');
+			if (style !== undefined) {
+				img.setAttribute('style', style);
 			}
+			thumbnailTemplate.appendChild(img);
+		}
+
+		if (img !== undefined && data.thumbnails !== undefined && data.thumbnails.standard !== undefined) {
+			img.setAttribute('src', data.thumbnails.standard);
+			img.style.display = 'block';
+		}
+		else {
+			img.style.display = 'none';
 		}
 
 		var urlTemplate = _.cls(element, 'template-url')[0];
@@ -120,10 +135,14 @@ var createUploader = function(element) {
 			filesizeTemplate.appendChild(document.createTextNode(_.filesizeformat(data.filesize)));
 		}
 
+		var preview = {
+			element: element,
+			img: img
+		};
+
 		attachmentTemplate.parentNode.insertBefore(element, attachmentTemplate);
-		previews.push({
-			element: element
-		});
+		previews.push(preview);
+		return preview;
 	};
 
 	var updatePreviews = function() {
