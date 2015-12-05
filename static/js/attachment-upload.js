@@ -33,6 +33,7 @@ var createUploader = function(element) {
 		var previewData = {
 			name: fileObject.name,
 			filesize: fileObject.size,
+			persistent: true
 		};
 		var preview = createPreview(previewData);
 		if (mimetype === 'image/jpeg' || mimetype === 'image/png') {
@@ -137,7 +138,8 @@ var createUploader = function(element) {
 
 		var preview = {
 			element: element,
-			img: img
+			img: img,
+			data: data
 		};
 
 		attachmentTemplate.parentNode.insertBefore(element, attachmentTemplate);
@@ -146,10 +148,18 @@ var createUploader = function(element) {
 	};
 
 	var updatePreviews = function() {
+		var toDelete = [];
 		_.forEach(previews, function(preview) {
+			if (!preview.data.persistent) {
+				toDelete.push(preview);
+			}
+		});
+		previews = _.filter(previews, function(preview) {
+			return preview.data.persistent;
+		});
+		_.forEach(toDelete, function(preview) {
 			preview.element.parentNode.removeChild(preview.element);
 		});
-		previews = [];
 
 		_.xhrSend({
 			url: urls.list,
