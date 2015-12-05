@@ -21,7 +21,7 @@ var xhrSend = function(options) {
 	var extraHeaders = options.extraHeaders || {};
 
 	if (options.progress) {
-		_.bindEvent(req, 'progress', options.progress);
+		_.bindEvent(req.upload, 'progress', options.progress);
 	}
 
 	req.open(type, url, true);
