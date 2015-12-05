@@ -1,4 +1,4 @@
-(function () {
+(function (_) {
 "use strict";
 
 var createXMLHttpRequest = null;
@@ -72,4 +72,4 @@ var xhrSend = function(options) {
 
 window._utils.xhrSend = xhrSend;
 
-}());
+}(_utils));
