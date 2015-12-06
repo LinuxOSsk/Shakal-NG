@@ -44,11 +44,13 @@ var createUploader = function(element) {
 				type: 'POST',
 				data: formData,
 				contentType: null,
-				successFn: function(data) {
+				successFn: function(data, req) {
 					attachment.data.persistent = false;
 					attachment.data.fileObject = undefined;
 					uploading = false;
-					updatePreviewsFromData(data);
+					if (req.isJSON) {
+						updatePreviewsFromData(data);
+					}
 					processNextFile();
 				},
 				failFn: function() {
@@ -250,7 +252,10 @@ var createUploader = function(element) {
 		return preview;
 	};
 
-	var updatePreviewsFromData = function(data) {
+	var updatePreviewsFromData = function(data, req) {
+		if (req.isJSON !== true) {
+			return;
+		}
 		var toDelete = [];
 		_.forEach(attachedFiles, function(preview) {
 			if (!preview.data.persistent) {
