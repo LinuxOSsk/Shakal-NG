@@ -53,15 +53,16 @@ var xhrSend = function(options) {
 		var data = req.responseText;
 		if (contentType.indexOf('application/json') === 0) {
 			data = JSON.parse(data);
+			req.isJSON = true;
 		}
 
 		if (req.status >= 200 && req.status < 400) {
-			if (successFn != undefined) {
+			if (successFn !== undefined) {
 				successFn(data, req, options);
 			}
 		}
 		else {
-			if (failFn != undefined) {
+			if (failFn !== undefined) {
 				failFn(data, req, options);
 			}
 		}
