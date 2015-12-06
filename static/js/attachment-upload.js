@@ -48,9 +48,7 @@ var createUploader = function(element) {
 					attachment.data.persistent = false;
 					attachment.data.fileObject = undefined;
 					uploading = false;
-					if (req.isJSON) {
-						updatePreviewsFromData(data);
-					}
+					updatePreviewsFromData(data, req);
 					processNextFile();
 				},
 				failFn: function() {
