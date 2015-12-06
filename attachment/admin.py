@@ -88,7 +88,7 @@ class AttachmentAdminMixin(AttachmentManagementMixin):
 			obj = None
 		else:
 			obj = self.get_object(request, unquote(object_id))
-		attachment_action = request.POST.get('attachment-action', request.GET.get('attachment-action', ''))
+		attachment_action = request.POST.get('attachment_action', request.GET.get('attachment_action', ''))
 		if attachment_action == 'list' and request.method == 'GET':
 			return self.attachments_list(request, obj)
 		elif attachment_action == 'upload' and request.method == 'POST':

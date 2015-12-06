@@ -38,7 +38,7 @@ var createUploader = function(element) {
 		var performUpload = function(attachment) {
 			var formData = new FormData();
 			formData.append('upload_session', uploadSession);
-			formData.append('attachment-action', 'upload');
+			formData.append('attachment_action', 'upload');
 			formData.append('attachment', attachment.data.fileObject);
 
 			var req = _.xhrSend({
@@ -215,7 +215,7 @@ var createUploader = function(element) {
 					_.xhrSend({
 						url: urls.manage,
 						type: 'POST',
-						data: 'attachment-action=delete&upload_session=' + encodeURIComponent(uploadSession) + '&pk=' + data.id,
+						data: 'attachment_action=delete&upload_session=' + encodeURIComponent(uploadSession) + '&pk=' + data.id,
 						successFn: updatePreviewsFromData,
 						failFn: function() {
 							updatePreviews();
