@@ -106,11 +106,10 @@ class AttachmentFormMixin(forms.BaseForm):
 			return UploadSession
 
 	def update_attachment_size(self):
-		if 'attachment' in self.fields:
-			uploaded_size = self.get_attachments().aggregate(Sum('size'))["size__sum"] or 0
-			content_type = ContentType.objects.get_for_model(self.get_model())
-			max_size = get_available_size(content_type, uploaded_size)
-			self.fields['attachment'].widget.attrs['max_size'] = max_size
+		uploaded_size = self.get_attachments().aggregate(Sum('size'))["size__sum"] or 0
+		content_type = ContentType.objects.get_for_model(self.get_model())
+		max_size = get_available_size(content_type, uploaded_size)
+		self.fields['attachment'].widget.attrs['max_size'] = max_size
 
 	def move_attachments(self, content_object):
 		temp_attachments = self.get_attachments()
