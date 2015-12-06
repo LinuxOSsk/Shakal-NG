@@ -40,6 +40,8 @@ class AttachmentAdmin(admin.ModelAdmin):
 
 class AttachmentAdminMixin(AttachmentManagementMixin):
 	def attachments_list(self, obj):
+		if obj is None:
+			return create_json_response([])
 		attachments = (obj.attachments.all()
 			.order_by('pk')
 			.select_related('attachmentimage'))
@@ -62,8 +64,11 @@ class AttachmentAdminMixin(AttachmentManagementMixin):
 		attachment.delete()
 		return self.attachments_list(obj)
 
-	def change_view(self, request, object_id, **kwargs):
-		obj = self.get_object(request, unquote(object_id))
+	def changeform_view(self, request, object_id=None, *args, **kwargs):
+		if object_id is None:
+			obj = None
+		else:
+			obj = self.get_object(request, unquote(object_id))
 		attachment_action = request.POST.get('attachment-action', request.GET.get('attachment-action', ''))
 		if attachment_action == 'list' and request.method == 'GET':
 			return self.attachments_list(obj)
@@ -72,7 +77,7 @@ class AttachmentAdminMixin(AttachmentManagementMixin):
 		elif attachment_action == 'delete' and request.method == 'POST':
 			return self.attachments_delete(request, obj)
 		elif attachment_action == '':
-			return super(AttachmentAdminMixin, self).change_view(request, object_id, **kwargs)
+			return super(AttachmentAdminMixin, self).changeform_view(request, object_id, *args, **kwargs)
 		else:
 			return HttpResponseBadRequest()
 
