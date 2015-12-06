@@ -39,33 +39,36 @@ class AttachmentAdmin(admin.ModelAdmin):
 
 
 class AttachmentAdminMixin(AttachmentManagementMixin):
-	def get_or_create_upload_session(self, request):
+	def get_upload_session(self, request, create=False):
 		uuid = request.POST.get('upload_session', request.GET.get('upload_session', ''))
 		try:
 			session = UploadSession.objects.get(uuid=uuid)
 		except UploadSession.DoesNotExist:
-			session = UploadSession()
-			session.save()
+			if create:
+				session = UploadSession()
+				session.save()
+			else:
+				return None
 		return session
 
 	def attachments_list(self, request, obj):
-		if obj is None:
-			uuid = request.POST.get('upload_session', request.GET.get('upload_session', ''))
-			try:
-				obj = UploadSession.objects.get(uuid=uuid)
-			except UploadSession.DoesNotExist:
-				return create_json_response({'list': []})
-		attachments = (obj.attachments.all()
-			.select_related('attachmentimage')
-			.order_by('pk'))
-		data = {'list': self.get_attachments_list(attachments)}
-		if isinstance(obj, UploadSession):
-			data['upload_session'] = obj.uuid
+		is_new = obj is None
+		obj = obj or self.get_upload_session(request)
+		if obj:
+			attachments = (obj.attachments.all()
+				.select_related('attachmentimage')
+				.order_by('pk'))
+		else:
+			attachments = Attachment.objects.none()
+
+		data = {
+			'list': self.get_attachments_list(attachments),
+			'upload_session': obj.uuid if is_new else '',
+		}
 		return create_json_response(data)
 
 	def attachments_upload(self, request, obj):
-		if obj is None:
-			obj = self.get_or_create_upload_session(request)
+		obj = obj or self.get_upload_session(request, create=True)
 		if 'attachment' in request.FILES:
 			attachment = Attachment(
 				attachment=request.FILES['attachment'],
@@ -75,8 +78,7 @@ class AttachmentAdminMixin(AttachmentManagementMixin):
 		return self.attachments_list(request, obj)
 
 	def attachments_delete(self, request, obj):
-		if obj is None:
-			obj = self.get_or_create_upload_session(request)
+		obj = obj or self.get_upload_session(request, create=True)
 		pk = int(request.POST.get('pk', ''))
 		ctype = ContentType.objects.get_for_model(obj)
 		attachment = Attachment.objects.get(pk=pk, content_type=ctype, object_id=obj.pk)
