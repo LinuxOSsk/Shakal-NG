@@ -8,14 +8,11 @@ import uuid
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.db import models
 from django.db.models import signals
 from django.db.models.fields.files import FileField
-from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
 
-from .utils import get_available_size
 from autoimagefield.fields import AutoImageFieldMixin
 from common_utils import clean_dir, get_meta
 
@@ -113,19 +110,6 @@ class Attachment(models.Model):
 			if storage.exists(name):
 				file_name = storage.save(target_name, self.attachment.file)
 				self.attachment = file_name
-
-	def clean_fields(self, exclude=None):
-		try:
-			content_type = ContentType.objects.get(pk=self.content_type_id)
-			uploaded_size = self.__class__.objects \
-				.filter(object_id = self.object_id, content_type=content_type) \
-				.aggregate(models.Sum('size'))["size__sum"]
-			available_size = get_available_size(content_type, uploaded_size or 0)
-			if available_size >= 0 and self.attachment.size > available_size:
-				raise ValidationError({'attachment': [_('File size exceeded, maximum size is ') + filesizeformat(available_size)]})
-		except (ObjectDoesNotExist, OSError):
-			pass
-		return super(Attachment, self).clean_fields(exclude)
 
 
 class AttachmentImage(Attachment):
