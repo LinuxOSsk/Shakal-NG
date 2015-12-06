@@ -15,7 +15,7 @@ UPDATE_LAST_VIEW_TIME = {
 
 class LastViewedMiddleware(object):
 	def process_response(self, request, response):
-		if request.user.is_authenticated():
+		if request.user.is_authenticated() and request.resolver_match:
 			content_type = UPDATE_LAST_VIEW_TIME.get(request.resolver_match.view_name)
 			if content_type is not None or not request.user.user_settings:
 				update_last_visited(request.user, content_type)
