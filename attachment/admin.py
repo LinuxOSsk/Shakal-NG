@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.contrib import admin
 from django.contrib.admin.utils import unquote
 from django.contrib.contenttypes.admin import GenericTabularInline
+from django.contrib.contenttypes.models import ContentType
 from django.http.response import HttpResponseBadRequest
 
 from .admin_forms import AttachmentForm
@@ -55,9 +56,8 @@ class AttachmentAdminMixin(AttachmentManagementMixin):
 			except UploadSession.DoesNotExist:
 				return create_json_response({'list': []})
 		attachments = (obj.attachments.all()
+			.select_related('attachmentimage')
 			.order_by('pk'))
-		if not isinstance(obj, UploadSession):
-			attachments = attachments.select_related('attacmentimage')
 		data = {'list': self.get_attachments_list(attachments)}
 		if isinstance(obj, UploadSession):
 			data['upload_session'] = obj.uuid
@@ -78,7 +78,8 @@ class AttachmentAdminMixin(AttachmentManagementMixin):
 		if obj is None:
 			obj = self.get_or_create_upload_session(request)
 		pk = int(request.POST.get('pk', ''))
-		attachment = Attachment.objects.get(pk=pk, content_object=obj)
+		ctype = ContentType.objects.get_for_model(obj)
+		attachment = Attachment.objects.get(pk=pk, content_type=ctype, object_id=obj.pk)
 		attachment.delete()
 		return self.attachments_list(request, obj)
 
