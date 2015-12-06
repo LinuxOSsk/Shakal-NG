@@ -29,10 +29,8 @@ class AttachmentConfig(AppConfig):
 
 	def ready(self):
 		Attachment = self.get_model('Attachment')
-		TemporaryAttachment = self.get_model('TemporaryAttachment')
 
 		pre_delete.connect(self.delete_file, sender=Attachment)
-		pre_delete.connect(self.delete_file, sender=TemporaryAttachment)
 		pre_delete.connect(self.delete_attachmentimage, sender=Attachment)
 		pre_save.connect(self.delete_attachmentimage, sender=Attachment)
 		post_save.connect(self.create_attachmentimage, sender=Attachment)

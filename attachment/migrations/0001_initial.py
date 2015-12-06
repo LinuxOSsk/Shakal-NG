@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models, migrations
+from django.db import migrations, models
 import attachment.models
 
 
@@ -39,20 +39,6 @@ class Migration(migrations.Migration):
 			},
 		),
 		migrations.CreateModel(
-			name='TemporaryAttachment',
-			fields=[
-				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-				('attachment', attachment.models.ThumbnailImageField(upload_to=attachment.models.upload_to, verbose_name='attachment')),
-				('created', models.DateTimeField(auto_now_add=True, verbose_name='created')),
-				('size', models.IntegerField(verbose_name='size')),
-				('object_id', models.PositiveIntegerField()),
-				('content_type', models.ForeignKey(to='contenttypes.ContentType')),
-			],
-			options={
-				'abstract': False,
-			},
-		),
-		migrations.CreateModel(
 			name='UploadSession',
 			fields=[
 				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -67,15 +53,7 @@ class Migration(migrations.Migration):
 				('width', models.IntegerField()),
 				('height', models.IntegerField()),
 			],
-			options={
-				'abstract': False,
-			},
 			bases=('attachment.attachment',),
-		),
-		migrations.AddField(
-			model_name='temporaryattachment',
-			name='session',
-			field=models.ForeignKey(to='attachment.UploadSession'),
 		),
 		migrations.AddField(
 			model_name='attachment',

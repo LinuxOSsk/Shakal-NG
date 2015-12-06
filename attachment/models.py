@@ -3,10 +3,10 @@
 from __future__ import unicode_literals
 
 import os
-
 import uuid
+
 from django.conf import settings
-from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.db import models
@@ -56,7 +56,7 @@ class ThumbnailImageField(AutoImageFieldMixin, FileField):
 		super(ThumbnailImageField, self).contribute_to_class(cls, name)
 
 
-class AttachmentAbstract(models.Model):
+class Attachment(models.Model):
 	attachment = ThumbnailImageField(_('attachment'), upload_to=upload_to)
 	created = models.DateTimeField(_('created'), auto_now_add=True)
 	size = models.IntegerField(_('size'))
@@ -65,7 +65,8 @@ class AttachmentAbstract(models.Model):
 	content_object = GenericForeignKey('content_type', 'object_id')
 
 	class Meta:
-		abstract = True
+		verbose_name = _('attachment')
+		verbose_name_plural = _('attachments')
 
 	@property
 	def basename(self):
@@ -102,7 +103,7 @@ class AttachmentAbstract(models.Model):
 
 		self.size = self.attachment.size
 		self.copy_to_new_location()
-		super(AttachmentAbstract, self).save(*args, **kwargs)
+		super(Attachment, self).save(*args, **kwargs)
 
 	def copy_to_new_location(self):
 		name = self.attachment.name
@@ -124,16 +125,7 @@ class AttachmentAbstract(models.Model):
 				raise ValidationError({'attachment': [_('File size exceeded, maximum size is ') + filesizeformat(available_size)]})
 		except (ObjectDoesNotExist, OSError):
 			pass
-		return super(AttachmentAbstract, self).clean_fields(exclude)
-
-
-class Attachment(AttachmentAbstract):
-	class Meta:
-		verbose_name = _('attachment')
-		verbose_name_plural = _('attachments')
-
-	def __unicode__(self):
-		return self.attachment.name
+		return super(Attachment, self).clean_fields(exclude)
 
 
 class AttachmentImage(Attachment):
@@ -159,13 +151,7 @@ def generate_uuid():
 class UploadSession(models.Model):
 	created = models.DateTimeField(auto_now_add=True)
 	uuid = models.CharField(max_length=32, unique=True, default=generate_uuid)
+	attachments = GenericRelation(Attachment)
 
 	def __unicode__(self):
 		return self.uuid
-
-
-class TemporaryAttachment(AttachmentAbstract):
-	session = models.ForeignKey(UploadSession, related_name='attachments')
-
-	def __unicode__(self):
-		return self.attachment.name

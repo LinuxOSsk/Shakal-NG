@@ -4,11 +4,10 @@ from __future__ import unicode_literals
 from django.contrib import admin
 from django.contrib.admin.utils import unquote
 from django.contrib.contenttypes.admin import GenericTabularInline
-from django.contrib.contenttypes.models import ContentType
 from django.http.response import HttpResponseBadRequest
 
 from .admin_forms import AttachmentForm
-from attachment.models import Attachment, UploadSession, TemporaryAttachment
+from attachment.models import Attachment, UploadSession
 from attachment.views import AttachmentManagementMixin
 from common_utils.json_utils import create_json_response
 
@@ -68,19 +67,10 @@ class AttachmentAdminMixin(AttachmentManagementMixin):
 		if obj is None:
 			obj = self.get_or_create_upload_session(request)
 		if 'attachment' in request.FILES:
-			if isinstance(obj, UploadSession):
-				attachment = TemporaryAttachment(
-					attachment=request.FILES['attachment'],
-					content_type=ContentType.objects.get_for_model(obj.__class__),
-					object_id=obj.pk,
-					session=obj
-				)
-			else:
-				attachment = Attachment(
-					attachment=request.FILES['attachment'],
-					content_type=ContentType.objects.get_for_model(obj.__class__),
-					object_id=obj.pk
-				)
+			attachment = Attachment(
+				attachment=request.FILES['attachment'],
+				content_object=obj
+			)
 			attachment.save()
 		return self.attachments_list(request, obj)
 
@@ -88,11 +78,7 @@ class AttachmentAdminMixin(AttachmentManagementMixin):
 		if obj is None:
 			obj = self.get_or_create_upload_session(request)
 		pk = int(request.POST.get('pk', ''))
-		content_type = ContentType.objects.get_for_model(obj.__class__)
-		if isinstance(obj, UploadSession):
-			attachment = TemporaryAttachment.objects.get(pk=pk)
-		else:
-			attachment = Attachment.objects.get(pk=pk, content_type_id=content_type, object_id=obj.pk)
+		attachment = Attachment.objects.get(pk=pk, content_object=obj)
 		attachment.delete()
 		return self.attachments_list(request, obj)
 

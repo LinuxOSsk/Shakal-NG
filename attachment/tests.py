@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import os
 
 from django import forms
@@ -12,7 +14,7 @@ from django.utils.encoding import smart_unicode
 
 from .fields import AttachmentField
 from .forms import TemporaryAttachmentFormMixin
-from .models import UploadSession, Attachment, TemporaryAttachment
+from .models import UploadSession, Attachment
 from .utils import get_available_size
 from common_utils import get_meta
 from common_utils.tests_common import ProcessFormTestMixin
@@ -33,10 +35,10 @@ class AttachmentModelTest(TestCase):
 		session = UploadSession()
 		session.save()
 
-		attachment = TemporaryAttachment(
+		attachment = Attachment(
 			session = session,
 			attachment = uploaded_file,
-			content_type = ContentType.objects.get_for_model(TemporaryAttachment),
+			content_type = ContentType.objects.get_for_model(session.__class__),
 			object_id = session.id
 		)
 		return attachment

@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django import forms
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.db.models import Sum
 from django.forms.models import modelformset_factory
-from django import forms
 
 from .fields import AttachmentField
-from .models import UploadSession, TemporaryAttachment, Attachment
+from .models import UploadSession, Attachment
 from .utils import get_available_size
 
 
-TemporaryAttachmentFormSet = modelformset_factory(TemporaryAttachment, can_delete=True, extra=0, fields=())
 AttachmentFormSet = modelformset_factory(Attachment, can_delete=True, extra=0, fields=())
 
 
@@ -61,11 +60,9 @@ class TemporaryAttachmentFormMixin(forms.BaseForm):
 		try:
 			cleaned_file = self.fields['attachment'].clean(self.files['attachment'], self.files['attachment'])
 
-			attachment = TemporaryAttachment(
-				session=session,
+			attachment = Attachment(
 				attachment=cleaned_file,
-				content_type=ContentType.objects.get_for_model(TemporaryAttachment),
-				object_id=session.id
+				content_object=session
 			)
 			attachment.save()
 			self.update_attachment_size()
@@ -74,9 +71,13 @@ class TemporaryAttachmentFormMixin(forms.BaseForm):
 
 	def update_attachment_size(self):
 		if 'upload_session' in self.data:
-			uploaded_size = TemporaryAttachment.objects \
-				.filter(session__uuid=self.data['upload_session']) \
-				.aggregate(Sum('size'))["size__sum"] or 0
+			try:
+				upload_session = (UploadSession.objects
+					.get(uuid=self.data['upload_session']))
+				uploaded_size = (upload_session.attachments
+					.aggregate(Sum('size'))["size__sum"]) or 0
+			except UploadSession.DoesNotExist:
+				uploaded_size = 0
 		else:
 			uploaded_size = 0
 		content_type = ContentType.objects.get_for_model(self.get_model())
@@ -95,13 +96,18 @@ class TemporaryAttachmentFormMixin(forms.BaseForm):
 			temp_attachment.delete()
 
 	def get_attachments(self):
-		upload_session = UploadSession.objects.filter(uuid=self.data.get('upload_session', ''))
-		return TemporaryAttachment.objects.filter(session__in=upload_session).order_by('pk')
+		try:
+			upload_session = (UploadSession.objects
+				.get(uuid=self.data.get('upload_session', '')))
+			return (upload_session.attachments
+				.order_by('pk'))
+		except UploadSession.DoesNotExist:
+			return Attachment.objects.none()
 
 	@property
 	def attachments(self):
 		if self._attachments is None:
-			self._attachments = TemporaryAttachmentFormSet(queryset=self.get_attachments())
+			self._attachments = AttachmentFormSet(queryset=self.get_attachments())
 		return self._attachments
 
 
