@@ -10,7 +10,7 @@ from django.utils.safestring import mark_safe
 
 from .models import Topic, Section
 from antispam.forms import AntispamFormMixin
-from attachment.forms import TemporaryAttachmentFormMixin
+from attachment.forms import AttachmentFormMixin
 from common_utils.forms import AuthorsNameFormMixin
 
 
@@ -30,7 +30,7 @@ class DescriptionRadioSelect(RadioSelect):
 		return mark_safe(render_to_string("includes/description_radio_select.html", ctx))
 
 
-class TopicForm(AntispamFormMixin, AuthorsNameFormMixin, TemporaryAttachmentFormMixin, forms.ModelForm):
+class TopicForm(AntispamFormMixin, AuthorsNameFormMixin, AttachmentFormMixin, forms.ModelForm):
 	section = ModelChoiceField(Section.objects.all(), empty_label=None, widget=DescriptionRadioSelect(), label='Sekcia')
 
 	def get_model(self):

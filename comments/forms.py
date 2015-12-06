@@ -9,7 +9,7 @@ from django.forms.utils import ErrorDict
 from django.utils.crypto import salted_hmac
 
 from antispam.forms import AntispamFormMixin
-from attachment.forms import TemporaryAttachmentFormMixin
+from attachment.forms import AttachmentFormMixin
 from comments.models import Comment
 from common_utils.forms import AuthorsNameFormMixin
 
@@ -64,7 +64,7 @@ class SecurityFormMixin(object):
 		return actual_hash
 
 
-class CommentForm(SecurityFormMixin, AuthorsNameFormMixin, TemporaryAttachmentFormMixin, AntispamFormMixin, forms.ModelForm):
+class CommentForm(SecurityFormMixin, AuthorsNameFormMixin, AttachmentFormMixin, AntispamFormMixin, forms.ModelForm):
 	authors_name_field = 'user_name'
 
 	class Meta:
@@ -101,7 +101,7 @@ class CommentForm(SecurityFormMixin, AuthorsNameFormMixin, TemporaryAttachmentFo
 		}
 
 	def check_for_duplicate_comment(self, new):
-		possible_duplicates = Comment.objects.filter(
+		possible_duplicates = Comment.objects.all().filter(
 			content_type=new.content_type,
 			object_id=new.object_id,
 			user_name=new.user_name,
