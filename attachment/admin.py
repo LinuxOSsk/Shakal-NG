@@ -8,7 +8,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.http.response import HttpResponseBadRequest
 
 from .admin_forms import AttachmentForm
-from attachment.models import Attachment
+from attachment.models import Attachment, UploadSession, TemporaryAttachment
 from attachment.views import AttachmentManagementMixin
 from common_utils.json_utils import create_json_response
 
@@ -39,30 +39,62 @@ class AttachmentAdmin(admin.ModelAdmin):
 
 
 class AttachmentAdminMixin(AttachmentManagementMixin):
-	def attachments_list(self, obj):
+	def get_or_create_upload_session(self, request):
+		uuid = request.POST.get('upload_session', request.GET.get('upload_session', ''))
+		try:
+			session = UploadSession.objects.get(uuid=uuid)
+		except UploadSession.DoesNotExist:
+			session = UploadSession()
+			session.save()
+		return session
+
+	def attachments_list(self, request, obj):
 		if obj is None:
-			return create_json_response([])
+			uuid = request.POST.get('upload_session', request.GET.get('upload_session', ''))
+			try:
+				obj = UploadSession.objects.get(uuid=uuid)
+			except UploadSession.DoesNotExist:
+				return create_json_response({'list': []})
 		attachments = (obj.attachments.all()
-			.order_by('pk')
-			.select_related('attachmentimage'))
-		return create_json_response(self.get_attachments_list(attachments))
+			.order_by('pk'))
+		if not isinstance(obj, UploadSession):
+			attachments = attachments.select_related('attacmentimage')
+		data = {'list': self.get_attachments_list(attachments)}
+		if isinstance(obj, UploadSession):
+			data['upload_session'] = obj.uuid
+		return create_json_response(data)
 
 	def attachments_upload(self, request, obj):
+		if obj is None:
+			obj = self.get_or_create_upload_session(request)
 		if 'attachment' in request.FILES:
-			attachment = Attachment(
-				attachment=request.FILES['attachment'],
-				content_type=ContentType.objects.get_for_model(obj.__class__),
-				object_id=obj.pk
-			)
+			if isinstance(obj, UploadSession):
+				attachment = TemporaryAttachment(
+					attachment=request.FILES['attachment'],
+					content_type=ContentType.objects.get_for_model(obj.__class__),
+					object_id=obj.pk,
+					session=obj
+				)
+			else:
+				attachment = Attachment(
+					attachment=request.FILES['attachment'],
+					content_type=ContentType.objects.get_for_model(obj.__class__),
+					object_id=obj.pk
+				)
 			attachment.save()
-		return self.attachments_list(obj)
+		return self.attachments_list(request, obj)
 
 	def attachments_delete(self, request, obj):
+		if obj is None:
+			obj = self.get_or_create_upload_session(request)
 		pk = int(request.POST.get('pk', ''))
 		content_type = ContentType.objects.get_for_model(obj.__class__)
-		attachment = Attachment.objects.get(pk=pk, content_type_id=content_type, object_id=obj.pk)
+		if isinstance(obj, UploadSession):
+			attachment = TemporaryAttachment.objects.get(pk=pk)
+		else:
+			attachment = Attachment.objects.get(pk=pk, content_type_id=content_type, object_id=obj.pk)
 		attachment.delete()
-		return self.attachments_list(obj)
+		return self.attachments_list(request, obj)
 
 	def changeform_view(self, request, object_id=None, *args, **kwargs):
 		if object_id is None:
@@ -71,7 +103,7 @@ class AttachmentAdminMixin(AttachmentManagementMixin):
 			obj = self.get_object(request, unquote(object_id))
 		attachment_action = request.POST.get('attachment-action', request.GET.get('attachment-action', ''))
 		if attachment_action == 'list' and request.method == 'GET':
-			return self.attachments_list(obj)
+			return self.attachments_list(request, obj)
 		elif attachment_action == 'upload' and request.method == 'POST':
 			return self.attachments_upload(request, obj)
 		elif attachment_action == 'delete' and request.method == 'POST':

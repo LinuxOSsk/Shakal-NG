@@ -1,5 +1,8 @@
 {% load i18n admin_static admin_modify suit_tags admin_urls %}
 {% suit_django_version as django_version %}
+
+<input type="hidden" name="upload_session" id="id_upload_session" value="{{ request.POST.upload_session }}" />
+
 <div class="attachment-upload inline-group {{ inline_admin_formset.opts.suit_classes }}">
 <div class="attachment-upload-fallback" id="{{ inline_admin_formset.formset.prefix }}-group">
 <div class="tabular inline-related {% if forloop.last %}last-related{% endif %}">

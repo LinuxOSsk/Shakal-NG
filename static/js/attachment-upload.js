@@ -6,6 +6,7 @@ var createUploader = function(element) {
 	if (uploadAjax === undefined) {
 		return;
 	}
+	var uploadSession = _.id('id_upload_session').value;
 	var attachmentTemplate = _.cls(uploadAjax, 'attachment-template')[0];
 	var uploadContainer = _.cls(element, 'attachment-upload-container')[0];
 	var uploadInput = _.cls(element, 'attachment-upload')[0];
@@ -254,6 +255,10 @@ var createUploader = function(element) {
 		if (req.isJSON !== true) {
 			return;
 		}
+		if (data.upload_session) {
+			uploadSession = data.upload_session;
+			_.id('id_upload_session').value = uploadSession;
+		}
 		var toDelete = [];
 		_.forEach(attachedFiles, function(preview) {
 			if (!preview.data.persistent) {
@@ -267,14 +272,18 @@ var createUploader = function(element) {
 			preview.element.parentNode.removeChild(preview.element);
 		});
 
-		_.forEach(data, function(preview) {
+		_.forEach(data.list, function(preview) {
 			createPreview(preview);
 		});
 	};
 
 	var updatePreviews = function() {
+		var listUrl = urls.list;
+		if (uploadSession) {
+			listUrl += '&upload_session=' + encodeURIComponent(uploadSession);
+		}
 		_.xhrSend({
-			url: urls.list,
+			url: listUrl,
 			successFn: updatePreviewsFromData
 		});
 	};

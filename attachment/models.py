@@ -165,7 +165,7 @@ class UploadSession(models.Model):
 
 
 class TemporaryAttachment(AttachmentAbstract):
-	session = models.ForeignKey(UploadSession)
+	session = models.ForeignKey(UploadSession, related_name='attachments')
 
 	def __unicode__(self):
 		return self.attachment.name
