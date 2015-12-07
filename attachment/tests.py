@@ -1,25 +1,23 @@
 # -*- coding: utf-8 -*-
+# pylint: disable=no-member
 from __future__ import unicode_literals
 
 import os
 
+from django import forms
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 
+from .fields import AttachmentField
+from .forms import AttachmentFormMixin
 from .models import UploadSession, Attachment
 from .utils import get_available_size
 from common_utils import get_meta
-
-
-#from django import forms
-#from django.forms.widgets import HiddenInput
-#from django.utils.encoding import smart_unicode
-#
-#from .fields import AttachmentField
-#from .forms import TemporaryAttachmentFormMixin
-#from common_utils.tests_common import ProcessFormTestMixin
+from common_utils.tests_common import ProcessFormTestMixin
+from django.forms.widgets import HiddenInput
 
 
 class AttachmentModelTest(TestCase):
@@ -138,83 +136,67 @@ class AttachmentModelTest(TestCase):
 			self.assertEqual(get_available_size(ctype, 0), 20)
 
 
-#class AttachmentFormTest(ProcessFormTestMixin, TestCase):
-#	def test_attachment_field(self):
-#		field = AttachmentField()
-#		field.widget.attrs['max_size'] = 2
-#		field.clean(SimpleUploadedFile("a.txt", "A")) #OK
-#		with self.assertRaises(ValidationError):
-#			field.clean(SimpleUploadedFile("a.txt", "ABC"))
-#
-#	def test_render(self):
-#		field = AttachmentField()
-#		field.widget.attrs['max_size'] = 2
-#		field.widget.render("name", "")
-#
-#	def create_attachment_form(self, data=None, files=None):
-#		ctype = ContentType.objects.get_for_model(UploadSession)
-#		ctype_table = 'attachment_uploadsession'
-#
-#		class TestForm(TemporaryAttachmentFormMixin, forms.Form):
-#			attachment = AttachmentField(required=False)
-#			upload_session = forms.CharField(widget=HiddenInput, required=False)
-#
-#			def get_model(self):
-#				return UploadSession
-#
-#		return TestForm(data, files)
-#
-#	def test_simple_upload(self):
-#		form = self.create_attachment_form({}, {'attachment': SimpleUploadedFile("test.txt", b"A")})
-#		form.process_attachments()
-#
-#		self.assertTrue(form.is_valid())
-#		self.assertEquals(len(form.get_attachments()), 1)
-#		form.get_attachments()[0].delete()
-#
-#	def test_no_files(self):
-#		form = self.create_attachment_form({})
-#		form.process_attachments()
-#
-#		self.assertTrue(form.is_valid())
-#		self.assertEquals(len(form.get_attachments()), 0)
-#
-#	def test_validation(self):
-#		with self.settings(ATTACHMENT_MAX_SIZE=1, ATTACHMENT_SIZE_FOR_CONTENT={}):
-#			form = self.create_attachment_form({}, {'attachment': SimpleUploadedFile("test.txt", b"AA")})
-#			form.process_attachments()
-#
-#		self.assertFalse(form.is_valid())
-#		self.assertEquals(len(form.get_attachments()), 0)
-#
-#	def test_delete(self):
-#		form = self.create_attachment_form({}, {'attachment': SimpleUploadedFile("test.txt", b"A")})
-#		form.process_attachments()
-#
-#		formset = form.attachments
-#		data = {}
-#		data.update(self.extract_form_data(form))
-#		data.update(self.extract_form_data(formset.management_form))
-#		for attachment_form in formset:
-#			data.update(self.extract_form_data(attachment_form))
-#		data['form-0-DELETE'] = '1'
-#
-#		form = self.create_attachment_form(data)
-#		form.process_attachments()
-#
-#		self.assertTrue(form.is_valid())
-#		self.assertEquals(len(form.get_attachments()), 0)
-#
-#	def test_move_attachment(self):
-#		form = self.create_attachment_form({}, {'attachment': SimpleUploadedFile("test.txt", b"A")})
-#		form.process_attachments()
-#
-#		test_object = UploadSession()
-#		test_object.save()
-#		form.move_attachments(test_object)
-#
-#		attachments = Attachment.objects.all()
-#		self.assertEquals(len(attachments), 1)
-#
-#		attachment = attachments[0]
-#		attachment.delete()
+class AttachmentFormTest(ProcessFormTestMixin, TestCase):
+	def test_attachment_field(self):
+		field = AttachmentField()
+		field.widget.attrs['max_size'] = 2
+		field.clean(SimpleUploadedFile("a.txt", b"A")) #OK
+		with self.assertRaises(ValidationError):
+			field.clean(SimpleUploadedFile("a.txt", b"ABC"))
+
+	def create_attachment_form(self, data=None, files=None):
+		class TestForm(AttachmentFormMixin, forms.Form):
+			def get_model(self):
+				return UploadSession
+
+		return TestForm(data, files)
+
+	def test_simple_upload(self):
+		form = self.create_attachment_form({}, {'attachment': SimpleUploadedFile("test.txt", b"A")})
+
+		self.assertTrue(form.is_valid())
+		self.assertEquals(len(form.get_attachments()), 1)
+		form.get_attachments()[0].delete()
+
+	def test_no_files(self):
+		form = self.create_attachment_form({})
+
+		self.assertTrue(form.is_valid())
+		self.assertEquals(len(form.get_attachments()), 0)
+
+	def test_validation(self):
+		with self.settings(ATTACHMENT_MAX_SIZE=1, ATTACHMENT_SIZE_FOR_CONTENT={}):
+			form = self.create_attachment_form({}, {'attachment': SimpleUploadedFile("test.txt", b"AA")})
+
+		self.assertFalse(form.is_valid())
+		self.assertEquals(len(form.get_attachments()), 0)
+
+	def test_delete(self):
+		form = self.create_attachment_form({}, {'attachment': SimpleUploadedFile("test.txt", b"A")})
+
+		formset = form.attachments
+		data = {}
+		data.update(self.extract_form_data(form))
+		data.update(self.extract_form_data(formset.management_form))
+		for attachment_form in formset:
+			data.update(self.extract_form_data(attachment_form))
+		data['form-0-DELETE'] = '1'
+
+		form = self.create_attachment_form(data)
+		form.process_attachments()
+
+		self.assertTrue(form.is_valid())
+		self.assertEquals(len(form.get_attachments()), 0)
+
+	def test_move_attachment(self):
+		form = self.create_attachment_form({}, {'attachment': SimpleUploadedFile("test.txt", b"A")})
+
+		test_object = UploadSession()
+		test_object.save()
+		form.move_attachments(test_object)
+
+		attachments = Attachment.objects.all()
+		self.assertEquals(len(attachments), 1)
+
+		attachment = attachments[0]
+		attachment.delete()
