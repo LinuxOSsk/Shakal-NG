@@ -39,11 +39,10 @@ class AttachmentFormMixin(forms.BaseForm):
 		return session
 
 	def process_attachments(self):
-		self.update_attachment_size()
 		self.process_attachment_delete()
+		self.update_attachment_size()
 		if not hasattr(self, 'security_errors') or not self.security_errors():
 			self.process_attachment_upload()
-		self.update_attachment_size()
 
 	@property
 	def content_type(self):
@@ -78,7 +77,6 @@ class AttachmentFormMixin(forms.BaseForm):
 					if match:
 						match[0].delete()
 				rownum += 1
-			self.update_attachment_size()
 
 	def process_attachment_upload(self):
 		if not self.files:
@@ -95,7 +93,6 @@ class AttachmentFormMixin(forms.BaseForm):
 				content_object=self.content_object
 			)
 			attachment.save()
-			self.update_attachment_size()
 		except ValidationError:
 			return
 
