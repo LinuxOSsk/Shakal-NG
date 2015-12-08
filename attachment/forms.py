@@ -25,7 +25,7 @@ class AttachmentFormMixin(forms.BaseForm):
 			self.fields['attachment'] = AttachmentField(label='Príloha', required=False)
 			self.fields['upload_session'] = forms.CharField(widget=forms.HiddenInput, required=False)
 			self.content_object = self.get_uploadsession()
-			self.process_attachments()
+		self.process_attachments()
 
 	def get_uploadsession(self, create=False):
 		try:

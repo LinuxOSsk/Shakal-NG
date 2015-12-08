@@ -42,7 +42,3 @@ class PostForm(forms.ModelForm):
 
 class BlogAttachmentForm(AttachmentFormMixin, forms.Form):
 	attachment = AttachmentField(label='Príloha', required=False)
-
-	def __init__(self, *args, **kwargs):
-		super(BlogAttachmentForm, self).__init__(*args, **kwargs)
-		self.process_attachments()
