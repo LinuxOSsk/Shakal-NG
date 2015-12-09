@@ -98,7 +98,7 @@ class AttachmentFormMixin(forms.BaseForm):
 
 	def get_model(self):
 		if self.content_object:
-			return self.content_type
+			return self.content_object.__class__
 		else:
 			return UploadSession
 
