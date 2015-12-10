@@ -38,7 +38,7 @@ class AttachmentModelTest(TestCase):
 		attachment = Attachment(
 			attachment=uploaded_file,
 			content_type=ContentType.objects.get_for_model(session.__class__),
-			object_id = session.id
+			object_id=session.id
 		)
 		return attachment
 
@@ -135,6 +135,20 @@ class AttachmentModelTest(TestCase):
 		with self.settings(ATTACHMENT_MAX_SIZE=10, ATTACHMENT_SIZE_FOR_CONTENT={ctype_table: 20}):
 			self.assertEqual(get_available_size(ctype, 0), 20)
 
+	def test_move_attachment(self):
+		try:
+			attachment = self.create_temporary_attachment("test.txt", b"A")
+			attachment.save()
+			session = attachment.content_object
+
+			test_object = UploadSession()
+			test_object.save()
+			session.move_attachments(test_object)
+
+			attachment = test_object.attachments.all()[0]
+		finally:
+			attachment.delete()
+
 
 class AttachmentFormTest(ProcessFormTestMixin, TestCase):
 	def test_attachment_field(self):
@@ -187,16 +201,3 @@ class AttachmentFormTest(ProcessFormTestMixin, TestCase):
 
 		self.assertTrue(form.is_valid())
 		self.assertEquals(len(form.get_attachments()), 0)
-
-	def test_move_attachment(self):
-		form = self.create_attachment_form({}, {'attachment': SimpleUploadedFile("test.txt", b"A")})
-
-		test_object = UploadSession()
-		test_object.save()
-		form.move_attachments(test_object)
-
-		attachments = Attachment.objects.all()
-		self.assertEquals(len(attachments), 1)
-
-		attachment = attachments[0]
-		attachment.delete()

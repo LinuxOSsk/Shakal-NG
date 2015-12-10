@@ -109,12 +109,5 @@ class AttachmentFormMixin(forms.BaseForm):
 		self.fields['attachment'].widget.attrs['max_size'] = max_size
 
 	def move_attachments(self, content_object):
-		temp_attachments = self.get_attachments()
-		for temp_attachment in temp_attachments:
-			attachment = Attachment(
-				attachment=temp_attachment.attachment.name,
-				content_type=ContentType.objects.get_for_model(content_object.__class__),
-				object_id=content_object.pk
-			)
-			attachment.save()
-			temp_attachment.delete()
+		if self.content_object:
+			self.content_object.move_attachments(content_object)

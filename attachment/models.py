@@ -137,5 +137,16 @@ class UploadSession(models.Model):
 	uuid = models.CharField(max_length=32, unique=True, default=generate_uuid)
 	attachments = GenericRelation(Attachment)
 
+	def move_attachments(self, content_object):
+		temp_attachments = self.attachments.all()
+		for temp_attachment in temp_attachments:
+			attachment = Attachment(
+				attachment=temp_attachment.attachment.name,
+				content_type=ContentType.objects.get_for_model(content_object.__class__),
+				object_id=content_object.pk
+			)
+			attachment.save()
+			temp_attachment.delete()
+
 	def __unicode__(self):
 		return self.uuid
