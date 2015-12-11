@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.forms import CharField
 
+from .syntax import highlight_pre_blocks
 from .widgets import RichOriginalEditor, RichEditor
 from rich_editor.parser import HtmlParser
 
@@ -42,4 +45,5 @@ class RichOriginalField(CharField):
 		parser = self.parsers.get(fmt, self.parsers['html'])
 		parser.parse(txt)
 		parsed = parser.get_output()
+		parsed = highlight_pre_blocks(parsed)
 		return (fmt, txt, parsed)
