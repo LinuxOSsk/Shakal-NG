@@ -63,7 +63,7 @@ class AttachmentAdminMixin(AttachmentManagementMixin):
 
 		data = {
 			'list': self.get_attachments_list(attachments),
-			'upload_session': obj.uuid if is_new else '',
+			'upload_session': obj.uuid if obj and is_new else '',
 		}
 		return create_json_response(data)
 
