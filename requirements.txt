@@ -9,6 +9,7 @@
 -e git+git://github.com/mireq/django-sample-data-generator.git#egg=django_sample_data_generator
 -e git+git://github.com/mireq/django-simple-paginator.git@#egg=django_simple_paginator
 click==6.2                # via pip-tools
+contextlib2==0.4.0        # via raven
 django-allauth==0.24.1
 django-appconf==1.0.1     # via django-compressor
 django-braces==1.8.1
@@ -17,7 +18,7 @@ django-haystack==2.4.1
 django-jinja==1.4.1
 django-libsass==0.6
 django-mptt==0.7.4
-django-reversion==1.9.3
+django-reversion==1.10.0
 django-static-sitemaps==2.1.7
 django-suit==0.2.15
 django==1.8.7
@@ -28,10 +29,11 @@ libsass==0.9.3            # via django-libsass
 markupsafe==0.23          # via jinja2
 oauthlib==1.0.3           # via requests-oauthlib
 pillow==3.0.0
-pip-tools==1.2.0
+pip-tools==1.3.0
+pygments==2.0.2
 python-openid==2.2.5      # via django-allauth
 pytz==2015.7
-raven==5.8.1
+raven==5.9.0
 requests-oauthlib==0.5.0  # via django-allauth
 requests==2.8.1           # via django-allauth, requests-oauthlib
 six==1.10.0               # via django-appconf, django-braces, libsass, pip-tools

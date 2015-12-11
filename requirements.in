@@ -12,6 +12,7 @@ django-static-sitemaps
 django-suit
 feedparser
 pip-tools
+pygments
 pytz
 raven
 -e git+git://github.com/mireq/django-assets-manager.git#egg=django_assets_manager
