@@ -295,7 +295,6 @@ SELECT setval(pg_get_serial_sequence('"article_category"','id'), coalesce(max("i
 SELECT setval(pg_get_serial_sequence('"article_article"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "article_article";
 SELECT setval(pg_get_serial_sequence('"attachment_attachment"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "attachment_attachment";
 SELECT setval(pg_get_serial_sequence('"attachment_uploadsession"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "attachment_uploadsession";
-SELECT setval(pg_get_serial_sequence('"attachment_temporaryattachment"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "attachment_temporaryattachment";
 SELECT setval(pg_get_serial_sequence('"blog_blog"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "blog_blog";
 SELECT setval(pg_get_serial_sequence('"blog_post"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "blog_post";
 SELECT setval(pg_get_serial_sequence('"forum_section"','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "forum_section";
