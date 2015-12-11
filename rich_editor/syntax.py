@@ -64,7 +64,7 @@ LEXERS = (
 
 def format_code(code, lang):
 	import pygments
-	from pygments.util import ClassNotFound
+	from pygments import lexers, formatters, util
 
 	if not lang in dict(LEXERS):
 		return None
@@ -74,11 +74,11 @@ def format_code(code, lang):
 	code = code.replace('\t', '    ')
 
 	try:
-		lexer = pygments.lexers.get_lexer_by_name(lang)
-	except ClassNotFound:
+		lexer = lexers.get_lexer_by_name(lang)
+	except util.ClassNotFound:
 		return None
 
-	formatter = pygments.formatters.get_formatter_by_name('html')
+	formatter = formatters.get_formatter_by_name('html')
 	formatter.nowrap = True
 
 	return pygments.highlight(code, lexer, formatter)
