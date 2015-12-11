@@ -32,6 +32,7 @@ class RichEditorMixin(Textarea):
 			else:
 				tag_name = tag
 			unsupported_tags.update([tag_name + ' > ' + t for t in defined_tags - supported_tags[tag].get_child_tags() if t != ''])
+			unsupported_tags = unsupported_tags - set(['pre > span'])
 		return {
 			'unsupported': list(unsupported_tags),
 			'known': supported_tags.keys(),
@@ -41,14 +42,13 @@ class RichEditorMixin(Textarea):
 class RichEditor(RichEditorMixin):
 	def render(self, name, value, attrs=None, **kwargs):
 		supported_tags = self.attrs.pop('supported_tags', {})
-		parsers_conf = self.attrs.pop('parsers_conf', {})
+		self.attrs.pop('parsers_conf', {})
 		widget = super(RichEditor, self).render(name, value, attrs)
 
 		context = {
 			'name': name,
 			'lang': self.language[:2],
 			'tags': dumps(self.get_tags_info(supported_tags)),
-			'parsers': dumps(parsers_conf),
 			'widget': widget,
 		}
 		return mark_safe(render_to_string('widgets/editor.html', context))
