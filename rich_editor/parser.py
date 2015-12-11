@@ -38,6 +38,12 @@ class TableSpanValidator(object):
 			raise ValidationError("Integer required", code='invalid')
 
 
+class CodeValidator(object):
+	def __call__(self, value):
+		if not re.match(r'^code-\w+$', value):
+			raise ValidationError('Class not allowed', code='invalid')
+
+
 class AttributeException(Exception):
 	pass
 
@@ -78,8 +84,8 @@ DEFAULT_TAGS = dict((t.name, t) for t in [
 	HtmlTag('i', opt=TEXT_TAGS_LIST, empty=False),
 	HtmlTag('em', opt=TEXT_TAGS_LIST, empty=False),
 	HtmlTag('strong', opt=TEXT_TAGS_LIST, empty=False),
-	HtmlTag('a', opt=[''], req_attributes={'href': '#'}, empty=False, attribute_validators = {'href': [HrefValidator()]}),
-	HtmlTag('pre', opt=[''], empty=False),
+	HtmlTag('a', opt=[''], req_attributes={'href': '#'}, empty=False, attribute_validators={'href': [HrefValidator()]}),
+	HtmlTag('pre', opt=[''], empty=False, opt_attributes=['class'], attribute_validators={'class': [CodeValidator()]}),
 	HtmlTag('p', opt=TEXT_TAGS_LIST + ['span', 'code', 'cite'], empty=False),
 	HtmlTag('span', opt=TEXT_TAGS_LIST, empty=False),
 	HtmlTag('br', empty=True),
@@ -112,7 +118,7 @@ FULL_TAGS = dict((t.name, t) for t in [
 	HtmlTag('em', opt=FULL_TEXT_TAGS_LIST, empty=False),
 	HtmlTag('strong', opt=FULL_TEXT_TAGS_LIST, empty=False),
 	HtmlTag('a', opt=[''], req_attributes={'href': '#'}, empty=False, attribute_validators = {'href': [HrefValidator()]}),
-	HtmlTag('pre', opt=[''], empty=False),
+	HtmlTag('pre', opt=[''], empty=False, opt_attributes=['class'], attribute_validators={'class': [CodeValidator()]}),
 	HtmlTag('p', opt=FULL_TEXT_TAGS_LIST + ['span', 'code', 'cite'], empty=False),
 	HtmlTag('span', opt=FULL_TEXT_TAGS_LIST, empty=False),
 	HtmlTag('br', empty=True),
