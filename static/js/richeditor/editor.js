@@ -306,6 +306,7 @@ var SimpleEditorHtml = function(element, options) {
 				'<div class="form-row">' + (inputs.join('')) + '</div>'+
 				'<div class="form-row"><textarea placeholder="Sem vložte text"></textarea></div>',
 			onSubmitted: function() {
+				var inputs = modalContent.getElementsByTagName('INPUT');
 				var tag;
 				_.forEach(inputs, function(input) {
 					if (input.checked) {
