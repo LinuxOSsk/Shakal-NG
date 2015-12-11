@@ -306,13 +306,6 @@ var SimpleEditorHtml = function(element, options) {
 				'<div class="form-row">' + (inputs.join('')) + '</div>'+
 				'<div class="form-row"><textarea placeholder="Sem vložte text"></textarea></div>',
 			onSubmitted: function() {
-				var inputs = modalContent.getElementsByTagName('INPUT');
-				var tag;
-				_.forEach(inputs, function(input) {
-					if (input.checked) {
-						tag = input.value;
-					}
-				});
 				var content = textInput.value;
 				if (tag !== undefined) {
 					insert('<' + tag + '>' + _.escapeHTML(content) + '</' + tag + '>\n', '');
@@ -324,7 +317,24 @@ var SimpleEditorHtml = function(element, options) {
 		};
 		addModal(options);
 
+		var inputElements = modalContent.getElementsByTagName('INPUT');
 		var textInput = modalContent.getElementsByTagName('TEXTAREA')[0];
+		var tag;
+
+		var selectTag = function() {
+			tag = undefined;
+			_.forEach(inputElements, function(input) {
+				if (input.checked) {
+					tag = input.value;
+				}
+			});
+		};
+
+		_.forEach(inputElements, function(input) {
+			input.onchange = selectTag;
+		});
+
+		selectTag();
 	};
 
 	var addLink = function(btn) {
