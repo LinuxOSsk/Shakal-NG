@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.db.models import signals, TextField, SubfieldBase, Field
 
 from .forms import RichOriginalField
+from .syntax import highlight_pre_blocks
 from . import get_parser
 
 
@@ -76,6 +77,7 @@ class RichTextOriginalField(Field):
 				parser = parsers[fmt]
 				parser.parse(value)
 				parsed = parser.get_output()
+				parsed = highlight_pre_blocks(parsed)
 				old_values[original_field] = parsed
 				setattr(self, filtered_field, parsed)
 			return getattr(self, filtered_field)
@@ -89,7 +91,9 @@ class RichTextOriginalField(Field):
 			return data
 		parser = self.parsers[fmt]
 		parser.parse(value)
-		return parser.get_output()
+		parsed = parser.get_output()
+		parsed = highlight_pre_blocks(parsed)
+		return parsed
 
 
 class RichTextFilteredField(TextField):
