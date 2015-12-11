@@ -47,12 +47,13 @@ class AttachmentAdminMixin(AttachmentManagementMixin):
 			if create:
 				session = UploadSession()
 				session.save()
+				request.upload_session = session.uuid
 			else:
 				return None
 		return session
 
 	def attachments_list(self, request, obj):
-		is_new = obj is None
+		is_new = obj is None or isinstance(obj, UploadSession)
 		obj = obj or self.get_upload_session(request)
 		if obj:
 			attachments = (obj.attachments.all()
