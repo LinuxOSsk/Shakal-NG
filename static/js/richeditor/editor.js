@@ -290,6 +290,7 @@ var SimpleEditorHtml = function(element, options) {
 
 	var addText = function(btn) {
 		var inputs = [];
+		var lexersCode = '';
 		var checked = true;
 		if (hasTag('p')) {
 			inputs.push('<label><input name="richedit_insert_text_type" type="radio"' + (checked ? 'checked="checked"' : '') + ' value="p" /> Odstavec</label>&nbsp;&nbsp;&nbsp;&nbsp;');
@@ -298,27 +299,38 @@ var SimpleEditorHtml = function(element, options) {
 		if (hasTag('pre')) {
 			inputs.push('<label><input name="richedit_insert_text_type" type="radio"' + (checked ? 'checked="checked"' : '') + ' value="pre" /> Kód</label>&nbsp;&nbsp;&nbsp;&nbsp;');
 			checked = false;
+			var optionElements = [];
+			optionElements.push('<option value="">Vyberte zvýrazňovanie</option>');
+			_.forEach(options.lexers, function(lexer) {
+				optionElements.push('<option value="' + lexer[0] + '">' + _.escapeHTML(lexer[1]) + '</option>');
+			});
+			lexersCode = '<div class="form-row"><label>Zvýrazniť kód: <select>' + (optionElements.join('')) + '<select></label></div>';
 		}
 
-		var options = {
+		var modalOptions = {
 			template: ''+
-				'<h1>Vložiť text</h1>'+
-				'<div class="form-row">' + (inputs.join('')) + '</div>'+
+				'<h1>Vložiť text</h1>' +
+				'<div class="form-row">' + (inputs.join('')) + '</div>' + lexersCode +
 				'<div class="form-row"><textarea placeholder="Sem vložte text"></textarea></div>',
 			onSubmitted: function() {
 				var content = textInput.value;
 				if (tag !== undefined) {
-					insert('<' + tag + '>' + _.escapeHTML(content) + '</' + tag + '>\n', '');
+					var highlight = '';
+					if (tag === 'pre' && highlightSelect !== undefined && highlightSelect.value !== '') {
+						highlight = ' class="code-' + highlightSelect.value + '"';
+					}
+					insert('<' + tag + highlight + '>' + _.escapeHTML(content) + '</' + tag + '>\n', '');
 				}
 				else {
 					insert(_.escapeHTML(content) + '\n', '');
 				}
 			}
 		};
-		addModal(options);
+		addModal(modalOptions);
 
 		var inputElements = modalContent.getElementsByTagName('INPUT');
 		var textInput = modalContent.getElementsByTagName('TEXTAREA')[0];
+		var highlightSelect = modalContent.getElementsByTagName('SELECT')[0];
 		var tag;
 
 		var selectTag = function() {
@@ -328,6 +340,14 @@ var SimpleEditorHtml = function(element, options) {
 					tag = input.value;
 				}
 			});
+			if (tag === 'pre' && highlightSelect !== undefined) {
+				highlightSelect.parentNode.parentNode.style.display = 'block';
+			}
+			else {
+				if (highlightSelect !== undefined) {
+					highlightSelect.parentNode.parentNode.style.display = 'none';
+				}
+			}
 		};
 
 		_.forEach(inputElements, function(input) {

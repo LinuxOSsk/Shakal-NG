@@ -6,6 +6,7 @@ from django.utils.safestring import mark_safe
 from json import dumps
 
 from rich_editor.parser import ALL_TAGS
+from rich_editor.syntax import LEXERS
 
 
 class RichEditorMixin(Textarea):
@@ -50,6 +51,7 @@ class RichEditor(RichEditorMixin):
 			'lang': self.language[:2],
 			'tags': dumps(self.get_tags_info(supported_tags)),
 			'widget': widget,
+			'lexers': dumps(LEXERS),
 		}
 		return mark_safe(render_to_string('widgets/editor.html', context))
 
@@ -87,7 +89,8 @@ class RichOriginalEditor(RichEditorMixin):
 			'widget': widget,
 			'format': value_fmt,
 			'formats': formats,
-			'skin': self.skin
+			'skin': self.skin,
+			'lexers': dumps(LEXERS),
 		}
 		return mark_safe(render_to_string(self.template_name, context))
 

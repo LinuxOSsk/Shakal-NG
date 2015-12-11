@@ -23,7 +23,8 @@ var settings = {
 	parsers: {{ parsers|safe }},
 	preview: '{{ url("rich_editor:preview") }}',
 	namespace: '{% block namespace %}front{% endblock %}',
-	element: document.getElementById("id_textareawrapper_{{ name }}").getElementsByTagName('TEXTAREA')[0]
+	element: document.getElementById("id_textareawrapper_{{ name }}").getElementsByTagName('TEXTAREA')[0],
+	lexers: {{ lexers|safe }}
 };
 
 {% block init_editor %}
