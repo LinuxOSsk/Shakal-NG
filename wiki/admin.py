@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import reversion
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
+from reversion.admin import VersionAdmin
 
 from .models import Page
 
 
-class PageAdmin(reversion.VersionAdmin, MPTTModelAdmin):
+class PageAdmin(VersionAdmin, MPTTModelAdmin):
 	list_display = ('title', 'slug', )
 	search_fields = ('title', 'original_text', )
 	ordering = ('-id', )
