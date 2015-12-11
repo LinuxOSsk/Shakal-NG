@@ -9,7 +9,6 @@
 -- │ public │ [*] article_category                          │ table │ linuxos │
 -- │ public │ [*] attachment_attachment                     │ table │ linuxos │
 -- │ public │ [x] attachment_attachmentimage                │ table │ linuxos │
--- │ public │ [*] attachment_temporaryattachment            │ table │ linuxos │
 -- │ public │ [*] attachment_uploadsession                  │ table │ linuxos │
 -- │ public │ [*] auth_group                                │ table │ linuxos │
 -- │ public │ [*] auth_group_permissions                    │ table │ linuxos │
@@ -137,12 +136,6 @@ INSERT INTO attachment_uploadsession(id, created, uuid)
 	SELECT * FROM
 		dblink('dbname=linuxos', 'SELECT id, created, uuid FROM attachment_uploadsession')
 		AS t1(id integer, created timestamp with time zone, uuid character varying(32));
-
-INSERT INTO attachment_temporaryattachment(id, attachment, created, size, object_id, content_type_id, session_id)
-	SELECT * FROM
-		dblink('dbname=linuxos', 'SELECT id, attachment, created, size, object_id, content_type_id, session_id FROM attachment_temporaryattachment')
-		AS t1(id integer, attachment character varying(100), created timestamp with time zone, size integer, object_id integer, content_type_id integer, session_id integer);
-
 
 -- article
 
