@@ -71,6 +71,7 @@ def format_code(code, lang):
 
 	if len(code) > 200000:
 		return None
+	code = code.replace('\t', '    ')
 
 	try:
 		lexer = pygments.lexers.get_lexer_by_name(lang)
