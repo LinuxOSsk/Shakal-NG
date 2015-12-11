@@ -322,6 +322,8 @@ var SimpleEditorHtml = function(element, options) {
 			}
 		};
 		addModal(options);
+
+		var textInput = modalContent.getElementsByTagName('TEXTAREA')[0];
 	};
 
 	var addLink = function(btn) {
