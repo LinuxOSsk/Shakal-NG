@@ -102,5 +102,12 @@ class AttachmentAdminMixin(AttachmentManagementMixin):
 		else:
 			return HttpResponseBadRequest()
 
+	def save_model(self, request, obj, form, change):
+		super(AttachmentAdminMixin, self).save_model(request, obj, form, change)
+		if not change:
+			session = self.get_upload_session(request, create=True)
+			if session:
+				session.move_attachments(obj)
+
 
 admin.site.register(Attachment, AttachmentAdmin)
