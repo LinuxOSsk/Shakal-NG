@@ -7,6 +7,7 @@ from django.template.defaultfilters import striptags
 
 from search.templatetags.html_entity_decode import html_entity_decode
 
+
 LEXERS = (
 	('ada', 'ADA'),
 	('apacheconf', 'ApacheConf'),
@@ -63,7 +64,7 @@ LEXERS = (
 
 def format_code(code, lang):
 	import pygments
-	print(lang)
+	from pygments.util import ClassNotFound
 
 	if not lang in dict(LEXERS):
 		return None
@@ -71,7 +72,11 @@ def format_code(code, lang):
 	if len(code) > 200000:
 		return None
 
-	lexer = pygments.lexers.get_lexer_by_name(lang)
+	try:
+		lexer = pygments.lexers.get_lexer_by_name(lang)
+	except ClassNotFound:
+		return None
+
 	formatter = pygments.formatters.get_formatter_by_name('html')
 	formatter.nowrap = True
 
