@@ -12,6 +12,6 @@ class ArticleDetailView(DetailUserProtectedView):
 
 
 class ArticleListView(ListView):
-	queryset = Article.objects.all().defer('content').select_related('author', 'category')
+	queryset = Article.objects.all().defer('original_content', 'filtered_content').select_related('author', 'category')
 	category_model = Category
 	paginate_by = 10
