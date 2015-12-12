@@ -36,7 +36,8 @@ class RichOriginalField(CharField):
 	def widget_attrs(self, widget):
 		attrs = super(RichOriginalField, self).widget_attrs(widget)
 		attrs['parsers_conf'] = self.parsers_conf
-		attrs.update(self.parsers['html'].get_attributes())
+		for parser in self.parsers.values():
+			attrs.update(parser.get_attributes())
 		return attrs
 
 	def clean(self, value):
