@@ -1,12 +1,23 @@
 # -*- coding: utf-8 -*-
+from json import dumps
+
 from django.conf import settings
 from django.forms import Textarea
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
-from json import dumps
 
-from rich_editor.parser import ALL_TAGS
-from rich_editor.syntax import LEXERS
+from .parser import ALL_TAGS
+from .syntax import LEXERS
+
+
+class TextVal(unicode):
+	@property
+	def field_format(self):
+		return self.split(':', 1)[0] if ':' in self else ''
+
+	@property
+	def field_text(self):
+		return self.split(':', 1)[1] if ':' in self else ''
 
 
 class RichEditorMixin(Textarea):
@@ -65,21 +76,25 @@ class RichOriginalEditor(RichEditorMixin):
 
 	def render(self, name, value, attrs=None, **kwargs):
 		if value is None:
-			value=(None, None)
-		try:
-			value_fmt, value = value
-		except ValueError:
-			value_fmt = self.formats[0][0]
+			field_format = self.formats[0][0]
+			text = ''
+		else:
+			field_format = value.field_format
+			text = value.field_text
 
 		formats = []
 		for fmt, label in self.formats:
-			formats.append({'format': fmt, 'label': label, 'checked': fmt == value_fmt})
-		if not value_fmt in dict(self.formats):
+			formats.append({
+				'format': fmt,
+				'label': label,
+				'checked': fmt == field_format
+			})
+		if not field_format in dict(self.formats):
 			formats[0]['checked'] = True
 
 		supported_tags = self.attrs.pop('supported_tags', {})
 		parsers_conf = self.attrs.pop('parsers_conf', {})
-		widget = super(RichOriginalEditor, self).render(name, value, attrs)
+		widget = super(RichOriginalEditor, self).render(name, text, attrs)
 
 		context = {
 			'name': name,
@@ -87,7 +102,7 @@ class RichOriginalEditor(RichEditorMixin):
 			'tags': dumps(self.get_tags_info(supported_tags)),
 			'parsers': dumps(parsers_conf),
 			'widget': widget,
-			'format': value_fmt,
+			'format': field_format,
 			'formats': formats,
 			'skin': self.skin,
 			'lexers': dumps(LEXERS),
@@ -96,12 +111,7 @@ class RichOriginalEditor(RichEditorMixin):
 
 	def value_from_datadict(self, data, files, name):
 		text = data.get(name)
-		if isinstance(text, tuple):
-			return text
-		if not text:
-			return ('html', text)
-		fmt = data.get(name + "_format")
 		if self.attrs.get('no_format'):
 			return text
-		else:
-			return (fmt, text)
+		fmt = data.get(name + "_format") or self.formats[0][0]
+		return TextVal(fmt + ':' + text)

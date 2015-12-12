@@ -2,10 +2,12 @@
 from __future__ import unicode_literals
 
 from django.db.models import signals, TextField, SubfieldBase, Field
+from django.utils import six
 
+from . import get_parser
 from .forms import RichOriginalField
 from .syntax import highlight_pre_blocks
-from . import get_parser
+from .widgets import TextVal
 
 
 class RichTextOriginalField(Field):
@@ -39,18 +41,15 @@ class RichTextOriginalField(Field):
 		return super(RichTextOriginalField, self).formfield(**defaults)
 
 	def to_python(self, value):
-		if not isinstance(value, basestring):
+		if not isinstance(value, six.string_types):
 			return value
 		if ':' in value:
-			return tuple(value.split(":", 1))
+			return TextVal(value)
 		else:
 			if 'html' in self.parsers:
-				return ('html', value)
+				return TextVal('html:' + value)
 			else:
-				return (self.parsers.keys()[0], value)
-
-	def get_prep_value(self, value):
-		return value[0] + ":" + value[1]
+				return TextVal(self.parsers.keys()[0] + value)
 
 	def contribute_to_class(self, cls, name, **kwargs):
 		signals.pre_save.connect(self.update_filtered_field, sender = cls)

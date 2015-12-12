@@ -3,9 +3,9 @@ from __future__ import unicode_literals
 
 from django.forms import CharField
 
+from .parser import HtmlParser
 from .syntax import highlight_pre_blocks
 from .widgets import RichOriginalEditor, RichEditor
-from rich_editor.parser import HtmlParser
 
 
 class RichTextField(CharField):
@@ -41,8 +41,8 @@ class RichOriginalField(CharField):
 		return attrs
 
 	def clean(self, value):
-		fmt = value[0]
-		txt = super(RichOriginalField, self).clean(value[1])
+		fmt = value.field_format
+		txt = super(RichOriginalField, self).clean(value.field_text)
 		parser = self.parsers.get(fmt, self.parsers[fmt])
 		parser.parse(txt)
 		parsed = parser.get_output()
