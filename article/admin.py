@@ -29,8 +29,8 @@ class ArticleAdmin(AttachmentAdminMixin, AdminActionsMixin, admin.ModelAdmin):
 	form = ArticleForm
 	fieldsets = (
 		(None, {'fields': ('title', 'slug', 'category', 'author', 'authors_name', 'pub_time', 'top', 'image',)}),
-		('Obsah', {'fields': ('perex', 'annotation',)}),
-		('Text článku', {'fields': ('content',), 'classes': ('full-width',)}),
+		('Obsah', {'fields': ('original_perex', 'original_annotation',)}),
+		('Text článku', {'fields': ('original_content',), 'classes': ('full-width',)}),
 	)
 
 	def get_queryset(self, request):

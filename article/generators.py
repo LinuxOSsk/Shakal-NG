@@ -25,8 +25,9 @@ class CategoryGenerator(ModelGenerator):
 class ArticleGenerator(ModelGenerator):
 	title = samples.SentenceSample(unique=True)
 	category_id = samples.RelationSample(queryset=Category.objects.all().order_by("pk"), random_data=True, only_pk=True, fetch_all=True)
-	perex = samples.ParagraphSample()
-	content = LongHtmlGenerator()
+	original_annotation = samples.ParagraphSample()
+	original_perex = samples.ParagraphSample()
+	original_content = LongHtmlGenerator()
 	author_id = samples.RelationSample(queryset=User.objects.all().order_by("pk"), random_data=True, only_pk=True, fetch_all=True)
 	authors_name = samples.NameSample()
 	pub_time = samples.DateTimeSample()
@@ -36,7 +37,9 @@ class ArticleGenerator(ModelGenerator):
 	def get_object(self):
 		obj = super(ArticleGenerator, self).get_object()
 		obj.title = obj.title[:50]
-		obj.annotation = obj.perex
+		obj.filtered_annotation = obj.original_annotation[1]
+		obj.filtered_perex = obj.original_perex[1]
+		obj.filtered_content = obj.original_content[1]
 		obj.published = True
 		obj.created = obj.updated
 		unique_slugify(obj, 'slug')

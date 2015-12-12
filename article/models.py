@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import permalink
 from django.utils.timezone import now
+from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 from attachment.models import Attachment
 from autoimagefield.fields import AutoImageField
@@ -35,10 +36,10 @@ class Category(models.Model):
 
 class ArticleManager(models.Manager):
 	def get_queryset(self):
-		return super(ArticleManager, self).get_queryset() \
-			.filter(published=True) \
-			.filter(pub_time__lte=now()) \
-			.order_by('-pk')
+		return (super(ArticleManager, self).get_queryset()
+			.filter(published=True)
+			.filter(pub_time__lte=now())
+			.order_by('-pk'))
 
 
 class Article(TimestampModelMixin, models.Model):
@@ -48,9 +49,31 @@ class Article(TimestampModelMixin, models.Model):
 	title = models.CharField('názov', max_length=255)
 	slug = models.SlugField('skratka URL', unique=True)
 	category = models.ForeignKey(Category, verbose_name='kategória', on_delete=models.PROTECT)
-	perex = models.TextField('perex', help_text='Text na titulnej stránke')
-	annotation = models.TextField('anotácia', help_text='Text pred telom článku')
-	content = models.TextField('obsah')
+
+	original_perex = RichTextOriginalField(
+		filtered_field='filtered_perex',
+		property_name='perex',
+		verbose_name='text na titulnej stránke',
+		parsers={'raw': ''}
+	)
+	filtered_perex = RichTextFilteredField()
+
+	original_annotation = RichTextOriginalField(
+		filtered_field='filtered_annotation',
+		property_name='annotation',
+		verbose_name='text pred telom článku',
+		parsers={'raw': ''}
+	)
+	filtered_annotation = RichTextFilteredField()
+
+	original_content = RichTextOriginalField(
+		filtered_field='filtered_content',
+		property_name='content',
+		verbose_name='obsah',
+		parsers={'raw': ''}
+	)
+	filtered_content = RichTextFilteredField()
+
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='autor', on_delete=models.SET_NULL, blank=True, null=True)
 	authors_name = models.CharField('meno autora', max_length=255)
 	pub_time = models.DateTimeField('čas publikácie', default=now)
@@ -65,7 +88,7 @@ class Article(TimestampModelMixin, models.Model):
 
 	@property
 	def poll_set(self):
-		return self.polls.filter(approved=True).order_by('pk').all()
+		return self.polls.all().filter(approved=True).order_by('pk').all()
 
 	def clean_fields(self, exclude=None):
 		slug_num = None
