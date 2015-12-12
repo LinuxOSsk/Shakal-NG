@@ -64,6 +64,8 @@ class Comment(MPTTModel, TimestampModelMixin):
 
 	attachments = GenericRelation(Attachment)
 
+	content_fields = ('original_comment',)
+
 	def get_or_create_root_header(self):
 		try:
 			header = RootHeader.objects.get(content_type=self.content_type, object_id=self.object_id)

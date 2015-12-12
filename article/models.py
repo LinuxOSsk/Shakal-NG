@@ -86,6 +86,8 @@ class Article(TimestampModelMixin, models.Model):
 	attachments = GenericRelation(Attachment)
 	hit = HitCountField()
 
+	content_fields = ('original_perex', 'original_annotation', 'original_content',)
+
 	@property
 	def poll_set(self):
 		return self.polls.all().filter(approved=True).order_by('pk').all()

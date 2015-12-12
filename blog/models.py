@@ -26,6 +26,8 @@ class Blog(TimestampModelMixin, models.Model):
 	original_sidebar = RichTextOriginalField(filtered_field='filtered_sidebar', property_name='sidebar', verbose_name='bočný panel', max_length=1000)
 	filtered_sidebar = RichTextFilteredField()
 
+	content_fields = ('original_descriptoin', 'original_sidebar',)
+
 	@models.permalink
 	def get_absolute_url(self):
 		return ('blog:post-list-category', [self.slug], {})
@@ -80,6 +82,8 @@ class Post(TimestampModelMixin, models.Model):
 	comments = GenericRelation(Comment)
 	attachments = GenericRelation(Attachment)
 	hit = HitCountField()
+
+	content_fields = ('original_perex', 'original_content',)
 
 	@models.permalink
 	def get_absolute_url(self):

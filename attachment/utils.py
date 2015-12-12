@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import re
+
 from django.conf import settings
 
 
@@ -17,3 +19,9 @@ def get_available_size(content_type, uploaded_size):
 	if size_for_content < 0:
 		return -1
 	return max(size_for_content - uploaded_size, 0)
+
+
+def replace_file_urls(val, moves):
+	for src, dst in moves:
+		val = re.sub(re.escape(settings.MEDIA_URL + src), settings.MEDIA_URL + dst, val)
+	return val

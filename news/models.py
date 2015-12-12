@@ -43,6 +43,8 @@ class News(TimestampModelMixin, models.Model):
 	attachments = GenericRelation(Attachment)
 	comments = GenericRelation(Comment)
 
+	content_fields = ('original_short_text', 'original_long_text',)
+
 	class Meta:
 		verbose_name = 'správa'
 		verbose_name_plural = 'správy'

@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import os
-import re
 import uuid
 
 from django.conf import settings
@@ -15,6 +14,7 @@ from django.db.models.fields.files import FileField
 from django.utils import six
 from django.utils.translation import ugettext_lazy as _
 
+from .utils import replace_file_urls
 from autoimagefield.fields import AutoImageFieldMixin
 from common_utils import clean_dir, get_meta
 
@@ -169,17 +169,14 @@ class UploadSession(models.Model):
 		Nahradenie dočasných URL adres v objekte po presune príloh.
 		"""
 		changed = False
-		opts = get_meta(content_object)
-		for field in opts.fields:
-			old_val = getattr(content_object, field.name, None)
-			new_val = old_val
+		if not hasattr(content_object, 'content_fields'):
+			return
+		for field in content_object.content_fields:
+			old_val = getattr(content_object, field, None)
 			if isinstance(old_val, six.string_types):
-				print(field.name)
-				for src, dst in moves:
-					new_val = re.sub(re.escape(settings.MEDIA_URL + src), settings.MEDIA_URL + dst, new_val)
-					print(re.escape(settings.MEDIA_URL + src), settings.MEDIA_URL + dst, new_val)
+				new_val = replace_file_urls(old_val, moves)
 				if new_val != old_val:
 					changed = True
-					setattr(content_object, field.name, new_val)
+					setattr(content_object, field, new_val)
 		if changed:
 			content_object.save()

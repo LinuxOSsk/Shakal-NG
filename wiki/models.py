@@ -25,6 +25,8 @@ class Page(mptt.models.MPTTModel, TimestampModelMixin):
 	filtered_text = RichTextFilteredField()
 	page_type = models.CharField(u'typ stránky', max_length=1, choices=TYPE_CHOICES, default='p')
 
+	content_fields = ('original_text',)
+
 	def __unicode__(self):
 		return self.title
 

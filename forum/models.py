@@ -102,6 +102,8 @@ class Topic(TimestampModelMixin, models.Model):
 
 	breadcrumb_label = 'fórum'
 
+	content_fields = ('original_text',)
+
 	def is_public(self):
 		return not self.is_removed
 
