@@ -43,7 +43,7 @@ class RichOriginalField(CharField):
 	def clean(self, value):
 		fmt = value[0]
 		txt = super(RichOriginalField, self).clean(value[1])
-		parser = self.parsers.get(fmt, self.parsers['html'])
+		parser = self.parsers.get(fmt, self.parsers[fmt])
 		parser.parse(txt)
 		parsed = parser.get_output()
 		parsed = highlight_pre_blocks(parsed)
