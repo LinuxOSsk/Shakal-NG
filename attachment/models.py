@@ -116,6 +116,9 @@ class AttachmentImage(Attachment):
 	width = models.IntegerField()
 	height = models.IntegerField()
 
+	def __unicode__(self):
+		super(AttachmentImage, self).__unicode__()
+
 
 class AttachmentImageRaw(models.Model):
 	attachment_ptr = models.PositiveIntegerField(db_column='attachment_ptr_id', primary_key=True)
