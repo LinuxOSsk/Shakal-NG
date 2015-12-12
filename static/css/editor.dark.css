@@ -74,7 +74,7 @@ div.richedit_container .richedit_modal_content {
     div.richedit_container .richedit_modal_content .form-row input[type=radio], div.richedit_container .richedit_modal_content .form-row input[type=checkbox] {
       vertical-align: middle;
       margin: 0 4px 0 0; }
-    div.richedit_container .richedit_modal_content .form-row input[type=text], div.richedit_container .richedit_modal_content .form-row textarea {
+    div.richedit_container .richedit_modal_content .form-row input[type=text], div.richedit_container .richedit_modal_content .form-row textarea, div.richedit_container .richedit_modal_content .form-row select {
       color: black;
       background: white;
       border: 1px solid #eee;
@@ -86,6 +86,8 @@ div.richedit_container .richedit_modal_content {
       border-radius: 0;
       box-shadow: none;
       height: auto; }
+    div.richedit_container .richedit_modal_content .form-row select {
+      width: auto; }
     div.richedit_container .richedit_modal_content .form-row textarea {
       height: 160px;
       font-family: monospace; }

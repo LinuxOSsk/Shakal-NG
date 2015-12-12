@@ -95,7 +95,7 @@ div.richedit_container {
 			margin: 0 4px 0 0;
 		}
 
-		input[type=text], textarea {
+		input[type=text], textarea, select {
 			color: black;
 			background: white;
 			border: 1px solid #eee;
@@ -107,6 +107,10 @@ div.richedit_container {
 			border-radius: 0;
 			box-shadow: none;
 			height: auto;
+		}
+
+		select {
+			width: auto;
 		}
 
 		textarea {
