@@ -5,6 +5,8 @@ import re
 
 from django.conf import settings
 
+from common_utils import get_current_request
+
 
 def get_available_size(content_type, uploaded_size):
 	max_size = getattr(settings, 'ATTACHMENT_MAX_SIZE', -1)
@@ -22,6 +24,12 @@ def get_available_size(content_type, uploaded_size):
 
 
 def replace_file_urls(val, moves):
+	host = ''
+	req = get_current_request()
+	if req is not None:
+		host = req.scheme + '://' + req.get_host()
 	for src, dst in moves:
-		val = re.sub(re.escape(settings.MEDIA_URL + src), settings.MEDIA_URL + dst, val)
+		src_dir = '/'.join(src.split('/')[:-1])
+		dst_dir = '/'.join(dst.split('/')[:-1])
+		val = re.sub('(' + re.escape(host) + ')?' + re.escape(settings.MEDIA_URL + src_dir), settings.MEDIA_URL + dst_dir, val)
 	return val
