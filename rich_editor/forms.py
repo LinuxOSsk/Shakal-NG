@@ -5,7 +5,7 @@ from django.forms import CharField
 
 from .parser import HtmlParser
 from .syntax import highlight_pre_blocks
-from .widgets import RichOriginalEditor, RichEditor
+from .widgets import RichOriginalEditor, RichEditor, TextVal
 
 
 class RichTextField(CharField):
@@ -47,4 +47,6 @@ class RichOriginalField(CharField):
 		parser.parse(txt)
 		parsed = parser.get_output()
 		parsed = highlight_pre_blocks(parsed)
-		return (fmt, txt, parsed)
+		val = TextVal(fmt + ':' + txt)
+		val.field_filtered = parsed
+		return val

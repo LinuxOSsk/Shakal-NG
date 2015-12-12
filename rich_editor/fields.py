@@ -75,9 +75,9 @@ class RichTextOriginalField(Field):
 			old_values = getattr(self, "old_values", {})
 			old_field_value = old_values.get(original_field, None)
 			if old_field_value is not None and getattr(self, original_field) != old_field_value:
-				fmt, value = getattr(self, original_field)[:2]
-				parser = parsers[fmt]
-				parser.parse(value)
+				value = getattr(self, original_field)
+				parser = parsers[value.field_format]
+				parser.parse(value.field_text)
 				parsed = parser.get_output()
 				parsed = highlight_pre_blocks(parsed)
 				old_values[original_field] = parsed
@@ -86,9 +86,10 @@ class RichTextOriginalField(Field):
 		setattr(cls, self.property_name, property(filtered_property))
 
 	def filter_data(self, data):
-		if len(data) == 3:
-			return data[2]
-		fmt, value = data
+		if hasattr(data, 'field_filtered') and data.field_filtered is not None:
+			return data.field_filtered
+		fmt = data.field_format
+		value = data.field_text
 		if not fmt:
 			return data
 		parser = self.parsers[fmt]
