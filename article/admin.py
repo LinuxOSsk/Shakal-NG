@@ -28,7 +28,7 @@ class ArticleAdmin(AttachmentAdminMixin, AdminActionsMixin, admin.ModelAdmin):
 	inlines = [AttachmentInline]
 	form = ArticleForm
 	fieldsets = (
-		(None, {'fields': ('title', 'slug', 'category', 'author', 'authors_name', 'pub_time', 'top', 'image',)}),
+		(None, {'fields': ('title', 'slug', 'category', 'author', 'authors_name', 'pub_time', 'published', 'top', 'image',)}),
 		('Obsah', {'fields': ('original_perex', 'original_annotation',)}),
 		('Text článku', {'fields': ('original_content',), 'classes': ('full-width',)}),
 	)
