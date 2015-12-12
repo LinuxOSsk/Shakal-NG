@@ -33,7 +33,7 @@ class CommentManager(models.Manager):
 					content_type=ctype,
 					object_id=object_id,
 					defaults={
-						'original_comment': ('html', ''),
+						'original_comment': 'html:',
 						'filtered_comment': '',
 						'user_name': '',
 						'created': timezone.now(),

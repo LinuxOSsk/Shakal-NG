@@ -54,7 +54,7 @@ class CommentGenerator(ModelGenerator):
 		return comments_flat
 
 	def __iter__(self):
-		self.next_id = (Comment.objects.aggregate(max_id=Max('id'))['max_id'] or 0) + 1
+		self.next_id = (Comment.objects.all().aggregate(max_id=Max('id'))['max_id'] or 0) + 1
 
 		for model in self.GENERATE_FOR_MODELS:
 			model_class = apps.get_model(model)
@@ -65,7 +65,7 @@ class CommentGenerator(ModelGenerator):
 					level=0,
 					content_type=ctype,
 					object_id=instance.pk,
-					original_comment=('html', ''),
+					original_comment='html:',
 					filtered_comment='',
 					user_name='',
 					created=instance.created,
