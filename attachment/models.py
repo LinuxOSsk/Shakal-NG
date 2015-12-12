@@ -138,6 +138,7 @@ class UploadSession(models.Model):
 	attachments = GenericRelation(Attachment)
 
 	def move_attachments(self, content_object):
+		moves = []
 		temp_attachments = self.attachments.all()
 		for temp_attachment in temp_attachments:
 			attachment = Attachment(
@@ -146,7 +147,9 @@ class UploadSession(models.Model):
 				object_id=content_object.pk
 			)
 			attachment.save()
+			moves.append((temp_attachment.attachment.name, attachment.attachment.name))
 			temp_attachment.delete()
+		return moves
 
 	def __unicode__(self):
 		return self.uuid
