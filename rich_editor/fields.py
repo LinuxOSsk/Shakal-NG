@@ -44,7 +44,10 @@ class RichTextOriginalField(Field):
 		if ':' in value:
 			return tuple(value.split(":", 1))
 		else:
-			return ('html', value)
+			if 'html' in self.parsers:
+				return ('html', value)
+			else:
+				return (self.parsers.keys()[0], value)
 
 	def get_prep_value(self, value):
 		return value[0] + ":" + value[1]
