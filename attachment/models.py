@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 import os
+import re
 import uuid
 
 from django.conf import settings
@@ -11,6 +12,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import signals
 from django.db.models.fields.files import FileField
+from django.utils import six
 from django.utils.translation import ugettext_lazy as _
 
 from autoimagefield.fields import AutoImageFieldMixin
@@ -140,7 +142,10 @@ class UploadSession(models.Model):
 	uuid = models.CharField(max_length=32, unique=True, default=generate_uuid)
 	attachments = GenericRelation(Attachment)
 
-	def move_attachments(self, content_object):
+	def move_attachments(self, content_object, replace_urls=True):
+		"""
+		Presun príloh do adresára podľa typu objektu a jeho ID napr: attachments/article/1
+		"""
 		moves = []
 		temp_attachments = self.attachments.all()
 		for temp_attachment in temp_attachments:
@@ -152,7 +157,29 @@ class UploadSession(models.Model):
 			attachment.save()
 			moves.append((temp_attachment.attachment.name, attachment.attachment.name))
 			temp_attachment.delete()
+		if replace_urls and moves:
+			self.__replace_content_attachment_urls(content_object, moves)
 		return moves
 
 	def __unicode__(self):
 		return self.uuid
+
+	def __replace_content_attachment_urls(self, content_object, moves):
+		"""
+		Nahradenie dočasných URL adres v objekte po presune príloh.
+		"""
+		changed = False
+		opts = get_meta(content_object)
+		for field in opts.fields:
+			old_val = getattr(content_object, field.name, None)
+			new_val = old_val
+			if isinstance(old_val, six.string_types):
+				print(field.name)
+				for src, dst in moves:
+					new_val = re.sub(re.escape(settings.MEDIA_URL + src), settings.MEDIA_URL + dst, new_val)
+					print(re.escape(settings.MEDIA_URL + src), settings.MEDIA_URL + dst, new_val)
+				if new_val != old_val:
+					changed = True
+					setattr(content_object, field.name, new_val)
+		if changed:
+			content_object.save()
