@@ -86,7 +86,7 @@ def format_code(code, lang):
 
 def highlight_block(match):
 	lang = match.group(2)
-	code = format_code(striptags(html_entity_decode(match.group(3))), lang)
+	code = format_code(html_entity_decode(striptags(match.group(3))), lang)
 	if code is None:
 		return ''.join((match.group(1), match.group(3), match.group(4)))
 	else:
