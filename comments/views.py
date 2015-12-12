@@ -177,7 +177,7 @@ class CommentDetail(DetailView):
 			'object': obj,
 			'module_name': get_module_name(obj),
 			'module_url': get_module_url(obj),
-			'single': False,
+			'single': True,
 			'highlight': [comment.pk]
 		})
 		return ctx
