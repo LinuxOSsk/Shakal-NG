@@ -213,10 +213,10 @@ INSERT INTO hitcount_hitcount(id, hits, object_id, content_type_id)
 
 -- news
 
-INSERT INTO news_news(id, title, slug, original_short_text, filtered_short_text, original_long_text, filtered_long_text, created, updated, authors_name, approved, author_id)
+INSERT INTO news_news(id, category_id, title, slug, original_short_text, filtered_short_text, original_long_text, filtered_long_text, created, updated, authors_name, approved, author_id)
 	SELECT * FROM
-		dblink('dbname=linuxos', 'SELECT id, title, slug, original_short_text, filtered_short_text, original_long_text, filtered_long_text, created, updated, authors_name, '''', '''', approved, author_id FROM news_news')
-		AS t1(id integer, title character varying(255), slug character varying(50), original_short_text text, filtered_short_text text, original_long_text text, filtered_long_text text, created timestamp with time zone, updated timestamp with time zone, authors_name character varying(255), source character varying(100), source_url character varying(1000), approved boolean, author_id integer);
+		dblink('dbname=linuxos', 'SELECT id, 1, title, slug, original_short_text, filtered_short_text, original_long_text, filtered_long_text, created, updated, authors_name, '''', '''', approved, author_id FROM news_news')
+		AS t1(id integer, category_id integer, title character varying(255), slug character varying(50), original_short_text text, filtered_short_text text, original_long_text text, filtered_long_text text, created timestamp with time zone, updated timestamp with time zone, authors_name character varying(255), source character varying(100), source_url character varying(1000), approved boolean, author_id integer);
 
 
 -- notifications
