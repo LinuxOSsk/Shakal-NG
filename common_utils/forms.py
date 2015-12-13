@@ -13,6 +13,7 @@ USERNAME_VALIDATOR = validators.RegexValidator(r'^[\w.@+-]+$', 'Meno môže obsa
 
 class AuthorsNameFormMixin(object):
 	authors_name_field = 'authors_name'
+	author_field = 'author'
 
 	def __init__(self, *args, **kwargs):
 		super(AuthorsNameFormMixin, self).__init__(*args, **kwargs)
@@ -48,6 +49,8 @@ class AuthorsNameFormMixin(object):
 		if request.user.is_authenticated():
 			username = get_current_request().user.get_full_name()
 			setattr(obj, self.authors_name_field, username)
+			if self.author_field:
+				setattr(obj, self.author_field, request.user)
 		if commit:
 			obj.save()
 		return obj
