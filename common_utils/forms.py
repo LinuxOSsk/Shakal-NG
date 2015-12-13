@@ -54,3 +54,21 @@ class AuthorsNameFormMixin(object):
 		if commit:
 			obj.save()
 		return obj
+
+
+class SetRequiredFieldsMixin(object):
+	required_fields = {}
+
+	def __init__(self, *args, **kwargs):
+		super(SetRequiredFieldsMixin, self).__init__(*args, **kwargs)
+		for fieldname, is_required in self.required_fields.iteritems():
+			self.fields[fieldname].required = is_required
+
+
+class SetWidgetAttrsMixin(object):
+	widget_attrs = {}
+
+	def __init__(self, *args, **kwargs):
+		super(SetWidgetAttrsMixin, self).__init__(*args, **kwargs)
+		for fieldname, attrs in self.widget_attrs.iteritems():
+			self.fields[fieldname].widget.attrs.update(attrs)

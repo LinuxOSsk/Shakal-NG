@@ -24,8 +24,10 @@
 			<span class="user">{{ user_link(item.author, item.authors_name) }}</span>
 		</div>
 		<p>{{ item.short_text|safe }}</p>
-		<hr />
-		<p>{{ item.long_text|safe }}</p>
+		{% if item.short_text != item.long_text %}
+			<hr />
+			<p>{{ item.long_text|safe }}</p>
+		{% endif %}
 		<hr />
 		{% with news=item %}
 			{% include "news/partials/source.html" %}

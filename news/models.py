@@ -31,11 +31,24 @@ class News(TimestampModelMixin, models.Model):
 	objects = NewsListManager()
 
 	title = models.CharField(max_length=255, verbose_name='titulok')
-	slug = AutoSlugField(title_field="title", unique=True)
-	original_short_text = RichTextOriginalField(filtered_field="filtered_short_text", property_name="short_text", verbose_name='krátky text', max_length=NEWS_MAX_LENGTH)
+	slug = AutoSlugField(title_field='title', unique=True)
+
+	original_short_text = RichTextOriginalField(
+		filtered_field='filtered_short_text',
+		property_name='short_text',
+		verbose_name='krátky text',
+		max_length=NEWS_MAX_LENGTH
+	)
 	filtered_short_text = RichTextFilteredField()
-	original_long_text = RichTextOriginalField(filtered_field="filtered_long_text", property_name="long_text", verbose_name='dlhý text')
+
+	original_long_text = RichTextOriginalField(
+		filtered_field='filtered_long_text',
+		property_name='long_text',
+		verbose_name='dlhý text',
+		help_text='Vyplňte v prípade, že sa text v detaile správy má líšiť od textu v zozname.'
+	)
 	filtered_long_text = RichTextFilteredField()
+
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='author')
 	authors_name = models.CharField(max_length=255, verbose_name='meno authora')
 	source = models.CharField(max_length=100, verbose_name='zdroj', blank=True)
