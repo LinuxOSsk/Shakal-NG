@@ -37,9 +37,9 @@ class ArticleGenerator(ModelGenerator):
 	def get_object(self):
 		obj = super(ArticleGenerator, self).get_object()
 		obj.title = obj.title[:50]
-		obj.filtered_annotation = obj.original_annotation[1]
-		obj.filtered_perex = obj.original_perex[1]
-		obj.filtered_content = obj.original_content[1]
+		obj.filtered_annotation = obj.original_annotation.field_text
+		obj.filtered_perex = obj.original_perex.field_text
+		obj.filtered_content = obj.original_content.field_text
 		obj.published = True
 		obj.created = obj.updated
 		unique_slugify(obj, 'slug')

@@ -20,7 +20,7 @@ class TopicGenerator(ModelGenerator):
 
 	def get_object(self):
 		obj = super(TopicGenerator, self).get_object()
-		obj.filtered_text = obj.original_text[1]
+		obj.filtered_text = obj.original_text.field_text
 		obj.updated = obj.created
 		obj.title = obj.title[:60]
 		return obj
