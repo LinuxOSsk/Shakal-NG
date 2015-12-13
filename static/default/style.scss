@@ -707,9 +707,9 @@ button:focus { outline: none; }
 		font-size: 0.875em;
 		color: $help-color;
 	}
-	input[type="text"], input[type="password"] {
-		vertical-align:
-		middle; width: 15em;
+	input[type="text"], input[type="password"], input[type="email"], input[type="url"] {
+		vertical-align: middle;
+		width: 15em;
 	}
 	ul {
 		@include no-space();
@@ -729,11 +729,11 @@ button:focus { outline: none; }
 	.negative { float: left; }
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="password"], input[type="email"], input[type="url"] {
 	@include input();
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="password"], input[type="email"], input[type="url"] {
 	@include sprite-generated(input_bg, $setSize: false);
 	background-repeat: repeat-x;
 	background-color: #fff;
@@ -749,7 +749,7 @@ textarea {
 
 .formset-field {
 	padding: 0 3px;
-	input[type="text"], input[type="password"], textarea {
+	input[type="text"], input[type="password"], input[type="email"], input[type="url"], textarea {
 		padding: 3px 0; width: 100%;
 	}
 }
