@@ -77,6 +77,7 @@ update2: .stamp_settings
 	${DJANGO_MANAGE} migrate
 	${DJANGO_MANAGE} compilemessages
 	${DJANGO_MANAGE} loaddata forum/data/categories.json
+	${DJANGO_MANAGE} loaddata news/data/categories.json
 	${DJANGO_MANAGE} create_sample_data --verbosity 2
 	${DJANGO_MANAGE} loaddata wiki/data/pages.json
 	${DJANGO_MANAGE} rebuild_index --noinput

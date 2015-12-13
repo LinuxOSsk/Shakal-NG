@@ -26,12 +26,30 @@ class NewsListManager(models.Manager):
 		return super(NewsListManager, self).get_queryset().select_related('author').filter(approved=True).order_by('-pk')
 
 
+class Category(models.Model):
+	name = models.CharField('názov', max_length=255)
+	slug = models.SlugField(unique=True)
+	description = models.TextField('popis')
+
+	@permalink
+	def get_absolute_url(self):
+		return ('forum:section', None, {'category': self.slug})
+
+	def __unicode__(self):
+		return self.name
+
+	class Meta:
+		verbose_name = 'kategória'
+		verbose_name_plural = 'kategórie'
+
+
 class News(TimestampModelMixin, models.Model):
 	all_news = NewsManager()
 	objects = NewsListManager()
 
 	title = models.CharField(max_length=255, verbose_name='titulok')
 	slug = AutoSlugField(title_field='title', unique=True)
+	category = models.ForeignKey(Category, verbose_name='kategória', on_delete=models.PROTECT)
 
 	original_short_text = RichTextOriginalField(
 		filtered_field='filtered_short_text',

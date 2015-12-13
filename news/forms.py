@@ -6,6 +6,7 @@ from django import forms
 from .models import News
 from antispam.forms import AntispamFormMixin
 from common_utils.forms import AuthorsNameFormMixin, SetRequiredFieldsMixin
+from common_utils.widgets import DescriptionRadioSelect
 
 
 class NewsForm(AntispamFormMixin, AuthorsNameFormMixin, SetRequiredFieldsMixin, forms.ModelForm):
@@ -18,11 +19,13 @@ class NewsForm(AntispamFormMixin, AuthorsNameFormMixin, SetRequiredFieldsMixin, 
 		fields = (
 			'title',
 			'authors_name',
+			'category',
 			'source',
 			'source_url',
 			'original_short_text',
 			'original_long_text',
 		)
+		widgets = {'category': DescriptionRadioSelect()}
 
 	def clean(self):
 		cleaned_data = super(NewsForm, self).clean()

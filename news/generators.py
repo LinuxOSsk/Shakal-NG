@@ -4,13 +4,14 @@ from __future__ import unicode_literals
 from django_autoslugfield.utils import unique_slugify
 from django_sample_generator import GeneratorRegister, ModelGenerator, samples
 
-from .models import News
+from .models import News, Category
 from accounts.models import User
 from django.conf import settings
 
 
 class NewsGenerator(ModelGenerator):
 	title = samples.SentenceSample(unique=True)
+	category_id = samples.RelationSample(queryset=Category.objects.all().order_by("pk"), random_data=True, only_pk=True, fetch_all=True)
 	original_short_text = samples.ParagraphSample()
 	author_id = samples.RelationSample(queryset=User.objects.all().order_by("pk"), random_data=True, only_pk=True, fetch_all=True)
 	authors_name = samples.NameSample()

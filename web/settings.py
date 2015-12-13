@@ -344,6 +344,7 @@ SUIT_CONFIG = {
 			'permissions': 'news.change_news',
 			'models': (
 				'news.news',
+				'news.category',
 			)
 		},
 		{

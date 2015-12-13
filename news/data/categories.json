@@ -1,0 +1,83 @@
+[
+{
+	"fields": {
+		"description": "R\u00f4zne upzornenia, ktor\u00e9 nepatria do ostatn\u00fdch kateg\u00f3ri\u00ed.",
+		"name": "Novinky",
+		"slug": "novinky"
+	},
+	"model": "news.category",
+	"pk": 1
+},
+{
+	"fields": {
+		"description": "Nov\u00e9 verzie softv\u00e9ru.",
+		"name": "Nov\u00e1 verzia",
+		"slug": "nova-verzia"
+	},
+	"model": "news.category",
+	"pk": 2
+},
+{
+	"fields": {
+		"description": "Spr\u00e1va upozor\u0148uj\u00faca na zauj\u00edmav\u00fd \u010dl\u00e1nok.",
+		"name": "Zauj\u00edmav\u00fd \u010dl\u00e1nok",
+		"slug": "zaujimavy-clanok"
+	},
+	"model": "news.category",
+	"pk": 3
+},
+{
+	"fields": {
+		"description": "Inform\u00e1cie o nezn\u00e1mom \u010di novom softv\u00e9ri.",
+		"name": "Zauj\u00edmav\u00fd softv\u00e9r",
+		"slug": "zaujimavy-softver"
+	},
+	"model": "news.category",
+	"pk": 4
+},
+{
+	"fields": {
+		"description": "Upozornenie na zuaj\u00edmav\u00fd projekt.",
+		"name": "Zauj\u00edmav\u00fd projekt",
+		"slug": "zaujimavy-projekt"
+	},
+	"model": "news.category",
+	"pk": 5
+},
+{
+	"fields": {
+		"description": "Inform\u00e1cie o komunitn\u00fdch akci\u00e1ch.",
+		"name": "Komunita",
+		"slug": "komunita"
+	},
+	"model": "news.category",
+	"pk": 6
+},
+{
+	"fields": {
+		"description": "Upozornenia na bezpe\u010dnostn\u00e9 chyby.",
+		"name": "Bezpe\u010dnos\u0165",
+		"slug": "bezpecnost"
+	},
+	"model": "news.category",
+	"pk": 7
+},
+{
+	"fields": {
+		"description": "Novinky zo sveta IT.",
+		"name": "IT novinky",
+		"slug": "it-novinky"
+	},
+	"model": "news.category",
+	"pk": 8
+},
+{
+	"fields": {
+		"description": "Z\u00e1bavn\u00e1 spr\u00e1va zo sveta Linuxu a Open Source.",
+		"name": "Humor",
+		"slug": "humor"
+	},
+	"model": "news.category",
+	"pk": 9
+}
+]
