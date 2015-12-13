@@ -1,0 +1,14 @@
+{% if news.source or news.source_url %}
+	<p>
+		Zdroj:
+		{% if news.source_url and news.source %}
+			<a href="{{ news.source_url }}" rel="nofollow">{{ news.source }}</a>
+		{% else %}
+			{% if news.source_url %}
+				<a href="{{ news.source_url }}" rel="nofollow">{{ news.source_url }}</a>
+			{% else %}
+				{{ news.source }}
+			{% endif %}
+		{% endif %}
+	</p>
+{% endif %}

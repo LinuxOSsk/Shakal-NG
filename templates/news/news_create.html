@@ -26,6 +26,10 @@
 		<p>{{ item.short_text|safe }}</p>
 		<hr />
 		<p>{{ item.long_text|safe }}</p>
+		<hr />
+		{% with news=item %}
+			{% include "news/partials/source.html" %}
+		{% endwith %}
 	</div>
 {% endif %}
 
