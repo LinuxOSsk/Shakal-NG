@@ -17,9 +17,9 @@ class Migration(migrations.Migration):
 			name='Section',
 			fields=[
 				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-				('name', models.CharField(max_length=255, verbose_name='N\xe1zov')),
+				('name', models.CharField(max_length=255, verbose_name='n\xe1zov')),
 				('slug', models.SlugField(unique=True)),
-				('description', models.TextField(verbose_name='Popis')),
+				('description', models.TextField(verbose_name='popis')),
 			],
 			options={
 				'verbose_name': 'sekcia',

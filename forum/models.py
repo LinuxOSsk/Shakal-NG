@@ -5,7 +5,6 @@ from datetime import timedelta
 
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
-from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import permalink
 from django.utils import timezone
@@ -20,18 +19,9 @@ COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)
 
 
 class Section(models.Model):
-	name = models.CharField('Názov', max_length=255)
+	name = models.CharField('názov', max_length=255)
 	slug = models.SlugField(unique=True)
-	description = models.TextField('Popis')
-
-	def clean(self):
-		slug_num = None
-		try:
-			slug_num = int(self.slug)
-		except ValueError:
-			pass
-		if slug_num is not None:
-			raise ValidationError('Numerické hodnoty nie sú povolené')
+	description = models.TextField('popis')
 
 	@permalink
 	def get_absolute_url(self):

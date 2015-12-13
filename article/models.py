@@ -3,11 +3,9 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
-from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import permalink
 from django.utils.timezone import now
-from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 from attachment.models import Attachment
 from autoimagefield.fields import AutoImageField
@@ -15,6 +13,7 @@ from comments.models import RootHeader, Comment
 from common_utils.models import TimestampModelMixin
 from hitcount.models import HitCountField
 from polls.models import Poll
+from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
 class Category(models.Model):
@@ -91,16 +90,6 @@ class Article(TimestampModelMixin, models.Model):
 	@property
 	def poll_set(self):
 		return self.polls.all().filter(approved=True).order_by('pk').all()
-
-	def clean_fields(self, exclude=None):
-		slug_num = None
-		try:
-			slug_num = int(self.slug)
-		except ValueError:
-			pass
-		if slug_num is not None:
-			raise ValidationError({'slug': ['Číselné slugy nie sú povolené']})
-		super(Article, self).clean_fields(exclude)
 
 	@permalink
 	def get_absolute_url(self):
