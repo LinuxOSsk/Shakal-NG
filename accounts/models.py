@@ -44,8 +44,8 @@ class User(AbstractUser):
 		return ('accounts:profile', [], {'pk': self.pk})
 
 	def get_full_name(self):
-		full_name = '%s %s' % (self.first_name, self.last_name)
-		return full_name.strip()
+		full_name = ('%s %s' % (self.first_name, self.last_name)).strip()
+		return full_name or self.username or self.email
 	get_full_name.short_description = 'celé meno'
 	get_full_name.admin_order_field = 'last_name,first_name,username'
 
