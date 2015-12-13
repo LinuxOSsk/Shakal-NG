@@ -11,4 +11,11 @@ from common_utils.forms import AuthorsNameFormMixin
 class NewsForm(AntispamFormMixin, AuthorsNameFormMixin, forms.ModelForm):
 	class Meta:
 		model = News
-		fields = ('title', 'authors_name', 'original_short_text', 'original_long_text', )
+		fields = (
+			'title',
+			'authors_name',
+			'source',
+			'source_url',
+			'original_short_text',
+			'original_long_text',
+		)

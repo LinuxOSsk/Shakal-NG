@@ -20,9 +20,9 @@ class NewsGenerator(ModelGenerator):
 	def get_object(self):
 		obj = super(NewsGenerator, self).get_object()
 		obj.title = obj.title[:50]
-		obj.filtered_short_text = obj.original_short_text[1]
-		obj.original_long_text = obj.original_short_text[1]
-		obj.filtered_long_text = obj.original_long_text[1]
+		obj.filtered_short_text = obj.original_short_text.field_text
+		obj.original_long_text = obj.original_short_text
+		obj.filtered_long_text = obj.original_long_text.field_text
 		obj.approved = True
 		unique_slugify(obj, 'slug')
 		return obj

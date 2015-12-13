@@ -38,6 +38,8 @@ class News(TimestampModelMixin, models.Model):
 	filtered_long_text = RichTextFilteredField()
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='author')
 	authors_name = models.CharField(max_length=255, verbose_name='meno authora')
+	source = models.CharField(max_length=100, verbose_name='zdroj', blank=True)
+	source_url = models.URLField(max_length=1000, verbose_name='URL zdroja', blank=True)
 	approved = models.BooleanField(default=False, verbose_name='schválená')
 	comments_header = GenericRelation(RootHeader)
 	attachments = GenericRelation(Attachment)

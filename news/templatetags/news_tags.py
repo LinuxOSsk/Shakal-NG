@@ -16,4 +16,4 @@ def news_frontpage(context):
 		'news': News.objects.all()[:10],
 		'user': context['user']
 	}
-	return mark_safe(render_to_string('news/block_news_list.html', ctx))
+	return mark_safe(render_to_string('news/partials/list.html', ctx))
