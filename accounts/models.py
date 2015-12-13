@@ -36,7 +36,7 @@ class User(AbstractUser):
 		if self.email:
 			qs = get_default_manager(self).filter(email=self.email).exclude(pk=self.pk)
 			if qs.exists():
-				raise ValidationError({'email': [self.unique_error_message(self.__class__, ['email'])]})
+				raise ValidationError({'email': ['Používateľ s touto e-mailovou adresou už existuje']})
 		super(User, self).clean_fields(exclude)
 
 	@models.permalink
