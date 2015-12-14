@@ -12,7 +12,7 @@ from notifications.models import Event
 
 
 class NewsListView(ListView):
-	queryset = News.objects.all()
+	queryset = News.objects.all().select_related('category')
 	paginate_by = 20
 
 

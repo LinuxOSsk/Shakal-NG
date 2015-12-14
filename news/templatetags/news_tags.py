@@ -13,7 +13,7 @@ from news.models import News
 @contextfunction
 def news_frontpage(context):
 	ctx = {
-		'news': News.objects.all()[:10],
+		'news': News.objects.all().select_related('category')[:10],
 		'user': context['user']
 	}
 	return mark_safe(render_to_string('news/partials/list.html', ctx))
