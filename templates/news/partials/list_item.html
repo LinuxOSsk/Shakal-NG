@@ -12,5 +12,5 @@
 	<span class="comments">
 		{{ get_comments_for_item(item) }}
 	</span> |
-	<span class="category">{{ item.category }}</span>
+	<span class="category"><a href="{{ item.category.get_absolute_url() }}">{{ item.category }}</a></span>
 </div>

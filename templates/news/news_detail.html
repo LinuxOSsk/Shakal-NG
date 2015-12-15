@@ -23,7 +23,7 @@
 <div class="info">
 	<span class="time">{{ news.created|humandatetime }}</span> |
 	<span class="user">{{ user_link(news.author, news.authors_name) }}</span> |
-	<span class="category">{{ news.category }}</span>
+	<span class="category"><a href="{{ news.category.get_absolute_url() }}">{{ news.category }}</a></span>
 </div>
 
 <p>
