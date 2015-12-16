@@ -97,7 +97,7 @@ def time_series(qs, date_field, aggregate, interval, date_from=None, date_to=Non
 		.values_list('time_value')
 		.order_by('time_value')
 		.annotate(**aggregate)
-		)
+	)
 
 	def convert_date(val):
 		if is_date and isinstance(val, datetime):
