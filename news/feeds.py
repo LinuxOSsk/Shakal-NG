@@ -4,8 +4,9 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse_lazy
+from django.utils.encoding import smart_unicode
 
-from news.models import News
+from news.models import News, Category
 
 
 class NewsFeed(Feed):
@@ -13,6 +14,9 @@ class NewsFeed(Feed):
 	description = 'Zoznam najnovších správ'
 	link = reverse_lazy('news:list')
 	feed_url = reverse_lazy('news:feed-latest')
+
+	def categories(self):
+		return Category.objects.values_list('name', flat = True)
 
 	def item_description(self, item):
 		return item.long_text
@@ -29,7 +33,10 @@ class NewsFeed(Feed):
 	def item_pubdate(self, item):
 		return item.created
 
+	def item_categories(self, item):
+		return [smart_unicode(item.category)]
+
 	def items(self):
-		return News.objects \
-			.select_related('author') \
-			.order_by('-pk')[:settings.FEED_SIZE]
+		return (News.objects
+			.select_related('author', 'category')
+			.order_by('-pk')[:settings.FEED_SIZE])
