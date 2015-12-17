@@ -7,10 +7,10 @@ from mptt.admin import MPTTModelAdmin
 
 from .models import Comment
 from .utils import perform_flag, perform_approve, perform_delete
-from attachment.admin import AttachmentInline
+from attachment.admin import AttachmentInline, AttachmentAdminMixin
 
 
-class CommentAdmin(MPTTModelAdmin):
+class CommentAdmin(AttachmentAdminMixin, MPTTModelAdmin):
 	fieldsets = (
 		(
 			None,
@@ -22,7 +22,7 @@ class CommentAdmin(MPTTModelAdmin):
 		),
 		(
 			'Metainformácie',
-			{'fields': ('created', 'ip_address', 'is_public', 'is_removed', 'is_locked')}
+			{'fields': ('ip_address', 'is_public', 'is_removed', 'is_locked')}
 		),
 	)
 	list_display = ('subject', 'name', 'content_type', 'ip_address', 'created', 'is_public', 'is_removed', 'is_locked')
@@ -31,16 +31,16 @@ class CommentAdmin(MPTTModelAdmin):
 	ordering = ('-created',)
 	raw_id_fields = ('user', 'parent',)
 	search_fields = ('filtered_comment', 'user__username', 'user_name', 'ip_address')
-	actions = ["flag_comments", "approve_comments", "remove_comments"]
+	actions = ['flag_comments', 'approve_comments', 'remove_comments']
 	inlines = [AttachmentInline]
 
 	def get_actions(self, request):
 		actions = super(CommentAdmin, self).get_actions(request)
 		if not request.user.is_superuser:
-			actions.pop("delete_selected", None)
+			actions.pop('delete_selected', None)
 		if not request.user.has_perm('comments.can_moderate'):
-			actions.pop("approve_comments", None)
-			actions.pop("remove_comments", None)
+			actions.pop('approve_comments', None)
+			actions.pop('remove_comments', None)
 
 	def flag_comments(self, request, queryset):
 		msg = lambda n: ungettext('flagged', 'flagged', n)
