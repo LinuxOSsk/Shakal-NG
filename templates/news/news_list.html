@@ -7,8 +7,19 @@
 	{{ super() }}
 {% endblock %}
 
+{% block extraheaders %}
+	{% if page_obj.number == 1 %}
+		<meta name="description" lang="sk" content="{% if category %}{{ category.description }}{% else %}Správy zo sveta Linuxu, Open Source a IT.{% endif %}" />
+	{% endif %}
+{% endblock %}
+
 {% block content %}
-<h1>Správy</h1>
+<h1>{% if category %}Správy - {{ category }}{% else %}Správy{% endif %}</h1>
+
+{% if category and page_obj and page_obj.number == 1 %}
+<p class="description">{{ category.description }}</p>
+{% endif %}
+
 <div class="module">
 	{{ add_discussion_attributes(news_list) }}
 	{% with long=1 %}

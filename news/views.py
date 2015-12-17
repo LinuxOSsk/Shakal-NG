@@ -6,13 +6,14 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 
 from .forms import NewsForm
-from .models import News
+from .models import News, Category
 from common_utils.generic import PreviewCreateView, DetailUserProtectedView, ListView
 from notifications.models import Event
 
 
 class NewsListView(ListView):
 	queryset = News.objects.all().select_related('category')
+	category_model = Category
 	paginate_by = 20
 
 

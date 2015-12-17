@@ -31,12 +31,9 @@ class Category(models.Model):
 	slug = models.SlugField(unique=True)
 	description = models.TextField('popis')
 
+	@models.permalink
 	def get_absolute_url(self):
-		return '/'
-
-	@permalink
-	def get_absolute_url(self):
-		return ('forum:section', None, {'category': self.slug})
+		return ('news:list-category', None, {'category': self.slug})
 
 	def __unicode__(self):
 		return self.name

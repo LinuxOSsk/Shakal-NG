@@ -8,6 +8,7 @@ urlpatterns = patterns('news.views',
 	url(r'^detail/(?P<slug>[-\w]+)/$', 'NewsDetailView', name="detail-by-slug"),
 	url(r'^pridat/$', 'NewsCreateView', name='create'),
 	url(r'^(?:(?P<page>\d+)/)?$', 'NewsListView', name='list'),
+	url(r'^kategoria/(?P<category>[-\w]+)/(?:(?P<page>\d+)/)?$', 'NewsListView', name='list-category'),
 ) + patterns('news.feeds',
 	url(r'^feeds/latest/$', 'NewsFeed', name='feed-latest'),
 )
