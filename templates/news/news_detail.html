@@ -11,13 +11,17 @@
 {% endblock %}
 
 {% block content %}
-{% if user.is_staff and perms.news.can_change %}
 <ul class="object-tools btn-group">
-	<li class="btn"><span><a href="{{ url("admin:news_news_change", news.pk) }}">Upraviť správu</a></span></li>
-	<li class="btn"><span><a href="{{ news.get_absolute_url() }}?approve=1">Schváliť</a></span></li>
-	<li class="btn"><span><a href="{{ news.get_absolute_url() }}?approve=0">Zamietnúť</a></span></li>
+	{% if user.is_staff and perms.news.can_change %}
+		<li class="btn"><span><a href="{{ url("admin:news_news_change", news.pk) }}">Upraviť správu</a></span></li>
+	{% endif %}
+	{% if perms.news.can_change %}
+		{% with is_new = news.created == news.updated %}
+			{% if not news.approved or is_new %}<li class="btn"><span><a href="{{ news.get_absolute_url() }}?approve=1">Schváliť</a></span></li>{% endif %}
+			{% if news.approved or is_new %}<li class="btn"><span><a href="{{ news.get_absolute_url() }}?approve=0">Zamietnúť</a></span></li>{% endif %}
+		{% endwith %}
+	{% endif %}
 </ul>
-{% endif %}
 <h1>{{ news }}</h1>
 
 <div class="info">
