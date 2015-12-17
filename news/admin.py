@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 
-from attachment.admin import AttachmentInline
-from news.models import News, Category
+from .models import News, Category
+from attachment.admin import AttachmentInline, AttachmentAdminMixin
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -13,7 +13,7 @@ class CategoryAdmin(admin.ModelAdmin):
 	prepopulated_fields = {'slug': ('name', )}
 
 
-class NewsAdmin(admin.ModelAdmin):
+class NewsAdmin(AttachmentAdminMixin, admin.ModelAdmin):
 	list_display = ('title', 'created', 'category', 'approved', )
 	list_filter = ('approved', 'category',)
 	search_fields = ('title', 'slug',)
