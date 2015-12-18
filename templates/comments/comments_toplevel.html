@@ -18,20 +18,24 @@
 		{% endif %}
 		{% if request.user.is_authenticated() %}
 		<div class="btn-group reply">
-			<div class="btn">
-				<span>
-					<a href="{{ url("comments:watch", root_header.pk) }}?watch={{ user_attribute.watch|yesno(",1") }}" class="watch">{% if user_attribute.watch %}Nesledovať{% else %}Sledovať{% endif %}</a>
-				</span>
-			</div>
+			<form action="{{ url("comments:watch", root_header.pk) }}" method="post">{% csrf_token %}
+				<button class="btn" name="watch" value="{{ user_attribute.watch|yesno(",1") }}">
+					<span class="watch">
+						{% if user_attribute.watch %}Nesledovať{% else %}Sledovať{% endif %}
+					</span>
+				</button>
+			</form>
 		</div>
 		{% endif %}
 		{% if user.is_staff and perms.comments.change_threaded_comment %}
 		<div class="btn-group admin">
-			<div class="btn">
-				<span>
-					<a href="{{ url("comments:admin", root.pk) }}?lock={{ root.is_locked|yesno(",1") }}" class="lock">{% if root.is_locked %}Odomknúť{% else %}Zamknúť{% endif %}</a>
-				</span>
-			</div>
+			<form action="{{ url("comments:admin", root.pk) }}" method="post">{% csrf_token %}
+				<button class="btn" name="lock" value="{{ root.is_locked|yesno(",1") }}">
+					<span class="lock">
+						{% if root.is_locked %}Odomknúť{% else %}Zamknúť{% endif %}
+					</span>
+				</button>
+			</form>
 		</div>
 		{% endif %}
 	</div>

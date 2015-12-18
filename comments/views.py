@@ -122,19 +122,22 @@ class Admin(PermissionRequiredMixin, DetailView):
 class Watch(LoginRequiredMixin, DetailView):
 	model = RootHeader
 
-	def get(self, request, **kwargs):
+	def get(self, request, *args, **kwargs):
+		return http.HttpResponseBadRequest()
+
+	def post(self, request, **kwargs):
 		header = self.get_object()
 		attributes = UserDiscussionAttribute.objects.get_or_create(user=request.user, discussion=header)[0]
-		if 'watch' in request.GET:
-			if request.GET['watch']:
+		if 'watch' in request.POST:
+			if request.POST['watch']:
 				attributes.watch = 1
 			else:
 				attributes.watch = 0
 		else:
 			attributes.watch = 1
 		attributes.save()
-		if 'next' in request.GET:
-			return HttpResponseRedirect(request.GET['next'])
+		if 'next' in request.POST:
+			return HttpResponseRedirect(request.POST['next'])
 		else:
 			obj = header.content_object
 			return HttpResponseRedirect(obj.get_absolute_url())
