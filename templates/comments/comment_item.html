@@ -55,26 +55,27 @@
 		{% endif %}
 		{% if is_authenticated %}
 			{% if is_staff and perms.comments.change_threaded_comment or not is_locked %}
-				{% set comments_admin_url=url("comments:admin", comment.pk) %}
 				<div class="btn-group admin">
 					{% if is_staff and perms.comments.change_threaded_comment %}
-						<div class="btn">
-							<span>
-								<a href="{{ comments_admin_url }}?delete={{ is_removed|yesno(",1") }}" class="delete" rel="nofollow">{% if is_removed %}Obnoviť{% else %}Zmazať{% endif %}</a>
-							</span>
-						</div>
-						{% if not is_removed %}
-							<div class="btn">
-								<span>
-									<a href="{{ comments_admin_url }}?public={{ is_public|yesno(",1") }}" class="private" rel="nofollow">{% if is_public %}Závadný{% else %}Nezávadný{% endif %}</a>
+						<form action="{{ url("comments:admin", comment.pk) }}" method="post">{% csrf_token %}
+							<button class="btn" type="submit" name="delete" value="{{ is_removed|yesno(",1") }}">
+								<span class="delete">
+									{% if is_removed %}Obnoviť{% else %}Zmazať{% endif %}
 								</span>
-							</div>
-						{% endif %}
-						<div class="btn">
-							<span>
-								<a href="{{ comments_admin_url }}?lock={{ is_locked|yesno(",1") }}" class="lock" rel="nofollow">{% if is_locked %}Odomknúť{% else %}Zamknúť{% endif %}</a>
-							</span>
-						</div>
+							</button>
+							{% if not is_removed %}
+								<button class="btn" type="submit" name="public" value="{{ is_public|yesno(",1") }}">
+									<span class="private">
+										{% if is_public %}Závadný{% else %}Nezávadný{% endif %}
+									</span>
+								</button>
+							{% endif %}
+							<button class="btn" type="submit" name="lock" value="{{ is_locked|yesno(",1") }}">
+								<span class="lock">
+									{% if is_locked %}Odomknúť{% else %}Zamknúť{% endif %}
+								</span>
+							</button>
+						</form>
 					{% endif %}
 					{% if not is_locked and is_public and not is_removed %}
 						<!--

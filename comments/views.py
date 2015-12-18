@@ -95,12 +95,16 @@ class Admin(PermissionRequiredMixin, DetailView):
 	model = Comment
 	permission_required = 'comments.change_threaded_comment'
 
-	def get(self, request, **kwargs):
-		comment = self.get_object()
+	def get(self, request, *args, **kwargs):
+		return http.HttpResponseBadRequest()
 
-		delete = request.GET.get('delete', None)
-		public = request.GET.get('public', None)
-		lock = request.GET.get('lock', None)
+	def post(self, request, **kwargs):
+		comment = self.get_object()
+		print(request.POST)
+
+		delete = request.POST.get('delete', None)
+		public = request.POST.get('public', None)
+		lock = request.POST.get('lock', None)
 
 		if delete is not None:
 			comment.is_removed = bool(delete)

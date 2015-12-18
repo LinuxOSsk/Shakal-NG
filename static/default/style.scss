@@ -494,6 +494,8 @@ button:focus { outline: none; }
 		&:hover {
 			background: none;
 		}
+	}
+	a, span {
 		/*&.reply:before { @include btn_icon(); @include sprite-generated(comment_icon_14); }*/
 		&.watch:before { @include btn_icon(); @include sprite-generated(watch_icon_14); }
 		&.resolved:before { @include btn_icon(); @include sprite-generated(tick_icon_14); }
