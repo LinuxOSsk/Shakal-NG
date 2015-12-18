@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 
-from .forms import NewsForm
+from .forms import NewsForm, NewsChangeForm
 from .models import News, Category
-from common_utils.generic import PreviewCreateView, DetailUserProtectedView, ListView
+from common_utils.generic import PreviewCreateView, PreviewUpdateView, DetailUserProtectedView, ListView
 from notifications.models import Event
 
 
@@ -33,7 +34,6 @@ class NewsDetailView(DetailUserProtectedView):
 
 class NewsCreateView(PreviewCreateView):
 	model = News
-	template_name = 'news/news_create.html'
 	form_class = NewsForm
 
 	def form_valid(self, form):
@@ -54,3 +54,9 @@ class NewsCreateView(PreviewCreateView):
 			return super(NewsCreateView, self).get_success_url()
 		else:
 			return reverse('home')
+
+
+class NewsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, PreviewUpdateView):
+	model = News
+	form_class = NewsChangeForm
+	permission_required = 'news.can_change'

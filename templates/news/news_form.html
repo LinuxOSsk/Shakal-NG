@@ -5,9 +5,13 @@
 {{ super() }}
 {% endblock %}
 
-{% block head_title %}Pridať správu{% endblock %}
+{% block head_title %}{% if object %}Upraviť správu{% else %}Pridať správu{% endif %}{% endblock %}
 {% block breadcrumbs %}
-	{{ breadcrumb("Pridať správu") }}
+	{% if object %}
+		{{ breadcrumb("Upraviť správu") }}
+	{% else %}
+		{{ breadcrumb("Pridať správu") }}
+	{% endif %}
 	{{ breadcrumb("Správy", url="news:list") }}
 	{{ super() }}
 {% endblock %}
@@ -35,14 +39,18 @@
 	</div>
 {% endif %}
 
-<form action="{{ url("news:create") }}" method="post" id="news-form">{% csrf_token %}
+<form action="." method="post" id="news-form">{% csrf_token %}
 	<fieldset>
 		{% include "includes/form_loop.html" %}
 		<div class="submit-row">
 			<div class="positive">
 				<button class="btn" type="submit" title="Náhľad"><span>Náhľad</span></button>
 				{% if valid %}
-				<button class="btn" type="submit" title="Vytvoriť správu" name="create" value="1"><span>Vytvoriť správu</span></button>
+					{% if object %}
+						<button class="btn" type="submit" title="Upraviť správu" name="update" value="1"><span>Upraviť správu</span></button>
+					{% else %}
+						<button class="btn" type="submit" title="Vytvoriť správu" name="create" value="1"><span>Vytvoriť správu</span></button>
+					{% endif %}
 				{% endif %}
 			</div>
 		</div>

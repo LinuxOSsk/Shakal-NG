@@ -17,6 +17,9 @@
 		<li class="btn"><span><a href="{{ url("admin:news_news_change", news.pk) }}">Admin</a></span></li>
 	{% endif %}
 	{% if perms.news.can_change %}
+		<li class="btn"><span><a href="{{ url("news:update", news.slug) }}">Upraviť</a></span></li>
+	{% endif %}
+	{% if perms.news.can_change %}
 		{% with is_new = news.created == news.updated %}
 			{% if not news.approved or is_new %}<li class="btn"><button type="submit" name="approve" value="1">Schváliť</button></li>{% endif %}
 			{% if news.approved or is_new %}<li class="btn"><button type="submit" name="approve" value="">Zamietnúť</button></li>{% endif %}
