@@ -22,14 +22,13 @@ class NewsDetailView(DetailUserProtectedView):
 	author_field = 'author'
 	queryset = News.all_news.all()
 
-	def get(self, request, *args, **kwargs):
+	def post(self, request, *args, **kwargs):
 		news = self.get_object()
-		if 'approve' in request.GET and request.user.has_perm('news.can_change'):
-			news.approved = request.GET['approve'] == '1'
+		if 'approve' in request.POST and request.user.has_perm('news.can_change'):
+			news.approved = request.POST['approve'] == '1'
 			news.save()
 			Event.objects.deactivate(content_object=news, action_type=Event.CREATE_ACTION)
-			return HttpResponseRedirect(news.get_absolute_url())
-		return super(NewsDetailView, self).get(request, *args, **kwargs)
+		return HttpResponseRedirect(news.get_absolute_url())
 
 
 class NewsCreateView(PreviewCreateView):

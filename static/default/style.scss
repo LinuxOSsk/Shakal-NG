@@ -453,13 +453,19 @@ button:focus { outline: none; }
 		text-indent: -9999px; overflow: hidden;
 		content: ".";
 	}
-	> span {
-		margin-left: 12px;
+	> span, > button {
+		padding: 0;
+		margin: 0 0 0 12px;
+		border: none;
+		vertical-align: middle;
+		line-height: $btn-height;
+		color: #333;
+		cursor: pointer;
 	}
 	> .search-input {
 		margin-left: 0;
 	}
-	> span, > .search-input {
+	> span, > button, > .search-input {
 		@include sprite-generated(btn_content_std, $setSize: false, $right: true);
 		display: block;
 		float: left;
@@ -503,7 +509,7 @@ button:focus { outline: none; }
 	.dropdown.menu {
 		margin-top: 30px;
 	}
-	>span:before, >.search-input:before {
+	>span:before, >button:before, >.search-input:before {
 		content: ".";
 		@include sprite-generated(btn_content_std, $setSize: false);
 		width: 12px;
@@ -514,18 +520,18 @@ button:focus { outline: none; }
 		height: $btn-height;
 	}
 	&:hover {
-		>span { @include sprite-generated(btn_content_std_hover, $setSize: false, $right: true); }
-		>span:before { @include sprite-generated(btn_content_std_hover, $setSize: false); }
+		>span, >button { @include sprite-generated(btn_content_std_hover, $setSize: false, $right: true); }
+		>span:before, >button:before { @include sprite-generated(btn_content_std_hover, $setSize: false); }
 		>span.dropdown { background: none; }
 		.dropdown { display: block; }
 	}
 	&:active, &:focus {
-		>span { @include sprite-generated(btn_content_act, $setSize: false, $right: true); }
-		>span:before, &:focus span:before { @include sprite-generated(btn_content_act, $setSize: false); }
+		>span, >button:before { @include sprite-generated(btn_content_act, $setSize: false, $right: true); }
+		>span:before, >button:before, &:focus span:before, &:focus button:before { @include sprite-generated(btn_content_act, $setSize: false); }
 	}
 	&:active:hover {
-		>span { @include sprite-generated(btn_content_act_hover, $setSize: false, $right: true); }
-		>span:before { @include sprite-generated(btn_content_act_hover, $setSize: false); }
+		>span, >button { @include sprite-generated(btn_content_act_hover, $setSize: false, $right: true); }
+		>span:before, >button:before { @include sprite-generated(btn_content_act_hover, $setSize: false); }
 	}
 	&.reply, .login {
 		float: right;
@@ -543,7 +549,7 @@ button:focus { outline: none; }
 		padding-left: 0px;
 		margin-right: 0px;
 		float: left;
-		>span {
+		>span, >button {
 			background-position: (- map-get(map-get($sprites, btn_content_std), x) - 16px) (- map-get(map-get($sprites, btn_content_std), y));
 			background-repeat: repeat-x;
 			padding: 0px 7px;
@@ -553,7 +559,7 @@ button:focus { outline: none; }
 				background-repeat: repeat-x;
 			}
 		}
-		>span:before {
+		>span:before, >button:before {
 			width: 1px;
 			margin-left: -7px;
 			background-position: (- map-get(map-get($sprites, btn_content_std), w) + 4px) (- map-get(map-get($sprites, btn_content_std), y));
@@ -573,7 +579,7 @@ button:focus { outline: none; }
 			}
 		}
 		&:last-child {
-			>span {
+			>span, >button {
 				background-position: right (- map-get(map-get($sprites, btn_content_std), y));
 				background-repeat: no-repeat;
 				padding-right: 12px;
