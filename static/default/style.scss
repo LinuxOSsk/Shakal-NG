@@ -601,6 +601,7 @@ button:focus { outline: none; }
 		font-size: 14px;
 		font-weight: bold;
 		color: $link-color;
+		line-height: $big-btn-height;
 		>span.dropdown {
 			.icon { top: 13px; }
 		}
