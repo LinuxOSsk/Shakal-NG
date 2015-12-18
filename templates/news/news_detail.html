@@ -13,7 +13,7 @@
 {% block content %}
 <ul class="object-tools btn-group">
 	{% if user.is_staff and perms.news.can_change %}
-		<li class="btn"><span><a href="{{ url("admin:news_news_change", news.pk) }}">Upraviť správu</a></span></li>
+		<li class="btn"><span><a href="{{ url("admin:news_news_change", news.pk) }}">Admin</a></span></li>
 	{% endif %}
 	{% if perms.news.can_change %}
 		{% with is_new = news.created == news.updated %}
