@@ -2,7 +2,7 @@
 	{% for option in queryset %}
 		<li>
 			<label>
-				<input type="radio" name="{{ name }}" value="{{ option.pk }}"{% if value == option.pk|string() %} checked="checked"{% endif %} />
+				<input type="radio" name="{{ name }}" value="{{ option.pk }}"{% if value|string() == option.pk|string() %} checked="checked"{% endif %} />
 				{{ option }}
 			</label>
 			<p class="radio-description">

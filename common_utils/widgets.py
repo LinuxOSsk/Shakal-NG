@@ -16,4 +16,4 @@ class DescriptionRadioSelect(RadioSelect):
 			'choices': choices,
 			'queryset': queryset,
 		}
-		return mark_safe(render_to_string("includes/description_radio_select.html", ctx))
+		return mark_safe(render_to_string('widgets/description_radio_select.html', ctx))
