@@ -9,6 +9,16 @@ from common_utils.forms import AuthorsNameFormMixin, SetRequiredFieldsMixin
 from common_utils.widgets import DescriptionRadioSelect
 
 
+EDITABLE_FIELDS = (
+	'title',
+	'category',
+	'source',
+	'source_url',
+	'original_short_text',
+	'original_long_text',
+)
+
+
 class NewsChangeForm(SetRequiredFieldsMixin, forms.ModelForm):
 	required_fields = {
 		'original_long_text': False
@@ -16,14 +26,7 @@ class NewsChangeForm(SetRequiredFieldsMixin, forms.ModelForm):
 
 	class Meta:
 		model = News
-		fields = (
-			'title',
-			'category',
-			'source',
-			'source_url',
-			'original_short_text',
-			'original_long_text',
-		)
+		fields = EDITABLE_FIELDS
 		widgets = {'category': DescriptionRadioSelect()}
 
 	def clean(self):
@@ -38,13 +41,5 @@ class NewsChangeForm(SetRequiredFieldsMixin, forms.ModelForm):
 class NewsForm(AntispamFormMixin, AuthorsNameFormMixin, NewsChangeForm):
 	class Meta:
 		model = News
-		fields = (
-			'title',
-			'authors_name',
-			'category',
-			'source',
-			'source_url',
-			'original_short_text',
-			'original_long_text',
-		)
+		fields = ('authors_name',) + EDITABLE_FIELDS
 		widgets = {'category': DescriptionRadioSelect()}
