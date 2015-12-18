@@ -100,7 +100,6 @@ class Admin(PermissionRequiredMixin, DetailView):
 
 	def post(self, request, **kwargs):
 		comment = self.get_object()
-		print(request.POST)
 
 		delete = request.POST.get('delete', None)
 		public = request.POST.get('public', None)
