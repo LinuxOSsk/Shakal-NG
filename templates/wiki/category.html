@@ -10,9 +10,9 @@
 
 {% if user.is_authenticated() %}
 <ul class="object-tools btn-group">
-	<li class="btn"><span><a href="{{ url("wiki:create", page.slug) }}">Pridať stránku</a></span></li>
+	<li class="btn"><span class="wrap"><a class="text" href="{{ url("wiki:create", page.slug) }}">Pridať stránku</a></span></li>
 {% if user.is_staff and perms.article.can_change %}
-	<li class="btn"><span><a href="{{ url("wiki:edit", page.slug) }}">Editovať</a></span></li>
+	<li class="btn"><span class="wrap"><a class="text" href="{{ url("wiki:edit", page.slug) }}">Editovať</a></span></li>
 {% endif %}
 </ul>
 {% endif %}
