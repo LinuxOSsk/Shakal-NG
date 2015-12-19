@@ -384,6 +384,11 @@ LOGGING = {
 			'level': 'ERROR',
 			'propagate': True,
 		},
+		'.': {
+			'handlers': ['mail_admins'],
+			'level': 'ERROR',
+			'propagate': True,
+		},
 	}
 }
 
