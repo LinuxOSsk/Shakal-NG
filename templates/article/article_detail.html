@@ -20,7 +20,7 @@
 {% block content %}
 {% if user.is_staff and perms.article.can_change %}
 <ul class="object-tools">
-	<li class="btn"><span><a href="{{ url('admin:article_article_change', article.pk) }}">Editovať článok</a></span></li>
+	<li class="btn"><span class="wrap"><a href="{{ url('admin:article_article_change', article.pk) }}" class="text">Editovať článok</a></span></li>
 </ul>
 {% endif %}
 <h1>{{ article.title }}</h1>
@@ -63,7 +63,7 @@
 	<input type="hidden" name="next" value="{{ request.path }}" />
 	<div class="submit-row">
 		<div class="positive">
-			<button type="submit" class="btn"><span>Hlasovať</span></button>
+			<button type="submit" class="btn"><span class="wrap"><span class="text">Hlasovať</span></span></button>
 		</div>
 	</div>
 </form>
