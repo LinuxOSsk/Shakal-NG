@@ -17,7 +17,7 @@
 
 <form method="post" action="{{ url('account_confirm_email', confirmation.key) }}">
 {% csrf_token %}
-	<button type="submit">Potvrdiť</button>
+	<button type="submit" class="btn"><span class="wrap"><span class="text">Potvrdiť</span></span></button>
 </form>
 
 {% else %}

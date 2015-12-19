@@ -61,6 +61,10 @@ class AccountsConfig(AppConfig):
 		RememberToken.objects.all().filter(user=user).delete()
 
 	def set_inactive(self, request, user, **kwargs): #pylint: disable=unused-argument
+		from allauth.account.models import EmailAddress
+		new_email_address = EmailAddress.objects.get(user=user, primary=True)
+		new_email_address.send_confirmation(request)
+
 		user.is_active = False
 		user.is_staff = False
 		user.save()
