@@ -57,9 +57,11 @@ class Reply(FormView):
 		ctx = super(Reply, self).get_context_data(**kwargs)
 		form = ctx['form']
 		content_object = self.parent.content_object
+		comment = form.get_comment_object()
+		comment.user = self.request.user
 		ctx.update({
 			'next': self.request.POST.get('next', self.request.GET.get('next', content_object.get_absolute_url())),
-			'comment': form.get_comment_object(),
+			'comment': comment,
 			'parent': self.parent if self.parent.parent_id else False,
 			'content_object': content_object,
 			'module_name': get_module_name(content_object),
