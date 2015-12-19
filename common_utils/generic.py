@@ -28,7 +28,7 @@ class UpdateProtectedView(UpdateView):
 	unprivileged_queryset = None
 
 	def get_queryset(self):
-		if self.unprivileged_queryset:
+		if self.unprivileged_queryset is not None:
 			return self.unprivileged_queryset.all()
 		if self.request.user.is_authenticated():
 			return super(UpdateProtectedView, self).get_queryset().filter(**{self.author_field: self.request.user})
@@ -43,7 +43,7 @@ class DetailUserProtectedView(DetailView):
 	unprivileged_queryset = None
 
 	def get_unprivileged_queryset(self):
-		if self.unprivileged_queryset:
+		if self.unprivileged_queryset is not None:
 			return self.unprivileged_queryset.all()
 		q = []
 		if self.published_field:
