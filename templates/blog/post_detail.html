@@ -11,7 +11,7 @@
 {% block content %}
 
 {% with blog=object.blog, post=object %}
-	{% include "blog/block_informations.html" %}
+	{% include "blog/partials/informations.html" %}
 {% endwith %}
 
 <h1>{{ object }}</h1>
@@ -22,14 +22,14 @@
 	<span class="user"><a href="{{ object.author().get_absolute_url() }}">{{ object.author() }}</a></span>
 </div>
 
-{% include "blog/post_detail_content.html" %}
+{% include "blog/partials/content.html" %}
 
 {% if object.blog.author == user or attachments %}
 	<h2>Prílohy</h2>
 
 	{% if object.blog.author == user %}
 		<ul class="object-tools">
-			<li class="btn"><span><a href="{{ url("blog:post-attachments-update", object.blog.slug, object.slug) }}">Spravovať</a></span></li>
+			<li class="btn"><span class="wrap"><a class="text" href="{{ url("blog:post-attachments-update", object.blog.slug, object.slug) }}">Spravovať</a></span></li>
 		</ul>
 	{% endif %}
 

@@ -12,11 +12,11 @@
 
 {% block content %}
 <form action="{{ request.path }}" enctype="multipart/form-data" method="post">{% csrf_token %}
-	<fieldset>
+	<fieldset class="module">
 		{% include "includes/form_attachment_loop.html" %}
 		<div class="submit-row">
 			<div class="positive">
-				<button class="btn" type="submit" title="Uložiť"><span>Uložiť</span></button>
+				<button class="btn" type="submit" title="Uložiť"><span class="wrap"><span class="text">Uložiť</span></span></button>
 			</div>
 		</div>
 	</fieldset>

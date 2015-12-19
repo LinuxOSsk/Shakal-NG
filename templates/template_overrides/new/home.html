@@ -26,7 +26,7 @@
 		{% endfor %}
 		{% for top_post in top_posts %}
 			{% with content_indicator=1, post=top_post %}
-				{% include "blog/block_post_list_item.html" %}
+				{% include "blog/partials/item.html" %}
 			{% endwith %}
 		{% endfor %}
 		{% for article in articles %}

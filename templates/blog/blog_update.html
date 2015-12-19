@@ -29,12 +29,12 @@
 {% endif %}
 
 <form action="{{ request.path }}" method="post" id="blog-form">{% csrf_token %}
-	<fieldset>
+	<fieldset class="module">
 		{% include "includes/form_loop.html" %}
 		<div class="submit-row">
 			<div class="positive">
-				<button class="btn" type="submit" title="Náhľad"><span>Náhľad</span></button>
-				<button class="btn" type="submit" title="Uložiť" name="{% block action %}update{% endblock %}" value="1"><span>Uložiť</span></button>
+				<button class="btn" type="submit" title="Náhľad"><span class="wrap"><span class="text">Náhľad</span></span></button>
+				<button class="btn" type="submit" title="Uložiť" name="{% block action %}update{% endblock %}" value="1"><span class="wrap"><span class="text">Uložiť</span></span></button>
 			</div>
 		</div>
 	</fieldset>

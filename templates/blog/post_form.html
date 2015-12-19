@@ -25,18 +25,18 @@
 	<div class="module preview">
 		<h2>Náhľad</h2>
 		{% with object=form.instance %}
-			{% include "blog/post_detail_content.html" %}
+			{% include "blog/partials/content.html" %}
 		{% endwith %}
 	</div>
 {% endif %}
 
 <form action="{% if object %}{{ url('blog:post-update', object.blog.slug, object.slug) }}{% else %}{{ url("blog:post-create") }}{% endif %}" method="post" id="blog-form">{% csrf_token %}
-	<fieldset>
+	<fieldset class="module">
 		{% include "includes/form_loop.html" %}
 		<div class="submit-row">
 			<div class="positive">
-				<button class="btn" type="submit" title="Náhľad"><span>Náhľad</span></button>
-				<button class="btn" type="submit" title="Uložiť" name="create" value="1"><span>Uložiť</span></button>
+				<button class="btn" type="submit" title="Náhľad"><span class="wrap"><span class="text">Náhľad</span></span></button>
+				<button class="btn" type="submit" title="Uložiť" name="{% if object %}update{% else %}create{% endif %}" value="1"><span class="wrap"><span class="text">Uložiť</span></span></button>
 			</div>
 		</div>
 	</fieldset>
