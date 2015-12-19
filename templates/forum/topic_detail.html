@@ -14,16 +14,16 @@
 {% if topic.delete_perm or topic.resolved_perm %}
 <ul class="object-tools btn-group">
 	{% if topic.delete_perm %}
-		<li class="btn">
-			<span>
-				<a href="{{ topic.get_absolute_url() }}?removed={{ topic.is_removed|yesno(",1") }}" class="delete">{% if topic.is_removed %}Obnoviť{% else %}Vymazať{% endif %}</a>
+		<li class="btn delete">
+			<span class="wrap">
+				<a href="{{ topic.get_absolute_url() }}?removed={{ topic.is_removed|yesno(",1") }}" class="text">{% if topic.is_removed %}Obnoviť{% else %}Vymazať{% endif %}</a>
 			</span>
 		</li>
 	{% endif %}
 	{% if topic.resolved_perm %}
-		<li class="btn">
-			<span>
-				<a href="{{ topic.get_absolute_url() }}?resolved={{ topic.is_resolved|yesno(",1") }}" class="resolved" rel="nofollow">{% if topic.is_resolved %}Nastaviť nevyriešené{% else %}Nastaviť vyriešené{% endif %}</a>
+		<li class="btn resolved">
+			<span class="wrap">
+				<a href="{{ topic.get_absolute_url() }}?resolved={{ topic.is_resolved|yesno(",1") }}" class="text" rel="nofollow">{% if topic.is_resolved %}Nastaviť nevyriešené{% else %}Nastaviť vyriešené{% endif %}</a>
 			</span>
 		</li>
 	{% endif %}
