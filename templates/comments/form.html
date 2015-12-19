@@ -1,12 +1,12 @@
 <form action="{{ request.get_full_path() }}" enctype="multipart/form-data" method="post" id="comment-form">{% csrf_token %}
-	<fieldset>
+	<fieldset class="module">
 		{% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
 		{% include "includes/form_attachment_loop.html" %}
 		<div class="submit-row">
 			<div class="positive">
-				<button class="btn" type="submit" title="Náhľad"><span>Náhľad</span></button>
+				<button class="btn" type="submit" title="Náhľad"><span class="wrap"><span class="text">Náhľad</span></span></button>
 				{% if valid %}
-				<button class="btn" type="submit" title="Vytvoriť komentár" name="create" value="1"><span>Vytvoriť komentár</span></button>
+				<button class="btn" type="submit" title="Vytvoriť komentár" name="create" value="1"><span class="wrap"><span class="text">Vytvoriť komentár</span></span></button>
 				{% endif %}
 			</div>
 		</div>

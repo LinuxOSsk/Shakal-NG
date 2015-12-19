@@ -11,39 +11,43 @@
 		{% endif %}
 		{% if not root.is_locked %}
 			<div class="btn reply">
-				<span>
-					<a href="{{ url("comments:reply", root.pk) }}" class="reply" rel="nofollow">Pridať komentár</a>
+				<span class="wrap">
+					<a href="{{ url("comments:reply", root.pk) }}" class="text" rel="nofollow">Pridať komentár</a>
 				</span>
 			</div>
 		{% endif %}
 		{% if request.user.is_authenticated() %}
-		<div class="btn-group reply">
 			<form action="{{ url("comments:watch", root_header.pk) }}" method="post">{% csrf_token %}
-				<button class="btn" name="watch" value="{{ user_attribute.watch|yesno(",1") }}">
-					<span class="watch">
-						{% if user_attribute.watch %}Nesledovať{% else %}Sledovať{% endif %}
-					</span>
-				</button>
+				<div class="btn-group reply">
+					<button class="btn watch" name="watch" value="{{ user_attribute.watch|yesno(",1") }}">
+						<span class="wrap">
+							<span class="text">
+								{% if user_attribute.watch %}Nesledovať{% else %}Sledovať{% endif %}
+							</span>
+						</span>
+					</button>
+				</div>
 			</form>
-		</div>
 		{% endif %}
 		{% if user.is_staff and perms.comments.change_threaded_comment %}
-		<div class="btn-group admin">
 			<form action="{{ url("comments:admin", root.pk) }}" method="post">{% csrf_token %}
-				<button class="btn" name="lock" value="{{ root.is_locked|yesno(",1") }}">
-					<span class="lock">
-						{% if root.is_locked %}Odomknúť{% else %}Zamknúť{% endif %}
-					</span>
-				</button>
+				<div class="btn-group admin">
+					<button class="btn lock" name="lock" value="{{ root.is_locked|yesno(",1") }}">
+						<span class="wrap">
+							<span class="text">
+								{% if root.is_locked %}Odomknúť{% else %}Zamknúť{% endif %}
+							</span>
+						</span>
+					</button>
+				</div>
 			</form>
-		</div>
 		{% endif %}
 	</div>
 	{% if comments|length > 1 %}
 		{% include "comments/comments_tree.html" %}
 		{% if not root.is_locked %}
 			<div class="links">
-				<div class="btn reply"><span><a href="{{ url("comments:reply", root.pk) }}" class="reply" rel="nofollow">Pridať komentár</a></span></div>
+				<div class="btn reply"><span class="wrap"><a href="{{ url("comments:reply", root.pk) }}" class="text" rel="nofollow">Pridať komentár</a></span></div>
 			</div>
 		{% endif %}
 	{% endif %}
