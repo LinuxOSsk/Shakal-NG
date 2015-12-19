@@ -28,10 +28,10 @@ class User(AbstractUser):
 	signature = models.CharField('podpis', max_length=255, blank=True)
 	display_mail = models.BooleanField('zobrazovať e-mail', default=False)
 	distribution = models.CharField('linuxová distribúcia', max_length=50, blank=True)
-	original_info = RichTextOriginalField(filtered_field="filtered_info", property_name="info", parsers={'html': 'profile'}, verbose_name='informácie', validators=[MaxLengthValidator(100000)], blank=True)
+	original_info = RichTextOriginalField(filtered_field='filtered_info', property_name='info', parsers={'html': 'profile'}, verbose_name='informácie', validators=[MaxLengthValidator(100000)], blank=True)
 	filtered_info = RichTextFilteredField(blank=True)
 	year = models.SmallIntegerField('rok narodenia', validators=[MinValueValidator(1900), MaxValueValidator(2015)], blank=True, null=True)
-	avatar = AutoImageField('fotografia', upload_to='article/thumbnails', size=(512, 512), thumbnail={'standard': (128, 128)}, blank=True, null=True)
+	avatar = AutoImageField('fotografia', upload_to='accounts/avatars', size=(512, 512), thumbnail={'standard': (128, 128), '128': (128, 128, 'fit'), '48': (48, 48, 'fit')}, blank=True)
 	settings = models.TextField('nastavenia', blank=True)
 
 	def clean_fields(self, exclude=None):

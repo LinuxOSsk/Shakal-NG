@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import hashlib
+
 from django.conf import settings
 from django.utils.html import escape
 from django_jinja import library
@@ -18,4 +21,6 @@ def gravatar_for_email(email, size=GRAVATAR_DEFAULT_SIZE):
 
 @library.global_function
 def avatar_for_user(user, size=GRAVATAR_DEFAULT_SIZE):
+	if user.avatar:
+		return getattr(user, 'avatar_' + str(size)).url
 	return gravatar_for_email(user.email, size)

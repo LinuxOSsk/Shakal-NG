@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
 				('pub_time', models.DateTimeField(default=django.utils.timezone.now, verbose_name='\u010das publik\xe1cie')),
 				('published', models.BooleanField(default=False, verbose_name='publikovan\xe9')),
 				('top', models.BooleanField(default=False, verbose_name='hodnotn\xfd \u010dl\xe1nok')),
-				('image', autoimagefield.fields.AutoImageField(upload_to='article/thumbnails', null=True, verbose_name='obr\xe1zok', blank=True)),
+				('image', autoimagefield.fields.AutoImageField(upload_to='article/thumbnails', verbose_name='obr\xe1zok', blank=True)),
 				('author', models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL, verbose_name='autor', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
 			],
 			options={

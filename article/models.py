@@ -78,7 +78,7 @@ class Article(TimestampModelMixin, models.Model):
 	pub_time = models.DateTimeField('čas publikácie', default=now)
 	published = models.BooleanField('publikované', default=False)
 	top = models.BooleanField('hodnotný článok', default=False)
-	image = AutoImageField('obrázok', upload_to='article/thumbnails', size=(512, 512), thumbnail={'standard': (100, 100)}, blank=True, null=True)
+	image = AutoImageField('obrázok', upload_to='article/thumbnails', size=(512, 512), thumbnail={'standard': (100, 100)}, blank=True)
 	polls = GenericRelation(Poll)
 	comments_header = GenericRelation(RootHeader)
 	comments = GenericRelation(Comment)

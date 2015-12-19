@@ -1,0 +1,8 @@
+<ul class="content-tabs">
+	{% with view_name=request.resolver_match.view_name %}
+		<li{% if view_name in ("accounts:my_profile_edit",) %} class="active"{% endif %}><span><a href="{{ url("accounts:my_profile_edit") }}">Zmeniť informácie</a></span></li>
+		<li{% if view_name in ("account_email",) %} class="active"{% endif %}><span><a href="{{ url("account_email") }}">Zmeniť e-mail</a></span></li>
+		<li{% if view_name in ("account_change_password",) %} class="active"{% endif %}><span><a href="{{ url("account_change_password") }}">Zmeniť heslo</a></span></li>
+		<li{% if view_name in ("accounts:my_profile_avatar_edit",) %} class="active"{% endif %}><span><a href="{{ url("accounts:my_profile_avatar_edit") }}">Zmeniť avatar</a></span></li>
+	{% endwith %}
+</ul>

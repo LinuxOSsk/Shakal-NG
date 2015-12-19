@@ -6,7 +6,7 @@
 			{% if user_profile.pk == request.user.pk %}
 				<li{% if view_name in ("accounts:my_watched",) %} class="active"{% endif %}><span><a href="{{ url("accounts:my_watched") }}">Sledované diskusie</a></span></li>
 				<li{% if view_name in ("accounts:my_viewed",) %} class="active"{% endif %}><span><a href="{{ url("accounts:my_viewed") }}">Navštívené diskusie</a></span></li>
-				<li{% if view_name in ("accounts:my_profile_edit",) %} class="active"{% endif %}><span><a href="{{ url("accounts:my_profile_edit") }}">Uprviť profil</a></span></li>
+				<li{% if view_name in ("accounts:my_profile_edit", "account_email", "account_change_password", "accounts:my_profile_avatar_edit") %} class="active"{% endif %}><span><a href="{{ url("accounts:my_profile_edit") }}">Uprviť profil</a></span></li>
 			{% endif %}
 		{% endwith %}
 	{% endwith %}

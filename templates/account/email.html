@@ -10,6 +10,9 @@
 {% block content %}
 	<h1>E-mailová adresa</h1>
 
+	{% include "account/partials/profile_tabs.html" %}
+	{% include "account/partials/profile_edit_tabs.html" %}
+
 	{% if user.emailaddress_set.all %}
 
 		<p>Nasledujcúe e-mailové adresy sú asociované s vašim účtom</p>
