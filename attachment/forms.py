@@ -43,6 +43,7 @@ class AttachmentFormMixin(forms.BaseForm):
 		self.update_attachment_size()
 		if not hasattr(self, 'security_errors') or not self.security_errors():
 			self.process_attachment_upload()
+			self.update_attachment_size()
 
 	@property
 	def content_type(self):
