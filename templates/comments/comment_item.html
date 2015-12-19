@@ -55,9 +55,9 @@
 		{% endif %}
 		{% if is_authenticated %}
 			{% if is_staff and perms.comments.change_threaded_comment or not is_locked %}
-				<div class="btn-group admin">
-					{% if is_staff and perms.comments.change_threaded_comment %}
-						<form action="{{ url("comments:admin", comment.pk) }}" method="post">{% csrf_token %}
+				{% if is_staff and perms.comments.change_threaded_comment %}
+					<form action="{{ url("comments:admin", comment.pk) }}" method="post">{% csrf_token %}
+						<div class="btn-group admin">
 							<button class="btn delete" type="submit" name="delete" value="{{ is_removed|yesno(",1") }}">
 								<span class="wrap">
 									<span class="text">
@@ -81,18 +81,18 @@
 									</span>
 								</span>
 							</button>
-						</form>
-					{% endif %}
-					{% if not is_locked and is_public and not is_removed %}
-						<!--
-						<div class="btn">
-							<span>
-								<a href="#" class="resolved" rel="nofollow">Riešenie</a>
-							</span>
 						</div>
-						-->
-					{% endif %}
-				</div>
+					</form>
+				{% endif %}
+				{% if not is_locked and is_public and not is_removed %}
+					<!--
+					<div class="btn">
+						<span>
+							<a href="#" class="resolved" rel="nofollow">Riešenie</a>
+						</span>
+					</div>
+					-->
+				{% endif %}
 			{% endif %}
 		{% endif %}
 	</div>

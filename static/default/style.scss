@@ -437,6 +437,11 @@ button:focus { outline: none; }
 	vertical-align: top;
 }
 
+.btn::-moz-focus-inner {
+	padding: 0;
+	border: 0
+}
+
 .btn {
 	padding: 0;
 	margin: 0 5px 0 0;
@@ -445,21 +450,26 @@ button:focus { outline: none; }
 	line-height: $btn-height;
 	list-style: none;
 	cursor: pointer;
+	display: block;
 
 	.wrap {
-		@include sprite-generated(btn_content_std, $setSize: false, $right: true);
+		padding: 0;
+		margin: 0 0 0 12px;
 		border: none;
+		vertical-align: middle;
+		line-height: $btn-height;
 		color: #333;
 		cursor: pointer;
+	}
+
+	.wrap, .search-input {
+		@include sprite-generated(btn_content_std, $setSize: false, $right: true);
 		display: block;
 		float: left;
+		padding-right: 12px;
 		font-size: 12px;
-		line-height: $btn-height;
-		margin: 0 0 0 12px;
-		padding: 0 12px 0 0;
-		text-decoration: none;
 		text-shadow: 0px 1px 0px white;
-		vertical-align: middle;
+		text-decoration: none;
 
 		&:before {
 			@include sprite-generated(btn_content_std, $setSize: false);
@@ -482,6 +492,10 @@ button:focus { outline: none; }
 				top: 11px;
 			}
 		}
+	}
+
+	.search-input {
+		margin-left: 0;
 	}
 
 	.text {
@@ -514,6 +528,120 @@ button:focus { outline: none; }
 	&.up .text:before { @include sprite-generated(up_icon_14); display: block; }
 	&.down .text:before { @include sprite-generated(down_icon_14); display: block; }
 	*/
+
+	&:hover {
+		.wrap { @include sprite-generated(btn_content_std_hover, $setSize: false, $right: true); }
+		.wrap:before { @include sprite-generated(btn_content_std_hover, $setSize: false); }
+	}
+	&:active, &:focus {
+		.wrap { @include sprite-generated(btn_content_act, $setSize: false, $right: true); }
+		.wrap:before { @include sprite-generated(btn_content_act, $setSize: false); }
+	}
+	&:active:hover {
+		.wrap { @include sprite-generated(btn_content_act_hover, $setSize: false, $right: true); }
+		.wrap:before { @include sprite-generated(btn_content_act_hover, $setSize: false); }
+	}
+}
+
+.btn.reply, .btn.login {
+	float: right;
+}
+
+.btn-group.reply, .btn-group.voting, .btn-group.admin {
+	float: right;
+}
+
+.btn-group {
+	white-space: nowrap;
+	margin: 0 5px 0 0;
+
+	.btn {
+		padding-left: 0;
+		margin-right: 0;
+		float: left;
+
+		.wrap {
+			background-position: (- map-get(map-get($sprites, btn_content_std), x) - 16px) (- map-get(map-get($sprites, btn_content_std), y));
+			background-repeat: repeat-x;
+			padding: 0px 7px;
+			margin-left: 0px;
+			&:before {
+				width: 1px;
+				margin-left: -7px;
+				background-position: (- map-get(map-get($sprites, btn_content_std), w) + 4px) (- map-get(map-get($sprites, btn_content_std), y));
+			}
+		}
+		&:first-child {
+			margin-left: -7px;
+			.text {
+				padding-left: 0px;
+			}
+			.wrap {
+				margin-left: 12px;
+			}
+			.wrap:before {
+				background-position: (0px) (- map-get(map-get($sprites, btn_content_std), y));
+				margin-left: -12px;
+				width: 5px;
+			}
+		}
+		&:last-child {
+			.wrap {
+				background-position: right (- map-get(map-get($sprites, btn_content_std), y));
+				background-repeat: no-repeat;
+				padding-right: 12px;
+				margin-right: 5px;
+			}
+		}
+	}
+}
+
+
+#top_header .btn, .submit-row .btn {
+	@include no-space();
+	line-height: $big-btn-height;
+
+	.wrap, .search-input {
+		@include sprite-generated(btn_std, $setSize: false, $right: true);
+		padding-right: 15px;
+		font-size: 14px;
+		font-weight: bold;
+		color: $link-color;
+		line-height: $big-btn-height;
+		>span.dropdown {
+			.icon { top: 13px; }
+		}
+	}
+	.text {
+		line-height: $big-btn-height;
+		color: $link-color;
+	}
+	.wrap:before, .search-input:before {
+		content: ".";
+		@include sprite-generated(btn_std, $setSize: false);
+		width: 15px; margin-left: -15px;
+		text-indent: -9999px; overflow: hidden;
+		float: left;
+		height: $big-btn-height;
+	}
+	&:hover {
+		.wrap { @include sprite-generated(btn_std_hover, $setSize: false, $right: true); }
+		.wrap:before { @include sprite-generated(btn_std_hover, $setSize: false); }
+		.wrap.dropdown { background: none; }
+	}
+	&:active, &:focus {
+		.wrap { @include sprite-generated(btn_act, $setSize: false, $right: true); }
+		.wrap:before, &:focus span:before { @include sprite-generated(btn_act, $setSize: false); }
+	}
+	&:active:hover {
+		.wrap { @include sprite-generated(btn_act_hover, $setSize: false, $right: true); }
+		.wrap:before { @include sprite-generated(btn_act_hover, $setSize: false); }
+	}
+	.username .icon-user {
+		margin: 12px 5px 0 3px;
+		@include sprite-generated(profile_icon_14);
+		float: left;
+	}
 }
 
 .module .menu {
@@ -1209,6 +1337,10 @@ ul.messages {
 
 .content ul.messages {
 	margin: 1.5em;
+}
+
+.comments_tree form {
+	display: inline;
 }
 
 .comments_tree .thread_1 .comment {
