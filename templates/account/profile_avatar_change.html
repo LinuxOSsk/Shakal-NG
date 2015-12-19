@@ -20,14 +20,14 @@
 {% include "account/partials/profile_edit_tabs.html" %}
 
 <form action="{{ url("accounts:my_profile_avatar_edit") }}" method="post" id="edit-user-avatar-form" enctype="multipart/form-data">{% csrf_token %}
-	<fieldset>
+	<fieldset class="module">
 		{% include "includes/form_loop.html" %}
 		<div class="submit-row">
 			<div class="negative">
-				<div class="btn"><span><a href="{{ url("accounts:my_profile") }}">Späť do profilu</a></span></div>
+				<div class="btn"><span class="wrap"><a class="text" href="{{ url("accounts:my_profile") }}">Späť do profilu</a></span></div>
 			</div>
 			<div class="positive">
-				<button class="btn" type="submit" title="Uložiť"><span>Uložiť</span></button>
+				<button class="btn" type="submit" title="Uložiť"><span class="wrap"><span class="text">Uložiť</span></span></button>
 			</div>
 		</div>
 	</fieldset>
