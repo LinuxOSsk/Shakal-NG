@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
 				('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
 				('jabber', models.CharField(max_length=127, blank=True)),
 				('url', models.CharField(max_length=255, blank=True)),
-				('signature', models.CharField(max_length=255, verbose_name='pospis', blank=True)),
+				('signature', models.CharField(max_length=255, verbose_name='podpis', blank=True)),
 				('display_mail', models.BooleanField(default=False, verbose_name='zobrazova\u0165 e-mail')),
 				('distribution', models.CharField(max_length=50, verbose_name='linuxov\xe1 distrib\xfacia', blank=True)),
 				('original_info', rich_editor.fields.RichTextOriginalField(blank=True, verbose_name='inform\xe1cie', property_name='info', filtered_field='filtered_info', validators=[django.core.validators.MaxLengthValidator(100000)])),

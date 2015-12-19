@@ -25,7 +25,7 @@ class User(AbstractUser):
 
 	jabber = models.CharField(max_length=127, blank=True)
 	url = models.CharField(max_length=255, blank=True)
-	signature = models.CharField('pospis', max_length=255, blank=True)
+	signature = models.CharField('podpis', max_length=255, blank=True)
 	display_mail = models.BooleanField('zobrazovať e-mail', default=False)
 	distribution = models.CharField('linuxová distribúcia', max_length=50, blank=True)
 	original_info = RichTextOriginalField(filtered_field="filtered_info", property_name="info", parsers={'html': 'profile'}, verbose_name='informácie', validators=[MaxLengthValidator(100000)], blank=True)

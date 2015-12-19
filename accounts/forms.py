@@ -18,7 +18,7 @@ from rich_editor.forms import RichTextField
 
 class ProfileEditForm(forms.ModelForm):
 	current_password = forms.CharField(max_length=65536, widget=forms.PasswordInput, label='Súčasné heslo')
-	signature = RichTextField(parser=get_parser('signature'), required=False, max_length=150, widget=forms.TextInput)
+	signature = RichTextField(parser=get_parser('signature'), required=False, max_length=150, widget=forms.TextInput, label='Podpis')
 
 	class Meta:
 		model = get_user_model()
