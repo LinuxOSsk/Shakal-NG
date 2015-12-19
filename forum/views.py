@@ -42,7 +42,6 @@ class TopicDetailView(DetailView):
 
 class TopicCreateView(PreviewCreateView):
 	model = Topic
-	template_name = 'forum/topic_create.html'
 	form_class = TopicForm
 
 	def form_valid(self, form):
