@@ -22,5 +22,7 @@ def gravatar_for_email(email, size=GRAVATAR_DEFAULT_SIZE):
 @library.global_function
 def avatar_for_user(user, size=GRAVATAR_DEFAULT_SIZE):
 	if user.avatar:
-		return getattr(user, 'avatar_' + str(size)).url
+		avatar = getattr(user, 'avatar_' + str(size))
+		if avatar:
+			return avatar.url
 	return gravatar_for_email(user.email, size)
