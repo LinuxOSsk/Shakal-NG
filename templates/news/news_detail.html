@@ -14,15 +14,15 @@
 <form action="{{ request.path }}" method="post">{% csrf_token %}
 <ul class="object-tools btn-group">
 	{% if user.is_staff and perms.news.can_change %}
-		<li class="btn"><span><a href="{{ url("admin:news_news_change", news.pk) }}">Admin</a></span></li>
+		<li class="btn"><span class="wrap"><a href="{{ url("admin:news_news_change", news.pk) }}" class="text">Admin</a></span></li>
 	{% endif %}
 	{% if perms.news.can_change %}
-		<li class="btn"><span><a href="{{ url("news:update", news.slug) }}">Upraviť</a></span></li>
+		<li class="btn"><span class="wrap"><a href="{{ url("news:update", news.slug) }}" class="text">Upraviť</a></span></li>
 	{% endif %}
 	{% if perms.news.can_change %}
 		{% with is_new = news.created == news.updated %}
-			{% if not news.approved or is_new %}<li class="btn"><button type="submit" name="approve" value="1">Schváliť</button></li>{% endif %}
-			{% if news.approved or is_new %}<li class="btn"><button type="submit" name="approve" value="">Zamietnúť</button></li>{% endif %}
+			{% if not news.approved or is_new %}<li class="btn"><button type="submit" name="approve" value="1" class="wrap"><span class="text">Schváliť</span></button></li>{% endif %}
+			{% if news.approved or is_new %}<li class="btn"><button type="submit" name="approve" value="" class="wrap"><span class="text">Zamietnúť</span></button></li>{% endif %}
 		{% endwith %}
 	{% endif %}
 </ul>

@@ -39,17 +39,17 @@
 	</div>
 {% endif %}
 
-<form action="." method="post" id="news-form">{% csrf_token %}
-	<fieldset>
+<form action="{{ request.path }}" method="post" id="news-form">{% csrf_token %}
+	<fieldset class="module">
 		{% include "includes/form_loop.html" %}
 		<div class="submit-row">
 			<div class="positive">
-				<button class="btn" type="submit" title="Náhľad"><span>Náhľad</span></button>
+				<button class="btn" type="submit" title="Náhľad"><span class="wrap"><span class="text">Náhľad</span></span></button>
 				{% if valid %}
 					{% if object %}
-						<button class="btn" type="submit" title="Upraviť správu" name="update" value="1"><span>Upraviť správu</span></button>
+						<button class="btn" type="submit" title="Upraviť správu" name="update" value="1"><span class="wrap"><span class="text">Upraviť správu</span></span></button>
 					{% else %}
-						<button class="btn" type="submit" title="Vytvoriť správu" name="create" value="1"><span>Vytvoriť správu</span></button>
+						<button class="btn" type="submit" title="Vytvoriť správu" name="create" value="1"><span class="wrap"><span class="text">Vytvoriť správu</span></span></button>
 					{% endif %}
 				{% endif %}
 			</div>
