@@ -45,15 +45,25 @@ class ThumbnailField(object):
 
 
 class AutoImageFieldMixin(object):
-	WIDTH, HEIGHT = 0, 1
+	WIDTH, HEIGHT, METHOD = 0, 1, 2
 
 	@staticmethod
 	def resize_image(filename, size):
-		from PIL import Image
+		from PIL import Image, ImageOps
 		img = Image.open(filename)
-		if img.size[AutoImageField.WIDTH] > size[AutoImageField.WIDTH] or img.size[AutoImageField.HEIGHT] > size[AutoImageField.HEIGHT]:
-			img.thumbnail((size[AutoImageField.WIDTH], size[AutoImageField.HEIGHT]), Image.ANTIALIAS)
-		img.save(filename, optimize=1)
+
+		method = 'thumbnail'
+		if len(size) == 3:
+			method = size[2]
+
+		if method == 'thumbnail':
+			if img.size[AutoImageField.WIDTH] > size[AutoImageField.WIDTH] or img.size[AutoImageField.HEIGHT] > size[AutoImageField.HEIGHT]:
+				img.thumbnail((size[AutoImageField.WIDTH], size[AutoImageField.HEIGHT]), Image.ANTIALIAS)
+			img.save(filename, optimize=1)
+		elif method == 'fit':
+			img = ImageOps.fit(img, (size[AutoImageField.WIDTH], size[AutoImageField.HEIGHT]), method=Image.ANTIALIAS, centering=(0.5, 0.5))
+			img.save(filename, optimize=1)
+
 
 	def get_object_pk(self, instance):
 		return instance.pk
