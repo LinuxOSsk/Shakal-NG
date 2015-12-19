@@ -79,17 +79,11 @@ class AutoImageFieldMixin(object):
 			os.makedirs(os.path.dirname(dest))
 		os.rename(src, dest)
 
-		# Presun / kópia náhľadov
-		for label in self.thumbnail:
-			old_tmb = AutoImageField.get_thumbnail_filename(src, label)
-			new_tmb = AutoImageField.get_thumbnail_filename(dest, label)
-			if os.path.exists(old_tmb):
-				os.rename(old_tmb, new_tmb)
-
 	def __perform_remove_file(self, path):
 		if os.path.exists(path):
 			os.remove(path)
 
+	def __perform_remove_thumbnail(self, path):
 		for label in self.thumbnail:
 			tmb_filename = AutoImageField.get_thumbnail_filename(path, label)
 			if os.path.exists(tmb_filename):
@@ -111,6 +105,7 @@ class AutoImageFieldMixin(object):
 	def _rename_image(self, instance, **kwargs):
 		field = getattr(instance, self.name)
 		src, dest, new_file = self.__get_paths(instance)
+		self.__perform_remove_thumbnail(field.storage.path(src))
 
 		if src and src != dest and os.path.exists(src):
 			self.__perform_rename_file(src, dest)
@@ -124,6 +119,7 @@ class AutoImageFieldMixin(object):
 
 		old = getattr(instance, self.name + '_old', None)
 		if old and old != new_file and os.path.exists(field.storage.path(old)):
+			self.__perform_remove_thumbnail(field.storage.path(old))
 			self.__perform_remove_file(field.storage.path(old))
 			instance.old = new_file
 			self.__clean_dir(os.path.dirname(field.storage.path(old)))
@@ -154,6 +150,7 @@ class AutoImageFieldMixin(object):
 		if not field:
 			return
 		path = field.storage.path(field.path)
+		self.__perform_remove_thumbnail(path)
 		self.__perform_remove_file(path)
 		self.__clean_dir(os.path.dirname(path))
 
