@@ -18,4 +18,4 @@ def polls_frontpage(context):
 		'request': context['request'],
 		'user': context['user'],
 	})
-	return mark_safe(render_to_string('polls/block_poll_detail.html', ctx))
+	return mark_safe(render_to_string('polls/partials/poll_detail.html', ctx))

@@ -57,7 +57,7 @@
 	{{ render_messages(messages, poll.msg_id()) }}
 	{% with %}
 		{% set input=1 %}
-		{% include "polls/block_poll_detail_embedded.html" %}
+		{% include "polls/partials/poll_detail_embedded.html" %}
 	{% endwith %}
 	<input type="hidden" name="msg_id" value="{{ poll.msg_id() }}" />
 	<input type="hidden" name="next" value="{{ request.path }}" />

@@ -9,7 +9,7 @@
 	{% for poll in polls %}
 		<div class="module-row">
 			<h3><a href="{{ poll.get_absolute_url() }}">{{ poll }}</a></h3>
-			{% include "polls/block_poll_detail_embedded.html" %}
+			{% include "polls/partials/poll_detail_embedded.html" %}
 		</div>
 	{% endfor %}
 	{{ pagination() }}
