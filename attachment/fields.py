@@ -9,6 +9,19 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
 
+def get_file_list(files, name):
+	if hasattr(files, 'getlist'):
+		return files.getlist(name)
+	else:
+		value = files.get(name)
+		if isinstance(value, list):
+			return value
+		elif value is None:
+			return value
+		else:
+			return [value]
+
+
 class AttachmentWidget(ClearableFileInput):
 	def render(self, name, value, attrs=None):
 		attrs = attrs or {}
@@ -25,16 +38,7 @@ class AttachmentWidget(ClearableFileInput):
 		return widget
 
 	def value_from_datadict(self, data, files, name):
-		if hasattr(files, 'getlist'):
-			return files.getlist(name)
-		else:
-			value = files.get(name)
-			if isinstance(value, list):
-				return value
-			elif value is None:
-				return value
-			else:
-				return [value]
+		return get_file_list(files, name)
 
 
 class AttachmentField(FileField):

@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from django.db.models import Sum
 from django.forms.models import modelformset_factory
 
-from .fields import AttachmentField
+from .fields import AttachmentField, get_file_list
 from .models import UploadSession, Attachment
 from .utils import get_available_size
 
@@ -86,13 +86,16 @@ class AttachmentFormMixin(forms.BaseForm):
 			self.content_object = self.get_uploadsession(create=True)
 
 		try:
-			cleaned_file = self.fields['attachment'].clean(self.files['attachment'])
+			cleaned_files = self.fields['attachment'].clean(get_file_list(self.files, 'attachment'))
 
-			attachment = Attachment(
-				attachment=cleaned_file,
-				content_object=self.content_object
-			)
-			attachment.save()
+			if cleaned_files:
+				for cleaned_file in cleaned_files:
+					if cleaned_file:
+						attachment = Attachment(
+							attachment=cleaned_file,
+							content_object=self.content_object
+						)
+						attachment.save()
 		except ValidationError:
 			return
 
