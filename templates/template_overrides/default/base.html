@@ -128,7 +128,7 @@ html, body {
 								</li>
 							</ul>
 						{% else %}
-							<span class="login"><a href="{{ url('account_login') }}?next={{ url('home') }}" rel="nofollow">{{ _("Log in") }}</a></span>
+							<span class="wrap"><a class="text" href="{{ url('account_login') }}?next={{ url('home') }}" rel="nofollow">{{ _("Log in") }}</a></span>
 							<ul id="userlinks" class="dropdown menu">
 								<li>
 									<a href="{{ url('account_login') }}?next={{ url('home') }}" rel="nofollow">{{ _("Log in") }}</a>
