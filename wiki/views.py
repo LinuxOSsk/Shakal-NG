@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import reversion
 from braces.views import UserPassesTestMixin
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView
 from django_simple_paginator.utils import paginate_queryset
+from reversion import revisions
 
 from .forms import WikiEditForm
 from .models import Page
@@ -30,7 +30,7 @@ class WikiBaseView(DetailView):
 		return get_object_or_404(self.get_history(), pk=history)
 
 	def get_history(self):
-		return (reversion
+		return (revisions
 			.get_for_object(self.object)
 			.select_related('revision', 'revision__user'))
 
@@ -124,9 +124,9 @@ class PageUpdateView(PageEditMixin, PreviewUpdateView):
 	create = False
 
 	def dispatch(self, *args, **kwargs):
-		with reversion.create_revision():
+		with revisions.create_revision():
 			response = super(PageUpdateView, self).dispatch(*args, **kwargs)
-			reversion.set_user(args[0].user)
+			revisions.set_user(args[0].user)
 		return response
 
 	def form_valid(self, form):
@@ -144,9 +144,9 @@ class PageCreateView(PageEditMixin, PreviewCreateView):
 
 	def dispatch(self, *args, **kwargs):
 		self.extra_context = {'slug': kwargs['slug'], 'page': get_object_or_404(Page, slug = kwargs['slug'])}
-		with reversion.create_revision():
+		with revisions.create_revision():
 			response = super(PageCreateView, self).dispatch(*args, **kwargs)
-			reversion.set_user(args[0].user)
+			revisions.set_user(args[0].user)
 		return response
 
 	def get_context_data(self, **kwargs):
