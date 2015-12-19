@@ -87,10 +87,10 @@ html, body {
 					{% block site_menu %}{% include "partials/site_menu.html" %}{% endblock %}
 				</ul>
 				<div class="pull-right">
-					<div id="user_panel" class="btn{% if user.is_authenticated() %} authenticated{% endif %}">
+					<div id="user_panel" class="btn username {% if user.is_authenticated() %} authenticated{% endif %}">
 						{% if user.is_authenticated() %}
-							<span class="username">
-								<a href="{{ request.user.get_absolute_url() }}">
+							<span class="wrap">
+								<a class="text" href="{{ request.user.get_absolute_url() }}">
 									<span class="icon-user"></span>
 									{{ firstof(request.user.get_full_name(), request.user.username) }}
 									{% set unread_notifications=get_unread_notifications() %}
@@ -143,7 +143,7 @@ html, body {
 						{% endif %}
 					</div>
 					<div id="rss_panel" class="btn">
-						<span><a class="rss-icon" href="#">RSS</a></span>
+						<span class="wrap"><a class="rss-icon text" href="#">RSS</a></span>
 						{{ render_all_feeds(template="feeds/home_feeds.html") }}
 					</div>
 					<div id="search-panel">

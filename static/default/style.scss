@@ -596,6 +596,13 @@ button:focus { outline: none; }
 	}
 }
 
+#top_header {
+	.icon-user {
+		margin: 12px 5px 0 3px;
+		@include sprite-generated(profile_icon_14);
+		float: left;
+	}
+}
 
 #top_header .btn, .submit-row .btn {
 	@include no-space();
@@ -608,7 +615,7 @@ button:focus { outline: none; }
 		font-weight: bold;
 		color: $link-color;
 		line-height: $big-btn-height;
-		>span.dropdown {
+		.dropdown {
 			.icon { top: 13px; }
 		}
 	}
@@ -637,11 +644,6 @@ button:focus { outline: none; }
 		.wrap { @include sprite-generated(btn_act_hover, $setSize: false, $right: true); }
 		.wrap:before { @include sprite-generated(btn_act_hover, $setSize: false); }
 	}
-	.username .icon-user {
-		margin: 12px 5px 0 3px;
-		@include sprite-generated(profile_icon_14);
-		float: left;
-	}
 }
 
 .module .menu {
@@ -664,6 +666,7 @@ button:focus { outline: none; }
 			display: block;
 		}
 		a {
+			white-space: nowrap;
 			line-height: 32px;
 		}
 	}
