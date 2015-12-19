@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.utils import timezone
 from datetime import datetime, time
+
 from braces.views import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.views.generic import RedirectView, DetailView, UpdateView
 
-from .forms import ProfileEditForm
+from .forms import ProfileEditForm, AvatarUpdateForm
 from .stats import register
 from comments.models import UserDiscussionAttribute
 from common_utils.content_types import resolve_content_objects
@@ -58,6 +59,14 @@ class MyProfile(LoginRequiredMixin, MyProfileMixin, Profile):
 class MyProfileEdit(LoginRequiredMixin, MyProfileMixin, UpdateView):
 	template_name = 'account/profile_change.html'
 	form_class = ProfileEditForm
+
+	def get_success_url(self):
+		return reverse('accounts:my_profile')
+
+
+class MyProfileAvatarEdit(LoginRequiredMixin, MyProfileMixin, UpdateView):
+	template_name = 'account/profile_avatar_change.html'
+	form_class = AvatarUpdateForm
 
 	def get_success_url(self):
 		return reverse('accounts:my_profile')

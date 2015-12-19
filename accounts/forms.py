@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from antispam.forms import AntispamFormMixin
 from allauth.account import app_settings
 from allauth.account.forms import LoginForm as CoreLoginForm, AddEmailForm as CoreAddEmailForm, SignupForm as CoreSignupForm, PasswordField
 from allauth.account.utils import perform_login
@@ -12,6 +11,7 @@ from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 
 from .auth_remember_utils import remember_user
+from antispam.forms import AntispamFormMixin
 from rich_editor import get_parser
 from rich_editor.forms import RichTextField
 
@@ -51,6 +51,12 @@ class ProfileEditForm(forms.ModelForm):
 
 	def clean_email(self):
 		return self.instance.email
+
+
+class AvatarUpdateForm(forms.ModelForm):
+	class Meta:
+		model = get_user_model()
+		fields = ('avatar',)
 
 
 class EmailChangeForm(forms.ModelForm):
