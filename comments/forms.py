@@ -7,6 +7,8 @@ from django import forms
 from django.contrib.contenttypes.models import ContentType
 from django.forms.utils import ErrorDict
 from django.utils.crypto import salted_hmac
+from django.utils.encoding import force_unicode
+from django.utils.functional import cached_property
 
 from antispam.forms import AntispamFormMixin
 from attachment.forms import AttachmentFormMixin
@@ -80,9 +82,17 @@ class CommentForm(SecurityFormMixin, AuthorsNameFormMixin, AttachmentFormMixin, 
 		self.parent_id = parent_id
 		self.target_object = target_object
 		initial = initial or {}
+		initial['subject'] = self.get_new_subject()
 		initial.update(self.generate_security_data())
 		super(CommentForm, self).__init__(data=data, initial=initial, *args, **kwargs)
 		self.fields['parent'].required = True
+
+	@cached_property
+	def parent_comment(self):
+		if self.parent_id:
+			return Comment.objects.get(pk=self.parent_id)
+		else:
+			return None
 
 	def get_model(self):
 		return Comment
@@ -92,6 +102,18 @@ class CommentForm(SecurityFormMixin, AuthorsNameFormMixin, AttachmentFormMixin, 
 			return self.save(commit=False)
 		else:
 			return None
+
+	def get_new_subject(self):
+		parent_comment = self.parent_comment
+		content_object = self.target_object
+
+		if parent_comment.parent_id:
+			new_subject = parent_comment.subject
+			if not new_subject.startswith(force_unicode('RE: ')):
+				new_subject = force_unicode('RE: ') + new_subject
+		else:
+			new_subject = force_unicode('RE: ') + force_unicode(content_object)
+		return new_subject
 
 	def additional_security_data(self):
 		return {
