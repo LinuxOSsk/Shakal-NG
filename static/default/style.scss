@@ -715,7 +715,7 @@ button:focus { outline: none; }
 		font-size: 0.875em;
 		color: $help-color;
 	}
-	input[type="text"], input[type="password"], input[type="email"], input[type="url"] {
+	input[type="text"], input[type="password"], input[type="email"], input[type="url"], input[type="number"] {
 		vertical-align: middle;
 		width: 15em;
 	}
@@ -737,11 +737,11 @@ button:focus { outline: none; }
 	.negative { float: left; }
 }
 
-input[type="text"], input[type="password"], input[type="email"], input[type="url"] {
+input[type="text"], input[type="password"], input[type="email"], input[type="url"], input[type="number"] {
 	@include input();
 }
 
-input[type="text"], input[type="password"], input[type="email"], input[type="url"] {
+input[type="text"], input[type="password"], input[type="email"], input[type="url"], input[type="number"] {
 	@include sprite-generated(input_bg, $setSize: false);
 	background-repeat: repeat-x;
 	background-color: #fff;
@@ -757,7 +757,7 @@ textarea {
 
 .formset-field {
 	padding: 0 3px;
-	input[type="text"], input[type="password"], input[type="email"], input[type="url"], textarea {
+	input[type="text"], input[type="password"], input[type="email"], input[type="url"], input[type="number"], textarea {
 		padding: 3px 0; width: 100%;
 	}
 }
