@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import json
 from datetime import timedelta
 
-import json
 from django.conf import settings
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import AbstractUser, UserManager
@@ -15,6 +15,7 @@ from django.utils import timezone
 
 from . import accounts_settings
 from .utils import get_count_new
+from autoimagefield.fields import AutoImageField
 from common_utils import get_default_manager
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
@@ -30,6 +31,7 @@ class User(AbstractUser):
 	original_info = RichTextOriginalField(filtered_field="filtered_info", property_name="info", parsers={'html': 'profile'}, verbose_name='informácie', validators=[MaxLengthValidator(100000)], blank=True)
 	filtered_info = RichTextFilteredField(blank=True)
 	year = models.SmallIntegerField('rok narodenia', validators=[MinValueValidator(1900), MaxValueValidator(2015)], blank=True, null=True)
+	avatar = AutoImageField('fotografia', upload_to='article/thumbnails', size=(512, 512), thumbnail={'standard': (128, 128)}, blank=True, null=True)
 	settings = models.TextField('nastavenia', blank=True)
 
 	def clean_fields(self, exclude=None):
