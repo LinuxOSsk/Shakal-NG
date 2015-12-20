@@ -16,6 +16,8 @@ UPDATE_LAST_VIEW_TIME = {
 
 class LastViewedMiddleware(object):
 	def process_response(self, request, response):
+		if not hasattr(request, 'user'):
+			return response
 		if request.user.is_authenticated() and request.resolver_match:
 			content_type = UPDATE_LAST_VIEW_TIME.get(request.resolver_match.view_name)
 			if content_type is not None or not request.user.user_settings:
@@ -25,13 +27,15 @@ class LastViewedMiddleware(object):
 
 class AuthRememberMiddleware(object):
 	def process_request(self, request):
-		if request.user.is_authenticated():
+		if not hasattr(request, 'user') or request.user.is_authenticated():
 			return
 		user = authenticate_user(request)
 		if user is None:
 			setattr(request, '_delete_auth_remember', True)
 
 	def process_response(self, request, response):
+		if not hasattr(request, 'user'):
+			return response
 		if getattr(request, '_delete_auth_remember', False):
 			delete_cookie(response)
 		return response
