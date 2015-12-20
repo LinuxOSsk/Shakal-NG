@@ -22,7 +22,7 @@ django-debug-toolbar==1.4
 django-debugtools==1.4
 django-extensions==1.6.1
 django-haystack==2.4.1
-django-jinja==2.1.1
+django-jinja==2.0.0
 django-libsass==0.6
 django-mptt==0.7.4
 django-reversion==1.10.0
