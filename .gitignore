@@ -2,6 +2,7 @@
 *.pyc
 *.pyo
 *.mo
+/.ropeproject
 /media
 /wsgi_app.py
 /dump.gz
