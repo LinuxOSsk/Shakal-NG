@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db import models, transaction
 from django.utils import timezone
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_str
 from mptt.models import MPTTModel, TreeForeignKey
 
 from attachment.models import Attachment
@@ -104,7 +104,7 @@ class Comment(MPTTModel, TimestampModelMixin):
 
 	def save(self, *args, **kwargs):
 		if not self.user_name and self.user:
-			self.user_name = force_unicode(self.user)
+			self.user_name = force_str(self.user)
 		return super(Comment, self).save(*args, **kwargs)
 
 	def __unicode__(self):
@@ -152,6 +152,10 @@ class RootHeader(models.Model):
 
 	def __unicode__(self):
 		return '#%d' % self.id
+
+	@property
+	def title(self):
+		return force_str(self.content_object)
 
 	@models.permalink
 	def get_absolute_url(self):

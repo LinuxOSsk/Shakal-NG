@@ -34,4 +34,4 @@ class CommentIndex(indexes.SearchIndex, indexes.Indexable):
 		if hasattr(content_object, 'title'):
 			return content_object.title
 		else:
-			return None
+			return ''
