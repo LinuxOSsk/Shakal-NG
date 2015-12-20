@@ -4,7 +4,7 @@ django-allauth
 django-braces
 django-compressor
 django-haystack
-django-jinja
+django-jinja<2.1
 django-libsass
 django-mptt
 django-reversion

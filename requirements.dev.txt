@@ -11,7 +11,7 @@
 argh==0.26.1              # via watchdog
 astroid==1.4.1            # via pylint, pylint-plugin-utils
 click==6.2                # via pip-tools
-colorama==0.3.3           # via pylint
+colorama==0.3.5           # via pylint
 contextlib2==0.4.0        # via raven
 decorator==4.0.6          # via ipython, traitlets
 django-allauth==0.24.1
@@ -20,9 +20,9 @@ django-braces==1.8.1
 django-compressor==1.6
 django-debug-toolbar==1.4
 django-debugtools==1.4
-django-extensions==1.5.9
+django-extensions==1.6.1
 django-haystack==2.4.1
-django-jinja==1.4.1
+django-jinja==2.1.1
 django-libsass==0.6
 django-mptt==0.7.4
 django-reversion==1.10.0
@@ -37,7 +37,7 @@ ipython==4.0.1
 jedi==0.9.0               # via ptpython
 jinja2==2.8               # via django-jinja
 lazy-object-proxy==1.2.1  # via astroid
-libsass==0.9.3            # via django-libsass
+libsass==0.10.0           # via django-libsass
 markupsafe==0.23          # via jinja2
 oauthlib==1.0.3           # via requests-oauthlib
 path.py==8.1.2            # via pickleshare
@@ -45,7 +45,7 @@ pathtools==0.1.2          # via watchdog
 pexpect==4.0.1            # via ipython
 pickleshare==0.5          # via ipython
 pillow==3.0.0
-pip-tools==1.3.0
+pip-tools==1.4.2
 prompt-toolkit==0.54      # via ptpython
 ptpython==0.25
 ptyprocess==0.5           # via pexpect
@@ -56,18 +56,18 @@ pylint==1.5.1             # via pylint-django, pylint-plugin-utils
 python-openid==2.2.5      # via django-allauth
 pytz==2015.7
 pyyaml==3.11              # via watchdog
-raven==5.9.0
-requests-oauthlib==0.5.0  # via django-allauth
-requests==2.8.1           # via django-allauth, requests-oauthlib
+raven==5.9.2
+requests-oauthlib==0.6.0  # via django-allauth
+requests==2.9.0           # via django-allauth, requests-oauthlib
 simplegeneric==0.8.1      # via ipython
 six==1.10.0               # via astroid, django-appconf, django-braces, django-extensions, libsass, pip-tools, prompt-toolkit, pylint
 sqlparse==0.1.18          # via django-debug-toolbar
 traitlets==4.0.0          # via ipython
 watchdog==0.8.3
 wcwidth==0.1.5            # via prompt-toolkit
-werkzeug==0.11.2
+werkzeug==0.11.3
 wrapt==1.10.6             # via astroid
 
 # The following packages are commented out because they are
 # considered to be unsafe in a requirements file:
-# setuptools==18.7.1        # via django-static-sitemaps
+# setuptools==19.1.1        # via django-static-sitemaps
