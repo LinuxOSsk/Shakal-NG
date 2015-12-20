@@ -10,7 +10,11 @@
 		<td class="title"><a href="{{ topic.get_absolute_url() }}">{{ topic.title }}</a></td>
 		<td class="status">
 			<span class="label label-info">
-				{{ topic._meta.verbose_name|capfirst }}
+				{% if topic._meta.proxy_for_model %}
+					{{ topic._meta.proxy_for_model._meta.verbose_name|capfirst }}
+				{% else %}
+					{{ topic._meta.verbose_name|capfirst }}
+				{% endif %}
 			</span>
 		</td>
 		<td class="comments"><span class="badge badge-{{ topic.new_comments|yesno("new,watch,default") }}">{{ topic.comment_count }}</span></td>
