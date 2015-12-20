@@ -58,7 +58,8 @@ class Reply(FormView):
 		form = ctx['form']
 		content_object = self.parent.content_object
 		comment = form.get_comment_object()
-		comment.user = self.request.user
+		if comment is not None:
+			comment.user = self.request.user
 		ctx.update({
 			'next': self.request.POST.get('next', self.request.GET.get('next', content_object.get_absolute_url())),
 			'comment': comment,
