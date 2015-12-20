@@ -1448,7 +1448,7 @@ ul.messages {
 	clear: left;
 }
 
-.comment-link {
+.comment-link.first, .comment-link.forget {
 	float: left;
 	line-height: 38px;
 	margin-left: .5em;
