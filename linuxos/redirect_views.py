@@ -15,7 +15,7 @@ def profile_redirect(request, pk):
 	return HttpResponsePermanentRedirect(reverse('accounts:profile', kwargs={'pk': pk}))
 
 def article_redirect(request, pk):
-	article = get_object_or_404(Article, p =pk)
+	article = get_object_or_404(Article, pk=pk)
 	return HttpResponsePermanentRedirect(reverse('article:detail', kwargs={'slug': article.slug}))
 
 def forum_topic_redirect(request, pk):
