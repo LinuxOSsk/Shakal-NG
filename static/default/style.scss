@@ -1448,10 +1448,11 @@ ul.messages {
 	clear: left;
 }
 
-.comment-link.first {
+.comment-link {
 	float: left;
 	line-height: 38px;
 	margin-left: .5em;
+	margin-right: 1em;
 }
 
 .comment-link.first:after {

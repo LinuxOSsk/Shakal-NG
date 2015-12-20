@@ -3,11 +3,11 @@
 <div class="module">
 	<a id="comments" href="#"></a>
 	<div class="links">
-		{% if root.next_new %}
-			<a href="#link_{{ root.next_new }}" class="comment-link first">Prvý neprečítaný komentár</a>
-		{% endif %}
 		{% if request.user.is_authenticated() %}
 			<a href="{{ url("comments:forget", root_header.pk) }}" class="comment-link">Zabudnúť</a>
+		{% endif %}
+		{% if root.next_new %}
+			<a href="#link_{{ root.next_new }}" class="comment-link first">Prvý neprečítaný komentár</a>
 		{% endif %}
 		{% if not root.is_locked %}
 			<div class="btn reply">
