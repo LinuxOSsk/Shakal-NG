@@ -490,6 +490,7 @@ var SimpleEditorHtml = function(element, options) {
 	tb = addToolbar();
 	buttons.source = addButton(tb, {
 		cls: 'icon-source',
+		title: 'Zdrojový kód',
 		toggle: true,
 		down: true,
 		ontoggle: function(self, status) {
@@ -504,6 +505,7 @@ var SimpleEditorHtml = function(element, options) {
 	});
 	buttons.preview = addButton(tb, {
 		cls: 'icon-preview',
+		title: 'Náhľad',
 		toggle: true,
 		ontoggle: function(self, status) {
 			hasPreview = status;
@@ -569,42 +571,42 @@ var SimpleEditorHtml = function(element, options) {
 
 	if (hasTag('strong') || hasTag('em') || hasTag('del') || hasTag('u') || hasTag('code')) {
 		tb = addToolbar();
-		if (hasTag('strong')) addButton(tb, {cls: 'icon-bold', tag: 'strong', onclick: triggerFunction});
-		if (hasTag('em')) addButton(tb, {cls: 'icon-italic', tag: 'em', onclick: triggerFunction});
-		if (hasTag('del')) addButton(tb, {cls: 'icon-strike', tag: 'del', onclick: triggerFunction});
-		if (hasTag('u')) addButton(tb, {cls: 'icon-underline', tag: 'u', onclick: triggerFunction});
+		if (hasTag('strong')) addButton(tb, {cls: 'icon-bold', tag: 'strong', title: 'Tučné', onclick: triggerFunction});
+		if (hasTag('em')) addButton(tb, {cls: 'icon-italic', tag: 'em', title: 'Kurzíva', onclick: triggerFunction});
+		if (hasTag('del')) addButton(tb, {cls: 'icon-strike', tag: 'del', title: 'Preškrtnuté', onclick: triggerFunction});
+		if (hasTag('u')) addButton(tb, {cls: 'icon-underline', tag: 'u', title: 'Podčiarknuté', onclick: triggerFunction});
 		if (hasTag('code')) {
 			addSeparator(tb);
-			addButton(tb, {cls: 'icon-removeformat', tag: 'code', onclick: triggerFunction, parse: _.escapeHTML}); // code
+			addButton(tb, {cls: 'icon-removeformat', tag: 'code', title: 'Inline kód', onclick: triggerFunction, parse: _.escapeHTML}); // code
 		}
 	}
 
 	if (hasTag('sup') || hasTag('sub')) {
 		tb = addToolbar();
-		if (hasTag('sup')) addButton(tb, {cls: 'icon-superscript', tag: 'sup', onclick: triggerFunction});
-		if (hasTag('sup')) addButton(tb, {cls: 'icon-subscript', tag: 'sub', onclick: triggerFunction});
+		if (hasTag('sup')) addButton(tb, {cls: 'icon-superscript', tag: 'sup', title: 'Horný index', onclick: triggerFunction});
+		if (hasTag('sup')) addButton(tb, {cls: 'icon-subscript', tag: 'sub', title: 'Dolný index', onclick: triggerFunction});
 	}
 
 	tb = addToolbar();
-	if (hasTag('p')) addButton(tb, {cls: 'icon-bidiltr', tag: 'p', onclick: triggerFunction});
-	if (hasTag('pre')) addButton(tb, {cls: 'icon-blockquote', tag: 'blockquote', onclick: triggerFunction});
-	addButton(tb, {cls: 'icon-pastetext', onclick: addText});
+	if (hasTag('p')) addButton(tb, {cls: 'icon-bidiltr', tag: 'p', title: 'Odstavec', onclick: triggerFunction});
+	if (hasTag('pre')) addButton(tb, {cls: 'icon-blockquote', tag: 'blockquote', title: 'Citácia', onclick: triggerFunction});
+	addButton(tb, {cls: 'icon-pastetext', title: 'Vložiť text, alebo zdrojový kód', onclick: addText});
 
 	if (hasTag('ul') || hasTag('ol')) {
 		tb = addToolbar();
-		if (hasTag('ul')) addButton(tb, {cls: 'icon-bulletedlist', tag_pre: '<ul>\n', tag_post: '</ul>', parse: formatListContent, onclick: triggerFunction});
-		if (hasTag('ol')) addButton(tb, {cls: 'icon-numberedlist', tag_pre: '<ol>\n', tag_post: '</ol>', parse: formatListContent, onclick: triggerFunction});
+		if (hasTag('ul')) addButton(tb, {cls: 'icon-bulletedlist', tag_pre: '<ul>\n', tag_post: '</ul>', title: 'Zoznam', parse: formatListContent, onclick: triggerFunction});
+		if (hasTag('ol')) addButton(tb, {cls: 'icon-numberedlist', tag_pre: '<ol>\n', tag_post: '</ol>', title: 'Číslovaný zoznam', parse: formatListContent, onclick: triggerFunction});
 	}
 
 	if (hasTag('a') || hasTag('table') || hasTag('image')) {
 		tb = addToolbar();
-		if (hasTag('a')) addButton(tb, {cls: 'icon-link', onclick: addLink});
-		if (hasTag('table')) addButton(tb, {cls: 'icon-table', tag_pre: '<table>\n', tag_post: '</table>', parse: formatTableContent, onclick: triggerFunction});
-		if (hasTag('img')) addButton(tb, {cls: 'icon-image', onclick: addImage});
+		if (hasTag('a')) addButton(tb, {cls: 'icon-link', title: 'Odkaz', onclick: addLink});
+		if (hasTag('table')) addButton(tb, {cls: 'icon-table', tag_pre: '<table>\n', tag_post: '</table>', title: 'Tabuľka', parse: formatTableContent, onclick: triggerFunction});
+		if (hasTag('img')) addButton(tb, {cls: 'icon-image', title: 'Obrázok', onclick: addImage});
 	}
 
 	tb = addToolbar();
-	addButton(tb, {cls: 'icon-about', onclick: aboutEditor});
+	addButton(tb, {cls: 'icon-about', title: 'Pomoc', onclick: aboutEditor});
 
 	addBreak(top);
 	addBreak(contents);
