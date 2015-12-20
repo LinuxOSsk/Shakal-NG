@@ -8,7 +8,7 @@ from django.utils import timezone
 
 from accounts.models import UserRating
 from article.models import Article
-from attachment.models import TemporaryAttachment
+from attachment.models import UploadSession
 from comments.models import Comment
 from news.models import News
 from notifications.models import Event, Inbox
@@ -16,10 +16,12 @@ from wiki.models import Page as WikiPage
 
 
 def delete_old_attachments():
-	old_attachments = (TemporaryAttachment.objects
+	old_sessions = (UploadSession.objects
 		.filter(created__lt=timezone.now() - timedelta(1)))
-	for old_attachment in old_attachments:
-		old_attachment.delete()
+	for old_session in old_sessions:
+		for attachment in old_session.attachments.all():
+			attachment.delete()
+		old_session.delete()
 
 
 def delete_old_events():
