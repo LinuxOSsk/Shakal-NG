@@ -2,6 +2,8 @@
 from __future__ import unicode_literals
 
 import uuid
+
+from django.contrib import auth as django_auth
 from django.contrib.auth.hashers import make_password
 
 from .accounts_settings import COOKIE_AGE, COOKIE_NAME
@@ -36,3 +38,14 @@ def remember_user(response, user):
 	token_string = create_token_string(user, None)
 	set_cookie(response, COOKIE_NAME, token_string, COOKIE_AGE)
 	return response
+
+
+def authenticate_user(request):
+	token = request.COOKIES.get(COOKIE_NAME, None)
+	if token is None:
+		return False
+
+	user = django_auth.authenticate(token_string=token, request=request)
+	if user:
+		django_auth.login(request, user)
+	return user

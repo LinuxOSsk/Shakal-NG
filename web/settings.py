@@ -90,6 +90,7 @@ MIDDLEWARE_CLASSES = (
 	'django.middleware.security.SecurityMiddleware',
 	# custom
 	'accounts.middleware.LastViewedMiddleware',
+	'accounts.middleware.AuthRememberMiddleware',
 	'common_utils.middlewares.ThreadLocal.ThreadLocalMiddleware',
 	'template_dynamicloader.middleware.TemplateSwitcherMiddleware',
 	'feeds.middleware.FeedsMiddleware',

@@ -78,7 +78,7 @@ class LoginForm(CoreLoginForm):
 		if remember is None:
 			remember = self.cleaned_data['remember']
 		if remember:
-			remember_user(ret, self.user)
+			return remember_user(ret, self.user)
 		return ret
 
 
