@@ -10,6 +10,8 @@ from xapian_backend import XapianSearchBackend as CoreXapianSearchBackend, Xapia
 class XapianSearchBackend(CoreXapianSearchBackend):
 	def _database(self, *args, **kwargs):
 		database = super(XapianSearchBackend, self)._database(*args, **kwargs)
+		if not hasattr(database, 'replace_document'):
+			return database
 		old_replace_document = database.replace_document
 
 		def replace_document(document_id, document):
