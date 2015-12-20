@@ -134,6 +134,10 @@ TEMPLATES = [
 			"autoescape": True,
 			"auto_reload": True,
 			"translation_engine": "django.utils.translation",
+			"bytecode_cache": {
+				"name": "jinja",
+				"enabled": True,
+			}
 		}
 	},
 	{
@@ -391,9 +395,6 @@ LOGGING = {
 		},
 	}
 }
-
-JINJA2_BYTECODE_CACHE_NAME = "jinja"
-JINJA2_BYTECODE_CACHE_ENABLE = True
 
 def COMPRESS_JINJA2_GET_ENVIRONMENT():
 	from django.template import engines
