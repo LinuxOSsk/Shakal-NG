@@ -76,7 +76,7 @@ class DiscussionLoader:
 		return discussion_attribute
 
 	def highlight_new(self, query_set):
-		root_item = query_set.get(level=0)
+		root_item = query_set.root_item
 		prev_new_item = root_item
 		for comment in query_set:
 			if comment.is_new:
@@ -109,9 +109,10 @@ class DiscussionLoader:
 				default=False,
 				output_field=BooleanField()
 			))
+			setattr(query_set, 'root_item', query_set.get(level=0))
 			self.highlight_new(query_set)
-		root_item = query_set.get(level=0)
-		setattr(query_set, 'root_item', root_item)
+		else:
+			setattr(query_set, 'root_item', query_set.get(level=0))
 		setattr(query_set, 'root_header', self.root_header)
 		if 'user' in context and context['user'].is_authenticated():
 			setattr(query_set, 'user_attribute', attrib)
