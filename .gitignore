@@ -30,3 +30,5 @@
 /htmlcov
 /static/CACHE
 /db.sqlite3
+/scripts/setenv.server
+/upgrade.sh
