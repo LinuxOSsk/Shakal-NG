@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, Case, When
 from django.db.models.query import QuerySet
 from django.utils import timezone
 from django_autoslugfield.fields import AutoSlugField
@@ -50,7 +50,15 @@ class PostQuerySet(QuerySet):
 
 class PostManager(models.Manager):
 	def get_queryset(self):
-		return PostQuerySet(self.model, using=self._db).select_related('blog', 'blog__author') #pylint: disable=no-member
+		return (PostQuerySet(self.model, using=self._db)
+			.select_related('blog', 'blog__author')
+			.annotate(
+				is_published=Case(
+					When(pub_time__lte=timezone.now(), then=True),
+					default=False,
+					output_field=models.BooleanField()
+				)
+			))
 
 	def published(self):
 		return self.get_queryset().published()
@@ -61,7 +69,7 @@ class PostManager(models.Manager):
 
 class PublishedPostManager(PostManager):
 	def get_queryset(self):
-		return super(PublishedPostManager, self).get_queryset().filter(pub_time__lt=timezone.now())
+		return super(PublishedPostManager, self).get_queryset().filter(is_published=True)
 
 
 class Post(TimestampModelMixin, models.Model):

@@ -62,6 +62,7 @@ class BlogUpdateView(LoginRequiredMixin, PreviewUpdateView):
 class PostDetailView(DetailUserProtectedView):
 	queryset = Post.all_objects.all()
 	author_field = 'blog__author'
+	published_field = 'is_published'
 
 	def get_queryset(self):
 		return super(PostDetailView, self).get_queryset().filter(blog__slug=self.kwargs['category'])
