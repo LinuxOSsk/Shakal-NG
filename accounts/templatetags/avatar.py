@@ -8,7 +8,7 @@ from django.utils.html import escape
 from django_jinja import library
 
 
-GRAVATAR_URL_PREFIX = getattr(settings, "GRAVATAR_URL_PREFIX", "http://www.gravatar.com/")
+GRAVATAR_URL_PREFIX = getattr(settings, "GRAVATAR_URL_PREFIX", "//www.gravatar.com/")
 GRAVATAR_DEFAULT_IMAGE = getattr(settings, "GRAVATAR_DEFAULT_IMAGE", "")
 GRAVATAR_DEFAULT_SIZE = getattr(settings, "GRAVATAR_DEFAULT_IMAGE", 200)
 
