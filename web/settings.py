@@ -364,7 +364,7 @@ SUIT_CONFIG = {
 }
 
 GRAVATAR_DEFAULT_SIZE = 200
-GRAVATAR_URL_PREFIX = "http://sk.gravatar.com/"
+GRAVATAR_URL_PREFIX = "//sk.gravatar.com/"
 
 QUEUE_BACKEND = 'dummy'
 
