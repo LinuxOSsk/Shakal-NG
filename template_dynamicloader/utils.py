@@ -37,12 +37,12 @@ def decode_switch_template(data):
 	extra_css = None
 	template_settings = {}
 	if data:
-		extra_css, data = data.split(':', 1)
-		if data:
-			try:
+		try:
+			extra_css, data = data.split(':', 1)
+			if data:
 				template_settings = json.loads(data)
-			except ValueError:
-				pass
+		except ValueError:
+			pass
 	return (template, extra_css, template_settings)
 
 
