@@ -2,10 +2,12 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models import permalink
 
 from autoimagefield.fields import AutoImageField
+from comments.models import RootHeader, Comment
 from common_utils.models import TimestampModelMixin
 from hitcount.models import HitCountField
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
@@ -15,15 +17,42 @@ DESKTOP_DESCRIPTION_MAX_LENGTH = 10000
 
 
 class Desktop(TimestampModelMixin, models.Model):
-	author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='autor', related_name='my_desktops')
-	title = models.CharField('názov', max_length=255)
-	image = AutoImageField('obrázok', upload_to='desktops', size=(4096, 4096), thumbnail={'standard': (256, 256)}, blank=True)
+	author = models.ForeignKey(
+		settings.AUTH_USER_MODEL,
+		verbose_name='autor',
+		related_name='my_desktops'
+	)
+	title = models.CharField(
+		'názov',
+		max_length=255
+	)
+	image = AutoImageField(
+		'obrázok',
+		upload_to='desktops',
+		size=(4096, 4096),
+		thumbnail={
+			'standard': (256, 256),
+			'large': (512, 512),
+			'detail': (2048, 2048),
+		},
+		blank=True
+	)
 
-	original_text = RichTextOriginalField(filtered_field='filtered_text', property_name='text', verbose_name='text', max_length=DESKTOP_DESCRIPTION_MAX_LENGTH)
+	original_text = RichTextOriginalField(
+		filtered_field='filtered_text',
+		property_name='text',
+		verbose_name='text',
+		max_length=DESKTOP_DESCRIPTION_MAX_LENGTH
+	)
 	filtered_text = RichTextFilteredField()
 
-	favorited = models.ManyToManyField(settings.AUTH_USER_MODEL, through='FavoriteDesktop')
+	favorited = models.ManyToManyField(
+		settings.AUTH_USER_MODEL,
+		through='FavoriteDesktop'
+	)
 
+	comments_header = GenericRelation(RootHeader)
+	comments = GenericRelation(Comment)
 	hit = HitCountField()
 
 	@permalink
