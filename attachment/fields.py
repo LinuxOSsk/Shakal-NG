@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.core.exceptions import ValidationError
-from django.forms import FileField
+from django.forms import FileField, ImageField
 from django.forms.widgets import ClearableFileInput
 from django.template.defaultfilters import filesizeformat
 from django.utils.safestring import mark_safe
@@ -63,6 +63,10 @@ class AttachmentField(FileField):
 					filesizeformat(self.widget.attrs['max_size']))
 
 		return data
+
+
+class AttachmentImageField(ImageField):
+	pass
 
 
 class AttachmentFieldMultiple(AttachmentField):
