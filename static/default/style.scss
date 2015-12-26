@@ -354,6 +354,9 @@ table.bigheader th {
 		padding: $row-padding*0.4;
 		border: none;
 	}
+	.title {
+		font-weight: bold;
+	}
 }
 
 .module-links, .pagination {
@@ -1423,6 +1426,21 @@ ul.messages {
 
 .module.odporucam p {
 	text-align: center;
+}
+
+.module.desktops {
+	.desktop {
+		float: left;
+		width: 25%;
+
+		.desktop-content {
+			margin: $module-padding;
+		}
+
+		img {
+			width: 100%;
+		}
+	}
 }
 
 .comments_tree .links, .notifications .links {

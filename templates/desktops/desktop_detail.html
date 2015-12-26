@@ -19,9 +19,9 @@
 	<span class="user"><a href="{{ object.author.get_absolute_url() }}">{{ object.author }}</a></span>
 </div>
 
-	<a href="{{ object.image.url }}">
-		<img src="{{ object.image_detail.url }}" alt="{{ object }}" />
-	</a>
+<a href="{{ object.image.url }}">
+	<img src="{{ object.image_detail.url }}" alt="{{ object }}" />
+</a>
 
 {{ object.text|safe }}
 

@@ -10,6 +10,7 @@ from django.views.generic import TemplateView
 from article.models import Article, Category
 from blog.models import Post
 from common_utils.cache import cached_method
+from desktops.models import Desktop
 from forum.models import Topic as ForumTopic
 from linuxos.templatetags.linuxos import now
 
@@ -72,6 +73,10 @@ class Home(TemplateView):
 		forum_most_comments = list(ForumTopic.topics.most_commented()[:5])
 		return forum_new, forum_no_comments, forum_most_comments
 
+	@cached_method(tag='desktops.desktop')
+	def get_desktops(self):
+		return list(Desktop.objects.select_related('author').order_by('-pk')) * 4
+
 	def get_context_data(self, **kwargs):
 		ctx = super(Home, self).get_context_data(**kwargs)
 		articles, top_articles = self.get_articles()
@@ -101,5 +106,6 @@ class Home(TemplateView):
 			'forum_most_comments': forum_most_comments,
 			'new_items': new_items,
 			'article_categories': Category.objects.all(),
+			'desktops': self.get_desktops()
 		})
 		return ctx

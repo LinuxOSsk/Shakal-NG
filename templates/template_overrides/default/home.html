@@ -12,8 +12,8 @@
 {% endblock %}
 
 {% block content %}
-{{ add_discussion_attributes_heterogenous(articles,top_articles,posts,top_posts,forum_new,forum_no_comments,forum_most_comments,posts,new_items) }}
-{{ add_hitcount(articles,top_articles) }}
+{{ add_discussion_attributes_heterogenous(articles, top_articles, posts, top_posts, forum_new, forum_no_comments, forum_most_comments, posts, new_items, desktops) }}
+{{ add_hitcount(articles, top_articles, desktops) }}
 <div class="module forum">
 	<h2>Články a blogy</h2>
 	<div class="module-row">
@@ -88,9 +88,43 @@
 	</div>
 </div>
 
+<div class="module desktops horizontal">
+	<h2>Desktopy</h2>
+	<div class="module-row">
+		{% for desktop in desktops %}
+			<div class="desktop">
+				<div class="desktop-content">
+					<a class="title" href="{{ desktop.get_absolute_url }}">{{ desktop }}</a>
+
+					<div class="info">
+						<span class="time">{{ desktop.created|humandatetime }}</span>
+					</div>
+
+					<a href="{{ desktop.get_absolute_url }}" class="img-link">
+						<img src="{{ desktop.image_standard.url }}" alt="{{ desktop }}" />
+					</a>
+
+					<div class="info">
+						<span class="comments">
+							{{ get_comments_for_item(desktop) }}
+						</span> |
+						<span class="user"><a href="{{ desktop.author.get_absolute_url() }}">{{ desktop.author }}</a></span>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+	<div class="module-links bottom">
+		{% if request.user.is_authenticated() %}
+			<a href="{{ url("desktops:create") }}">Pridať nový</a> |
+		{% endif %}
+		<a href="{{ url("desktops:list") }}" class="next">Ďalšie</a>
+	</div>
+</div>
+
 {% cache 1800 "planet_opensoft" %}
 	<div class="module feeds">
-		<h2>Planet.OpenSoft.sk</h2>
+		<h2>planet.opensoft.sk</h2>
 		<div class="module-row">
 			{{ pull_feeds("http://planet.opensoft.sk/rss20.xml") }}
 		</div>
