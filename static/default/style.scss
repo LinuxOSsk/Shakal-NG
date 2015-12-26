@@ -1441,6 +1441,10 @@ ul.messages {
 	.title {
 		font-weight: bold;
 	}
+
+	.info {
+		margin: $module-padding 0;
+	}
 }
 
 .comments_tree .links, .notifications .links {

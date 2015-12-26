@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
 				('created', models.DateTimeField(verbose_name='vytvoren\xe9', editable=False)),
 				('updated', models.DateTimeField(verbose_name='upraven\xe9', editable=False)),
 				('title', models.CharField(max_length=255, verbose_name='n\xe1zov')),
-				('image', autoimagefield.fields.AutoImageField(upload_to='desktops', verbose_name='obr\xe1zok', blank=True)),
+				('image', autoimagefield.fields.AutoImageField(upload_to='desktops', verbose_name='obr\xe1zok')),
 				('original_text', rich_editor.fields.RichTextOriginalField(max_length=10000, verbose_name='text', property_name='text', filtered_field='filtered_text')),
 				('filtered_text', rich_editor.fields.RichTextFilteredField(editable=False)),
 				('author', models.ForeignKey(related_name='my_desktops', verbose_name='autor', to=settings.AUTH_USER_MODEL)),

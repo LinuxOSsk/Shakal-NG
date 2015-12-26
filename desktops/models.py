@@ -34,8 +34,7 @@ class Desktop(TimestampModelMixin, models.Model):
 			'standard': (256, 256),
 			'large': (512, 512),
 			'detail': (2048, 2048),
-		},
-		blank=True
+		}
 	)
 
 	original_text = RichTextOriginalField(
