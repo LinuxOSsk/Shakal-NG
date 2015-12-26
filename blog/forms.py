@@ -5,7 +5,7 @@ from django import forms
 from django.utils.timezone import now
 
 from .models import Blog, Post
-from attachment.fields import AttachmentField
+from attachment.fields import AttachmentFieldMultiple
 from attachment.forms import AttachmentFormMixin
 
 
@@ -41,4 +41,4 @@ class PostForm(forms.ModelForm):
 
 
 class BlogAttachmentForm(AttachmentFormMixin, forms.Form):
-	attachment = AttachmentField(label='Príloha', required=False)
+	attachment = AttachmentFieldMultiple(label='Príloha', required=False)

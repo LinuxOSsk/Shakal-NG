@@ -25,7 +25,6 @@ def get_file_list(files, name):
 class AttachmentWidget(ClearableFileInput):
 	def render(self, name, value, attrs=None):
 		attrs = attrs or {}
-		attrs['multiple'] = 'multiple'
 		max_size = self.attrs.pop('max_size', -1)
 		widget = super(AttachmentWidget, self).render(name, value, attrs)
 		if max_size >= 0:
@@ -36,6 +35,13 @@ class AttachmentWidget(ClearableFileInput):
 				"</p>")
 		self.attrs['max_size'] = max_size
 		return widget
+
+
+class AttachmentWidgetMultiple(AttachmentWidget):
+	def render(self, name, value, attrs=None):
+		attrs = attrs or {}
+		attrs['multiple'] = 'multiple'
+		return super(AttachmentWidgetMultiple, self).render(name, value, attrs)
 
 	def value_from_datadict(self, data, files, name):
 		return get_file_list(files, name)
@@ -58,10 +64,14 @@ class AttachmentField(FileField):
 
 		return data
 
+
+class AttachmentFieldMultiple(AttachmentField):
+	widget = AttachmentWidgetMultiple
+
 	def to_python(self, data):
 		ret = []
 		for item in data:
-			f = super(AttachmentField, self).to_python(item)
+			f = super(AttachmentFieldMultiple, self).to_python(item)
 			if f:
 				ret.append(f)
 		return ret

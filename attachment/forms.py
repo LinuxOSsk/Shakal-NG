@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from django.db.models import Sum
 from django.forms.models import modelformset_factory
 
-from .fields import AttachmentField, get_file_list
+from .fields import AttachmentFieldMultiple, get_file_list
 from .models import UploadSession, Attachment
 from .utils import get_available_size
 
@@ -22,7 +22,7 @@ class AttachmentFormMixin(forms.BaseForm):
 		self._attachments = None
 
 		if self.content_object is None:
-			self.fields['attachment'] = AttachmentField(label='Príloha', required=False)
+			self.fields['attachment'] = AttachmentFieldMultiple(label='Príloha', required=False)
 			self.fields['upload_session'] = forms.CharField(widget=forms.HiddenInput, required=False)
 			self.content_object = self.get_uploadsession()
 		self.process_attachments()

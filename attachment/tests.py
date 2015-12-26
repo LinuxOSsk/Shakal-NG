@@ -11,7 +11,7 @@ from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 
-from .fields import AttachmentField
+from .fields import AttachmentFieldMultiple
 from .forms import AttachmentFormMixin
 from .models import UploadSession, Attachment
 from .utils import get_available_size
@@ -152,7 +152,7 @@ class AttachmentModelTest(TestCase):
 
 class AttachmentFormTest(ProcessFormTestMixin, TestCase):
 	def test_attachment_field(self):
-		field = AttachmentField()
+		field = AttachmentFieldMultiple()
 		field.widget.attrs['max_size'] = 2
 		field.clean(SimpleUploadedFile("a.txt", b"A")) #OK
 		with self.assertRaises(ValidationError):
