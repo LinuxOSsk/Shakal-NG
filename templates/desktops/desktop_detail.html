@@ -1,9 +1,9 @@
 {% extends "desktops/base.html" %}
 
-{% block head_title %}{{ object }} | {{ super() }}{% endblock %}
+{% block head_title %}{{ desktop }} | {{ super() }}{% endblock %}
 
 {% block breadcrumbs %}
-	{{ breadcrumb(object) }}
+	{{ breadcrumb(desktop) }}
 	{{ breadcrumb("Desktopy", url='desktops:list') }}
 	{{ super() }}
 {% endblock %}
@@ -12,17 +12,19 @@
 
 {% include "desktops/partials/informations.html" %}
 
-<h1>{{ object }}</h1>
+<h1>{{ desktop }}</h1>
 
 <div class="info">
-	<span class="time">{{ object.created|humandatetime }}</span> |
-	<span class="user"><a href="{{ object.author.get_absolute_url() }}">{{ object.author }}</a></span>
+	<span class="time">{{ desktop.created|humandatetime }}</span> |
+	<span class="user"><a href="{{ desktop.author.get_absolute_url() }}">{{ desktop.author }}</a></span>
 </div>
 
-<a href="{{ object.image.url }}">
-	<img src="{{ object.image_detail.url }}" alt="{{ object }}" />
+<a href="{{ desktop.image.url }}">
+	<img src="{{ desktop.image_detail.url }}" alt="{{ desktop }}" />
 </a>
 
-{{ object.text|safe }}
+{{ desktop.text|safe }}
 
 {% endblock %}
+
+{% block discussion %}{{ render_comments_toplevel(desktop) }}{% endblock %}

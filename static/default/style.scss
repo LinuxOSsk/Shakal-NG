@@ -354,9 +354,6 @@ table.bigheader th {
 		padding: $row-padding*0.4;
 		border: none;
 	}
-	.title {
-		font-weight: bold;
-	}
 }
 
 .module-links, .pagination {
@@ -1440,6 +1437,9 @@ ul.messages {
 		img {
 			width: 100%;
 		}
+	}
+	.title {
+		font-weight: bold;
 	}
 }
 
