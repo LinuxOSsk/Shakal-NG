@@ -75,7 +75,7 @@ class Home(TemplateView):
 
 	@cached_method(tag='desktops.desktop')
 	def get_desktops(self):
-		return list(Desktop.objects.select_related('author').order_by('-pk')) * 4
+		return list(Desktop.objects.select_related('author').order_by('-pk')[:4])
 
 	def get_context_data(self, **kwargs):
 		ctx = super(Home, self).get_context_data(**kwargs)
