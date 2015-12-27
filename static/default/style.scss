@@ -308,6 +308,9 @@ form .formatwrapper {
 	margin: 0 (-$module-padding);
 	color: $module-header-background;
 	text-shadow: 1px 1px 0px darken($header-bg, 10%);
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 	@include sprite-generated(block_header_bg, $setSize: false);
 	background-color: $header-bg;
 	background-repeat: repeat-x;
