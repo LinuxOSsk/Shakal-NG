@@ -3,8 +3,8 @@
 {% block head_title %}Desktopy | {{ super() }}{% endblock %}
 
 {% block breadcrumbs %}
-	{% if category %}
-		{{ breadcrumb(category, url='desktops:list-author', author=category.pk) }}
+	{% if author %}
+		{{ breadcrumb(author, url='desktops:list-author', category=author.pk) }}
 	{% endif %}
 	{{ breadcrumb("Desktopy", url='desktops:list') }}
 	{{ super() }}
