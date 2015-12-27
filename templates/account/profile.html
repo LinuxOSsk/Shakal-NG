@@ -12,8 +12,11 @@
 
 {% include "account/partials/profile_tabs.html" %}
 
+<div class="module">
+
 <div class="vcard">
 
+<div class="module-row">
 <div class="avatar-profile">
 	<img src="{{ avatar_for_user(user_profile, 128) }}" class="photo gravatar" alt="Avatar" />
 </div>
@@ -25,14 +28,18 @@
 		{% endif %}
 	{% endfor %}
 </dl>
+</div>
 
 {% if user_profile.info %}
-	<h2>Informácie o mne</h2>
+<div class="module-row">
+	<h3>Informácie o mne</h3>
 	{{ user_profile.info|safe }}
+</div>
 {% endif %}
 
 {% if user_profile.blog %}
-	<h2>Blog - {{ user_profile.blog }}</h2>
+<div class="module-row">
+	<h3>Blog - {{ user_profile.blog }}</h3>
 	{% with posts=user_profile.blog.post_set.all()[:10] %}
 		{{ add_discussion_attributes(posts) }}
 		<ul>
@@ -42,7 +49,26 @@
 		</ul>
 	{% endwith %}
 	<p><a href="{{ user_profile.blog.get_absolute_url() }}">Zobraziť všetky blogy</a></p>
+</div>
 {% endif %}
+
+{% with desktop=user_profile.last_desktop %}
+	{% if desktop %}
+		<div class="module-row">
+			{% if desktop %}
+				<h3>Môj desktop</h3>
+			{% endif %}
+
+			<a href="{{ desktop.get_absolute_url() }}" class="img-link">
+				<img src="{{ desktop.image_large.url }}" alt="{{ desktop }}" />
+			</a>
+
+			<p><a href="{{ url("desktops:list-author", user_profile.pk) }}" class="next">Ďalšie desktopy</a></p>
+		</div>
+	{% endif %}
+{% endwith %}
+
+</div>
 
 </div>
 
