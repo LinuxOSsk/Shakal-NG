@@ -1435,7 +1435,9 @@ ul.messages {
 		}
 
 		img {
-			width: 100%;
+			max-width: 100%;
+			max-height: 128px;
+			display: block;
 		}
 	}
 	.title {
