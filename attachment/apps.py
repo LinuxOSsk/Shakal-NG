@@ -23,8 +23,12 @@ class AttachmentConfig(AppConfig):
 			from PIL import Image
 			img = Image.open(instance.attachment.storage.path(instance.attachment.name))
 			width, height = img.size
+			if width > 8192 or height > 8192:
+				return
+			if (width * height) > (1024 * 1024 * 32):
+				return
 			AttachmentImageRaw.objects.get_or_create(attachment_ptr=instance.pk, width=width, height=height)
-		except Exception:
+		except Exception: #pylint: disable=broad-except
 			pass
 
 	def ready(self):

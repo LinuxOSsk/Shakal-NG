@@ -71,6 +71,10 @@ class AttachmentField(FileField):
 class AttachmentImageField(AttachmentField, ImageField):
 	def clean(self, data, initial=None):
 		image_file = super(AttachmentImageField, self).clean(data, initial)
+		if image_file.image.size[0] > 8192 or image_file.image.size[1] > 8192:
+			raise ValidationError('Prekročený maximálny rozmer obrázka 8192 pixelov.')
+		if (image_file.image.size[0] * image_file.image.size[1]) > (1024 * 1024 * 32):
+			raise ValidationError('Obrázok je väčší než 32 megapixelov.')
 		return image_file
 
 
