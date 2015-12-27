@@ -12,18 +12,22 @@
 
 {% include "desktops/partials/informations.html" %}
 
-<h1>{{ desktop }}</h1>
+<div class="main-content with-sidebar">
 
-<div class="info">
-	<span class="time">{{ desktop.created|humandatetime }}</span> |
-	<span class="user"><a href="{{ desktop.author.get_absolute_url() }}">{{ desktop.author }}</a></span>
+	<h1>{{ desktop }}</h1>
+
+	<div class="info">
+		<span class="time">{{ desktop.created|humandatetime }}</span> |
+		<span class="user"><a href="{{ desktop.author.get_absolute_url() }}">{{ desktop.author }}</a></span>
+	</div>
+
+	<a href="{{ desktop.image.url }}">
+		<img src="{{ desktop.image_detail.url }}" alt="{{ desktop }}" />
+	</a>
+
+	{{ desktop.text|safe }}
+
 </div>
-
-<a href="{{ desktop.image.url }}">
-	<img src="{{ desktop.image_detail.url }}" alt="{{ desktop }}" />
-</a>
-
-{{ desktop.text|safe }}
 
 {% endblock %}
 

@@ -777,7 +777,7 @@ textarea {
 /* === Obsah stránky */
 
 #site_content, .secondary_content, #aside_left, #aside_right { padding: $layout-padding; }
-#site_content > img, #site_content > a > img { max-width: 100%; }
+#site_content img, #site_content > img, #site_content > a > img { max-width: 100%; }
 #aside_left .module, #aside_right .module { font-size: 85%; }
 
 /* === Stránkovač === */
@@ -1735,4 +1735,8 @@ td.status, td.comments, td.date {
 		background: $link-color;
 		color: $generic-background;
 	}
+}
+
+.main-content.with-sidebar {
+	margin-right: 35%;
 }
