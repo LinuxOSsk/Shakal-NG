@@ -1429,6 +1429,22 @@ ul.messages {
 }
 
 .module.desktops {
+	&.sidebar {
+		.desktop {
+			float: none;
+			width: auto;
+			border-bottom: $light-border;
+
+			img {
+				max-height: 256px;
+			}
+
+			&:last-child {
+				border-bottom: none;
+			}
+		}
+	}
+
 	.desktop {
 		float: left;
 		width: 25%;
