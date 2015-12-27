@@ -1,7 +1,13 @@
-<div class="module sidebar">
-	<h2>Ďalšie desktopy</h2>
+{% if other_desktops %}
+	<div class="module sidebar">
+		{% for label, desktop_list in other_desktops %}
+			<h2>{{ label }}</h2>
 
-	<div class="module-row">
-
+			<div class="module-row">
+				{% for desktop in desktop_list %}
+					{% include "desktops/partials/desktop_link.html" %}
+				{% endfor %}
+			</div>
+		{% endfor %}
 	</div>
-</div>
+{% endif %}

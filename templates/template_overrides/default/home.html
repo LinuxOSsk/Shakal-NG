@@ -92,26 +92,7 @@
 	<h2>Desktopy</h2>
 	<div class="module-row">
 		{% for desktop in desktops %}
-			<div class="desktop">
-				<div class="desktop-content">
-					<a class="title" href="{{ desktop.get_absolute_url() }}">{{ desktop }}</a>
-
-					<div class="info">
-						<span class="time">{{ desktop.created|humandatetime }}</span>
-					</div>
-
-					<a href="{{ desktop.get_absolute_url() }}" class="img-link">
-						<img src="{{ desktop.image_standard.url }}" alt="{{ desktop }}" />
-					</a>
-
-					<div class="info">
-						<span class="comments">
-							{{ get_comments_for_item(desktop) }}
-						</span> |
-						<span class="user"><a href="{{ desktop.author.get_absolute_url() }}">{{ desktop.author }}</a></span>
-					</div>
-				</div>
-			</div>
+			{% include "desktops/partials/desktop_link.html" %}
 		{% endfor %}
 	</div>
 	<div class="module-links bottom">

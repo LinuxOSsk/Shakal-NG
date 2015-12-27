@@ -41,3 +41,12 @@ class DesktopUpdate(LoginRequiredMixin, UpdateView):
 
 class DesktopDetail(DetailView):
 	queryset = Desktop.objects.all()
+
+	def get_context_data(self, **kwargs):
+		next_desktops = (Desktop.objects
+			.filter(author=self.object.author, pk__lt=self.object.pk)[:3])
+		other_desktops = (
+			('Ďalšie desktopy', next_desktops),
+		)
+		return (super(DesktopDetail, self)
+			.get_context_data(other_desktops=other_desktops, **kwargs))
