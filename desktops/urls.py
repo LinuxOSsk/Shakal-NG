@@ -9,4 +9,6 @@ urlpatterns = patterns('desktops.views',
 	url(r'^zoznam/autor/(?P<category>\d+)/(?:(?P<page>\d+)/)?$', 'DesktopList', name='list-author'),
 	url(r'^detail/(?P<pk>\d+)/$', 'DesktopDetail', name='detail'),
 	url(r'^upravit/(?P<pk>\d+)/$', 'DesktopUpdate', name='update'),
+) + patterns('desktops.feeds',
+	url(r'^feeds/latest/$', 'DesktopFeed', name='feed-latest'),
 )
