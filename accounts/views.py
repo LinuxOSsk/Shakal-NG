@@ -50,8 +50,10 @@ class Profile(DetailView):
 
 	def get_favorite_desktops(self):
 		return (FavoriteDesktop.objects.all()
+			.filter(user=self.object)
 			.select_related('desktop')
 			.order_by('-pk'))
+
 
 class MyProfileMixin(object):
 	def get_object(self):
