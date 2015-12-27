@@ -1,0 +1,43 @@
+{% extends "desktops/base.html" %}
+
+{% block head_title %}Desktopy | {{ super() }}{% endblock %}
+
+{% block breadcrumbs %}
+	{% if category %}
+		{{ breadcrumb(category, url='desktops:list-author', author=category.pk) }}
+	{% endif %}
+	{{ breadcrumb("Desktopy", url='desktops:list') }}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+	<h1>Zoznam desktopov</h1>
+
+	<div class="module desktop-list">
+		{{ add_discussion_attributes(desktop_list) }}
+		{% for desktop in desktop_list %}
+			<div class="module-row">
+				<div class="image">
+					<a href="{{ desktop.get_absolute_url() }}">
+						<img src="{{ desktop.image_large.url }}" alt="{{ desktop }}" />
+					</a>
+				</div>
+				<div class="detail">
+					<a class="title" href="{{ desktop.get_absolute_url() }}">{{ desktop }}</a>
+
+					<div class="info">
+						<span class="time">{{ desktop.created|humandatetime }}</span> |
+						<span class="comments">
+							{{ get_comments_for_item(desktop) }}
+						</span> |
+						<span class="user"><a href="{{ desktop.author.get_absolute_url() }}">{{ desktop.author }}</a></span>
+					</div>
+
+					{{ desktop.text|safe }}
+				</div>
+			</div>
+		{% endfor %}
+		{{ pagination() }}
+	</div>
+
+{% endblock %}

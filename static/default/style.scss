@@ -1468,6 +1468,38 @@ ul.messages {
 	}
 }
 
+#site_content > .module.desktop-list {
+	.image {
+		float: left;
+		margin-right: $module-margin;
+		width: 256px;
+
+		a {
+			@include module-shadow();
+			display: block;
+		}
+
+		img {
+			max-width: 256px;
+			max-height: 256px;
+			display: block;
+		}
+	}
+
+	.detail {
+		margin-left: 256px;
+		padding-left: $module-margin;
+
+		.title {
+			font-weight: bold;
+		}
+
+		.info {
+			margin: $module-padding 0;
+		}
+	}
+}
+
 .comments_tree .links, .notifications .links {
 	float: right;
 	padding: 0 .7em .7em .7em;
