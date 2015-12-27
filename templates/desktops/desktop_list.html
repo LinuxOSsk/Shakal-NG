@@ -13,6 +13,17 @@
 {% block content %}
 	<h1>Zoznam desktopov</h1>
 
+	{% if not author and page_obj.number == 1 %}
+		<div class="module desktops horizontal">
+			<h2>Obľúbené desktopy</h2>
+			<div class="module-row">
+				{% for desktop in favorite_desktops %}
+					{% include "desktops/partials/desktop_link.html" %}
+				{% endfor %}
+			</div>
+		</div>
+	{% endif %}
+
 	<div class="module desktop-list">
 		{{ add_discussion_attributes(desktop_list) }}
 		{% for desktop in desktop_list %}

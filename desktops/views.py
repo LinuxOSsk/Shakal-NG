@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from datetime import timedelta
+
 from braces.views import LoginRequiredMixin
 from django.contrib.auth import get_user_model
-from django.views.generic import CreateView, UpdateView
 from django.http.response import HttpResponseRedirect
+from django.utils import timezone
+from django.views.generic import CreateView, UpdateView
 
 from .forms import DesktopCreateForm, DesktopUpdateForm
 from .models import Desktop, FavoriteDesktop
@@ -18,6 +21,13 @@ class DesktopList(ListView):
 	category_context = 'author'
 	category_model = get_user_model()
 	paginate_by = 20
+
+	def get_context_data(self, **kwargs):
+		desktops = (Desktop.objects
+			.annotated_favorite()
+			.filter(created__gte=timezone.now() - timedelta(365))
+			.order_by('-favorited_count', '-pk')[:4])
+		return super(DesktopList, self).get_context_data(favorite_desktops=desktops, **kwargs)
 
 	def get_queryset(self):
 		return super(DesktopList, self).get_queryset().select_related('author')
