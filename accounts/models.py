@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import json
 from datetime import timedelta
 
+from django.apps import apps
 from django.conf import settings
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import AbstractUser, UserManager
@@ -65,6 +66,14 @@ class User(AbstractUser):
 	@property
 	def count_new(self):
 		return {k.replace('.', '_'): v for k, v in get_count_new(self).iteritems()}
+
+	@property
+	def last_desktop(self):
+		Desktop = apps.get_model('desktops', 'desktop')
+		return (Desktop.objects.all()
+			.filter(author=self)
+			.order_by('-pk')
+			.first())
 
 	def __unicode__(self):
 		return self.get_full_name() or self.username

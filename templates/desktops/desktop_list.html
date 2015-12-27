@@ -16,7 +16,7 @@
 	<div class="module desktop-list">
 		{{ add_discussion_attributes(desktop_list) }}
 		{% for desktop in desktop_list %}
-			<div class="module-row">
+			<div class="module-row desktop item">
 				<div class="image">
 					<a href="{{ desktop.get_absolute_url() }}">
 						<img src="{{ desktop.image_large.url }}" alt="{{ desktop }}" />

@@ -1428,9 +1428,27 @@ ul.messages {
 	text-align: center;
 }
 
+.desktop.item {
+	img {
+		max-height: 256px;
+	}
+
+	.title {
+		font-weight: bold;
+	}
+
+	.info {
+		margin: $module-padding 0;
+	}
+
+	&:last-child {
+		border-bottom: none;
+	}
+}
+
 .module.desktops {
 	&.sidebar {
-		.desktop {
+		.desktop.item {
 			float: none;
 			width: auto;
 			border-bottom: $light-border;
@@ -1459,13 +1477,6 @@ ul.messages {
 			display: block;
 		}
 	}
-	.title {
-		font-weight: bold;
-	}
-
-	.info {
-		margin: $module-padding 0;
-	}
 }
 
 #site_content > .module.desktop-list {
@@ -1492,10 +1503,6 @@ ul.messages {
 
 		.title {
 			font-weight: bold;
-		}
-
-		.info {
-			margin: $module-padding 0;
 		}
 	}
 }
