@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+
 from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse_lazy
 
-from blog.models import Blog, Post
+from .models import Blog, Post
 
 
 class PostFeed(Feed):
-	description = u"Zoznam najnovších blogov"
+	description = "Zoznam najnovších blogov"
 	link = reverse_lazy('blog:post-list')
 
 	def __init__(self, linux=None, blog_slug=None, *args, **kwargs):
@@ -18,7 +19,7 @@ class PostFeed(Feed):
 
 	def title(self):
 		if self.blog_slug is None:
-			return u"Blogy"
+			return "Blogy"
 		else:
 			return Blog.objects.get(slug=self.blog_slug).title
 
