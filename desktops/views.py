@@ -35,7 +35,7 @@ class DesktopUpdate(LoginRequiredMixin, UpdateView):
 	form_class = DesktopUpdateForm
 
 	def get_queryset(self):
-		return (super(DesktopUpdate, self).get_queryset()
+		return (Desktop.objects.all()
 			.filter(author=self.request.user))
 
 

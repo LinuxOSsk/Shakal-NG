@@ -58,6 +58,10 @@ class Desktop(TimestampModelMixin, models.Model):
 	def get_absolute_url(self):
 		return ('desktops:detail', (self.pk,), {})
 
+	@permalink
+	def get_update_url(self):
+		return ('desktops:update', (self.pk,), {})
+
 	def __unicode__(self):
 		return self.title
 
