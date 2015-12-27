@@ -45,10 +45,13 @@ def perform_approve(request, comment):
 
 
 def update_comments_header(sender, instance, **kwargs): #pylint: disable=unused-argument
-	if instance.parent is None:
-		root = instance
-	else:
-		root = Comment.objects.get(content_type=instance.content_type, object_id=instance.object_id, parent=None)
+	try:
+		if instance.parent is None:
+			root = instance
+		else:
+			root = Comment.objects.get(content_type=instance.content_type, object_id=instance.object_id, parent=None)
+	except Comment.DoesNotExist:
+		return
 
 	statistics = Comment.objects.\
 		filter(content_type=root.content_type, object_id=root.object_id, is_public=True, is_removed=False).\
@@ -58,6 +61,8 @@ def update_comments_header(sender, instance, **kwargs): #pylint: disable=unused-
 	last_comment = statistics['created__max']
 	if last_comment is None:
 		content_object = root.content_object
+		if content_object is None:
+			return
 		last_comment = content_object.created
 
 	with transaction.atomic():
