@@ -40,13 +40,14 @@ class Migration(migrations.Migration):
 				('desktop', models.ForeignKey(verbose_name='desktop', to='desktops.Desktop')),
 				('user', models.ForeignKey(verbose_name='pou\u017e\xedvate\u013e', to=settings.AUTH_USER_MODEL)),
 			],
-			options={
-				'abstract': False,
-			},
 		),
 		migrations.AddField(
 			model_name='desktop',
 			name='favorited',
 			field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, through='desktops.FavoriteDesktop'),
+		),
+		migrations.AlterUniqueTogether(
+			name='favoritedesktop',
+			unique_together=set([('desktop', 'user')]),
 		),
 	]

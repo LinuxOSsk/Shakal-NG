@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
-from django.db.models import permalink
+from django.db.models import permalink, Count
 
 from autoimagefield.fields import AutoImageField
 from comments.models import RootHeader, Comment
@@ -16,7 +16,15 @@ from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 DESKTOP_DESCRIPTION_MAX_LENGTH = 10000
 
 
+class DesktopManager(models.Manager):
+	def annotated_favorite(self):
+		return (self.get_queryset()
+			.annotate(favorited_count=Count('favorited')))
+
+
 class Desktop(TimestampModelMixin, models.Model):
+	objects = DesktopManager()
+
 	author = models.ForeignKey(
 		settings.AUTH_USER_MODEL,
 		verbose_name='autor',
@@ -76,3 +84,6 @@ class FavoriteDesktop(TimestampModelMixin, models.Model):
 
 	def __unicode__(self):
 		return str(self.pk)
+
+	class Meta:
+		unique_together = ('desktop', 'user',)

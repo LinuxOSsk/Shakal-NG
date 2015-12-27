@@ -27,6 +27,18 @@
 
 	{{ desktop.text|safe }}
 
+	{% if request.user.is_authenticated %}
+		<form action="{{ request.path }}" method="post">{% csrf_token %}
+			<button class="btn" name="favorite" value="{{ favorited|yesno(",1") }}" type="submit">
+				<span class="wrap">
+					<span class="text">
+						{{ favorited|yesno("Odstrániť z obľúbených,Pridať medzi obľúbené") }}
+						({{ desktop.favorited_count }})
+					</span>
+				</span>
+			</button>
+		</form>
+	{% endif %}
 </div>
 
 {% endblock %}
