@@ -11,9 +11,9 @@ from common_utils.generic import ListView
 
 
 class DesktopList(ListView):
-	queryset = Desktop.objects.all()
-	category_key = 'author'
-	category_field = 'author_id'
+	queryset = Desktop.objects.all().order_by('-pk')
+	category_key = 'id'
+	category_field = 'author'
 	category_context = 'author'
 	category_model = get_user_model()
 	paginate_by = 20
