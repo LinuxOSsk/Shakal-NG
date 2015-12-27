@@ -8,6 +8,9 @@
 					{% include "desktops/partials/desktop_link.html" %}
 				{% endfor %}
 			</div>
+			<div class="module-links bottom">
+				<a href="{{ url("desktops:list-author", desktop.author.pk) }}" class="next">Ďalšie desktopy</a>
+			</div>
 		{% endfor %}
 	</div>
 {% endif %}
