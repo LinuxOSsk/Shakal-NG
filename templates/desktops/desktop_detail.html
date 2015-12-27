@@ -27,7 +27,7 @@
 
 	{{ desktop.text|safe }}
 
-	{% if request.user.is_authenticated %}
+	{% if request.user.is_authenticated and desktop.author != request.user %}
 		<form action="{{ request.path }}" method="post">{% csrf_token %}
 			<button class="btn" name="favorite" value="{{ favorited|yesno(",1") }}" type="submit">
 				<span class="wrap">

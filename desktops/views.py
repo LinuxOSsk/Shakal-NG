@@ -59,7 +59,7 @@ class DesktopDetail(DetailUserProtectedView):
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object()
 		if request.user.is_authenticated():
-			if 'favorite' in request.POST:
+			if 'favorite' in request.POST and self.object.author != self.request.user:
 				if request.POST['favorite']:
 					FavoriteDesktop.objects.get_or_create(desktop=self.object, user=self.request.user)
 				else:
