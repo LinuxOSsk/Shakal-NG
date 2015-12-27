@@ -50,6 +50,17 @@ class AttachmentWidgetMultiple(AttachmentWidget):
 class AttachmentField(FileField):
 	widget = AttachmentWidget
 
+	def to_python(self, data):
+		if isinstance(data, list):
+			ret = []
+			for item in data:
+				f = super(AttachmentField, self).to_python(item)
+				if f:
+					ret.append(f)
+			return ret
+		else:
+			return super(AttachmentField, self).to_python(data)
+
 	def clean(self, data, initial=None):
 		if isinstance(data, list):
 			size = sum(0 if f is None else f.size for f in data)
@@ -80,11 +91,3 @@ class AttachmentImageField(AttachmentField, ImageField):
 
 class AttachmentFieldMultiple(AttachmentField):
 	widget = AttachmentWidgetMultiple
-
-	def to_python(self, data):
-		ret = []
-		for item in data:
-			f = super(AttachmentFieldMultiple, self).to_python(item)
-			if f:
-				ret.append(f)
-		return ret
