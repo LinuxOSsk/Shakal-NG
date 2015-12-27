@@ -62,11 +62,16 @@ class AttachmentField(FileField):
 					_('File size exceeded, maximum size is ') +
 					filesizeformat(self.widget.attrs['max_size']))
 
-		return data
+		if isinstance(data, list):
+			return [super(AttachmentField, self).clean(f, initial) for f in data]
+		else:
+			return super(AttachmentField, self).clean(data, initial)
 
 
-class AttachmentImageField(ImageField):
-	pass
+class AttachmentImageField(AttachmentField, ImageField):
+	def clean(self, data, initial=None):
+		image_file = super(AttachmentImageField, self).clean(data, initial)
+		return image_file
 
 
 class AttachmentFieldMultiple(AttachmentField):
