@@ -27,7 +27,7 @@ class Desktop(TimestampModelMixin, models.Model):
 		max_length=255
 	)
 	image = AutoImageField(
-		'obrázok',
+		'desktop',
 		upload_to='desktops',
 		size=(4096, 4096),
 		thumbnail={
@@ -40,7 +40,7 @@ class Desktop(TimestampModelMixin, models.Model):
 	original_text = RichTextOriginalField(
 		filtered_field='filtered_text',
 		property_name='text',
-		verbose_name='text',
+		verbose_name='popis',
 		max_length=DESKTOP_DESCRIPTION_MAX_LENGTH
 	)
 	filtered_text = RichTextFilteredField()

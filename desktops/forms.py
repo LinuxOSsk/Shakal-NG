@@ -4,11 +4,16 @@ from __future__ import unicode_literals
 from django import forms
 
 from .models import Desktop
-from attachment.fields import AttachmentField, AttachmentWidget
+from attachment.fields import AttachmentImageField, AttachmentWidget
 
 
 class DesktopCreateForm(forms.ModelForm):
-	image = AttachmentField(label='obrázok', widget=AttachmentWidget(attrs={'max_size': 1024 * 1024 * 2}))
+	image = AttachmentImageField(
+		label='Desktop',
+		widget=AttachmentWidget(attrs={
+			'max_size': 1024 * 1024 * 2
+		})
+	)
 
 	class Meta:
 		model = Desktop
