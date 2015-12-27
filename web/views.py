@@ -73,7 +73,6 @@ class Home(TemplateView):
 		forum_most_comments = list(ForumTopic.topics.most_commented()[:5])
 		return forum_new, forum_no_comments, forum_most_comments
 
-	@cached_method(tag='desktops.desktop')
 	def get_desktops(self):
 		return list(Desktop.objects.select_related('author').order_by('-pk')[:4])
 
