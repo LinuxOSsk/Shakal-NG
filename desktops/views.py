@@ -44,7 +44,8 @@ class DesktopDetail(DetailView):
 
 	def get_context_data(self, **kwargs):
 		next_desktops = (Desktop.objects
-			.filter(author=self.object.author, pk__lt=self.object.pk)[:3])
+			.filter(author=self.object.author, pk__lt=self.object.pk)
+			.order_by('-pk')[:3])
 		other_desktops = (
 			('Ďalšie desktopy', next_desktops),
 		)
