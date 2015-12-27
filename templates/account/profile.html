@@ -68,6 +68,17 @@
 	{% endif %}
 {% endwith %}
 
+{% if favorite_desktops %}
+	<div class="module-row">
+		<h3>Páčia sa mi tieto desktopy</h3>
+		<ul>
+			{% for desktop in favorite_desktops %}
+				<li><a href="{{ desktop.desktop.get_absolute_url() }}">{{ desktop.desktop }}</a></li>
+			{% endfor %}
+		</ul>
+	</div>
+{% endif %}
+
 </div>
 
 </div>

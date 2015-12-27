@@ -17,6 +17,7 @@ from .stats import register
 from comments.models import UserDiscussionAttribute
 from common_utils.content_types import resolve_content_objects
 from common_utils.generic import ListView
+from desktops.models import FavoriteDesktop
 
 
 class UserZone(LoginRequiredMixin, RedirectView):
@@ -32,7 +33,7 @@ class Profile(DetailView):
 
 	def get_context_data(self, **kwargs):
 		ctx = super(Profile, self).get_context_data(**kwargs)
-		user = self.get_object()
+		user = self.object
 		user_table = (
 			{'name': 'Používateľské meno', 'value': user.username, 'class': 'nickname'},
 			{'name': 'Celé meno', 'value': (user.first_name + ' ' + user.last_name).strip(), 'class': 'fn'},
@@ -44,8 +45,13 @@ class Profile(DetailView):
 			email = user.email.replace('@', ' ZAVINÁČ ').replace('.', ' BODKA ')
 			user_table = user_table + ({'name': 'E-mail', 'value': email}, )
 		ctx['user_table'] = user_table
+		ctx['favorite_desktops'] = self.get_favorite_desktops()
 		return ctx
 
+	def get_favorite_desktops(self):
+		return (FavoriteDesktop.objects.all()
+			.select_related('desktop')
+			.order_by('-pk'))
 
 class MyProfileMixin(object):
 	def get_object(self):
