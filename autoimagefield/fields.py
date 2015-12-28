@@ -53,7 +53,7 @@ class AutoImageFieldMixin(object):
 		img = Image.open(filename)
 
 		method = 'thumbnail'
-		if len(size) == 3:
+		if len(size) > 2:
 			method = size[2]
 
 		if method == 'thumbnail':
@@ -84,8 +84,8 @@ class AutoImageFieldMixin(object):
 			os.remove(path)
 
 	def __perform_remove_thumbnail(self, path):
-		for label in self.thumbnail:
-			tmb_filename = AutoImageField.get_thumbnail_filename(path, label)
+		for label, settings in self.thumbnail:
+			tmb_filename = AutoImageField.get_thumbnail_filename(path, label, settings)
 			if os.path.exists(tmb_filename):
 				os.remove(tmb_filename)
 
@@ -164,14 +164,16 @@ class AutoImageFieldMixin(object):
 			setattr(instance, self.name + '_old', None)
 
 	@staticmethod
-	def get_thumbnail_filename(filename, thumbnail_label):
+	def get_thumbnail_filename(filename, thumbnail_label, size):
 		"""
 		Vráti názov súboru pre zmenšený obrázok.
 		"""
 		dirname = os.path.dirname(filename)
 		splitted_filename = list(os.path.splitext(os.path.basename(filename)))
-		splitted_filename.insert(1, u'_' + thumbnail_label)
-		return os.path.join(dirname, u''.join(splitted_filename))
+		splitted_filename.insert(1, '_' + thumbnail_label)
+		if len(size) > 3:
+			splitted_filename[-1] = '.' + size[3]
+		return os.path.join(dirname, ''.join(splitted_filename))
 
 	def _add_thumbnails(self, cls, name):
 		thumbnail = self.thumbnail or {}
@@ -188,10 +190,10 @@ class AutoImageFieldMixin(object):
 					# Kontrola zdrojového súboru
 					if not os.path.exists(storage.path(filename)):
 						return
-					thumbnail_file = AutoImageFieldMixin.get_thumbnail_filename(filename, label)
+					thumbnail_file = AutoImageFieldMixin.get_thumbnail_filename(filename, label, size)
 					return ThumbnailField(field, thumbnail_file, size)
 				return get_thumbnail
-			setattr(cls, name + u'_' + label, property(wrap(label, size)))
+			setattr(cls, name + '_' + label, property(wrap(label, size)))
 
 
 class AutoImageField(AutoImageFieldMixin, ImageField):
