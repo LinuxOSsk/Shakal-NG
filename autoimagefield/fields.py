@@ -84,7 +84,7 @@ class AutoImageFieldMixin(object):
 			os.remove(path)
 
 	def __perform_remove_thumbnail(self, path):
-		for label, settings in self.thumbnail:
+		for label, settings in self.thumbnail.iteritems():
 			tmb_filename = AutoImageField.get_thumbnail_filename(path, label, settings)
 			if os.path.exists(tmb_filename):
 				os.remove(tmb_filename)
