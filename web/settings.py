@@ -240,7 +240,7 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 AUTH_USER_MODEL = 'accounts.User'
 AUTHENTICATION_BACKENDS = (
 	'django.contrib.auth.backends.ModelBackend',
-	'allauth.account.auth_backends.AuthenticationBackend',
+	'accounts.backend.AuthenticationBackend',
 	'accounts.backend.AuthRememberBackend',
 )
 
