@@ -17,7 +17,6 @@ from feeds.register import register_feed
 
 
 class PostListView(ListView):
-	queryset = Post.all_objects
 	category_key = "slug"
 	category_field = "blog"
 	category_context = "blog"
@@ -25,7 +24,7 @@ class PostListView(ListView):
 	paginate_by = 20
 
 	def get_queryset(self):
-		queryset = super(PostListView, self).get_queryset()
+		queryset = Post.all_objects.all()
 		if self.request.user.is_authenticated():
 			return queryset.for_auth_user(self.request.user)
 		else:
@@ -60,12 +59,11 @@ class BlogUpdateView(LoginRequiredMixin, PreviewUpdateView):
 
 
 class PostDetailView(DetailUserProtectedView):
-	queryset = Post.all_objects.all()
 	author_field = 'blog__author'
 	published_field = 'is_published'
 
 	def get_queryset(self):
-		return super(PostDetailView, self).get_queryset().filter(blog__slug=self.kwargs['category'])
+		return Post.all_objects.all().filter(blog__slug=self.kwargs['category'])
 
 	def get_context_data(self, **kwargs):
 		ctx = super(PostDetailView, self).get_context_data(**kwargs)
@@ -76,11 +74,10 @@ class PostDetailView(DetailUserProtectedView):
 
 
 class PostUpdateView(LoginRequiredMixin, PreviewUpdateView):
-	queryset = Post.all_objects.all()
 	form_class = PostForm
 
 	def get_queryset(self):
-		return super(PostUpdateView, self).get_queryset().\
+		return Post.all_objects.all().get_queryset().\
 			filter(blog__slug=self.kwargs['category'], blog__author=self.request.user)
 
 
