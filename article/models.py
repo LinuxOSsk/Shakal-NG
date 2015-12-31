@@ -38,7 +38,7 @@ class ArticleManager(models.Manager):
 		return (super(ArticleManager, self).get_queryset()
 			.filter(published=True)
 			.filter(pub_time__lte=now())
-			.order_by('-pk'))
+			.order_by('-pub_time', '-pk'))
 
 
 class Article(TimestampModelMixin, models.Model):
@@ -75,7 +75,7 @@ class Article(TimestampModelMixin, models.Model):
 
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='autor', on_delete=models.SET_NULL, blank=True, null=True)
 	authors_name = models.CharField('meno autora', max_length=255)
-	pub_time = models.DateTimeField('čas publikácie', default=now)
+	pub_time = models.DateTimeField('čas publikácie', default=now, db_index=True)
 	published = models.BooleanField('publikované', default=False)
 	top = models.BooleanField('hodnotný článok', default=False)
 	image = AutoImageField('obrázok', upload_to='article/thumbnails', size=(512, 512), thumbnail={'standard': (100, 100)}, blank=True)

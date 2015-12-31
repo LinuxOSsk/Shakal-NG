@@ -8,10 +8,16 @@ from common_utils.generic import DetailUserProtectedView, ListView
 class ArticleDetailView(DetailUserProtectedView):
 	published_field = 'published'
 	author_field = 'author'
-	queryset = Article.all_articles.all()
+
+	def get_queryset(self):
+		return Article.all_articles.all()
 
 
 class ArticleListView(ListView):
-	queryset = Article.objects.all().defer('original_content', 'filtered_content').select_related('author', 'category')
 	category_model = Category
 	paginate_by = 10
+
+	def get_queryset(self):
+		return (Article.objects.all()
+			.defer('original_content', 'filtered_content')
+			.select_related('author', 'category'))
