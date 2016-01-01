@@ -77,8 +77,8 @@ class PostUpdateView(LoginRequiredMixin, PreviewUpdateView):
 	form_class = PostForm
 
 	def get_queryset(self):
-		return Post.all_objects.all().get_queryset().\
-			filter(blog__slug=self.kwargs['category'], blog__author=self.request.user)
+		return (Post.all_objects.all()
+			.filter(blog__slug=self.kwargs['category'], blog__author=self.request.user))
 
 
 class PostAttachmentsUpdateView(LoginRequiredMixin, FormView):
