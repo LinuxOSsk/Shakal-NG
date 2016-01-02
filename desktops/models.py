@@ -39,8 +39,8 @@ class Desktop(TimestampModelMixin, models.Model):
 		upload_to='desktops',
 		size=(4096, 4096),
 		thumbnail={
-			'standard': (340, 256, 'fit', 'jpg'),
-			'large': (682, 512, 'fit', 'jpg'),
+			'standard': (256, 256, 'thumbnail', 'jpg'),
+			'large': (512, 512, 'thumbnail', 'jpg'),
 			'detail': (2048, 2048, 'thumbnail', 'jpg'),
 		}
 	)
