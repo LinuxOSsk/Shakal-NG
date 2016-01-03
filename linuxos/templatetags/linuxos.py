@@ -94,13 +94,18 @@ def labelize_content_type(content_type):
 @register.simple_tag(takes_context=True)
 def get_base_uri(context):
 	if 'request' in context:
-		return context['request'].build_absolute_uri('/')[:-1]
+		request = context['request']
 	else:
 		request = get_current_request()
-		if request:
-			return request.build_absolute_uri('/')[:-1]
-		else:
-			return ''
+	if request:
+		url = request.build_absolute_uri('/')[:-1]
+		if url.startswith('http://'):
+			url = 'https://' + url[7:]
+		return url
+	if 'request' in context:
+		return context['request'].build_absolute_uri('/')[:-1]
+	else:
+		return ''
 
 
 @library.global_function
