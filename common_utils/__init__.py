@@ -27,7 +27,7 @@ def build_absolute_uri(path):
 	if request:
 		return request.build_absolute_uri(path)
 	else:
-		return 'http://' + get_host_name() + path
+		return 'https://' + get_host_name() + path
 
 
 def clean_dir(path, root_path):
