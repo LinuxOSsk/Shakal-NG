@@ -87,7 +87,7 @@ class ListView(OriginalListView):
 		return queryset
 
 	def get_queryset(self):
-		return self.filter_category(super(ListView, self).get_queryset())
+		return self.filter_by_category(super(ListView, self).get_queryset())
 
 	@cached_property
 	def category_object(self):
