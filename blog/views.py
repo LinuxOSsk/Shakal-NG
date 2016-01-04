@@ -24,7 +24,7 @@ class PostListView(ListView):
 	paginate_by = 20
 
 	def get_queryset(self):
-		queryset = Post.all_objects.all()
+		queryset = self.filter_by_category(Post.all_objects.all())
 		if self.request.user.is_authenticated():
 			return queryset.for_auth_user(self.request.user)
 		else:

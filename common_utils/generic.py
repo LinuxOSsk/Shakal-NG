@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db.models import Q, Manager
 from django.shortcuts import get_object_or_404
+from django.utils.functional import cached_property
 from django.views.generic import CreateView, UpdateView, DetailView, ListView as OriginalListView
 from django_simple_paginator import Paginator
 
@@ -76,25 +77,29 @@ class ListView(OriginalListView):
 	category_key = 'slug'
 	category_field = 'category'
 	category_context = 'category'
-	category_object = None
 	paginator_class = Paginator
 
-	def get_queryset(self):
-		queryset = super(ListView, self).get_queryset()
+	def filter_by_category(self, queryset):
 		if isinstance(queryset, Manager):
 			queryset = queryset.all()
-		if self.category_model is not None:
-			category_object = None
-			if 'category' in self.kwargs:
-				category_object = get_object_or_404(self.category_model, **{self.category_key: self.kwargs['category']})
-				queryset = queryset.filter(**{self.category_field: category_object})
-			self.category_object = category_object
+		if self.category_object is not None:
+			queryset = queryset.filter(**{self.category_field: self.category_object})
 		return queryset
+
+	def get_queryset(self):
+		return self.filter_category(super(ListView, self).get_queryset())
+
+	@cached_property
+	def category_object(self):
+		if 'category' in self.kwargs:
+			return get_object_or_404(self.category_model, **{self.category_key: self.kwargs['category']})
+		else:
+			return None
 
 	def get_context_data(self, **kwargs):
 		context = super(ListView, self).get_context_data(**kwargs)
-		if self.category_model:
+		if self.category_model is not None:
 			context['category_list'] = self.category_model.objects.all()
-		if self.category_object:
+		if self.category_object is not None:
 			context[self.category_context] = self.category_object
 		return context
