@@ -25,7 +25,7 @@ class NewsDetailView(DetailUserProtectedView):
 
 	def post(self, request, *args, **kwargs):
 		news = self.get_object()
-		if 'approve' in request.POST and request.user.has_perm('news.can_change'):
+		if 'approve' in request.POST and request.user.has_perm('news.change_news'):
 			news.approved = request.POST['approve'] == '1'
 			news.save()
 			Event.objects.deactivate(content_object=news, action_type=Event.CREATE_ACTION)
@@ -39,7 +39,7 @@ class NewsCreateView(PreviewCreateView):
 	def form_valid(self, form):
 		news = form.save(commit=False)
 
-		if self.request.user.has_perm('news.can_change'):
+		if self.request.user.has_perm('news.change_news'):
 			news.approved = True
 
 		ret = super(NewsCreateView, self).form_valid(form)
@@ -50,7 +50,7 @@ class NewsCreateView(PreviewCreateView):
 		return ret
 
 	def get_success_url(self):
-		if self.request.user.has_perm('news.can_change'):
+		if self.request.user.has_perm('news.change_news'):
 			return super(NewsCreateView, self).get_success_url()
 		else:
 			return reverse('home')
@@ -59,4 +59,4 @@ class NewsCreateView(PreviewCreateView):
 class NewsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, PreviewUpdateView):
 	model = News
 	form_class = NewsChangeForm
-	permission_required = 'news.can_change'
+	permission_required = 'news.change_news'
