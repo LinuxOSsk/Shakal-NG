@@ -15,6 +15,7 @@
 		<meta property="og:image" content="{{ article.image.url }}" />
 	{% endif %}
 	<meta property="og:description" content="{{ article.annotation }}" />
+	<meta property="og:url" content="{{ get_base_uri() }}{{ article.get_absolute_url() }}" />
 {% endblock %}
 
 {% block content %}
