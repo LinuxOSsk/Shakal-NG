@@ -1,4 +1,5 @@
 @import "default/sprites";
+@import "css/share";
 @import "default/utility";
 @import "css/code_light";
 
@@ -1795,4 +1796,63 @@ td.status, td.comments, td.date {
 
 .main-content.with-sidebar {
 	margin-right: 35%;
+}
+
+.share {
+	margin: 8px 0;
+	border-top: $light-border;
+
+	&:after {
+		display: block;
+		content: " ";
+		height: 1px;
+		clear: both;
+	}
+
+	p {
+		font-size: 1.25em;
+		color: $hdr-high;
+		font-weight: bold;
+	}
+
+	ul, li {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	li {
+		padding: 2px 10px 2px 2px;
+		float: left;
+	}
+
+	a {
+		display: block;
+		line-height: 32px;
+		text-decoration: none;
+		padding: 0px 10px;
+	}
+
+	li a:before {
+		content: " ";
+		display: inline-block;
+		margin-right: 8px;
+		vertical-align: middle;
+	}
+
+	li.facebook a:before {
+		@include sprite-generated-share(facebook);
+	}
+
+	li.twitter a:before {
+		@include sprite-generated-share(twitter);
+	}
+
+	li.gplus a:before {
+		@include sprite-generated-share(gplus);
+	}
+
+	li.vybralisme a:before {
+		@include sprite-generated-share(vybralisme);
+	}
 }

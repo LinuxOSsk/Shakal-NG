@@ -27,6 +27,20 @@ SPRITES = (
 		),
 	},
 	{
+		'name': 'share',
+		'output': 'images/share.png',
+		'scss_output': 'css/_share.scss',
+		'extra_sizes': ((2, '@2x'),),
+		'width': 32,
+		'height': 256,
+		'images': (
+			{ 'name': 'facebook', 'src': 'images/facebook.png' },
+			{ 'name': 'twitter', 'src': 'images/twitter.png' },
+			{ 'name': 'gplus', 'src': 'images/gplus.png' },
+			{ 'name': 'vybralisme', 'src': 'images/vybralisme.png' },
+		),
+	},
+	{
 		'name': 'sprites',
 		'output': 'default/images/backgrounds.png',
 		'scss_output': 'default/_sprites.scss',

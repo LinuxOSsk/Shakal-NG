@@ -49,6 +49,10 @@
 	{% endif %}
 
 	{{ page.text|safe }}
+
+	{% with is_article=1 %}
+		{% include "partials/share.html" %}
+	{% endwith %}
 {% endif %}
 
 {% if history %}

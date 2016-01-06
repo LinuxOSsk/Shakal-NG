@@ -10,6 +10,11 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 	background-size: map-get($sprites, _size);
 }
 
+.sprite-share {
+	background: map-get($share, _url);
+	background-size: map-get($share, _size);
+}
+
 @mixin sprite-generated($image, $setSize: true, $right: false) {
 	@extend .sprite;
 	@if $right {
@@ -24,5 +29,22 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 	}
 	//@media #{$hdpi} {
 	//	background-image: map-get($sprites2x, _url);
+	//}
+}
+
+@mixin sprite-generated-share($image, $setSize: true, $right: false) {
+	@extend .sprite-share;
+	@if $right {
+		background-position: right (- map-get(map-get($share, $image), y));
+	}
+	@else {
+		background-position: map-get(map-get($share, $image), offset);
+	}
+	@if $setSize {
+		width: map-get(map-get($share, $image), w);
+		height: map-get(map-get($share, $image), h);
+	}
+	//@media #{$hdpi} {
+	//	background-image: map-get($share2x, _url);
 	//}
 }

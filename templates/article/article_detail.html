@@ -70,6 +70,10 @@
 </form>
 </div>
 {% endfor %}
+
+{% with is_article=1 %}
+	{% include "partials/share.html" %}
+{% endwith %}
 {% endblock %}
 
 {% block discussion %}

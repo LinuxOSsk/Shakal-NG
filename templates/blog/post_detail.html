@@ -71,6 +71,9 @@
 	{% endif %}
 {% endif %}
 
+{% with is_article=1 %}
+	{% include "partials/share.html" %}
+{% endwith %}
 
 {% endblock %}
 
