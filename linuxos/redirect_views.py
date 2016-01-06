@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponsePermanentRedirect
 from django.shortcuts import get_object_or_404
 
-from article.models import Article
+from article.models import Article, Category as ArticleCategory
 from news.models import News
 from polls.models import Poll
 from wiki.models import Page as WikiPage
@@ -17,6 +17,10 @@ def profile_redirect(request, pk):
 def article_redirect(request, pk):
 	article = get_object_or_404(Article, pk=pk)
 	return HttpResponsePermanentRedirect(reverse('article:detail', kwargs={'slug': article.slug}))
+
+def article_category_redirect(request, pk):
+	category = get_object_or_404(ArticleCategory, pk=pk)
+	return HttpResponsePermanentRedirect(reverse('article:list-category', kwargs={'category': category.slug}))
 
 def forum_topic_redirect(request, pk):
 	return HttpResponsePermanentRedirect(reverse('forum:topic-detail', kwargs={'pk': pk}))
