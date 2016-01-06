@@ -8,6 +8,15 @@
 	{{ super() }}
 {% endblock %}
 
+{% block extraheaders %}
+	{{ super() }}
+	{% with post=object %}
+		<meta property="og:title" content="{{ post.title }}" />
+		<meta property="og:description" content="{{ post.perex|striptags }}" />
+		<meta property="og:url" content="{{ get_base_uri() }}{{ post.get_absolute_url() }}" />
+	{% endwith %}
+{% endblock %}
+
 {% block content %}
 
 {% with blog=object.blog, post=object %}
