@@ -1,7 +1,19 @@
 {% extends "wiki/wiki_base.html" %}
 
 {% block extraheaders %}
-{% if revision %}<meta name="robots" content="noindex, nofollow" />{% endif %}
+	{{ super() }}
+	{% if revision %}<meta name="robots" content="noindex, nofollow" />{% endif %}
+	<meta name="description" content="{{ page.text|striptags|truncatechars("160") }}" />
+	{% with
+		name=page.title,
+		description=page.text|striptags|truncatechars("300"),
+		created=page.created,
+		updated=page.updated,
+		author=page.last_author,
+		is_article=1
+	%}
+		{% include "partials/social_media.html" %}
+	{% endwith %}
 {% endblock %}
 
 {% block breadcrumbs %}

@@ -6,6 +6,21 @@
 	{{ super() }}
 {% endblock %}
 
+{% block extraheaders %}
+	{{ super() }}
+	<meta name="description" content="{{ object.short_text|striptags }}" />
+	{% with
+		name=object.title,
+		description=object.short_text|striptags,
+		created=object.created,
+		updated=object.updated,
+		author=object.author,
+		category=object.category.name
+	%}
+		{% include "partials/social_media.html" %}
+	{% endwith %}
+{% endblock %}
+
 {% block head_title %}
 {{ news }}
 {% endblock %}

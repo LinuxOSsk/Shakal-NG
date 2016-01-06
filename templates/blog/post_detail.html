@@ -10,10 +10,15 @@
 
 {% block extraheaders %}
 	{{ super() }}
-	{% with post=object %}
-		<meta property="og:title" content="{{ post.title }}" />
-		<meta property="og:description" content="{{ post.perex|striptags }}" />
-		<meta property="og:url" content="{{ get_base_uri() }}{{ post.get_absolute_url() }}" />
+	{% with
+		name=object.title,
+		description=object.perex|striptags,
+		created=object.created,
+		updated=object.updated,
+		category=object.blog.name,
+		is_object=1
+	%}
+		{% include "partials/social_media.html" %}
 	{% endwith %}
 {% endblock %}
 

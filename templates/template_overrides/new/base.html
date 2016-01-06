@@ -2,7 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="sk" xml:lang="sk">
 <head>
 	<title>{% block head_title %}LinuxOS.sk{% endblock %}</title>
-	<meta property="og:site_name" content="LinuxOS.sk" />
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 	{% if style_options.colorscheme == 'blue' %}
@@ -12,6 +11,9 @@
 		{% include "template_overrides/new/css.compress.html" %}
 	{% endif %}
 	<link rel="shortcut icon" href="/favicon.ico" />
+	<link rel="canonical" href="{{ get_base_uri() }}{{ request.path }}" />
+	<meta property="og:site_name" content="LinuxOS.sk" />
+	{{ render_all_feeds(template="feeds/header_feeds.html") }}
 	{% include "includes/common_headers.html" %}
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>

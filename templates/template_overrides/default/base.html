@@ -7,6 +7,7 @@
 		<link rel="stylesheet" type="text/x-scss" href="{{ static('default/style.scss') }}" />
 	{% endcompress %}
 	<link rel="shortcut icon" href="/favicon.ico" />
+	<link rel="canonical" href="{{ get_base_uri() }}{{ request.path }}" />
 	<meta property="og:site_name" content="LinuxOS.sk" />
 	{{ render_all_feeds(template="feeds/header_feeds.html") }}
 	{% include "includes/common_headers.html" %}

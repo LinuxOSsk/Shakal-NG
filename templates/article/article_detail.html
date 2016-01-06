@@ -10,12 +10,19 @@
 
 {% block extraheaders %}
 	{{ super() }}
-	<meta property="og:title" content="{{ article.title }}" />
-	{% if article.image %}
-		<meta property="og:image" content="{{ article.image.url }}" />
-	{% endif %}
-	<meta property="og:description" content="{{ article.annotation|striptags }}" />
-	<meta property="og:url" content="{{ get_base_uri() }}{{ article.get_absolute_url() }}" />
+	<meta name="description" content="{{ article.annotation|striptags }}" />
+	{% with
+		name=article.title,
+		description=article.annotation|striptags,
+		image=article.image and article.image.url,
+		created=article.created,
+		updated=article.updated,
+		category=article.category.name,
+		author=article.author,
+		is_article=1
+	%}
+		{% include "partials/social_media.html" %}
+	{% endwith %}
 {% endblock %}
 
 {% block content %}
