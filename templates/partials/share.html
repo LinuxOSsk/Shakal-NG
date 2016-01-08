@@ -1,11 +1,11 @@
 <div class="share">
 	<p>Zdieľať</p>
 	<ul>
-		<li class="facebook"><a href="#">Facebook</a></li>
-		<li class="twitter"><a href="#">Twitter</a></li>
-		<li class="gplus"><a href="#">Goolge+</a></li>
+		<li class="facebook"><a href="#" rel="nofollow">Facebook</a></li>
+		<li class="twitter"><a href="#" rel="nofollow">Twitter</a></li>
+		<li class="gplus"><a href="#" rel="nofollow">Goolge+</a></li>
 		{% if is_article %}
-			<li class="vybralisme"><a href="http://vybrali.sme.sk/submit.php?url={{ get_base_uri()|urlencode("") }}{{ request.path|urlencode("") }}" title="vybrali.sme.sk">Vybrali.sme.sk</a></li>
+			<li class="vybralisme"><a href="http://vybrali.sme.sk/submit.php?url={{ get_base_uri()|urlencode("") }}{{ request.path|urlencode("") }}" title="vybrali.sme.sk" rel="nofollow">Vybrali.sme.sk</a></li>
 		{% endif %}
 	</ul>
 </div>
