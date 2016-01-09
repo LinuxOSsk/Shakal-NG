@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.core.urlresolvers import reverse
-from django.http import HttpResponsePermanentRedirect
+from django.http.response import HttpResponsePermanentRedirect, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 
 from article.models import Article, Category as ArticleCategory
@@ -15,6 +15,15 @@ def profile_redirect(request, pk):
 	return HttpResponsePermanentRedirect(reverse('accounts:profile', kwargs={'pk': pk}))
 
 def article_redirect(request, pk):
+	article = get_object_or_404(Article, pk=pk)
+	return HttpResponsePermanentRedirect(reverse('article:detail', kwargs={'slug': article.slug}))
+
+def article_old_redirect(request):
+	pk = request.GET.get('clanokid', '')
+	try:
+		pk = int(pk)
+	except ValueError:
+		return HttpResponseBadRequest()
 	article = get_object_or_404(Article, pk=pk)
 	return HttpResponsePermanentRedirect(reverse('article:detail', kwargs={'slug': article.slug}))
 
