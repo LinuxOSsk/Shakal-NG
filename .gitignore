@@ -17,8 +17,6 @@
 /static/old/images/backgrounds.png
 /static/old/base.css
 /static/old/_sprites*.scss
-/static/images/share.png
-/static/css/_share*.scss
 /venv
 /web/settings_local.py
 /web/settings_production.py

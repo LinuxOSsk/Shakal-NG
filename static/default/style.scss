@@ -1,5 +1,4 @@
 @import "default/sprites";
-@import "css/share";
 @import "default/utility";
 @import "css/code_light";
 
@@ -1830,7 +1829,7 @@ td.status, td.comments, td.date {
 		display: block;
 		line-height: 32px;
 		text-decoration: none;
-		padding: 0px 10px;
+		padding: 6px;
 	}
 
 	li a:before {
@@ -1841,18 +1840,18 @@ td.status, td.comments, td.date {
 	}
 
 	li.facebook a:before {
-		@include sprite-generated-share(facebook);
+		@include sprite-generated(facebook);
 	}
 
 	li.twitter a:before {
-		@include sprite-generated-share(twitter);
+		@include sprite-generated(twitter);
 	}
 
 	li.gplus a:before {
-		@include sprite-generated-share(gplus);
+		@include sprite-generated(gplus);
 	}
 
 	li.vybralisme a:before {
-		@include sprite-generated-share(vybralisme);
+		@include sprite-generated(vybralisme);
 	}
 }
