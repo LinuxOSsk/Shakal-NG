@@ -70,11 +70,15 @@ class PollCreate(LoginRequiredMixin, CreateView):
 
 
 class PollDetail(DetailView):
-	queryset = Poll.objects.filter(content_type__isnull=True)
 	context_object_name = 'poll'
+
+	def get_queryset(self):
+		return Poll.objects.all().filter(content_type__isnull=True)
 
 
 class PollList(ListView):
-	queryset = Poll.objects.filter(content_type__isnull=True)
 	paginate_by = 10
 	context_object_name = 'polls'
+
+	def get_queryset(self):
+		return Poll.objects.all().filter(content_type__isnull=True)
