@@ -62,7 +62,7 @@
 
 	{{ page.text|safe }}
 
-	{% with is_article=1 %}
+	{% with is_article=1, name=page.title %}
 		{% include "partials/share.html" %}
 	{% endwith %}
 {% endif %}

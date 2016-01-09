@@ -76,7 +76,7 @@
 	{% endif %}
 {% endif %}
 
-{% with is_article=1 %}
+{% with is_article=1, name=object.title %}
 	{% include "partials/share.html" %}
 {% endwith %}
 

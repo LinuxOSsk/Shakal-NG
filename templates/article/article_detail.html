@@ -78,9 +78,10 @@
 </div>
 {% endfor %}
 
-{% with is_article=1 %}
+{% with is_article=1, name=article.title %}
 	{% include "partials/share.html" %}
 {% endwith %}
+
 {% endblock %}
 
 {% block discussion %}

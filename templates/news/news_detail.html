@@ -55,7 +55,9 @@
 </p>
 
 {% include "news/partials/source.html" %}
-{% include "partials/share.html" %}
+{% with name=object.title %}
+	{% include "partials/share.html" %}
+{% endwith %}
 {% endblock %}
 
 {% block discussion %}{{ render_comments_toplevel(news) }}{% endblock %}

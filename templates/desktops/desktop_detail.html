@@ -60,7 +60,9 @@
 	{% endif %}
 </div>
 
-{% include "partials/share.html" %}
+{% with name=desktop.title %}
+	{% include "partials/share.html" %}
+{% endwith %}
 {% endblock %}
 
 {% block discussion %}{{ render_comments_toplevel(desktop) }}{% endblock %}
