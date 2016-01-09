@@ -8,5 +8,5 @@
 		{% endif %}
 		<span class="user"><a href="{{ post.author().get_absolute_url() }}">{{ post.author() }}</a></span>
 	</div>
-	<p>{{ post.perex|safe }}</p>
+	{{ post.perex|safe }}
 </div>
