@@ -5,6 +5,18 @@
 {{ super() }}
 {% endblock %}
 
+{% block extraheaders %}
+	{{ super() }}
+	<meta name="description" content="{{ poll.question|striptags }}" />
+	{% with
+		name=poll.question|striptags,
+		created=poll.created,
+		updated=poll.updated
+	%}
+		{% include "partials/social_media.html" %}
+	{% endwith %}
+{% endblock %}
+
 {% block head_title %}{{ poll }}{% endblock %}
 
 {% block content %}
@@ -14,6 +26,10 @@
 <div class="module poll">
 {% include "polls/partials/poll_detail_embedded.html" %}
 </div>
+
+{% with name=poll.question|striptags %}
+	{% include "partials/share.html" %}
+{% endwith %}
 
 {% endblock %}
 
