@@ -1797,7 +1797,7 @@ td.status, td.comments, td.date {
 	margin-right: 35%;
 }
 
-.share {
+.social {
 	margin: 8px 0;
 	border-top: $light-border;
 
@@ -1853,5 +1853,16 @@ td.status, td.comments, td.date {
 
 	li.vybralisme a:before {
 		@include sprite-generated(vybralisme);
+	}
+}
+
+#aside .social {
+	margin: 8px 0;
+	border-top: $light-border;
+	text-align: center;
+
+	li {
+		display: inline-block;
+		float: none;
 	}
 }
