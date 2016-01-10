@@ -1,5 +1,7 @@
 
  <!-- Schema.org markup for Google+ -->
+<meta itemscope="itemscope" itemtype="http://schema.org/Article" />
+{% if name %}<meta itemprop="headline" content="{{ name }}" />{% endif %}
 {% if name %}<meta itemprop="name" content="{{ name }}" />{% endif %}
 {% if description %}<meta itemprop="description" content="{{ description }}" />{% endif %}
 {% if image %}<meta itemprop="image" content="{{ get_base_uri() }}{{ image }}" />{% endif %}
