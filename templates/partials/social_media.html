@@ -4,7 +4,7 @@
 {% if name %}<meta itemprop="headline" content="{{ name }}" />{% endif %}
 {% if name %}<meta itemprop="name" content="{{ name }}" />{% endif %}
 {% if description %}<meta itemprop="description" content="{{ description }}" />{% endif %}
-{% if image %}<meta itemprop="image" content="{{ get_base_uri() }}{{ image }}" />{% endif %}
+{% if image %}<meta itemprop="image" content="{{ get_base_uri() }}{{ image }}" />{% else %}<meta itemprop="image" content="{{ get_base_uri() }}{{ static("images/share_placeholder.png") }}" />{% endif %}
 
 <!-- Twitter Card data -->
 <meta name="twitter:card" content="{% if image %}summary_large_image{% else %}summary{% endif %}" />
