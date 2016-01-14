@@ -1,6 +1,7 @@
 {% extends "forum/forum_base.html" %}
 
 {% block head_title %}{{ topic }}{% endblock %}
+{% block html_extra %}{% include "partials/htmlscope_article.html" %}{% endblock %}
 
 {% block breadcrumbs %}
 	{{ breadcrumb(topic|truncatechars(60)) }}
@@ -8,6 +9,21 @@
 	{{ breadcrumb("Fórum", url="forum:overview") }}
 	{{ super() }}
 {% endblock %}
+
+{% block extraheaders %}
+	{{ super() }}
+	<meta name="description" content="{{ topic.text|striptags|html_entity_decode|truncatechars("160") }}" />
+	{% with
+		name=topic.title,
+		description=topic.text|striptags|html_entity_decode|truncatechars("300"),
+		created=topic.created,
+		updated=topic.updated,
+		author=topic.authors_name
+	%}
+		{% include "partials/social_media.html" %}
+	{% endwith %}
+{% endblock %}
+
 
 {% block content %}
 
@@ -35,6 +51,10 @@
 	{% include "forum/topic_header.html" %}
 {% endwith %}
 {% include "forum/topic_content.html" %}
+
+{% with name=topic.title %}
+	{% include "partials/share.html" %}
+{% endwith %}
 {% endblock %}
 
 {% block discussion %}{{ render_comments_toplevel(topic) }}{% endblock %}

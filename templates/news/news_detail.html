@@ -21,9 +21,8 @@
 	{% endwith %}
 {% endblock %}
 
-{% block head_title %}
-{{ news }}
-{% endblock %}
+{% block head_title %}{{ news }}{% endblock %}
+{% block html_extra %}{% include "partials/htmlscope_article.html" %}{% endblock %}
 
 {% block content %}
 <form action="{{ request.path }}" method="post">{% csrf_token %}

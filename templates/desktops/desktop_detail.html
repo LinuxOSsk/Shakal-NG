@@ -5,10 +5,10 @@
 
 {% block extraheaders %}
 	{{ super() }}
-	<meta name="description" content="{{ desktop.text|striptags|truncatechars("160") }}" />
+	<meta name="description" content="{{ desktop.text|striptags|html_entity_decode|truncatechars("160") }}" />
 	{% with
 		name=desktop.title,
-		description=desktop.text|striptags|truncatechars("300"),
+		description=desktop.text|striptags|html_entity_decode|truncatechars("300"),
 		image=desktop.image_detail.url,
 		created=desktop.created,
 		updated=desktop.updated,
