@@ -1,6 +1,7 @@
 {% extends "desktops/base.html" %}
 
 {% block head_title %}{{ desktop }} | {{ super() }}{% endblock %}
+{% block html_extra %}{% include "partials/htmlscope_article.html" %}{% endblock %}
 
 {% block extraheaders %}
 	{{ super() }}

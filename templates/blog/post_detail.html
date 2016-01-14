@@ -1,6 +1,7 @@
 {% extends "blog/blog_base.html" %}
 
 {% block head_title %}{{ object }}{% endblock %}
+{% block html_extra %}{% include "partials/htmlscope_article.html" %}{% endblock %}
 {% block breadcrumbs %}
 	{{ breadcrumb(object) }}
 	{{ breadcrumb(object.blog, url=object.blog.get_absolute_url()) }}

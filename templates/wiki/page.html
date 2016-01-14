@@ -1,5 +1,6 @@
 {% extends "wiki/wiki_base.html" %}
 
+{% block html_extra %}{% include "partials/htmlscope_article.html" %}{% endblock %}
 {% block extraheaders %}
 	{{ super() }}
 	{% if revision %}<meta name="robots" content="noindex, nofollow" />{% endif %}
