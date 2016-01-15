@@ -324,7 +324,7 @@ class HtmlParser: #pylint: disable=R0902
 					raise AttributeException()
 				elif token_type == self.ENTITY:
 					if self.__state == self.ATTRIBUTE_TEXT_READ:
-						attrvalue += token
+						attrvalue += '&' + token + ';'
 					else:
 						raise AttributeException()
 				elif token_type == self.WHITESPACE:
