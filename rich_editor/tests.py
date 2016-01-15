@@ -76,3 +76,8 @@ class ParserTest(TestCase):
 		code = "<blockquote>BQ</blockquote>Paragraph"
 		self.parser.parse(code)
 		self.assertEquals(self.parser.get_output(), "<blockquote>BQ</blockquote><p>Paragraph</p>")
+
+	def test_attr_entity(self):
+		code = """<p><a href="http://linuxos.sk/a&amp;b">Test</a></p>"""
+		self.parser.parse(code)
+		self.assertEquals(self.parser.get_output(), """<p><a href="http://linuxos.sk/a&amp;b">Test</a></p>""")
