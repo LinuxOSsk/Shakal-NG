@@ -7,7 +7,7 @@ from .models import Desktop
 
 
 class DesktopIndex(indexes.SearchIndex, indexes.Indexable):
-	created = indexes.DateTimeField(model_attr='pub_time')
+	created = indexes.DateTimeField(model_attr='created')
 	updated = indexes.DateTimeField(model_attr='updated')
 	title = indexes.CharField(model_attr='title')
 	text = indexes.CharField(document=True, use_template=True)
