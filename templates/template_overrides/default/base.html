@@ -251,7 +251,6 @@ Hosting sponzorovaný <a href="https://vpsfree.cz/">vpsFree.cz</a> o.s.
 	</script>
 	{% include "template_overrides/default/js.compress.html" %}
 	{% compress js %}{% if form %}{{ form.media.js }}{% endif %}{% endcompress %}
-	{% include "js.compress.html" %}
 	{% block extrajs %}
 	{% endblock %}
 </body>
