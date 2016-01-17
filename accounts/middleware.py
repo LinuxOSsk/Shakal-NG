@@ -19,9 +19,10 @@ class LastViewedMiddleware(object):
 		if not hasattr(request, 'user'):
 			return response
 		if request.user.is_authenticated() and request.resolver_match:
-			content_type = UPDATE_LAST_VIEW_TIME.get(request.resolver_match.view_name)
-			if content_type is not None or not request.user.user_settings:
-				update_last_visited(request.user, content_type)
+			if request.resolver_match.view_name in UPDATE_LAST_VIEW_TIME:
+				content_type = UPDATE_LAST_VIEW_TIME[request.resolver_match.view_name]
+				if content_type is not None or not request.user.user_settings:
+					update_last_visited(request.user, content_type)
 		return response
 
 
