@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from bisect import bisect_left
 from django.apps import apps
 from django.core.cache import caches
 from django.utils import timezone
@@ -41,14 +40,20 @@ def clear_last_objects_cache(sender, **kwargs):
 	default_cache.delete('last_objects')
 
 
-def count_new(last_visited):
+def count_new(last_visited, visited_items):
 	counts = {}
 	for model, items in last_objects().iteritems():
-		dates = [i[1] for i in items]
+		count = None
+		count = 0
 		if model in last_visited:
-			counts[model] = len(dates) - bisect_left(dates, parse_datetime(last_visited[model]))
+			visited_date = parse_datetime(last_visited[model])
 		else:
-			counts[model] = None
+			visited_date = None
+		visited_ids = set(visited_items.get(model, []))
+		for pk, date in items:
+			if (visited_date is None or date > visited_date) and not pk in visited_ids:
+				count += 1
+		counts[model] = count
 	return counts
 
 
@@ -67,15 +72,18 @@ def update_last_visited(user, content_type):
 
 def update_visited_items(user, content_type, object_id):
 	user_settings = user.user_settings
-	user_settings.setdefault('visited_items', [])
-	visited_items = set(user_settings['visited_items'])
-	visited_items.add(object_id)
-	visited_items = visited_items.intersection(set(i[0] for i in last_objects()[content_type]))
-	user_settings['visited_items'] = list(visited_items)
+	user_settings.setdefault('visited_items', {})
+	visited_items = user_settings['visited_items']
+	content_visited_items = set(visited_items.get(content_type, []))
+	content_visited_items.add(object_id)
+	content_visited_items = content_visited_items.intersection(set(i[0] for i in last_objects()[content_type]))
+	user_settings['visited_items'][content_type] = list(content_visited_items)
 	user.user_settings = user_settings
 	user.save()
 
 
 def get_count_new(user):
-	last_visited = user.user_settings.get('last_visited', {})
-	return count_new(last_visited)
+	user_settings = user.user_settings
+	last_visited = user_settings.get('last_visited', {})
+	visited_items = user_settings.get('visited_items', {})
+	return count_new(last_visited, visited_items)

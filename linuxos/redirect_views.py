@@ -43,7 +43,7 @@ def forum_topic_old_redirect(request):
 
 def news_redirect(request, pk):
 	news = get_object_or_404(News, pk=pk)
-	return HttpResponsePermanentRedirect(reverse('news:detail-by-slug', kwargs={'slug': news.slug}))
+	return HttpResponsePermanentRedirect(reverse('news:detail', kwargs={'slug': news.slug}))
 
 def poll_redirect(request, pk):
 	poll = get_object_or_404(Poll, pk=pk)

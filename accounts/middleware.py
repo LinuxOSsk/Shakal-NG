@@ -18,7 +18,7 @@ UPDATE_LAST_VIEW_TIME = {
 UPDATE_VISITED_ITEMS = {
 	'article:detail': 'article.article',
 	'blog:post-detail': 'blog.post',
-	'forum:overview': 'forum.topic',
+	'forum:topic-detail': 'forum.topic',
 	'news:detail': 'news.news',
 	'wiki:page': 'wiki.page',
 }

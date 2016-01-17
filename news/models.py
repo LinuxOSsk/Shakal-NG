@@ -84,7 +84,7 @@ class News(TimestampModelMixin, models.Model):
 
 	@permalink
 	def get_absolute_url(self):
-		return ('news:detail-by-slug', None, {'slug': self.slug})
+		return ('news:detail', None, {'slug': self.slug})
 
 	@permalink
 	def get_list_url(self):
