@@ -28,9 +28,9 @@ def last_objects():
 		for model in MODELS:
 			last = (apps.get_model(model).objects
 				.order_by('-created')
-				.values_list('created', flat=True)[:99])
+				.values_list('pk', 'created')[:99])
 			objects_cache[model] = list(reversed(last))
-		default_cache.set('last_objects', objects_cache)
+		default_cache.set('last_objects', objects_cache, 60)
 	return objects_cache
 
 
@@ -43,7 +43,8 @@ def clear_last_objects_cache(sender, **kwargs):
 
 def count_new(last_visited):
 	counts = {}
-	for model, dates in last_objects().iteritems():
+	for model, items in last_objects().iteritems():
+		dates = [i[1] for i in items]
 		if model in last_visited:
 			counts[model] = len(dates) - bisect_left(dates, parse_datetime(last_visited[model]))
 		else:
@@ -58,8 +59,19 @@ def update_last_visited(user, content_type):
 	last_visited = user_settings['last_visited']
 	if content_type:
 		last_visited[content_type] = now
-	for content_type in MODELS:
-		last_visited.setdefault(content_type, now)
+	for model_name in MODELS:
+		last_visited.setdefault(model_name, now)
+	user.user_settings = user_settings
+	user.save()
+
+
+def update_visited_items(user, content_type, object_id):
+	user_settings = user.user_settings
+	user_settings.setdefault('visited_items', [])
+	visited_items = set(user_settings['visited_items'])
+	visited_items.add(object_id)
+	visited_items = visited_items.intersection(set(i[0] for i in last_objects()[content_type]))
+	user_settings['visited_items'] = list(visited_items)
 	user.user_settings = user_settings
 	user.save()
 

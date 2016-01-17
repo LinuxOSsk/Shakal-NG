@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.template.response import TemplateResponse
+
 from .auth_remember_utils import authenticate_user, delete_cookie
-from .utils import update_last_visited
+from .utils import update_last_visited, update_visited_items
 
 
 UPDATE_LAST_VIEW_TIME = {
@@ -11,6 +13,14 @@ UPDATE_LAST_VIEW_TIME = {
 	'forum:overview': 'forum.topic',
 	'news:list': 'news.news',
 	'wiki:home': 'wiki.page',
+}
+
+UPDATE_VISITED_ITEMS = {
+	'article:detail': 'article.article',
+	'blog:post-detail': 'blog.post',
+	'forum:overview': 'forum.topic',
+	'news:detail': 'news.news',
+	'wiki:page': 'wiki.page',
 }
 
 
@@ -23,6 +33,11 @@ class LastViewedMiddleware(object):
 				content_type = UPDATE_LAST_VIEW_TIME[request.resolver_match.view_name]
 				if content_type is not None or not request.user.user_settings:
 					update_last_visited(request.user, content_type)
+			elif request.resolver_match.view_name in UPDATE_VISITED_ITEMS and isinstance(response, TemplateResponse):
+				content_type = UPDATE_VISITED_ITEMS[request.resolver_match.view_name]
+				if 'object' in response.context_data:
+					pk = response.context_data['object'].pk
+					update_visited_items(request.user, content_type, pk)
 		return response
 
 
