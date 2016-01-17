@@ -93,7 +93,7 @@ class SimpleCache(Cache):
 
 
 class DjangoCache(Cache):
-	CACHE_MAX_AGE = 3600
+	CACHE_MAX_AGE = 60
 
 	def __init__(self):
 		self.cache = caches['default']
