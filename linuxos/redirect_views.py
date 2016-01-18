@@ -81,7 +81,7 @@ def article_rss_redirect(request):
 def eshop_redirect(request, **kwargs):
 	return HttpResponseRedirect('http://linuxeshop.eu/')
 
-def old_php_redirect(request):
+def old_php_redirect(request): #pylint: disable=too-many-return-statements
 	show = request.GET.get('show')
 	if show == 'clanok':
 		try:
@@ -91,5 +91,13 @@ def old_php_redirect(request):
 
 		article = get_object_or_404(Article, pk=pk)
 		return HttpResponsePermanentRedirect(reverse('article:detail', kwargs={'slug': article.slug}))
+	elif show == 'autori':
+		return HttpResponseRedirect(reverse('home'))
+	elif show == 'team':
+		return HttpResponsePermanentRedirect(reverse('page_team'))
+	elif show == 'odkazy':
+		return HttpResponsePermanentRedirect(reverse('page_odkazy'))
+	elif show == 'forum_zoznam':
+		return HttpResponsePermanentRedirect(reverse('forum:overview'))
 
 	return HttpResponseNotFound()
