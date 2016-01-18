@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.core.urlresolvers import reverse
-from django.http.response import HttpResponsePermanentRedirect, HttpResponseBadRequest
+from django.http.response import HttpResponsePermanentRedirect, HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 
 from article.models import Article, Category as ArticleCategory
@@ -31,27 +31,21 @@ def article_category_redirect(request, pk):
 	category = get_object_or_404(ArticleCategory, pk=pk)
 	return HttpResponsePermanentRedirect(reverse('article:list-category', kwargs={'category': category.slug}))
 
-
 def news_list_redirect(request):
 	return HttpResponsePermanentRedirect(reverse('news:list'))
-
 
 def topic_list_redirect(request):
 	return HttpResponsePermanentRedirect(reverse('forum:overview'))
 
-
 def comments_redirect(request, parent):
 	return HttpResponsePermanentRedirect(reverse('comments:reply', kwargs={'parent': parent}))
-
 
 def news_comment_redirect(request, pk):
 	news = get_object_or_404(News, pk=pk)
 	return HttpResponsePermanentRedirect(reverse('news:detail', kwargs={'slug': news.slug}))
 
-
 def home_redirect(request):
 	return HttpResponsePermanentRedirect(reverse('home'))
-
 
 def forum_topic_redirect(request, pk):
 	return HttpResponsePermanentRedirect(reverse('forum:topic-detail', kwargs={'pk': pk}))
@@ -83,3 +77,6 @@ def news_rss_redirect(request):
 
 def article_rss_redirect(request):
 	return HttpResponsePermanentRedirect(reverse('article:feed-latest'))
+
+def eshop_redirect(request, **kwargs):
+	return HttpResponseRedirect('http://linuxeshop.eu/')

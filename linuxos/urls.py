@@ -26,6 +26,7 @@ urlpatterns = patterns('linuxos.redirect_views',
 	url(r'^forum_rss/index.html$', 'forum_rss_redirect'),
 	url(r'^spravy_rss/index.html$', 'news_rss_redirect'),
 	url(r'^clanok_rss/index.html$', 'article_rss_redirect'),
+	url(r'^eshop/kategoria/(?P<pk>\d+)/index.html$', 'eshop_redirect'),
 )
 
 urlpatterns += static_urlpatterns
