@@ -40,8 +40,13 @@ def topic_list_redirect(request):
 	return HttpResponsePermanentRedirect(reverse('forum:overview'))
 
 
-def comments_redirect(request, pk):
-	return HttpResponsePermanentRedirect(reverse('comments:reply', kwargs={'parent': pk}))
+def comments_redirect(request, parent):
+	return HttpResponsePermanentRedirect(reverse('comments:reply', kwargs={'parent': parent}))
+
+
+def news_comment_redirect(request, pk):
+	news = get_object_or_404(News, pk=pk)
+	return HttpResponsePermanentRedirect(reverse('news:detail', kwargs={'slug': news.slug}))
 
 
 def home_redirect(request):
