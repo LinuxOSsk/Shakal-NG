@@ -40,6 +40,10 @@ def topic_list_redirect(request):
 	return HttpResponsePermanentRedirect(reverse('forum:overview'))
 
 
+def comments_redirect(request, pk):
+	return HttpResponsePermanentRedirect(reverse('comments:reply', kwargs={'pk': pk}))
+
+
 def home_redirect(request):
 	return HttpResponsePermanentRedirect(reverse('home'))
 
