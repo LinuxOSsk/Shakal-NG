@@ -27,8 +27,10 @@ urlpatterns = patterns('linuxos.redirect_views',
 	url(r'^spravy_rss/index.html$', 'news_rss_redirect'),
 	url(r'^clanok_rss/index.html$', 'article_rss_redirect'),
 	url(r'^eshop/kategoria/(?P<pk>\d+)/index.html$', 'eshop_redirect'),
+	url(r'^eshop/(?P<pk>\d+)/kategoria/(?P<category>\d+)/index.html$', 'eshop_redirect'),
 	url(r'^eshop_zobraz_tovar/(?P<pk>\d+)/kategoria/(?P<category>\d+)/index.html$', 'eshop_redirect'),
 	url(r'^eshop_zobraz_tovar/(?P<pk>\d+)/index.html$', 'eshop_redirect'),
+	url(r'^eshop_pridaj_odpoved/(?P<pk>\d+)/index.html$', 'eshop_redirect'),
 )
 
 urlpatterns += static_urlpatterns
