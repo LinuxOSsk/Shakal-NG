@@ -41,7 +41,7 @@ def topic_list_redirect(request):
 
 
 def comments_redirect(request, pk):
-	return HttpResponsePermanentRedirect(reverse('comments:reply', kwargs={'pk': pk}))
+	return HttpResponsePermanentRedirect(reverse('comments:reply', kwargs={'parent': pk}))
 
 
 def home_redirect(request):
