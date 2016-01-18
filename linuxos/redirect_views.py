@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.core.urlresolvers import reverse
-from django.http.response import HttpResponsePermanentRedirect, HttpResponseBadRequest, HttpResponseRedirect
+from django.http.response import HttpResponsePermanentRedirect, HttpResponseBadRequest, HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import get_object_or_404
 
 from article.models import Article, Category as ArticleCategory
@@ -80,3 +80,16 @@ def article_rss_redirect(request):
 
 def eshop_redirect(request, **kwargs):
 	return HttpResponseRedirect('http://linuxeshop.eu/')
+
+def old_php_redirect(request):
+	show = request.GET.get('show')
+	if show == 'clanok':
+		try:
+			pk = int(request.GET.get('id', ''))
+		except ValueError:
+			return HttpResponseBadRequest()
+
+		article = get_object_or_404(Article, pk=pk)
+		return HttpResponsePermanentRedirect(reverse('article:detail', kwargs={'slug': article.slug}))
+
+	return HttpResponseNotFound()
