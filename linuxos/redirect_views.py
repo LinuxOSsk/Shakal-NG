@@ -36,6 +36,10 @@ def news_list_redirect(request):
 	return HttpResponsePermanentRedirect(reverse('news:list'))
 
 
+def topic_list_redirect(request):
+	return HttpResponsePermanentRedirect(reverse('forum:overview'))
+
+
 def forum_topic_redirect(request, pk):
 	return HttpResponsePermanentRedirect(reverse('forum:topic-detail', kwargs={'pk': pk}))
 
