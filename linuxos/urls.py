@@ -8,7 +8,6 @@ from .static_urls import urlpatterns as static_urlpatterns
 
 urlpatterns = patterns('linuxos.redirect_views',
 	url(r'^profil/(?P<pk>\d+)/index.html$', 'profile_redirect'),
-	url(r'^profil/(?P<pk>\d+)/$', 'profile_redirect'),
 	url(r'^clanok/(?P<pk>\d+)/index.html$', 'article_redirect'),
 	url(r'^clanok_pdf/(?P<pk>\d+)/index.html$', 'article_redirect'),
 	url(r'^clanok/(?P<pk>\d+)/$', 'article_redirect'),
