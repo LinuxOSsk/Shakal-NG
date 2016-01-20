@@ -39,8 +39,8 @@ def article_category_redirect(request, pk):
 	category = get_object_or_404(ArticleCategory, pk=pk)
 	return HttpResponsePermanentRedirect(reverse('article:list-category', kwargs={'category': category.slug}))
 
-def news_list_redirect(request):
-	return HttpResponsePermanentRedirect(reverse('news:list'))
+def news_list_redirect(request, **kwargs):
+	return HttpResponsePermanentRedirect(reverse('news:list', kwargs=kwargs))
 
 def topic_list_redirect(request):
 	return HttpResponsePermanentRedirect(reverse('forum:overview'))
