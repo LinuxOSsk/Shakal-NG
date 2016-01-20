@@ -44,8 +44,11 @@ def news_comment_redirect(request, pk):
 	news = get_object_or_404(News, pk=pk)
 	return HttpResponsePermanentRedirect(reverse('news:detail', kwargs={'slug': news.slug}))
 
-def home_redirect(request):
+def home_redirect(request, *args, **kwargs):
 	return HttpResponsePermanentRedirect(reverse('home'))
+
+def home_temp_redirect(request, *args, **kwargs):
+	return HttpResponseRedirect(reverse('home'))
 
 def forum_topic_redirect(request, pk):
 	return HttpResponsePermanentRedirect(reverse('forum:topic-detail', kwargs={'pk': pk}))
