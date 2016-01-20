@@ -25,7 +25,15 @@ def article_old_redirect(request):
 	except ValueError:
 		return HttpResponseBadRequest()
 	article = get_object_or_404(Article, pk=pk)
-	return HttpResponsePermanentRedirect(reverse('article:detail', kwargs={'slug': article.slug}))
+	return HttpResponsePermanentRedirect(article.get_absolute_url())
+
+def profile_old_redirect(request):
+	pk = request.GET.get('id', '')
+	try:
+		pk = int(pk)
+	except ValueError:
+		return HttpResponseBadRequest()
+	return HttpResponsePermanentRedirect(reverse('accounts:profile', kwargs={'pk': pk}))
 
 def article_category_redirect(request, pk):
 	category = get_object_or_404(ArticleCategory, pk=pk)
