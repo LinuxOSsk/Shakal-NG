@@ -6,6 +6,7 @@ from django.http.response import HttpResponsePermanentRedirect, HttpResponseBadR
 from django.shortcuts import get_object_or_404
 
 from article.models import Article, Category as ArticleCategory
+from forum.models import Section as ForumSection
 from news.models import News
 from polls.models import Poll
 from wiki.models import Page as WikiPage
@@ -60,6 +61,14 @@ def home_temp_redirect(request, *args, **kwargs):
 
 def forum_topic_redirect(request, pk):
 	return HttpResponsePermanentRedirect(reverse('forum:topic-detail', kwargs={'pk': pk}))
+
+def forum_category_redirect(request, category, page=None):
+	kwargs = {}
+	if page:
+		kwargs['page'] = page
+	section = get_object_or_404(ForumSection, pk=category)
+	kwargs['category'] = section.slug
+	return HttpResponsePermanentRedirect(reverse('forum:section', kwargs=kwargs))
 
 def forum_topic_old_redirect(request):
 	try:
