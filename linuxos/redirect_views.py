@@ -87,7 +87,7 @@ def poll_redirect(request, pk):
 
 def wiki_redirect(request, pk):
 	wiki = get_object_or_404(WikiPage, pk=int(pk) + 7)
-	return HttpResponsePermanentRedirect(reverse('wiki:page', kwargs={'slug': wiki.slug}))
+	return HttpResponsePermanentRedirect(wiki.get_absolute_url())
 
 def forum_rss_redirect(request):
 	return HttpResponsePermanentRedirect(reverse('forum:feed-latest'))
@@ -108,9 +108,15 @@ def old_php_redirect(request): #pylint: disable=too-many-return-statements
 			pk = int(request.GET.get('id', ''))
 		except ValueError:
 			return HttpResponseBadRequest()
-
 		article = get_object_or_404(Article, pk=pk)
 		return HttpResponsePermanentRedirect(reverse('article:detail', kwargs={'slug': article.slug}))
+	elif show == 'KnowledgeBase_show_entry':
+		try:
+			pk = int(request.GET.get('id', ''))
+		except ValueError:
+			return HttpResponseBadRequest()
+		wiki = get_object_or_404(WikiPage, pk=int(pk) + 7)
+		return HttpResponsePermanentRedirect(wiki.get_absolute_url())
 	elif show == 'autori':
 		return HttpResponseRedirect(reverse('home'))
 	elif show == 'team':
