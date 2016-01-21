@@ -10,7 +10,7 @@ urlpatterns = patterns('linuxos.redirect_views',
 	url(r'^profil/(?P<pk>\d+)/index.html$', 'profile_redirect'),
 	url(r'^clanok/(?P<pk>\d+)/index.html$', 'article_redirect'),
 	url(r'^clanok_pdf/(?P<pk>\d+)/index.html$', 'article_redirect'),
-	url(r'^clanok/(?P<pk>\d+)/$', 'article_redirect'),
+	#url(r'^clanok/(?P<pk>\d+)/$', 'article_redirect'), tak toto koliduje so stránkovaním
 	url(r'^clanok.php$', 'article_old_redirect'),
 	url(r'^users.php$', 'profile_old_redirect'),
 	url(r'^clanky/kategoria/(?P<pk>\d+)/index.html$', 'article_category_redirect'),
