@@ -5,7 +5,6 @@ from time import time
 
 from django import forms
 from django.contrib.contenttypes.models import ContentType
-from django.forms.utils import ErrorDict
 from django.utils.crypto import salted_hmac
 from django.utils.encoding import force_unicode
 from django.utils.functional import cached_property
@@ -16,14 +15,16 @@ from comments.models import Comment
 from common_utils.forms import AuthorsNameFormMixin
 
 
-class SecurityFormMixin(object):
-	timestamp = forms.IntegerField(widget=forms.HiddenInput)
-	security_hash = forms.CharField(min_length=40, max_length=40, widget=forms.HiddenInput)
-	honeypot = forms.CharField(required=False, label='Ak do tohto poľa niečo napíšete bude príspevok pvažovaný za spam.')
+class SecurityFormMixin(forms.BaseForm):
+	def __init__(self, *args, **kwargs):
+		super(SecurityFormMixin, self).__init__(*args, **kwargs)
+		#self.fields['timestamp'] = forms.IntegerField(widget=forms.HiddenInput)
+		self.fields['security_hash'] = forms.CharField(min_length=40, max_length=40, widget=forms.HiddenInput)
+		self.fields['honeypot'] = forms.CharField(required=False, label='Ak do tohto poľa niečo napíšete bude príspevok pvažovaný za spam.')
 
 	def generate_security_data(self):
 		security_dict = {
-			'timestamp': int(time())
+			#'timestamp': int(time())
 		}
 		security_dict.update(self.additional_security_data())
 		security_dict['security_hash'] = self.generate_security_hash(security_dict)
@@ -38,20 +39,28 @@ class SecurityFormMixin(object):
 		return salted_hmac(key_salt, value).hexdigest()
 
 	def security_errors(self):
-		errors = ErrorDict()
-		for f in ['timestamp', 'security_hash']:
-			if f in self.errors:
-				errors[f] = self.errors[f]
+		errors = {}
+		#try:
+		#	self.clean_timestamp()
+		#except forms.ValidationError as e:
+		#	errors['timestamp'] = e
+		try:
+			self.clean_security_hash()
+		except forms.ValidationError as e:
+			errors['security_hash'] = e
 		return errors
 
 	def clean_honeypot(self):
-		value = self.cleaned_data["honeypot"]
+		value = self.data.get(self.add_prefix('honeypot'), '')
 		if value:
 			raise forms.ValidationError(self.fields["honeypot"].label)
 		return value
 
 	def clean_timestamp(self):
-		ts = self.cleaned_data['timestamp']
+		try:
+			ts = int(self.data.get(self.add_prefix('timestamp'), ''))
+		except ValueError:
+			raise forms.ValidationError('Timestamp check failed')
 		if time() - ts > (2 * 60 * 60):
 			raise forms.ValidationError('Timestamp check failed')
 		return ts
@@ -60,13 +69,13 @@ class SecurityFormMixin(object):
 		security_dict = self.generate_security_data()
 		del security_dict['security_hash']
 		expected_hash = self.generate_security_hash(security_dict)
-		actual_hash = self.cleaned_data['security_hash']
+		actual_hash = self.data.get(self.add_prefix('security_hash'), '')
 		if not expected_hash == actual_hash:
 			raise forms.ValidationError('Security hash check failed.')
 		return actual_hash
 
 
-class CommentForm(SecurityFormMixin, AuthorsNameFormMixin, AttachmentFormMixin, AntispamFormMixin, forms.ModelForm):
+class CommentForm(SecurityFormMixin, AttachmentFormMixin, AuthorsNameFormMixin, AntispamFormMixin, forms.ModelForm):
 	authors_name_field = 'user_name'
 
 	class Meta:
