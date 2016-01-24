@@ -215,7 +215,6 @@ body {
 header, aside, nav, ul, form { display: block; @include no-space(); }
 
 h1, h2, h3, h4, h5, h6 { font-weight: bold; }
-h2, h3, h4, h5, h6 { clear: both; }
 h1 a, h2 a, h3 a { text-decoration: none; }
 h1, h2 { color: $hdr-high; }
 h3, h4 { color: $hdr-mid; }
