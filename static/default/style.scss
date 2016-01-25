@@ -1241,6 +1241,9 @@ ul.messages {
 		padding-bottom: 4px;
 		padding-top: 4px;
 		clear: both;
+		small {
+			color: $info-color;
+		}
 	}
 	.user {
 		float: right;
