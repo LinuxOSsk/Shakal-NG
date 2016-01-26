@@ -78,6 +78,7 @@ class Topic(TimestampModelMixin, models.Model):
 	objects = TopicManager()
 	topics = TopicListManager()
 
+	ip_address = models.GenericIPAddressField('IP adresa', blank=True, null=True)
 	section = models.ForeignKey(Section, verbose_name='sekcia')
 	title = models.CharField('predmet', max_length=100)
 	original_text = RichTextOriginalField(filtered_field="filtered_text", property_name="text", verbose_name='text', max_length=COMMENT_MAX_LENGTH)
