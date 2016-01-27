@@ -45,7 +45,7 @@ class TopicCreateView(PreviewCreateView):
 	form_class = TopicForm
 
 	def form_valid(self, form):
-		ret = super(TopicCreateView, self).form_valid(form)
+		response = super(TopicCreateView, self).form_valid(form)
 		if self.object:
 			form.move_attachments(self.object)
-		return ret
+		return response

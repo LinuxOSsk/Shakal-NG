@@ -15,7 +15,7 @@ from .forms import CommentForm
 from .models import Comment
 from .utils import update_comments_header
 from comments.models import RootHeader, UserDiscussionAttribute
-from common_utils import get_meta
+from common_utils import get_meta, get_client_ip
 
 
 def get_module_name(content_object):
@@ -84,7 +84,7 @@ class Reply(FormView):
 			return TemplateResponse(self.request, 'comments/error.html', self.get_context_data(form=form))
 
 		comment = form.get_comment_object()
-		comment.ip_address = self.request.META.get('REMOTE_ADDR', None)
+		comment.ip_address = get_client_ip(self.request)
 		if self.request.user.is_authenticated():
 			comment.user = self.request.user
 
