@@ -36,7 +36,7 @@ all: localinstall
 	@touch .stamp_virtualenv
 
 .stamp_setuptools: .stamp_virtualenv
-	wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py -O get-pip.py
+	wget https://bootstrap.pypa.io/get-pip.py -O get-pip.py
 	${VENV_PYTHON} get-pip.py
 	rm get-pip.py*
 	@touch .stamp_setuptools
