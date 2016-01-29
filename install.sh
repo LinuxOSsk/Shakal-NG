@@ -31,7 +31,7 @@ all: localinstall
 
 .stamp_virtualenv: .stamp_downloaded
 	wget https://raw.github.com/pypa/virtualenv/master/virtualenv.py -O virtualenv.py
-	${PYTHON} virtualenv.py venv --no-setuptools --no-pip -p ${PYTHON}
+	${PYTHON} virtualenv.py venv --no-setuptools --no-pip --no-wheel -p ${PYTHON}
 	rm virtualenv.py*
 	@touch .stamp_virtualenv
 
