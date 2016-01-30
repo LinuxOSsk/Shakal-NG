@@ -115,7 +115,7 @@ html, body {
 								<li>
 									<a href="{{ url('account_logout') }}" rel="nofollow">{{ _('Log out') }}</a>
 								</li>
-								{% if user.blog %}
+								{% if user.blog and user.blog.pk %}
 									<li>
 										<a rel="nofollow" href="{{ user.blog.get_absolute_url() }}">{{ _('Blog') }}</a>
 									</li>
