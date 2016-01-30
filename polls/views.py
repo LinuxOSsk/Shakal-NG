@@ -19,9 +19,9 @@ class PollPost(FormView):
 	form_class = VoteForm
 	object = None
 
-	def post(self, request, **kwargs):
+	def dispatch(self, request, *args, **kwargs):
 		self.object = get_object_or_404(Poll.active_polls.all(), pk=self.kwargs['pk'])
-		return super(PollPost, self).post(request, **kwargs)
+		return super(PollPost, self).dispatch(request, **kwargs)
 
 	def get_message_tag(self):
 		return self.request.POST.get('msg_id', 'polls') # identifikácia ankety ak ich je na webe viacej
