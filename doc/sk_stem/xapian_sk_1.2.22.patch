@@ -1,0 +1,651 @@
+diff -Naur xapian-core-1.2.22/docs/docsource.mk xapian-core-1.2.22-sk/docs/docsource.mk
+--- xapian-core-1.2.22/docs/docsource.mk	2015-12-29 10:23:23.000000000 +0100
++++ xapian-core-1.2.22-sk/docs/docsource.mk	2016-01-30 12:38:44.467400616 +0100
+@@ -398,6 +398,8 @@
+ 	$(top_builddir)/languages/romanian.h\
+ 	$(top_builddir)/languages/russian.cc\
+ 	$(top_builddir)/languages/russian.h\
++	$(top_builddir)/languages/slovak.cc\
++	$(top_builddir)/languages/slovak.h\
+ 	$(top_builddir)/languages/spanish.cc\
+ 	$(top_builddir)/languages/spanish.h\
+ 	$T/languages/stem.cc\
+diff -Naur xapian-core-1.2.22/docs/Makefile.in xapian-core-1.2.22-sk/docs/Makefile.in
+--- xapian-core-1.2.22/docs/Makefile.in	2015-12-29 10:23:37.000000000 +0100
++++ xapian-core-1.2.22-sk/docs/Makefile.in	2016-01-30 12:38:44.467400616 +0100
+@@ -709,6 +709,8 @@
+ @DOCUMENTATION_RULES_TRUE@	$(top_builddir)/languages/romanian.h\
+ @DOCUMENTATION_RULES_TRUE@	$(top_builddir)/languages/russian.cc\
+ @DOCUMENTATION_RULES_TRUE@	$(top_builddir)/languages/russian.h\
++@DOCUMENTATION_RULES_TRUE@	$(top_builddir)/languages/slovak.cc\
++@DOCUMENTATION_RULES_TRUE@	$(top_builddir)/languages/slovak.h\
+ @DOCUMENTATION_RULES_TRUE@	$(top_builddir)/languages/spanish.cc\
+ @DOCUMENTATION_RULES_TRUE@	$(top_builddir)/languages/spanish.h\
+ @DOCUMENTATION_RULES_TRUE@	$T/languages/stem.cc\
+diff -Naur xapian-core-1.2.22/include/xapian/stem.h xapian-core-1.2.22-sk/include/xapian/stem.h
+--- xapian-core-1.2.22/include/xapian/stem.h	2015-12-29 10:20:10.000000000 +0100
++++ xapian-core-1.2.22-sk/include/xapian/stem.h	2016-01-30 12:38:44.468400616 +0100
+@@ -87,6 +87,7 @@
+      *  - portuguese (pt)
+      *  - romanian (ro)
+      *  - russian (ru)
++     *  - slovak (sk)
+      *  - spanish (es)
+      *  - swedish (sv)
+      *  - turkish (tr)
+diff -Naur xapian-core-1.2.22/languages/allsnowballheaders.h xapian-core-1.2.22-sk/languages/allsnowballheaders.h
+--- xapian-core-1.2.22/languages/allsnowballheaders.h	2015-12-29 10:25:12.000000000 +0100
++++ xapian-core-1.2.22-sk/languages/allsnowballheaders.h	2016-01-30 12:38:44.468400616 +0100
+@@ -38,6 +38,7 @@
+ #include "languages/portuguese.h"
+ #include "languages/romanian.h"
+ #include "languages/russian.h"
++#include "languages/slovak.h"
+ #include "languages/spanish.h"
+ #include "languages/swedish.h"
+ #include "languages/turkish.h"
+diff -Naur xapian-core-1.2.22/languages/Makefile.mk xapian-core-1.2.22-sk/languages/Makefile.mk
+--- xapian-core-1.2.22/languages/Makefile.mk	2015-12-29 10:20:10.000000000 +0100
++++ xapian-core-1.2.22-sk/languages/Makefile.mk	2016-01-30 12:38:44.468400616 +0100
+@@ -24,6 +24,7 @@
+ 	languages/portuguese.sbl\
+ 	languages/romanian.sbl\
+ 	languages/russian.sbl\
++	languages/slovak.sbl\
+ 	languages/spanish.sbl\
+ 	languages/swedish.sbl\
+ 	languages/turkish.sbl
+diff -Naur xapian-core-1.2.22/languages/slovak.cc xapian-core-1.2.22-sk/languages/slovak.cc
+--- xapian-core-1.2.22/languages/slovak.cc	1970-01-01 01:00:00.000000000 +0100
++++ xapian-core-1.2.22-sk/languages/slovak.cc	2016-01-30 12:38:44.469400616 +0100
+@@ -0,0 +1,371 @@
++/* This file was generated automatically by the Snowball to ISO C++ compiler */
++
++#include <limits.h>
++#include "slovak.h"
++
++#define s_0_0 (s_0_1 + 2)
++static const symbol s_pool[] = {
++#define s_0_1 0
++'s', 'k', 'a',
++#define s_0_2 3
++'o', 'v', 'a',
++#define s_0_3 (s_0_4 + 2)
++#define s_0_4 s_0_13
++#define s_0_5 6
++'o', 'v', 'y', 'c', 'h',
++#define s_0_6 11
++'o', 'v', 0xC3, 0xBD, 'c', 'h',
++#define s_0_7 (s_0_8 + 2)
++#define s_0_8 17
++'a', 'm', 'i',
++#define s_0_9 20
++'o', 'v', 'y', 'm', 'i',
++#define s_0_10 25
++'o', 'v', 0xC3, 0xBD, 'm', 'i',
++#define s_0_11 31
++'o', 'v', 'i',
++#define s_0_12 (s_0_13 + 2)
++#define s_0_13 34
++'o', 'v', 'e', 'j',
++#define s_0_14 (s_0_8 + 1)
++#define s_0_15 (s_0_16 + 2)
++#define s_0_16 38
++'o', 'v', 'o', 'm',
++#define s_0_17 (s_0_9 + 2)
++#define s_0_18 s_0_9
++#define s_0_19 (s_0_10 + 2)
++#define s_0_20 s_0_10
++#define s_0_21 42
++'i', 'n',
++#define s_0_22 s_0_2
++#define s_0_23 (s_0_24 + 1)
++#define s_0_24 44
++'e', 'h', 'o',
++#define s_0_25 47
++'o', 'v', 'h', 'o',
++#define s_0_26 51
++'y', 'h', 'o',
++#define s_0_27 54
++0xC3, 0xA9, 'h', 'o',
++#define s_0_28 s_0_16
++#define s_0_29 (s_0_30 + 1)
++#define s_0_30 (s_0_31 + 1)
++#define s_0_31 58
++'e', 'm', 'u',
++#define s_0_32 61
++'o', 'v', 'm', 'u',
++#define s_0_33 65
++'y', 'm', 'u',
++#define s_0_34 68
++0xC3, 0xA9, 'm', 'u',
++#define s_0_35 (s_0_36 + 2)
++#define s_0_36 72
++'o', 'v', 'o', 'u',
++#define s_0_37 76
++'o', 'v', 'u',
++#define s_0_38 s_0_2
++#define s_0_39 (s_0_5 + 2)
++#define s_0_40 (s_0_41 + 2)
++#define s_0_41 79
++'s', 'k', 0xC3, 0xA1,
++#define s_0_42 83
++'o', 'v', 0xC3, 0xA1,
++#define s_0_43 87
++'o', 'v', 0xC3, 0xA9,
++#define s_0_44 (s_0_45 + 2)
++#define s_0_45 91
++'o', 'v', 0xC3, 0xAD,
++#define s_0_46 (s_0_47 + 2)
++#define s_0_47 95
++'o', 'v', 0xC3, 0xBA,
++#define s_0_48 (s_0_6 + 2)
++#define s_1_0 99
++'o', 'v', 'e', 'c',
++#define s_1_1 103
++'n', 'e', 'k',
++};
++
++
++static const struct among a_0[49] =
++{
++/*  0 */ { 1, s_0_0, -1, 39},
++/*  1 */ { 3, s_0_1, 0, 29},
++/*  2 */ { 3, s_0_2, 0, 21},
++/*  3 */ { 1, s_0_3, -1, 47},
++/*  4 */ { 3, s_0_4, 3, 22},
++/*  5 */ { 5, s_0_5, -1, 19},
++/*  6 */ { 6, s_0_6, -1, 17},
++/*  7 */ { 1, s_0_7, -1, 44},
++/*  8 */ { 3, s_0_8, 7, 30},
++/*  9 */ { 5, s_0_9, 7, 20},
++/* 10 */ { 6, s_0_10, 7, 18},
++/* 11 */ { 3, s_0_11, 7, 1},
++/* 12 */ { 2, s_0_12, -1, 6},
++/* 13 */ { 4, s_0_13, 12, 27},
++/* 14 */ { 1, s_0_14, -1, 38},
++/* 15 */ { 2, s_0_15, 14, 4},
++/* 16 */ { 4, s_0_16, 15, 16},
++/* 17 */ { 2, s_0_17, 14, 8},
++/* 18 */ { 4, s_0_18, 17, 26},
++/* 19 */ { 3, s_0_19, 14, 34},
++/* 20 */ { 5, s_0_20, 19, 25},
++/* 21 */ { 2, s_0_21, -1, 37},
++/* 22 */ { 1, s_0_22, -1, 45},
++/* 23 */ { 2, s_0_23, 22, 35},
++/* 24 */ { 3, s_0_24, 23, 5},
++/* 25 */ { 4, s_0_25, 23, 2},
++/* 26 */ { 3, s_0_26, 23, 48},
++/* 27 */ { 4, s_0_27, 23, 31},
++/* 28 */ { 3, s_0_28, 22, 23},
++/* 29 */ { 1, s_0_29, -1, 41},
++/* 30 */ { 2, s_0_30, 29, 36},
++/* 31 */ { 3, s_0_31, 30, 7},
++/* 32 */ { 4, s_0_32, 30, 3},
++/* 33 */ { 3, s_0_33, 30, 49},
++/* 34 */ { 4, s_0_34, 30, 32},
++/* 35 */ { 2, s_0_35, 29, 10},
++/* 36 */ { 4, s_0_36, 35, 15},
++/* 37 */ { 3, s_0_37, 29, 12},
++/* 38 */ { 2, s_0_38, -1, 9},
++/* 39 */ { 1, s_0_39, -1, 46},
++/* 40 */ { 2, s_0_40, -1, 40},
++/* 41 */ { 4, s_0_41, 40, 28},
++/* 42 */ { 4, s_0_42, 40, 11},
++/* 43 */ { 4, s_0_43, -1, 14},
++/* 44 */ { 2, s_0_44, -1, 43},
++/* 45 */ { 4, s_0_45, 44, 24},
++/* 46 */ { 2, s_0_46, -1, 42},
++/* 47 */ { 4, s_0_47, 46, 13},
++/* 48 */ { 2, s_0_48, -1, 33}
++};
++
++
++static const struct among a_1[2] =
++{
++/*  0 */ { 4, s_1_0, -1, 1},
++/*  1 */ { 3, s_1_1, -1, 2}
++};
++
++static const unsigned char g_v[] = { 17, 65, 16, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 17, 12, 18 };
++
++static const symbol s_0[] = { 'o', 'v', 'c' };
++static const symbol s_1[] = { 'n', 'k' };
++
++int Xapian::InternalStemSlovak::r_rule1() { /* backwardmode */
++    int among_var;
++    ket = c; /* [, line 45 */
++    among_var = find_among_b(s_pool, a_0, 49, 0, 0); /* substring, line 45 */
++    if (!(among_var)) return 0;
++    bra = c; /* ], line 45 */
++    switch(among_var) { /* among, line 45 */
++        case 0: return 0;
++        case 1:
++            if (slice_del() == -1) return -1; /* delete, line 46 */
++            break;
++        case 2:
++            if (slice_del() == -1) return -1; /* delete, line 47 */
++            break;
++        case 3:
++            if (slice_del() == -1) return -1; /* delete, line 48 */
++            break;
++        case 4:
++            if (slice_del() == -1) return -1; /* delete, line 49 */
++            break;
++        case 5:
++            if (slice_del() == -1) return -1; /* delete, line 50 */
++            break;
++        case 6:
++            if (slice_del() == -1) return -1; /* delete, line 51 */
++            break;
++        case 7:
++            if (slice_del() == -1) return -1; /* delete, line 52 */
++            break;
++        case 8:
++            if (slice_del() == -1) return -1; /* delete, line 53 */
++            break;
++        case 9:
++            if (slice_del() == -1) return -1; /* delete, line 54 */
++            break;
++        case 10:
++            if (slice_del() == -1) return -1; /* delete, line 55 */
++            break;
++        case 11:
++            if (slice_del() == -1) return -1; /* delete, line 56 */
++            break;
++        case 12:
++            if (slice_del() == -1) return -1; /* delete, line 57 */
++            break;
++        case 13:
++            if (slice_del() == -1) return -1; /* delete, line 58 */
++            break;
++        case 14:
++            if (slice_del() == -1) return -1; /* delete, line 59 */
++            break;
++        case 15:
++            if (slice_del() == -1) return -1; /* delete, line 60 */
++            break;
++        case 16:
++            if (slice_del() == -1) return -1; /* delete, line 61 */
++            break;
++        case 17:
++            if (slice_del() == -1) return -1; /* delete, line 62 */
++            break;
++        case 18:
++            if (slice_del() == -1) return -1; /* delete, line 63 */
++            break;
++        case 19:
++            if (slice_del() == -1) return -1; /* delete, line 64 */
++            break;
++        case 20:
++            if (slice_del() == -1) return -1; /* delete, line 65 */
++            break;
++        case 21:
++            if (slice_del() == -1) return -1; /* delete, line 66 */
++            break;
++        case 22:
++            if (slice_del() == -1) return -1; /* delete, line 67 */
++            break;
++        case 23:
++            if (slice_del() == -1) return -1; /* delete, line 68 */
++            break;
++        case 24:
++            if (slice_del() == -1) return -1; /* delete, line 69 */
++            break;
++        case 25:
++            if (slice_del() == -1) return -1; /* delete, line 70 */
++            break;
++        case 26:
++            if (slice_del() == -1) return -1; /* delete, line 71 */
++            break;
++        case 27:
++            if (slice_del() == -1) return -1; /* delete, line 72 */
++            break;
++        case 28:
++            if (slice_del() == -1) return -1; /* delete, line 73 */
++            break;
++        case 29:
++            if (slice_del() == -1) return -1; /* delete, line 74 */
++            break;
++        case 30:
++            if (slice_del() == -1) return -1; /* delete, line 75 */
++            break;
++        case 31:
++            if (slice_del() == -1) return -1; /* delete, line 76 */
++            break;
++        case 32:
++            if (slice_del() == -1) return -1; /* delete, line 77 */
++            break;
++        case 33:
++            if (slice_del() == -1) return -1; /* delete, line 78 */
++            break;
++        case 34:
++            if (slice_del() == -1) return -1; /* delete, line 79 */
++            break;
++        case 35:
++            if (slice_del() == -1) return -1; /* delete, line 80 */
++            break;
++        case 36:
++            if (slice_del() == -1) return -1; /* delete, line 81 */
++            break;
++        case 37:
++            if (slice_del() == -1) return -1; /* delete, line 82 */
++            break;
++        case 38:
++            if (slice_del() == -1) return -1; /* delete, line 83 */
++            break;
++        case 39:
++            if (slice_del() == -1) return -1; /* delete, line 84 */
++            break;
++        case 40:
++            if (slice_del() == -1) return -1; /* delete, line 85 */
++            break;
++        case 41:
++            if (slice_del() == -1) return -1; /* delete, line 86 */
++            break;
++        case 42:
++            if (slice_del() == -1) return -1; /* delete, line 87 */
++            break;
++        case 43:
++            if (slice_del() == -1) return -1; /* delete, line 88 */
++            break;
++        case 44:
++            if (slice_del() == -1) return -1; /* delete, line 89 */
++            break;
++        case 45:
++            if (slice_del() == -1) return -1; /* delete, line 90 */
++            break;
++        case 46:
++            if (slice_del() == -1) return -1; /* delete, line 91 */
++            break;
++        case 47:
++            if (slice_del() == -1) return -1; /* delete, line 92 */
++            break;
++        case 48:
++            if (slice_del() == -1) return -1; /* delete, line 96 */
++            break;
++        case 49:
++            if (slice_del() == -1) return -1; /* delete, line 97 */
++            break;
++    }
++    return 1;
++}
++
++int Xapian::InternalStemSlovak::r_rule2() { /* backwardmode */
++    int among_var;
++    ket = c; /* [, line 102 */
++    if (c - 2 <= lb || (p[c - 1] != 99 && p[c - 1] != 107)) return 0; /* substring, line 102 */
++    among_var = find_among_b(s_pool, a_1, 2, 0, 0);
++    if (!(among_var)) return 0;
++    bra = c; /* ], line 102 */
++    switch(among_var) { /* among, line 102 */
++        case 0: return 0;
++        case 1:
++            {   int ret = slice_from_s(3, s_0); /* <-, line 104 */
++                if (ret < 0) return ret;
++            }
++            break;
++        case 2:
++            {   int ret = slice_from_s(2, s_1); /* <-, line 105 */
++                if (ret < 0) return ret;
++            }
++            break;
++    }
++    return 1;
++}
++
++int Xapian::InternalStemSlovak::stem() { /* forwardmode */
++    lb = c; c = l; /* backwards, line 111 */
++
++    {   int m1 = l - c; (void)m1; /* do, line 112 */
++        {   int ret = r_rule1(); /* call rule1, line 112 */
++            if (ret == 0) goto lab0;
++            if (ret < 0) return ret;
++        }
++    lab0:
++        c = l - m1;
++    }
++    {   int m2 = l - c; (void)m2; /* do, line 113 */
++        {   int ret = r_rule2(); /* call rule2, line 113 */
++            if (ret == 0) goto lab1;
++            if (ret < 0) return ret;
++        }
++    lab1:
++        c = l - m2;
++    }
++    c = lb;
++    return 1;
++}
++
++Xapian::InternalStemSlovak::InternalStemSlovak()
++{
++}
++
++Xapian::InternalStemSlovak::~InternalStemSlovak()
++{
++}
++
++std::string
++Xapian::InternalStemSlovak::get_description() const
++{
++    return "slovak";
++}
+diff -Naur xapian-core-1.2.22/languages/slovak.h xapian-core-1.2.22-sk/languages/slovak.h
+--- xapian-core-1.2.22/languages/slovak.h	1970-01-01 01:00:00.000000000 +0100
++++ xapian-core-1.2.22-sk/languages/slovak.h	2016-01-30 12:38:44.469400616 +0100
+@@ -0,0 +1,18 @@
++/* This file was generated automatically by the Snowball to ISO C++ compiler */
++
++#include "steminternal.h"
++
++namespace Xapian {
++
++class InternalStemSlovak : public SnowballStemImplementation {
++  public:
++    int r_rule2();
++    int r_rule1();
++
++    InternalStemSlovak();
++    ~InternalStemSlovak();
++    int stem();
++    std::string get_description() const;
++};
++
++}
+diff -Naur xapian-core-1.2.22/languages/slovak.sbl xapian-core-1.2.22-sk/languages/slovak.sbl
+--- xapian-core-1.2.22/languages/slovak.sbl	1970-01-01 01:00:00.000000000 +0100
++++ xapian-core-1.2.22-sk/languages/slovak.sbl	2016-01-30 12:38:44.469400616 +0100
+@@ -0,0 +1,116 @@
++
++stringescapes {}
++
++// budeme pouzivat zoskupenie v
++groupings ( v )
++
++
++routines ( rule1 rule2 )
++
++
++externals ( stem )
++
++// zadefinujeme slovenske znaky podla normy Latin2
++
++stringdef a"   hex 'E1' // dlhe a
++stringdef a:   hex 'E4' // siroke a
++stringdef c<   hex 'E8' // c s makcenom
++stringdef d<   hex 'EF' // d s makcenom
++stringdef dz   'dz'     // dz
++stringdef dz<  hex '63 BE' // dz s makcenom
++stringdef e"   hex 'E9'    // e s dlznom
++stringdef ch   'ch'        // ch
++stringdef i"   hex 'ED'    // i s dlznom
++stringdef l"   hex 'E5'    // l s dlznom
++stringdef l<   hex 'B5'    // l s makcenom
++stringdef n<   hex 'F2'    // n s makcenom
++stringdef o>   hex 'F4'    // o s vokanom
++stringdef o"   hex 'F3'    // o s dlznom
++stringdef r"   hex 'E0'    // r s dlznom
++stringdef s<   hex 'B9'    // s s makcenom
++stringdef t<   hex 'BB'    // t s makcenom
++stringdef u"   hex 'FA'    // u s dlznom
++stringdef y"   hex 'FD'    // y s dlznom
++stringdef ia   'ia'        // ia
++stringdef ie   'ie'        // ie
++stringdef iu   'iu'        // iu
++
++// samohlasky
++define v 'a{a"}{a:}e{e"}i{i"}y{y"}o{o"}{o>}u{u"}'
++
++
++
++backwardmode (
++	define rule1 as (
++		[substring] among ( 
++			'ovi' (delete)
++			'ovho' (delete)
++			'ovmu' (delete)
++			'om' (delete)			
++			'eho' (delete)
++			'ej' (delete)
++			'emu' (delete)
++			'ym' (delete)
++			'ov' (delete)
++			'ou' (delete)
++			'ov{a"}' (delete)
++			'ovu' (delete)
++			'ov{u"}' (delete)
++			'ov{e"}' (delete)
++			'ovou' (delete)
++			'ovom' (delete)
++			'ov{y"}{ch}' (delete)
++			'ov{y"}mi' (delete)
++			'ovy{ch}' (delete)
++			'ovymi' (delete)
++			'ova' (delete)
++			'ove' (delete)
++			'ovo' (delete)
++			'ov{i"}' (delete)			
++			'ov{y"}m' (delete)
++			'ovym' (delete)
++			'ovej' (delete)
++			'sk{a"}' (delete)
++			'ska' (delete)
++			'ami' (delete)
++			'{e"}ho' (delete)
++			'{e"}mu' (delete)
++			'{y"}' (delete)
++			'{y"}m' (delete)
++			'ho' (delete)
++			'mu' (delete)						
++			'in' (delete)
++			'm' (delete)
++			'a' (delete)
++			'{a"}' (delete)
++			'u' (delete)
++			'{u"}' (delete)
++			'{i"}' (delete)
++			'i' (delete)
++			'o' (delete)
++			'y' (delete)
++			'e' (delete)
++
++			
++
++			'yho' (delete)
++			'ymu' (delete) 
++
++		)
++	)
++	define rule2 as (
++		[substring] among ( 
++		
++			'ovec' (<-'ovc')
++			'nek' (<-'nk')								)
++	)
++)
++
++
++define stem as (
++	backwards (
++		do rule1
++		do rule2
++	)
++)
++
+diff -Naur xapian-core-1.2.22/languages/stem.cc xapian-core-1.2.22-sk/languages/stem.cc
+--- xapian-core-1.2.22/languages/stem.cc	2015-12-29 10:20:11.000000000 +0100
++++ xapian-core-1.2.22-sk/languages/stem.cc	2016-01-30 12:38:44.470400616 +0100
+@@ -153,6 +153,10 @@
+ 	    }
+ 	    break;
+ 	case 's':
++	    if (language == "sk" || language == "slovak") {
++		internal = new InternalStemSlovak;
++		return;
++	    }
+ 	    if (language == "spanish") {
+ 		internal = new InternalStemSpanish;
+ 		return;
+diff -Naur xapian-core-1.2.22/Makefile.in xapian-core-1.2.22-sk/Makefile.in
+--- xapian-core-1.2.22/Makefile.in	2015-12-29 10:23:38.000000000 +0100
++++ xapian-core-1.2.22-sk/Makefile.in	2016-01-30 12:38:44.471400616 +0100
+@@ -543,14 +543,14 @@
+ 	languages/italian.cc languages/kraaij_pohlmann.cc \
+ 	languages/lovins.cc languages/norwegian.cc languages/porter.cc \
+ 	languages/portuguese.cc languages/romanian.cc \
+-	languages/russian.cc languages/spanish.cc languages/swedish.cc \
++	languages/russian.cc languages/slovak.cc languages/spanish.cc languages/swedish.cc \
+ 	languages/turkish.cc languages/danish.h languages/dutch.h \
+ 	languages/english.h languages/finnish.h languages/french.h \
+ 	languages/german2.h languages/german.h languages/hungarian.h \
+ 	languages/italian.h languages/kraaij_pohlmann.h \
+ 	languages/lovins.h languages/norwegian.h languages/porter.h \
+ 	languages/portuguese.h languages/romanian.h \
+-	languages/russian.h languages/spanish.h languages/swedish.h \
++	languages/russian.h languages/slovak.h languages/spanish.h languages/swedish.h \
+ 	languages/turkish.h languages/stem.cc \
+ 	languages/steminternal.cc matcher/remotesubmatch.cc \
+ 	matcher/andmaybepostlist.cc matcher/andnotpostlist.cc \
+@@ -668,7 +668,7 @@
+ 	languages/kraaij_pohlmann.lo languages/lovins.lo \
+ 	languages/norwegian.lo languages/porter.lo \
+ 	languages/portuguese.lo languages/romanian.lo \
+-	languages/russian.lo languages/spanish.lo languages/swedish.lo \
++	languages/russian.lo languages/slovak.lo languages/spanish.lo languages/swedish.lo \
+ 	languages/turkish.lo
+ am__objects_13 =
+ am__objects_14 = $(am__objects_12) $(am__objects_13)
+@@ -1477,6 +1477,7 @@
+ 	languages/portuguese.sbl\
+ 	languages/romanian.sbl\
+ 	languages/russian.sbl\
++	languages/slovak.sbl\
+ 	languages/spanish.sbl\
+ 	languages/swedish.sbl\
+ 	languages/turkish.sbl
+@@ -2000,6 +2001,8 @@
+ 	languages/$(DEPDIR)/$(am__dirstamp)
+ languages/russian.lo: languages/$(am__dirstamp) \
+ 	languages/$(DEPDIR)/$(am__dirstamp)
++languages/slovak.lo: languages/$(am__dirstamp) \
++	languages/$(DEPDIR)/$(am__dirstamp)
+ languages/spanish.lo: languages/$(am__dirstamp) \
+ 	languages/$(DEPDIR)/$(am__dirstamp)
+ languages/swedish.lo: languages/$(am__dirstamp) \
+@@ -2670,6 +2673,8 @@
+ 	-rm -f languages/romanian.lo
+ 	-rm -f languages/russian.$(OBJEXT)
+ 	-rm -f languages/russian.lo
++	-rm -f languages/slovak.$(OBJEXT)
++	-rm -f languages/slovak.lo
+ 	-rm -f languages/spanish.$(OBJEXT)
+ 	-rm -f languages/spanish.lo
+ 	-rm -f languages/stem.$(OBJEXT)
+@@ -2952,6 +2957,7 @@
+ @AMDEP_TRUE@@am__include@ @am__quote@languages/$(DEPDIR)/portuguese.Plo@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@languages/$(DEPDIR)/romanian.Plo@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@languages/$(DEPDIR)/russian.Plo@am__quote@
++@AMDEP_TRUE@@am__include@ @am__quote@languages/$(DEPDIR)/slovak.Plo@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@languages/$(DEPDIR)/spanish.Plo@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@languages/$(DEPDIR)/stem.Plo@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@languages/$(DEPDIR)/steminternal.Plo@am__quote@
