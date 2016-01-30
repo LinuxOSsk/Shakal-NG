@@ -42,6 +42,7 @@ class BlogUpdateView(LoginRequiredMixin, PreviewUpdateView):
 	template_name = 'blog/blog_form.html'
 	success_url = reverse_lazy('blog:my')
 	form_class = BlogForm
+	context_object_name = 'blog'
 
 	def get_object(self, queryset=None):
 		return Blog.objects.all().filter(author=self.request.user).first()

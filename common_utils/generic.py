@@ -9,18 +9,26 @@ from django_simple_paginator import Paginator
 
 
 class PreviewCreateView(CreateView):
+	context_object_name = 'item'
+
 	def form_valid(self, form):
 		item = form.save(commit=False)
 		if not 'create' in self.request.POST:
-			return self.render_to_response(self.get_context_data(form=form, item=item, valid=True))
+			ctx = self.get_context_data(form=form, valid=True)
+			ctx[self.context_object_name] = item
+			return self.render_to_response(ctx)
 		return super(PreviewCreateView, self).form_valid(form)
 
 
 class PreviewUpdateView(UpdateView):
+	context_object_name = 'item'
+
 	def form_valid(self, form):
 		item = form.save(commit=False)
 		if not 'update' in self.request.POST:
-			return self.render_to_response(self.get_context_data(form=form, item=item, valid=True))
+			ctx = self.get_context_data(form=form, valid=True)
+			ctx[self.context_object_name] = item
+			return self.render_to_response(ctx)
 		return super(PreviewUpdateView, self).form_valid(form)
 
 
