@@ -28,6 +28,8 @@ class SearchForm(HighlightedModelSearchForm):
 		self.fields['models'].choices.sort(key=lambda x: unicode(x[0]))
 
 	def search(self):
+		if not self.is_valid():
+			return super(SearchForm, self).search()
 		cleaned_data = self.cleaned_data
 		ordering = cleaned_data.get('ordering')
 		sqs = super(SearchForm, self).search()
