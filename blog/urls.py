@@ -5,9 +5,7 @@ from django.conf.urls import patterns, url
 
 
 urlpatterns = patterns('blog.views',
-	url(r'^admin/edit/$', 'MyBlogCreateOrUpdate', name='blog-edit'),
 	url(r'^admin/update/$', 'BlogUpdateView', name='blog-update'),
-	url(r'^admin/create/$', 'BlogCreateView', name='blog-create'),
 	url(r'^(?:(?P<page>\d+)/)?$', 'PostListView', name='post-list'),
 	url(r'^admin/create-post/$', 'PostCreateView', name='post-create'),
 	url(r'^admin/my/$', 'MyBlogView', name='my'),

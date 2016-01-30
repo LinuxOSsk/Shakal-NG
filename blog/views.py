@@ -37,25 +37,18 @@ class PostListView(ListView):
 		return response
 
 
-class BlogCreateView(LoginRequiredMixin, PreviewCreateView):
-	model = Blog
-	template_name = 'blog/blog_create.html'
-	success_url = reverse_lazy('blog:my')
-	form_class = BlogForm
-
-	def form_valid(self, form):
-		form.instance.author = self.request.user
-		return super(BlogCreateView, self).form_valid(form)
-
-
 class BlogUpdateView(LoginRequiredMixin, PreviewUpdateView):
 	model = Blog
-	template_name = 'blog/blog_update.html'
+	template_name = 'blog/blog_form.html'
 	success_url = reverse_lazy('blog:my')
 	form_class = BlogForm
 
 	def get_object(self, queryset=None):
-		return get_object_or_404(queryset or Blog, author=self.request.user)
+		return Blog.objects.all().filter(author=self.request.user).first()
+
+	def form_valid(self, form):
+		form.instance.author = self.request.user
+		return super(BlogUpdateView, self).form_valid(form)
 
 
 class PostDetailView(DetailUserProtectedView):
@@ -130,13 +123,3 @@ class MyBlogView(LoginRequiredMixin, RedirectView):
 
 	def get_redirect_url(self):
 		return get_object_or_404(Blog, author=self.request.user).get_absolute_url()
-
-
-class MyBlogCreateOrUpdate(LoginRequiredMixin, RedirectView):
-	permanent = False
-
-	def get_redirect_url(self):
-		if hasattr(self.request.user, 'blog'):
-			return reverse('blog:blog-update')
-		else:
-			return reverse('blog:blog-create')

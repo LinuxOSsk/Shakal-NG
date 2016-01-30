@@ -16,16 +16,18 @@
 <h1>Správa blogu</h1>
 
 {% if valid %}
-	<div class="module preview">
-		<h2>Náhľad</h2>
-		<h1>{{ blog.title }}</h1>
-		<div class="module sidebar">
-			<h2>Informácie</h2>
-			{{ blog.sidebar|safe }}
-		</div>
+	{% with blog=item %}
+		<div class="module preview">
+			<h2>Náhľad</h2>
+			<h1>{{ blog.title }}</h1>
+			<div class="module sidebar">
+				<h2>Informácie</h2>
+				{{ blog.sidebar|safe }}
+			</div>
 
-		<div class="annotation">{{ blog.description|safe }}</div>
-	</div>
+			<div class="annotation">{{ blog.description|safe }}</div>
+		</div>
+	{% endwith %}
 {% endif %}
 
 <form action="{{ request.path }}" method="post" id="blog-form">{% csrf_token %}

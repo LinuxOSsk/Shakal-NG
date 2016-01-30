@@ -36,8 +36,8 @@ class Blog(TimestampModelMixin, models.Model):
 		return self.title
 
 	class Meta:
-		verbose_name = 'blog používateľa'
-		verbose_name_plural = 'blogy používateľov'
+		verbose_name = 'blog'
+		verbose_name_plural = 'blogy'
 
 
 class PostQuerySet(QuerySet):
@@ -112,7 +112,7 @@ class Post(TimestampModelMixin, models.Model):
 		return self.title
 
 	class Meta:
-		verbose_name = 'blog'
-		verbose_name_plural = 'blogy'
+		verbose_name = 'zápis'
+		verbose_name_plural = 'zápisy'
 		unique_together = (('blog', 'slug'),)
 		ordering = ('-pub_time',)

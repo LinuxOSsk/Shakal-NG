@@ -27,7 +27,7 @@
 			{% if request.user.blog %}
 				<li class="btn"><span class="wrap"><a class="text" href="{{ request.user.blog.get_absolute_url() }}">Môj blog</a></span></li>
 			{% else %}
-				<li class="btn"><span class="wrap"><a class="text" href="{{ url('blog:blog-edit') }}">Vytvoriť blog</a></span></li>
+				<li class="btn"><span class="wrap"><a class="text" href="{{ url('blog:blog-update') }}">Vytvoriť blog</a></span></li>
 			{% endif %}
 		</ul>
 	{% endif %}
