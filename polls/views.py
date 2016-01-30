@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.db.models import F
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404
 from django.views.generic import FormView
 
@@ -22,6 +22,9 @@ class PollPost(FormView):
 	def dispatch(self, request, *args, **kwargs):
 		self.object = get_object_or_404(Poll.active_polls.all(), pk=self.kwargs['pk'])
 		return super(PollPost, self).dispatch(request, **kwargs)
+
+	def get(self, request, *args, **kwargs):
+		return HttpResponseNotAllowed(['POST'])
 
 	def get_message_tag(self):
 		return self.request.POST.get('msg_id', 'polls') # identifikácia ankety ak ich je na webe viacej
