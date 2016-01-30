@@ -56,4 +56,4 @@ class VoteForm(forms.Form):
 
 	def __init__(self, poll, *args, **kwargs):
 		super(VoteForm, self).__init__(*args, **kwargs)
-		self.fields['choice'].queryset = poll.choice_set.all()
+		self.fields['choice'].queryset = poll.choices
