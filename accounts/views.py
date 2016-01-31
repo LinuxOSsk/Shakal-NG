@@ -194,6 +194,7 @@ class UserPosts(UserStatsMixin, DetailView):
 		all_newest = sorted(all_newest, key=lambda x: getattr(x, 'date_field', None) or x['date_field'], reverse=True)[:20]
 
 		ctype_lookups = [(obj['content_type_id'], obj['object_id'], obj['date_field'], i) for i, obj in enumerate(all_newest) if isinstance(obj, dict)]
+		all_newest = [None] * len(all_newest)
 		if ctype_lookups:
 			for lookup, content_object in zip(ctype_lookups, resolve_content_objects(ctype_lookups)):
 				if content_object is None:

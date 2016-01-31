@@ -9,21 +9,28 @@
 				<th>Posledná</th>
 			</tr>
 			{% for object in object_list %}
-			<tr>
-				<td class="title"><a href="{{ object.get_absolute_url() }}">{{ object.title }}</a></td>
-				<td class="status">
-					{% if object.new_comments %}&nbsp;<span class="label label-success label-new">Nové komentáre</span>{% endif %}
-					{% if object.is_resolved %}&nbsp;<span class="label label-success label-resolved">Vyriešené</span>{% endif %}
-					{% if object.is_locked %}&nbsp;<span class="label label-warning label-locked">Zamknuté</span>{% endif %}
-					{% if object.discussion_watch %}&nbsp;<a title="Nesledovať" href="{{ url("comments:watch", object.rootheader_id) }}?watch=&amp;next={{ request.get_full_path()|urlquote }}" class="label label-info label-watch">Sledované</a>{% endif %}
-				</td>
-				{% if object.new_comments == None %}
-					<td class="comments"><span class="badge badge-default">{{ object.comment_count }}</span></td>
-				{% else %}
-					<td class="comments"><a href="{{ url("comments:forget", object.rootheader_id) }}?watch=&amp;next={{ request.get_full_path()|urlquote }}" title="Zabudnúť na diskusiu" class="badge badge-{{ object.new_comments|yesno("new,watch") }}">{{ object.comment_count }}</a></td>
-				{% endif %}
-				<td class="date">{{ object.last_comment|humandatetime("Žiadna reakcia") }}</td>
-			</tr>
+				<tr>
+					{% if object == None %}
+						<td class="title">Zmazané</td>
+						<td class="status"></td>
+						<td class="comments"></td>
+						<td class="date"></td>
+					{% else %}
+						<td class="title"><a href="{{ object.get_absolute_url() }}">{{ object.title }}</a></td>
+						<td class="status">
+							{% if object.new_comments %}&nbsp;<span class="label label-success label-new">Nové komentáre</span>{% endif %}
+							{% if object.is_resolved %}&nbsp;<span class="label label-success label-resolved">Vyriešené</span>{% endif %}
+							{% if object.is_locked %}&nbsp;<span class="label label-warning label-locked">Zamknuté</span>{% endif %}
+							{% if object.discussion_watch %}&nbsp;<a title="Nesledovať" href="{{ url("comments:watch", object.rootheader_id) }}?watch=&amp;next={{ request.get_full_path()|urlquote }}" class="label label-info label-watch">Sledované</a>{% endif %}
+						</td>
+						{% if object.new_comments == None %}
+							<td class="comments"><span class="badge badge-default">{{ object.comment_count }}</span></td>
+						{% else %}
+							<td class="comments"><a href="{{ url("comments:forget", object.rootheader_id) }}?watch=&amp;next={{ request.get_full_path()|urlquote }}" title="Zabudnúť na diskusiu" class="badge badge-{{ object.new_comments|yesno("new,watch") }}">{{ object.comment_count }}</a></td>
+						{% endif %}
+						<td class="date">{{ object.last_comment|humandatetime("Žiadna reakcia") }}</td>
+					{% endif %}
+				</tr>
 			{% endfor %}
 		</table>
 

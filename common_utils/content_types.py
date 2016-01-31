@@ -17,6 +17,8 @@ def get_lookups(models):
 		last_object = None
 		object_cls = None
 		for o in model:
+			if o is None:
+				continue
 			id_list.append(o.pk)
 			last_object = o
 			if object_cls is None:
