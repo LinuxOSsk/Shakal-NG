@@ -79,7 +79,7 @@ class Comment(MPTTModel, TimestampModelMixin):
 				return header
 
 	def get_absolute_url(self):
-		return '%s#link_%d' % (reverse('comments:comment', args=(self.pk,), kwargs={}), self.id)
+		return '%s#link_%d' % (reverse('comments:comments', args=(self.get_or_create_root_header().pk,), kwargs={}), self.id)
 
 	@models.permalink
 	def get_single_comment_url(self):
