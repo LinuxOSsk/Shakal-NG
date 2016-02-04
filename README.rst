@@ -28,7 +28,7 @@ Inštalácia virtuálneho prostredia
 
 ::
 
-    wget https://raw.github.com/mireq/Shakal-NG/master/install.sh&&chmod +x install.sh&&. ./install.sh
+    wget https://raw.github.com/LinuxOSsk/Shakal-NG/master/install.sh&&chmod +x install.sh&&. ./install.sh
 
 
 Skript vytvára v podadresári shakal súbor Makefile, ktorý následne stiahne

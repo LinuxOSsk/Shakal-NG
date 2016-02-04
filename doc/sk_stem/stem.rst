@@ -6,7 +6,7 @@ Shakal používa knižnicu Xapian pre fulltext vyhľadávanie. Tá podporuje
 získavanie základu slova pomocou frameworku snowball - http://snowballstem.org/
 
 Akturálna (moja) verzia stemmeru pre slovenčinu je tu:
-https://github.com/mireq/Shakal-NG/blob/master/doc/sk_stem/stem_Unicode.sbl
+https://github.com/LinuxOSsk/Shakal-NG/blob/master/doc/sk_stem/stem_Unicode.sbl
 
 Je totálne nekompletná, netestovaná a zrejme chybná. Nie som dobrý v slovenčine,
 takže podľa toho vyzerá aj stemmer.
