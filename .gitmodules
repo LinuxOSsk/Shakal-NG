@@ -2,3 +2,6 @@
 	path = static/vendor/ckeditor
 	url = https://github.com/ckeditor/ckeditor-releases.git
 	branch = stable
+[submodule "accounts/8biticon"]
+	path = accounts/8biticon
+	url = git://github.com/matveyco/8biticon.git

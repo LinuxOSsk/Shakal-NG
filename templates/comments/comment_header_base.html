@@ -10,6 +10,10 @@
 	<span class="icon">
 		{% if user %}
 			<img src="{{ avatar_for_user(user, 48) }}" class="gravatar photo" alt="Avatar" />
+		{% else %}
+			{% if comment.ip_address_avatar %}
+				<img src="{{ static(comment.ip_address_avatar) }}" class="gravatar photo" alt="Avatar" />
+			{% endif %}
 		{% endif %}
 	</span>
 	<span class="user">
