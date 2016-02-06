@@ -48,6 +48,7 @@
 
 <h1>{{ topic }}</h1>
 {% with comment_type="topic", comment=topic, user=topic.author, user_name=topic.authors_name %}
+	{{ prefetch_avatars_for_ip([topic]) }}
 	{% include "forum/topic_header.html" %}
 {% endwith %}
 {% include "forum/topic_content.html" %}
