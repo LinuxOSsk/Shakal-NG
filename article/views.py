@@ -18,6 +18,6 @@ class ArticleListView(ListView):
 	paginate_by = 10
 
 	def get_queryset(self):
-		return (Article.objects.all()
+		return self.filter_by_category(Article.objects.all()
 			.defer('original_content', 'filtered_content')
 			.select_related('author', 'category'))
