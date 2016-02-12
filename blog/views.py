@@ -2,7 +2,7 @@
 from __future__ import unicode_literals, absolute_import
 
 from braces.views import LoginRequiredMixin
-from django.core.urlresolvers import reverse_lazy, reverse
+from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -62,8 +62,9 @@ class PostDetailView(DetailUserProtectedView):
 	def get_context_data(self, **kwargs):
 		ctx = super(PostDetailView, self).get_context_data(**kwargs)
 		ctx['attachments'] = self.object.attachments.all().prefetch_related('attachmentimage')
-		ctx['attachments_files'] = [a for a in ctx['attachments'] if not hasattr(a, 'attachmentimage')]
-		ctx['attachments_images'] = [a for a in ctx['attachments'] if hasattr(a, 'attachmentimage')]
+		attachments = [a for a in ctx['attachments'] if a.is_visible]
+		ctx['attachments_files'] = [a for a in attachments if not hasattr(a, 'attachmentimage')]
+		ctx['attachments_images'] = [a for a in attachments if hasattr(a, 'attachmentimage')]
 		return ctx
 
 
