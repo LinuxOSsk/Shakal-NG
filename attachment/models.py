@@ -36,6 +36,8 @@ class ThumbnailImageField(AutoImageFieldMixin, FileField):
 		super(ThumbnailImageField, self).__init__(*args, **kwargs)
 
 	def _rename_image(self, instance, **kwargs):
+		if getattr(instance, 'same_file', False):
+			return
 		if hasattr(instance, 'attachmentimage'):
 			return super(ThumbnailImageField, self)._rename_image(instance.attachmentimage, **kwargs)
 
@@ -100,6 +102,9 @@ class Attachment(models.Model):
 		if self.pk:
 			original = self.__class__.objects.get(pk=self.pk)
 			if self.attachment and original.attachment:
+				if self.attachment == original.attachment:
+					setattr(self, 'same_file', True)
+					return super(Attachment, self).save(*args, **kwargs)
 				original.attachment.storage.delete(original.attachment.path)
 
 		self.size = self.attachment.size
