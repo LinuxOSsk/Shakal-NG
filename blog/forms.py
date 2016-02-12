@@ -2,11 +2,13 @@
 from __future__ import unicode_literals
 
 from django import forms
+from django.forms.models import modelformset_factory
 from django.utils.timezone import now
 
 from .models import Blog, Post
 from attachment.fields import AttachmentFieldMultiple
 from attachment.forms import AttachmentFormMixin
+from attachment.models import Attachment
 
 
 class BlogForm(forms.ModelForm):
@@ -40,5 +42,10 @@ class PostForm(forms.ModelForm):
 		fields = ('title', 'original_perex', 'original_content', 'pub_time',)
 
 
+AttachmentFormSetHiddable = modelformset_factory(Attachment, can_delete=True, extra=0, fields=('is_visible',))
+
+
 class BlogAttachmentForm(AttachmentFormMixin, forms.Form):
+	has_visibility = True
+	formset = AttachmentFormSetHiddable
 	attachment = AttachmentFieldMultiple(label='Príloha', required=False)

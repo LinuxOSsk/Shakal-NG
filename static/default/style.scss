@@ -766,6 +766,15 @@ textarea {
 
 .formset {
 	clear: both;
+	.attachment_visibility {
+		text-align: right;
+		label {
+			float: none;
+			padding: 0;
+			text-align: right;
+			width: auto;
+		}
+	}
 }
 
 .formset-field {

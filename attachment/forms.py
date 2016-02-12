@@ -16,6 +16,8 @@ AttachmentFormSet = modelformset_factory(Attachment, can_delete=True, extra=0, f
 
 
 class AttachmentFormMixin(forms.BaseForm):
+	formset = AttachmentFormSet
+
 	def __init__(self, *args, **kwargs):
 		self.content_object = kwargs.pop('content_object', None)
 		super(AttachmentFormMixin, self).__init__(*args, **kwargs)
@@ -39,7 +41,7 @@ class AttachmentFormMixin(forms.BaseForm):
 		return session
 
 	def process_attachments(self):
-		self.process_attachment_delete()
+		self.process_attachment_changes()
 		self.update_attachment_size()
 		if not hasattr(self, 'security_errors') or not self.security_errors():
 			self.process_attachment_upload()
@@ -56,7 +58,7 @@ class AttachmentFormMixin(forms.BaseForm):
 	@property
 	def attachments(self):
 		if self._attachments is None:
-			self._attachments = AttachmentFormSet(queryset=self.get_attachments())
+			self._attachments = self.formset(queryset=self.get_attachments())
 		return self._attachments
 
 	def get_attachments(self):
@@ -67,16 +69,22 @@ class AttachmentFormMixin(forms.BaseForm):
 		else:
 			return Attachment.objects.none()
 
-	def process_attachment_delete(self):
+	def process_attachment_changes(self):
 		if self.data:
 			attachments = self.get_attachments()
 			rownum = 0
 			while 'form-' + str(rownum) + '-id' in self.data:
 				pk = int(self.data['form-' + str(rownum) + '-id'])
+				match = [x for x in attachments if x.pk == pk]
 				if 'form-' + str(rownum) + '-DELETE' in self.data:
-					match = [x for x in attachments if x.pk == pk]
 					if match:
 						match[0].delete()
+				elif getattr(self, 'has_visibility', False):
+					is_visible = 'form-' + str(rownum) + '-is_visible' in self.data
+					if match:
+						if match[0].is_visible != is_visible:
+							match[0].is_visible = is_visible
+							match[0].save()
 				rownum += 1
 
 	def process_attachment_upload(self):

@@ -11,6 +11,9 @@
 					<tr>
 						<td style="width: 16px"><span class="trashcan-icon">Zmazať</span></td>
 						<td><label class="formset_label">Prílohy</label></td>
+						{% if form.has_visibility %}
+							<td class="attachment_visibility"><label class="formset_label">Viditeľné</label></td>
+						{% endif %}
 					</tr>
 				</thead>
 				{% for attachment in form.attachments.forms %}
@@ -23,6 +26,11 @@
 							<a href="{{ attachment.instance.attachment.url }}">{{ attachment.instance.basename }}</a>
 							({{ attachment.instance.attachment.size|filesizeformat }})
 						</td>
+						{% if form.has_visibility %}
+							<td class="attachment_visibility">
+								{{ attachment.is_visible }}
+							</td>
+						{% endif %}
 					</tr>
 				{% endfor %}
 			</table>
