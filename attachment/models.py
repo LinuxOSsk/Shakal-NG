@@ -59,6 +59,8 @@ class Attachment(models.Model):
 	attachment = ThumbnailImageField(_('attachment'), upload_to=upload_to)
 	created = models.DateTimeField(_('created'), auto_now_add=True)
 	size = models.IntegerField(_('size'))
+	is_visible = models.BooleanField(_('is visible'), blank=True, default=True)
+
 	content_type = models.ForeignKey(ContentType)
 	object_id = models.PositiveIntegerField()
 	content_object = GenericForeignKey('content_type', 'object_id')
