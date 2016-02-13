@@ -104,9 +104,9 @@ class Post(TimestampModelMixin, models.Model):
 	published.short_description = 'je publikovaný'
 	published.boolean = True
 
+	@property
 	def author(self):
 		return self.blog.author
-	author.admin_order_field = 'blog__author'
 
 	def __unicode__(self):
 		return self.title

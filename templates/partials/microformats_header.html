@@ -1,0 +1,12 @@
+<link rel="top" href="{{ url("home") }}" />
+<link rel="search" href="{{ url("haystack_search") }}" />
+{% if object %}
+	{% if object.author %}<link rel="author" href="{{ object.author.get_absolute_url() }}" />{% endif %}
+	{% if object.related_documents %}
+		{% if object.related_documents.next %}<link rel="next" href="{{ object.related_documents.next.get_absolute_url() }}" />{% endif %}
+		{% if object.related_documents.prev %}<link rel="prev" href="{{ object.related_documents.prev.get_absolute_url() }}" />{% endif %}
+		{% if object.related_documents.first %}<link rel="first" href="{{ object.related_documents.first.get_absolute_url() }}" />{% endif %}
+		{% if object.related_documents.last %}<link rel="last" href="{{ object.related_documents.last.get_absolute_url() }}" />{% endif %}
+		{% if object.related_documents.up %}<link rel="up" href="{{ object.related_documents.up.get_absolute_url() }}" />{% endif %}
+	{% endif %}
+{% endif %}

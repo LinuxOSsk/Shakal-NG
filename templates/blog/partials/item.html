@@ -6,7 +6,7 @@
 		{% if not blog %}
 			<span class="blog"><a href="{{ post.blog.get_absolute_url() }}">{{ post.blog }}</a></span> |
 		{% endif %}
-		<span class="user"><a href="{{ post.author().get_absolute_url() }}">{{ post.author() }}</a></span>
+		<span class="user"><a href="{{ post.author.get_absolute_url() }}">{{ post.author }}</a></span>
 	</div>
 	{{ post.perex|safe }}
 </div>

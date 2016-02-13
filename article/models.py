@@ -110,12 +110,14 @@ class Article(TimestampModelMixin, models.Model):
 		if not series:
 			return None
 		articles = Article.objects.filter(series__series=series)
-		return related_documents(
+		related = related_documents(
 			instance=self,
 			queryset=articles.only('pk', 'series__id', 'title', 'slug'),
 			ordering=['series__id'],
 			select_range=3
 		)
+		related['up'] = series
+		return related
 
 	def is_published(self):
 		return self.published and self.pub_time <= now()
