@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from .admin_forms import ArticleForm
-from .models import Category, Article
+from .models import Category, Article, Series, SeriesArticle
 from admin_actions.views import AdminActionsMixin
 from attachment.admin import AttachmentInline, AttachmentAdminMixin
 
@@ -56,5 +56,18 @@ class ArticleAdmin(AttachmentAdminMixin, AdminActionsMixin, admin.ModelAdmin):
 		return HttpResponseRedirect(request.path)
 
 
+class SeriesArticleInline(admin.TabularInline):
+	model = SeriesArticle
+	raw_id_fields = ('article',)
+
+
+class SeriesAdmin(admin.ModelAdmin):
+	list_display = ('name', 'updated',)
+	search_fields = ('name',)
+	prepopulated_fields = {'slug': ('name',)}
+	inlines = [SeriesArticleInline]
+
+
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Article, ArticleAdmin)
+admin.site.register(Series, SeriesAdmin)

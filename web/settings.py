@@ -315,6 +315,7 @@ SUIT_CONFIG = {
 			'models': (
 				'article.article',
 				'article.category',
+				'article.series',
 			)
 		},
 		{

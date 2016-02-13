@@ -78,7 +78,7 @@ class Article(TimestampModelMixin, models.Model):
 	pub_time = models.DateTimeField('čas publikácie', default=now, db_index=True)
 	published = models.BooleanField('publikované', default=False)
 	top = models.BooleanField('hodnotný článok', default=False)
-	image = AutoImageField('obrázok', upload_to='article/thumbnails', size=(512, 512), thumbnail={'standard': (100, 100)}, blank=True)
+	image = AutoImageField('obrázok', upload_to='article/thumbnails', size=(2048, 2048), thumbnail={'standard': (100, 100)}, blank=True)
 	polls = GenericRelation(Poll)
 	comments_header = GenericRelation(RootHeader)
 	comments = GenericRelation(Comment)
@@ -104,3 +104,32 @@ class Article(TimestampModelMixin, models.Model):
 	class Meta:
 		verbose_name = 'článok'
 		verbose_name_plural = 'články'
+
+
+class Series(TimestampModelMixin, models.Model):
+	name = models.CharField('názov seriálu', max_length=100)
+	slug = models.SlugField('skratka URL', unique=True)
+	image = AutoImageField('obrázok', upload_to='article/thumbnails', size=(2048, 2048), thumbnail={'standard': (100, 100)}, blank=True)
+	description = models.TextField('popis')
+
+	articles = models.ManyToManyField(Article, through='SeriesArticle')
+
+	def __unicode__(self):
+		return self.name
+
+	class Meta:
+		verbose_name = 'seriál'
+		verbose_name_plural = 'seriály'
+
+
+class SeriesArticle(models.Model):
+	article = models.ForeignKey(Article, verbose_name='článok')
+	series = models.ForeignKey(Series, verbose_name='seriál')
+
+	def __unicode__(self, *args, **kwargs):
+		return unicode(self.series) + ' / ' + unicode(self.article)
+
+	class Meta:
+		verbose_name = 'seriálový článok'
+		verbose_name_plural = 'seriálové články'
+		ordering = ('pk',)
