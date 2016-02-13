@@ -1,0 +1,34 @@
+{% extends "article/article_base.html" %}
+
+{% block head_title %}Seriály{% endblock %}
+
+{% block breadcrumbs %}
+	{{ breadcrumb("Seriály", url="article:series") }}
+	{{ breadcrumb("Články", url="article:list") }}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+	<h1>Zoznam seriálov</h1>
+
+	<div class="module">
+		{% for series in object_list %}
+			<div class="module-row module-item-margin{% if loop.last %} last{% endif %}">
+				<h3><a href="{{ series.get_absolute_url() }}">{{ series }}</a></h3>
+				{% if series.last_article and series.count_articles %}
+					<div class="info top">
+						<span class="first">Posledný článok: {{ series.last_article|date("d.m.Y H:i") }}</span> |
+						<span>Počet článkov: {{ series.count_articles }}</span>
+					</div>
+				{% endif %}
+				{% if series.image %}
+					<div class="article thumbnail pull-left">
+						<img src="{{ series.image_standard.url }}" alt="{{ series.title }}" />
+					</div>
+				{% endif %}
+				<div class="perex">{{ series.description }}</div>
+			</div>
+		{% endfor %}
+		{{ pagination() }}
+	</div>
+{% endblock %}

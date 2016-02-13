@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.db.models import Count, Max
+
 from .models import Article, Category, Series
 from common_utils.generic import DetailUserProtectedView, ListView
 
@@ -36,3 +38,15 @@ class ArticleSeriesView(ArticleListView):
 			.defer('original_content', 'filtered_content')
 			.select_related('author', 'category')
 			.order_by('series__pk'))
+
+
+class SeriesListView(ListView):
+	paginate_by = 10
+
+	def get_queryset(self):
+		return (Series.objects
+			.all()
+			.annotate(
+				last_article=Max('seriesarticle__article__created'),
+				count_articles=Count('seriesarticle__article'))
+			.order_by('-last_article'))
