@@ -134,6 +134,10 @@ class Series(TimestampModelMixin, models.Model):
 	image = AutoImageField('obrázok', upload_to='article/thumbnails', size=(2048, 2048), thumbnail={'standard': (100, 100)}, blank=True)
 	description = models.TextField('popis')
 
+	@permalink
+	def get_absolute_url(self):
+		return ('article:list-series', None, {'category': self.slug})
+
 	def __unicode__(self):
 		return self.name
 
