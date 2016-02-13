@@ -1875,3 +1875,64 @@ td.status, td.comments, td.date {
 		float: none;
 	}
 }
+
+.related_documents {
+	clear: both;
+	margin: $module-padding;
+	padding: $module-padding;
+	background: mix($generic-background, $generic-foreground, 98%);
+	border: $light-border;
+	overflow: auto;
+
+	h2 {
+		padding: 0;
+		margin: ($module-margin / 2) 0 0 0;
+	}
+
+	.directnav {
+		clear: both;
+		list-style: none;
+		padding: 0;
+		margin: ($module-margin / 2) 0 0 0;
+		font-size: 120%;
+		text-decoration: none;
+
+		li {
+			display: inline;
+			padding: 0;
+			margin: 0;
+		}
+
+		a {
+			display: block;
+			float: left;
+			width: 25%;
+			text-align: center;
+			text-decoration: none;
+		}
+
+		.disabled a {
+			cursor: default;
+			color: $info-color;
+			&:hover {
+				background: none;
+			}
+		}
+
+		.first a:before {
+			content: "« ";
+		}
+
+		.last a:after {
+			content: " »";
+		}
+
+		.prev a:before {
+			content: "‹ ";
+		}
+
+		.next a:after {
+			content: " ›";
+		}
+	}
+}

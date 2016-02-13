@@ -79,6 +79,28 @@
 </div>
 {% endfor %}
 
+{% if article.series_object %}
+	{% with related_documents=article.related_documents %}
+		<div class="related_documents">
+			<h2>Ďalšie diely seriálu {{ article.series_object }}</h2>
+			<ul class="directnav">
+				<li class="first{% if not related_documents.first or article.pk == related_documents.first.pk %} disabled{% endif %}">
+					<a href="{% if related_documents.first %}{{ related_documents.first.get_absolute_url() }}{% else %}#{% endif %}">Prvý</a>
+				</li>
+				<li class="prev{% if not related_documents.prev %} disabled{% endif %}">
+					<a href="{% if related_documents.prev %}{{ related_documents.prev.get_absolute_url() }}{% else %}#{% endif %}">Predchádzajúci</a>
+				</li>
+				<li class="next{% if not related_documents.next %} disabled{% endif %}">
+					<a href="{% if related_documents.next %}{{ related_documents.next.get_absolute_url() }}{% else %}#{% endif %}">Ďalší</a>
+				</li>
+				<li class="last{% if not related_documents.last or article.pk == related_documents.last.pk %} disabled{% endif %}">
+					<a href="{% if related_documents.last %}{{ related_documents.last.get_absolute_url() }}{% else %}#{% endif %}">Posledný</a>
+				</li>
+			</ul>
+		</div>
+	{% endwith %}
+{% endif %}
+
 {% with is_article=1, name=article.title %}
 	{% include "partials/share.html" %}
 {% endwith %}

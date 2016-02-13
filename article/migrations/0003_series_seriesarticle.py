@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
 			fields=[
 				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
 				('article', models.OneToOneField(related_name='series', verbose_name='\u010dl\xe1nok', to='article.Article')),
-				('series', models.ForeignKey(related_name='articles', verbose_name='seri\xe1l', to='article.Series')),
+				('series', models.ForeignKey(verbose_name='seri\xe1l', to='article.Series')),
 			],
 			options={
 				'ordering': ('pk',),

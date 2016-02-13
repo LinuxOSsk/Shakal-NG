@@ -5,12 +5,14 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models import permalink
+from django.utils.functional import cached_property
 from django.utils.timezone import now
 
 from attachment.models import Attachment
 from autoimagefield.fields import AutoImageField
 from comments.models import RootHeader, Comment
 from common_utils.models import TimestampModelMixin
+from common_utils.related_documents import related_documents
 from hitcount.models import HitCountField
 from polls.models import Poll
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
@@ -95,12 +97,25 @@ class Article(TimestampModelMixin, models.Model):
 	def get_absolute_url(self):
 		return ('article:detail', None, {'slug': self.slug})
 
-	@property
+	@cached_property
 	def series_object(self):
-		if self.series:
+		if hasattr(self, 'series'):
 			return self.series.series
 		else:
 			return None
+
+	@cached_property
+	def related_documents(self):
+		series = self.series_object
+		if not series:
+			return None
+		articles = Article.objects.filter(series__series=series)
+		return related_documents(
+			instance=self,
+			queryset=articles.only('pk', 'title', 'slug'),
+			ordering=['pk'],
+			select_range=3
+		)
 
 	def is_published(self):
 		return self.published and self.pub_time <= now()
@@ -129,7 +144,7 @@ class Series(TimestampModelMixin, models.Model):
 
 class SeriesArticle(models.Model):
 	article = models.OneToOneField(Article, verbose_name='článok', related_name='series')
-	series = models.ForeignKey(Series, verbose_name='seriál', related_name='articles')
+	series = models.ForeignKey(Series, verbose_name='seriál')
 
 	def __unicode__(self, *args, **kwargs):
 		return unicode(self.series) + ' / ' + unicode(self.article)
