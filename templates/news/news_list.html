@@ -3,6 +3,9 @@
 {% block head_title %}Správy{% endblock %}
 
 {% block breadcrumbs %}
+	{% if category %}
+		{{ breadcrumb(category) }}
+	{% endif %}
 	{{ breadcrumb("Správy", url="news:list") }}
 	{{ super() }}
 {% endblock %}
@@ -15,11 +18,16 @@
 
 {% block content %}
 <h1>{% if category %}Správy - {{ category }}{% else %}Správy{% endif %}</h1>
-
-{% if category and page_obj and page_obj.number == 1 %}
+{% if category %}
 <p class="description">{{ category.description }}</p>
+{% else %}
+<p class="description">Portál LinuxOS.sk prináša rôzne správy so sveta open source. Na tejto stránke nájdete zoznam správ zo všetkých kategórií.</p>
+<ul>
+	{% for category in category_list %}
+	<li><a href="{{ category.get_absolute_url() }}">{{ category }}</a></li>
+	{% endfor %}
+</ul>
 {% endif %}
-
 <div class="module">
 	{{ add_discussion_attributes(news_list) }}
 	{% with long=1 %}
