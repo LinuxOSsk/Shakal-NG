@@ -1884,9 +1884,8 @@ td.status, td.comments, td.date {
 	border: $light-border;
 	overflow: auto;
 
-	h2 {
-		padding: 0;
-		margin: ($module-margin / 2) 0 0 0;
+	h3 {
+		text-align: center;
 	}
 
 	.directnav {
@@ -1896,6 +1895,7 @@ td.status, td.comments, td.date {
 		margin: ($module-margin / 2) 0 0 0;
 		font-size: 120%;
 		text-decoration: none;
+		height: 1.5em;
 
 		li {
 			display: inline;
@@ -1933,6 +1933,21 @@ td.status, td.comments, td.date {
 
 		.next a:after {
 			content: " ›";
+		}
+	}
+
+	.relatednav {
+		clear: both;
+		margin: ($module-margin / 2) 0 0 0;
+		padding-top: $module-padding;
+		padding-bottom: $module-padding;
+
+		.current {
+			a {
+				color: black;
+				font-weight: bold;
+				text-decoration: none;
+			}
 		}
 	}
 }
