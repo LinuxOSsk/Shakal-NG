@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
 			name='SeriesArticle',
 			fields=[
 				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-				('article', models.ForeignKey(verbose_name='\u010dl\xe1nok', to='article.Article')),
+				('article', models.OneToOneField(related_name='articles', verbose_name='\u010dl\xe1nok', to='article.Article')),
 				('series', models.ForeignKey(verbose_name='seri\xe1l', to='article.Series')),
 			],
 			options={
@@ -40,10 +40,5 @@ class Migration(migrations.Migration):
 				'verbose_name': 'seri\xe1lov\xfd \u010dl\xe1nok',
 				'verbose_name_plural': 'seri\xe1lov\xe9 \u010dl\xe1nky',
 			},
-		),
-		migrations.AddField(
-			model_name='series',
-			name='articles',
-			field=models.ManyToManyField(to='article.Article', through='article.SeriesArticle'),
 		),
 	]

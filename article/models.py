@@ -112,8 +112,6 @@ class Series(TimestampModelMixin, models.Model):
 	image = AutoImageField('obrázok', upload_to='article/thumbnails', size=(2048, 2048), thumbnail={'standard': (100, 100)}, blank=True)
 	description = models.TextField('popis')
 
-	articles = models.ManyToManyField(Article, through='SeriesArticle')
-
 	def __unicode__(self):
 		return self.name
 
@@ -123,7 +121,7 @@ class Series(TimestampModelMixin, models.Model):
 
 
 class SeriesArticle(models.Model):
-	article = models.ForeignKey(Article, verbose_name='článok')
+	article = models.OneToOneField(Article, verbose_name='článok', related_name='articles')
 	series = models.ForeignKey(Series, verbose_name='seriál')
 
 	def __unicode__(self, *args, **kwargs):
