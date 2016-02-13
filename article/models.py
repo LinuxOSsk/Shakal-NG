@@ -95,6 +95,13 @@ class Article(TimestampModelMixin, models.Model):
 	def get_absolute_url(self):
 		return ('article:detail', None, {'slug': self.slug})
 
+	@property
+	def series_object(self):
+		if self.series:
+			return self.series.series
+		else:
+			return None
+
 	def is_published(self):
 		return self.published and self.pub_time <= now()
 
@@ -121,8 +128,8 @@ class Series(TimestampModelMixin, models.Model):
 
 
 class SeriesArticle(models.Model):
-	article = models.OneToOneField(Article, verbose_name='článok', related_name='articles')
-	series = models.ForeignKey(Series, verbose_name='seriál')
+	article = models.OneToOneField(Article, verbose_name='článok', related_name='series')
+	series = models.ForeignKey(Series, verbose_name='seriál', related_name='articles')
 
 	def __unicode__(self, *args, **kwargs):
 		return unicode(self.series) + ' / ' + unicode(self.article)
