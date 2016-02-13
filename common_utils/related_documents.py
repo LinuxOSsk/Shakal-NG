@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 
-def related_documents(instance, queryset, ordering):
+def related_documents(instance, queryset, ordering, select_range=0):
 	reverse_ordering = [field[1:] if field[0] == '-' else '-' + field for field in ordering]
 	order_asc = queryset.order_by(*ordering)
 	order_desc = queryset.order_by(*reverse_ordering)
@@ -27,4 +27,6 @@ def related_documents(instance, queryset, ordering):
 		'prev_query': prev_documents,
 		'next_query': next_documents,
 	}
+	if select_range:
+		document_relations['range'] = list(reversed(prev_documents[:select_range])) + [instance] + list(next_documents[:select_range])
 	return document_relations
