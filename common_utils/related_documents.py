@@ -12,11 +12,14 @@ def related_documents(instance, queryset, ordering, select_range=0):
 		desc = field[0] == '-'
 		if desc:
 			field = field[1:]
+		field_value = instance
+		for field_part in field.split('__'):
+			field_value = getattr(field_value, field_part)
 		next_documents = next_documents.filter(**{
-			field + '__' + ('lt' if desc else 'gt'): getattr(instance, field)
+			field + '__' + ('lt' if desc else 'gt'): field_value
 		})
 		prev_documents = prev_documents.filter(**{
-			field + '__' + ('gt' if desc else 'lt'): getattr(instance, field)
+			field + '__' + ('gt' if desc else 'lt'): field_value
 		})
 	document_relations = {
 		'current': instance,

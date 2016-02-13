@@ -112,8 +112,8 @@ class Article(TimestampModelMixin, models.Model):
 		articles = Article.objects.filter(series__series=series)
 		return related_documents(
 			instance=self,
-			queryset=articles.only('pk', 'title', 'slug'),
-			ordering=['pk'],
+			queryset=articles.only('pk', 'series__id', 'title', 'slug'),
+			ordering=['series__id'],
 			select_range=3
 		)
 
