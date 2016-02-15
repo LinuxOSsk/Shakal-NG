@@ -22,6 +22,7 @@
 	{% block extrastyle %}{% endblock %}{% block extraheaders %}{% endblock %}
 </head>
 <body class="{% block bodyclass %}{% endblock %}">
+	{{ hijack_notification() }}
 	{# include 'includes/analytics.html' #}
 
 	{% block messages %}

@@ -78,6 +78,7 @@ html, body {
 	{% block extrastyle %}{% endblock %}{% block extraheaders %}{% endblock %}
 </head>
 <body>
+	{{ hijack_notification() }}
 	{% include 'includes/analytics.html' %}
 	<header>
 	{% block site_header %}

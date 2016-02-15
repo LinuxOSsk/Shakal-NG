@@ -1,0 +1,5 @@
+<div id="hijacked-warning" class="hijacked-warning hijacked-warning-default">
+    <span style="padding-top: 4px; float: left;"><b>Momentálne ste prihlásený ako {{ request.user }}.</b></span>
+    <span style="float: right; margin-right: 15px;"><a href="{% url 'release_hijack' %}" class="django-hijack-button-default">odhlásiť {{ user }}</a>
+    <a href="{% url 'disable_hijack_warning' %}?next={{ request.path|urlencode:"" }}" class="django-hijack-button-default">skryť</a></span>
+</div>

@@ -15,7 +15,7 @@ urlpatterns = patterns('',
 	url(_(r'^article/'), include('article.urls', namespace='article')),
 	url(_(r'^blog/'), include('blog.urls', namespace='blog')),
 	url(_(r'^comments/'), include('comments.urls', namespace='comments')),
-	url(_(r'^desktopy/'), include('desktops.urls', namespace='desktops')),
+	url(r'^desktopy/', include('desktops.urls', namespace='desktops')),
 	url(_(r'^forum/'), include('forum.urls', namespace='forum')),
 	#url(_(r'^maintenance/'), include('maintenance.urls', namespace='maintenance')),
 	url(_(r'^news/'), include('news.urls', namespace='news')),
@@ -28,6 +28,7 @@ urlpatterns = patterns('',
 	url(_(r'^admin/'), include(admin.site.urls)),
 	url(_(r'^admin_dashboard/'), include('admin_dashboard.urls', namespace='admin_dashboard')),
 	url(r'^api/editor/', include('rich_editor.urls', namespace='rich_editor')),
+	url(r'^hijack/', include('hijack.urls')),
 )
 
 if settings.DEBUG:

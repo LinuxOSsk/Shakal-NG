@@ -6,14 +6,15 @@ from datetime import datetime, timedelta
 from django import template
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
-from django.template.defaulttags import date
 from django.template.defaultfilters import urlencode
+from django.template.defaulttags import date
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.encoding import smart_unicode
 from django.utils.html import escape, format_html
 from django.utils.safestring import mark_safe
 from django_jinja import library
+from hijack.templatetags.hijack_tags import hijack_notification as core_hijack_notification
 from jinja2 import contextfunction
 
 from common_utils import get_meta
@@ -125,3 +126,9 @@ def now(format_string):
 @library.filter
 def urlquote(string):
 	return urlencode(string, '')
+
+
+@library.global_function
+@contextfunction
+def hijack_notification(context):
+	return core_hijack_notification(context)

@@ -39,6 +39,7 @@ INSTALLED_APPS = (
 	'django.contrib.sitemaps',
 	'django.contrib.staticfiles',
 	# vendor
+	'compat',
 	'django_assets_manager',
 	'django_autoslugfield',
 	'django_sample_generator',
@@ -49,6 +50,7 @@ INSTALLED_APPS = (
 	'django_jinja',
 	'mptt',
 	'haystack',
+	'hijack',
 	'reversion',
 	'static_sitemaps',
 	# apps
@@ -100,7 +102,7 @@ TEMPLATES = [
 		},
 		"OPTIONS": {
 			"match_extension": None,
-			"match_regex": re.compile(r"^(?!(admin/|debug_toolbar/|suit/|profiler/|search/indexes/|reversion/|sitemap.xml|static_sitemaps/)).*"),
+			"match_regex": re.compile(r"^(?!(admin/|debug_toolbar/|suit/|profiler/|search/indexes/|reversion/|sitemap.xml|static_sitemaps/|hijack/)).*"),
 			"newstyle_gettext": True,
 			"extensions": [
 				"jinja2.ext.do",
@@ -244,6 +246,10 @@ AUTHENTICATION_BACKENDS = (
 	'accounts.backend.AuthenticationBackend',
 	'accounts.backend.AuthRememberBackend',
 )
+
+HIJACK_DISPLAY_ADMIN_BUTTON = False
+HIJACK_LOGIN_REDIRECT_URL = '/profil/ja/'
+HIJACK_LOGOUT_REDIRECT_URL = '/admin/accounts/user/'
 
 INITIAL_DATA_COUNT = {
 	'accounts_user': 10,

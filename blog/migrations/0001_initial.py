@@ -29,8 +29,8 @@ class Migration(migrations.Migration):
 				('author', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
 			],
 			options={
-				'verbose_name': 'blog pou\u017e\xedvate\u013ea',
-				'verbose_name_plural': 'blogy pou\u017e\xedvate\u013eov',
+				'verbose_name': 'blog',
+				'verbose_name_plural': 'blogy',
 			},
 		),
 		migrations.CreateModel(
@@ -51,8 +51,8 @@ class Migration(migrations.Migration):
 			],
 			options={
 				'ordering': ('-pub_time',),
-				'verbose_name': 'blog',
-				'verbose_name_plural': 'blogy',
+				'verbose_name': 'z\xe1pis',
+				'verbose_name_plural': 'z\xe1pisy',
 			},
 		),
 		migrations.AlterUniqueTogether(

@@ -1,2 +1,4 @@
 <meta name="keywords" lang="sk" content="linux,linuxová komunita,open source,pomoc" />
-
+{% if request.session.is_hijacked_user %}
+	<link rel="stylesheet" type="text/css" href="{{ static('hijack/hijack-styles.css') }}" />
+{% endif %}
