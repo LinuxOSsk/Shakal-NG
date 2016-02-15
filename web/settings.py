@@ -249,7 +249,7 @@ AUTHENTICATION_BACKENDS = (
 
 HIJACK_DISPLAY_ADMIN_BUTTON = False
 HIJACK_LOGIN_REDIRECT_URL = '/profil/ja/'
-HIJACK_LOGOUT_REDIRECT_URL = '/admin/accounts/user/'
+HIJACK_LOGOUT_REDIRECT_URL = '/administracia/accounts/user/'
 
 INITIAL_DATA_COUNT = {
 	'accounts_user': 10,
