@@ -618,13 +618,13 @@ var SimpleEditorHtml = function(element, options) {
 	element.onkeyup = function(event) {
 		if (event.keyCode === 13) { // enter
 			if (event.shiftKey) {
-				insert('<br />\n', '');
+				insert('<br />', '');
 				event.stopPropagation();
 				return false;
 			}
 		}
 		else if (event.keyCode === 32 && event.ctrlKey) { // ctrl + medzera
-			insert('<p>', '</p>\n');
+			insert('<p>', '</p>');
 		}
 		else if (event.keyCode === 66 && event.ctrlKey) { // ctrl + b
 			insert('<strong>', '</strong>');
