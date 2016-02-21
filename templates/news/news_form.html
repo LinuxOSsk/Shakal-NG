@@ -39,9 +39,9 @@
 	</div>
 {% endif %}
 
-<form action="{{ request.path }}" method="post" id="news-form">{% csrf_token %}
+<form action="{{ request.path }}" enctype="multipart/form-data" method="post" id="news-form">{% csrf_token %}
 	<fieldset class="module">
-		{% include "includes/form_loop.html" %}
+		{% include "includes/form_attachment_loop.html" %}
 		<div class="submit-row">
 			<div class="positive">
 				<button class="btn" type="submit" title="Náhľad"><span class="wrap"><span class="text">Náhľad</span></span></button>

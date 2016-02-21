@@ -47,6 +47,8 @@ class NewsCreateView(PreviewCreateView):
 			messages.add_message(self.request, messages.INFO, u"Správa bola uložená, počkajte prosím na schválenie administrátormi.")
 			title = u"Správa " + news.title + u" čaká na schválenie"
 			Event.objects.broadcast(title, news, action=Event.CREATE_ACTION, author=news.author, is_staff=True, permissions=(News, 'change_news'))
+		if news.pk:
+			form.move_attachments(news)
 		return ret
 
 	def get_success_url(self):

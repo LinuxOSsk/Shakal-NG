@@ -273,6 +273,7 @@ ATTACHMENT_MAX_SIZE = 1024 * 1024 * 50
 ATTACHMENT_SIZE_FOR_CONTENT = {
 	'comments_comment': 1024 * 1024 * 2,
 	'forum_topic': 1024 * 1024 * 2,
+	'news_news': 1024 * 1024 * 4,
 	'blog_post': 1024 * 1024 * 8,
 }
 

@@ -5,6 +5,7 @@ from django import forms
 
 from .models import News
 from antispam.forms import AntispamFormMixin
+from attachment.forms import AttachmentFormMixin
 from common_utils.forms import AuthorsNameFormMixin, SetRequiredFieldsMixin
 from common_utils.widgets import DescriptionRadioSelect
 
@@ -19,15 +20,13 @@ EDITABLE_FIELDS = (
 )
 
 
-class NewsChangeForm(SetRequiredFieldsMixin, forms.ModelForm):
+class NewsChangeForm(SetRequiredFieldsMixin, AttachmentFormMixin, forms.ModelForm):
 	required_fields = {
 		'original_long_text': False
 	}
 
-	class Meta:
-		model = News
-		fields = EDITABLE_FIELDS
-		widgets = {'category': DescriptionRadioSelect()}
+	def get_model(self):
+		return News
 
 	def clean(self):
 		cleaned_data = super(NewsChangeForm, self).clean()
@@ -36,6 +35,11 @@ class NewsChangeForm(SetRequiredFieldsMixin, forms.ModelForm):
 			if 'original_short_text' in cleaned_data:
 				cleaned_data['original_long_text'] = cleaned_data['original_short_text']
 		return cleaned_data
+
+	class Meta:
+		model = News
+		fields = EDITABLE_FIELDS
+		widgets = {'category': DescriptionRadioSelect()}
 
 
 class NewsForm(AntispamFormMixin, AuthorsNameFormMixin, NewsChangeForm):
