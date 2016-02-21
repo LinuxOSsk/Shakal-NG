@@ -32,5 +32,11 @@ def get_parser(parser, fmt='html'):
 			parser_instance = HtmlParser(supported_tags=supported_tags)
 			parser_instance.auto_paragraphs = False
 			return parser_instance
+		elif parser == 'news_short':
+			return HtmlParser()
+		elif parser == 'news_long':
+			supported_tags = copy(FULL_TAGS)
+			parser_instance = HtmlParser(supported_tags=supported_tags)
+			return parser_instance
 		else:
 			return HtmlParser()

@@ -55,6 +55,7 @@ class News(TimestampModelMixin, models.Model):
 		filtered_field='filtered_short_text',
 		property_name='short_text',
 		verbose_name='krátky text',
+		parsers={'html': 'news_short'},
 		max_length=NEWS_MAX_LENGTH
 	)
 	filtered_short_text = RichTextFilteredField()
@@ -63,6 +64,7 @@ class News(TimestampModelMixin, models.Model):
 		filtered_field='filtered_long_text',
 		property_name='long_text',
 		verbose_name='dlhý text',
+		parsers={'html': 'news_long'},
 		help_text='Vyplňte v prípade, že sa text v detaile správy má líšiť od textu v zozname.'
 	)
 	filtered_long_text = RichTextFilteredField()
