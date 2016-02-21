@@ -23,6 +23,9 @@ class AttachmentFormMixin(forms.BaseForm):
 		super(AttachmentFormMixin, self).__init__(*args, **kwargs)
 		self._attachments = None
 
+		if hasattr(self, 'instance') and self.instance and self.instance.pk:
+			self.content_object = self.instance
+			self.fields['attachment'] = AttachmentFieldMultiple(label='Príloha', required=False)
 		if self.content_object is None:
 			self.fields['attachment'] = AttachmentFieldMultiple(label='Príloha', required=False)
 			self.fields['upload_session'] = forms.CharField(widget=forms.HiddenInput, required=False)
