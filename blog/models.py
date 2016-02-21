@@ -21,9 +21,9 @@ class Blog(TimestampModelMixin, models.Model):
 	author = models.OneToOneField(settings.AUTH_USER_MODEL)
 	title = models.CharField(max_length=100, verbose_name='názov blogu')
 	slug = AutoSlugField(title_field='title', unique=True)
-	original_description = RichTextOriginalField(filtered_field='filtered_description', property_name='description', verbose_name='popis blogu', max_length=1000)
+	original_description = RichTextOriginalField(filtered_field='filtered_description', property_name='description', verbose_name='popis blogu', max_length=1000, blank=True)
 	filtered_description = RichTextFilteredField()
-	original_sidebar = RichTextOriginalField(filtered_field='filtered_sidebar', property_name='sidebar', verbose_name='bočný panel', max_length=1000)
+	original_sidebar = RichTextOriginalField(filtered_field='filtered_sidebar', property_name='sidebar', verbose_name='bočný panel', max_length=1000, blank=True)
 	filtered_sidebar = RichTextFilteredField()
 
 	content_fields = ('original_descriptoin', 'original_sidebar',)
