@@ -441,7 +441,9 @@ var SimpleEditorHtml = function(element, options) {
 				if (youtube !== null) {
 					insert('<a href="' + _.escapeHTMLAttr(youtube.canonical) + '"><img src="' + _.escapeHTMLAttr(youtube.thumbnails.hqdefault) + '" alt="Video"/></a>', '');
 				}
-				return true;
+				else {
+					return true;
+				}
 			}
 		};
 		addModal(options);
