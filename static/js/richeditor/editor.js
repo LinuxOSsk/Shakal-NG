@@ -73,6 +73,26 @@ var SimpleEditorHtml = function(element, options) {
 		inlineCss.innerHTML = options.tags.unsupported.join(', ') + '{ background-color: #ff9999 !important; border: 1px solid red !important; }';
 	};
 
+	var parseYoutube = function(url) {
+		var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+		var match = url.match(regExp);
+		if (match && match[7].length == 11) {
+			var videoId = match[7];
+			return {
+				id: videoId,
+				canonical: 'https://www.youtube.com/watch?v=' + videoId,
+				thumbnails: {
+					'default': '//img.youtube.com/vi/' + videoId + '/default.jpg',
+					'hqdefault': '//img.youtube.com/vi/' + videoId + '/hqdefault.jpg',
+					'mqdefault': '//img.youtube.com/vi/' + videoId + '/qdefault.jpg'
+				}
+			};
+		}
+		else {
+			return null;
+		}
+	};
+
 	var addToolbar = function(group) {
 		var toolbar = _.createDiv('richedit_toolbar');
 		var toolbarStart = _.createDiv('richedit_toolbar_start');
@@ -241,14 +261,14 @@ var SimpleEditorHtml = function(element, options) {
 		modalContent.scrollTop = 0;
 		modalClose.onclick = function(event) {
 			if (options.onClosed && options.onClosed()) {
-				return;
+				return false;
 			}
 			removeModal();
 			return false;
 		};
 		modalSubmit.onclick = function(event) {
 			if (options.onSubmitted && options.onSubmitted()) {
-				return;
+				return false;
 			}
 			removeModal();
 			return false;
@@ -405,6 +425,29 @@ var SimpleEditorHtml = function(element, options) {
 		var inputs = modalContent.getElementsByTagName('INPUT');
 		var urlInput = inputs[0];
 		var altInput = inputs[1];
+	};
+
+	var addVideo = function(btn) {
+		var options = {
+			template: ''+
+				'<h1>Pridať youtube video</h1>'+
+				'<div class="form-row horizontal">'+
+					'<div class="formrow-label"><label>URL</label></div>'+
+					'<div class="formrow-input"><input type="text" placeholder="https://www.youtube.com/watch?v=xxxxxxxxxxx" /></div>'+
+				'</div>',
+			onSubmitted: function() {
+				var url = urlInput.value;
+				var youtube = parseYoutube(url);
+				if (youtube !== null) {
+					insert('<a href="' + _.escapeHTMLAttr(youtube.canonical) + '"><img src="' + _.escapeHTMLAttr(youtube.thumbnails.hqdefault) + '" alt="Video"/></a>', '');
+				}
+				return true;
+			}
+		};
+		addModal(options);
+
+		var inputs = modalContent.getElementsByTagName('INPUT');
+		var urlInput = inputs[0];
 	};
 
 	var insert = function(pre, post, parseSelFilter) {
@@ -598,11 +641,15 @@ var SimpleEditorHtml = function(element, options) {
 		if (hasTag('ol')) addButton(tb, {cls: 'icon-numberedlist', tag_pre: '<ol>\n', tag_post: '</ol>', title: 'Číslovaný zoznam', parse: formatListContent, onclick: triggerFunction});
 	}
 
-	if (hasTag('a') || hasTag('table') || hasTag('image')) {
+	if (hasTag('a') || hasTag('table') || hasTag('img')) {
 		tb = addToolbar();
 		if (hasTag('a')) addButton(tb, {cls: 'icon-link', title: 'Odkaz', onclick: addLink});
 		if (hasTag('table')) addButton(tb, {cls: 'icon-table', tag_pre: '<table>\n', tag_post: '</table>', title: 'Tabuľka', parse: formatTableContent, onclick: triggerFunction});
 		if (hasTag('img')) addButton(tb, {cls: 'icon-image', title: 'Obrázok', onclick: addImage});
+	}
+
+	if (hasTag('a') && hasTag('img')) {
+		addButton(tb, {cls: 'icon-flash', title: 'Video', onclick: addVideo});
 	}
 
 	tb = addToolbar();
