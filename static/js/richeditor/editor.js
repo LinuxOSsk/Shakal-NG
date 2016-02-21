@@ -259,21 +259,45 @@ var SimpleEditorHtml = function(element, options) {
 		updateChromeClass();
 		modalContent.innerHTML = options.template;
 		modalContent.scrollTop = 0;
-		modalClose.onclick = function(event) {
+
+		var closeModal = function(event) {
 			if (options.onClosed && options.onClosed()) {
 				return false;
 			}
 			removeModal();
 			return false;
 		};
-		modalSubmit.onclick = function(event) {
+
+		var submitModal = function(event) {
 			if (options.onSubmitted && options.onSubmitted()) {
 				return false;
 			}
 			removeModal();
 			return false;
 		};
+
+		modalClose.onclick = closeModal;
+		modalSubmit.onclick = submitModal;
 		modalContent.focus();
+
+		if (options.submitEnter) {
+			modalContent.onkeyup = function(event) {
+				if (event.keyCode === 13) { // enter
+					event.stopPropagation();
+					submitModal();
+					return false;
+				}
+			};
+			modalContent.onkeypress = function(event) {
+				if (event.keyCode === 13) { // enter
+					return false;
+				}
+			};
+		}
+		else {
+			modalContent.onkeyup = null;
+			modalContent.onkeypress = null;
+		}
 	};
 
 	var removeModal = function() {
@@ -389,6 +413,7 @@ var SimpleEditorHtml = function(element, options) {
 					'<div class="formrow-label"><label>Text</label></div>'+
 					'<div class="formrow-input"><input type="text" placeholder="Text odkazu" /></div>'+
 				'</div>',
+			submitEnter: true,
 			onSubmitted: function() {
 				var url = urlInput.value;
 				var text = textInput.value;
@@ -414,6 +439,7 @@ var SimpleEditorHtml = function(element, options) {
 					'<div class="formrow-label"><label>Alternatívny text</label></div>'+
 					'<div class="formrow-input"><input type="text" placeholder="Alternatívny text napr. Tux" /></div>'+
 				'</div>',
+			submitEnter: true,
 			onSubmitted: function() {
 				var url = urlInput.value;
 				var alt = altInput.value;
@@ -435,6 +461,7 @@ var SimpleEditorHtml = function(element, options) {
 					'<div class="formrow-label"><label>URL</label></div>'+
 					'<div class="formrow-input"><input type="text" placeholder="https://www.youtube.com/watch?v=xxxxxxxxxxx" /></div>'+
 				'</div>',
+			submitEnter: true,
 			onSubmitted: function() {
 				var url = urlInput.value;
 				var youtube = parseYoutube(url);
