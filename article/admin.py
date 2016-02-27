@@ -38,6 +38,8 @@ class ArticleAdmin(AttachmentAdminMixin, AdminActionsMixin, admin.ModelAdmin):
 		return qs.select_related('author')
 
 	def get_changelist_actions(self, obj):
+		if not obj:
+			return ()
 		if obj.is_published():
 			return (('set_unpublished', {'label': _('Unpublish'), 'class': 'btn btn-danger'}),)
 		else:
