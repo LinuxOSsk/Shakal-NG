@@ -159,6 +159,8 @@ def add_discussion_attributes(context, *models):
 
 	for model, content_type in zip(models, content_types):
 		for obj in model:
+			if not obj:
+				continue
 			if hasattr(obj, 'last_comment'):
 				continue
 			header = headers_dict.get((obj.pk, content_type.pk), {})
