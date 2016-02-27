@@ -17,7 +17,7 @@ fi
 
 mkdir -p shakal
 cat << 'EOF' > ${MAKEFILE}
-.PHONY: all cimpilesprites migrate update update2 resetdb
+.PHONY: all compilesprites migrate update update2 resetdb
 
 PYTHON=python2.7
 VENV_PYTHON=venv/bin/python
