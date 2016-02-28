@@ -53,7 +53,6 @@ class ThumbnailImageField(AutoImageFieldMixin, FileField):
 		signals.post_save.connect(self._rename_image, sender=cls)
 		signals.post_init.connect(self._add_old_instance, sender=cls)
 		signals.post_delete.connect(self._delete_image, sender=cls)
-		self._add_thumbnails(cls, name)
 		super(ThumbnailImageField, self).contribute_to_class(cls, name)
 
 

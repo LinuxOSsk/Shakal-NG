@@ -11,10 +11,10 @@
 			{% endif %}
 		</span>
 	</div>
-	{% if thumbnail %}
-		{% if article.image_standard.url %}
+	{% if show_thumbnail %}
+		{% if article.image %}
 			<div class="article thumbnail pull-left">
-				<img src="{{ article.image_standard.url }}" alt="{{ article.title }}" />
+				<img src="{{ thumbnail(article.image, size=(100, 100), crop=True) }}" alt="{{ article.title }}" />
 			</div>
 		{% endif %}
 	{% endif %}

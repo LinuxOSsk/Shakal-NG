@@ -2,138 +2,70 @@
 from __future__ import unicode_literals
 
 import os
+from functools import partial
 
-import shutil
 from django.conf import settings
 from django.db.models import signals
-from django.db.models.fields.files import ImageField
-
-
-class ThumbnailField(object):
-	"""
-	Inštancia sa pužíva na prístup k náhľadom
-	"""
-	def __init__(self, field, filename=None, size=None):
-		self.filename = filename
-		self.field = field
-		self.thumbnail_size = size
-
-	def _initialize_file(self):
-		dest_filename = self.field.storage.path(self.filename)
-		if os.path.exists(dest_filename):
-			return
-
-		source_filename = self.field.storage.path(str(self.field))
-		# Kópia a resize obrázku
-		shutil.copy(source_filename, dest_filename)
-		AutoImageField.resize_image(dest_filename, self.thumbnail_size)
-
-	def _get_path(self):
-		self._initialize_file()
-		return self.field.storage.path(self.filename)
-	path = property(_get_path)
-
-	def _get_url(self):
-		self._initialize_file()
-		return self.field.storage.url(self.filename)
-	url = property(_get_url)
-
-	def _get_size(self):
-		self._initialize_file()
-		return self.field.storage.size(self.filename)
-	size = property(_get_size)
+from easy_thumbnails.fields import ThumbnailerImageField
 
 
 class AutoImageFieldMixin(object):
-	WIDTH, HEIGHT, METHOD = 0, 1, 2
-
-	@staticmethod
-	def resize_image(filename, size):
-		from PIL import Image, ImageOps
-		img = Image.open(filename)
-
-		method = 'thumbnail'
-		if len(size) > 2:
-			method = size[2]
-
-		if method == 'thumbnail':
-			if img.size[AutoImageField.WIDTH] > size[AutoImageField.WIDTH] or img.size[AutoImageField.HEIGHT] > size[AutoImageField.HEIGHT]:
-				img.thumbnail((size[AutoImageField.WIDTH], size[AutoImageField.HEIGHT]), Image.ANTIALIAS)
-			img.save(filename, optimize=1)
-		elif method == 'fit':
-			img = ImageOps.fit(img, (size[AutoImageField.WIDTH], size[AutoImageField.HEIGHT]), method=Image.ANTIALIAS, centering=(0.5, 0.5))
-			img.save(filename, optimize=1)
-
-
-	def get_object_pk(self, instance):
-		return instance.pk
-
 	def generate_filename(self, instance, filename):
-		if self.get_object_pk(instance):
-			return os.path.join(self.get_directory_name(), "{0:02x}".format(self.get_object_pk(instance) % 256), str(self.get_object_pk(instance)), self.get_filename(filename))
+		if instance.pk:
+			return os.path.join(self.get_directory_name(), "{0:02x}".format(instance.pk % 256), str(instance.pk), self.get_filename(filename))
 		else:
 			return super(AutoImageFieldMixin, self).generate_filename(instance, filename)
 
-	def __perform_rename_file(self, src, dest):
-		if not os.path.exists(os.path.dirname(dest)):
-			os.makedirs(os.path.dirname(dest))
-		os.rename(src, dest)
-
-	def __perform_remove_file(self, path):
-		if os.path.exists(path):
-			os.remove(path)
-
-	def __perform_remove_thumbnail(self, path):
-		for label, settings in self.thumbnail.iteritems():
-			tmb_filename = AutoImageField.get_thumbnail_filename(path, label, settings)
-			if os.path.exists(tmb_filename):
-				os.remove(tmb_filename)
-
-	def __get_paths(self, instance):
-		new_file = None
+	def __get_paths(self, instance, field):
+		new_filename = None
 		try:
-			# Pôvodná adresa
-			src = os.path.abspath(getattr(instance, self.name).path)
+			src = os.path.abspath(field.path)
 			ext = os.path.splitext(src)[1].lower().replace('jpg', 'jpeg')
-			new_file = self.generate_filename(instance, "{0}_{1}{2}".format(self.name, instance.pk, ext))
-			dest = os.path.abspath(os.path.join(settings.MEDIA_ROOT, new_file))
+			new_filename = self.generate_filename(instance, "{0}_{1}{2}".format(self.name, instance.pk, ext))
+			dest = os.path.abspath(os.path.join(settings.MEDIA_ROOT, new_filename))
 		except ValueError:
 			src = None
 			dest = None
-		return (src, dest, new_file)
+		return (src, dest, new_filename)
 
-	def _rename_image(self, instance, **kwargs):
-		field = getattr(instance, self.name)
-		src, dest, new_file = self.__get_paths(instance)
-		self.__perform_remove_thumbnail(field.storage.path(src))
+	def _rename_image(self, name, instance, **kwargs):
+		field = getattr(instance, name)
 
+		old_file = getattr(instance, name + '_old')
+		if old_file:
+			old_file.delete_thumbnails()
+
+		src, dest, new_filename = self.__get_paths(instance, field)
 		if src and src != dest and os.path.exists(src):
-			self.__perform_rename_file(src, dest)
-			setattr(instance, self.name, new_file)
+			if not os.path.exists(os.path.dirname(dest)):
+				os.makedirs(os.path.dirname(dest))
+			os.rename(src, dest)
+			setattr(instance, name, new_filename)
 			instance.save()
 
-		# Ak je definovaná veľkosť škálujeme obrázok
-		if src:
-			if self.size:
-				self.resize_image(dest, self.size)
+		if old_file and old_file != new_filename and os.path.exists(field.storage.path(old_file)):
+			field.storage.delete(old_file)
+			self.__clean_dir(os.path.dirname(field.storage.path(old_file)))
 
-		old = getattr(instance, self.name + '_old', None)
-		if old and old != new_file and os.path.exists(field.storage.path(old)):
-			self.__perform_remove_thumbnail(field.storage.path(old))
-			self.__perform_remove_file(field.storage.path(old))
-			instance.old = new_file
-			self.__clean_dir(os.path.dirname(field.storage.path(old)))
-		if src:
-			self.__clean_dir(os.path.dirname(src))
+	def _delete_image(self, name, instance, **kwargs):
+		field = getattr(instance, name)
+		field.delete_thumbnails()
+		field.storage.delete(field.path)
+		if field:
+			self.__clean_dir(os.path.dirname(field.storage.path(field)))
 
-		self._add_old_instance(instance, **kwargs)
+	def _store_old_value(self, name, instance, **kwargs):
+		if instance.pk:
+			setattr(instance, name + '_old', getattr(instance, name))
+		else:
+			setattr(instance, name + '_old', None)
 
 	def __clean_dir(self, path):
 		path = os.path.abspath(path)
 		topdir = os.path.abspath(os.path.join(settings.MEDIA_ROOT, self.get_directory_name()))
 		if not path.startswith(topdir) or path == topdir:
 			return
-		# Odstránenie prázdneho adresára
+		# remove empty directory
 		try:
 			os.rmdir(path)
 		except OSError:
@@ -142,69 +74,11 @@ class AutoImageFieldMixin(object):
 		if updir.startswith(topdir) and updir != topdir:
 			self.__clean_dir(updir)
 
-	def _delete_image(self, instance, **kwargs):
-		"""
-		Vymazanie obrázka a náhľadov pri odstránení inštancie.
-		"""
-		field = getattr(instance, self.name)
-		if not field:
-			return
-		path = field.storage.path(field.path)
-		self.__perform_remove_thumbnail(path)
-		self.__perform_remove_file(path)
-		self.__clean_dir(os.path.dirname(path))
 
-	def _add_old_instance(self, instance, **kwargs):
-		"""
-		Zaznamenanie hodnoty starej inštancie
-		"""
-		if instance.pk:
-			setattr(instance, self.name + '_old', getattr(instance, self.name))
-		else:
-			setattr(instance, self.name + '_old', None)
-
-	@staticmethod
-	def get_thumbnail_filename(filename, thumbnail_label, size):
-		"""
-		Vráti názov súboru pre zmenšený obrázok.
-		"""
-		dirname = os.path.dirname(filename)
-		splitted_filename = list(os.path.splitext(os.path.basename(filename)))
-		splitted_filename.insert(1, '_' + thumbnail_label)
-		if len(size) > 3:
-			splitted_filename[-1] = '.' + size[3]
-		return os.path.join(dirname, ''.join(splitted_filename))
-
-	def _add_thumbnails(self, cls, name):
-		thumbnail = self.thumbnail or {}
-
-		for label, size in thumbnail.iteritems():
-			def wrap(label, size):
-				def get_thumbnail(self):
-					field = getattr(self, name)
-					storage = field.storage
-					filename = str(field)
-					# Preskakovanie prázdneho poľa
-					if not filename:
-						return
-					# Kontrola zdrojového súboru
-					if not os.path.exists(storage.path(filename)):
-						return
-					thumbnail_file = AutoImageFieldMixin.get_thumbnail_filename(filename, label, size)
-					return ThumbnailField(field, thumbnail_file, size)
-				return get_thumbnail
-			setattr(cls, name + '_' + label, property(wrap(label, size)))
-
-
-class AutoImageField(AutoImageFieldMixin, ImageField):
-	def __init__(self, verbose_name=None, size=None, thumbnail=None, *args, **kwargs):
-		self.size = size
-		self.thumbnail = thumbnail or {}
-		super(AutoImageField, self).__init__(verbose_name, *args, **kwargs)
-
+class AutoImageField(AutoImageFieldMixin, ThumbnailerImageField):
 	def contribute_to_class(self, cls, name):
 		super(AutoImageField, self).contribute_to_class(cls, name)
-		signals.post_save.connect(self._rename_image, sender=cls)
-		signals.post_init.connect(self._add_old_instance, sender=cls)
-		signals.post_delete.connect(self._delete_image, sender=cls)
-		self._add_thumbnails(cls, name)
+
+		signals.post_init.connect(partial(self._store_old_value, name=name), sender=cls, weak=False)
+		signals.post_save.connect(partial(self._rename_image, name=name), sender=cls, weak=False)
+		signals.post_delete.connect(partial(self._delete_image, name=name), sender=cls, weak=False)

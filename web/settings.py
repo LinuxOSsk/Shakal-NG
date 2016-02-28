@@ -53,6 +53,8 @@ INSTALLED_APPS = (
 	'hijack',
 	'reversion',
 	'static_sitemaps',
+	'easy_thumbnails',
+	'django_jinja.contrib._easy_thumbnails',
 	# apps
 	'accounts',
 	'article',

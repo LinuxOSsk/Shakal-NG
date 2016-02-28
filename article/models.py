@@ -80,7 +80,8 @@ class Article(TimestampModelMixin, models.Model):
 	pub_time = models.DateTimeField('čas publikácie', default=now, db_index=True)
 	published = models.BooleanField('publikované', default=False)
 	top = models.BooleanField('hodnotný článok', default=False)
-	image = AutoImageField('obrázok', upload_to='article/thumbnails', size=(2048, 2048), thumbnail={'standard': (100, 100)}, blank=True)
+	#image = AutoImageField('obrázok', upload_to='article/thumbnails', size=(2048, 2048), thumbnail={'standard': (100, 100)}, blank=True)
+	image = AutoImageField('obrázok', upload_to='article/thumbnails', resize_source=dict(size=(2048, 2048)), blank=True)
 	polls = GenericRelation(Poll)
 	comments_header = GenericRelation(RootHeader)
 	comments = GenericRelation(Comment)
@@ -133,7 +134,8 @@ class Article(TimestampModelMixin, models.Model):
 class Series(TimestampModelMixin, models.Model):
 	name = models.CharField('názov seriálu', max_length=100)
 	slug = models.SlugField('skratka URL', unique=True)
-	image = AutoImageField('obrázok', upload_to='article/thumbnails', size=(2048, 2048), thumbnail={'standard': (100, 100)}, blank=True)
+	#image = AutoImageField('obrázok', upload_to='article/thumbnails', size=(2048, 2048), thumbnail={'standard': (100, 100)}, blank=True)
+	image = AutoImageField('obrázok', upload_to='article/thumbnails', resize_source=dict(size=(2048, 2048)), blank=True)
 	description = models.TextField('popis')
 
 	@permalink

@@ -54,7 +54,7 @@
 	<h2>Články</h2>
 	{% for top_article in top_articles %}
 		<div class="article top">
-			{% with article=top_article, thumbnail=1 %}
+			{% with article=top_article, show_thumbnail=1 %}
 				{% include "article/block_list_item.html" %}
 			{% endwith %}
 		</div>
@@ -65,7 +65,7 @@
 		{% endwith %}
 	{% endfor %}
 	{% for article in articles %}
-		{% with thumbnail=0 %}
+		{% with show_thumbnail=0 %}
 			{% include "article/block_list_item.html" %}
 		{% endwith %}
 	{% endfor %}
