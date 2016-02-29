@@ -65,7 +65,7 @@
 			{% for attachment in attachments_images %}
 				<div class="image">
 					<a href="{{ attachment.url }}">
-						<img src="{{ attachment.attachmentimage.attachment_standard.url }}" alt="{{ attachment.basename }}" />
+						<img src="{{ thumbnail(attachment.attachmentimage.attachment, size=(256, 256)) }}" alt="{{ attachment.basename }}" />
 					</a>
 					<div class="title">
 						{{ attachment.basename }}

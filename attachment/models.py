@@ -31,27 +31,23 @@ def upload_to(instance, filename):
 
 
 class ThumbnailImageField(AutoImageFieldMixin, FileField):
-	def __init__(self, *args, **kwargs):
-		self.thumbnail = {'standard': (256, 256)}
-		super(ThumbnailImageField, self).__init__(*args, **kwargs)
-
 	def _rename_image(self, instance, **kwargs):
 		if getattr(instance, 'same_file', False):
 			return
 		if hasattr(instance, 'attachmentimage'):
-			return super(ThumbnailImageField, self)._rename_image(instance.attachmentimage, **kwargs)
+			return super(ThumbnailImageField, self)._rename_image(self.name, instance.attachmentimage, **kwargs)
 
-	def _add_old_instance(self, instance, **kwargs):
+	def _store_old_value(self, instance, **kwargs):
 		if hasattr(instance, 'attachmentimage'):
-			return super(ThumbnailImageField, self)._add_old_instance(instance.attachmentimage, **kwargs)
+			return super(ThumbnailImageField, self)._store_old_value(self.name, instance.attachmentimage, **kwargs)
 
 	def _delete_image(self, instance, **kwargs):
 		if hasattr(instance, 'attachmentimage'):
-			return super(ThumbnailImageField, self)._delete_image(instance.attachmentimage, **kwargs)
+			return super(ThumbnailImageField, self)._delete_image(self.name, instance.attachmentimage, **kwargs)
 
 	def contribute_to_class(self, cls, name):
 		signals.post_save.connect(self._rename_image, sender=cls)
-		signals.post_init.connect(self._add_old_instance, sender=cls)
+		signals.post_init.connect(self._store_old_value, sender=cls)
 		signals.post_delete.connect(self._delete_image, sender=cls)
 		super(ThumbnailImageField, self).contribute_to_class(cls, name)
 
