@@ -8,6 +8,8 @@ from django.conf import settings
 from django.db.models import signals
 from easy_thumbnails.fields import ThumbnailerImageField
 
+from common_utils import clean_dir
+
 
 class AutoImageFieldMixin(object):
 	def generate_filename(self, instance, filename):
@@ -45,34 +47,20 @@ class AutoImageFieldMixin(object):
 
 		if old_file and old_file != new_filename and os.path.exists(field.storage.path(old_file)):
 			field.storage.delete(old_file)
-			self.__clean_dir(os.path.dirname(field.storage.path(old_file)))
+			clean_dir(os.path.dirname(field.storage.path(old_file)), settings.MEDIA_ROOT)
 
 	def _delete_image(self, name, instance, **kwargs):
 		field = getattr(instance, name)
 		field.delete_thumbnails()
 		field.storage.delete(field.path)
 		if field:
-			self.__clean_dir(os.path.dirname(field.storage.path(field)))
+			clean_dir(os.path.dirname(field.storage.path(field)), settings.MEDIA_ROOT)
 
 	def _store_old_value(self, name, instance, **kwargs):
 		if instance.pk:
 			setattr(instance, name + '_old', getattr(instance, name))
 		else:
 			setattr(instance, name + '_old', None)
-
-	def __clean_dir(self, path):
-		path = os.path.abspath(path)
-		topdir = os.path.abspath(os.path.join(settings.MEDIA_ROOT, self.get_directory_name()))
-		if not path.startswith(topdir) or path == topdir:
-			return
-		# remove empty directory
-		try:
-			os.rmdir(path)
-		except OSError:
-			return
-		updir = os.path.join(*os.path.split(path)[:-1])
-		if updir.startswith(topdir) and updir != topdir:
-			self.__clean_dir(updir)
 
 
 class AutoImageField(AutoImageFieldMixin, ThumbnailerImageField):
