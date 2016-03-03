@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from os.path import basename
 
-from easy_thumbnails.files import get_thumbnailer
+from autoimagefield.utils import thumbnail
 
 
 class AttachmentManagementMixin(object):
@@ -17,12 +17,10 @@ class AttachmentManagementMixin(object):
 				'filesize': attachment.size,
 			}
 			if hasattr(attachment, 'attachmentimage'):
-				thumbnailer = get_thumbnailer(attachment.attachment.name)
-				options = {'size': (256, 256)}
 				attachment_data['width'] = attachment.attachmentimage.width
 				attachment_data['height'] = attachment.attachmentimage.height
 				attachment_data['thumbnails'] = {
-					'standard': thumbnailer.get_thumbnail(options).url
+					'standard': thumbnail(attachment.attachment.name, size=(256, 256)).url
 				}
 			attachments.append(attachment_data)
 		return attachments
