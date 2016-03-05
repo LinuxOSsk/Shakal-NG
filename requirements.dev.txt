@@ -32,6 +32,7 @@ django-static-sitemaps==3.0.0
 django-suit==0.2.16
 django==1.8.9
 docopt==0.6.2             # via ptpython
+easy-thumbnails==2.3
 feedparser==5.2.1
 first==2.0.1              # via pip-tools
 ipython-genutils==0.1.0   # via traitlets
