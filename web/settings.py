@@ -423,5 +423,15 @@ COMPRESS_REBUILD_TIMEOUT = 1
 #LIBSASS_SOURCE_COMMENTS = False
 #LIBSASS_OUTPUT_STYLE = 'compressed'
 
+THUMBNAIL_PRESERVE_EXTENSIONS = True
+THUMBNAIL_NAMER = 'autoimagefield.namers.default'
+THUMBNAIL_PROCESSORS = (
+	'easy_thumbnails.processors.colorspace',
+	'easy_thumbnails.processors.autocrop',
+	'easy_thumbnails.processors.scale_and_crop',
+	'easy_thumbnails.processors.filters',
+	'easy_thumbnails.processors.background',
+)
+
 from .patch import patch_urls
 patch_urls()
