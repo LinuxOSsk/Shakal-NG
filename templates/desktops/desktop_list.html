@@ -30,7 +30,7 @@
 			<div class="module-row desktop item">
 				<div class="image">
 					<a href="{{ desktop.get_absolute_url() }}">
-						<img src="{{ desktop.image_large.url }}" alt="{{ desktop }}" />
+						<img src="{{ thumbnail(desktop.image, size=(512, 512), format='jpg') }}" alt="{{ desktop }}" />
 					</a>
 				</div>
 				<div class="detail">

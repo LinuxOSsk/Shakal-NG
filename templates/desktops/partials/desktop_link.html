@@ -7,7 +7,7 @@
 		</div>
 
 		<a href="{{ desktop.get_absolute_url() }}" class="img-link">
-			<img src="{{ desktop.image_standard.url }}" alt="{{ desktop }}" />
+			<img src="{{ thumbnail(desktop.image, size=(256, 256), format="jpg") }}" alt="{{ desktop }}" />
 		</a>
 
 		<div class="info">
