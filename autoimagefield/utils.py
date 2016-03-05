@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from easy_thumbnails.files import get_thumbnailer
+from easy_thumbnails.files import ThumbnailerFieldFile
 
 
-def thumbnail(source_url, **kwargs):
-	thumbnailer = get_thumbnailer(source_url)
+def thumbnail(obj, **kwargs):
+	thumbnailer = ThumbnailerFieldFile(obj.instance, obj.field, obj.name)
 	return thumbnailer.get_thumbnail(kwargs)

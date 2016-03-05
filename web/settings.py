@@ -58,11 +58,11 @@ INSTALLED_APPS = (
 	'reversion',
 	'static_sitemaps',
 	'easy_thumbnails',
-	'django_jinja.contrib._easy_thumbnails',
 	# apps
 	'accounts',
 	'article',
 	'attachment',
+	'autoimagefield',
 	'blog',
 	'breadcrumbs',
 	'comments',
