@@ -8,6 +8,7 @@ from django.utils.html import escape
 from django_jinja import library
 
 from accounts.utils import generated_avatar
+from autoimagefield.utils import thumbnail
 
 
 GRAVATAR_URL_PREFIX = getattr(settings, "GRAVATAR_URL_PREFIX", "//www.gravatar.com/")
@@ -24,7 +25,7 @@ def gravatar_for_email(email, size=GRAVATAR_DEFAULT_SIZE):
 @library.global_function
 def avatar_for_user(user, size=GRAVATAR_DEFAULT_SIZE):
 	if user.avatar:
-		avatar = getattr(user, 'avatar_' + str(size))
+		avatar = thumbnail(user.avatar, size=(size, size), crop=True)
 		if avatar:
 			return avatar.url
 	return gravatar_for_email(user.email, size)
