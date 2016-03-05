@@ -9,7 +9,7 @@
 	{% with
 		name=desktop.title,
 		description=desktop.text|striptags|html_entity_decode|truncatechars("300"),
-		image=thumbnail(desktop.image, size=(2048, 2048), format="jpg"),
+		image=thumbnail(desktop.image, size=(2048, 2048), format="jpg", quality=85),
 		created=desktop.created,
 		updated=desktop.updated,
 		author=desktop.author
@@ -38,7 +38,7 @@
 	</div>
 
 	<a href="{{ desktop.image.url }}">
-		<img src="{{ thumbnail(desktop.image, size=(2048, 2048), format="jpg") }}" alt="{{ desktop }}" />
+		<img src="{{ thumbnail(desktop.image, size=(2048, 2048), format="jpg", quaity=85) }}" alt="{{ desktop }}" />
 	</a>
 
 	{{ desktop.text|safe }}

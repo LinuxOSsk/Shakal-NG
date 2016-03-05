@@ -21,7 +21,7 @@
 			{% if desktop %}
 				<div class="desktop item">
 					<a href="{{ desktop.get_absolute_url() }}" class="img-link">
-						<img src="{{ thumbnail(desktop.image, size=(512, 512), format='jpg') }}" alt="{{ desktop }}" />
+						<img src="{{ thumbnail(desktop.image, size=(512, 512), format='jpg', quality=85) }}" alt="{{ desktop }}" />
 					</a>
 				</div>
 			{% endif %}
