@@ -25,22 +25,24 @@
 {% block html_extra %}{% include "partials/htmlscope_article.html" %}{% endblock %}
 
 {% block content %}
-<form action="{{ request.path }}" method="post">{% csrf_token %}
-<ul class="object-tools btn-group">
-	{% if user.is_staff and perms.news.change_news %}
-		<li class="btn"><span class="wrap"><a href="{{ url("admin:news_news_change", news.pk) }}" class="text">Admin</a></span></li>
-	{% endif %}
-	{% if perms.news.change_news %}
-		<li class="btn"><span class="wrap"><a href="{{ url("news:update", news.slug) }}" class="text">Upraviť</a></span></li>
-	{% endif %}
-	{% if perms.news.change_news %}
-		{% with is_new = news.created == news.updated %}
-			{% if not news.approved or is_new %}<li class="btn"><button type="submit" name="approve" value="1" class="wrap"><span class="text">Schváliť</span></button></li>{% endif %}
-			{% if news.approved or is_new %}<li class="btn"><button type="submit" name="approve" value="" class="wrap"><span class="text">Zamietnúť</span></button></li>{% endif %}
-		{% endwith %}
-	{% endif %}
-</ul>
-</form>
+{% if request.user.is_authenticated() %}
+	<form action="{{ request.path }}" method="post">{% csrf_token %}
+		<ul class="object-tools btn-group">
+			{% if user.is_staff and perms.news.change_news %}
+				<li class="btn"><span class="wrap"><a href="{{ url("admin:news_news_change", news.pk) }}" class="text">Admin</a></span></li>
+			{% endif %}
+			{% if perms.news.change_news or (news.author == request.user and not news.is_approved) %}
+				<li class="btn"><span class="wrap"><a href="{{ url("news:update", news.slug) }}" class="text">Upraviť</a></span></li>
+			{% endif %}
+			{% if perms.news.change_news %}
+				{% with is_new = news.created == news.updated %}
+					{% if not news.approved or is_new %}<li class="btn"><button type="submit" name="approve" value="1" class="wrap"><span class="text">Schváliť</span></button></li>{% endif %}
+					{% if news.approved or is_new %}<li class="btn"><button type="submit" name="approve" value="" class="wrap"><span class="text">Zamietnúť</span></button></li>{% endif %}
+				{% endwith %}
+			{% endif %}
+		</ul>
+	</form>
+{% endif %}
 <h1>{{ news }}</h1>
 
 <div class="info">
