@@ -31,7 +31,7 @@
 			{% if user.is_staff and perms.news.change_news %}
 				<li class="btn"><span class="wrap"><a href="{{ url("admin:news_news_change", news.pk) }}" class="text">Admin</a></span></li>
 			{% endif %}
-			{% if perms.news.change_news or (news.author == request.user and not news.is_approved) %}
+			{% if perms.news.change_news or (news.author == request.user and not news.approved) %}
 				<li class="btn"><span class="wrap"><a href="{{ url("news:update", news.slug) }}" class="text">Upraviť</a></span></li>
 			{% endif %}
 			{% if perms.news.change_news %}
