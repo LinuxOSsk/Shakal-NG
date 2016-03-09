@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from braces.views import LoginRequiredMixin, PermissionRequiredMixin
+from braces.views import LoginRequiredMixin
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -52,13 +52,17 @@ class NewsCreateView(PreviewCreateView):
 		return ret
 
 	def get_success_url(self):
-		if self.request.user.has_perm('news.change_news'):
+		if self.request.user.is_authenticated():
 			return super(NewsCreateView, self).get_success_url()
 		else:
 			return reverse('home')
 
 
-class NewsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, PreviewUpdateView):
-	model = News
+class NewsUpdateView(LoginRequiredMixin, PreviewUpdateView):
 	form_class = NewsChangeForm
-	permission_required = 'news.change_news'
+
+	def get_queryset(self):
+		if self.request.user.has_perm('news.change_news'):
+			return News.all_news.all()
+		else:
+			return News.all_news.filter(author=self.request.user, approved=False)
