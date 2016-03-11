@@ -69,8 +69,6 @@ vymazanie celej databázy je možné vytvoriť novú db príkazom:
 TODO
 ====
 
-- možno pridať k editoru
-  http://kueblc.github.io/LDT/, http://users.dcc.uchile.cl/~jmunoz/
 - pripraviť responzívny web (http://localhost:8000/?switch_template=new pre
   zobrazenie v akom je stave) [1]_
 
