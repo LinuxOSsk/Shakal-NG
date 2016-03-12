@@ -1,0 +1,23 @@
+{% extends "email_base.html" %}
+
+{% block head_title %}Registrácia na portáli LinuxOS.sk{% endblock %}
+{% block title %}Registrácia na portáli LinuxOS.sk{% endblock %}
+
+{% block content %}
+<p>
+	Ďakujeme za registráciu na portáli <a href="https://linuxos.sk/">LinuxOS.sk</a>.
+</p>
+<p>
+Pre dokončenie registrácie je potrebné overiť vlastníctvo e-mailovej adresy <strong><a href="mailto:{{ user.email }}">{{ user.email }}</a></strong> pre účet <strong>{{ user }}</strong>.
+</p>
+<p>
+	Urobiť tak môžete na tejto adrese:<br />
+	<a href="{{ activate_url }}">{{ activate_url }}</a>
+</p>
+<p>
+	Pred pridávaním komentárov si nezabudnite prečítať etický kódex.
+</p>
+<p class="footer">
+	Pekný deň Vám praje <a href="https://linuxos.sk/team/">LinuxOS Team</a>.
+</p>
+{% endblock %}

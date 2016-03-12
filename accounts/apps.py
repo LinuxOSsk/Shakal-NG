@@ -63,7 +63,7 @@ class AccountsConfig(AppConfig):
 	def set_inactive(self, request, user, **kwargs): #pylint: disable=unused-argument
 		from allauth.account.models import EmailAddress
 		new_email_address = EmailAddress.objects.get(user=user, primary=True)
-		new_email_address.send_confirmation(request)
+		new_email_address.send_confirmation(request, signup=True)
 
 		user.is_active = False
 		user.is_staff = False

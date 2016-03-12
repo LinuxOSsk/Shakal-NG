@@ -1,1 +1,15 @@
-{% include "account/email/email_confirmation_message.txt" %}
+{% autoescape false %}Registrácia na portáli LinuxOS.sk
+=================================
+
+Ďakujeme za registráciu na portáli https://linuxos.sk/.
+
+Pre dokončenie registrácie je potrebné overiť vlastníctvo e-mailovej adresy
+{{ user.email }} pre účet {{ user }}.
+
+Urobiť tak môžete na tejto adrese:
+{{ activate_url }}
+
+Pred pridávaním komentárov si nezabudnite prečítať etický kódex.
+
+-- 
+Pekný deň Vám praje <a href="https://linuxos.sk/team/">LinuxOS Team</a>.{% endautoescape %}

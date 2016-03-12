@@ -1,0 +1,19 @@
+{% extends "email_base.html" %}
+
+{% block head_title %}Potvrdenie vlastníctva e-mailovej adresy{% endblock %}
+{% block title %}Potvrdenie vlastníctva e-mailovej adresy{% endblock %}
+
+{% block content %}
+<p>
+	Z&nbsp;portálu <a href="https://linuxos.sk/">LinuxOS.sk</a> bola odoslaná žiadosť o potvrdenie vlastníctva e-mailovej adresy.
+</p>
+<p>
+	V&nbsp;prípade, že ste vlastníkom účtu <strong>{{ user }}</strong> na portáli <a href="https://linuxos.sk/">LinuxOS.sk</a> prejdite na tento odkaz: <a href="{{ activate_url }}">{{ activate_url }}</a>.
+</p>
+<p>
+	Ak ste dostali tento e-mail dostali omylom môžte ho pokojne ignorovať.
+</p>
+<p class="footer">
+	Pekný deň Vám praje <a href="https://linuxos.sk/team/">LinuxOS Team</a>.
+</p>
+{% endblock %}

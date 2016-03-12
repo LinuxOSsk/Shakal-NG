@@ -1,3 +1,11 @@
-{% autoescape false %}
-Pre potvrdenie priradenia e-mailovej adresy k účtu {{ user }} kliknite na {{ activate_url }}
-{% endautoescape %}
+{% autoescape false %}Potvrdenie vlastníctva e-mailovej adresy
+========================================
+
+V prípade, že ste vlastníkom účtu {{ user }}
+na portáli https://linuxos.sk/ kliknite prostím na tento odkaz:
+{{ activate_url }}
+
+Ak ste dostali tento e-mail dostali omylom môžte ho pokojne ignorovať.
+
+-- 
+Pekný deň Vám praje <a href="https://linuxos.sk/team/">LinuxOS Team</a>.{% endautoescape %}
