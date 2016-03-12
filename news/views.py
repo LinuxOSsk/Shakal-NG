@@ -21,6 +21,7 @@ class NewsListView(ListView):
 class NewsDetailView(DetailUserProtectedView):
 	published_field = 'approved'
 	author_field = 'author'
+	superuser_perm = 'news.change_news'
 	queryset = News.all_news.all()
 
 	def post(self, request, *args, **kwargs):
