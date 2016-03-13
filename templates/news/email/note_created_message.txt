@@ -1,0 +1,15 @@
+{% autoescape off %}Poznámka pridaná k správe
+=========================
+
+Poznámka bola pridaná k správe: {{ base_uri }}{{ news.get_absolute_url() }}
+
+Poznámka
+--------
+Autor: {{ note.author }}
+{{ note.text|striptags }}
+
+Správa
+------
+{{ news.title }}
+{{ news.short_text|striptags }}
+{% endautoescape %}
