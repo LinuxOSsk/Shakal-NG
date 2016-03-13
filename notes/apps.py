@@ -14,6 +14,9 @@ class AppConfig(CoreAppConfig):
 		post_save.connect(self.emit_created, sender=Note)
 
 	def emit_created(self, instance, created, **kwargs):
-		print(created)
 		from .signals import note_created
-		note_created.send(sender=instance.content_object.__class__, instance=instance.content_object, note=instance)
+		if created:
+			note_created.send(
+				sender=instance.content_object.__class__,
+				instance=instance.content_object, note=instance
+			)
