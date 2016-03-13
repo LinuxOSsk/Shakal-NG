@@ -67,6 +67,7 @@ INSTALLED_APPS = (
 	'hitcount',
 	'linuxos',
 	'news',
+	'notes',
 	'notifications',
 	'polls',
 	'search',
@@ -359,6 +360,14 @@ SUIT_CONFIG = {
 			'models': (
 				'news.news',
 				'news.category',
+			)
+		},
+		{
+			'label': 'Poznámky',
+			'icon': 'icon-file',
+			'permissions': 'notes.note',
+			'models': (
+				'notes.note',
 			)
 		},
 		{

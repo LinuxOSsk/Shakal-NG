@@ -16,13 +16,13 @@ class Note(models.Model):
 	content_type = models.ForeignKey(
 		ContentType,
 		limit_choices_to = (
-			Q(app_name='news', model='news')
+			Q(app_label='news', model='news')
 		),
-		null=True,
-		blank=True,
 		verbose_name='typ obsahu'
 	)
-	object_id = models.PositiveIntegerField(verbose_name='id objektu', null=True, blank=True)
+	object_id = models.PositiveIntegerField(
+		verbose_name='id objektu',
+	)
 	content_object = GenericForeignKey('content_type', 'object_id')
 
 	author = models.ForeignKey(
@@ -47,3 +47,7 @@ class Note(models.Model):
 
 	def __unicode__(self):
 		return Truncator(strip_tags(self.filtered_text).replace('&shy;', '')).words(3, truncate="...")
+
+	class Meta:
+		verbose_name = 'poznámka'
+		verbose_name_plural = 'poznámky'

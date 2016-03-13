@@ -1,1 +1,1 @@
-default_app_config = 'news.apps.AppConfig'
+default_app_config = 'notes.apps.AppConfig'
