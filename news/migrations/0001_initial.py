@@ -44,7 +44,7 @@ class Migration(migrations.Migration):
 				('source', models.CharField(max_length=100, verbose_name='zdroj', blank=True)),
 				('source_url', models.URLField(max_length=1000, verbose_name='URL zdroja', blank=True)),
 				('approved', models.BooleanField(default=False, verbose_name='schv\xe1len\xe1')),
-				('author', models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL, verbose_name='author', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+				('author', models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL, verbose_name='autor', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
 				('category', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, verbose_name='kateg\xf3ria', to='news.Category')),
 			],
 			options={
