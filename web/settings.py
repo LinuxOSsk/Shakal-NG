@@ -19,7 +19,7 @@ DEBUG = True
 ADMINS = (('Miroslav Bendik', 'mireq@linuxos.sk'),)
 MANAGERS = ADMINS
 
-DEFAULT_FROM_EMAIL = 'web@linuxos.sk'
+DEFAULT_FROM_EMAIL = 'LinuxOS.sk <web@linuxos.sk>'
 
 ALLOWED_HOSTS = []
 
