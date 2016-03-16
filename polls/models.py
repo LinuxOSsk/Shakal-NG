@@ -9,7 +9,6 @@ from django.db import models
 from django.utils import timezone
 from django_autoslugfield.fields import AutoSlugField
 
-from comments.models import RootHeader, Comment
 from common_utils.models import TimestampModelMixin
 
 
@@ -46,8 +45,8 @@ class Poll(TimestampModelMixin, models.Model):
 
 	answer_count = models.PositiveIntegerField(default=0)
 
-	comments = GenericRelation(Comment)
-	comments_header = GenericRelation(RootHeader)
+	comments = GenericRelation('comments.Comment')
+	comments_header = GenericRelation('comments.RootHeader')
 
 	@property
 	def choices(self):

@@ -9,11 +9,8 @@ from django.db.models.query import QuerySet
 from django.utils import timezone
 from django_autoslugfield.fields import AutoSlugField
 
-from attachment.models import Attachment
-from comments.models import RootHeader, Comment
 from common_utils.models import TimestampModelMixin
 from hitcount.models import HitCountField
-from polls.models import Poll
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
@@ -85,10 +82,10 @@ class Post(TimestampModelMixin, models.Model):
 	filtered_content = RichTextFilteredField()
 	pub_time = models.DateTimeField(verbose_name='čas publikácie', db_index=True)
 	linux = models.BooleanField('linuxový blog', default=False)
-	polls = GenericRelation(Poll)
-	comments_header = GenericRelation(RootHeader)
-	comments = GenericRelation(Comment)
-	attachments = GenericRelation(Attachment)
+	polls = GenericRelation('polls.Poll')
+	comments_header = GenericRelation('comments.RootHeader')
+	comments = GenericRelation('comments.Comment')
+	attachments = GenericRelation('attachments.Attachment')
 	hit = HitCountField()
 
 	content_fields = ('original_perex', 'original_content',)

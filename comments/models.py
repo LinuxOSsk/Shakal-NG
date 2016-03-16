@@ -10,7 +10,6 @@ from django.utils import timezone
 from django.utils.encoding import force_str
 from mptt.models import MPTTModel, TreeForeignKey
 
-from attachment.models import Attachment
 from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
@@ -62,7 +61,7 @@ class Comment(MPTTModel, TimestampModelMixin):
 
 	is_locked = models.BooleanField('uzamknutý', default=False)
 
-	attachments = GenericRelation(Attachment)
+	attachments = GenericRelation('attachments.Attachment')
 
 	content_fields = ('original_comment',)
 

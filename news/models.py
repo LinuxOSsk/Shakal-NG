@@ -7,8 +7,6 @@ from django.db import models
 from django.db.models import permalink
 from django_autoslugfield.fields import AutoSlugField
 
-from attachment.models import Attachment
-from comments.models import RootHeader, Comment
 from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
@@ -74,9 +72,9 @@ class News(TimestampModelMixin, models.Model):
 	source = models.CharField(max_length=100, verbose_name='zdroj', blank=True)
 	source_url = models.URLField(max_length=1000, verbose_name='URL zdroja', blank=True)
 	approved = models.BooleanField(default=False, verbose_name='schválená')
-	comments_header = GenericRelation(RootHeader)
-	attachments = GenericRelation(Attachment)
-	comments = GenericRelation(Comment)
+	comments_header = GenericRelation('comments.RootHeader')
+	attachments = GenericRelation('attachments.Attachment')
+	comments = GenericRelation('comments.Comment')
 	notes = GenericRelation('notes.Note')
 
 	content_fields = ('original_short_text', 'original_long_text',)

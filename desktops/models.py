@@ -7,7 +7,6 @@ from django.db import models
 from django.db.models import permalink, Count
 
 from autoimagefield.fields import AutoImageField
-from comments.models import RootHeader, Comment
 from common_utils.models import TimestampModelMixin
 from hitcount.models import HitCountField
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
@@ -53,8 +52,8 @@ class Desktop(TimestampModelMixin, models.Model):
 		through='FavoriteDesktop'
 	)
 
-	comments_header = GenericRelation(RootHeader)
-	comments = GenericRelation(Comment)
+	comments_header = GenericRelation('comments.RootHeader')
+	comments = GenericRelation('comments.Comment')
 	hit = HitCountField()
 
 	@permalink
