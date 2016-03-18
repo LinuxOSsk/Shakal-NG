@@ -9,6 +9,8 @@ from django.db import models
 from django.db.models import permalink
 from django.utils import timezone
 
+from attachment.models import Attachment
+from comments.models import RootHeader, Comment
 from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
@@ -83,9 +85,9 @@ class Topic(TimestampModelMixin, models.Model):
 	filtered_text = RichTextFilteredField()
 	authors_name = models.CharField('meno autora', max_length=50, blank=False)
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name='autor')
-	attachments = GenericRelation('attachments.Attachment')
-	comments_header = GenericRelation('comments.RootHeader')
-	comments = GenericRelation('comments.Comment')
+	comments_header = GenericRelation(RootHeader)
+	attachments = GenericRelation(Attachment)
+	comments = GenericRelation(Comment)
 	is_removed = models.BooleanField('vymazané', default=False)
 	is_resolved = models.BooleanField('vyriešené', default=False)
 
