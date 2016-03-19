@@ -1,13 +1,15 @@
 {% with page_url=get_base_uri() + request.path %}
-	<div class="social">
-		<p>Zdieľať</p>
-		<ul>
-			<li class="facebook"><a href="https://www.facebook.com/sharer.php?u={{ page_url|urlquote }}" rel="nofollow">Facebook</a></li>
-			<li class="twitter"><a href="https://twitter.com/share?url={{ page_url|urlquote }}{% if name %}&amp;text={{ name|urlquote }}{% endif %}&amp;via=LinuxOSsk&amp;hashtags=LinuxOSsk" rel="nofollow">Twitter</a></li>
-			<li class="gplus"><a href="https://plus.google.com/share?url={{ page_url|urlquote }}" rel="nofollow">Goolge+</a></li>
-			{% if is_article %}
-				<li class="vybralisme"><a href="http://vybrali.sme.sk/submit.php?url={{ page_url|urlquote }}" title="vybrali.sme.sk" rel="nofollow">Vybrali.sme.sk</a></li>
-			{% endif %}
-		</ul>
+	<div class="social fieldset">
+		<div class="legend">Zdieľať</div>
+		<div class="content">
+			<ul>
+				<li class="facebook"><a href="https://www.facebook.com/sharer.php?u={{ page_url|urlquote }}" rel="nofollow">Facebook</a></li>
+				<li class="twitter"><a href="https://twitter.com/share?url={{ page_url|urlquote }}{% if name %}&amp;text={{ name|urlquote }}{% endif %}&amp;via=LinuxOSsk&amp;hashtags=LinuxOSsk" rel="nofollow">Twitter</a></li>
+				<li class="gplus"><a href="https://plus.google.com/share?url={{ page_url|urlquote }}" rel="nofollow">Goolge+</a></li>
+				{% if is_article %}
+					<li class="vybralisme"><a href="http://vybrali.sme.sk/submit.php?url={{ page_url|urlquote }}" title="vybrali.sme.sk" rel="nofollow">Vybrali.sme.sk</a></li>
+				{% endif %}
+			</ul>
+		</div>
 	</div>
 {% endwith %}

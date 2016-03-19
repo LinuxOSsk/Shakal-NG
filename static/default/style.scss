@@ -786,7 +786,7 @@ textarea {
 
 /* === Obsah stránky */
 
-#site_content, .secondary_content, #aside_left, #aside_right { padding: $layout-padding; }
+#site_content, .secondary_content, #aside_left, #aside_right { padding: $layout-padding $layout-padding 0 $layout-padding; }
 #site_content img, #site_content > img, #site_content > a > img { max-width: 100%; }
 #aside_left .module, #aside_right .module { font-size: 85%; }
 
@@ -1806,22 +1806,28 @@ td.status, td.comments, td.date {
 	margin-right: 35%;
 }
 
-.social {
-	margin: 8px 0;
+.fieldset {
 	border-top: $light-border;
 
-	&:after {
-		display: block;
-		content: " ";
-		height: 1px;
-		clear: both;
-	}
-
-	p {
+	.legend {
+		float: left;
+		background: white;
 		font-size: 1.25em;
 		color: $hdr-high;
 		font-weight: bold;
+		line-height: 1;
+		margin-top: -0.5em;
+		padding-right: 1em;
 	}
+
+	.content {
+		clear: both;
+		padding: 1em 0 0 0;
+	}
+}
+
+.social {
+	margin: 2em 0 0 0;
 
 	ul, li {
 		list-style: none;
@@ -1830,15 +1836,15 @@ td.status, td.comments, td.date {
 	}
 
 	li {
-		padding: 2px 10px 2px 2px;
-		float: left;
+		padding: 0 10px 0 0;
+		display: inline-block;
 	}
 
 	a {
 		display: block;
 		line-height: 32px;
 		text-decoration: none;
-		padding: 6px;
+		padding: 0 6px 0 0;
 	}
 
 	li a:before {
