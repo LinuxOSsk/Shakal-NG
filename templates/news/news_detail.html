@@ -52,13 +52,37 @@
 	<span class="category"><a href="{{ news.category.get_absolute_url() }}">{{ news.category }}</a></span>
 </div>
 
+<p>
+{{ news.long_text|safe }}
+</p>
+
 {% if not news.approved %}
 	<ul class="messages"><li class="warning">Správa čaká na schválenie.</li></ul>
 {% endif %}
 
-<p>
-{{ news.long_text|safe }}
-</p>
+{% if perms.news.change_news %}
+	<div class="fieldset">
+		<div class="legend">Poznámky k správe</div>
+		<div class="content">
+			<div class="module">
+				{% for note in news.admin_notes %}
+					<div class="module-row">
+						<div class="info">
+							<span class="subject">{{ note }}</span>
+						</div>
+						<p>{{ note.text|safe }}</p>
+						<div class="info bottom">
+							{{ note.created|humandatetime }}
+							{% if note.author %}
+							| <a href="{{ note.author.get_absolute_url() }}">{{ note.author }}</a>
+							{% endif %}
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endif %}
 
 {% include "news/partials/source.html" %}
 {% with name=object.title %}

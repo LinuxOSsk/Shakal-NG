@@ -409,6 +409,10 @@ th.title a, td.title a {
 
 .info {
 	color: $info-color;
+	.subject {
+		color: $generic-foreground;
+		font-weight: bold;
+	}
 }
 
 .object-tools {
