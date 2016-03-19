@@ -5,11 +5,13 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models import permalink
+from django.utils.functional import cached_property
 from django_autoslugfield.fields import AutoSlugField
 
 from attachment.models import Attachment
 from comments.models import RootHeader, Comment
 from common_utils.models import TimestampModelMixin
+from notes.models import Note
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
@@ -77,7 +79,7 @@ class News(TimestampModelMixin, models.Model):
 	comments_header = GenericRelation(RootHeader)
 	attachments = GenericRelation(Attachment)
 	comments = GenericRelation(Comment)
-	notes = GenericRelation('notes.Note')
+	notes = GenericRelation(Note)
 
 	content_fields = ('original_short_text', 'original_long_text',)
 
@@ -92,6 +94,10 @@ class News(TimestampModelMixin, models.Model):
 	@permalink
 	def get_list_url(self):
 		return ('news:list', None, None)
+
+	@cached_property
+	def admin_notes(self):
+		return self.notes.order_by('pk')
 
 	def __unicode__(self):
 		return self.title
