@@ -5,6 +5,7 @@ Poznámka bola pridaná k správe: {{ base_uri }}{{ news.get_absolute_url() }}
 
 Poznámka
 --------
+{{ note.subject }}
 Autor: {{ note.author }}
 {{ note.text|striptags }}
 

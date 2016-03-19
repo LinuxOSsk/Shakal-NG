@@ -11,6 +11,8 @@ Poznámka bola pridaná k správe: <a href="{{ base_uri }}{{ news.get_absolute_u
 
 <h2>Poznámka</h2>
 
+<p><strong>{{ note.subject }}</strong></p>
+
 <p>
 	<strong>Autor:</strong> <a href="{{ base_uri }}{{ note.author.get_absolute_url() }}">{{ note.author }}</a><br />
 	{{ note.text|safe }}
