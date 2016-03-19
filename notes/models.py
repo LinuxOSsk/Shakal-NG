@@ -6,13 +6,12 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import Q
-from django.template.defaultfilters import strip_tags
-from django.utils.text import Truncator
 
+from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
-class Note(models.Model):
+class Note(TimestampModelMixin, models.Model):
 	content_type = models.ForeignKey(
 		ContentType,
 		limit_choices_to = (
@@ -24,6 +23,8 @@ class Note(models.Model):
 		verbose_name='id objektu',
 	)
 	content_object = GenericForeignKey('content_type', 'object_id')
+
+	subject = models.CharField('predmet', max_length=100)
 
 	author = models.ForeignKey(
 		settings.AUTH_USER_MODEL,
@@ -46,7 +47,8 @@ class Note(models.Model):
 	filtered_text = RichTextFilteredField()
 
 	def __unicode__(self):
-		return Truncator(strip_tags(self.filtered_text).replace('&shy;', '')).words(3, truncate="...")
+		return self.subject
+		#return Truncator(strip_tags(self.filtered_text).replace('&shy;', '')).words(3, truncate="...")
 
 	class Meta:
 		verbose_name = 'poznámka'

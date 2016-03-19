@@ -19,7 +19,10 @@ class Migration(migrations.Migration):
 			name='Note',
 			fields=[
 				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+				('created', models.DateTimeField(verbose_name='vytvoren\xe9', editable=False)),
+				('updated', models.DateTimeField(verbose_name='upraven\xe9', editable=False)),
 				('object_id', models.PositiveIntegerField(verbose_name='id objektu')),
+				('subject', models.CharField(max_length=100, verbose_name='predmet')),
 				('authors_name', models.CharField(max_length=255, verbose_name='meno authora')),
 				('original_text', rich_editor.fields.RichTextOriginalField(max_length=20000, verbose_name='', property_name='text', filtered_field='filtered_text')),
 				('filtered_text', rich_editor.fields.RichTextFilteredField(editable=False)),
