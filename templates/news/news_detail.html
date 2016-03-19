@@ -60,7 +60,7 @@
 	<ul class="messages"><li class="warning">Správa čaká na schválenie.</li></ul>
 {% endif %}
 
-{% if perms.news.change_news %}
+{% if (perms.news.change_news or news.author == request.user) and news.admin_notes %}
 	<div class="fieldset">
 		<div class="legend">Poznámky k správe</div>
 		<div class="content">
