@@ -1812,6 +1812,7 @@ td.status, td.comments, td.date {
 
 .fieldset {
 	border-top: $light-border;
+	margin: 2em 0 0 0;
 
 	.legend {
 		float: left;
@@ -1831,8 +1832,6 @@ td.status, td.comments, td.date {
 }
 
 .social {
-	margin: 2em 0 0 0;
-
 	ul, li {
 		list-style: none;
 		padding: 0;
