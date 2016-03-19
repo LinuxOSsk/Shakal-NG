@@ -1,0 +1,31 @@
+{% extends "news/news_base.html" %}
+
+{% block extraheaders %}
+<meta name="robots" content="noindex, nofollow" />
+{{ super() }}
+{% endblock %}
+
+{% block head_title %}Pridať poznámku{% endblock %}
+{% block breadcrumbs %}
+	{{ breadcrumb("Pridať poznámku") }}
+	{{ breadcrumb(content_object.title, url=content_object.get_absolute_url()) }}
+	{{ breadcrumb("Správy", url="news:list") }}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+<h1>Pridať poznámku</h1>
+
+<p>Poznámka bude viditeľná ostatným administrátorom a autorovi správy.</p>
+
+<form action="{{ request.path }}" method="post" id="note-form">{% csrf_token %}
+	<fieldset class="module">
+		{% include "includes/form_loop.html" %}
+		<div class="submit-row">
+			<div class="positive">
+				<button class="btn" type="submit" title="Upraviť správu" name="update" value="1"><span class="wrap"><span class="text">Pridať poznámku</span></span></button>
+			</div>
+		</div>
+	</fieldset>
+</form>
+{% endblock %}

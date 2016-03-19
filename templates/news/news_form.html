@@ -17,7 +17,7 @@
 {% endblock %}
 
 {% block content %}
-<h1>Pridať správu </h1>
+<h1>{% if object %}Upraviť správu{% else %}Pridať správu{% endif %}</h1>
 
 {% if valid %}
 	<div class="module preview">

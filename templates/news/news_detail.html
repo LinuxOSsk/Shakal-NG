@@ -39,6 +39,7 @@
 					{% if not news.approved or is_new %}<li class="btn"><button type="submit" name="approve" value="1" class="wrap"><span class="text">Schváliť</span></button></li>{% endif %}
 					{% if news.approved or is_new %}<li class="btn"><button type="submit" name="approve" value="" class="wrap"><span class="text">Zamietnúť</span></button></li>{% endif %}
 				{% endwith %}
+				<li class="btn"><a class="wrap" href="{{ url("news:note-create", news.slug) }}"><span class="text">Pridať poznámku</span></a></li>
 			{% endif %}
 		</ul>
 	</form>

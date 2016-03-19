@@ -41,7 +41,7 @@ class Note(TimestampModelMixin, models.Model):
 	original_text = RichTextOriginalField(
 		filtered_field='filtered_text',
 		property_name='text',
-		verbose_name='',
+		verbose_name='poznámka',
 		max_length=20000
 	)
 	filtered_text = RichTextFilteredField()

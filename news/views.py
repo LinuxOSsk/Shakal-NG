@@ -5,6 +5,9 @@ from braces.views import LoginRequiredMixin
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from braces.views import PermissionRequiredMixin
+from notes.views import NoteCreateBase
 
 from .forms import NewsForm, NewsChangeForm
 from .models import News, Category
@@ -73,3 +76,11 @@ class NewsUpdateView(LoginRequiredMixin, PreviewUpdateView):
 			return News.all_news.all()
 		else:
 			return News.all_news.filter(author=self.request.user, approved=False)
+
+
+class NoteCreate(PermissionRequiredMixin, NoteCreateBase):
+	permission_required = 'news.change_news'
+	template_name = 'news/note_create.html'
+
+	def get_content_object(self):
+		return get_object_or_404(News, slug=self.kwargs['slug'])
