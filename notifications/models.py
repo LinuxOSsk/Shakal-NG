@@ -28,10 +28,8 @@ class EventManager(models.Manager):
 			event.content_type = ContentType.objects.get_for_model(content_object)
 		return event
 
-	def filter_users(self, author, is_staff, is_superuser, permissions):
+	def filter_users(self, is_staff, is_superuser, permissions):
 		users = self.__get_active_users()
-		if author:
-			users = users.exclude(pk=author.pk)
 		if is_staff is not None:
 			users = users.filter(is_staff=is_staff)
 		if is_superuser is not None:
@@ -54,8 +52,10 @@ class EventManager(models.Manager):
 		event = self.create_event(message, content_object, action=action, level=level, author=author)
 		event.save()
 		if users is None:
-			users = self.filter_users(author, is_staff, is_superuser, permissions)
+			users = self.filter_users(is_staff, is_superuser, permissions)
 		users = self.exclude_duplicate_events(users, event)
+		if author:
+			users = users.exclude(pk=author.pk)
 		self.notify_users(users, event)
 
 	def deactivate(self, content_object, action_type=None):
