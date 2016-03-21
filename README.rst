@@ -69,6 +69,15 @@ vymazanie celej databázy je možné vytvoriť novú db príkazom:
 TODO
 ====
 
+- tlačidlo pridať správu na viditeľné miesto
+- odkaz na neprečítané komentáre v perexe článku
+- hodnotenie článku
+- zaplatiť autorovi kávu
+- nahlásenie chyby článku
+- tweety
+- nájdi svojho linuxáka
+- ponuky práce
+- bazár
 - pripraviť responzívny web (http://localhost:8000/?switch_template=new pre
   zobrazenie v akom je stave) [1]_
 
