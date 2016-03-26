@@ -40,12 +40,12 @@
 
 #top_right {
 	float: right;
-	height: 20px;
+	height: $line-height;
 }
 
 #user_panel, #rss_panel {
 	padding-right: 16px;
-	z-index: 1;
+	z-index: 100;
 	float: right;
 	position: relative;
 }
@@ -91,7 +91,7 @@
 	position: absolute;
 	right: 16px;
 	min-width: 160px;
-	z-index: 1;
+	z-index: 100;
 
 	@include panel($border: #000000, $background: #c0c0c0, $shadow: true);
 
@@ -121,8 +121,10 @@
 
 #site_breadcrumbs {
 	clear: both;
-	background: #000000;
 	color: #c0c0c0;
+	position: relative;
+	margin-bottom: -$line-height;
+	z-index: 1;
 
 	ul {
 		padding: 0;
@@ -133,9 +135,11 @@
 
 	li {
 		display: inline;
+		background: #000000;
+		padding: 0 8px;
 
 		&:after {
-			content: ' >';
+			content: '  >';
 			display: inline;
 		}
 
@@ -154,9 +158,13 @@
 
 	a {
 		display: inline;
-		padding: 0 8px;
+		padding: 0;
 		&:hover {
 			color: #ffffff;
 		}
 	}
+}
+
+#mainwrap {
+	@include panel($border: #c0c0c0, $background: #000000);
 }

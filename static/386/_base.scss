@@ -3,10 +3,17 @@ html, body {
 	margin: 0;
 	font-family: 'FixedsysExcelsiorIIIb';
 	font-size: 16px;
+	background: #000000;
+	color: #ffffff;
 }
 
 pre, li, a, p, ul, button, input, textarea, select, option {
 	font-family: 'FixedsysExcelsiorIIIb';
 	font-size: 16px;
-	line-height: 20px;
+	line-height: $line-height;
+	color: #ffffff;
+}
+
+.clearfix {
+	clear: both;
 }

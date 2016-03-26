@@ -11,17 +11,18 @@ $menu-active-background: #000000;
 $menu-active-color: #c0c0c0;
 
 $module-margin: 16px;
+$line-height: 20px;
 
 @mixin panel($border: #000000, $background: #c0c0c0, $shadow: true) {
 	border: 2px solid $border;
 	padding: 7px 3px;
 	margin: 7px 3px;
-	background: #c0c0c0;
+	background: $background;
 	@if $shadow {
-		box-shadow: 3px 7px 0px #c0c0c0, -3px 7px 0px #c0c0c0, -3px -7px 0px #c0c0c0, 3px -7px 0px #c0c0c0, 11px 23px 0px rgba(0, 0, 0, 0.8);
+		box-shadow: 3px 7px 0px $background, -3px 7px 0px $background, -3px -7px 0px $background, 3px -7px 0px $background, 11px 23px 0px rgba(0, 0, 0, 0.8);
 	}
 	@else {
-		box-shadow: 3px 7px 0px #c0c0c0, -3px 7px 0px #c0c0c0, -3px -7px 0px #c0c0c0, 3px -7px 0px #c0c0c0;
+		box-shadow: 3px 7px 0px $background, -3px 7px 0px $background, -3px -7px 0px $background, 3px -7px 0px $background;
 	}
 }
 
