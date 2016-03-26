@@ -43,7 +43,7 @@
 	height: $line-height;
 }
 
-#user_panel, #rss_panel {
+#user_panel, #rss_panel, #search_panel {
 	padding-right: 16px;
 	z-index: 100;
 	float: right;
@@ -115,10 +115,6 @@
 	}
 }
 
-#search-panel {
-	float: right;
-}
-
 #site_breadcrumbs {
 	clear: both;
 	color: #c0c0c0;
@@ -165,6 +161,43 @@
 	}
 }
 
+#search_panel {
+	position: relative;
+
+	&:hover {
+		height: 40px;
+		.input-container {
+			display: block;
+		}
+	}
+
+	button {
+		border: none;
+		color: $menu-color;
+		background: $menu-background;
+		line-height: $line-height;
+		height: $line-height;
+		padding: 0 8px;
+		margin: 0;
+		&:hover {
+			color: $menu-active-color;
+			background: $menu-active-background;
+		}
+	}
+
+	.input-container {
+		display: block;
+		position: absolute;
+		right: 0;
+		top: 20px;
+		line-height: $line-height;
+		height: $line-height;
+		border: none;
+		display: none;
+		@include panel($border: #000000, $background: #c0c0c0, $shadow: true);
+	}
+}
+
 #mainwrap {
-	@include panel($border: #c0c0c0, $background: #000000);
+	@include panel($border: #c0c0c0, $background: #000000, $shadow: false);
 }
