@@ -44,8 +44,8 @@
 }
 
 #user_panel, #rss_panel {
+	padding-right: 16px;
 	z-index: 1;
-	padding: 0 16px;
 	float: right;
 	position: relative;
 }
@@ -116,9 +116,47 @@
 }
 
 #search-panel {
-	display: none;
+	float: right;
 }
 
 #site_breadcrumbs {
-	display: none;
+	clear: both;
+	background: #000000;
+	color: #c0c0c0;
+
+	ul {
+		padding: 0;
+		margin: 0 16px;
+		list-style: none;
+		@include text-ellipsis;
+	}
+
+	li {
+		display: inline;
+
+		&:after {
+			content: ' >';
+			display: inline;
+		}
+
+		&:last-child:after {
+			content: '';
+		}
+	}
+
+	li, a {
+		color: #c0c0c0;
+	}
+
+	.icon {
+		display: none;
+	}
+
+	a {
+		display: inline;
+		padding: 0 8px;
+		&:hover {
+			color: #ffffff;
+		}
+	}
 }
