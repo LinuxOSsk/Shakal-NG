@@ -4,7 +4,7 @@ html, body {
 	font-family: 'FixedsysExcelsiorIIIb';
 	font-size: 16px;
 	background: #000000;
-	color: #ffffff;
+	color: #c0c0c0;
 }
 
 pre, li, a, p, ul, button, input, textarea, select, option {
@@ -14,7 +14,7 @@ pre, li, a, p, ul, button, input, textarea, select, option {
 }
 
 pre, li, a, p, ul, button {
-	color: #ffffff;
+	color: #c0c0c0;
 }
 
 input:focus, textarea:focus, select:focus, a:focus {
@@ -33,6 +33,108 @@ input, textarea, select, option {
 img {
 	border: none;
 }
+
+h1, h2, h3, h4, h5, h6 {
+	padding: 0;
+	margin: 0;
+	font-size: 16px;
+	font-weight: normal;
+	color: #ffffff;
+}
+
+h1 {
+	font-size: 32px;
+	font-weight: normal;
+	padding: 0px 0 16px 0;
+	margin: 0 0 14px 0;
+	border-bottom: 2px solid #ffffff;
+}
+
+h2 {
+	text-align: center;
+	padding: 16px 0;
+	&:before {
+		content: '>>>  ';
+	}
+	&:after {
+		content: '  <<<';
+	}
+}
+
+hr {
+	border: none;
+	display: block;
+	height: 1px;
+	background: #c0c0c0;
+	padding: 0;
+	margin: 7px 0 8px 0;
+}
+
+a {
+	color: #fefe54;
+	text-decoration: none;
+	&:hover {
+		background: #aa5500;
+	}
+}
+
+table {
+	border-collapse: collapse;
+	box-shadow: 8px 16px 0px rgba(0, 0, 0, 0.8);
+	margin-bottom: 16px;
+	box-sizing: border-box;
+	background: #ffffff;
+	width: 99%;
+}
+
+td, th {
+	color: #000000;
+	text-align: left;
+	font-weight: normal;
+	padding: 0 8px;
+	border: 1px solid #888888;
+
+	a {
+		color: #0000aa;
+	}
+}
+
+th {
+	background: #ffffff;
+}
+
+tr {
+	background: #c0c0c0;
+}
+
+tr:nth-child(2n) {
+	background: #d8d8d8;
+}
+
+p {
+	padding: 0;
+	margin: 8px 0;
+}
+
+#mainwrap {
+	ul {
+		list-style: none;
+		margin-left: 0;
+		padding-left: 0;
+	}
+
+
+	li {
+		padding-left: 1em;
+		text-indent: -1em;
+	}
+
+	li:before {
+		content: "‣";
+		padding-right: 5px;
+	}
+}
+
 
 .clearfix {
 	clear: both;

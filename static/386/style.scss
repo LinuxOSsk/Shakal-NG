@@ -2,8 +2,8 @@
 @import "default/utility";
 @import "css/code_light";
 
-$left-background: #000000;
-$generic-background: #000000;
+$left-background: #000088;
+$generic-background: #000088;
 
 $menu-background: #c0c0c0;
 $menu-color: #000000;
@@ -14,15 +14,15 @@ $module-margin: 16px;
 $line-height: 20px;
 
 @mixin panel($border: #000000, $background: #c0c0c0, $shadow: true) {
-	border: 2px solid $border;
-	padding: 7px 3px;
-	margin: 7px 3px;
+	border: 1px solid $border;
+	padding: 9px 3px;
+	margin: 9px 3px;
 	background: $background;
 	@if $shadow {
-		box-shadow: 3px 7px 0px $background, -3px 7px 0px $background, -3px -7px 0px $background, 3px -7px 0px $background, 11px 23px 0px rgba(0, 0, 0, 0.8);
+		box-shadow: 3px 9px 0px $background, -3px 9px 0px $background, -3px -9px 0px $background, 3px -9px 0px $background, 11px 23px 0px rgba(0, 0, 0, 0.8);
 	}
 	@else {
-		box-shadow: 3px 7px 0px $background, -3px 7px 0px $background, -3px -7px 0px $background, 3px -7px 0px $background;
+		box-shadow: 3px 9px 0px $background, -3px 9px 0px $background, -3px -9px 0px $background, 3px -9px 0px $background;
 	}
 }
 

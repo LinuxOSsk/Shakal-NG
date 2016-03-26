@@ -201,3 +201,33 @@
 #mainwrap {
 	@include panel($border: #c0c0c0, $background: #000000, $shadow: false);
 }
+
+#colmask {
+	background: #000088;
+}
+
+#site_content, .secondary_content, #aside_left, #aside_right {
+	padding: 0px 7px 0px 8px;
+}
+
+.object-tools {
+	float: right;
+}
+
+.module-row {
+	padding: 8px 0;
+}
+
+.module-links.bottom {
+	padding-top: 7px;
+	margin-top: 8px;
+	border-top: 1px solid #444488;
+}
+
+.module {
+	border-bottom: 1px solid #c0c0c0;
+	padding-bottom: 15px;
+	&:last-child {
+		border-bottom: none;
+	}
+}
