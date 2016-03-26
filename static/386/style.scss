@@ -12,6 +12,19 @@ $menu-active-color: #c0c0c0;
 
 $module-margin: 16px;
 
+@mixin panel($border: #000000, $background: #c0c0c0, $shadow: true) {
+	border: 2px solid $border;
+	padding: 7px 3px;
+	margin: 7px 3px;
+	background: #c0c0c0;
+	@if $shadow {
+		box-shadow: 3px 7px 0px #c0c0c0, -3px 7px 0px #c0c0c0, -3px -7px 0px #c0c0c0, 3px -7px 0px #c0c0c0, 11px 23px 0px rgba(0, 0, 0, 0.8);
+	}
+	@else {
+		box-shadow: 3px 7px 0px #c0c0c0, -3px 7px 0px #c0c0c0, -3px -7px 0px #c0c0c0, 3px -7px 0px #c0c0c0;
+	}
+}
+
 @import "386/fonts/fonts";
 @import "386/layout";
 @import "386/base";

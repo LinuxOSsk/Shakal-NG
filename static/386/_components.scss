@@ -1,7 +1,3 @@
-#linuxos_logo {
-	display: none;
-}
-
 #top_header {
 	background: $menu-background;
 	color: $menu-color;
@@ -11,18 +7,9 @@
 		height: 0px;
 		clear: both;
 	}
-}
 
-#main_menu {
-	padding: 0 16px;;
-	margin: 0;
-	list-style: none;
-	float: left;
-
-	li {
-		padding: 0;
-		margin: 0;
-		display: inline-block;
+	.hdrleft {
+		display: none;
 	}
 
 	a {
@@ -38,16 +25,33 @@
 	}
 }
 
+#main_menu {
+	padding: 0 16px;;
+	margin: 0;
+	list-style: none;
+	float: left;
+
+	li {
+		padding: 0;
+		margin: 0;
+		display: inline-block;
+	}
+}
+
 #top_right {
 	float: right;
 	height: 20px;
 }
 
-#user_panel {
-	width: 160px;
-	position: relative;
+#user_panel, #rss_panel {
 	z-index: 1;
 	padding: 0 16px;
+	float: right;
+	position: relative;
+}
+
+#user_panel {
+	max-width: 160px;
 
 	.text {
 		text-align: right;
@@ -67,6 +71,8 @@
 		@include text-ellipsis;
 	}
 	&:hover {
+		height: 400px;
+
 		#userlinks {
 			display: block;
 		}
@@ -78,18 +84,16 @@
 	}
 }
 
-#userlinks {
+#userlinks, #rsslinks {
 	float: none;
 	display: none;
 	list-style: none;
-	border: 2px solid #000000;
-	position: relative;
+	position: absolute;
+	right: 16px;
+	min-width: 160px;
 	z-index: 1;
-	background: #c0c0c0;
 
-	padding: 7px 3px;
-	margin: 7px 3px;
-	box-shadow: 3px 7px 0px #c0c0c0, -3px 7px 0px #c0c0c0, -3px -7px 0px #c0c0c0, 3px -7px 0px #c0c0c0, 11px 23px 0px rgba(0, 0, 0, 0.8);
+	@include panel($border: #000000, $background: #c0c0c0, $shadow: true);
 
 	li {
 		padding: 0;
@@ -98,7 +102,17 @@
 }
 
 #rss_panel {
-	display: none;
+	&:hover {
+		height: 400px;
+
+		#rsslinks {
+			display: block;
+		}
+	}
+
+	#rsslinks {
+		right: -40px;
+	}
 }
 
 #search-panel {
