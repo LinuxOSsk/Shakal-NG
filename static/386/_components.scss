@@ -245,8 +245,19 @@
 
 .submit-row {
 	padding-top: 16px;
+	@extend .clearfix;
 	.positive {
 		float: right;
+		.btn {
+			float: left;
+		}
+
+		.btn + .btn {
+			margin-left: 8px;
+		}
+	}
+	.negative {
+		float: left;
 		.btn {
 			float: left;
 		}
