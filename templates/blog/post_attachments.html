@@ -11,6 +11,8 @@
 {% endblock %}
 
 {% block content %}
+<h1>Správa príloh</h1>
+
 <form action="{{ request.path }}" enctype="multipart/form-data" method="post">{% csrf_token %}
 	<fieldset class="module">
 		{% include "includes/form_attachment_loop.html" %}
