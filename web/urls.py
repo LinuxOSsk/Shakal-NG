@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
@@ -29,6 +32,7 @@ urlpatterns = patterns('',
 	url(_(r'^admin_dashboard/'), include('admin_dashboard.urls', namespace='admin_dashboard')),
 	url(r'^api/editor/', include('rich_editor.urls', namespace='rich_editor')),
 	url(r'^hijack/', include('hijack.urls')),
+	url(r'^django-email-log/', include('django_email_log.urls')),
 )
 
 if settings.DEBUG:

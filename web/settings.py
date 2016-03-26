@@ -43,6 +43,7 @@ INSTALLED_APPS = (
 	'django_autoslugfield',
 	'django_sample_generator',
 	'django_simple_paginator',
+	'django_email_log',
 	'allauth',
 	'allauth.account',
 	'compressor',
@@ -249,6 +250,9 @@ AUTHENTICATION_BACKENDS = (
 	'accounts.backend.AuthRememberBackend',
 )
 
+EMAIL_BACKEND = 'django_email_log.backends.EmailBackend'
+EMAIL_LOG_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 HIJACK_DISPLAY_ADMIN_BUTTON = False
 HIJACK_LOGIN_REDIRECT_URL = '/profil/ja/'
 HIJACK_LOGOUT_REDIRECT_URL = '/administracia/accounts/user/'
@@ -333,6 +337,14 @@ SUIT_CONFIG = {
 			'permissions': 'desktops.change_desktop',
 			'models': (
 				'desktops.desktop',
+			)
+		},
+		{
+			'label': 'E-maily',
+			'icon': 'icon-envelope',
+			'permissions': 'django_email_log.change_email',
+			'models': (
+				'django_email_log.email',
 			)
 		},
 		{
