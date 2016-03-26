@@ -87,15 +87,42 @@ table {
 	width: 99%;
 }
 
+tr {
+    border-top: none;
+}
+
+tr + tr {
+    border-top: 1px solid #888888;
+}
+
+td {
+    border-left: none;
+}
+
+td + td, th + td {
+    border-left: 1px solid #888888;
+}
+
+th {
+    border-left: none;
+}
+
+th + th, td + th {
+    border-left: 1px solid #888888;
+}
+
+
 td, th {
 	color: #000000;
 	text-align: left;
 	font-weight: normal;
 	padding: 0 8px;
-	border: 1px solid #888888;
 
 	a {
 		color: #0000aa;
+		&:hover {
+			color: #fefe54;
+		}
 	}
 }
 
