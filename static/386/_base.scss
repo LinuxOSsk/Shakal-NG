@@ -7,7 +7,7 @@ html, body {
 	color: #c0c0c0;
 }
 
-pre, li, a, p, ul, button, input, textarea, select, option {
+* {
 	font-family: 'FixedsysExcelsiorIIIb';
 	font-size: 16px;
 	line-height: $line-height;
@@ -44,6 +44,7 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
 	font-size: 32px;
+	line-height: 32px;
 	font-weight: normal;
 	padding: 16px 0;
 	margin: 0 0 14px 0;
@@ -124,6 +125,10 @@ td, th {
 			color: #fefe54;
 		}
 	}
+
+	input[type=text] {
+		width: 100%;
+	}
 }
 
 th {
@@ -143,7 +148,11 @@ p {
 	margin: 8px 0;
 }
 
-#mainwrap {
+fieldset {
+	border: 1px solid #c0c0c0;
+}
+
+.main {
 	ul {
 		list-style: none;
 		margin-left: 0;
@@ -165,4 +174,49 @@ p {
 
 .clearfix {
 	clear: both;
+}
+
+.badge {
+	&:before {
+		content: '<';
+	}
+
+	&:after {
+		content: '>';
+	}
+}
+
+.badge-info, .badge-watch {
+	background-color: #00c0ff;
+	color: black;
+}
+
+.label-info {
+	color: #0000c0;
+}
+
+.badge-warning, .label-warning {
+	background-color: #ffff00;
+	color: black;
+}
+
+.badge-success, .label-success, .badge-new {
+	background-color: #00ffa0;
+	color: black;
+}
+
+.badge-important, .label-important {
+	background-color: #ff0000;
+	color: white;
+}
+
+button::-moz-focus-inner {
+	padding: 0;
+	border: 0
+}
+
+button {
+	padding: 0;
+	border: 0;
+	background: #c0c0c0;
 }

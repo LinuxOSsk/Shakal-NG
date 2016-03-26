@@ -11,7 +11,7 @@
 <h1>Navrhnúť anketu</h1>
 
 <form action="{{ url("polls:create") }}" method="post" id="polls-form">{% csrf_token %}
-	<fieldset>
+	<fieldset class="module">
 		{% include "includes/form_loop.html" %}
 		<div class="submit-row">
 			<div class="positive">

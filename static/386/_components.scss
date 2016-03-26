@@ -12,6 +12,14 @@
 		display: none;
 	}
 
+	.badge {
+		margin-left: -8px;
+	}
+
+	li {
+		color: $menu-color;
+	}
+
 	a {
 		display: inline-block;
 		color: $menu-color;
@@ -179,6 +187,7 @@
 		height: $line-height;
 		padding: 0 8px;
 		margin: 0;
+		box-shadow: none;
 		&:hover {
 			color: $menu-active-color;
 			background: $menu-active-background;
@@ -227,6 +236,149 @@
 .module {
 	border-bottom: 1px solid #c0c0c0;
 	padding-bottom: 15px;
+	&:last-child {
+		border-bottom: none;
+	}
+}
+
+.submit-row {
+	padding-top: 16px;
+	.positive {
+		float: right;
+	}
+}
+
+fieldset.module {
+	border: 8px solid #880000;
+	background: #ff0000;
+	color: white;
+	padding: 20px 8px;
+	p {
+		color: white;
+	}
+	&:last-child {
+		border-bottom: 8px solid #880000;
+	}
+}
+
+.fieldset {
+	border: 1px solid #c0c0c0;
+	padding: 8px;
+	margin: 16px 7px;
+
+	.legend {
+		text-align: center;
+		color: white;
+		margin-top: -18px;
+		float: left;
+		background: #000088;
+		padding: 0 8px;
+	}
+}
+
+.clearfix {
+	@include clearfix;
+}
+
+/* === Formulár === */
+.form-row {
+	padding: 8px 0;;
+	border-bottom: 1px solid #ff8888;
+	@extend .clearfix;
+
+	.field_label, .formset_label {
+		display: block;
+		float: left;
+		width: 160px;
+	}
+
+	.required:after {
+		content: " *";
+	}
+
+	.help {
+		padding-left: 160px;
+		color: #d0d0d0;
+	}
+
+	label {
+		color: #ffffff;
+	}
+
+	.radio-description {
+		padding: 0;
+		margin: 0;
+		color: #d0d0d0;
+	}
+
+	input[type="text"], input[type="password"], input[type="email"], input[type="url"], input[type="number"] {
+		vertical-align: middle;
+		width: 15em;
+	}
+
+	ul {
+		padding: 0;
+		margin: 0;
+		margin-left: 172px;
+	}
+
+	li {
+		list-style: none;
+	}
+}
+
+.form-row ul.errorlist, ul.errorlist {
+	list-style: none;
+	padding: 8px;
+	margin: 7px;
+	border: 1px solid #d0d0d0;
+
+	li {
+		color: white;
+		&:before {
+			content: "";
+		}
+	}
+}
+
+.btn {
+	padding: 0;
+	margin: 0 8px 0 0;
+	background: none;
+	border: none;
+	height: $line-height;
+	line-height: $line-height;
+	list-style: none;
+	cursor: pointer;
+	display: block;
+	box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.8);
+	color: #000000;
+	background: #c0c0c0;
+
+	.wrap {
+		padding: 0 8px;
+		line-height: $line-height;
+		color: #000000;
+		cursor: pointer;
+	}
+
+	.text {
+		white-space: nowrap;
+		color: #000000;
+	}
+
+	a:hover {
+		background: none;
+	}
+}
+
+.btn-group .btn {
+	float: left;
+	&:before { content: ""; }
+}
+
+.module-row {
+	border-bottom: 1px solid #444488;
 	&:last-child {
 		border-bottom: none;
 	}

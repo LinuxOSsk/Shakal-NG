@@ -10,6 +10,13 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 
 div.richedit_container {
 
+clear: both;
+font-family: sans-serif;
+
+p, ul, li, button, h1, h2, h3, h4, h5, h6 {
+	font-family: sans-serif;
+}
+
 .richedit_chrome {
 	display: block;
 	border: $richedit-chrome-border;
@@ -107,6 +114,10 @@ div.richedit_container {
 			border-radius: 0;
 			box-shadow: none;
 			height: auto;
+		}
+
+		input[type=text], select, label, button, a {
+			font-family: sans-serif;
 		}
 
 		select {
@@ -223,6 +234,7 @@ div.richedit_container {
 	font-size: 11px;
 	font-weight: bold;
 	line-height: 1.2;
+	font-family: sans-serif;
 
 	background: #51a351;
 	background-image: linear-gradient(to bottom, #61c261, #51a351);
@@ -464,6 +476,7 @@ $icons: (
 	cursor: default;
 	color: $richedit-label-color;
 	text-shadow: $richedit-label-shadow;
+	font-family: sans-serif;
 }
 
 .richedit_button_arrow {
@@ -524,6 +537,12 @@ $icons: (
 	li {
 		padding: 0;
 		margin: 0;
+		font-family: sans-serif;
+		text-indent: 0;
+		&:before {
+			content: "";
+			display: none;
+		}
 	}
 }
 
