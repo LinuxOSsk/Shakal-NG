@@ -1,0 +1,18 @@
+@import "default/sprites";
+@import "default/utility";
+@import "css/code_light";
+
+$left-background: #000000;
+$generic-background: #000000;
+
+$menu-background: #c0c0c0;
+$menu-color: #000000;
+$menu-active-background: #000000;
+$menu-active-color: #c0c0c0;
+
+$module-margin: 16px;
+
+@import "386/fonts/fonts";
+@import "386/layout";
+@import "386/base";
+@import "386/components";

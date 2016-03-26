@@ -26,3 +26,9 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 	//	background-image: map-get($sprites2x, _url);
 	//}
 }
+
+@mixin text-ellipsis() {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

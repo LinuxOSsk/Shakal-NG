@@ -1,0 +1,116 @@
+/* === Layout === */
+
+#colmask {
+	float: left; clear: both;
+	width: 100%; height: 100%;
+	overflow: hidden;
+	position: relative;
+}
+
+#col1 {
+	width: 68%;
+	left: 100%;
+	float: left;
+	position: relative;
+	overflow: hidden;
+}
+
+#colleft {
+	float: left;
+	right: 68%;
+	width: 100%;
+	position: relative;
+	background: $left-background;
+	border-right: solid 1px #c4d1e3;
+}
+
+#aside {
+	float: left;
+	position: relative;
+	overflow: hidden;
+	width: 32%;
+}
+
+/* 2 stĺpce */
+@media only screen and (max-width: 1279px) {
+
+#aside #aside_right {
+	padding-top: 0;
+}
+
+}
+
+/* 3 stĺpce */
+@media only screen and (min-width: 1280px) {
+
+#col1, #col2, #col3 {
+	float: left;
+	position: relative;
+	overflow: hidden;
+}
+
+#colright, #colmid, #colleft {
+	float: left;
+	width: 100%;
+	position: relative;
+}
+
+#colmask {
+	background: $left-background;
+}
+
+#colmid {
+	right: 25%;
+	background: $generic-background;
+	border-right: solid 1px #c4d1e3;
+}
+
+#colleft {
+	right: 50%;
+	background: $left-background;
+	border-right: solid 1px #c4d1e3;
+}
+
+#col1 {
+	width: 50%;
+	left: 100%;
+}
+
+#col2 {
+	width: 25%;
+	left: 25%;
+}
+
+#col3 {
+	width: 25%;
+	left: 75%;
+}
+
+#aside {
+	float: none;
+	overflow: visible;
+	width: auto;
+}
+
+}
+
+.column-left {
+	width: 50%;
+	margin-top: $module-margin;
+	float: left;
+	clear: left;
+	.module {
+		margin-right: $module-margin / 2;
+	}
+}
+
+.column-right {
+	width: 50%;
+	margin-top: $module-margin;
+	float: right;
+	clear: right;
+	.module {
+		margin-right: $module-margin / 2;
+	}
+}
+

@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html lang="{{ LANGUAGE_CODE }}" xml:lang="{{ LANGUAGE_CODE }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+	<title>{% block head_title %}Stránka nie je dostupná{% endblock %}</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<style type="text/css" media="screen">
+body {
+	padding: 0px;
+	margin: 0px;
+	color: #555;
+	background: #f0f4ff;
+	font-size: 16px;
+}
+
+div.summary {
+	height: 80px;
+	background: #52a6e2;
+}
+
+div.summary * {
+	font-size: 32px;
+	margin: 15px;
+	padding: 5px;
+	font-weight: normal;
+}
+
+div.summary h1 {
+	float: left;
+	color: #fff;
+	text-shadow: 1px 1px 0px #418cc0;
+}
+
+div.summary div {
+	float: right;
+	color: #3f82b3;
+	font-weight: bold;
+	font-size: 42px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+.content {
+	margin: 10px;
+}
+
+p {
+	margin: 4px 0px;
+}
+
+a, a:visited {
+	color: #3284ee;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+div.content {
+	width : 600px;
+	margin-top: 5em;
+	margin-left : auto;
+	margin-right : auto;
+	background : white;
+	border: 1px solid #e8e8e8;
+	padding : 10px;
+	box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+hr.popis {
+	clear: both;
+	background-color : #ddd;
+}
+
+hr {
+	display:block;
+	border : none;
+	height : 1px;
+	background-color : #eee;
+}
+
+div#informacie {
+	overflow : auto;
+}
+
+div#back a {
+	text-decoration : none;
+}
+
+h2 {
+	font-size : 130%;
+	margin : 4px;
+	padding : 2px;
+}
+
+.progressbar {
+	border: solid 1px #e4e5e7;
+	border-radius: 3px;
+	height: 13px;
+	margin: .3em 0;
+}
+
+.progressbar .completed {
+	border: solid 1px #2f83bb;
+	background: #54abe9;
+	border-radius: 3px;
+	overflow: hidden;
+	text-indent: -9999px;
+	height: 13px;
+	position: relative;
+	top: -1px;
+	left: -1px;
+}
+
+	</style>
+	{% block extraheaders %}{% endblock %}
+</head>
+<body>
+	<div class="summary">
+		<h1>{% block pagetitle %}Stránka nie je dostupná{% endblock %}</h1>
+		<div class="errorcode">{% block errorcode %}500{% endblock %}</div>
+	</div>
+	<div class="content">
+		{% block body %}
+		<img alt="Error" src="data:image/png;base64,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" style="width: 128px; height: 128px; float: left; margin: 10px;" />
+		<h2>Stránka nie je dostupná</h2>
+		<hr />
+		<p class="informacie">
+		{% block info %}Neznáma chyba{% endblock %}
+		</p>
+		{% endblock %}
+		<hr />
+		{% block useless_info %}
+		Už sme vyslali tím špeciálne vycvičených opíc, aby situáciu vyriešili.
+		{% endblock %}
+		<hr class="popis" />
+		{% block details %}
+		<h2>Podrobnosti</h2>
+		<ul>
+			<li>Príčina chyby: Skript</li>
+			<li>Čas: {{ date_now }}</li>
+			<li>Požadované URI: {{ request.path }}</li>
+			<li>Názov servera: {{ request.META.SERVER_NAME }}</li>
+			<li>Port: {{ request.META.SERVER_PORT }}</li>
+			<li>Metóda: {{ request.META.REQUEST_METHOD }}</li>
+			<li>Protokol: {{ request.META.SERVER_PROTOCOL }}</li>
+			{% block more_details %}
+			{% endblock %}
+		</ul>
+		{% endblock %}
+		{% block backlink %}<div id="back"><a href="/">Späť na domovskú stránku</a></div>{% endblock %}
+	</div>
+</body>
+</html>

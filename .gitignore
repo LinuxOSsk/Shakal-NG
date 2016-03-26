@@ -32,3 +32,4 @@
 /db.sqlite3
 /scripts/setenv.server
 /upgrade.sh
+/static/386/fonts/FSEX300*

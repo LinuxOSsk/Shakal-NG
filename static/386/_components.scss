@@ -1,0 +1,110 @@
+#linuxos_logo {
+	display: none;
+}
+
+#top_header {
+	background: $menu-background;
+	color: $menu-color;
+	&:after {
+		display: block;
+		content: " ";
+		height: 0px;
+		clear: both;
+	}
+}
+
+#main_menu {
+	padding: 0 16px;;
+	margin: 0;
+	list-style: none;
+	float: left;
+
+	li {
+		padding: 0;
+		margin: 0;
+		display: inline-block;
+	}
+
+	a {
+		display: block;
+		color: $menu-color;
+		padding: 0 8px;
+		text-decoration: none;
+	}
+
+	.active a, a:hover {
+		color: $menu-active-color;
+		background: $menu-active-background;
+	}
+}
+
+#top_right {
+	float: right;
+	height: 20px;
+}
+
+#user_panel {
+	width: 160px;
+	position: relative;
+	z-index: 1;
+	padding: 0 16px;
+
+	.text {
+		text-align: right;
+	}
+
+	.btn.username, a {
+		display: block;
+		color: $menu-color;
+		padding: 0 8px;
+		text-decoration: none;
+		&:hover {
+			color: $menu-active-color;
+			background: $menu-active-background;
+		}
+	}
+	.text {
+		@include text-ellipsis;
+	}
+	&:hover {
+		#userlinks {
+			display: block;
+		}
+
+		.text {
+			color: $menu-active-color;
+			background: $menu-active-background;
+		}
+	}
+}
+
+#userlinks {
+	float: none;
+	display: none;
+	list-style: none;
+	border: 2px solid #000000;
+	position: relative;
+	z-index: 1;
+	background: #c0c0c0;
+
+	padding: 7px 3px;
+	margin: 7px 3px;
+	box-shadow: 3px 7px 0px #c0c0c0, -3px 7px 0px #c0c0c0, -3px -7px 0px #c0c0c0, 3px -7px 0px #c0c0c0, 11px 23px 0px rgba(0, 0, 0, 0.8);
+
+	li {
+		padding: 0;
+		margin: 0;
+	}
+}
+
+#rss_panel {
+	display: none;
+}
+
+#search-panel {
+	display: none;
+}
+
+#site_breadcrumbs {
+	display: none;
+}
