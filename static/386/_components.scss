@@ -280,6 +280,21 @@
 	display: inline;
 }
 
+li.comment {
+	@extend .clearfix;
+	clear: both;
+	padding-left: 0;
+	margin-top: 16px;
+	padding-bottom: 16px;
+	li {
+		padding-left: 8px;
+	}
+	&:before {
+		content: "";
+		display: none;
+	}
+}
+
 fieldset.module {
 	border: 8px solid #880000;
 	background: #ff0000;
@@ -402,6 +417,7 @@ fieldset.module {
 
 .btn-group .btn {
 	float: left;
+	padding-left: 0;
 	&:before { content: ""; }
 }
 
