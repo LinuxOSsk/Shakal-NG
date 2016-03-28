@@ -595,3 +595,22 @@ div.richedit_container {
 		background: #ffff00;
 	}
 }
+
+ul.messages {
+	list-style: none;
+	padding: 8px;
+	margin: 7px;
+	border: 1px solid #d0d0d0;
+
+	li {
+		color: white;
+		&:before {
+			content: "";
+		}
+	}
+
+	.info { color: #00c0ff; }
+	.success { color: #00ffa0; }
+	.warning { color: #ffa000; }
+	.error { color: #ff0000; }
+}
