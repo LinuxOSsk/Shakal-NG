@@ -582,3 +582,16 @@ div.richedit_container {
 		}
 	}
 }
+
+.progress {
+	//@include panel($border: #c0c0c0, $background: #000088, $shadow: false);
+	height: 16px;
+	background: #008888;
+	.bar {
+		overflow: hidden;
+		text-indent: -9999px;
+		position: relative;
+		height: 16px;
+		background: #ffff00;
+	}
+}
