@@ -619,7 +619,21 @@ ul.messages {
 	@extend .clearfix;
 	border-left: 8px solid #008888;
 	position: relative;
-	padding-bottom: 16px;
+	min-height: 58px;
+	margin-bottom: 16px;
+
+	&.me {
+		border-left-color: #00ffff;
+	}
+	&.resolved {
+		border-left-color: #00ff88;
+	}
+	&.deleted {
+		border-left-color: #ff0000;
+	}
+	&.new, &.highlight {
+		border-left-color: #ff0000;
+	}
 
 	.user {
 		float: right;
