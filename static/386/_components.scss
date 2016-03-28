@@ -268,6 +268,18 @@
 	}
 }
 
+.btn.reply {
+	float: right;
+}
+
+.btn-group.reply, .btn-group.voting, .btn-group.admin {
+	float: right;
+}
+
+.comments_tree form, .links form {
+	display: inline;
+}
+
 fieldset.module {
 	border: 8px solid #880000;
 	background: #ff0000;
