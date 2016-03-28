@@ -366,7 +366,7 @@ fieldset.module {
 	line-height: $line-height;
 	list-style: none;
 	cursor: pointer;
-	display: block;
+	display: inline-block;
 	box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.8);
 	color: #000000;
 	background: #c0c0c0;
@@ -613,4 +613,88 @@ ul.messages {
 	.success { color: #00ffa0; }
 	.warning { color: #ffa000; }
 	.error { color: #ff0000; }
+}
+
+.discussion.header {
+	@extend .clearfix;
+	border-left: 8px solid #008888;
+	position: relative;
+	padding-bottom: 16px;
+
+	.user {
+		float: right;
+		display: block;
+		text-align: right;
+		padding-right: 8px;
+		min-height: 56px;
+		position: absolute;
+		right: 56px;
+		top: 4px;
+	}
+
+	.distribution, .rank {
+		display: block;
+		color: #008888;
+		white-space: nowrap;
+		padding-right: 28px;
+	}
+
+	.rank.role {
+		display: none;
+	}
+
+	.comment_info {
+		margin-left: 8px;
+		margin-right: 180px;
+		.subject {
+			display: block;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			width: 100%;
+		}
+	}
+
+	.user_rating {
+		float: right;
+		width: 8px;
+		height: 56px;
+		margin: -3px 0 0 8px;
+		background: #000000;
+		position: relative;
+
+		&:after {
+			content: " ";
+			display: block;
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: #ffff00;
+		}
+		&.admin:after { background: #00ffff; }
+		&.rating_0:after { height: 0%; }
+		&.rating_1:after { height: 20%; }
+		&.rating_2:after { height: 40%; }
+		&.rating_3:after { height: 60%; }
+		&.rating_4:after { height: 80%; }
+		&.rating_5:after { height: 100%; }
+	}
+
+	.icon {
+		display: block;
+		float: right;
+		width: 48px;
+		height: 48px;
+		padding: 4px;
+		position: absolute;
+		right: 0px;
+		top: 0px;
+		border: 1px solid #c0c0c0;
+	}
+
+	.comment_link {
+		position: absolute;
+		top: 0px;
+	}
 }
