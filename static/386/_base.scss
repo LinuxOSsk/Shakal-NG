@@ -202,6 +202,10 @@ img {
 	clear: both;
 }
 
+pre, .annotation {
+	overflow: auto;
+}
+
 pre {
 	background: #000000;
 	padding: 16px 8px;
