@@ -156,7 +156,7 @@ TEMPLATES = [
 	},
 ]
 
-DYNAMIC_TEMPLATES = ('386', 'default', 'new')
+DYNAMIC_TEMPLATES = ('default', '386', 'new')
 
 CACHES = {
 	'default': {
