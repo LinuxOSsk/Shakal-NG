@@ -740,3 +740,23 @@ ul.messages {
 		top: 0px;
 	}
 }
+
+.pagination {
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+.pagination li {
+	display: inline;
+	list-style: none;
+	border: 1px solid #c0c0c0;
+	margin: 8px 8px 8px 0;
+	padding: 8px 8px;
+
+	&:before { content: ""; display: none; }
+	&.disabled a { color: #008888; cursor: default; }
+	&.disabled a:hover { border: none; color: #008888; background: #000088; }
+	&.active { background: #ffff00; a { color: #000000; } }
+	&.skip { border: none; }
+}
