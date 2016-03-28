@@ -714,7 +714,7 @@ ul.messages {
 			bottom: 0;
 			background: #ffff00;
 		}
-		&.admin:after { background: #00ffff; }
+		&.admin:after { background: #00ffff; height: 100%; }
 		&.rating_0:after { height: 0%; }
 		&.rating_1:after { height: 20%; }
 		&.rating_2:after { height: 40%; }
