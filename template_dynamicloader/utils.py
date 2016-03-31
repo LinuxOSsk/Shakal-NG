@@ -2,9 +2,20 @@
 from __future__ import unicode_literals
 
 import json
+
 from django.conf import settings
+from django.utils import timezone
 
 from common_utils.cookies import set_cookie
+
+
+def get_default_template(request):
+	t = timezone.localtime(request.request_time).date()
+	if t.day == 1 and t.month == 4:
+		return '386'
+	else:
+		return settings.DYNAMIC_TEMPLATES[0]
+
 
 
 def switch_template(response, **kwargs):
@@ -50,7 +61,7 @@ def get_template_settings(request):
 	template_skin = css = template_settings = None
 
 	templates = settings.DYNAMIC_TEMPLATES
-	default = settings.DYNAMIC_TEMPLATES[0]
+	default = get_default_template(request)
 
 	if request is None:
 		return (default, css, {})
