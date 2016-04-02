@@ -190,11 +190,18 @@ _.forEach(daily_stats, function(day, i) {
 	}
 
 	var block = document.createElement('DIV');
+	/*
 	block.style.background = '#eeeeee';
 	if (day[1]) {
 		block.style.background = calcColor(day[1] / maxDayValue);
 	}
-	block.className = 'block';
+	*/
+	if (day[1]) {
+		block.className = 'block a-' + Math.round(day[1] / maxDayValue * 20);
+	}
+	else {
+		block.className = 'block';
+	}
 
 	var time = day[0];
 	var title = '';
