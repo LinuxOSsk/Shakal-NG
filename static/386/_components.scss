@@ -770,6 +770,12 @@ ul.messages {
 	position: relative;
 }
 
+.daily-stats {
+	.block {
+		border: 1px solid #000088;
+	}
+}
+
 #monthly_stats {
 	height: 200px;
 }

@@ -1764,6 +1764,12 @@ td.status, td.comments, td.date {
 	position: relative;
 }
 
+.daily-stats {
+	.block {
+		border: 1px solid #000088;
+	}
+}
+
 .monthly-stats-container .monthly-stats {
 	margin: 10px 4px;
 }

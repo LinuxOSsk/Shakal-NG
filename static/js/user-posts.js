@@ -194,7 +194,7 @@ _.forEach(daily_stats, function(day, i) {
 	if (day[1]) {
 		block.style.background = calcColor(day[1] / maxDayValue);
 	}
-	block.style.border = '1px solid white';
+	block.className = 'block';
 
 	var time = day[0];
 	var title = '';
