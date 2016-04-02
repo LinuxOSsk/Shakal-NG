@@ -760,3 +760,15 @@ ul.messages {
 	&.active { background: #ffff00; a { color: #000000; } }
 	&.skip { border: none; }
 }
+
+.monthly-stats-container .monthly-stats {
+	margin: 10px 4px;
+}
+
+#monthly_stats {
+	height: 200px;
+}
+
+.dygraph-axis-label {
+	color: #a0a0a0;
+}
