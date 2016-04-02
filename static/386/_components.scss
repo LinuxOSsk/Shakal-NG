@@ -762,7 +762,12 @@ ul.messages {
 }
 
 .monthly-stats-container .monthly-stats {
-	margin: 10px 4px;
+	margin: 16px 8px;
+}
+
+.daily-stats-container .daily-stats {
+	margin: 16px 8px;
+	position: relative;
 }
 
 #monthly_stats {
