@@ -24,8 +24,11 @@ class JinjaLoader(DynamicLoaderMixin, FileSystemLoader):
 			return super(JinjaLoader, self).get_source(environment, template)
 		else:
 			if not template in self.template_source_cache:
-				self.template_source_cache[template] = None
-				self.template_source_cache[template] = super(JinjaLoader, self).get_source(environment, template)
+				try:
+					self.template_source_cache[template] = super(JinjaLoader, self).get_source(environment, template)
+				except:
+					self.template_source_cache[template] = None
+					raise
 			template_source = self.template_source_cache[template]
 			if template_source is None:
 				raise TemplateNotFound(template)
