@@ -4,13 +4,15 @@ from __future__ import unicode_literals
 import json
 
 from django.conf import settings
-from django.utils import timezone
 
 from common_utils.cookies import set_cookie
 
 
 def get_default_template(request):
-	t = timezone.localtime(request.request_time).date()
+	request_time = getattr(request, 'request_time', None)
+	if request_time is None:
+		return settings.DYNAMIC_TEMPLATES[0]
+	t = request_time.date()
 	if t.day == 1 and t.month == 4:
 		return '386'
 	else:
