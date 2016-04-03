@@ -20,7 +20,7 @@ class AttachmentManagementMixin(object):
 				attachment_data['width'] = attachment.attachmentimage.width
 				attachment_data['height'] = attachment.attachmentimage.height
 				attachment_data['thumbnails'] = {
-					'standard': thumbnail(attachment.attachment.name, size=(256, 256)).url
+					'standard': thumbnail(attachment.attachment, size=(256, 256)).url
 				}
 			attachments.append(attachment_data)
 		return attachments
