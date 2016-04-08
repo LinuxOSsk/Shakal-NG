@@ -198,6 +198,14 @@ img {
 		content: "‣";
 		padding-right: 5px;
 	}
+
+	li.btn {
+		padding-left: 0;
+		&:before {
+			content: "";
+			display: none;
+		}
+	}
 }
 
 
