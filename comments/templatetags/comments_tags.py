@@ -223,3 +223,10 @@ def render_comments_toplevel(context, target):
 
 library.filter(mptt_tags.tree_info)
 register.assignment_tag(get_comments_list, takes_context=True)
+
+
+@library.global_function
+def comments_count_image_link(instance):
+	ctype = ContentType.objects.get_for_model(instance.__class__)
+	print(ctype)
+	return 'aaa'

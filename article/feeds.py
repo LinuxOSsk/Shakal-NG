@@ -14,12 +14,10 @@ class ArticleFeed(Feed):
 	description = "Zoznam najnovších článkov"
 	link = reverse_lazy('article:list')
 	feed_url = reverse_lazy('article:feed-latest')
+	description_template = 'feeds/article.html'
 
 	def categories(self):
-		return Category.objects.values_list('name', flat = True)
-
-	def item_description(self, item):
-		return item.perex
+		return Category.objects.values_list('name', flat=True)
 
 	def item_author_name(self, item):
 		return item.authors_name

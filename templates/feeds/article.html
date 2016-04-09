@@ -1,0 +1,6 @@
+{{ obj.perex|safe }}
+{% if "include_comments" in request.GET %}
+	<div>
+		{{ comments_count_image_link(obj) }}
+	</div>
+{% endif %}
