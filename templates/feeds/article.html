@@ -1,6 +1,8 @@
 {{ obj.perex|safe }}
 {% if "include_comments" in request.GET %}
 	<div>
-		{{ comments_count_image_link(obj) }}
+		<a href="{{ obj.get_absolute_url() }}#comments">
+			<img src="{{ comments_count_image_link(obj) }}" alt="Komentáre" />
+		</a>
 	</div>
 {% endif %}

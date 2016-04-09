@@ -13,6 +13,7 @@ from django.utils.safestring import mark_safe
 from django_jinja import library
 from jinja2 import contextfunction
 from mptt.templatetags import mptt_tags
+from django.core.urlresolvers import reverse
 
 from ..models import RootHeader, UserDiscussionAttribute
 from comments.models import Comment
@@ -228,5 +229,4 @@ register.assignment_tag(get_comments_list, takes_context=True)
 @library.global_function
 def comments_count_image_link(instance):
 	ctype = ContentType.objects.get_for_model(instance.__class__)
-	print(ctype)
-	return 'aaa'
+	return reverse('comments:count-image', args=(ctype.pk, instance.pk), kwargs={})

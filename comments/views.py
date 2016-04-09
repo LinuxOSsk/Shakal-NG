@@ -4,11 +4,11 @@ from __future__ import unicode_literals
 from braces.views import PermissionRequiredMixin, LoginRequiredMixin
 from django import http
 from django.core.urlresolvers import reverse
-from django.http.response import HttpResponseRedirect
+from django.http.response import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import capfirst
 from django.template.response import TemplateResponse
-from django.views.generic import DetailView
+from django.views.generic import DetailView, View
 from django.views.generic.edit import FormView
 
 from .forms import CommentForm
@@ -199,3 +199,19 @@ class CommentDetailSingle(CommentDetail):
 		if self.request.user.is_staff:
 			ctx['can_display_deleted'] = True
 		return ctx
+
+
+class CommentCountImage(View):
+	def get(self, request, **kwargs):
+		from PIL import Image, ImageDraw
+
+		size = (160, 10)
+		im = Image.new('RGB', size, color=(255, 255, 255))
+		draw = ImageDraw.Draw(im)
+
+		draw.text((0, 0), '0 komentárov', fill=(0, 0, 255))
+		del draw
+
+		response = HttpResponse(content_type='image/png')
+		im.save(response, 'PNG')
+		return response
