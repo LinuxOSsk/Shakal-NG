@@ -14,12 +14,10 @@ class TopicFeed(Feed):
 	description = u"Témy fóra"
 	link = reverse_lazy('forum:overview')
 	feed_url = reverse_lazy('forum:feed-latest')
+	description_template = 'feeds/description/forum_topic.html'
 
 	def categories(self):
 		return Section.objects.values_list('name', flat = True)
-
-	def item_description(self, item):
-		return item.text
 
 	def item_author_name(self, item):
 		return item.authors_name

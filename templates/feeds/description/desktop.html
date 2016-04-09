@@ -1,0 +1,9 @@
+{{ obj.text|safe }}
+<img src="{{ thumbnail(obj.image, size=(512, 512), format="jpg", quaity=85) }}" alt="{{ obj }}" />
+{% if "include_comments" in request.GET %}
+	<div>
+		<a href="{{ obj.get_absolute_url() }}#comments">
+			<img src="{{ comments_count_image_link(obj) }}" alt="Komentáre" />
+		</a>
+	</div>
+{% endif %}

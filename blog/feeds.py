@@ -11,6 +11,7 @@ from .models import Blog, Post
 class PostFeed(Feed):
 	description = "Zoznam najnovších blogov"
 	link = reverse_lazy('blog:post-list')
+	description_template = 'feeds/description/blog_post.html'
 
 	def __init__(self, linux=None, blog_slug=None, *args, **kwargs):
 		self.linux_feeds = linux
@@ -28,9 +29,6 @@ class PostFeed(Feed):
 			return reverse_lazy('blog:post-feed-latest')
 		else:
 			return reverse_lazy('blog:post-feed-blog', kwargs={'blog_slug': self.blog_slug})
-
-	def item_description(self, item):
-		return item.perex
 
 	def item_author_name(self, item):
 		if item.blog.author:

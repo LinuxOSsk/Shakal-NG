@@ -13,9 +13,7 @@ class DesktopFeed(Feed):
 	description = "Najnovšie desktopy"
 	link = reverse_lazy('blog:post-list')
 	feed_url = reverse_lazy('desktops:feed-latest')
-
-	def item_description(self, item):
-		return item.text
+	description_template = 'feeds/description/desktop.html'
 
 	def item_author_name(self, item):
 		return item.author
