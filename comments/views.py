@@ -3,11 +3,13 @@ from __future__ import unicode_literals
 
 from braces.views import PermissionRequiredMixin, LoginRequiredMixin
 from django import http
+from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import capfirst
 from django.template.response import TemplateResponse
+from django.utils.translation import ungettext
 from django.views.generic import DetailView, View
 from django.views.generic.edit import FormView
 
@@ -15,6 +17,7 @@ from .forms import CommentForm
 from .models import Comment
 from .utils import update_comments_header
 from comments.models import RootHeader, UserDiscussionAttribute
+from comments.templatetags.comments_tags import add_discussion_attributes
 from common_utils import get_meta
 
 
@@ -202,6 +205,12 @@ class CommentDetailSingle(CommentDetail):
 
 
 class CommentCountImage(View):
+	def get_comment_count(self):
+		ctype = get_object_or_404(ContentType, pk=self.kwargs['ctype'])
+		instance = get_object_or_404(ctype.model_class(), pk=self.kwargs['pk'])
+		add_discussion_attributes({}, [instance])
+		return instance.comment_count
+
 	def get(self, request, **kwargs):
 		from PIL import Image, ImageDraw
 
@@ -209,7 +218,10 @@ class CommentCountImage(View):
 		im = Image.new('RGB', size, color=(255, 255, 255))
 		draw = ImageDraw.Draw(im)
 
-		draw.text((0, 0), '0 komentárov', fill=(0, 0, 255))
+
+		comment_count = self.get_comment_count()
+		text = ungettext('%(num)s comment', '%(num)s comments', comment_count) % {'num': comment_count}
+		draw.text((0, 0), text, fill=(0, 0, 255))
 		del draw
 
 		response = HttpResponse(content_type='image/png')
