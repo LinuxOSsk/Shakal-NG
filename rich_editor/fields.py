@@ -92,9 +92,12 @@ class RichTextOriginalField(Field):
 		value = data.field_text
 		if not fmt:
 			return data
-		parser = self.parsers[fmt]
-		parser.parse(value)
-		parsed = parser.get_output()
+		if fmt in self.parsers:
+			parser = self.parsers[fmt]
+			parser.parse(value)
+			parsed = parser.get_output()
+		else:
+			parsed = value
 		parsed = highlight_pre_blocks(parsed)
 		return parsed
 

@@ -43,9 +43,12 @@ class RichOriginalField(CharField):
 	def clean(self, value):
 		fmt = value.field_format
 		txt = super(RichOriginalField, self).clean(value.field_text)
-		parser = self.parsers.get(fmt, self.parsers[fmt])
-		parser.parse(txt)
-		parsed = parser.get_output()
+		if fmt in self.parsers:
+			parser = self.parsers.get(fmt, self.parsers[fmt])
+			parser.parse(txt)
+			parsed = parser.get_output()
+		else:
+			parsed = txt
 		parsed = highlight_pre_blocks(parsed)
 		val = TextVal(fmt + ':' + txt)
 		val.field_filtered = parsed

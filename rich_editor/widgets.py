@@ -114,4 +114,6 @@ class RichOriginalEditor(RichEditorMixin):
 		if self.attrs.get('no_format'):
 			return text
 		fmt = data.get(name + "_format") or self.formats[0][0]
+		if not fmt in dict(self.formats):
+			fmt = self.formats[0][0]
 		return TextVal(fmt + ':' + text)
