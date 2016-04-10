@@ -17,6 +17,15 @@ class UserAdmin(HijackUserAdminMixin, AdminActionsMixin, AuthUserAdmin):
 	form = UserChangeForm
 	ordering = ('-id', )
 	list_display = ['username', 'email', 'get_full_name', 'get_status', 'hijack_field']
+	fieldsets = (
+		(None, {'fields': ('username', 'password')}),
+		('Osobné údaje', {'fields': ('first_name', 'last_name',)}),
+		('Práva', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+		('Dôležité dátumy', {'fields': ('last_login', 'date_joined', 'year')}),
+		('Kontaktné údaje', {'fields': ('email', 'jabber', 'url', 'display_mail',)}),
+		('Ďalšie údaje', {'fields': ('distribution', 'original_info', 'avatar',)}),
+		('Rozšírené', {'classes': ('collapse',), 'fields': ('settings',)}),
+	)
 
 	def get_status(self, obj):
 		cls = 'important'
