@@ -22,7 +22,7 @@ class UserAdmin(HijackUserAdminMixin, AdminActionsMixin, AuthUserAdmin):
 		('Osobné údaje', {'fields': ('first_name', 'last_name',)}),
 		('Práva', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
 		('Dôležité dátumy', {'fields': ('last_login', 'date_joined', 'year')}),
-		('Kontaktné údaje', {'fields': ('email', 'jabber', 'url', 'display_mail',)}),
+		('Kontaktné údaje', {'fields': ('email', 'jabber', 'url', 'display_mail', 'geoposition')}),
 		('Ďalšie údaje', {'fields': ('distribution', 'original_info', 'avatar',)}),
 		('Rozšírené', {'classes': ('collapse',), 'fields': ('settings',)}),
 	)
@@ -46,6 +46,8 @@ class UserAdmin(HijackUserAdminMixin, AdminActionsMixin, AuthUserAdmin):
 	get_status.allow_tags = True
 
 	def get_changelist_actions(self, obj):
+		if not obj:
+			return ()
 		if obj.is_active:
 			return (('set_inactive', {'label': _('Block user'), 'class': 'btn btn-danger'}),)
 		else:

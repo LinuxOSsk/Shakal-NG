@@ -1,0 +1,11 @@
+<div id="id_{{ name }}" class="multi-widget geoposition-widget">
+	<div id="widget_{{ name }}">
+		{{ widget }}
+	</div>
+</div>
+<script type="text/javascript" charset="utf-8">
+window._geopositions = window._geopositions || [];
+window._geopositions.push({
+	name: '{{ name|escapejs }}'
+});
+</script>

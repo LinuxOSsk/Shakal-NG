@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django import forms
 from django.template.loader import render_to_string
 from django.utils import six
+from django.utils.safestring import mark_safe
 
 
 class GeopositionWidget(forms.MultiWidget):
@@ -23,8 +24,15 @@ class GeopositionWidget(forms.MultiWidget):
 
 	def format_output(self, rendered_widgets):
 		return render_to_string('geoposition/widgets/geoposition.html', {
-			'latitude_widget': rendered_widgets[0],
-			'longitude_widget': rendered_widgets[1],
+			'latitude_widget': mark_safe(rendered_widgets[0]),
+			'longitude_widget': mark_safe(rendered_widgets[1]),
+		})
+
+	def render(self, name, value, attrs=None):
+		rendered = super(GeopositionWidget, self).render(name, value, attrs)
+		return render_to_string('geoposition/widgets/geoposition_container.html', {
+			'widget': mark_safe(rendered),
+			'name': name,
 		})
 
 	class Media:

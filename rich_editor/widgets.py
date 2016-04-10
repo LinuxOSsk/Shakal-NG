@@ -23,10 +23,14 @@ class TextVal(unicode):
 class RichEditorMixin(Textarea):
 	class Media:
 		js = [
+			'http://openlayers.org/en/v3.15.1/build/ol.js',
 			'js/richeditor/editor.js',
 		]
 		css = {
-			'screen': ['css/editor.light.css'],
+			'screen': [
+				'http://openlayers.org/en/v3.15.1/css/ol.css',
+				'css/editor.light.css',
+			],
 		}
 
 	def __init__(self, attrs=None, **kwargs):
