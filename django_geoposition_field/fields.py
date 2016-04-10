@@ -3,13 +3,14 @@ from __future__ import unicode_literals
 
 from django.core.validators import ValidationError
 from django.db import models
+from django.utils.six import with_metaclass
 from django.utils.translation import ugettext_lazy as _
 
 from . import Geoposition
 from .forms import GeopositionField as GeopositionFormField
 
 
-class GeopositionField(models.Field):
+class GeopositionField(with_metaclass(models.SubfieldBase, models.Field)):
 	description = _("A geoposition (latitude and longitude)")
 	default_error_messages = {
 		'invalid': _("Enter a valid geoposition.")
@@ -35,6 +36,15 @@ class GeopositionField(models.Field):
 			return Geoposition(latitude, longitude)
 		except Exception: #pylint: disable=broad-except
 			raise ValidationError(self.error_messages['invalid'], code='invalid')
+
+	def to_python(self, value):
+		if not value or value is None:
+			return None
+		if isinstance(value, Geoposition):
+			return value
+		if isinstance(value, list):
+			return Geoposition(*value)
+		return Geoposition(*value.split(','))
 
 	def get_prep_value(self, value):
 		if not value:
