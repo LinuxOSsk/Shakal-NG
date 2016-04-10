@@ -1,4 +1,8 @@
-{{ obj.long_text|safe }}
+{% if "full" in request.GET %}
+	{{ obj.long_text|safe }}
+{% else %}
+	{{ obj.short_text|safe }}
+{% endif %}
 {% if "include_comments" in request.GET %}
 	<div>
 		<a href="{{ obj.get_absolute_url() }}#comments">
