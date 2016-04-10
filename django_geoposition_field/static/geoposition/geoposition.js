@@ -27,12 +27,12 @@ var createWidget = function(opts) {
 	var widgetContainer = document.getElementById('widget_' + name);
 
 	var latInput = document.getElementById('id_' + name + '_0');
-	var lonInput = document.getElementById('id_' + name + '_1');
+	var lngInput = document.getElementById('id_' + name + '_1');
 
 	createMap({
 		container: container,
 		latInput: latInput,
-		lonInput: lonInput
+		lngInput: lngInput
 	});
 
 	widgetContainer.style.display = 'none';
@@ -87,9 +87,19 @@ var createMap = function(opts) {
 		features.extend([feature]);
 
 		var coord = ol.proj.transform(e.coordinate, 'EPSG:3857', 'EPSG:4326');
-		opts.lonInput.value = coord[0];
+		opts.lngInput.value = coord[0];
 		opts.latInput.value = coord[1];
 	});
+
+	var lng = parseFloat(opts.lngInput.value, 10);
+	var lat = parseFloat(opts.latInput.value, 10);
+	if (lng && lat) {
+		var coord = ol.proj.transform([lng, lat], 'EPSG:4326', 'EPSG:3857');
+		var feature = new ol.Feature({
+			geometry: new ol.geom.Point(coord)
+		});
+		features.extend([feature]);
+	}
 };
 
 onLoad(createWidgets);
