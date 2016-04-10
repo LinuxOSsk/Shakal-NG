@@ -19,6 +19,7 @@ from .utils import get_count_new
 from autoimagefield.fields import AutoImageField
 from common_utils import get_default_manager
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
+from django_geoposition_field.fields import GeopositionField
 
 
 class User(AbstractUser):
@@ -35,6 +36,7 @@ class User(AbstractUser):
 	#avatar = AutoImageField('fotografia', upload_to='accounts/avatars', size=(512, 512), thumbnail={'standard': (128, 128), '128': (128, 128, 'fit'), '48': (48, 48, 'fit')}, blank=True)
 	avatar = AutoImageField('fotografia', upload_to='accounts/avatars', resize_source=dict(size=(512, 512)), blank=True)
 	settings = models.TextField('nastavenia', blank=True)
+	geoposition = GeopositionField(verbose_name='poloha', blank=True)
 
 	def clean_fields(self, exclude=None):
 		if self.email:

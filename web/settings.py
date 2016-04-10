@@ -41,6 +41,7 @@ INSTALLED_APPS = (
 	'compat',
 	'django_assets_manager',
 	'django_autoslugfield',
+	'django_geoposition_field',
 	'django_sample_generator',
 	'django_simple_paginator',
 	'django_email_log',
