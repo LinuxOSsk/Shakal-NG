@@ -2,3 +2,8 @@
 	width: 100%;
 	height: 400px;
 }
+
+.clear-position {
+	top: 65px;
+	left: .5em;
+}

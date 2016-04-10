@@ -49,13 +49,51 @@ var createMap = function(opts) {
 		source: new ol.source.OSM()
 	});
 
+
+	var ClearControl = function(opt_options) {
+		var options = opt_options || {};
+
+		var button = document.createElement('button');
+		button.innerHTML = 'x';
+
+		var this_ = this;
+		var handleClear = function(event) {
+			features.clear();
+			opts.lngInput.value = '';
+			opts.latInput.value = '';
+			event.preventDefault();
+			event.stopPropagation();
+		};
+
+		button.addEventListener('click', handleClear, false);
+		button.addEventListener('touchstart', handleClear, false);
+
+		var element = document.createElement('div');
+		element.className = 'clear-position ol-unselectable ol-control';
+		element.appendChild(button);
+
+		ol.control.Control.call(this, {
+			element: element,
+			target: options.target
+		});
+	};
+	ol.inherits(ClearControl, ol.control.Control);
+
+
 	var map = new ol.Map({
 		layers: [raster],
 		target: mapElement,
 		view: new ol.View({
 			center: ol.proj.fromLonLat([19.78, 48.65]),
 			zoom: 7
-		})
+		}),
+		controls: ol.control.defaults({
+			attributionOptions: ({
+				collapsible: false
+			})
+		}).extend([
+			new ClearControl()
+		])
 	});
 
 	var features = new ol.Collection();
