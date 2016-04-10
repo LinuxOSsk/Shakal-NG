@@ -8,6 +8,18 @@ from django.utils.safestring import mark_safe
 
 
 class GeopositionWidget(forms.MultiWidget):
+	class Media:
+		js = (
+			'http://openlayers.org/en/v3.15.1/build/ol.js',
+			'geoposition/geoposition.js',
+		)
+		css = {
+			'screen': (
+				'http://openlayers.org/en/v3.15.1/css/ol.css',
+				'geoposition/geoposition.css',
+			)
+		}
+
 	def __init__(self, attrs=None):
 		widgets = (
 			forms.TextInput(),
@@ -34,7 +46,3 @@ class GeopositionWidget(forms.MultiWidget):
 			'widget': mark_safe(rendered),
 			'name': name,
 		})
-
-	class Media:
-		js = ('geoposition/geoposition.js',)
-		css = {'all': ('geoposition/geoposition.css',)}
