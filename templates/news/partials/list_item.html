@@ -3,11 +3,7 @@
 	<span class="time">{{ item.created|humandatetime }}</span> |
 	<span class="user">{{ user_link(item.author, item.authors_name) }}</span>
 </div>
-{% if long and not item.long_text|length > 1000 %}
-<p>{{ item.long_text|safe }}</p>
-{% else %}
-<p>{{ item.short_text|safe }}</p>
-{% endif %}
+{{ item.short_text|safe }}
 <div class="info bottom">
 	<span class="comments">
 		{{ get_comments_for_item(item) }}
