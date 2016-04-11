@@ -261,3 +261,9 @@ class UserPostsCommented(UserStatsListBase):
 
 class UserPostsWikiPage(UserStatsListBase):
 	stats_name = 'wikipage'
+
+
+class UserMap(DetailView):
+	context_object_name = 'user_profile'
+	model = get_user_model()
+	template_name = 'account/user_map.html'

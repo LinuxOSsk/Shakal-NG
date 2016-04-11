@@ -3,6 +3,9 @@
 		{% with user_profile=user_profile or object or user %}
 			<li{% if view_name in ("accounts:profile", "accounts:my_profile") %} class="active"{% endif %}><span><a href="{{ url("accounts:profile", user_profile.pk) }}">Základné informácie</a></span></li>
 			<li{% if view_name in ("accounts:user_posts", "accounts:user_posts_article", "accounts:user_posts_blogpost", "accounts:user_posts_forumtopic", "accounts:user_posts_news", "accounts:user_posts_commented", "accounts:user_posts_wikipage") %} class="active"{% endif %}><span><a href="{{ url("accounts:user_posts", user_profile.pk) }}">Zoznam príspevkov</a></span></li>
+			{% if user_profile.geoposition %}
+				<li{% if view_name in ("accounts:user_map",) %} class="active"{% endif %}><span><a href="{{ url("accounts:user_map", user_profile.pk) }}">Mapa</a></span></li>
+			{% endif %}
 			{% if user_profile.pk == request.user.pk %}
 				<li{% if view_name in ("accounts:my_watched",) %} class="active"{% endif %}><span><a href="{{ url("accounts:my_watched") }}">Sledované diskusie</a></span></li>
 				<li{% if view_name in ("accounts:my_viewed",) %} class="active"{% endif %}><span><a href="{{ url("accounts:my_viewed") }}">Navštívené diskusie</a></span></li>

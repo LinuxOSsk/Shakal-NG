@@ -1,0 +1,83 @@
+{% extends "account/base.html" %}
+
+{% block breadcrumbs %}
+{{ breadcrumb("Mapa", url=url("accounts:user_map", user_profile.pk)) }}
+{{ breadcrumb(firstof(user_profile.get_full_name(), user_profile.username), url=user_profile.get_absolute_url()) }}
+{{ super() }}
+{% endblock %}
+
+{% block extraheaders %}
+<meta name="robots" content="noindex, nofollow" />
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+<h1>Pozícia</h1>
+<div id="map" class="geoposition-widget">{{ user_profile.geoposition }}</div>
+{% endblock %}
+
+{% block extrastyle %}
+	{{ super() }}
+	<link rel="stylesheet" type="text/css" href="{{ static('vendor/openlayers/ol.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ static('geoposition/geoposition.css') }}" />
+{% endblock %}
+
+{% block extrajs %}
+	{{ super() }}
+	<script src="{{ static('vendor/openlayers/ol.js') }}"></script>
+<script type="text/javascript">
+//<![CDATA[
+
+(function(_) {
+
+var mapElement = _.id('map');
+var position = mapElement.innerHTML;
+mapElement.innerHTML = '';
+if (!position) {
+	return;
+}
+
+var lat = parseFloat(position.split(',')[0], 10);
+var lng = parseFloat(position.split(',')[1], 10);
+
+var iconFeature = new ol.Feature({
+	geometry: new ol.geom.Point(ol.proj.transform([lng, lat], 'EPSG:4326', 'EPSG:3857'))
+});
+
+var vectorSource = new ol.source.Vector({
+	features: [iconFeature]
+});
+
+var iconStyle = new ol.style.Style({
+	image: new ol.style.Icon({
+		anchor: [0.5, 0.5],
+		anchorXUnits: 'fraction',
+		anchorYUnits: 'fraction',
+		src: '/static/images/marker.png'
+	})
+});
+
+var map = new ol.Map({
+	target: 'map',
+	//controls: [],
+	//interactions: [],
+	layers: [
+		new ol.layer.Tile({source: new ol.source.OSM()}),
+		new ol.layer.Vector({source: vectorSource, style: iconStyle})
+	],
+	view: new ol.View({
+		center: ol.proj.fromLonLat([lng, lat]),
+		zoom: 16
+	})
+});
+
+//var stopProp = function(e) { e.stopPropagation(); };
+//mapElement.parentNode.parentNode.addEventListener("touchstart", stopProp, true);
+//mapElement.parentNode.parentNode.addEventListener("touchmove", stopProp, true);
+//mapElement.parentNode.parentNode.addEventListener("touchend", stopProp, true);
+
+}(_utils));
+
+//]]>
+</script>
+{% endblock %}
