@@ -22,3 +22,4 @@ raven
 -e git+git://github.com/mireq/django-sample-data-generator.git#egg=django_sample_data_generator
 -e git+git://github.com/mireq/django-simple-paginator.git@#egg=django_simple_paginator
 -e git+git://github.com/mireq/django-email-log-backend.git@#egg=django_email_log_backend
+-e git+git://github.com/mireq/django-geoposition-field.git@#egg=django_geoposition_field

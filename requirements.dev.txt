@@ -7,6 +7,7 @@
 -e git+git://github.com/mireq/django-assets-manager.git#egg=django_assets_manager
 -e git+git://github.com/mireq/django-autoslugfield.git#egg=django_autoslugfield
 -e git+git://github.com/mireq/django-email-log-backend.git@#egg=django_email_log_backend
+-e git+git://github.com/mireq/django-geoposition-field.git@#egg=django_geoposition_field
 -e git+git://github.com/mireq/django-sample-data-generator.git#egg=django_sample_data_generator
 -e git+git://github.com/mireq/django-simple-paginator.git@#egg=django_simple_paginator
 argh==0.26.1              # via watchdog
