@@ -20,4 +20,5 @@ urlpatterns = patterns('accounts.views',
 	url(r'^ja/navstivene/(?:(?P<page>\d+)/)?$', 'MyViewed', name='my_viewed'),
 	url(r'^ja/upravit/$', 'MyProfileEdit', name='my_profile_edit'),
 	url(r'^ja/avatar/$', 'MyProfileAvatarEdit', name='my_profile_avatar_edit'),
+	url(r'^ja/pozicia/$', 'MyProfilePositionEdit', name='my_profile_position_edit'),
 )

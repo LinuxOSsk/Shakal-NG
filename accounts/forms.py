@@ -59,6 +59,12 @@ class AvatarUpdateForm(forms.ModelForm):
 		fields = ('avatar',)
 
 
+class PositionUpdateForm(forms.ModelForm):
+	class Meta:
+		model = get_user_model()
+		fields = ('geoposition',)
+
+
 class EmailChangeForm(forms.ModelForm):
 	current_password = forms.CharField(max_length=65536, widget=forms.PasswordInput, label='Súčasné heslo')
 	email = forms.EmailField(label='Nový e-mail')

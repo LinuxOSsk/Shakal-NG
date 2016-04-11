@@ -4,5 +4,6 @@
 		<li{% if view_name in ("account_email",) %} class="active"{% endif %}><span><a href="{{ url("account_email") }}">Zmeniť e-mail</a></span></li>
 		<li{% if view_name in ("account_change_password",) %} class="active"{% endif %}><span><a href="{{ url("account_change_password") }}">Zmeniť heslo</a></span></li>
 		<li{% if view_name in ("accounts:my_profile_avatar_edit",) %} class="active"{% endif %}><span><a href="{{ url("accounts:my_profile_avatar_edit") }}">Zmeniť avatar</a></span></li>
+		<li{% if view_name in ("accounts:my_profile_position_edit",) %} class="active"{% endif %}><span><a href="{{ url("accounts:my_profile_position_edit") }}">Zmeniť polohu</a></span></li>
 	{% endwith %}
 </ul>

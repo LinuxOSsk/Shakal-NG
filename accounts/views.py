@@ -13,7 +13,7 @@ from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.views.generic import RedirectView, DetailView, UpdateView
 
-from .forms import ProfileEditForm, AvatarUpdateForm
+from .forms import ProfileEditForm, AvatarUpdateForm, PositionUpdateForm
 from .stats import register
 from comments.models import UserDiscussionAttribute
 from common_utils.content_types import resolve_content_objects
@@ -76,6 +76,14 @@ class MyProfileEdit(LoginRequiredMixin, MyProfileMixin, UpdateView):
 class MyProfileAvatarEdit(LoginRequiredMixin, MyProfileMixin, UpdateView):
 	template_name = 'account/profile_avatar_change.html'
 	form_class = AvatarUpdateForm
+
+	def get_success_url(self):
+		return reverse('accounts:my_profile')
+
+
+class MyProfilePositionEdit(LoginRequiredMixin, MyProfileMixin, UpdateView):
+	template_name = 'account/profile_position_change.html'
+	form_class = PositionUpdateForm
 
 	def get_success_url(self):
 		return reverse('accounts:my_profile')
