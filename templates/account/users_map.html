@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block head_title %}Mapa používateľov{% endblock %}
+{% block breadcrumbs %}{{ breadcrumb("Mapa používateľov") }}{{ super() }}{% endblock %}
+
+{% block content %}
+<h1>Mapa používateľov</h1>
+
+<div id="map" class="geoposition-widget"></div>
+{% endblock %}
+
+{% block extrastyle %}
+	{{ super() }}
+	<link rel="stylesheet" type="text/css" href="{{ static('vendor/openlayers/ol.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ static('geoposition/geoposition.css') }}" />
+{% endblock %}
+
+{% block extrajs %}
+	{{ super() }}
+	<script src="{{ static('vendor/openlayers/ol.js') }}"></script>
+<script type="text/javascript">
+//<![CDATA[
+
+(function(_) {
+
+var users = [
+{% for user in users %}
+{
+	username: '{{ user.username|escapejs }}',
+	url: '{{ user.url|escapejs }}',
+	geoposition: '{{ user.geoposition|escapejs }}'
+}
+{% if not loop.last %},{% endif %}
+{% endfor %}
+];
+
+var features = new Array(users.length);
+_.forEach(users, function(user, i) {
+	var geoposition = user.geoposition.split(',');
+	var lng = parseFloat(geoposition[1]);
+	var lat = parseFloat(geoposition[0]);
+	features[i] = new ol.Feature({
+		geometry: new ol.geom.Point(ol.proj.transform([lng, lat], 'EPSG:4326', 'EPSG:3857')),
+		username: user.username,
+		url: user.url
+	});
+});
+
+var vectorSource = new ol.source.Vector({
+	features: features
+});
+
+var clusterSource = new ol.source.Cluster({
+	distance: 10,
+	source: vectorSource
+});
+
+var iconStyle = new ol.style.Style({
+	image: new ol.style.Icon({
+		anchor: [0.5, 0.5],
+		anchorXUnits: 'fraction',
+		anchorYUnits: 'fraction',
+		src: '/static/images/marker.png'
+	})
+});
+
+var map = new ol.Map({
+	target: 'map',
+	layers: [
+		new ol.layer.Tile({source: new ol.source.OSM()}),
+		new ol.layer.Vector({source: clusterSource, style: iconStyle})
+	],
+	view: new ol.View({
+		center: ol.proj.fromLonLat([19.78, 48.65]),
+		zoom: 7
+	})
+});
+
+
+
+}(_utils));
+
+//]]>
+</script>
+{% endblock %}

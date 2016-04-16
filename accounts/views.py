@@ -11,9 +11,10 @@ from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
-from django.views.generic import RedirectView, DetailView, UpdateView
+from django.views.generic import RedirectView, DetailView, UpdateView, TemplateView
 
 from .forms import ProfileEditForm, AvatarUpdateForm, PositionUpdateForm
+from .models import User
 from .stats import register
 from comments.models import UserDiscussionAttribute
 from common_utils.content_types import resolve_content_objects
@@ -275,3 +276,16 @@ class UserMap(DetailView):
 	context_object_name = 'user_profile'
 	model = get_user_model()
 	template_name = 'account/user_map.html'
+
+
+class UsersMap(TemplateView):
+	template_name = 'account/users_map.html'
+
+	def get_context_data(self, **kwargs):
+		ctx = super(UsersMap, self).get_context_data(**kwargs)
+		ctx['users'] = (User.objects.all()
+			.exclude(geoposition='')
+			.values('pk', 'username', 'geoposition'))
+		for user in ctx['users']:
+			user['url'] = reverse('accounts:profile', args=[], kwargs={'pk': user['pk']})
+		return ctx
