@@ -54,14 +54,42 @@ var clusterSource = new ol.source.Cluster({
 	source: vectorSource
 });
 
-var iconStyle = new ol.style.Style({
-	image: new ol.style.Icon({
-		anchor: [0.5, 0.5],
-		anchorXUnits: 'fraction',
-		anchorYUnits: 'fraction',
-		src: '/static/images/marker.png'
-	})
-});
+var styleCache = {};
+var iconStyle = function(feature, resolution) {
+	var size = feature.get('features').length;
+	var style = styleCache[size];
+	if (!style) {
+		if (size === 1) {
+			style = new ol.style.Style({
+				image: new ol.style.Icon({
+					anchor: [0.5, 0.5],
+					anchorXUnits: 'fraction',
+					anchorYUnits: 'fraction',
+					src: '/static/images/marker.png'
+				})
+			});
+		}
+		else {
+			style = new ol.style.Style({
+				image: new ol.style.Icon({
+					anchor: [0.5, 0.5],
+					anchorXUnits: 'fraction',
+					anchorYUnits: 'fraction',
+					src: '/static/images/marker.png'
+				}),
+				text: new ol.style.Text({
+					text: size.toString(),
+					fill: new ol.style.Fill({
+						color: '#fff'
+					})
+				})
+			});
+		}
+		styleCache[size] = style;
+	}
+	return style;
+};
+
 
 var map = new ol.Map({
 	target: 'map',
@@ -74,7 +102,6 @@ var map = new ol.Map({
 		zoom: 7
 	})
 });
-
 
 
 }(_utils));
