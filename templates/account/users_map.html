@@ -6,12 +6,60 @@
 <h1>Mapa používateľov</h1>
 
 <div id="map" class="geoposition-widget"></div>
+<div id="popup" class="ol-popup">
+	<a href="#" id="popup-closer" class="ol-popup-closer"></a>
+	<div id="popup-content"></div>
+</div>
 {% endblock %}
 
 {% block extrastyle %}
 	{{ super() }}
 	<link rel="stylesheet" type="text/css" href="{{ static('vendor/openlayers/ol.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ static('geoposition/geoposition.css') }}" />
+	<style type="text/css" media="screen">
+.ol-popup {
+	position: absolute;
+	background-color: white;
+	-webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+	filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+	padding: 15px;
+	border-radius: 10px;
+	border: 1px solid #cccccc;
+	bottom: 12px;
+	left: -50px;
+	width: 200px;
+}
+.ol-popup:after, .ol-popup:before {
+	top: 100%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+.ol-popup:after {
+	border-top-color: white;
+	border-width: 10px;
+	left: 48px;
+	margin-left: -10px;
+}
+.ol-popup:before {
+	border-top-color: #cccccc;
+	border-width: 11px;
+	left: 48px;
+	margin-left: -11px;
+}
+.ol-popup-closer {
+	text-decoration: none;
+	position: absolute;
+	top: 2px;
+	right: 8px;
+}
+.ol-popup-closer:after {
+	content: "✖";
+}
+	</style>
 {% endblock %}
 
 {% block extrajs %}
@@ -92,7 +140,7 @@ var iconStyle = function(feature, resolution) {
 
 
 var map = new ol.Map({
-	target: 'map',
+	target: _.id('map'),
 	layers: [
 		new ol.layer.Tile({source: new ol.source.OSM()}),
 		new ol.layer.Vector({source: clusterSource, style: iconStyle})
@@ -101,6 +149,68 @@ var map = new ol.Map({
 		center: ol.proj.fromLonLat([19.78, 48.65]),
 		zoom: 7
 	})
+});
+
+
+var popupElement = document.getElementById('popup');
+var content = document.getElementById('popup-content');
+var closer = document.getElementById('popup-closer');
+
+var popup = new ol.Overlay({
+	element: popupElement,
+	autoPan: true,
+	autoPanAnimation: {
+		duration: 250
+	}
+});
+map.addOverlay(popup);
+
+
+closer.onclick = function() {
+	popup.setPosition(undefined);
+	closer.blur();
+	return false;
+};
+
+
+
+map.on('click', function(evt) {
+	var feature = map.forEachFeatureAtPixel(
+		evt.pixel,
+		function(feature, layer) {
+			return feature;
+		}
+	);
+
+	if (feature) {
+		var size = feature.get('features').length;
+		if (size > 1) {
+			return;
+		}
+		feature = feature.get('features')[0];
+		var geometry = feature.getGeometry();
+		var coord = geometry.getCoordinates();
+		content.innerHTML = '';
+		var usernameLink = document.createElement('A');
+		usernameLink.setAttribute('href', feature.get('url'));
+		usernameLink.appendChild(document.createTextNode(feature.get('username')));
+		content.appendChild(usernameLink);
+		popup.setPosition(coord);
+	}
+	else {
+		popup.setPosition(undefined);
+	}
+});
+
+
+map.on('pointermove', function(e) {
+	if (e.dragging) {
+		popup.setPosition(undefined);
+		return;
+	}
+	var pixel = map.getEventPixel(e.originalEvent);
+	var hit = map.hasFeatureAtPixel(pixel);
+	map.getTarget().style.cursor = hit ? 'pointer' : '';
 });
 
 
