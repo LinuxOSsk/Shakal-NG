@@ -189,19 +189,19 @@ map.on('click', function(evt) {
 	);
 
 	if (feature) {
-		var size = feature.get('features').length;
-		if (size > 1) {
-			return;
-		}
-		feature = feature.get('features')[0];
 		var geometry = feature.getGeometry();
 		var coord = geometry.getCoordinates();
 		content.innerHTML = '';
-		var usernameLink = document.createElement('A');
-		usernameLink.setAttribute('href', feature.get('url'));
-		usernameLink.appendChild(document.createTextNode(feature.get('username')));
-		content.appendChild(usernameLink);
-		popup.setPosition(coord);
+
+		_.forEach(feature.get('features'), function(feature) {
+			var user = document.createElement('DIV');
+			var usernameLink = document.createElement('A');
+			usernameLink.setAttribute('href', feature.get('url'));
+			usernameLink.appendChild(document.createTextNode(feature.get('username')));
+			user.appendChild(usernameLink);
+			content.appendChild(user);
+			popup.setPosition(coord);
+		});
 	}
 	else {
 		popup.setPosition(undefined);
