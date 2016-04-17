@@ -187,8 +187,12 @@ html, body {
 										<h2>Správy</h2>
 										{{ news_frontpage() }}
 										<div class="module-links bottom">
-											<a href="{{ url('news:create') }}">Pridať správu</a> |
 											<a href="{{ url('news:list') }}" class="next">Ďalšie</a>
+										</div>
+										<div class="submit-row">
+											<div class="positive">
+												<div class="btn"><span class="wrap"><a class="text" href="{{ url("news:create") }}">Pridať správu</a></span></div>
+											</div>
 										</div>
 									</div>
 								{% endblock %}
