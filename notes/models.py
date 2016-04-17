@@ -35,7 +35,7 @@ class Note(TimestampModelMixin, models.Model):
 	)
 	authors_name = models.CharField(
 		max_length=255,
-		verbose_name='meno authora'
+		verbose_name='meno autora'
 	)
 
 	original_text = RichTextOriginalField(

@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
 				('filtered_short_text', rich_editor.fields.RichTextFilteredField(editable=False)),
 				('original_long_text', rich_editor.fields.RichTextOriginalField(help_text='Vypl\u0148te v pr\xedpade, \u017ee sa text v detaile spr\xe1vy m\xe1 l\xed\u0161i\u0165 od textu v zozname.', verbose_name='dlh\xfd text', property_name='long_text', filtered_field='filtered_long_text')),
 				('filtered_long_text', rich_editor.fields.RichTextFilteredField(editable=False)),
-				('authors_name', models.CharField(max_length=255, verbose_name='meno authora')),
+				('authors_name', models.CharField(max_length=255, verbose_name='meno autora')),
 				('source', models.CharField(max_length=100, verbose_name='zdroj', blank=True)),
 				('source_url', models.URLField(max_length=1000, verbose_name='URL zdroja', blank=True)),
 				('approved', models.BooleanField(default=False, verbose_name='schv\xe1len\xe1')),
