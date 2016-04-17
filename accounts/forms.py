@@ -60,6 +60,8 @@ class AvatarUpdateForm(forms.ModelForm):
 
 
 class PositionUpdateForm(forms.ModelForm):
+	no_compress = True
+
 	class Meta:
 		model = get_user_model()
 		fields = ('geoposition',)
