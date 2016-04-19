@@ -75,7 +75,6 @@ TODO
 - zaplatiť autorovi kávu
 - nahlásenie chyby článku
 - tweety
-- nájdi svojho linuxáka
 - ponuky práce
 - bazár
 - pripraviť responzívny web (http://localhost:8000/?switch_template=new pre
