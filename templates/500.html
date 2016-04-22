@@ -18,3 +18,17 @@ Táto chyba by sa štandardne nemala vyskytnúť. Znamená buď internú chybu v
 		<p>Ak chyba pretrváva hláste administrátorovi ID tejto chyby: {{ request.sentry.id }}</p>
 	{% endif %}
 {% endblock %}
+
+{% block extrajs %}
+<script src="https://cdn.ravenjs.com/2.3.0/raven.min.js"></script>
+
+{% if request.sentry and request.sentry.id %}
+<script>
+	Raven.showReportDialog({
+		eventId: '{{ request.sentry.id }}',
+		dsn: 'https://public@sentry.linuxos.sk/1'
+	});
+</script>
+{% endif %}
+
+{% endblock %}
