@@ -8,6 +8,7 @@ from datetime import datetime
 from django.core.management.base import BaseCommand
 from django.db import connections
 from django.utils.functional import cached_property
+import pytz
 
 from accounts.models import User
 
@@ -41,6 +42,15 @@ FORMATS_TRANSLATION = {
 	'Full HTML': 'raw',
 	'No HTML': 'text',
 }
+
+
+def timestamp_to_time(timestamp):
+	return datetime.utcfromtimestamp(timestamp).replace(tzinfo=pytz.utc)
+
+
+def dot():
+	sys.stdout.write(".")
+	sys.stdout.flush()
 
 
 class Command(BaseCommand):
@@ -81,8 +91,8 @@ class Command(BaseCommand):
 		user = User(
 			username=username,
 			signature=user_data.signature,
-			date_joined=datetime.fromtimestamp(user_data.created),
-			last_login=datetime.fromtimestamp(user_data.login),
+			date_joined=timestamp_to_time(user_data.created),
+			last_login=timestamp_to_time(user_data.login),
 			is_active=is_active,
 			avatar=avatar,
 		)
@@ -91,6 +101,7 @@ class Command(BaseCommand):
 
 	def sync_users(self):
 		for user in self.users():
+			dot()
 			username = user.name
 			user_instance = User.objects.filter(username=username).first()
 			if user_instance is not None and user_instance.password == '':
@@ -103,10 +114,7 @@ class Command(BaseCommand):
 				if user_instance is None:
 					user_instance = self.create_user(username, user)
 
-			print(user_instance)
-			sys.stdout.write(".")
-		print("")
-
 	def handle(self, *args, **options):
 		print("Users")
 		self.sync_users()
+		print("")
