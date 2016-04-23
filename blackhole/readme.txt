@@ -29,7 +29,6 @@ desc users;
 
 uid -> id používateľa
 name -> username
-mail -> e-mailova adresa
 signature -> podpis
 created -> dátum regisrácie
 login -> dátum posledného prihlásenia
