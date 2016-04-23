@@ -33,6 +33,8 @@ status -> 0 nepublikované, 1 publikované
 created -> čas vytvorenia (timestamp)
 changed -> čas zmeny (timestamp)
 comment -> či sú komentáre poolen, 0 - skryté, 1 - diskusia uzatvorená, 2 - povolená
+promote -> na úvodnej stránke
+sticky -> vždy viditeľné
 vid -> ID revízie
 
 
