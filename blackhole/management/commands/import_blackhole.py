@@ -5,11 +5,13 @@ from collections import namedtuple
 
 from django.core.management.base import BaseCommand
 from django.db import connections
+from datetime import datetime
 from django.utils.functional import cached_property
 #from common_utils.asciitable import NamedtupleTablePrinter
 
 
 FilterFormat = namedtuple('FilterFormat', ['format', 'name'])
+NodeData = namedtuple('NodeData', ['nid', 'type', 'title', 'uid', 'status', 'created', 'changed', 'vid'])
 
 
 FORMATS_TRANSLATION = {
@@ -35,5 +37,18 @@ class Command(BaseCommand):
 		formats = tuple(FilterFormat(*row) for row in cursor.fetchall())
 		return {f.format: FORMATS_TRANSLATION[f.name] for f in formats}
 
+	def nodes(self):
+		def to_python(row):
+			row = list(row)
+			row[5] = datetime.fromtimestamp(row[5])
+			row[6] = datetime.fromtimestamp(row[6])
+			return tuple(row)
+		cursor = self.db_cursor()
+		cursor.execute('SELECT nid, type, title, uid, status, created, changed, vid FROM node')
+		nodes = tuple(NodeData(*to_python(row)) for row in cursor.fetchall())
+		for node in nodes:
+			yield node
+
 	def handle(self, *args, **options):
-		print(self.filter_formats)
+		for node in self.nodes():
+			print(node)

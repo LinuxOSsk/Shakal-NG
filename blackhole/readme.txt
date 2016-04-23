@@ -45,3 +45,12 @@ thread -> poradie a štruktúra
 name -> meno autora
 mail -> mail autora
 homepage -> domovská stránka
+
+Články
+
+- V tabuľke node
+- Typ story
+
+Polia:
+status > 1 publikované
+vid > ID revízie
