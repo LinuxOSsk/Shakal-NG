@@ -23,6 +23,7 @@ NODE_STICKY = 1
 
 FilterFormat = namedtuple('FilterFormat', ['format', 'name'])
 NodeData = namedtuple('NodeData', ['nid', 'type', 'title', 'uid', 'status', 'created', 'changed', 'comment', 'promote', 'sticky', 'vid'])
+TermData = namedtuple('TermData', ['tid', 'parent', 'vid', 'name', 'description'])
 
 
 FORMATS_TRANSLATION = {
@@ -60,6 +61,10 @@ class Command(BaseCommand):
 		for node in nodes:
 			yield node
 
+	def terms(self):
+		cursor = self.db_cursor()
+		cursor.execute('SELECT term_data.tid, term_hierarchy.parent, term_data.vid, term_data.name, description FROM term_data LEFT JOIN term_hierarchy ON term_data.tid = term_hierarchy.tid')
+		return tuple(TermData(*row) for row in cursor.fetchall())
+
 	def handle(self, *args, **options):
-		for node in self.nodes():
-			print(node)
+		print(self.terms())
