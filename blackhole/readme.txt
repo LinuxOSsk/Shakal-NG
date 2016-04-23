@@ -37,6 +37,37 @@ promote -> na úvodnej stránke
 sticky -> vždy viditeľné
 vid -> ID revízie
 
+Kategórie:
+
+desc term_data;
++-------------+------------------+------+-----+---------+----------------+
+| Field       | Type             | Null | Key | Default | Extra          |
++-------------+------------------+------+-----+---------+----------------+
+| tid         | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| vid         | int(10) unsigned | NO   | MUL | 0       |                |
+| name        | varchar(255)     | NO   |     |         |                |
+| description | longtext         | YES  |     | NULL    |                |
+| weight      | tinyint(4)       | NO   |     | 0       |                |
++-------------+------------------+------+-----+---------+----------------+
+
+vid -> 1 - tu sú kategórie
+
+desc term_hierarchy;
++--------+------------------+------+-----+---------+-------+
+| Field  | Type             | Null | Key | Default | Extra |
++--------+------------------+------+-----+---------+-------+
+| tid    | int(10) unsigned | NO   | PRI | 0       |       |
+| parent | int(10) unsigned | NO   | PRI | 0       |       |
++--------+------------------+------+-----+---------+-------+
+
+desc term_node;
++-------+------------------+------+-----+---------+-------+
+| Field | Type             | Null | Key | Default | Extra |
++-------+------------------+------+-----+---------+-------+
+| nid   | int(10) unsigned | NO   | PRI | 0       |       |
+| tid   | int(10) unsigned | NO   | PRI | 0       |       |
++-------+------------------+------+-----+---------+-------+
+
 
 Komentáre:
 
