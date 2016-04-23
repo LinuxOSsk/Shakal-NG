@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import sys
 from collections import namedtuple
+from datetime import datetime
 
 from django.core.management.base import BaseCommand
 from django.db import connections
-from datetime import datetime
 from django.utils.functional import cached_property
+
+from accounts.models import User
+
+
 #from common_utils.asciitable import NamedtupleTablePrinter
 
 
@@ -54,14 +59,9 @@ class Command(BaseCommand):
 		return {f.format: FORMATS_TRANSLATION[f.name] for f in formats}
 
 	def nodes(self):
-		def to_python(row):
-			row = list(row)
-			row[5] = datetime.fromtimestamp(row[5])
-			row[6] = datetime.fromtimestamp(row[6])
-			return tuple(row)
 		cursor = self.db_cursor()
 		cursor.execute('SELECT nid, type, title, uid, status, created, changed, comment, promote, sticky, vid FROM node')
-		nodes = tuple(NodeData(*to_python(row)) for row in cursor.fetchall())
+		nodes = tuple(NodeData(row) for row in cursor.fetchall())
 		for node in nodes:
 			yield node
 
@@ -75,5 +75,38 @@ class Command(BaseCommand):
 		cursor.execute('SELECT uid, name, signature, created, login, status, picture FROM users')
 		return tuple(UserData(*row) for row in cursor.fetchall())
 
+	def create_user(self, username, user_data):
+		is_active = user_data.status == 1
+		avatar = ''
+		user = User(
+			username=username,
+			signature=user_data.signature,
+			date_joined=datetime.fromtimestamp(user_data.created),
+			last_login=datetime.fromtimestamp(user_data.login),
+			is_active=is_active,
+			avatar=avatar,
+		)
+		user.save()
+		return user
+
+	def sync_users(self):
+		for user in self.users():
+			username = user.name
+			user_instance = User.objects.filter(username=username).first()
+			if user_instance is not None and user_instance.password == '':
+				continue
+			if user_instance is None:
+				user_instance = self.create_user(username, user)
+			else:
+				username = 'blackhole_' + username
+				user_instance = User.objects.filter(username=username).first()
+				if user_instance is None:
+					user_instance = self.create_user(username, user)
+
+			print(user_instance)
+			sys.stdout.write(".")
+		print("")
+
 	def handle(self, *args, **options):
-		print(self.users())
+		print("Users")
+		self.sync_users()
