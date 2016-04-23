@@ -1,5 +1,42 @@
 Poznámky k importu dát
 
+Používatelia
+------------
+
+desc users;
++-----------+------------------+------+-----+---------+-------+
+| Field     | Type             | Null | Key | Default | Extra |
++-----------+------------------+------+-----+---------+-------+
+| uid       | int(10) unsigned | NO   | PRI | 0       |       |
+| name      | varchar(60)      | NO   | UNI |         |       |
+| pass      | varchar(32)      | NO   |     |         |       |
+| mail      | varchar(64)      | YES  |     |         |       |
+| mode      | tinyint(1)       | NO   |     | 0       |       |
+| sort      | tinyint(1)       | YES  |     | 0       |       |
+| threshold | tinyint(1)       | YES  |     | 0       |       |
+| theme     | varchar(255)     | NO   |     |         |       |
+| signature | varchar(255)     | NO   |     |         |       |
+| created   | int(11)          | NO   |     | 0       |       |
+| access    | int(11)          | NO   | MUL | 0       |       |
+| status    | tinyint(4)       | NO   |     | 0       |       |
+| timezone  | varchar(8)       | YES  |     | NULL    |       |
+| language  | varchar(12)      | NO   |     |         |       |
+| picture   | varchar(255)     | NO   |     |         |       |
+| init      | varchar(64)      | YES  |     |         |       |
+| data      | longtext         | YES  |     | NULL    |       |
+| login     | int(11)          | NO   |     | 0       |       |
++-----------+------------------+------+-----+---------+-------+
+
+uid -> id používateľa
+name -> username
+mail -> e-mailova adresa
+signature -> podpis
+created -> dátum regisrácie
+login -> dátum posledného prihlásenia
+status -> blokovaný 0, aktívny 1
+picture -> avatar
+
+
 Obsah
 -----
 
