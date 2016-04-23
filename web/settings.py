@@ -38,6 +38,7 @@ INSTALLED_APPS = (
 	'django.contrib.sitemaps',
 	'django.contrib.staticfiles',
 	# vendor
+	'blackhole',
 	'compat',
 	'django_assets_manager',
 	'django_autoslugfield',
