@@ -10,8 +10,13 @@ from django.utils.functional import cached_property
 #from common_utils.asciitable import NamedtupleTablePrinter
 
 
+COMMENT_NODE_HIDDEN = 0
+COMMENT_NODE_CLOSED = 1
+COMMENT_NODE_OPEN = 2
+
+
 FilterFormat = namedtuple('FilterFormat', ['format', 'name'])
-NodeData = namedtuple('NodeData', ['nid', 'type', 'title', 'uid', 'status', 'created', 'changed', 'vid'])
+NodeData = namedtuple('NodeData', ['nid', 'type', 'title', 'uid', 'status', 'created', 'changed', 'comment', 'vid'])
 
 
 FORMATS_TRANSLATION = {
@@ -44,7 +49,7 @@ class Command(BaseCommand):
 			row[6] = datetime.fromtimestamp(row[6])
 			return tuple(row)
 		cursor = self.db_cursor()
-		cursor.execute('SELECT nid, type, title, uid, status, created, changed, vid FROM node')
+		cursor.execute('SELECT nid, type, title, uid, status, created, changed, comment, vid FROM node')
 		nodes = tuple(NodeData(*to_python(row)) for row in cursor.fetchall())
 		for node in nodes:
 			yield node

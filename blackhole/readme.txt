@@ -1,8 +1,40 @@
 Poznámky k importu dát
 
-Obsah:
+Obsah
+-----
 
-Každý obsah je uložený ako node.
+- tabuľka node
+
+ desc node;
++----------+------------------+------+-----+---------+----------------+
+| Field    | Type             | Null | Key | Default | Extra          |
++----------+------------------+------+-----+---------+----------------+
+| nid      | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
+| type     | varchar(32)      | NO   | MUL |         |                |
+| title    | varchar(128)     | NO   | MUL |         |                |
+| uid      | int(10)          | NO   | MUL | 0       |                |
+| status   | int(4)           | NO   | MUL | 1       |                |
+| created  | int(11)          | NO   | MUL | 0       |                |
+| changed  | int(11)          | NO   | MUL | 0       |                |
+| comment  | int(2)           | NO   |     | 0       |                |
+| promote  | int(2)           | NO   | MUL | 0       |                |
+| moderate | int(2)           | NO   | MUL | 0       |                |
+| sticky   | int(2)           | NO   |     | 0       |                |
+| vid      | int(10) unsigned | NO   | PRI | 0       |                |
++----------+------------------+------+-----+---------+----------------+
+
+
+Zaujíjamvé:
+nid -> číslo uzla
+type -> typ obsahu
+title -> nadpis
+uid -> autor
+status -> 0 nepublikované, 1 publikované
+created -> čas vytvorenia (timestamp)
+changed -> čas zmeny (timestamp)
+comment -> či sú komentáre poolen, 0 - skryté, 1 - diskusia uzatvorená, 2 - povolená
+vid -> ID revízie
+
 
 Komentáre:
 
@@ -45,12 +77,3 @@ thread -> poradie a štruktúra
 name -> meno autora
 mail -> mail autora
 homepage -> domovská stránka
-
-Články
-
-- V tabuľke node
-- Typ story
-
-Polia:
-status > 1 publikované
-vid > ID revízie
