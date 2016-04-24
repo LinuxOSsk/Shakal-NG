@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.db import models
+from mptt.models import MPTTModel, TreeForeignKey
 
 from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
@@ -15,8 +16,8 @@ class VocabularyNodeType(models.Model):
 		return self.name
 
 
-class Term(models.Model):
-	parent = models.ForeignKey('self')
+class Term(MPTTModel, models.Model):
+	parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
 	vocabulary_type = models.ForeignKey(VocabularyNodeType, db_column='vid')
 	name = models.CharField(max_length=255)
 	description = models.TextField()
