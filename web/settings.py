@@ -107,7 +107,7 @@ TEMPLATES = [
 		},
 		"OPTIONS": {
 			"match_extension": None,
-			"match_regex": re.compile(r"^(?!(admin/|debug_toolbar/|suit/|profiler/|search/indexes/|reversion/|sitemap.xml|static_sitemaps/|hijack/)).*"),
+			"match_regex": re.compile(r"^(?!(admin/|debug_toolbar/|suit/|profiler/|search/indexes/|reversion/|sitemap.xml|static_sitemaps/|hijack/|django_extensions/)).*"),
 			"newstyle_gettext": True,
 			"extensions": [
 				"jinja2.ext.do",
