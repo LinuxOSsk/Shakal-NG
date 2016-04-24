@@ -146,3 +146,28 @@ thread -> poradie a štruktúra
 name -> meno autora
 mail -> mail autora
 homepage -> domovská stránka
+
+desc node_revisions;
++-----------+------------------+------+-----+---------+-------+
+| Field     | Type             | Null | Key | Default | Extra |
++-----------+------------------+------+-----+---------+-------+
+| nid       | int(10) unsigned | NO   | MUL | 0       |       |
+| vid       | int(10) unsigned | NO   | PRI | 0       |       |
+| uid       | int(10)          | NO   | MUL | 0       |       |
+| title     | varchar(128)     | NO   |     |         |       |
+| body      | longtext         | NO   |     | NULL    |       |
+| teaser    | longtext         | NO   |     | NULL    |       |
+| timestamp | int(11)          | NO   |     | 0       |       |
+| format    | int(4)           | NO   |     | 0       |       |
+| log       | longtext         | YES  |     | NULL    |       |
++-----------+------------------+------+-----+---------+-------+
+
+nid -> ID uzla
+vid -> ID revízie (PK)
+uid -> ID používateľa, ktorý upravoval node
+title -> názov
+body -> obsah
+teaser -> krátky text v zozname
+timestamp -> čas úpravy
+format -> mapované na filter_formats
+log -> poznámka pri úprave

@@ -75,6 +75,12 @@ class Command(BaseCommand):
 		formats = tuple(FilterFormat(*row) for row in cursor.fetchall())
 		return {f.format: FORMATS_TRANSLATION[f.name] for f in formats}
 
+	@cached_property
+	def vocabulary_format_types(self):
+		cursor = self.db_cursor()
+		cursor.execute('SELECT vid, type FROM vocabulary_node_types')
+		return dict(cursor.fetchall())
+
 	def nodes(self):
 		cursor = self.db_cursor()
 		cursor.execute('SELECT nid, type, title, uid, status, created, changed, comment, promote, sticky, vid FROM node')
