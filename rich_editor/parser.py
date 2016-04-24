@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-import re
-
 import StringIO
 import copy
+import re
+
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
+from django.template.defaultfilters import linebreaks_filter
 from django.utils.html import escape
 
 from common_utils import build_absolute_uri
@@ -580,7 +581,7 @@ class RawParser:
 
 class TextParser:
 	def parse(self, text):
-		self.output = escape(text)
+		self.output = linebreaks_filter(escape(text))
 
 	def get_output(self):
 		return self.output
