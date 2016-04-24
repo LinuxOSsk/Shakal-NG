@@ -2,18 +2,19 @@
 from __future__ import unicode_literals
 
 import sys
-from os import path
 from collections import namedtuple
 from datetime import datetime
-from django.core.files.uploadedfile import SimpleUploadedFile
+from os import path
 
-from django.core.management.base import BaseCommand
+import pytz
 from django.conf import settings
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.management.base import BaseCommand
 from django.db import connections
 from django.utils.functional import cached_property
-import pytz
 
 from accounts.models import User
+from blackhole.models import VocabularyNodeType
 
 
 #from common_utils.asciitable import NamedtupleTablePrinter
@@ -60,6 +61,7 @@ class Command(BaseCommand):
 	def __init__(self, *args, **kwargs):
 		super(Command, self).__init__(*args, **kwargs)
 		self.users_map = {}
+		self.vocabulary_map = {}
 
 	@cached_property
 	def db_connection(self):
@@ -137,7 +139,18 @@ class Command(BaseCommand):
 			users_map[user.uid] = user_instance.pk
 		return users_map
 
+	def sync_vocabulary(self):
+		vocabulary_map = {}
+		for vid, fmt in self.vocabulary_format_types.items():
+			dot()
+			instance, _ = VocabularyNodeType.objects.get_or_create(name=fmt)
+			vocabulary_map[vid] = instance.pk
+		return vocabulary_map
+
 	def handle(self, *args, **options):
 		print("Users")
 		self.users_map = self.sync_users()
+		print("")
+		print("Vocabulary type")
+		self.vocabulary_map = self.sync_vocabulary()
 		print("")
