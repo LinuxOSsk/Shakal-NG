@@ -2,10 +2,13 @@
 from __future__ import unicode_literals
 
 import sys
+from os import path
 from collections import namedtuple
 from datetime import datetime
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 from django.core.management.base import BaseCommand
+from django.conf import settings
 from django.db import connections
 from django.utils.functional import cached_property
 import pytz
@@ -54,6 +57,10 @@ def dot():
 
 
 class Command(BaseCommand):
+	def __init__(self, *args, **kwargs):
+		super(Command, self).__init__(*args, **kwargs)
+		self.users_map = {}
+
 	@cached_property
 	def db_connection(self):
 		return connections['blackhole']
@@ -87,24 +94,32 @@ class Command(BaseCommand):
 
 	def create_user(self, username, user_data):
 		is_active = user_data.status == 1
-		avatar = ''
+		avatar = None
+		if user_data.picture:
+			avatar_filename = path.join(settings.MEDIA_ROOT, 'blackhole', user_data.picture)
+			try:
+				avatar = SimpleUploadedFile(path.basename(avatar_filename), open(avatar_filename, 'rb').read())
+			except IOError:
+				print('File does not exist: ' + avatar_filename)
 		user = User(
 			username=username,
 			signature=user_data.signature,
 			date_joined=timestamp_to_time(user_data.created),
 			last_login=timestamp_to_time(user_data.login),
 			is_active=is_active,
-			avatar=avatar,
+			avatar=avatar or '',
 		)
 		user.save()
 		return user
 
 	def sync_users(self):
+		users_map = {}
 		for user in self.users():
 			dot()
 			username = user.name
 			user_instance = User.objects.filter(username=username).first()
 			if user_instance is not None and user_instance.password == '':
+				users_map[user.uid] = user_instance.pk
 				continue
 			if user_instance is None:
 				user_instance = self.create_user(username, user)
@@ -113,8 +128,10 @@ class Command(BaseCommand):
 				user_instance = User.objects.filter(username=username).first()
 				if user_instance is None:
 					user_instance = self.create_user(username, user)
+			users_map[user.uid] = user_instance.pk
+		return users_map
 
 	def handle(self, *args, **options):
 		print("Users")
-		self.sync_users()
+		self.users_map = self.sync_users()
 		print("")

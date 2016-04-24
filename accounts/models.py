@@ -33,7 +33,6 @@ class User(AbstractUser):
 	original_info = RichTextOriginalField(filtered_field='filtered_info', property_name='info', parsers={'html': 'profile'}, verbose_name='informácie', validators=[MaxLengthValidator(100000)], blank=True)
 	filtered_info = RichTextFilteredField(blank=True)
 	year = models.SmallIntegerField('rok narodenia', validators=[MinValueValidator(1900), MaxValueValidator(2015)], blank=True, null=True)
-	#avatar = AutoImageField('fotografia', upload_to='accounts/avatars', size=(512, 512), thumbnail={'standard': (128, 128), '128': (128, 128, 'fit'), '48': (48, 48, 'fit')}, blank=True)
 	avatar = AutoImageField('fotografia', upload_to='accounts/avatars', resize_source=dict(size=(512, 512)), blank=True)
 	settings = models.TextField('nastavenia', blank=True)
 	geoposition = GeopositionField(verbose_name='poloha', blank=True)
