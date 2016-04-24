@@ -8,7 +8,15 @@ from django.views.generic import CreateView, UpdateView, DetailView, ListView as
 from django_simple_paginator import Paginator
 
 
+# dokumentácia  k viewom tu https://ccbv.co.uk/
+
+
 class PreviewCreateView(CreateView):
+	"""
+	Tento view funguje ako náhrada CreateView s djanga, ale vytvorí objekt až keď
+	dostane ako POST parameter `create`. Bez neho vyrenderuje len náhľad.
+	"""
+
 	context_object_name = 'item'
 
 	def form_valid(self, form):
@@ -21,6 +29,11 @@ class PreviewCreateView(CreateView):
 
 
 class PreviewUpdateView(UpdateView):
+	"""
+	Tento view funguje ako náhrada UpdateView s djanga, ale aktualizuje objekt až keď
+	dostane ako POST parameter `create`. Bez neho vyrenderuje len náhľad.
+	"""
+
 	context_object_name = 'item'
 
 	def form_valid(self, form):
@@ -32,20 +45,22 @@ class PreviewUpdateView(UpdateView):
 		return super(PreviewUpdateView, self).form_valid(form)
 
 
-class UpdateProtectedView(UpdateView):
-	author_field = None
-	unprivileged_queryset = None
-
-	def get_queryset(self):
-		if self.unprivileged_queryset is not None:
-			return self.unprivileged_queryset.all()
-		if self.request.user.is_authenticated():
-			return super(UpdateProtectedView, self).get_queryset().filter(**{self.author_field: self.request.user})
-		else:
-			return super(UpdateProtectedView, self).get_queryset().none()
-
-
 class DetailUserProtectedView(DetailView):
+	"""
+	Tento view funguje ako náhrada DetailView z djanga.
+
+	Navyše poskytuje možnosť obmedziť prístup k zobrazeniu objektov. Bežní
+	používatelia budú môcť zobraziť len objekty, ktoré sú publikované. Autorovi
+	je možné povoliť prístup aj k nepublikovaným poliam. Je možné nastaviť plný
+	prístup k všetkým objektom pouívateľom, ktorí majú právo uvedené
+	v superuser_perm.
+
+	Parametre:
+	published_field -- pole modelu, ktoré označuje, že objekt je pulikovaný
+	author_field -- pole modelu, podľa ktorého sa určuje autor
+	superuser_perm -- používatelia s tímto právom budú mať prístup k všetkým objektom
+	"""
+
 	published_field = None
 	author_field = None
 	superuser_perm = None
@@ -81,6 +96,16 @@ class DetailUserProtectedView(DetailView):
 
 
 class ListView(OriginalListView):
+	"""
+	Náhrada ListView z djanga s podporou kategórií a stránkovania. V urls.py musí
+	byť kategória pomenovaná ?P<category>.
+
+	Parametre:
+	paginate_by -- počet záznamov na stránku
+	category_model -- v tomto modeli sú kategórie, None ak sa kategórie nepoužívajú
+	category_key -- kľúč, podľa ktorého sa vyhľadávajú kategórie
+	"""
+
 	category_model = None
 	category_key = 'slug'
 	category_field = 'category'
