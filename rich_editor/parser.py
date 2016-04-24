@@ -576,3 +576,14 @@ class RawParser:
 
 	def get_attributes(self):
 		return {}
+
+
+class TextParser:
+	def parse(self, text):
+		self.output = escape(text)
+
+	def get_output(self):
+		return self.output
+
+	def get_attributes(self):
+		return {}
