@@ -69,7 +69,7 @@ vymazanie celej databázy je možné vytvoriť novú db príkazom:
 TODO
 ====
 
-- tlačidlo pridať správu na viditeľné miesto
+- import dát z blackhole
 - odkaz na neprečítané komentáre v perexe článku
 - hodnotenie článku
 - zaplatiť autorovi kávu
