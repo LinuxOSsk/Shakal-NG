@@ -62,6 +62,7 @@ class Command(BaseCommand):
 		super(Command, self).__init__(*args, **kwargs)
 		self.users_map = {}
 		self.vocabulary_map = {}
+		self.term_map = {}
 
 	@cached_property
 	def db_connection(self):
@@ -147,10 +148,24 @@ class Command(BaseCommand):
 			vocabulary_map[vid] = instance.pk
 		return vocabulary_map
 
+	def sync_term(self):
+		term_map = {}
+		terms = {}
+		for term in self.terms():
+			terms.setdefault(term.parent, [])
+			terms[term.parent].append(term)
+		if not 0 in terms:
+			return term_map
+		print(terms)
+		return term_map
+
 	def handle(self, *args, **options):
 		print("Users")
 		self.users_map = self.sync_users()
 		print("")
 		print("Vocabulary type")
 		self.vocabulary_map = self.sync_vocabulary()
+		print("")
+		print("Term")
+		self.term_map = self.sync_term()
 		print("")
