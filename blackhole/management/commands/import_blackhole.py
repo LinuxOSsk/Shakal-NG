@@ -151,12 +151,22 @@ class Command(BaseCommand):
 	def sync_term(self):
 		term_map = {}
 		terms = {}
+
+		def import_term(term_data, parent):
+			dot()
+			instance = None
+			for subterm in terms.get(term_data.tid, []):
+				import_term(subterm, instance)
+
 		for term in self.terms():
 			terms.setdefault(term.parent, [])
 			terms[term.parent].append(term)
 		if not 0 in terms:
 			return term_map
-		print(terms)
+
+		for term in terms[0]:
+			import_term(term, None)
+
 		return term_map
 
 	def handle(self, *args, **options):
