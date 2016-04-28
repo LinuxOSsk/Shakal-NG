@@ -13,6 +13,7 @@ from django.core.management.base import BaseCommand
 from django.db import connections
 from django.utils.functional import cached_property
 
+from ...models import Term
 from accounts.models import User
 from blackhole.models import VocabularyNodeType
 
@@ -154,7 +155,15 @@ class Command(BaseCommand):
 
 		def import_term(term_data, parent):
 			dot()
-			instance = None
+			instance = Term(
+				parent=parent,
+				vocabulary_type_id=term_data.vid,
+				name=term_data.name,
+				description=term_data.description
+			)
+			instance.save()
+			if parent:
+				parent = Term.objects.get(pk=parent.pk)
 			for subterm in terms.get(term_data.tid, []):
 				import_term(subterm, instance)
 
