@@ -155,13 +155,17 @@ class Command(BaseCommand):
 
 		def import_term(term_data, parent):
 			dot()
-			instance = Term(
-				parent=parent,
-				vocabulary_type_id=term_data.vid,
-				name=term_data.name,
-				description=term_data.description
-			)
-			instance.save()
+			instance = (Term.objects
+				.filter(parent=parent, vocabulary_id=term_data.vid, name=term_data.name)
+				.first())
+			if instance is None:
+				instance = Term(
+					parent=parent,
+					vocabulary_id=term_data.vid,
+					name=term_data.name,
+					description=term_data.description
+				)
+				instance.save()
 			if parent:
 				parent = Term.objects.get(pk=parent.pk)
 			for subterm in terms.get(term_data.tid, []):
