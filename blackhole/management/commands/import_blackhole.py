@@ -36,7 +36,7 @@ USER_STATUS_ACTIVE = 1
 
 
 FilterFormat = namedtuple('FilterFormat', ['format', 'name'])
-NodeData = namedtuple('NodeData', ['nid', 'type', 'title', 'uid', 'status', 'created', 'changed', 'comment', 'promote', 'sticky', 'vid'])
+NodeData = namedtuple('NodeData', ['nid', 'type', 'title', 'uid', 'status', 'created', 'changed', 'comment', 'promote', 'sticky', 'vid', 'revisions'])
 TermData = namedtuple('TermData', ['tid', 'parent', 'vid', 'name', 'description'])
 UserData = namedtuple('UserData', ['uid', 'name', 'signature', 'created', 'login', 'status', 'picture'])
 
@@ -85,12 +85,13 @@ class Command(BaseCommand):
 		cursor.execute('SELECT vid, type FROM vocabulary_node_types')
 		return dict(cursor.fetchall())
 
+	@property
 	def nodes(self):
 		cursor = self.db_cursor()
 		cursor.execute('SELECT nid, type, title, uid, status, created, changed, comment, promote, sticky, vid FROM node')
-		nodes = tuple(NodeData(row) for row in cursor.fetchall())
-		for node in nodes:
-			yield node
+		for row in cursor.fetchall():
+			cols = list(row) + [[]]
+			yield NodeData(*cols)
 
 	def terms(self):
 		cursor = self.db_cursor()
@@ -166,6 +167,7 @@ class Command(BaseCommand):
 					description=term_data.description
 				)
 				instance.save()
+			term_map[term_data.tid] = instance
 			if parent:
 				parent = Term.objects.get(pk=parent.pk)
 			for subterm in terms.get(term_data.tid, []):
@@ -179,8 +181,11 @@ class Command(BaseCommand):
 
 		for term in terms[0]:
 			import_term(term, None)
-
 		return term_map
+
+	def sync_node(self):
+		for node in self.nodes:
+			print(node.nid)
 
 	def handle(self, *args, **options):
 		print("Users")
@@ -191,4 +196,7 @@ class Command(BaseCommand):
 		print("")
 		print("Term")
 		self.term_map = self.sync_term()
+		print("")
+		print("Node")
+		self.sync_node()
 		print("")
