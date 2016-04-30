@@ -18,7 +18,7 @@ class VocabularyNodeType(models.Model):
 
 class Term(MPTTModel, models.Model):
 	parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
-	vocabulary_type = models.ForeignKey(VocabularyNodeType, db_column='vid')
+	vocabulary = models.ForeignKey(VocabularyNodeType, db_column='vid')
 	name = models.CharField(max_length=255)
 	description = models.TextField()
 
@@ -29,9 +29,9 @@ class Term(MPTTModel, models.Model):
 class Node(TimestampModelMixin, models.Model):
 	vocabulary = models.ForeignKey(VocabularyNodeType)
 	title = models.CharField(max_length=128)
-	user = models.ForeignKey(settings.AUTH_USER_MODEL)
-	published = models.BooleanField(blank=True, default=False)
-	comments_allowed = models.BooleanField(blank=True, default=True)
+	author = models.ForeignKey(settings.AUTH_USER_MODEL)
+	is_published = models.BooleanField(blank=True, default=False)
+	is_commentable = models.BooleanField(blank=True, default=True)
 	is_promoted = models.BooleanField(blank=True, default=False)
 	is_sticky = models.BooleanField(blank=True, default=False)
 
@@ -41,7 +41,7 @@ class Node(TimestampModelMixin, models.Model):
 
 class NodeRevision(models.Model):
 	node = models.ForeignKey('blackhole.Node')
-	user = models.ForeignKey(settings.AUTH_USER_MODEL)
+	author = models.ForeignKey(settings.AUTH_USER_MODEL)
 	title = models.CharField(max_length=128)
 	original_body = RichTextOriginalField(
 		filtered_field='filtered_body',

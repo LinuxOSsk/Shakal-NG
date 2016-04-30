@@ -21,11 +21,11 @@ class Migration(migrations.Migration):
 				('created', models.DateTimeField(verbose_name='vytvoren\xe9', editable=False)),
 				('updated', models.DateTimeField(verbose_name='upraven\xe9', editable=False)),
 				('title', models.CharField(max_length=128)),
-				('published', models.BooleanField(default=False)),
-				('comments_allowed', models.BooleanField(default=True)),
+				('is_published', models.BooleanField(default=False)),
+				('is_commentable', models.BooleanField(default=True)),
 				('is_promoted', models.BooleanField(default=False)),
 				('is_sticky', models.BooleanField(default=False)),
-				('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+				('author', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
 			],
 			options={
 				'abstract': False,
@@ -38,8 +38,8 @@ class Migration(migrations.Migration):
 				('title', models.CharField(max_length=128)),
 				('original_body', rich_editor.fields.RichTextOriginalField(property_name='body', filtered_field='filtered_body')),
 				('filtered_body', rich_editor.fields.RichTextFilteredField(editable=False)),
+				('author', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
 				('node', models.ForeignKey(to='blackhole.Node')),
-				('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
 			],
 		),
 		migrations.CreateModel(
@@ -67,7 +67,7 @@ class Migration(migrations.Migration):
 		),
 		migrations.AddField(
 			model_name='term',
-			name='vocabulary_type',
+			name='vocabulary',
 			field=models.ForeignKey(to='blackhole.VocabularyNodeType', db_column='vid'),
 		),
 		migrations.AddField(
