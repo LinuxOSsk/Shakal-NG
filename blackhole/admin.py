@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
+from mptt.admin import MPTTModelAdmin
 
 from .models import VocabularyNodeType, Term, Node, NodeRevision
 
@@ -10,7 +11,7 @@ class VocabularyNodeTypeAdmin(admin.ModelAdmin):
 	list_display = ('name',)
 
 
-class TermAdmin(admin.ModelAdmin):
+class TermAdmin(MPTTModelAdmin):
 	list_display = ('name', 'vocabulary',)
 
 	def get_queryset(self, request):
