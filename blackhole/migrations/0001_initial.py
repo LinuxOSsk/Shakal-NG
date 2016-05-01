@@ -72,6 +72,11 @@ class Migration(migrations.Migration):
 		),
 		migrations.AddField(
 			model_name='node',
+			name='revision',
+			field=models.ForeignKey(related_name='revisions', to='blackhole.NodeRevision'),
+		),
+		migrations.AddField(
+			model_name='node',
 			name='vocabulary',
 			field=models.ForeignKey(to='blackhole.VocabularyNodeType'),
 		),

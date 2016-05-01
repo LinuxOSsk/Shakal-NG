@@ -10,10 +10,10 @@ import pytz
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management.base import BaseCommand
-from django.db import connections
+from django.db import transaction, connections
 from django.utils.functional import cached_property
 
-from ...models import Term
+from ...models import Term, Node, NodeRevision
 from accounts.models import User
 from blackhole.models import VocabularyNodeType
 
@@ -37,6 +37,7 @@ USER_STATUS_ACTIVE = 1
 
 FilterFormat = namedtuple('FilterFormat', ['format', 'name'])
 NodeData = namedtuple('NodeData', ['nid', 'type', 'title', 'uid', 'status', 'created', 'changed', 'comment', 'promote', 'sticky', 'vid', 'revisions'])
+NodeRevisionData = namedtuple('NodeRevisionData', ['nid', 'vid', 'uid', 'title', 'body', 'teaser', 'timestamp', 'format', 'log'])
 TermData = namedtuple('TermData', ['tid', 'parent', 'vid', 'name', 'description'])
 UserData = namedtuple('UserData', ['uid', 'name', 'signature', 'created', 'login', 'status', 'picture'])
 
@@ -74,34 +75,39 @@ class Command(BaseCommand):
 
 	@cached_property
 	def filter_formats(self):
-		cursor = self.db_cursor()
-		cursor.execute('SELECT format, name FROM filter_formats')
-		formats = tuple(FilterFormat(*row) for row in cursor.fetchall())
-		return {f.format: FORMATS_TRANSLATION[f.name] for f in formats}
+		with self.db_cursor() as cursor:
+			cursor.execute('SELECT format, name FROM filter_formats')
+			formats = tuple(FilterFormat(*row) for row in cursor.fetchall())
+			return {f.format: FORMATS_TRANSLATION[f.name] for f in formats}
 
 	@cached_property
 	def vocabulary_format_types(self):
-		cursor = self.db_cursor()
-		cursor.execute('SELECT vid, type FROM vocabulary_node_types')
-		return dict(cursor.fetchall())
+		with self.db_cursor() as cursor:
+			cursor.execute('SELECT vid, type FROM vocabulary_node_types')
+			return dict(cursor.fetchall())
 
 	@property
 	def nodes(self):
-		cursor = self.db_cursor()
-		cursor.execute('SELECT nid, type, title, uid, status, created, changed, comment, promote, sticky, vid FROM node')
-		for row in cursor.fetchall():
-			cols = list(row) + [[]]
-			yield NodeData(*cols)
+		with self.db_cursor() as cursor:
+			cursor.execute('SELECT nid, type, title, uid, status, created, changed, comment, promote, sticky, vid FROM node')
+			for row in cursor.fetchall():
+				with self.db_cursor() as revisions_cursor:
+					revisions = []
+					revisions_cursor.execute('SELECT nid, vid, uid, title, body, teaser, timestamp, format, log FROM node_revisions WHERE nid = %s', [row[0]])
+					for revision_row in revisions_cursor.fetchall():
+						revisions.append(NodeRevisionData(*revision_row))
+					cols = list(row) + [revisions]
+					yield NodeData(*cols)
 
 	def terms(self):
-		cursor = self.db_cursor()
-		cursor.execute('SELECT term_data.tid, term_hierarchy.parent, term_data.vid, term_data.name, description FROM term_data LEFT JOIN term_hierarchy ON term_data.tid = term_hierarchy.tid')
-		return tuple(TermData(*row) for row in cursor.fetchall())
+		with self.db_cursor() as cursor:
+			cursor.execute('SELECT term_data.tid, term_hierarchy.parent, term_data.vid, term_data.name, description FROM term_data LEFT JOIN term_hierarchy ON term_data.tid = term_hierarchy.tid')
+			return tuple(TermData(*row) for row in cursor.fetchall())
 
 	def users(self):
-		cursor = self.db_cursor()
-		cursor.execute('SELECT uid, name, signature, created, login, status, picture FROM users')
-		return tuple(UserData(*row) for row in cursor.fetchall())
+		with self.db_cursor() as cursor:
+			cursor.execute('SELECT uid, name, signature, created, login, status, picture FROM users')
+			return tuple(UserData(*row) for row in cursor.fetchall())
 
 	def create_user(self, username, user_data):
 		is_active = user_data.status == 1
@@ -185,7 +191,32 @@ class Command(BaseCommand):
 
 	def sync_node(self):
 		for node in self.nodes:
-			print(node.nid)
+			with transaction.atomic():
+				node_instance = Node(
+					id=node.nid,
+					type=self.vocabulary_map[node.type],
+					title=node.title,
+					author_id=node.uid,
+					is_published=int(node.status) == 1,
+					is_commentable=int(node.comment) != 0,
+					is_promoted=int(node.promote) == 1,
+					is_sticky=int(node.sticky) == 1,
+					revision_id=node.vid,
+					created=timestamp_to_time(node.created),
+					updated=timestamp_to_time(node.changed)
+				)
+				node_instance.save()
+			for revision in node.revisions:
+				revision_instance = NodeRevision(
+					id=revision.vid,
+					node=node_instance,
+					title=revision.title,
+					original_body=(self.filter_formats[revision.format], revision.body),
+					log=revision.log,
+					created=timestamp_to_time(revision.timestamp),
+					updated=timestamp_to_time(revision.timestamp)
+				)
+				revision_instance.save()
 
 	def handle(self, *args, **options):
 		print("Users")

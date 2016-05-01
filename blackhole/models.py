@@ -30,6 +30,7 @@ class Node(TimestampModelMixin, models.Model):
 	vocabulary = models.ForeignKey(VocabularyNodeType)
 	title = models.CharField(max_length=128)
 	author = models.ForeignKey(settings.AUTH_USER_MODEL)
+	revision = models.ForeignKey('blackhole.NodeRevision', related_name='revisions')
 	is_published = models.BooleanField(blank=True, default=False)
 	is_commentable = models.BooleanField(blank=True, default=True)
 	is_promoted = models.BooleanField(blank=True, default=False)
@@ -49,6 +50,7 @@ class NodeRevision(models.Model):
 		parsers={'raw': '', 'html': 'full'}
 	)
 	filtered_body = RichTextFilteredField()
+	log = models.TextField(blank=True)
 
 	def __unicode__(self):
 		return self.title
