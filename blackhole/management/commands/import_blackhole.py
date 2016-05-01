@@ -191,10 +191,11 @@ class Command(BaseCommand):
 
 	def sync_node(self):
 		for node in self.nodes:
+			dot()
 			with transaction.atomic():
 				node_instance = Node(
 					id=node.nid,
-					type=self.vocabulary_map[node.type],
+					node_type=node.type,
 					title=node.title,
 					author_id=node.uid,
 					is_published=int(node.status) == 1,
@@ -211,8 +212,9 @@ class Command(BaseCommand):
 					id=revision.vid,
 					node=node_instance,
 					title=revision.title,
-					original_body=(self.filter_formats[revision.format], revision.body),
-					log=revision.log,
+					author_id=node.uid,
+					original_body=(self.filter_formats.get(revision.format, 'raw') + ':' + revision.body),
+					log=revision.log or '',
 					created=timestamp_to_time(revision.timestamp),
 					updated=timestamp_to_time(revision.timestamp)
 				)

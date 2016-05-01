@@ -20,6 +20,7 @@ class Migration(migrations.Migration):
 				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
 				('created', models.DateTimeField(verbose_name='vytvoren\xe9', editable=False)),
 				('updated', models.DateTimeField(verbose_name='upraven\xe9', editable=False)),
+				('node_type', models.CharField(max_length=32)),
 				('title', models.CharField(max_length=128)),
 				('is_published', models.BooleanField(default=False)),
 				('is_commentable', models.BooleanField(default=True)),
@@ -35,12 +36,18 @@ class Migration(migrations.Migration):
 			name='NodeRevision',
 			fields=[
 				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+				('created', models.DateTimeField(verbose_name='vytvoren\xe9', editable=False)),
+				('updated', models.DateTimeField(verbose_name='upraven\xe9', editable=False)),
 				('title', models.CharField(max_length=128)),
 				('original_body', rich_editor.fields.RichTextOriginalField(property_name='body', filtered_field='filtered_body')),
 				('filtered_body', rich_editor.fields.RichTextFilteredField(editable=False)),
+				('log', models.TextField(blank=True)),
 				('author', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
 				('node', models.ForeignKey(to='blackhole.Node')),
 			],
+			options={
+				'abstract': False,
+			},
 		),
 		migrations.CreateModel(
 			name='Term',
@@ -74,10 +81,5 @@ class Migration(migrations.Migration):
 			model_name='node',
 			name='revision',
 			field=models.ForeignKey(related_name='revisions', to='blackhole.NodeRevision'),
-		),
-		migrations.AddField(
-			model_name='node',
-			name='vocabulary',
-			field=models.ForeignKey(to='blackhole.VocabularyNodeType'),
 		),
 	]

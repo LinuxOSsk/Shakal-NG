@@ -27,7 +27,7 @@ class Term(MPTTModel, models.Model):
 
 
 class Node(TimestampModelMixin, models.Model):
-	vocabulary = models.ForeignKey(VocabularyNodeType)
+	node_type = models.CharField(max_length=32)
 	title = models.CharField(max_length=128)
 	author = models.ForeignKey(settings.AUTH_USER_MODEL)
 	revision = models.ForeignKey('blackhole.NodeRevision', related_name='revisions')
@@ -40,7 +40,7 @@ class Node(TimestampModelMixin, models.Model):
 		return self.title
 
 
-class NodeRevision(models.Model):
+class NodeRevision(TimestampModelMixin, models.Model):
 	node = models.ForeignKey('blackhole.Node')
 	author = models.ForeignKey(settings.AUTH_USER_MODEL)
 	title = models.CharField(max_length=128)
