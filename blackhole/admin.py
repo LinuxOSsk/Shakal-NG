@@ -21,11 +21,13 @@ class TermAdmin(MPTTModelAdmin):
 class NodeRevisionInline(admin.StackedInline):
 	model = NodeRevision
 	raw_id_fields = ('author',)
+	extra = 0
 
 
 class NodeAdmin(admin.ModelAdmin):
 	list_display = ('title', 'node_type', 'is_published',)
 	raw_id_fields = ('author',)
+	list_filter = ('node_type', 'terms')
 	inlines = (NodeRevisionInline,)
 
 

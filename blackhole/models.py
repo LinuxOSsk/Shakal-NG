@@ -35,6 +35,7 @@ class Node(TimestampModelMixin, models.Model):
 	is_commentable = models.BooleanField(blank=True, default=True)
 	is_promoted = models.BooleanField(blank=True, default=False)
 	is_sticky = models.BooleanField(blank=True, default=False)
+	terms = models.ManyToManyField('blackhole.Term', blank=True)
 
 	def __unicode__(self):
 		return self.title

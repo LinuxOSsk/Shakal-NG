@@ -36,7 +36,7 @@ USER_STATUS_ACTIVE = 1
 
 
 FilterFormat = namedtuple('FilterFormat', ['format', 'name'])
-NodeData = namedtuple('NodeData', ['nid', 'type', 'title', 'uid', 'status', 'created', 'changed', 'comment', 'promote', 'sticky', 'vid', 'revisions'])
+NodeData = namedtuple('NodeData', ['nid', 'type', 'title', 'uid', 'status', 'created', 'changed', 'comment', 'promote', 'sticky', 'vid', 'revisions', 'terms'])
 NodeRevisionData = namedtuple('NodeRevisionData', ['nid', 'vid', 'uid', 'title', 'body', 'teaser', 'timestamp', 'format', 'log'])
 TermData = namedtuple('TermData', ['tid', 'parent', 'vid', 'name', 'description'])
 UserData = namedtuple('UserData', ['uid', 'name', 'signature', 'created', 'login', 'status', 'picture'])
@@ -91,13 +91,17 @@ class Command(BaseCommand):
 		with self.db_cursor() as cursor:
 			cursor.execute('SELECT nid, type, title, uid, status, created, changed, comment, promote, sticky, vid FROM node')
 			for row in cursor.fetchall():
+				revisions = []
+				terms = []
 				with self.db_cursor() as revisions_cursor:
-					revisions = []
 					revisions_cursor.execute('SELECT nid, vid, uid, title, body, teaser, timestamp, format, log FROM node_revisions WHERE nid = %s', [row[0]])
 					for revision_row in revisions_cursor.fetchall():
 						revisions.append(NodeRevisionData(*revision_row))
-					cols = list(row) + [revisions]
-					yield NodeData(*cols)
+				with self.db_cursor() as terms_cursor:
+					terms_cursor.execute('SELECT tid FROM term_node WHERE nid = %s', [row[0]])
+					terms = [r[0] for r in terms_cursor.fetchall()]
+				cols = list(row) + [revisions, terms]
+				yield NodeData(*cols)
 
 	def terms(self):
 		with self.db_cursor() as cursor:
@@ -197,7 +201,7 @@ class Command(BaseCommand):
 					id=node.nid,
 					node_type=node.type,
 					title=node.title,
-					author_id=node.uid,
+					author_id=self.users_map.get(node.uid),
 					is_published=int(node.status) == 1,
 					is_commentable=int(node.comment) != 0,
 					is_promoted=int(node.promote) == 1,
@@ -212,13 +216,15 @@ class Command(BaseCommand):
 					id=revision.vid,
 					node=node_instance,
 					title=revision.title,
-					author_id=node.uid,
+					author_id=self.users_map.get(node.uid),
 					original_body=(self.filter_formats.get(revision.format, 'raw') + ':' + revision.body),
 					log=revision.log or '',
 					created=timestamp_to_time(revision.timestamp),
 					updated=timestamp_to_time(revision.timestamp)
 				)
 				revision_instance.save()
+			for term_id in node.terms:
+				node_instance.terms.add(self.term_map[term_id])
 
 	def handle(self, *args, **options):
 		print("Users")

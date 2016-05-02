@@ -82,4 +82,9 @@ class Migration(migrations.Migration):
 			name='revision',
 			field=models.ForeignKey(related_name='revisions', to='blackhole.NodeRevision'),
 		),
+		migrations.AddField(
+			model_name='node',
+			name='terms',
+			field=models.ManyToManyField(to='blackhole.Term', blank=True),
+		),
 	]
