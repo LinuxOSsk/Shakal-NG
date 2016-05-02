@@ -81,7 +81,7 @@ class Command(BaseCommand):
 			return {f.format: FORMATS_TRANSLATION[f.name] for f in formats}
 
 	@cached_property
-	def vocabulary_format_types(self):
+	def vocabulary_node_types(self):
 		with self.db_cursor() as cursor:
 			cursor.execute('SELECT vid, type FROM vocabulary_node_types')
 			return dict(cursor.fetchall())
@@ -154,7 +154,7 @@ class Command(BaseCommand):
 
 	def sync_vocabulary(self):
 		vocabulary_map = {}
-		for vid, fmt in self.vocabulary_format_types.items():
+		for vid, fmt in self.vocabulary_node_types.items():
 			dot()
 			instance, _ = VocabularyNodeType.objects.get_or_create(name=fmt)
 			vocabulary_map[vid] = instance.pk
