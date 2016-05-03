@@ -55,3 +55,14 @@ class NodeRevision(TimestampModelMixin, models.Model):
 
 	def __unicode__(self):
 		return self.title
+
+
+class File(models.Model):
+	node = models.ForeignKey('blackhole.Node')
+	filename = models.CharField(max_length=255)
+	filepath = models.FileField(upload_to='blackhole')
+	filemime = models.CharField(max_length=255)
+	filesize = models.IntegerField()
+
+	def __unicode__(self):
+		return self.filename

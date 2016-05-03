@@ -15,6 +15,16 @@ class Migration(migrations.Migration):
 
 	operations = [
 		migrations.CreateModel(
+			name='File',
+			fields=[
+				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+				('filename', models.CharField(max_length=255)),
+				('filepath', models.FileField(upload_to='blackhole')),
+				('filemime', models.CharField(max_length=255)),
+				('filesize', models.IntegerField()),
+			],
+		),
+		migrations.CreateModel(
 			name='Node',
 			fields=[
 				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -86,5 +96,10 @@ class Migration(migrations.Migration):
 			model_name='node',
 			name='terms',
 			field=models.ManyToManyField(to='blackhole.Term', blank=True),
+		),
+		migrations.AddField(
+			model_name='file',
+			name='node',
+			field=models.ForeignKey(to='blackhole.Node'),
 		),
 	]
