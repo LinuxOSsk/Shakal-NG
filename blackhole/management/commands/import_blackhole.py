@@ -40,6 +40,7 @@ NodeData = namedtuple('NodeData', ['nid', 'type', 'title', 'uid', 'status', 'cre
 NodeRevisionData = namedtuple('NodeRevisionData', ['nid', 'vid', 'uid', 'title', 'body', 'teaser', 'timestamp', 'format', 'log'])
 TermData = namedtuple('TermData', ['tid', 'parent', 'vid', 'name', 'description'])
 UserData = namedtuple('UserData', ['uid', 'name', 'signature', 'created', 'login', 'status', 'picture'])
+FileData = namedtuple('FileData', ['fid', 'nid', 'filename', 'filepath', 'filemime', 'filesize'])
 
 
 FORMATS_TRANSLATION = {
@@ -112,6 +113,11 @@ class Command(BaseCommand):
 		with self.db_cursor() as cursor:
 			cursor.execute('SELECT uid, name, signature, created, login, status, picture FROM users')
 			return tuple(UserData(*row) for row in cursor.fetchall())
+
+	def files(self):
+		with self.db_cursor() as cursor:
+			cursor.execute('SELECT fid, nid, filename, filepath, filemime, filesize FROM files')
+			return tuple(FileData(*row) for row in cursor.fetchall())
 
 	def create_user(self, username, user_data):
 		is_active = user_data.status == 1
