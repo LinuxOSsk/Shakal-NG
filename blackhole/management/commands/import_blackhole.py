@@ -13,7 +13,7 @@ from django.core.management.base import BaseCommand
 from django.db import transaction, connections
 from django.utils.functional import cached_property
 
-from ...models import Term, Node, NodeRevision
+from ...models import Term, Node, NodeRevision, File
 from accounts.models import User
 from blackhole.models import VocabularyNodeType
 
@@ -234,6 +234,21 @@ class Command(BaseCommand):
 				for term_id in node.terms:
 					node_instance.terms.add(self.term_map[term_id])
 
+	def sync_file(self):
+		for file_data in self.files():
+			dot()
+			if File.objects.filter(id=file_data.fid).exists():
+				continue
+			file_instance = File(
+				id=file_data.fid,
+				node_id=file_data.nid,
+				filename=file_data.filename,
+				filepath=path.join('blackhole', file_data.filepath),
+				filemime=file_data.filemime,
+				filesize=file_data.filesize
+			)
+			file_instance.save()
+
 	def handle(self, *args, **options):
 		with transaction.atomic():
 			print("Users")
@@ -247,4 +262,7 @@ class Command(BaseCommand):
 			print("")
 			print("Node")
 			self.sync_node()
+			print("")
+			print("File")
+			self.sync_file()
 			print("")
