@@ -202,6 +202,8 @@ class Command(BaseCommand):
 	def sync_node(self):
 		for node in self.nodes:
 			dot()
+			if Node.objects.filter(id=node.nid).exists():
+				continue
 			with transaction.atomic():
 				node_instance = Node(
 					id=node.nid,
@@ -217,31 +219,32 @@ class Command(BaseCommand):
 					updated=timestamp_to_time(node.changed)
 				)
 				node_instance.save()
-			for revision in node.revisions:
-				revision_instance = NodeRevision(
-					id=revision.vid,
-					node=node_instance,
-					title=revision.title,
-					author_id=self.users_map.get(node.uid),
-					original_body=(self.filter_formats.get(revision.format, 'raw') + ':' + revision.body),
-					log=revision.log or '',
-					created=timestamp_to_time(revision.timestamp),
-					updated=timestamp_to_time(revision.timestamp)
-				)
-				revision_instance.save()
-			for term_id in node.terms:
-				node_instance.terms.add(self.term_map[term_id])
+				for revision in node.revisions:
+					revision_instance = NodeRevision(
+						id=revision.vid,
+						node=node_instance,
+						title=revision.title,
+						author_id=self.users_map.get(node.uid),
+						original_body=(self.filter_formats.get(revision.format, 'raw') + ':' + revision.body),
+						log=revision.log or '',
+						created=timestamp_to_time(revision.timestamp),
+						updated=timestamp_to_time(revision.timestamp)
+					)
+					revision_instance.save()
+				for term_id in node.terms:
+					node_instance.terms.add(self.term_map[term_id])
 
 	def handle(self, *args, **options):
-		print("Users")
-		self.users_map = self.sync_users()
-		print("")
-		print("Vocabulary type")
-		self.vocabulary_map = self.sync_vocabulary()
-		print("")
-		print("Term")
-		self.term_map = self.sync_term()
-		print("")
-		print("Node")
-		self.sync_node()
-		print("")
+		with transaction.atomic():
+			print("Users")
+			self.users_map = self.sync_users()
+			print("")
+			print("Vocabulary type")
+			self.vocabulary_map = self.sync_vocabulary()
+			print("")
+			print("Term")
+			self.term_map = self.sync_term()
+			print("")
+			print("Node")
+			self.sync_node()
+			print("")

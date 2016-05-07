@@ -29,7 +29,7 @@ class Term(MPTTModel, models.Model):
 class Node(TimestampModelMixin, models.Model):
 	node_type = models.CharField(max_length=32)
 	title = models.CharField(max_length=128)
-	author = models.ForeignKey(settings.AUTH_USER_MODEL)
+	author = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
 	revision = models.ForeignKey('blackhole.NodeRevision', related_name='revisions')
 	is_published = models.BooleanField(blank=True, default=False)
 	is_commentable = models.BooleanField(blank=True, default=True)
@@ -43,7 +43,7 @@ class Node(TimestampModelMixin, models.Model):
 
 class NodeRevision(TimestampModelMixin, models.Model):
 	node = models.ForeignKey('blackhole.Node')
-	author = models.ForeignKey(settings.AUTH_USER_MODEL)
+	author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
 	title = models.CharField(max_length=128)
 	original_body = RichTextOriginalField(
 		filtered_field='filtered_body',

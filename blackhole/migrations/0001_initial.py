@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
 				('is_commentable', models.BooleanField(default=True)),
 				('is_promoted', models.BooleanField(default=False)),
 				('is_sticky', models.BooleanField(default=False)),
-				('author', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+				('author', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True)),
 			],
 			options={
 				'abstract': False,
@@ -52,7 +52,7 @@ class Migration(migrations.Migration):
 				('original_body', rich_editor.fields.RichTextOriginalField(property_name='body', filtered_field='filtered_body')),
 				('filtered_body', rich_editor.fields.RichTextFilteredField(editable=False)),
 				('log', models.TextField(blank=True)),
-				('author', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+				('author', models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True)),
 				('node', models.ForeignKey(to='blackhole.Node')),
 			],
 			options={
