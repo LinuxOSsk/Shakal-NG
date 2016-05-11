@@ -220,12 +220,13 @@ class Command(BaseCommand):
 				)
 				node_instance.save()
 				for revision in node.revisions:
+					body = revision.body
 					revision_instance = NodeRevision(
 						id=revision.vid,
 						node=node_instance,
 						title=revision.title,
 						author_id=self.users_map.get(node.uid),
-						original_body=(self.filter_formats.get(revision.format, 'raw') + ':' + revision.body),
+						original_body=(self.filter_formats.get(revision.format, 'raw') + ':' + body),
 						log=revision.log or '',
 						created=timestamp_to_time(revision.timestamp),
 						updated=timestamp_to_time(revision.timestamp)
