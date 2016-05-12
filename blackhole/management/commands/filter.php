@@ -13,387 +13,27 @@ define('FILTER_FORMAT_DEFAULT', 0);
 define('FILTER_HTML_STRIP', 1);
 define('FILTER_HTML_ESCAPE', 2);
 
-/**
- * Implementation of hook_help().
- */
-function filter_help($path, $arg) {
-  switch ($path) {
-    case 'admin/help#filter':
-      $output = '<p>'. t("The filter module allows administrators to configure text input formats for use on your site. An input format defines the HTML tags, codes, and other input allowed in both content and comments, and is a key feature in guarding against potentially damaging input from malicious users. Two input formats included by default are <em>Filtered HTML</em> (which allows only an administrator-approved subset of HTML tags) and <em>Full HTML</em> (which allows the full set of HTML tags). Additional input formats may be created by an administrator.") .'</p>';
-      $output .= '<p>'. t('Each input format uses filters to manipulate text, and most input formats apply several different filters to text in a specific order. Each filter is designed for a specific purpose, and generally either adds, removes or transforms elements within user-entered text before it is displayed. A filter does not change the actual content of a post, but instead, modifies it temporarily before it is displayed. A filter may remove unapproved HTML tags, for instance, while another automatically adds HTML to make links referenced in text clickable.') .'</p>';
-      $output .= '<p>'. t('Users can choose between the available input formats when creating or editing content. Administrators can configure which input formats are available to which user roles, as well as choose a default input format.') .'</p>';
-      $output .= '<p>'. t('For more information, see the online handbook entry for <a href="@filter">Filter module</a>.', array('@filter' => 'http://drupal.org/handbook/modules/filter/')) .'</p>';
-      return $output;
-    case 'admin/settings/filters':
-      $output = '<p>'. t('<em>Input formats</em> define a way of processing user-supplied text in Drupal. Each input format uses filters to manipulate text, and most input formats apply several different filters to text, in a specific order. Each filter is designed to accomplish a specific purpose, and generally either removes elements from or adds elements to text before it is displayed. Users can choose between the available input formats when submitting content.') .'</p>';
-      $output .= '<p>'. t('Use the list below to configure which input formats are available to which roles, as well as choose a default input format (used for imported content, for example). The default format is always available to users. All input formats are available to users in a role with the "administer filters" permission.') .'</p>';
-      return $output;
-    case 'admin/settings/filters/%':
-      return '<p>'. t('Every <em>filter</em> performs one particular change on the user input, for example stripping out malicious HTML or making URLs clickable. Choose which filters you want to apply to text in this input format. If you notice some filters are causing conflicts in the output, you can <a href="@rearrange">rearrange them</a>.', array('@rearrange' => url('admin/settings/filters/'. $arg[3] .'/order'))) .'</p>';
-    case 'admin/settings/filters/%/configure':
-      return '<p>'. t('If you cannot find the settings for a certain filter, make sure you have enabled it on the <a href="@url">view tab</a> first.', array('@url' => url('admin/settings/filters/'. $arg[3]))) .'</p>';
-    case 'admin/settings/filters/%/order':
-      $output = '<p>'. t('Because of the flexible filtering system, you might encounter a situation where one filter prevents another from doing its job. For example: a word in an URL gets converted into a glossary term, before the URL can be converted to a clickable link. When this happens, rearrange the order of the filters.') .'</p>';
-      $output .= '<p>'. t("Filters are executed from top-to-bottom. To change the order of the filters, modify the values in the <em>Weight</em> column or grab a drag-and-drop handle under the <em>Name</em> column and drag filters to new locations in the list. (Grab a handle by clicking and holding the mouse while hovering over a handle icon.) Remember that your changes will not be saved until you click the <em>Save configuration</em> button at the bottom of the page.") .'</p>';
-      return $output;
+function drupal_validate_utf8($text) {
+  if (strlen($text) == 0) {
+    return TRUE;
   }
+  // For performance reasons this logic is duplicated in check_plain().
+  return (preg_match('/^./us', $text) == 1);
 }
 
-/**
- * Implementation of hook_theme()
- */
-function filter_theme() {
-  return array(
-    'filter_admin_overview' => array(
-      'arguments' => array('form' => NULL),
-      'file' => 'filter.admin.inc',
-    ),
-    'filter_admin_order' => array(
-      'arguments' => array('form' => NULL),
-      'file' => 'filter.admin.inc',
-    ),
-    'filter_tips' => array(
-      'arguments' => array('tips' => NULL, 'long' => FALSE, 'extra' => ''),
-      'file' => 'filter.pages.inc',
-    ),
-    'filter_tips_more_info' => array(
-      'arguments' => array(),
-    ),
-  );
-}
+function check_plain($text) {
+  static $php525;
 
-/**
- * Implementation of hook_menu().
- */
-function filter_menu() {
-  $items['admin/settings/filters'] = array(
-    'title' => 'Input formats',
-    'description' => 'Configure how content input by users is filtered, including allowed HTML tags. Also allows enabling of module-provided filters.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('filter_admin_overview'),
-    'access arguments' => array('administer filters'),
-    'file' => 'filter.admin.inc',
-  );
-  $items['admin/settings/filters/list'] = array(
-    'title' => 'List',
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-  );
-  $items['admin/settings/filters/add'] = array(
-    'title' => 'Add input format',
-    'page callback' => 'filter_admin_format_page',
-    'access arguments' => array('administer filters'),
-    'type' => MENU_LOCAL_TASK,
-    'weight' => 1,
-    'file' => 'filter.admin.inc',
-  );
-  $items['admin/settings/filters/delete'] = array(
-    'title' => 'Delete input format',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('filter_admin_delete'),
-    'access arguments' => array('administer filters'),
-    'type' => MENU_CALLBACK,
-    'file' => 'filter.admin.inc',
-  );
-  $items['filter/tips'] = array(
-    'title' => 'Compose tips',
-    'page callback' => 'filter_tips_long',
-    'access callback' => TRUE,
-    'type' => MENU_SUGGESTED_ITEM,
-    'file' => 'filter.pages.inc',
-  );
-  $items['admin/settings/filters/%filter_format'] = array(
-    'type' => MENU_CALLBACK,
-    'title callback' => 'filter_admin_format_title',
-    'title arguments' => array(3),
-    'page callback' => 'filter_admin_format_page',
-    'page arguments' => array(3),
-    'access arguments' => array('administer filters'),
-    'file' => 'filter.admin.inc',
-  );
-
-  $items['admin/settings/filters/%filter_format/edit'] = array(
-    'title' => 'Edit',
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-    'weight' => 0,
-    'file' => 'filter.admin.inc',
-  );
-  $items['admin/settings/filters/%filter_format/configure'] = array(
-    'title' => 'Configure',
-    'page callback' => 'filter_admin_configure_page',
-    'page arguments' => array(3),
-    'access arguments' => array('administer filters'),
-    'type' => MENU_LOCAL_TASK,
-    'weight' => 1,
-    'file' => 'filter.admin.inc',
-  );
-  $items['admin/settings/filters/%filter_format/order'] = array(
-    'title' => 'Rearrange',
-    'page callback' => 'filter_admin_order_page',
-    'page arguments' => array(3),
-    'access arguments' => array('administer filters'),
-    'type' => MENU_LOCAL_TASK,
-    'weight' => 2,
-    'file' => 'filter.admin.inc',
-  );
-  return $items;
-}
-
-function filter_format_load($arg) {
-  return filter_formats($arg);
-}
-
-/**
- * Display a filter format form title.
- */
-function filter_admin_format_title($format) {
-  return $format->name;
-}
-
-/**
- * Implementation of hook_perm().
- */
-function filter_perm() {
-  return array('administer filters');
-}
-
-/**
- * Implementation of hook_cron().
- *
- * Expire outdated filter cache entries
- */
-function filter_cron() {
-  cache_clear_all(NULL, 'cache_filter');
-}
-
-/**
- * Implementation of hook_filter_tips().
- */
-function filter_filter_tips($delta, $format, $long = FALSE) {
-  global $base_url;
-  switch ($delta) {
-    case 0:
-      if (variable_get("filter_html_$format", FILTER_HTML_STRIP) == FILTER_HTML_STRIP) {
-        if ($allowed_html = variable_get("allowed_html_$format", '<a> <em> <strong> <cite> <code> <ul> <ol> <li> <dl> <dt> <dd>')) {
-          switch ($long) {
-            case 0:
-              return t('Allowed HTML tags: @tags', array('@tags' => $allowed_html));
-            case 1:
-              $output = '<p>'. t('Allowed HTML tags: @tags', array('@tags' => $allowed_html)) .'</p>';
-              if (!variable_get("filter_html_help_$format", 1)) {
-                return $output;
-              }
-
-              $output .= t('
-<p>This site allows HTML content. While learning all of HTML may feel intimidating, learning how to use a very small number of the most basic HTML "tags" is very easy. This table provides examples for each tag that is enabled on this site.</p>
-<p>For more information see W3C\'s <a href="http://www.w3.org/TR/html/">HTML Specifications</a> or use your favorite search engine to find other sites that explain HTML.</p>');
-              $tips = array(
-                'a' => array( t('Anchors are used to make links to other pages.'), '<a href="'. $base_url .'">'. variable_get('site_name', 'Drupal') .'</a>'),
-                'br' => array( t('By default line break tags are automatically added, so use this tag to add additional ones. Use of this tag is different because it is not used with an open/close pair like all the others. Use the extra " /" inside the tag to maintain XHTML 1.0 compatibility'), t('Text with <br />line break')),
-                'p' => array( t('By default paragraph tags are automatically added, so use this tag to add additional ones.'), '<p>'. t('Paragraph one.') .'</p> <p>'. t('Paragraph two.') .'</p>'),
-                'strong' => array( t('Strong'), '<strong>'. t('Strong') .'</strong>'),
-                'em' => array( t('Emphasized'), '<em>'. t('Emphasized') .'</em>'),
-                'cite' => array( t('Cited'), '<cite>'. t('Cited') .'</cite>'),
-                'code' => array( t('Coded text used to show programming source code'), '<code>'. t('Coded') .'</code>'),
-                'b' => array( t('Bolded'), '<b>'. t('Bolded') .'</b>'),
-                'u' => array( t('Underlined'), '<u>'. t('Underlined') .'</u>'),
-                'i' => array( t('Italicized'), '<i>'. t('Italicized') .'</i>'),
-                'sup' => array( t('Superscripted'), t('<sup>Super</sup>scripted')),
-                'sub' => array( t('Subscripted'), t('<sub>Sub</sub>scripted')),
-                'pre' => array( t('Preformatted'), '<pre>'. t('Preformatted') .'</pre>'),
-                'abbr' => array( t('Abbreviation'), t('<abbr title="Abbreviation">Abbrev.</abbr>')),
-                'acronym' => array( t('Acronym'), t('<acronym title="Three-Letter Acronym">TLA</acronym>')),
-                'blockquote' => array( t('Block quoted'), '<blockquote>'. t('Block quoted') .'</blockquote>'),
-                'q' => array( t('Quoted inline'), '<q>'. t('Quoted inline') .'</q>'),
-                // Assumes and describes tr, td, th.
-                'table' => array( t('Table'), '<table> <tr><th>'. t('Table header') .'</th></tr> <tr><td>'. t('Table cell') .'</td></tr> </table>'),
-                'tr' => NULL, 'td' => NULL, 'th' => NULL,
-                'del' => array( t('Deleted'), '<del>'. t('Deleted') .'</del>'),
-                'ins' => array( t('Inserted'), '<ins>'. t('Inserted') .'</ins>'),
-                 // Assumes and describes li.
-                'ol' => array( t('Ordered list - use the &lt;li&gt; to begin each list item'), '<ol> <li>'. t('First item') .'</li> <li>'. t('Second item') .'</li> </ol>'),
-                'ul' => array( t('Unordered list - use the &lt;li&gt; to begin each list item'), '<ul> <li>'. t('First item') .'</li> <li>'. t('Second item') .'</li> </ul>'),
-                'li' => NULL,
-                // Assumes and describes dt and dd.
-                'dl' => array( t('Definition lists are similar to other HTML lists. &lt;dl&gt; begins the definition list, &lt;dt&gt; begins the definition term and &lt;dd&gt; begins the definition description.'), '<dl> <dt>'. t('First term') .'</dt> <dd>'. t('First definition') .'</dd> <dt>'. t('Second term') .'</dt> <dd>'. t('Second definition') .'</dd> </dl>'),
-                'dt' => NULL, 'dd' => NULL,
-                'h1' => array( t('Header'), '<h1>'. t('Title') .'</h1>'),
-                'h2' => array( t('Header'), '<h2>'. t('Subtitle') .'</h2>'),
-                'h3' => array( t('Header'), '<h3>'. t('Subtitle three') .'</h3>'),
-                'h4' => array( t('Header'), '<h4>'. t('Subtitle four') .'</h4>'),
-                'h5' => array( t('Header'), '<h5>'. t('Subtitle five') .'</h5>'),
-                'h6' => array( t('Header'), '<h6>'. t('Subtitle six') .'</h6>')
-              );
-              $header = array(t('Tag Description'), t('You Type'), t('You Get'));
-              preg_match_all('/<([a-z0-9]+)[^a-z0-9]/i', $allowed_html, $out);
-              foreach ($out[1] as $tag) {
-                if (array_key_exists($tag, $tips)) {
-                  if ($tips[$tag]) {
-                    $rows[] = array(
-                      array('data' => $tips[$tag][0], 'class' => 'description'),
-                      array('data' => '<code>'. check_plain($tips[$tag][1]) .'</code>', 'class' => 'type'),
-                      array('data' => $tips[$tag][1], 'class' => 'get')
-                    );
-                  }
-                }
-                else {
-                  $rows[] = array(
-                    array('data' => t('No help provided for tag %tag.', array('%tag' => $tag)), 'class' => 'description', 'colspan' => 3),
-                  );
-                }
-              }
-              $output .= theme('table', $header, $rows);
-
-              $output .= t('
-<p>Most unusual characters can be directly entered without any problems.</p>
-<p>If you do encounter problems, try using HTML character entities. A common example looks like &amp;amp; for an ampersand &amp; character. For a full list of entities see HTML\'s <a href="http://www.w3.org/TR/html4/sgml/entities.html">entities</a> page. Some of the available characters include:</p>');
-              $entities = array(
-                array( t('Ampersand'), '&amp;'),
-                array( t('Greater than'), '&gt;'),
-                array( t('Less than'), '&lt;'),
-                array( t('Quotation mark'), '&quot;'),
-              );
-              $header = array(t('Character Description'), t('You Type'), t('You Get'));
-              unset($rows);
-              foreach ($entities as $entity) {
-                $rows[] = array(
-                  array('data' => $entity[0], 'class' => 'description'),
-                  array('data' => '<code>'. check_plain($entity[1]) .'</code>', 'class' => 'type'),
-                  array('data' => $entity[1], 'class' => 'get')
-                );
-              }
-              $output .= theme('table', $header, $rows);
-              return $output;
-          }
-        }
-        else {
-          return t('No HTML tags allowed');
-        }
-      }
-      break;
-
-    case 1:
-      switch ($long) {
-        case 0:
-          return t('Lines and paragraphs break automatically.');
-        case 1:
-          return t('Lines and paragraphs are automatically recognized. The &lt;br /&gt; line break, &lt;p&gt; paragraph and &lt;/p&gt; close paragraph tags are inserted automatically. If paragraphs are not recognized simply add a couple blank lines.');
-      }
-      break;
-    case 2:
-      return t('Web page addresses and e-mail addresses turn into links automatically.');
-  }
-}
-
-/**
- * Retrieve a list of input formats.
- */
-function filter_formats($index = NULL) {
-  global $user;
-  static $formats;
-
-  // Administrators can always use all input formats.
-  $all = user_access('administer filters');
-
-  if (!isset($formats)) {
-    $formats = array();
-
-    $query = 'SELECT * FROM {filter_formats}';
-
-    // Build query for selecting the format(s) based on the user's roles.
-    $args = array();
-    if (!$all) {
-      $where = array();
-      foreach ($user->roles as $rid => $role) {
-        $where[] = "roles LIKE '%%,%d,%%'";
-        $args[] = $rid;
-      }
-      $query .= ' WHERE '. implode(' OR ', $where) .' OR format = %d';
-      $args[] = variable_get('filter_default_format', 1);
-    }
-
-    $result = db_query($query, $args);
-    while ($format = db_fetch_object($result)) {
-      $formats[$format->format] = $format;
-    }
-  }
-  if (isset($index)) {
-    return isset($formats[$index]) ? $formats[$index] : FALSE;
-  }
-  return $formats;
-}
-
-/**
- * Build a list of all filters.
- */
-function filter_list_all() {
-  $filters = array();
-
-  foreach (module_list() as $module) {
-    $list = module_invoke($module, 'filter', 'list');
-    if (isset($list) && is_array($list)) {
-      foreach ($list as $delta => $name) {
-        $filters[$module .'/'. $delta] = (object)array('module' => $module, 'delta' => $delta, 'name' => $name);
-      }
-    }
+  if (!isset($php525)) {
+    $php525 = version_compare(PHP_VERSION, '5.2.5', '>=');
   }
 
-  uasort($filters, '_filter_list_cmp');
-
-  return $filters;
-}
-
-/**
- * Helper function for sorting the filter list by filter name.
- */
-function _filter_list_cmp($a, $b) {
-  return strcmp($a->name, $b->name);
-}
-
-/**
- * Resolve a format id, including the default format.
- */
-function filter_resolve_format($format) {
-  return $format == FILTER_FORMAT_DEFAULT ? variable_get('filter_default_format', 1) : $format;
-}
-/**
- * Check if text in a certain input format is allowed to be cached.
- */
-function filter_format_allowcache($format) {
-  static $cache = array();
-  $format = filter_resolve_format($format);
-  if (!isset($cache[$format])) {
-    $cache[$format] = db_result(db_query('SELECT cache FROM {filter_formats} WHERE format = %d', $format));
+  if ($php525) {
+    return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
   }
-  return $cache[$format];
+  return (preg_match('/^./us', $text) == 1) ? htmlspecialchars($text, ENT_QUOTES, 'UTF-8') : '';
 }
 
-/**
- * Retrieve a list of filters for a certain format.
- */
-function filter_list_format($format) {
-  static $filters = array();
-
-  if (!isset($filters[$format])) {
-    $result = db_query("SELECT * FROM {filters} WHERE format = %d ORDER BY weight, module, delta", $format);
-    if (db_affected_rows($result) == 0 && !db_result(db_query("SELECT 1 FROM {filter_formats} WHERE format = %d", $format))) {
-      // The format has no filters and does not exist, use the default input
-      // format.
-      $filters[$format] = filter_list_format(variable_get('filter_default_format', 1));
-    }
-    else {
-      $filters[$format] = array();
-      while ($filter = db_fetch_object($result)) {
-        $list = module_invoke($filter->module, 'filter', 'list');
-        if (isset($list) && is_array($list) && isset($list[$filter->delta])) {
-          $filter->name = $list[$filter->delta];
-          $filters[$format][$filter->module .'/'. $filter->delta] = $filter;
-        }
-      }
-    }
-  }
-
-  return $filters[$format];
-}
 
 /**
  * @defgroup filtering_functions Filtering functions
@@ -409,63 +49,6 @@ function filter_list_format($format) {
  * preview of content in a disallowed format.
  */
 
-/**
- * Run all the enabled filters on a piece of text.
- *
- * @param $text
- *    The text to be filtered.
- * @param $format
- *    The format of the text to be filtered. Specify FILTER_FORMAT_DEFAULT for
- *    the default format.
- * @param $check
- *    Whether to check the $format with filter_access() first. Defaults to TRUE.
- *    Note that this will check the permissions of the current user, so you
- *    should specify $check = FALSE when viewing other people's content. When
- *    showing content that is not (yet) stored in the database (eg. upon preview),
- *    set to TRUE so the user's permissions are checked.
- */
-function check_markup($text, $format = FILTER_FORMAT_DEFAULT, $check = TRUE) {
-  // When $check = TRUE, do an access check on $format.
-  if (isset($text) && (!$check || filter_access($format))) {
-    $format = filter_resolve_format($format);
-
-    // Check for a cached version of this piece of text.
-    $cache_id = $format .':'. md5($text);
-    if ($cached = cache_get($cache_id, 'cache_filter')) {
-      return $cached->data;
-    }
-
-    // See if caching is allowed for this format.
-    $cache = filter_format_allowcache($format);
-
-    // Convert all Windows and Mac newlines to a single newline,
-    // so filters only need to deal with one possibility.
-    $text = str_replace(array("\r\n", "\r"), "\n", $text);
-
-    // Get a complete list of filters, ordered properly.
-    $filters = filter_list_format($format);
-
-    // Give filters the chance to escape HTML-like data such as code or formulas.
-    foreach ($filters as $filter) {
-      $text = module_invoke($filter->module, 'filter', 'prepare', $filter->delta, $format, $text, $cache_id);
-    }
-
-    // Perform filtering.
-    foreach ($filters as $filter) {
-      $text = module_invoke($filter->module, 'filter', 'process', $filter->delta, $format, $text, $cache_id);
-    }
-
-    // Store in cache with a minimum expiration time of 1 day.
-    if ($cache) {
-      cache_set($cache_id, $text, 'cache_filter', time() + (60 * 60 * 24));
-    }
-  }
-  else {
-    $text = t('n/a');
-  }
-
-  return $text;
-}
 
 /**
  * Generates a selector for choosing a format in a form.
@@ -708,17 +291,12 @@ function _filter_html_settings($format) {
  * HTML filter. Provides filtering of input into accepted HTML.
  */
 function _filter_html($text, $format) {
-  if (variable_get("filter_html_$format", FILTER_HTML_STRIP) == FILTER_HTML_STRIP) {
-    $allowed_tags = preg_split('/\s+|<|>/', variable_get("allowed_html_$format", '<a> <em> <strong> <cite> <code> <ul> <ol> <li> <dl> <dt> <dd>'), -1, PREG_SPLIT_NO_EMPTY);
-    $text = filter_xss($text, $allowed_tags);
-  }
+  $allowed_tags = preg_split('/\s+|<|>/', '<a> <em> <strong> <cite> <code> <ul> <ol> <li> <dl> <dt> <dd>', -1, PREG_SPLIT_NO_EMPTY);
+  $text = filter_xss($text, $allowed_tags);
 
-  if (variable_get("filter_html_$format", FILTER_HTML_STRIP) == FILTER_HTML_ESCAPE) {
-    // Escape HTML
-    $text = check_plain($text);
-  }
+  $text = check_plain($text);
 
-  if (variable_get("filter_html_nofollow_$format", FALSE)) {
+  if (FALSE) {
     $text = preg_replace('/<a([^>]+)>/i', '<a\\1 rel="nofollow">', $text);
   }
 
@@ -1202,6 +780,8 @@ function _filter_xss_attributes($attr) {
   }
   return $attrarr;
 }
+
+echo filter_filter('process', 0, 'Filtered HTML', 'input');
 
 /**
  * @} End of "Standard filters".
