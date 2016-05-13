@@ -781,7 +781,7 @@ function _filter_xss_attributes($attr) {
   return $attrarr;
 }
 
-echo filter_filter('process', 0, 'Filtered HTML', 'input');
+echo filter_filter('process', 0, 'Filtered HTML', file_get_contents("php://stdin"));
 
 /**
  * @} End of "Standard filters".
