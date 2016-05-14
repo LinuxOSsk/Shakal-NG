@@ -53,84 +53,6 @@ function drupal_map_assoc($array, $function = NULL) {
 
 
 /**
- * @defgroup filtering_functions Filtering functions
- * @{
- * Functions for interacting with the content filtering system.
- *
- * For more info, see the hook_filter() documentation.
- *
- * Note: because filters can inject JavaScript or execute PHP code, security is
- * vital here. When a user supplies a $format, you should validate it with
- * filter_access($format) before accepting/using it. This is normally done in
- * the validation stage of the node system. You should for example never make a
- * preview of content in a disallowed format.
- */
-
-
-/**
- * Generates a selector for choosing a format in a form.
- *
- * @param $value
- *   The ID of the format that is currently selected; uses the default format
- *   if not provided.
- * @param $weight
- *   The weight of the form element within the form.
- * @param $parents
- *   The parents array of the element. Required when defining multiple text
- *   formats on a single form or having a different parent than 'format'.
- *
- * @return
- *   Form API array for the form element.
- *
- * @see filter_form_validate()
- * @ingroup forms
- */
-function filter_form($value = FILTER_FORMAT_DEFAULT, $weight = NULL, $parents = array('format')) {
-  $value = filter_resolve_format($value);
-  $formats = filter_formats();
-
-  $extra = theme('filter_tips_more_info');
-
-  if (count($formats) > 1) {
-    $form = array(
-      '#type' => 'fieldset',
-      '#title' => t('Input format'),
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-      '#weight' => $weight,
-      '#element_validate' => array('filter_form_validate'),
-    );
-    // Multiple formats available: display radio buttons with tips.
-    foreach ($formats as $format) {
-      // Generate the parents as the autogenerator does, so we will have a
-      // unique id for each radio button.
-      $parents_for_id = array_merge($parents, array($format->format));
-      $form[$format->format] = array(
-        '#type' => 'radio',
-        '#title' => $format->name,
-        '#default_value' => $value,
-        '#return_value' => $format->format,
-        '#parents' => $parents,
-        '#description' => theme('filter_tips', _filter_tips($format->format, FALSE)),
-        '#id' => form_clean_id('edit-'. implode('-', $parents_for_id)),
-      );
-    }
-  }
-  else {
-    // Only one format available: use a hidden form item and only show tips.
-    $format = array_shift($formats);
-    $form[$format->format] = array('#type' => 'value', '#value' => $format->format, '#parents' => $parents);
-    $tips = _filter_tips(variable_get('filter_default_format', 1), FALSE);
-    $form['format']['guidelines'] = array(
-      '#title' => t('Formatting guidelines'),
-      '#value' => theme('filter_tips', $tips, FALSE, $extra),
-    );
-  }
-  $form[] = array('#value' => $extra);
-  return $form;
-}
-
-/**
  * Validation callback for filter elements in a form.
  *
  * @see filter_form().
@@ -144,24 +66,6 @@ function filter_form_validate($form) {
   form_error($form, t('An illegal choice has been detected. Please contact the site administrator.'));
   watchdog('form', 'Illegal choice %choice in %name element.', array('%choice' => $form[$key]['#value'], '%name' => empty($form['#title']) ? $form['#parents'][0] : $form['#title']), WATCHDOG_ERROR);
 }
-
-/**
- * Returns TRUE if the user is allowed to access this format.
- */
-function filter_access($format) {
-  $format = filter_resolve_format($format);
-  if (user_access('administer filters') || ($format == variable_get('filter_default_format', 1))) {
-    return TRUE;
-  }
-  else {
-    $formats = filter_formats();
-    return isset($formats[$format]);
-  }
-}
-
-/**
- * @} End of "Filtering functions".
- */
 
 
 /**
@@ -266,45 +170,6 @@ function filter_filter($op, $delta = 0, $format = -1, $text = '') {
 }
 
 /**
- * Settings for the HTML filter.
- */
-function _filter_html_settings($format) {
-  $form['filter_html'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('HTML filter'),
-    '#collapsible' => TRUE,
-  );
-  $form['filter_html']["filter_html_$format"] = array(
-    '#type' => 'radios',
-    '#title' => t('Filter HTML tags'),
-    '#default_value' => variable_get("filter_html_$format", FILTER_HTML_STRIP),
-    '#options' => array(FILTER_HTML_STRIP => t('Strip disallowed tags'), FILTER_HTML_ESCAPE => t('Escape all tags')),
-    '#description' => t('How to deal with HTML tags in user-contributed content. If set to "Strip disallowed tags", dangerous tags are removed (see below). If set to "Escape tags", all HTML is escaped and presented as it was typed.'),
-  );
-  $form['filter_html']["allowed_html_$format"] = array(
-    '#type' => 'textfield',
-    '#title' => t('Allowed HTML tags'),
-    '#default_value' => variable_get("allowed_html_$format", '<a> <em> <strong> <cite> <code> <ul> <ol> <li> <dl> <dt> <dd>'),
-    '#size' => 64,
-    '#maxlength' => 1024,
-    '#description' => t('If "Strip disallowed tags" is selected, optionally specify tags which should not be stripped. JavaScript event attributes are always stripped.'),
-  );
-  $form['filter_html']["filter_html_help_$format"] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Display HTML help'),
-    '#default_value' => variable_get("filter_html_help_$format", 1),
-    '#description' => t('If enabled, Drupal will display some basic HTML help in the long filter tips.'),
-  );
-  $form['filter_html']["filter_html_nofollow_$format"] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Spam link deterrent'),
-    '#default_value' => variable_get("filter_html_nofollow_$format", FALSE),
-    '#description' => t('If enabled, Drupal will add rel="nofollow" to all links, as a measure to reduce the effectiveness of spam links. Note: this will also prevent valid links from being followed by search engines, therefore it is likely most effective when enabled for anonymous users.'),
-  );
-  return $form;
-}
-
-/**
  * HTML filter. Provides filtering of input into accepted HTML.
  */
 function _filter_html($text, $format) {
@@ -332,7 +197,7 @@ function _filter_url_settings($format) {
   $form['filter_urlfilter']['filter_url_length_'. $format] = array(
     '#type' => 'textfield',
     '#title' => t('Maximum link text length'),
-    '#default_value' => variable_get('filter_url_length_'. $format, 72),
+    '#default_value' => 72,
     '#maxlength' => 4,
     '#description' => t('URLs longer than this number of characters will be truncated to prevent long strings that break formatting. The link itself will be retained; just the text portion of the link will be truncated.'),
   );
@@ -345,7 +210,7 @@ function _filter_url_settings($format) {
  */
 function _filter_url($text, $format) {
   // Pass length to regexp callback
-  _filter_url_trim(NULL, variable_get('filter_url_length_'. $format, 72));
+  _filter_url_trim(NULL, 72);
 
   $text = ' '. $text .' ';
 
