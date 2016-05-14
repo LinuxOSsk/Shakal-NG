@@ -37,6 +37,10 @@ class Node(TimestampModelMixin, models.Model):
 	is_sticky = models.BooleanField(blank=True, default=False)
 	terms = models.ManyToManyField('blackhole.Term', blank=True)
 
+	@models.permalink
+	def get_absolute_url(self):
+		return ('home', (), {})
+
 	def __unicode__(self):
 		return self.title
 

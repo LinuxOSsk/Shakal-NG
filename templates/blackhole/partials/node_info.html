@@ -1,0 +1,10 @@
+<div class="module-row">
+	<h3><a href="{{ node.get_absolute_url() }}">{{ node }}</a></h3>
+	<div class="info">
+		<span class="time">{{ node.created|humandatetime }}</span> |
+		{{ get_comments_for_item(node) }}
+		{% if node.author %}
+			| <span class="user"><a href="{{ node.author.get_absolute_url() }}">{{ node.author }}</a></span>
+		{% endif %}
+	</div>
+</div>
