@@ -36,6 +36,7 @@ USER_STATUS_ACTIVE = 1
 
 
 FilterFormat = namedtuple('FilterFormat', ['format', 'name'])
+FormatInfo = namedtuple('FormatInfo', ['format', 'name', 'delta'])
 NodeData = namedtuple('NodeData', ['nid', 'type', 'title', 'uid', 'status', 'created', 'changed', 'comment', 'promote', 'sticky', 'vid', 'revisions', 'terms'])
 NodeRevisionData = namedtuple('NodeRevisionData', ['nid', 'vid', 'uid', 'title', 'body', 'teaser', 'timestamp', 'format', 'log'])
 TermData = namedtuple('TermData', ['tid', 'parent', 'vid', 'name', 'description'])
@@ -80,6 +81,17 @@ class Command(BaseCommand):
 			cursor.execute('SELECT format, name FROM filter_formats')
 			formats = tuple(FilterFormat(*row) for row in cursor.fetchall())
 			return {f.format: FORMATS_TRANSLATION[f.name] for f in formats}
+
+	@cached_property
+	def formats_filtering(self):
+		formats = {}
+		with self.db_cursor() as cursor:
+			cursor.execute('SELECT filter_formats.format, filter_formats.name, filters.delta FROM filter_formats LEFT JOIN filters ON filters.format = filter_formats.format WHERE filters.module = \'filter\' ORDER BY filters.format, filters.weight')
+			format_rows = tuple(FormatInfo(*row) for row in cursor.fetchall())
+			for row in format_rows:
+				formats.setdefault(row.format, [])
+				formats[row.format].append(row)
+		return formats
 
 	@cached_property
 	def vocabulary_node_types(self):
