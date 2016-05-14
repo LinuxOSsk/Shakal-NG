@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import subprocess
 import sys
 from collections import namedtuple
 from datetime import datetime
@@ -211,6 +212,12 @@ class Command(BaseCommand):
 			import_term(term, None)
 		return term_map
 
+	def call_filters(self, body, filters):
+		filter_php = path.join(path.dirname(__file__), 'filter.php')
+		for drupal_filter in filters:
+			body = subprocess.Popen(['php', filter_php, str(drupal_filter.format), drupal_filter.name], stdout=subprocess.PIPE, stdin=subprocess.PIPE).communicate(body.encode('utf-8'))[0].decode('utf-8')
+		return body
+
 	def sync_node(self):
 		for node in self.nodes:
 			dot()
@@ -233,6 +240,8 @@ class Command(BaseCommand):
 				node_instance.save()
 				for revision in node.revisions:
 					body = revision.body
+					filters = self.formats_filtering.get(revision.format, [])
+					filtered_body = self.call_filters(body, filters)
 					revision_instance = NodeRevision(
 						id=revision.vid,
 						node=node_instance,
@@ -244,6 +253,7 @@ class Command(BaseCommand):
 						updated=timestamp_to_time(revision.timestamp)
 					)
 					revision_instance.save()
+					NodeRevision.objects.filter(pk=revision_instance.pk).update(filtered_body=filtered_body)
 				for term_id in node.terms:
 					node_instance.terms.add(self.term_map[term_id])
 
