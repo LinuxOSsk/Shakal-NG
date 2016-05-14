@@ -34,6 +34,23 @@ function check_plain($text) {
   return (preg_match('/^./us', $text) == 1) ? htmlspecialchars($text, ENT_QUOTES, 'UTF-8') : '';
 }
 
+function drupal_map_assoc($array, $function = NULL) {
+  if (!isset($function)) {
+    $result = array();
+    foreach ($array as $value) {
+      $result[$value] = $value;
+    }
+    return $result;
+  }
+  elseif (function_exists($function)) {
+    $result = array();
+    foreach ($array as $value) {
+      $result[$value] = $function($value);
+    }
+    return $result;
+  }
+}
+
 
 /**
  * @defgroup filtering_functions Filtering functions
@@ -781,7 +798,7 @@ function _filter_xss_attributes($attr) {
   return $attrarr;
 }
 
-echo filter_filter('process', 0, 'Filtered HTML', file_get_contents("php://stdin"));
+echo filter_filter('process', $argv[1], $argv[2], file_get_contents("php://stdin"));
 
 /**
  * @} End of "Standard filters".
