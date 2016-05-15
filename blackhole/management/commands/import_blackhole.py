@@ -35,6 +35,15 @@ NODE_STICKY = 1
 USER_STATUS_BLOCKED = 0
 USER_STATUS_ACTIVE = 1
 
+BLACKHOLE_BODY_REPLACE = (
+	('"/files/', '"/media/blackhole/files/'),
+	('\'/files/', '\'/media/blackhole/files/'),
+	('http://blackhole.sk/files/', '/media/blackhole/files/'),
+	('https://blackhole.sk/files/', '/media/blackhole/files/'),
+	('http://www.blackhole.sk/files/', '/media/blackhole/files/'),
+	('https://www.blackhole.sk/files/', '/media/blackhole/files/'),
+)
+
 
 FilterFormat = namedtuple('FilterFormat', ['format', 'name'])
 FormatInfo = namedtuple('FormatInfo', ['format', 'name', 'delta'])
@@ -240,6 +249,8 @@ class Command(BaseCommand):
 				node_instance.save()
 				for revision in node.revisions:
 					body = revision.body
+					for search, replace in BLACKHOLE_BODY_REPLACE:
+						body = body.replace(search, replace)
 					filters = self.formats_filtering.get(revision.format, [])
 					filtered_body = self.call_filters(body, filters)
 					revision_instance = NodeRevision(
