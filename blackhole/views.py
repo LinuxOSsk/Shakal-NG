@@ -6,5 +6,8 @@ from common_utils.generic import ListView
 
 
 class StoryList(ListView):
-	queryset = Node.objects.all().select_related('revision', 'author').filter(node_type='story')
 	paginate_by = 20
+	queryset = (Node.objects.all()
+		.select_related('revision', 'author')
+		.filter(node_type='story')
+		.order_by('-pk'))
