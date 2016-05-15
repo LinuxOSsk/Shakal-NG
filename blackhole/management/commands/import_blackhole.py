@@ -156,7 +156,7 @@ class Command(BaseCommand):
 		users_map = {}
 		for user in self.users():
 			dot()
-			username = user.name
+			username = user.name or 'blackhole'
 			user_instance = User.objects.filter(username=username).first()
 			if user_instance is not None and user_instance.password == '':
 				users_map[user.uid] = user_instance.pk
