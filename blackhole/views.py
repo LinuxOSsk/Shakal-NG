@@ -18,6 +18,11 @@ class StoryList(StoryMixin, ListView):
 	category_field = 'terms'
 	paginate_by = 20
 
+	def get_context_data(self, **kwargs):
+		ctx = super(StoryList, self).get_context_data(**kwargs)
+		ctx['categories'] = Term.objects.filter(vocabulary__name='story').order_by('lft')
+		return ctx
+
 
 class StoryDetail(StoryMixin, DetailView):
 	pass

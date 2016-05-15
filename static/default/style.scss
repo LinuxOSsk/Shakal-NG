@@ -1623,11 +1623,11 @@ td.status, td.comments, td.date {
 	}
 }
 
-.module.blog {
+.module.blog, .module.blackhole {
 	clear: none;
 }
 
-.module.blog.category {
+.module.blog.category, .module.blackhole {
 	overflow: auto;
 }
 

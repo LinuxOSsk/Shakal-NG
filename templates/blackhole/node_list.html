@@ -10,6 +10,16 @@
 {% endblock %}
 
 {% block content %}
+<div class="module sidebar">
+	<h2>Kategórie</h2>
+
+	<ul class="menu">
+		{% for category in categories %}
+			<li><a href="{{ category.get_absolute_url() }}">{{ category }}</a></li>
+		{% endfor %}
+	</ul>
+</div>
+
 <h1>{% if category %}{{ category }} - {% endif %}Archív blackhole.sk</h1>
 
 <div class="module blackhole{% if category %} category{% endif %}">
