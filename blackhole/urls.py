@@ -5,5 +5,5 @@ from django.conf.urls import patterns, url
 
 
 urlpatterns = patterns('blackhole.views',
-	url(r'^(?:(?P<page>\d+)/)?$', 'StoryList', name='story_list'),
+	url(r'^clanky/(?:(?P<page>\d+)/)?$', 'StoryList', name='story_list'),
 )
