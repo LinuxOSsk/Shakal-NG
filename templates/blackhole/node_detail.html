@@ -1,0 +1,50 @@
+{% extends "blackhole/base.html" %}
+
+{% block head_title %}{{ node.title }}{% endblock %}
+{% block html_extra %}{% include "partials/htmlscope_article.html" %}{% endblock %}
+
+{% block breadcrumbs %}
+	{{ breadcrumb(node.title|truncatechars(80)) }}
+	{{ super() }}
+{% endblock %}
+
+{% block extraheaders %}
+	{{ super() }}
+	<meta name="description" content="{{ node.annotation|striptags }}" />
+	{% with
+		name=node.title,
+		created=node.created,
+		updated=node.updated,
+		author=node.author,
+		is_node=1
+	%}
+		{% include "partials/social_media.html" %}
+	{% endwith %}
+{% endblock %}
+
+{% block content %}
+<h1>{{ node.title }}</h1>
+
+<div class="info top">
+	{{ node.created|date("d.m.Y H:i") }}
+	{% if node.author %}
+		|
+		<a href="{{ node.author.get_absolute_url() }}">
+			{{ firstof(node.author.get_full_name(), node.author.username) }}
+		</a>
+	{% endif %}
+</div>
+
+<div class="content">
+{{ node.revision.body|safe }}
+</div>
+
+{% with is_node=1, name=node.title %}
+	{% include "partials/share.html" %}
+{% endwith %}
+
+{% endblock %}
+
+{% block discussion %}
+	{{ render_comments_toplevel(node) }}
+{% endblock %}
