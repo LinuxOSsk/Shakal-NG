@@ -26,6 +26,9 @@ COMMENT_NODE_HIDDEN = 0
 COMMENT_NODE_CLOSED = 1
 COMMENT_NODE_OPEN = 2
 
+NODE_NOT_PUBLISHED = 0
+NODE_PUBLISHED = 1
+
 NODE_NOT_PROMOTED = 0
 NODE_PROMOTED = 1
 
@@ -238,10 +241,10 @@ class Command(BaseCommand):
 					node_type=node.type,
 					title=node.title,
 					author_id=self.users_map.get(node.uid),
-					is_published=int(node.status) == 1,
-					is_commentable=int(node.comment) != 0,
-					is_promoted=int(node.promote) == 1,
-					is_sticky=int(node.sticky) == 1,
+					is_published=int(node.status) == NODE_PUBLISHED,
+					is_commentable=int(node.comment) != COMMENT_NODE_HIDDEN,
+					is_promoted=int(node.promote) == NODE_PROMOTED,
+					is_sticky=int(node.sticky) == NODE_STICKY,
 					revision_id=node.vid,
 					created=timestamp_to_time(node.created),
 					updated=timestamp_to_time(node.changed)
