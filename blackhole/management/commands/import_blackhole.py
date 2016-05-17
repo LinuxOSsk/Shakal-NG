@@ -9,6 +9,7 @@ from os import path
 
 import pytz
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management.base import BaseCommand
 from django.db import transaction, connections
@@ -17,6 +18,7 @@ from django.utils.functional import cached_property
 from ...models import Term, Node, NodeRevision, File
 from accounts.models import User
 from blackhole.models import VocabularyNodeType
+from comments.models import Comment
 
 
 #from common_utils.asciitable import NamedtupleTablePrinter
@@ -80,6 +82,10 @@ class Command(BaseCommand):
 		self.users_map = {}
 		self.vocabulary_map = {}
 		self.term_map = {}
+
+	@cached_property
+	def node_ctype(self):
+		return ContentType.objects.get_for_model(Node)
 
 	@cached_property
 	def db_connection(self):
@@ -234,7 +240,9 @@ class Command(BaseCommand):
 		for node in self.nodes:
 			dot()
 			if Node.objects.filter(id=node.nid).exists():
+				Comment.objects.get_or_create_root_comment(self.node_ctype, node.nid)
 				continue
+			Comment.objects.get_or_create_root_comment(self.node_ctype, node.nid)
 			with transaction.atomic():
 				node_instance = Node(
 					id=node.nid,
