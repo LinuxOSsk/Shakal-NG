@@ -243,6 +243,7 @@ class Command(BaseCommand):
 				Comment.objects.get_or_create_root_comment(self.node_ctype, node.nid)
 				continue
 			Comment.objects.get_or_create_root_comment(self.node_ctype, node.nid)
+			# TODO: nastavenie povolených / nepovolených komentárov
 			with transaction.atomic():
 				node_instance = Node(
 					id=node.nid,
