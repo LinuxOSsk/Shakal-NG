@@ -240,9 +240,15 @@ class Command(BaseCommand):
 		for node in self.nodes:
 			dot()
 			if Node.objects.filter(id=node.nid).exists():
-				Comment.objects.get_or_create_root_comment(self.node_ctype, node.nid)
+				root = Comment.objects.get_or_create_root_comment(self.node_ctype, node.nid)
+				if int(node.comment) == COMMENT_NODE_CLOSED:
+					root.is_locked = True
+					root.save()
 				continue
-			Comment.objects.get_or_create_root_comment(self.node_ctype, node.nid)
+			root = Comment.objects.get_or_create_root_comment(self.node_ctype, node.nid)
+			if int(node.comment) == COMMENT_NODE_CLOSED:
+				root.is_locked = True
+				root.save()
 			# TODO: nastavenie povolených / nepovolených komentárov
 			with transaction.atomic():
 				node_instance = Node(
