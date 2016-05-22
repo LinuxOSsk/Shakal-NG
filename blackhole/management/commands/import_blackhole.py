@@ -313,6 +313,7 @@ class Command(BaseCommand):
 		root_comment = None
 
 		for comment in self.comments():
+			dot()
 			if root_header is None or root_header.object_id != comment.nid:
 				root_comment = Comment.objects.get_or_create_root_comment(self.node_ctype, comment.nid)[0]
 				root_header = root_comment.get_or_create_root_header()
