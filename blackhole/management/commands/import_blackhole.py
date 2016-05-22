@@ -136,10 +136,9 @@ class Command(BaseCommand):
 				cols = list(row) + [revisions, terms]
 				yield NodeData(*cols)
 
-	@property
 	def comments(self):
 		with self.db_cursor() as cursor:
-			cursor.execute('SELECT cid, pid, nid, uid, subject, comment, timestamp, format, name FROM comments')
+			cursor.execute('SELECT cid, pid, nid, uid, subject, comment, timestamp, format, name FROM comments ORDER BY nid, cid')
 			for row in cursor.fetchall():
 				yield CommentData(*row)
 
@@ -308,6 +307,35 @@ class Command(BaseCommand):
 			)
 			file_instance.save()
 
+	def sync_comment(self):
+		comments_map = {}
+		root_header = None
+		root_comment = None
+
+		for comment in self.comments():
+			if root_header is None or root_header.object_id != comment.nid:
+				root_comment = Comment.objects.get_or_create_root_comment(self.node_ctype, comment.nid)[0]
+				root_header = root_comment.get_or_create_root_header()
+			filters = self.formats_filtering.get(comment.format, [])
+			filtered_comment = self.call_filters(comment.comment, filters)
+			time_created = timestamp_to_time(comment.timestamp)
+			comment_instance = Comment(
+				parent_id=comments_map[comment.pid] if comment.pid else root_comment.id,
+				object_id=comment.nid,
+				content_type=self.node_ctype,
+				subject=comment.subject,
+				created=time_created,
+				updated=time_created,
+				user_id=self.users_map.get(comment.uid),
+				user_name=comment.name,
+				is_public=True,
+				is_locked=root_header.is_locked,
+				original_comment=(self.filter_formats.get(comment.format, 'raw') + ':' + comment.comment),
+			)
+			comment_instance.save()
+			Comment.objects.filter(pk=comment_instance.pk).update(filtered_comment=filtered_comment)
+			comments_map[comment.cid] = comment_instance.pk
+
 	def handle(self, *args, **options):
 		with transaction.atomic():
 			print("Users")
@@ -324,4 +352,7 @@ class Command(BaseCommand):
 			print("")
 			print("File")
 			self.sync_file()
+			print("")
+			print("Comment")
+			self.sync_comment()
 			print("")
