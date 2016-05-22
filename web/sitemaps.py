@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 
 from accounts.models import User
 from article.models import Article
+from blackhole.models import Node
 from blog.models import Blog, Post
 from desktops.models import Desktop
 from forum.models import Topic
@@ -36,4 +37,5 @@ sitemaps = {
 	'news': GenericSitemap({'queryset': News.objects.all(), 'date_field': 'updated'}, priority=0.5),
 	'topics': GenericSitemap({'queryset': Topic.objects.topics(), 'date_field': 'updated'}, priority=0.5),
 	'wiki': GenericSitemap({'queryset': WikiPage.objects.all(), 'date_field': 'updated'}, priority=0.7),
+	'blackhole_story': GenericSitemap({'queryset': Node.objects.all().filter(node_type='story'), 'date_field': 'updated'}, priority=0.7),
 }
