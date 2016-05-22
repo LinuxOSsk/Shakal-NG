@@ -5,8 +5,10 @@ from django.conf import settings
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
+from comments.models import RootHeader, Comment
 from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
+from django.contrib.contenttypes.fields import GenericRelation
 
 
 class VocabularyNodeType(models.Model):
@@ -40,6 +42,9 @@ class Node(TimestampModelMixin, models.Model):
 	is_promoted = models.BooleanField(blank=True, default=False)
 	is_sticky = models.BooleanField(blank=True, default=False)
 	terms = models.ManyToManyField('blackhole.Term', blank=True)
+
+	comments_header = GenericRelation(RootHeader, related_query_name='blackhole_node')
+	comments = GenericRelation(Comment, related_query_name='blackhole_node')
 
 	@models.permalink
 	def get_absolute_url(self):

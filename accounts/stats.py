@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from datetime import timedelta
 
 from django.apps import apps
-from django.db.models import Count, Max, F
+from django.db.models import Count, Max, F, Q
 from django.template.defaultfilters import capfirst
 
 from common_utils import get_meta
@@ -86,13 +86,15 @@ class CommentedStatistics(Statistics):
 		return (apps.get_model('comments.Comment')
 			.objects
 			.filter(user=self.user, parent__isnull=False)
+			.filter(Q(blackhole_node__isnull=True) | Q(blackhole_node__node_type='story'))
 			.values('content_type_id', 'object_id')
 			.annotate(max_pk=Max('pk'), date_field=Max('created')))
 
 	def get_graph_queryset(self):
 		return (apps.get_model('comments.Comment')
 			.objects
-			.filter(parent__isnull=False, user=self.user))
+			.filter(parent__isnull=False, user=self.user)
+			.filter(Q(blackhole_node__isnull=True) | Q(blackhole_node__node_type='story')))
 
 	def get_list_queryset(self):
 		return (self.get_queryset()
