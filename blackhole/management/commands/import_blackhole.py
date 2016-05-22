@@ -57,6 +57,7 @@ NodeRevisionData = namedtuple('NodeRevisionData', ['nid', 'vid', 'uid', 'title',
 TermData = namedtuple('TermData', ['tid', 'parent', 'vid', 'name', 'description'])
 UserData = namedtuple('UserData', ['uid', 'name', 'signature', 'created', 'login', 'status', 'picture'])
 FileData = namedtuple('FileData', ['fid', 'nid', 'filename', 'filepath', 'filemime', 'filesize'])
+CommentData = namedtuple('CommentData', ['cid', 'pid', 'nid', 'uid', 'subject', 'comment', 'timestamp', 'format', 'name'])
 
 
 FORMATS_TRANSLATION = {
@@ -134,6 +135,13 @@ class Command(BaseCommand):
 					terms = [r[0] for r in terms_cursor.fetchall()]
 				cols = list(row) + [revisions, terms]
 				yield NodeData(*cols)
+
+	@property
+	def comments(self):
+		with self.db_cursor() as cursor:
+			cursor.execute('SELECT cid, pid, nid, uid, subject, comment, timestamp, format, name FROM comments')
+			for row in cursor.fetchall():
+				yield CommentData(*row)
 
 	def terms(self):
 		with self.db_cursor() as cursor:
