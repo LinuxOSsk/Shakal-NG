@@ -238,6 +238,7 @@ class Command(BaseCommand):
 		return term_map
 
 	def call_filters(self, body, filters):
+		# TODO: implementovať vimcolor
 		filter_php = path.join(path.dirname(__file__), 'filter.php')
 		for drupal_filter in filters:
 			body = subprocess.Popen(['php', filter_php, str(drupal_filter.format), drupal_filter.name], stdout=subprocess.PIPE, stdin=subprocess.PIPE).communicate(body.encode('utf-8'))[0].decode('utf-8')
