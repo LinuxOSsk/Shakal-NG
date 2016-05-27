@@ -51,7 +51,7 @@ BLACKHOLE_BODY_REPLACE = (
 
 
 FilterFormat = namedtuple('FilterFormat', ['format', 'name'])
-FormatInfo = namedtuple('FormatInfo', ['format', 'name', 'delta'])
+FormatInfo = namedtuple('FormatInfo', ['format', 'name', 'delta', 'module'])
 NodeData = namedtuple('NodeData', ['nid', 'type', 'title', 'uid', 'status', 'created', 'changed', 'comment', 'promote', 'sticky', 'vid', 'revisions', 'terms'])
 NodeRevisionData = namedtuple('NodeRevisionData', ['nid', 'vid', 'uid', 'title', 'body', 'teaser', 'timestamp', 'format', 'log'])
 TermData = namedtuple('TermData', ['tid', 'parent', 'vid', 'name', 'description'])
@@ -106,7 +106,7 @@ class Command(BaseCommand):
 	def formats_filtering(self):
 		formats = {}
 		with self.db_cursor() as cursor:
-			cursor.execute('SELECT filter_formats.format, filter_formats.name, filters.delta FROM filter_formats LEFT JOIN filters ON filters.format = filter_formats.format WHERE filters.module = \'filter\' ORDER BY filters.format, filters.weight')
+			cursor.execute('SELECT filter_formats.format, filter_formats.name, filters.delta, filters.module FROM filter_formats LEFT JOIN filters ON filters.format = filter_formats.format ORDER BY filters.format, filters.weight')
 			format_rows = tuple(FormatInfo(*row) for row in cursor.fetchall())
 			for row in format_rows:
 				formats.setdefault(row.format, [])
