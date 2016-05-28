@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 import subprocess
 import sys
+from comments.utils import update_comments_header
 from collections import namedtuple
 from datetime import datetime
 from os import path
@@ -106,7 +107,7 @@ class Command(BaseCommand):
 	def formats_filtering(self):
 		formats = {}
 		with self.db_cursor() as cursor:
-			cursor.execute('SELECT filter_formats.format, filter_formats.name, filters.delta, filters.module FROM filter_formats LEFT JOIN filters ON filters.format = filter_formats.format ORDER BY filters.format, filters.weight')
+			cursor.execute('SELECT filter_formats.format, filter_formats.name, filters.delta, filters.module FROM filter_formats LEFT JOIN filters ON filters.format = filter_formats.format ORDER BY filters.weight')
 			format_rows = tuple(FormatInfo(*row) for row in cursor.fetchall())
 			for row in format_rows:
 				formats.setdefault(row.format, [])
@@ -122,7 +123,7 @@ class Command(BaseCommand):
 	@property
 	def nodes(self):
 		with self.db_cursor() as cursor:
-			cursor.execute('SELECT nid, type, title, uid, status, created, changed, comment, promote, sticky, vid FROM node')
+			cursor.execute('SELECT nid, type, title, uid, status, created, changed, comment, promote, sticky, vid FROM node WHERE nid=4209')
 			for row in cursor.fetchall():
 				revisions = []
 				terms = []
@@ -238,9 +239,8 @@ class Command(BaseCommand):
 		return term_map
 
 	def call_filters(self, body, filters):
-		# TODO: implementovať vimcolor
-		filter_php = path.join(path.dirname(__file__), 'filter.php')
 		for drupal_filter in filters:
+			filter_php = path.join(path.dirname(__file__), drupal_filter.module + '.php')
 			body = subprocess.Popen(['php', filter_php, str(drupal_filter.format), drupal_filter.name], stdout=subprocess.PIPE, stdin=subprocess.PIPE).communicate(body.encode('utf-8'))[0].decode('utf-8')
 		return body
 
@@ -248,15 +248,12 @@ class Command(BaseCommand):
 		for node in self.nodes:
 			dot()
 			if Node.objects.filter(id=node.nid).exists():
-				root = Comment.objects.get_or_create_root_comment(self.node_ctype, node.nid)[0].get_or_create_root_header()
+				root = Comment.objects.get_or_create_root_comment(self.node_ctype, node.nid)[0]
 				if int(node.comment) == COMMENT_NODE_CLOSED:
 					root.is_locked = True
 					root.save()
+				update_comments_header(Comment, instance=root)
 				continue
-			root = Comment.objects.get_or_create_root_comment(self.node_ctype, node.nid)[0].get_or_create_root_header()
-			if int(node.comment) == COMMENT_NODE_CLOSED:
-				root.is_locked = True
-				root.save()
 			with transaction.atomic():
 				node_instance = Node(
 					id=node.nid,
@@ -292,6 +289,11 @@ class Command(BaseCommand):
 					NodeRevision.objects.filter(pk=revision_instance.pk).update(filtered_body=filtered_body)
 				for term_id in node.terms:
 					node_instance.terms.add(self.term_map[term_id])
+				root = Comment.objects.get_or_create_root_comment(self.node_ctype, node.nid)[0]
+				if int(node.comment) == COMMENT_NODE_CLOSED:
+					root.is_locked = True
+					root.save()
+				update_comments_header(Comment, instance=root)
 
 	def sync_file(self):
 		for file_data in self.files():
@@ -317,7 +319,7 @@ class Command(BaseCommand):
 			dot()
 			if root_header is None or root_header.object_id != comment.nid:
 				root_comment = Comment.objects.get_or_create_root_comment(self.node_ctype, comment.nid)[0]
-				root_header = root_comment.get_or_create_root_header()
+			update_comments_header(Comment, instance=root_comment)
 			filters = self.formats_filtering.get(comment.format, [])
 			filtered_comment = self.call_filters(comment.comment, filters)
 			time_created = timestamp_to_time(comment.timestamp)
@@ -331,7 +333,7 @@ class Command(BaseCommand):
 				user_id=self.users_map.get(comment.uid),
 				user_name=comment.name,
 				is_public=True,
-				is_locked=root_header.is_locked,
+				is_locked=root_comment.is_locked,
 				original_comment=(self.filter_formats.get(comment.format, 'raw') + ':' + comment.comment),
 			)
 			comment_instance.save()

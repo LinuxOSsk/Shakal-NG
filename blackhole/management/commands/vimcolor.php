@@ -1,11 +1,11 @@
 <?php
-// $Id: vimcolor.module,v 1.1 2005/04/26 15:40:57 arandeltac Exp $
 
-
+require "utils.php";
 
 function vimcolor_menu() {
 	drupal_set_html_head('<style type="text/css">@import url('. $GLOBALS[base_url] .'/modules/vimcolor/style.css);</style>');
 }
+
 
 function vimcolor_process_color($text,$type) {
 	$multiline = ereg("[\n\r]", $text);
@@ -17,8 +17,8 @@ function vimcolor_process_color($text,$type) {
 	// Trim leading and trailing linebreaks
 	$text = trim($text, "\r\n");
 	// Highlight as Code
-	$in_file = tempnam($GLOBALS['conf']['file_directory_temp'], 'pl');
-	$out_file = tempnam($GLOBALS['conf']['file_directory_temp'], 'htm');
+	$in_file = tempnam('/tmp', 'pl');
+	$out_file = tempnam('/tmp', 'htm');
 	$handle = fopen($in_file, "w");
 		fwrite($handle, $text);
 	fclose($handle);
@@ -73,7 +73,8 @@ function vimcolor_filter($op, $delta = 0, $format = -1, $text = '') {
 	}
 }
 
-$prepared = vimcolor_filter('prepare', $argv[1], $argv[2], file_get_contents("php://stdin"));
-return vimcolor_filter('process', $argv[1], $argv[2], $prepared);
+//$prepared = vimcolor_filter('prepare', $argv[1], $argv[2], file_get_contents("php://stdin"));
+//echo vimcolor_filter('process', $argv[1], $argv[2], $prepared);
+echo vimcolor_filter('process', $argv[1], $argv[2], file_get_contents("php://stdin"));
 
 ?>

@@ -76,3 +76,4 @@ def update_comments_header(sender, instance, **kwargs): #pylint: disable=unused-
 		header.pub_date = root.created
 		header.comment_count = statistics['pk__count']
 		header.save()
+		return header

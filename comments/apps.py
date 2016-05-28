@@ -20,7 +20,7 @@ class CommentsConfig(AppConfig):
 	def send_notifications(self, sender, instance, created, **kwargs): #pylint: disable=unused-argument
 		from notifications.models import Event
 
-		if not created:
+		if not created or not instance.parent:
 			return
 		watchers = (get_user_model().objects
 			.filter(userdiscussionattribute__discussion=instance.get_or_create_root_header(), userdiscussionattribute__watch=True)
