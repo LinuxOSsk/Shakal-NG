@@ -12,6 +12,8 @@ function vimcolor_process_color($text,$type) {
 	$text = decode_entities($text);
 	// Trim leading and trailing linebreaks
 	$text = trim($text, "\r\n");
+	$text = preg_replace('/\r\n/s', "\n", $text);
+	$text = preg_replace('/\r/s', '', $text);
 	// Highlight as Code
 	$in_file = tempnam('/tmp', 'pl');
 	$out_file = tempnam('/tmp', 'htm');
