@@ -246,9 +246,9 @@ dd { @include no-space(); margin-left: 4em; }
 .pull-left { float: left; }
 .pull-right { float: right; }
 
-pre { color: mix($generic-foreground, $generic-background, 60%); }
+pre, .codeblock { color: mix($generic-foreground, $generic-background, 60%); }
 code { color: $code-color; background: mix($generic-background, $generic-foreground, 98%); }
-pre, .annotation { margin: $module-padding; padding: $module-padding; background: mix($generic-background, $generic-foreground, 98%); border: $light-border; overflow: auto; }
+pre, .annotation, .codeblock { margin: $module-padding; padding: $module-padding; background: mix($generic-background, $generic-foreground, 98%); border: $light-border; overflow: auto; }
 
 blockquote {
 	font-style: italic;

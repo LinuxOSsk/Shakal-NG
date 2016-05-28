@@ -61,3 +61,15 @@ pre > .vc { color: #19177C } /* Name.Variable.Class */
 pre > .vg { color: #19177C } /* Name.Variable.Global */
 pre > .vi { color: #19177C } /* Name.Variable.Instance */
 pre > .il { color: #666666 } /* Literal.Number.Integer.Long */
+
+
+.codeblock .synComment    { color: #408080; font-style: italic }
+.codeblock .synConstant   { color: #008000; font-weight: bold }
+.codeblock .synIdentifier { color: #19177C }
+.codeblock .synStatement  { color: #008000; font-weight: bold }
+.codeblock .synPreProc    { color: #BC7A00 }
+.codeblock .synType       { color: #2E8B57 ; font-weight: bold }
+.codeblock .synSpecial    { color: #B00040 }
+.codeblock .synUnderlined { color: #000000 ; text-decoration: underline }
+.codeblock .synError      { border: 1px solid #FF0000 }
+.codeblock .synTodo       { color: #0000FF ; background: #FFFF00 none }
