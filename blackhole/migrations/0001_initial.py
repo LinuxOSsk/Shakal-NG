@@ -39,7 +39,8 @@ class Migration(migrations.Migration):
 				('author', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True)),
 			],
 			options={
-				'abstract': False,
+				'verbose_name': 'blackhole \u010dl\xe1nok',
+				'verbose_name_plural': 'blackhole \u010dl\xe1nky',
 			},
 		),
 		migrations.CreateModel(

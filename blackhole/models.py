@@ -46,6 +46,10 @@ class Node(TimestampModelMixin, models.Model):
 	comments_header = GenericRelation(RootHeader, related_query_name='blackhole_node')
 	comments = GenericRelation(Comment, related_query_name='blackhole_node')
 
+	class Meta:
+		verbose_name = 'blackhole článok'
+		verbose_name_plural = 'blackhole články'
+
 	@models.permalink
 	def get_absolute_url(self):
 		return ('blackhole:story_detail', (self.pk,), {})
