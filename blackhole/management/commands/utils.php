@@ -372,40 +372,6 @@ function decode_entities($text, $exclude = array()) {
 }
 
 
-function filter_xss_bad_protocol($string, $decode = TRUE) {
-	static $allowed_protocols;
-	if (!isset($allowed_protocols)) {
-		$allowed_protocols = array_flip(variable_get('filter_allowed_protocols', array('http', 'https', 'ftp', 'news', 'nntp', 'tel', 'telnet', 'mailto', 'irc', 'ssh', 'sftp', 'webcal', 'rtsp')));
-	}
-
-	// Get the plain text representation of the attribute value (i.e. its meaning).
-	if ($decode) {
-		$string = decode_entities($string);
-	}
-
-	// Iteratively remove any invalid protocol found.
-
-	do {
-		$before = $string;
-		$colonpos = strpos($string, ':');
-		if ($colonpos > 0) {
-			// We found a colon, possibly a protocol. Verify.
-			$protocol = substr($string, 0, $colonpos);
-			// If a colon is preceded by a slash, question mark or hash, it cannot
-			// possibly be part of the URL scheme. This must be a relative URL,
-			// which inherits the (safe) protocol of the base document.
-			if (preg_match('![/?#]!', $protocol)) {
-				break;
-			}
-			// Per RFC2616, section 3.2.3 (URI Comparison) scheme comparison must be case-insensitive
-			// Check if this is a disallowed protocol.
-			if (!isset($allowed_protocols[strtolower($protocol)])) {
-				$string = substr($string, $colonpos + 1);
-			}
-		}
-	} while ($before != $string);
-	return check_plain($string);
-}
 
 function check_url($uri) {
 	return filter_xss_bad_protocol($uri, FALSE);
