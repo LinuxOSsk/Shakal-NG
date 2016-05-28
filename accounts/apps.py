@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.apps import AppConfig
 from django.contrib.auth.signals import user_logged_out
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models.signals import post_save, pre_save, pre_delete, post_delete
 from django.utils.functional import cached_property
 
@@ -50,7 +51,7 @@ class AccountsConfig(AppConfig):
 			try:
 				instance = instance.__class__.objects.get(pk=instance.pk)
 				self.update_user_rating(instance, author_property, property_name, -int(count_fun(instance)))
-			except instance.__class__.DoesNotExist:
+			except ObjectDoesNotExist:
 				pass
 
 	def remove_auth_token(self, sender, **kwargs): #pylint: disable=unused-argument
