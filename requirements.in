@@ -17,9 +17,9 @@ pip-tools
 pygments
 pytz
 raven
--e git+git://github.com/mireq/django-assets-manager.git#egg=django_assets_manager
--e git+git://github.com/mireq/django-autoslugfield.git#egg=django_autoslugfield
--e git+git://github.com/mireq/django-sample-data-generator.git#egg=django_sample_data_generator
--e git+git://github.com/mireq/django-simple-paginator.git@#egg=django_simple_paginator
--e git+git://github.com/mireq/django-email-log-backend.git@#egg=django_email_log_backend
--e git+git://github.com/mireq/django-geoposition-field.git@#egg=django_geoposition_field
+-e git+git://github.com/mireq/django-assets-manager.git@521aede9c76e78a5e66160499057152ef924b73f#egg=django_assets_manager
+-e git+git://github.com/mireq/django-autoslugfield.git@1561720a050af11ee20c376e7cdc153b0f7c3dae#egg=django_autoslugfield
+-e git+git://github.com/mireq/django-sample-data-generator.git@a0a9e0b850b225ee651fda48e3cb577692c45d72#egg=django_sample_data_generator
+-e git+git://github.com/mireq/django-simple-paginator.git@1c8af0bd120ae1eecb17610c47e6a67ed3c934b1#egg=django_simple_paginator
+-e git+git://github.com/mireq/django-email-log-backend.git@9ded677031f40f68c0742bb6a5c773e727e68869#egg=django_email_log_backend
+-e git+git://github.com/mireq/django-geoposition-field.git@05419b8aef97e486d9b2c85e981acd5a494f5b28#egg=django_geoposition_field
