@@ -73,8 +73,8 @@ function vimcolor_filter($op, $delta = 0, $format = -1, $text = '') {
 	}
 }
 
-//$prepared = vimcolor_filter('prepare', $argv[1], $argv[2], file_get_contents("php://stdin"));
-//echo vimcolor_filter('process', $argv[1], $argv[2], $prepared);
-echo vimcolor_filter('process', $argv[1], $argv[2], file_get_contents("php://stdin"));
+$prepared = vimcolor_filter('prepare', $argv[1], $argv[2], file_get_contents("php://stdin"));
+echo vimcolor_filter('process', $argv[1], $argv[2], $prepared);
+//echo vimcolor_filter('process', $argv[1], $argv[2], file_get_contents("php://stdin"));
 
 ?>

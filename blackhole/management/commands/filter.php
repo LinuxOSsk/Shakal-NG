@@ -1196,4 +1196,4 @@ function _filter_xss_attributes($attr) {
  * @} End of "Standard filters".
  */
 
-echo filter_filter('process', $argv[1], -1, file_get_contents("php://stdin"));
+echo filter_filter('process', $argv[1], $argv[2], file_get_contents("php://stdin"));

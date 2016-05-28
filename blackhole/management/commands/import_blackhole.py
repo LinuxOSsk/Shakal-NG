@@ -107,7 +107,7 @@ class Command(BaseCommand):
 	def formats_filtering(self):
 		formats = {}
 		with self.db_cursor() as cursor:
-			cursor.execute('SELECT filter_formats.format, filter_formats.name, filters.delta, filters.module FROM filter_formats LEFT JOIN filters ON filters.format = filter_formats.format ORDER BY filters.weight')
+			cursor.execute('SELECT filter_formats.format, filter_formats.name, filters.delta, filters.module FROM filter_formats LEFT JOIN filters ON filters.format = filter_formats.format ORDER BY filters.weight, filters.module, filters.delta')
 			format_rows = tuple(FormatInfo(*row) for row in cursor.fetchall())
 			for row in format_rows:
 				formats.setdefault(row.format, [])
@@ -123,7 +123,7 @@ class Command(BaseCommand):
 	@property
 	def nodes(self):
 		with self.db_cursor() as cursor:
-			cursor.execute('SELECT nid, type, title, uid, status, created, changed, comment, promote, sticky, vid FROM node WHERE nid=4209')
+			cursor.execute('SELECT nid, type, title, uid, status, created, changed, comment, promote, sticky, vid FROM node')
 			for row in cursor.fetchall():
 				revisions = []
 				terms = []
@@ -241,7 +241,7 @@ class Command(BaseCommand):
 	def call_filters(self, body, filters):
 		for drupal_filter in filters:
 			filter_php = path.join(path.dirname(__file__), drupal_filter.module + '.php')
-			body = subprocess.Popen(['php', filter_php, str(drupal_filter.format), drupal_filter.name], stdout=subprocess.PIPE, stdin=subprocess.PIPE).communicate(body.encode('utf-8'))[0].decode('utf-8')
+			body = subprocess.Popen(['php', filter_php, str(drupal_filter.delta), str(drupal_filter.format)], stdout=subprocess.PIPE, stdin=subprocess.PIPE).communicate(body.encode('utf-8'))[0].decode('utf-8')
 		return body
 
 	def sync_node(self):
@@ -273,7 +273,7 @@ class Command(BaseCommand):
 					body = revision.body
 					for search, replace in BLACKHOLE_BODY_REPLACE:
 						body = body.replace(search, replace)
-					filters = self.formats_filtering.get(revision.format, [])
+					filters = self.formats_filtering.get(revision.format, self.formats_filtering[1])
 					filtered_body = self.call_filters(body, filters)
 					revision_instance = NodeRevision(
 						id=revision.vid,
@@ -320,7 +320,7 @@ class Command(BaseCommand):
 			if root_header is None or root_header.object_id != comment.nid:
 				root_comment = Comment.objects.get_or_create_root_comment(self.node_ctype, comment.nid)[0]
 			update_comments_header(Comment, instance=root_comment)
-			filters = self.formats_filtering.get(comment.format, [])
+			filters = self.formats_filtering.get(comment.format, self.formats_filtering[1])
 			filtered_comment = self.call_filters(comment.comment, filters)
 			time_created = timestamp_to_time(comment.timestamp)
 			comment_instance = Comment(
