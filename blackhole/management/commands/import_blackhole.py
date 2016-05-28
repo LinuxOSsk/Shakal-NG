@@ -183,17 +183,17 @@ class Command(BaseCommand):
 		for user in self.users():
 			dot()
 			username = user.name or 'blackhole'
-			user_instance = User.objects.filter(username=username).first()
+			user_instance = User.objects.filter(username=username[:30]).first()
 			if user_instance is not None and user_instance.password == '':
 				users_map[user.uid] = user_instance.pk
 				continue
 			if user_instance is None:
-				user_instance = self.create_user(username, user)
+				user_instance = self.create_user(username[:30], user)
 			else:
 				username = 'blackhole_' + username
-				user_instance = User.objects.filter(username=username).first()
+				user_instance = User.objects.filter(username=username[:30]).first()
 				if user_instance is None:
-					user_instance = self.create_user(username, user)
+					user_instance = self.create_user(username[30], user)
 			users_map[user.uid] = user_instance.pk
 		return users_map
 
@@ -212,12 +212,12 @@ class Command(BaseCommand):
 		def import_term(term_data, parent):
 			dot()
 			instance = (Term.objects
-				.filter(parent=parent, vocabulary_id=term_data.vid, name=term_data.name)
+				.filter(parent=parent, vocabulary_id=self.vocabulary_map[term_data.vid], name=term_data.name)
 				.first())
 			if instance is None:
 				instance = Term(
 					parent=parent,
-					vocabulary_id=term_data.vid,
+					vocabulary_id=self.vocabulary_map[term_data.vid],
 					name=term_data.name,
 					description=term_data.description
 				)
