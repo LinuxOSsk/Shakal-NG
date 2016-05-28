@@ -168,7 +168,7 @@ class Command(BaseCommand):
 			except IOError:
 				print('File does not exist: ' + avatar_filename)
 		user = User(
-			username=username,
+			username=username[:30],
 			signature=user_data.signature,
 			date_joined=timestamp_to_time(user_data.created),
 			last_login=timestamp_to_time(user_data.login),
