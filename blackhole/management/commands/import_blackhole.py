@@ -107,7 +107,7 @@ class Command(BaseCommand):
 	def formats_filtering(self):
 		formats = {}
 		with self.db_cursor() as cursor:
-			cursor.execute('SELECT filter_formats.format, filter_formats.name, filters.delta, filters.module FROM filter_formats LEFT JOIN filters ON filters.format = filter_formats.format ORDER BY filters.weight, filters.module, filters.delta')
+			cursor.execute('SELECT filter_formats.format, filter_formats.name, filters.delta, filters.module FROM filter_formats LEFT JOIN filters ON filters.format = filter_formats.format ORDER BY filters.weight ASC')
 			format_rows = tuple(FormatInfo(*row) for row in cursor.fetchall())
 			for row in format_rows:
 				formats.setdefault(row.format, [])
@@ -239,10 +239,14 @@ class Command(BaseCommand):
 		return term_map
 
 	def call_filters(self, body, filters):
+		body = body.encode('utf-8')
 		for drupal_filter in filters:
 			filter_php = path.join(path.dirname(__file__), drupal_filter.module + '.php')
-			body = subprocess.Popen(['php', filter_php, str(drupal_filter.delta), str(drupal_filter.format)], stdout=subprocess.PIPE, stdin=subprocess.PIPE).communicate(body.encode('utf-8'))[0].decode('utf-8')
-		return body
+			body = subprocess.Popen(['php', filter_php, 'prepare', str(drupal_filter.delta), str(drupal_filter.format)], stdout=subprocess.PIPE, stdin=subprocess.PIPE).communicate(body)[0]
+		for drupal_filter in filters:
+			filter_php = path.join(path.dirname(__file__), drupal_filter.module + '.php')
+			body = subprocess.Popen(['php', filter_php, 'process', str(drupal_filter.delta), str(drupal_filter.format)], stdout=subprocess.PIPE, stdin=subprocess.PIPE).communicate(body)[0]
+		return body.decode('utf-8')
 
 	def sync_node(self):
 		for node in self.nodes:

@@ -2,10 +2,6 @@
 
 require "utils.php";
 
-function vimcolor_menu() {
-	drupal_set_html_head('<style type="text/css">@import url('. $GLOBALS[base_url] .'/modules/vimcolor/style.css);</style>');
-}
-
 
 function vimcolor_process_color($text,$type) {
 	$multiline = ereg("[\n\r]", $text);
@@ -73,8 +69,7 @@ function vimcolor_filter($op, $delta = 0, $format = -1, $text = '') {
 	}
 }
 
-$prepared = vimcolor_filter('prepare', $argv[1], $argv[2], file_get_contents("php://stdin"));
-echo vimcolor_filter('process', $argv[1], $argv[2], $prepared);
+echo vimcolor_filter($argv[1], $argv[2], $argv[3], file_get_contents("php://stdin"));
 //echo vimcolor_filter('process', $argv[1], $argv[2], file_get_contents("php://stdin"));
 
 ?>

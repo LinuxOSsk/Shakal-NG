@@ -1276,11 +1276,6 @@ function filter_xss_admin($string) {
  *   The format to use.
  */
 function filter_xss($string, $allowed_tags = array('a', 'em', 'strong', 'cite', 'code', 'ul', 'ol', 'li', 'dl', 'dt', 'dd')) {
-	// Only operate on valid UTF-8 strings. This is necessary to prevent cross
-	// site scripting issues on Internet Explorer 6.
-	if (!drupal_validate_utf8($string)) {
-		return '';
-	}
 	// Store the input format
 	_filter_xss_split($allowed_tags, TRUE);
 	// Remove NUL characters (ignored by some browsers)
@@ -1525,6 +1520,6 @@ function filter_xss_bad_protocol($string, $decode = TRUE) {
 	return check_plain($string);
 }
 
+echo filter_filter($argv[1], $argv[2], $argv[3], file_get_contents("php://stdin"));
 
-
-echo filter_filter('process', $argv[1], $argv[2], file_get_contents("php://stdin"));
+?>
