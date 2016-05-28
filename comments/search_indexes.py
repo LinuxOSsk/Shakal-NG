@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db.models import Q
 from haystack import indexes
 
 from comments.models import RootHeader
@@ -21,7 +20,7 @@ class CommentIndex(indexes.SearchIndex, indexes.Indexable):
 		return RootHeader
 
 	def index_queryset(self, using=None):
-		return self.get_model().objects.filter(Q(blackhole_node__isnull=True) | Q(blackhole_node__node_type='story'))
+		return self.get_model().objects.filter()
 
 	def prepare_author(self, object):
 		content_object = object.content_object
