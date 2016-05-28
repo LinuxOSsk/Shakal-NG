@@ -96,4 +96,12 @@ function check_url($uri) {
 	return filter_xss_bad_protocol($uri, FALSE);
 }
 
+function drupal_eval($code) {
+	ob_start();
+	print eval('?>'. $code);
+	$output = ob_get_contents();
+	ob_end_clean();
+	return $output;
+}
+
 ?>
