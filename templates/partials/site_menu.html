@@ -19,4 +19,7 @@
 		<a href="{{ url('wiki:home') }}">Wiki</a>
 		{% if count_new and count_new.wiki_page %}<span class="badge badge-important">{{ count_new.wiki_page }}</span>{% endif %}
 	</li>
+	<li{% if section=='blackhole' %} class="active"{% endif %}>
+		<a href="{{ url('blackhole:story_list') }}">Blackhole</a>
+	</li>
 {% endwith %}
