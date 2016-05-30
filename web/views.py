@@ -44,13 +44,10 @@ class Home(TemplateView):
 			top_articles = (Article.objects.all()
 				.defer(*DEFER)
 				.filter(top=True))
-			articles = (Article.objects.all()
-				.defer(*DEFER)
-				.exclude(pk=top_articles[0].pk))
 		except IndexError:
 			top_articles = Article.objects.all().none()
-			articles = (Article.objects.all()
-				.defer(*DEFER))
+		articles = (Article.objects.all()
+			.defer(*DEFER))
 
 		articles = list(articles.select_related('author', 'category')[:5])
 		top_articles = list(top_articles.select_related('author', 'category')[:1])
@@ -60,10 +57,9 @@ class Home(TemplateView):
 	def get_posts(self):
 		try:
 			top_posts = list(Post.objects.all().filter(linux=True)[:1])
-			posts = Post.objects.all().exclude(pk=top_posts[0].pk)
 		except IndexError:
 			top_posts = Post.objects.all().none()
-			posts = Post.objects.all()
+		posts = Post.objects.all()
 		return list(posts[:4]), top_posts
 
 	@cached_method(tag='forum.topic')
