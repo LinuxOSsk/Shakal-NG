@@ -65,9 +65,11 @@
 		{% endwith %}
 	{% endfor %}
 	{% for article in articles %}
-		{% with show_thumbnail=0 %}
-			{% include "article/block_list_item.html" %}
-		{% endwith %}
+		{% if article not in top_articles %}
+			{% with show_thumbnail=0 %}
+				{% include "article/block_list_item.html" %}
+			{% endwith %}
+		{% endif %}
 	{% endfor %}
 	<div class="module-links bottom">
 		{% for category in article_categories %}
@@ -82,7 +84,9 @@
 <div class="module blog">
 	<h2>Blogy</h2>
 	{% for post in posts %}
-		{% include "blog/partials/item.html" %}
+		{% if article not in top_articles %}
+			{% include "blog/partials/item.html" %}
+		{% endif %}
 	{% endfor %}
 	<div class="module-links bottom">
 		<a href="{{ url("blog:post-list") }}" class="next">Ďalšie</a>
