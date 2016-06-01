@@ -80,12 +80,8 @@ class Home(TemplateView):
 		forum_new, forum_no_comments, forum_most_comments = self.get_topics()
 
 		new_items = []
-		for article in top_articles:
+		for article in articles[:2]:
 			new_items.append(article)
-			break
-		for article in articles:
-			new_items.append(article)
-			break
 		for i, post in enumerate(posts):
 			new_items.append(post)
 			if i == 1:
