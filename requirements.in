@@ -5,6 +5,7 @@ django-braces
 django-compressor
 django-haystack
 django-hijack
+django-hijack-admin
 django-jinja
 django-libsass
 django-mptt

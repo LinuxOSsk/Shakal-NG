@@ -53,6 +53,7 @@ INSTALLED_APPS = (
 	'mptt',
 	'haystack',
 	'hijack',
+	'hijack_admin',
 	'reversion',
 	'static_sitemaps',
 	'easy_thumbnails',
@@ -255,7 +256,8 @@ AUTHENTICATION_BACKENDS = (
 EMAIL_BACKEND = 'django_email_log.backends.EmailBackend'
 EMAIL_LOG_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-HIJACK_DISPLAY_ADMIN_BUTTON = False
+HIJACK_REGISTER_ADMIN = False
+HIJACK_ALLOW_GET_REQUESTS = True
 HIJACK_LOGIN_REDIRECT_URL = '/profil/ja/'
 HIJACK_LOGOUT_REDIRECT_URL = '/administracia/accounts/user/'
 

@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
-from hijack.admin import HijackUserAdminMixin
+from hijack_admin.admin import HijackUserAdminMixin
 
 from accounts.admin_forms import UserCreationForm, UserChangeForm
 from accounts.models import User
@@ -62,5 +62,6 @@ class UserAdmin(HijackUserAdminMixin, AdminActionsMixin, AuthUserAdmin):
 	def hijack_field(self, obj):
 		return super(UserAdmin, self).hijack_field(obj)
 	hijack_field.short_description = "Prihlásiť sa"
+	hijack_field.allow_tags = True
 
 admin.site.register(User, UserAdmin)
