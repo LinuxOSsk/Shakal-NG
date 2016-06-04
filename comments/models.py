@@ -46,7 +46,7 @@ class Comment(MPTTModel, TimestampModelMixin):
 	objects = CommentManager()
 
 	content_type = models.ForeignKey(ContentType, verbose_name='typ obsahu', related_name='content_type_set_for_%(class)s')
-	object_id = models.TextField('ID objektu')
+	object_id = models.PositiveIntegerField('ID objektu')
 	content_object = GenericForeignKey('content_type', 'object_id')
 	parent = TreeForeignKey('self', null=True, blank=True, related_name='children', verbose_name='nadradený')
 
