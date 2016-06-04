@@ -218,6 +218,10 @@ FEED_SIZE = 20
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 STATIC_URL = '/static/'
+STATICSITEMAPS_URL = 'https://linuxos.sk/static/'
+STATICSITEMAPS_MOCK_SITE = True
+STATICSITEMAPS_MOCK_SITE_NAME = 'linuxos.sk'
+STATICSITEMAPS_MOCK_SITE_PROTOCOL = 'https'
 STATICFILES_FINDERS = (
 	'django.contrib.staticfiles.finders.FileSystemFinder',
 	'django.contrib.staticfiles.finders.AppDirectoriesFinder',
