@@ -44,11 +44,14 @@ def humandatetime(value, default=''):
 
 @library.global_function
 @register.simple_tag
-def user_link(user_object, username):
+def user_link(user_object, username=None):
 	if user_object:
 		return format_html('<a class="url fn" href="{0}" rel="nofollow">{1}</a>', user_object.get_absolute_url(), smart_unicode(user_object))
 	else:
-		return escape(username)
+		if username:
+			return escape(username)
+		else:
+			return '-'
 
 
 @library.global_function

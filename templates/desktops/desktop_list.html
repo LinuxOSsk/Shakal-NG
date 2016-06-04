@@ -41,7 +41,7 @@
 						<span class="comments">
 							{{ get_comments_for_item(desktop) }}
 						</span> |
-						<span class="user"><a href="{{ desktop.author.get_absolute_url() }}">{{ desktop.author }}</a></span>
+						<span class="user">{{ user_link(desktop.author) }}</span>
 					</div>
 
 					{{ desktop.text|safe }}
