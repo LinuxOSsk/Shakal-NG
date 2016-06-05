@@ -1,54 +1,54 @@
 $text-color: #000000 !default;
 $body-color: #ffffff !default;
-$body-color-background: mix($body-color, $text-color, 96%) !default;
+$body-color-background:  #e7edf6 !default;
 
 $paragraph-line-height: 1.5 !default;
-$paragraph-margin-bottom: 1em !default;
+$paragraph-margin-bottom: 12px !default;
 
-$primary-color: #283038 !default;
-$primary-color-complement: #ffffff !default;
-
-$secondary-color: #119922 !default;
-$secondary-color-complement: #ffffff !default;
-
-$link-color: $primary-color;
-$link-color-hover: $primary-color-complement;
-$link-color-hover-background: $primary-color;
-$info-color: #888;
-
-$sidebar-color: $primary-color-complement !default;
-$sidebar-background: $primary-color !default;
-
-$menu-color: mix($sidebar-color, $sidebar-background, 80%) !default;
-$menu-toggle-color: $primary-color-complement;
-
-$header-color: lighten(adjust-hue($primary-color, 2%), 15%) !default;
-
-$base-margin-horizontal: 30px !default;
-$base-margin-vertical: 20px !default;
-$base-margin-horizontal-reduced: $base-margin-horizontal / 2 !default;
-$base-margin-vertical-reduced: $base-margin-vertical / 2 !default;
-
-$header-line-height: 1.4 !default;
-$header-font-weight: 700 !default;
-$header-font-style: none !default;
-$header-font-color: mix($primary-color, $text-color, 50%) !default;
-$header-top-margin: .2em !default;
-$header-bottom-margin: .5em !default;
-
-$h1-font-size: 200% !default;
-$h2-font-size: 150% !default;
-$h3-font-size: 130% !default;
-$h4-font-size: 120% !default;
-$h5-font-size: 110% !default;
-$h6-font-size: 100% !default;
-
-$h1-font-reduction: 20% !default;
-$h2-font-reduction: 20% !default;
-$h3-font-reduction: 10% !default;
-$h4-font-reduction: 5% !default;
-$h5-font-reduction: 0% !default;
-$h6-font-reduction: 0% !default;
-
-$sidebar-width: 20em !default;
-$header-height: 62px !default;
+//$primary-color: #283038 !default;
+//$primary-color-complement: #ffffff !default;
+//
+//$secondary-color: #119922 !default;
+//$secondary-color-complement: #ffffff !default;
+//
+//$link-color: $primary-color;
+//$link-color-hover: $primary-color-complement;
+//$link-color-hover-background: $primary-color;
+//$info-color: #888;
+//
+//$sidebar-color: $primary-color-complement !default;
+//$sidebar-background: $primary-color !default;
+//
+//$menu-color: mix($sidebar-color, $sidebar-background, 80%) !default;
+//$menu-toggle-color: $primary-color-complement;
+//
+//$header-color: lighten(adjust-hue($primary-color, 2%), 15%) !default;
+//
+//$base-margin-horizontal: 30px !default;
+//$base-margin-vertical: 20px !default;
+//$base-margin-horizontal-reduced: $base-margin-horizontal / 2 !default;
+//$base-margin-vertical-reduced: $base-margin-vertical / 2 !default;
+//
+//$header-line-height: 1.4 !default;
+//$header-font-weight: 700 !default;
+//$header-font-style: none !default;
+//$header-font-color: mix($primary-color, $text-color, 50%) !default;
+//$header-top-margin: .2em !default;
+//$header-bottom-margin: .5em !default;
+//
+//$h1-font-size: 200% !default;
+//$h2-font-size: 150% !default;
+//$h3-font-size: 130% !default;
+//$h4-font-size: 120% !default;
+//$h5-font-size: 110% !default;
+//$h6-font-size: 100% !default;
+//
+//$h1-font-reduction: 20% !default;
+//$h2-font-reduction: 20% !default;
+//$h3-font-reduction: 10% !default;
+//$h4-font-reduction: 5% !default;
+//$h5-font-reduction: 0% !default;
+//$h6-font-reduction: 0% !default;
+//
+//$sidebar-width: 20em !default;
+//$header-height: 62px !default;

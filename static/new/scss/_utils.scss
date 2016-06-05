@@ -86,6 +86,7 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 	text-indent: 9999px;
 }
 
+/*
 .sprite, .sprite-after:after {
 	background-repeat: no-repeat;
 	background-image: map-get($sprites, _url);
@@ -119,3 +120,4 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 		height: map-get(map-get($sprites, $image), h);
 	}
 }
+*/
