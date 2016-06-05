@@ -6,7 +6,7 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 }
 
 .sprite {
-	background: map-get($sprites, _url);
+	background: nth(map-get($sprites, _url), 1);
 	background-size: map-get($sprites, _size);
 }
 

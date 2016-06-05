@@ -4,26 +4,13 @@ from __future__ import unicode_literals
 SPRITES = (
 	{
 		'name': 'sprites',
-		'output': 'new/images/sprites_white.png',
-		'scss_output': 'new/scss/_sprites_white.scss',
+		'output': 'new/images/sprites.png',
+		'scss_output': 'new/scss/_sprites.scss',
 		'extra_sizes': ((2, '@2x'),),
 		'width': 400,
 		'height': 400,
 		'images': (
-			{ 'name': 'logo', 'src': 'new/images/logo_white.png' },
-			{ 'name': 'penguin', 'src': 'new/images/penguin_white.png' },
-		),
-	},
-	{
-		'name': 'sprites',
-		'output': 'new/images/sprites_black.png',
-		'scss_output': 'new/scss/_sprites_black.scss',
-		'extra_sizes': ((2, '@2x'),),
-		'width': 400,
-		'height': 400,
-		'images': (
-			{ 'name': 'logo', 'src': 'new/images/logo_black.png' },
-			{ 'name': 'penguin', 'src': 'new/images/penguin_black.png' },
+			{ 'name': 'header_shadow', 'src': 'new/images/header_shadow.png', 'mode': 'repeat-x' },
 		),
 	},
 	{
