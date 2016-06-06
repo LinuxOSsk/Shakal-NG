@@ -1,0 +1,19 @@
+.shadow-box {
+	box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.4);
+	background: white;
+}
+
+.side-margin {
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
+.content-box {
+	padding: 16px;
+}
+
+.module {
+	@extend .side-margin;
+	@extend .shadow-box;
+	@extend .content-box;
+}

@@ -1,3 +1,27 @@
 #header {
 	height: 120px;
 }
+
+@media #{$large-up} {
+	#layout_main {
+		float: left;
+		width: 67%;
+		margin-top: -40px;
+	}
+
+	#layout_sidebar {
+		float: left;
+		width: 33%;
+		margin-top: -20px;
+	}
+}
+
+@media #{$xlarge-up} {
+	#layout_main {
+		width: 75%;
+	}
+
+	#layout_sidebar {
+		width: 25%;
+	}
+}
