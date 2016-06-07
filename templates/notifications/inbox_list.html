@@ -25,7 +25,7 @@
 					{{ notification.event.message }}
 				</p>
 				<div class="info bottom">
-					<span class="label label-{{ notification.readed|yesno("standard,important") }}">{{ notification.readed|yesno("Prečítané,Neprečítané") }}</span>
+					<span class="label {{ notification.readed|yesno("standard,important") }}">{{ notification.readed|yesno("Prečítané,Neprečítané") }}</span>
 					{% if notification.content_type %}
 						{% with content_type=notification.content_type %}
 							{% include "widgets/content_type_label.html" %}

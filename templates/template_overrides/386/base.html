@@ -41,7 +41,7 @@
 									{{ firstof(request.user.get_full_name(), request.user.username) }}
 									{% set unread_notifications=get_unread_notifications() %}
 									{% if unread_notifications %}
-										&nbsp;<span class="badge badge-important">{{ unread_notifications|length }}</span>
+										&nbsp;<span class="badge important">{{ unread_notifications|length }}</span>
 									{% endif %}
 								</a>
 							</span>
@@ -50,7 +50,7 @@
 									<a href="{{ request.user.get_absolute_url() }}" rel="nofollow">{{ _("Profile") }}</a>
 								</li>
 									<li>
-									<a href="{{ url('notifications:list') }}" rel="nofollow">{{ _("Notifications") }}{% if unread_notifications %}&nbsp;<span class="badge badge-important">{{ unread_notifications|length }}</span>{% endif %}</a>
+									<a href="{{ url('notifications:list') }}" rel="nofollow">{{ _("Notifications") }}{% if unread_notifications %}&nbsp;<span class="badge important">{{ unread_notifications|length }}</span>{% endif %}</a>
 									</li>
 								{% if user.is_staff %}
 								<li>

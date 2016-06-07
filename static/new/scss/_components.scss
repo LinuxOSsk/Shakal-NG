@@ -21,3 +21,16 @@
 	@extend .shadow-box;
 	@extend .content-box;
 }
+
+.label {
+	font-size: 0.8em;
+	font-weight: bold;
+	padding: 0.1em 0.4em;
+	display: inline-block;
+	border-radius: 3px;
+}
+
+.label.info {
+	color: white;
+	background: #6b8fc7;
+}

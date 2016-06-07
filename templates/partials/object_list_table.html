@@ -9,7 +9,7 @@
 	<tr>
 		<td class="title"><a href="{{ topic.get_absolute_url() }}">{{ topic.title }}</a></td>
 		<td class="status">
-			<span class="label label-info">
+			<span class="label info">
 				{% if topic._meta.proxy_for_model %}
 					{{ topic._meta.proxy_for_model._meta.verbose_name|capfirst }}
 				{% else %}
@@ -17,7 +17,7 @@
 				{% endif %}
 			</span>
 		</td>
-		<td class="comments"><a href="{{ topic.get_absolute_url() }}#comments"><span class="badge badge-{{ topic.new_comments|yesno("new,watch,default") }}">{{ topic.comment_count }}</span></a></td>
+		<td class="comments"><a href="{{ topic.get_absolute_url() }}#comments"><span class="badge {{ topic.new_comments|yesno("new,watch,default") }}">{{ topic.comment_count }}</span></a></td>
 		<td class="date">{{ topic.last_comment|humandatetime("Žiadna reakcia") }}</td>
 	</tr>
 	{% endfor %}

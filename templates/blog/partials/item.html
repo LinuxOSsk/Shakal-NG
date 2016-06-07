@@ -1,5 +1,5 @@
 <div class="module-row">
-	<h3><a href="{{ post.get_absolute_url() }}">{{ post }}</a>{% if content_indicator %} <span class="label label-info">Blog</span>{% endif %}</h3>
+	<h3><a href="{{ post.get_absolute_url() }}">{{ post }}</a>{% if content_indicator %} <span class="label info">Blog</span>{% endif %}</h3>
 	<div class="info">
 		<span class="time">{{ post.pub_time|humandatetime }}</span> |
 		{{ get_comments_for_item(post) }} |

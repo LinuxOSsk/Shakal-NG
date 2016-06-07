@@ -1,5 +1,5 @@
 <span class="label
-	{% if content_type == "forum.topic" %} label-info{% endif%}
-	{% if content_type == "article.article" or content_type == "wiki.page" or content_type == "news.news" %} label-success{% endif %}">
+	{% if content_type == "forum.topic" %} info{% endif%}
+	{% if content_type == "article.article" or content_type == "wiki.page" or content_type == "news.news" %} success{% endif %}">
 	{{ content_type|labelize_content_type|capfirst }}
 </span>
