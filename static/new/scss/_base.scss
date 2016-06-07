@@ -42,6 +42,22 @@ table {
 	width: 100%;
 }
 
+a {
+	text-decoration: none;
+	color: $link-color;
+	&:hover {
+		color: $link-color-hover;
+	}
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+table, p {
+	margin: 0 0 $base-margin-content 0;
+}
+
 tr {
 	border-bottom: 1px solid #eee;
 	border-top: 1px solid #eee;
@@ -66,7 +82,7 @@ tr:nth-child(2n + 1) {
 }
 
 td, th {
-	padding: 8px;
+	padding: $base-margin-reduced;
 }
 
 #header {
