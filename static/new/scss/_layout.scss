@@ -2,11 +2,18 @@
 	height: 120px;
 }
 
+#layout_main {
+	margin-top: -40px;
+}
+
+#layout_sidebar {
+	margin-top: 20px;
+}
+
 @media #{$large-up} {
 	#layout_main {
 		float: left;
 		width: 67%;
-		margin-top: -40px;
 	}
 
 	#layout_sidebar {

@@ -12,6 +12,10 @@
 	padding: 16px;
 }
 
+.block-title {
+	font-weight: 300;
+}
+
 .module {
 	@extend .side-margin;
 	@extend .shadow-box;

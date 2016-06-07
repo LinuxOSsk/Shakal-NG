@@ -6,9 +6,67 @@ html, body {
 	color: $text-color;
 }
 
+h2, h2, h3, h4, h5, h6 {
+	font-weight: $header-font-weight;
+	font-style: $header-font-style;
+	color: $header-font-color;
+	margin-top: $header-top-margin;
+	margin-bottom: $header-bottom-margin;
+	line-height: $header-line-height;
+	padding: 0;
+}
+
+h1 { font-size: $h1-font-size; }
+h2 { font-size: $h2-font-size; }
+h3 { font-size: $h3-font-size; }
+h4 { font-size: $h4-font-size; }
+h5 { font-size: $h5-font-size; }
+h6 { font-size: $h6-font-size; }
+
+@media #{$medium-down} {
+	h1 { font-size: $h1-font-size - $h1-font-reduction; }
+	h2 { font-size: $h2-font-size - $h2-font-reduction; }
+	h3 { font-size: $h3-font-size - $h3-font-reduction; }
+	h4 { font-size: $h4-font-size - $h4-font-reduction; }
+	h5 { font-size: $h5-font-size - $h5-font-reduction; }
+	h6 { font-size: $h6-font-size - $h6-font-reduction; }
+}
+
 p {
 	line-height: $paragraph-line-height;
 	margin: 0 0 $paragraph-margin-bottom 0;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+tr {
+	border-bottom: 1px solid #eee;
+	border-top: 1px solid #eee;
+}
+
+th {
+	background: $primary-color;
+	color: $primary-color-complement;
+	text-align: left;
+	font-weight: normal;
+	a {
+		color: $primary-color-complement;
+	}
+}
+
+tr:nth-child(2n) {
+	background: $body-color;
+}
+
+tr:nth-child(2n + 1) {
+	background: mix($body-color, $primary-color, 95%);
+}
+
+td, th {
+	padding: 8px;
 }
 
 #header {
