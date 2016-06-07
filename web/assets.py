@@ -11,6 +11,7 @@ SPRITES = (
 		'height': 400,
 		'images': (
 			{ 'name': 'header_shadow', 'src': 'new/images/header_shadow.png', 'mode': 'repeat-x' },
+			{ 'name': 'logo', 'src': 'new/images/logo.png', },
 		),
 	},
 	{

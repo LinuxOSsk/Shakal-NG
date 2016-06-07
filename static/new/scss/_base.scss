@@ -92,3 +92,12 @@ td, th {
 	background-position: sprite_position(header_shadow);
 	@include sprite_background;
 }
+
+#logo {
+	float: left;
+	display: block;
+	text-indent: -9999px;
+	overflow: hidden;
+	margin-left: $base-margin;
+	@include sprite(logo);
+}
