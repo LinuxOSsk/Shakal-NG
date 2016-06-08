@@ -24,9 +24,13 @@
 		{{ render_messages(messages) }}
 	{% endblock %}
 
-	<div id="header">
+	<header id="header">
 		<a href="{{ url("home") }}" id="logo">LinuxOS.sk</a>
-	</div>
+
+		<ul id="main_menu" class="tabs">
+			{% block site_menu %}{% include "partials/site_menu.html" %}{% endblock %}
+		</ul>
+	</header>
 
 	<div class="side-margin">
 		<div id="layout_main">

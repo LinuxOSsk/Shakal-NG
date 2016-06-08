@@ -1,4 +1,4 @@
-{% with count_new=user.count_new  %}
+{% with count_new=user.count_new, resolver_match=request.resolver_match, view_name=request.resolver_match.view_name, namespaces=request.resolver_match.namespaces  %}
 	<li{% if section=='forum' %} class="active"{% endif %}>
 		<a href="{{ url('forum:overview') }}">Fórum</a>
 		{% if count_new and count_new.forum_topic %}<span class="badge important">{{ count_new.forum_topic }}</span>{% endif %}
@@ -19,7 +19,7 @@
 		<a href="{{ url('wiki:home') }}">Wiki</a>
 		{% if count_new and count_new.wiki_page %}<span class="badge important">{{ count_new.wiki_page }}</span>{% endif %}
 	</li>
-	<li{% if section=='blackhole' %} class="active"{% endif %}>
+	<li{% if 'blackhole' in namespaces %} class="active"{% endif %}>
 		<a href="{{ url('blackhole:story_list') }}">Blackhole</a>
 	</li>
 {% endwith %}

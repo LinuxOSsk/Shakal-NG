@@ -4,10 +4,18 @@
 
 #layout_main {
 	margin-top: -40px;
+	position: relative;
 }
 
 #layout_sidebar {
 	margin-top: 20px;
+}
+
+
+#main_menu {
+	position: absolute;
+	right: 0;
+	top: 40px;
 }
 
 @media #{$large-up} {
@@ -21,6 +29,10 @@
 		width: 33%;
 		margin-top: -20px;
 	}
+
+	#main_menu {
+		right: 33%;
+	}
 }
 
 @media #{$xlarge-up} {
@@ -30,5 +42,9 @@
 
 	#layout_sidebar {
 		width: 25%;
+	}
+
+	#main_menu {
+		right: 25%;
 	}
 }
