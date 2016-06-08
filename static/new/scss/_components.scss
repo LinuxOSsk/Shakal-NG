@@ -51,7 +51,7 @@
 }
 
 .label, .badge {
-	&.info {
+	&.info, &.watch {
 		text-shadow: 0 -1px 0 darken(#6b8fc7, 10%);
 		background: #6b8fc7;
 	}
@@ -59,7 +59,7 @@
 		text-shadow: 0 -1px 0 darken(#468847, 10%);
 		background-color: #468847;
 	}
-	&.success {
+	&.success, &.new {
 		text-shadow: 0 -1px 0 darken(#468847, 10%);
 		background-color: #468847;
 	}
