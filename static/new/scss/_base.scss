@@ -4,6 +4,7 @@ html, body {
 	font-family: sans-serif;
 	background: $body-color-background;
 	color: $text-color;
+	line-height: $paragraph-line-height;
 }
 
 h1, h2, h2, h3, h4, h5, h6 {
@@ -15,6 +16,8 @@ h1, h2, h2, h3, h4, h5, h6 {
 	line-height: $header-line-height;
 	padding: 0;
 }
+
+hr { background: #eee; display: block; height: 1px; border: none; }
 
 h1 { font-weight: 300; }
 

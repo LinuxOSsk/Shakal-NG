@@ -34,8 +34,10 @@
 
 	<div class="side-margin">
 		<div id="layout_main">
-			{% block content %}
-			{% endblock %}
+			<div id="content_module" class="module">
+				{% block content %}
+				{% endblock %}
+			</div>
 		</div>
 
 		<div id="layout_sidebar">
@@ -44,6 +46,8 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="clearfix"></div>
 
 	{% block discussion %}{% endblock %}
 

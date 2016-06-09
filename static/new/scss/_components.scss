@@ -31,6 +31,7 @@
 		width: 33%;
 		margin: $base-margin;
 		float: right;
+		border: 1px solid #ddd;
 		@extend .shadow-top-box;
 	}
 }
@@ -62,7 +63,23 @@
 	border-radius: 3px;
 }
 
+.clearfix {
+	clear: both;
+}
+
+.info {
+	color: $info-color;
+	margin: 0 0 $paragraph-margin-bottom 0;
+	font-size: 90%;
+	.subject {
+		color: $text-color;
+		font-weight: bold;
+	}
+}
+
 .label, .badge {
+	color: white;
+	margin: 0;
 	&.info, &.watch {
 		text-shadow: 0 -1px 0 darken(#6b8fc7, 10%);
 		background: #6b8fc7;
@@ -78,5 +95,14 @@
 	&.important {
 		text-shadow: 0 -1px 0 darken(#b94a48, 10%);
 		background-color: #b94a48;
+	}
+}
+
+body.home {
+	#content_module {
+		box-shadow: none;
+		padding: 0;
+		margin: 0;
+		background: none;
 	}
 }
