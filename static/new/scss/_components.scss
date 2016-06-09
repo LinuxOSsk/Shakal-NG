@@ -105,6 +105,6 @@
 	background: none;
 }
 
-.comments.module, body.home #content_module {
+.comments.module, body.home #content_module, #content_module > .module {
 	@extend .reset-module;
 }
