@@ -2,6 +2,11 @@
 	height: 120px;
 }
 
+#logo {
+	float: left;
+	margin-left: $base-margin;
+}
+
 #layout_main {
 	float: left;
 	width: 75%;
@@ -35,6 +40,19 @@
 	#main_menu {
 		right: 33%;
 	}
+
+	#logo {
+		float: right;
+		margin-left: 0;
+		margin-top: 10px;
+		width: 33%;
+		margin-right: $base-margin / 2;
+	}
+
+	#main_menu {
+		left: 0;
+		right: auto;
+	}
 }
 
 @media #{$medium-down} {
@@ -45,5 +63,12 @@
 
 	#layout_sidebar {
 		margin-top: $base-margin;
+	}
+
+	#logo {
+		float: left;
+		margin-left: $base-margin;
+		margin-top: 0;
+		width: auto;
 	}
 }

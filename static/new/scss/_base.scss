@@ -97,12 +97,14 @@ td, th {
 }
 
 #logo {
-	float: left;
-	display: block;
-	text-indent: -9999px;
-	overflow: hidden;
-	margin-left: $base-margin;
-	@include sprite(logo);
+	a {
+		display: block;
+		text-indent: -9999px;
+		overflow: hidden;
+		margin-left: auto;
+		margin-right: auto;
+		@include sprite(logo);
+	}
 }
 
 #main_menu {
