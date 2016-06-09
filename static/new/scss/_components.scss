@@ -3,6 +3,11 @@
 	background: white;
 }
 
+.shadow-top-box {
+	box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+	background: white;
+}
+
 .side-margin {
 	margin-left: $base-margin-reduced;
 	margin-right: $base-margin-reduced;
@@ -21,6 +26,13 @@
 	@extend .shadow-box;
 	@extend .content-box;
 	margin-bottom: $base-margin;
+
+	&.sidebar {
+		width: 33%;
+		margin: $base-margin;
+		float: right;
+		@extend .shadow-top-box;
+	}
 }
 
 .label, .badge {
