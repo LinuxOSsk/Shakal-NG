@@ -36,7 +36,7 @@ $header-line-height: 1.4 !default;
 $header-font-weight: 700 !default;
 $header-font-style: none !default;
 $header-font-color: mix($primary-color, $text-color, 75%) !default;
-$header-top-margin: .0 !default;
+$header-top-margin: $base-margin-content / 4 !default;
 $header-bottom-margin: $base-margin-content !default;
 
 $h1-font-size: 200% !default;

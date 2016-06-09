@@ -37,6 +37,7 @@
 			<div id="content_module" class="module">
 				{% block content %}
 				{% endblock %}
+				{% block discussion %}{% endblock %}
 			</div>
 		</div>
 
@@ -48,8 +49,6 @@
 	</div>
 
 	<div class="clearfix"></div>
-
-	{% block discussion %}{% endblock %}
 
 	<!--[if lt IE 7]>
 	<script src="{{ static("js/fixiepng.js") }}"></script>

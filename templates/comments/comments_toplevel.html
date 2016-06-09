@@ -1,7 +1,7 @@
 {% set comments=get_comments_list(target) %}
 {{ prefetch_avatars_for_ip(comments) }}
 {% with root=comments.root_item, root_header=comments.root_header, user_attribute=comments.user_attribute %}
-<div class="module">
+<div class="module comments">
 	<a id="comments" href="#"></a>
 	<div class="links">
 		{% if request.user.is_authenticated() %}
