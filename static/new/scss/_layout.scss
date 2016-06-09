@@ -3,31 +3,33 @@
 }
 
 #layout_main {
+	float: left;
+	width: 75%;
 	margin-top: -40px;
 	position: relative;
 }
 
 #layout_sidebar {
-	margin-top: 20px;
+	width: 25%;
+	float: left;
+	margin-top: -20px;
 }
 
-
 #main_menu {
+	right: 25%;
 	position: absolute;
 	right: 0;
 	top: 40px;
+	right: 25%;
 }
 
-@media #{$large-up} {
+@media #{$large-down} {
 	#layout_main {
-		float: left;
 		width: 67%;
 	}
 
 	#layout_sidebar {
-		float: left;
 		width: 33%;
-		margin-top: -20px;
 	}
 
 	#main_menu {
@@ -35,16 +37,13 @@
 	}
 }
 
-@media #{$xlarge-up} {
-	#layout_main {
-		width: 75%;
+@media #{$medium-down} {
+	#layout_main, #layout_sidebar {
+		float: none;
+		width: auto;
 	}
 
 	#layout_sidebar {
-		width: 25%;
-	}
-
-	#main_menu {
-		right: 25%;
+		margin-top: $base-margin;
 	}
 }
