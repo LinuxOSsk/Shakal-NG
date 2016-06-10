@@ -108,3 +108,19 @@
 .comments.module, body.home #content_module {
 	@extend .reset-module;
 }
+
+.comments {
+	.comment_thread {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.comment {
+		padding: 0;
+		margin: 0;
+		.comment .comment {
+			margin-left: $base-margin;
+		}
+	}
+}
