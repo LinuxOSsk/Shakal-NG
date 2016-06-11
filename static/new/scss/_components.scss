@@ -98,6 +98,32 @@
 	}
 }
 
+.btn {
+	.wrap {
+		a, .text {
+			&:hover {
+				text-decoration: none;
+			}
+			display: inline-block;
+			color: $primary-color-complement;
+			text-decoration: none;
+			padding: ($base-margin / 2) ($base-margin);
+			margin-bottom: $base-margin-content;
+			border-radius: 3px;
+			box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.1);
+			text-shadow: 0px 1px 0px darken($primary-color, 10%);
+			font-weight: bold;
+			font-size: 90%;
+
+			color: $primary-color-complement;
+			background: $primary-color;
+			&:hover {
+				background: darken($primary-color, 10%);
+			}
+		}
+	}
+}
+
 .reset-module {
 	box-shadow: none;
 	padding: 0;
