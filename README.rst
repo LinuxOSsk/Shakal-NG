@@ -69,8 +69,7 @@ vymazanie celej databázy je možné vytvoriť novú db príkazom:
 TODO
 ====
 
-- import dát z blackhole
-- odkaz na neprečítané komentáre v perexe článku
+- integrovať https://linuxjourney.com/
 - hodnotenie článku
 - zaplatiť autorovi kávu
 - nahlásenie chyby článku
