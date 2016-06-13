@@ -143,7 +143,9 @@ td, th {
 			}
 		}
 		.badge {
-			display: none;
+			position: absolute;
+			top: -8px;
+			right: 8px;
 		}
 	}
 }
