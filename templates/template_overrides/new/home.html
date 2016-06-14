@@ -23,4 +23,34 @@
 	</div>
 </div>
 
+<div class="module">
+	<h2 class="block-title">Diskusné fórum</h2>
+	<div class="module-row">
+		{% with caption="Najnovšie komentáre", topic_list=forum_new %}
+			{% include "forum/block_topics_table.html" %}
+		{% endwith %}
+	</div>
+	{% if forum_no_comments %}
+	<div class="module-row">
+		{% with caption="Nediskutované témy", topic_list=forum_no_comments %}
+			{% include "forum/block_topics_table.html" %}
+		{% endwith %}
+	</div>
+	{% endif %}
+	<div class="module-row">
+		{% with caption="Najdiskutovanejšie témy", topic_list=forum_most_comments %}
+			{% include "forum/block_topics_table.html" %}
+		{% endwith %}
+	</div>
+	<div class="module-row">
+		{% with caption="Najnovšie blogy", topic_list=posts %}
+			{% include "forum/block_topics_table.html" %}
+		{% endwith %}
+	</div>
+	<div class="module-links bottom">
+		<a href="{{ url("forum:create") }}">Pridať novú tému</a> |
+		<a href="{{ url("forum:overview") }}" class="next">Prezerať celé fórum</a>
+	</div>
+</div>
+
 {% endblock %}
