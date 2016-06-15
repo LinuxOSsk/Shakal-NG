@@ -150,3 +150,33 @@ body.home #content_module {
 		}
 	}
 }
+
+.info {
+	color: $info-color;
+	.subject {
+		color: $text-color;
+		font-weight: bold;
+	}
+}
+
+.discussion.header {
+	position: relative;
+	padding-right: 60px;
+
+	.comment_info {
+		.subject {
+			font-weight: bold;
+		}
+	}
+
+	.icon {
+		position: absolute;
+		top: 0;
+		right: 0;
+
+		img {
+			width: 48px;
+			height: 48px;
+		}
+	}
+}
