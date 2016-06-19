@@ -1,11 +1,11 @@
 .shadow-box {
 	box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.4);
-	background: white;
+	background: $body-color;
 }
 
 .shadow-top-box {
 	box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
-	background: white;
+	background: $body-color;
 }
 
 .side-margin {
@@ -151,6 +151,27 @@ body.home #content_module {
 		margin: 0;
 		.comment .comment {
 			margin-left: $base-margin;
+		}
+	}
+
+	.thread_0 {
+		margin-left: -$base-margin;
+		margin-right: -$base-margin;
+		background: mix($body-color-background, $body-color);
+		overflow: hidden;
+	}
+
+	.thread_1 .comment {
+		margin-bottom: $base-margin;
+		box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+		background: $body-color;
+		position: relative;
+		padding: $base-margin;
+
+		.comment {
+			margin-bottom: 0;
+			box-shadow: none;
+			padding: 0;
 		}
 	}
 }
