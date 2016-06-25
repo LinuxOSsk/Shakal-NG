@@ -12,6 +12,13 @@ SPRITES = (
 		'images': (
 			{ 'name': 'header_shadow', 'src': 'new/images/header_shadow.png', 'mode': 'repeat-x' },
 			{ 'name': 'logo', 'src': 'new/images/logo.png', },
+			{ 'name': 'user_rating_0', 'src': 'new/images/rating_0.png' },
+			{ 'name': 'user_rating_1', 'src': 'new/images/rating_1.png' },
+			{ 'name': 'user_rating_2', 'src': 'new/images/rating_2.png' },
+			{ 'name': 'user_rating_3', 'src': 'new/images/rating_3.png' },
+			{ 'name': 'user_rating_4', 'src': 'new/images/rating_4.png' },
+			{ 'name': 'user_rating_5', 'src': 'new/images/rating_5.png' },
+			{ 'name': 'user_rating_admin', 'src': 'new/images/rating_admin.png' },
 		),
 	},
 	{

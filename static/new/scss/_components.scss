@@ -219,13 +219,13 @@ body.home #content_module {
 			width: 20px;
 			height: 36px;
 			margin: -3px 0 0 8px;
-			&.admin    { /* @include sprite-generated(user_rating_admin, $setSize: false); */ }
-			&.rating_0 { /* @include sprite-generated(user_rating_0, $setSize: false); */ }
-			&.rating_1 { /* @include sprite-generated(user_rating_1, $setSize: false); */ }
-			&.rating_2 { /* @include sprite-generated(user_rating_2, $setSize: false); */ }
-			&.rating_3 { /* @include sprite-generated(user_rating_3, $setSize: false); */ }
-			&.rating_4 { /* @include sprite-generated(user_rating_4, $setSize: false); */ }
-			&.rating_5 { /* @include sprite-generated(user_rating_5, $setSize: false); */ }
+			&.admin    { @include sprite(user_rating_admin, $setSize: false); }
+			&.rating_0 { @include sprite(user_rating_0, $setSize: false); }
+			&.rating_1 { @include sprite(user_rating_1, $setSize: false); }
+			&.rating_2 { @include sprite(user_rating_2, $setSize: false); }
+			&.rating_3 { @include sprite(user_rating_3, $setSize: false); }
+			&.rating_4 { @include sprite(user_rating_4, $setSize: false); }
+			&.rating_5 { @include sprite(user_rating_5, $setSize: false); }
 		}
 	}
 }

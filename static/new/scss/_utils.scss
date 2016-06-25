@@ -108,10 +108,12 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 	@return map-get(map-get($sprites, $image), offset);
 }
 
-@mixin sprite($image) {
+@mixin sprite($image, $setSize: true) {
 	background-position: map-get(map-get($sprites, $image), offset);
-	width: map-get(map-get($sprites, $image), w);
-	height: map-get(map-get($sprites, $image), h);
+	@if ($setSize) {
+		width: map-get(map-get($sprites, $image), w);
+		height: map-get(map-get($sprites, $image), h);
+	}
 	@extend .sprite;
 }
 
