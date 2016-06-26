@@ -69,6 +69,7 @@ vymazanie celej databázy je možné vytvoriť novú db príkazom:
 TODO
 ====
 
+- nové css (v adresári new)
 - integrovať https://linuxjourney.com/
 - hodnotenie článku
 - zaplatiť autorovi kávu
