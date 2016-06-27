@@ -77,6 +77,10 @@
 	}
 }
 
+.subject {
+	font-weight: bold;
+}
+
 .label, .badge {
 	color: white;
 	margin: 0;
@@ -185,47 +189,112 @@ body.home #content_module {
 }
 
 .discussion.header {
-	position: relative;
-	padding-right: 60px;
 	border-top: 1px solid #eee;
-	padding: $base-margin-reduced;
-
-	.comment_info {
-		.subject {
-			font-weight: bold;
+	min-height: 56px;
+	position: relative;
+	/*
+	&.me {
+		background: #e0ebff;
+		.user { background: #e0ebff; }
+	}
+	&.resolved {
+		background: mix(#eff3f7, #00ff00, 90%);
+		.user { background: mix(#eff3f7, #00ff00, 90%); }
+	}
+	&.deleted {
+		background: mix(#eff3f7, #ff0000, 70%);
+		.user { background: mix(#eff3f7, #ff0000, 70%); }
+	}
+	&.new, &.highlight {
+		background-color: #fffae0;
+		.user { background: #fffae0; }
+	}
+	&.entry {
+		&.me { border-left-color: #1d5886; }
+		&.resolved { border-left-color: #00ff00; }
+		&.private { border-left-color: #ff6000; }
+		&.deleted { border-left-color: #ff0000; }
+	}
+	*/
+	ul.files {
+		border-top: 1px solid rgba(0, 0, 0, 0.05);
+		margin-top: $base-margin-reduced / 2;
+		padding-bottom: $base-margin-reduced / 2;
+		padding-top: $base-margin-reduced / 2;
+		clear: both;
+		small {
+			color: $info-color;
 		}
 	}
-
-	.icon {
-		position: absolute;
-		top: $base-margin-reduced;
-		right: $base-margin-reduced;
-
-		img {
-			width: 48px;
-			height: 48px;
-			border: 2px solid white;
-			box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
-		}
-	}
-
 	.user {
+		float: right;
+		display: block;
+		text-align: right;
+		padding-right: 3px;
+		min-height: 56px;
 		position: absolute;
-		right: 54px;
-		top: 0;
-
-		.user_rating {
-			float: right;
-			width: 20px;
-			height: 36px;
-			margin: -3px 0 0 8px;
-			&.admin    { @include sprite(user_rating_admin, $setSize: false); }
-			&.rating_0 { @include sprite(user_rating_0, $setSize: false); }
-			&.rating_1 { @include sprite(user_rating_1, $setSize: false); }
-			&.rating_2 { @include sprite(user_rating_2, $setSize: false); }
-			&.rating_3 { @include sprite(user_rating_3, $setSize: false); }
-			&.rating_4 { @include sprite(user_rating_4, $setSize: false); }
-			&.rating_5 { @include sprite(user_rating_5, $setSize: false); }
+		right: 56px;
+		top: 0px;
+		background: $body-color;
+	}
+	.user_link {
+		display: block;
+		line-height: 22px;
+		vertical-align: bottom;
+		a {
+			line-height: 22px;
+			vertical-align: bottom;
 		}
+	}
+	.distribution, .rank {
+		display: block;
+		font-size: 80%;
+		color: $info-color;
+		white-space: nowrap;
+		padding-right: 28px;
+		line-height: 14px;
+	}
+	.comment_info {
+		margin-left: 5px;
+		margin-right: 180px;
+		.subject {
+			display: block;
+			line-height: 25px;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			width: 100%;
+		}
+		.info {
+			line-height: 25px;
+		}
+	}
+	.user_rating {
+		float: right;
+		width: 20px;
+		height: 36px;
+		margin: -3px 0 0 8px;
+		&.admin    { @include sprite(user_rating_admin, $setSize: false); }
+		&.rating_0 { @include sprite(user_rating_0, $setSize: false); }
+		&.rating_1 { @include sprite(user_rating_1, $setSize: false); }
+		&.rating_2 { @include sprite(user_rating_2, $setSize: false); }
+		&.rating_3 { @include sprite(user_rating_3, $setSize: false); }
+		&.rating_4 { @include sprite(user_rating_4, $setSize: false); }
+		&.rating_5 { @include sprite(user_rating_5, $setSize: false); }
+	}
+	.icon {
+		display: block;
+		float: right;
+		width: 48px;
+		height: 48px;
+		padding: 4px;
+		position: absolute;
+		right: 0px;
+		top: 0px;
+		//@include sprite-generated(avatar_placeholder, $setSize: false);
+	}
+	.comment_link {
+		position: absolute;
+		top: 0px;
 	}
 }
