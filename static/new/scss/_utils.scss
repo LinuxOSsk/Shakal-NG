@@ -90,6 +90,12 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 	content: " ";
 }
 
+@mixin text_ellipsis {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
 @mixin sprite_background {
 	background-image: nth(map-get($sprites, _url), 1);
 	@media #{$hdpi} {
