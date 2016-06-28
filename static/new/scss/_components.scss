@@ -27,12 +27,25 @@
 	@extend .content-box;
 	margin-bottom: $base-margin;
 
+	@media #{$large-down} {
+		margin-left: 0;
+		margin-right: 0;
+	}
+
 	&.sidebar {
 		width: 33%;
 		margin: $base-margin;
 		float: right;
 		border: 1px solid #ddd;
 		@extend .shadow-top-box;
+	}
+}
+
+.body-wrap {
+	@extend .side-margin;
+	@media #{$large-down} {
+		margin-left: 0;
+		margin-right: 0;
 	}
 }
 
