@@ -30,6 +30,9 @@
 	@media #{$large-down} {
 		margin-left: 0;
 		margin-right: 0;
+		margin-bottom: 0;
+		border-bottom: 1px solid #eee;
+		box-shadow: none;
 	}
 
 	&.sidebar {
