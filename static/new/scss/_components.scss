@@ -205,15 +205,19 @@ body.home #content_module {
 }
 
 .discussion.header {
+	position: relative;
 	.icon {
-		float: right;
+		position: absolute;
+		top: 0;
+		right: 0;
 	}
 	.role {
 		display: none;
 	}
 	.comment_info {
+		display: inline;
 		.info {
-			display: block;
+			clear: both;
 		}
 		.subject {
 			@include text_ellipsis;
@@ -223,19 +227,18 @@ body.home #content_module {
 		}
 	}
 	.user {
-		float: right;
-		text-align: right;
+		display: inline;
+		float: left;
 	}
 	.user_link {
-		float: right;
-		clear: right;
+		display: inline;
 	}
 	.user_rating {
 		width: 20px;
 		height: 36px;
-		margin: 0 0 0 8px;
-		float: right;
-		clear: right;
+		position: absolute;
+		top: 4px;
+		right: 52px;
 		&.admin    { @include sprite(user_rating_admin, $setSize: false); }
 		&.rating_0 { @include sprite(user_rating_0, $setSize: false); }
 		&.rating_1 { @include sprite(user_rating_1, $setSize: false); }
