@@ -219,6 +219,7 @@ body.home #content_module {
 		display: inline;
 		.info {
 			clear: both;
+			font-size: 80%;
 		}
 		.subject {
 			@include text_ellipsis;
@@ -233,6 +234,7 @@ body.home #content_module {
 	}
 	.user_link {
 		display: inline;
+		font-size: 80%;
 	}
 	.user_rating {
 		width: 20px;
