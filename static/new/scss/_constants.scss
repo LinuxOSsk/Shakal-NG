@@ -25,8 +25,10 @@ $info-color: #888 !default;
 //$header-color: lighten(adjust-hue($primary-color, 2%), 15%) !default;
 //
 $base-margin: 16px !default;
-$base-margin-content: $base-margin * 3 / 4 !default;
+$base-margin-content: 12px !default;
 $base-margin-reduced: $base-margin / 2 !default;
+$base-margin-table-vertical: 4px !default;
+$base-margin-table-horizontal: 6px !default;
 //$base-margin-horizontal: 30px !default;
 //$base-margin-vertical: 20px !default;
 //$base-margin-horizontal-reduced: $base-margin-horizontal / 2 !default;

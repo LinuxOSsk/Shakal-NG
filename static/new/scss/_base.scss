@@ -87,7 +87,7 @@ tr:nth-child(2n + 1) {
 }
 
 td, th {
-	padding: $base-margin-reduced;
+	padding: $base-margin-table-vertical $base-margin-table-horizontal;
 }
 
 #header {
