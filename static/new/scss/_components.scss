@@ -244,7 +244,7 @@ body.home #content_module {
 		width: 20px;
 		height: 36px;
 		position: absolute;
-		top: 4px;
+		top: 8px;
 		right: 52px;
 		&.admin    { @include sprite(user_rating_admin, $setSize: false); }
 		&.rating_0 { @include sprite(user_rating_0, $setSize: false); }
