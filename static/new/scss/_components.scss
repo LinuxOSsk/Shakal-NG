@@ -210,6 +210,7 @@ body.home #content_module {
 
 .discussion.header {
 	padding-top: $base-margin-reduced;
+	margin-bottom: $base-margin-reduced;
 	position: relative;
 	.icon {
 		position: absolute;
@@ -227,9 +228,11 @@ body.home #content_module {
 		}
 		.subject {
 			@include text_ellipsis;
+			line-height: 1.4;
 			text-align: left;
 			display: block;
-			margin-right: 10em;
+			margin-right: 80px;
+			margin-bottom: -4px;
 		}
 	}
 	.user {
@@ -244,7 +247,7 @@ body.home #content_module {
 		width: 20px;
 		height: 36px;
 		position: absolute;
-		top: 8px;
+		top: 12px;
 		right: 52px;
 		&.admin    { @include sprite(user_rating_admin, $setSize: false); }
 		&.rating_0 { @include sprite(user_rating_0, $setSize: false); }
