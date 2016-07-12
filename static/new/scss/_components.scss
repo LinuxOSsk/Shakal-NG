@@ -198,6 +198,10 @@ body.home #content_module {
 	.thread_2 .discussion.header {
 		border-top: 1px solid #eee;
 	}
+
+	.discussion.content {
+		margin-bottom: $base-margin-reduced;
+	}
 }
 
 .info {
