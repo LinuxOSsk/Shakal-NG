@@ -244,11 +244,17 @@ body.home #content_module {
 		}
 	}
 	.distribution {
-		float: right;
+		display: block;
+		position: absolute;
+		right: 80px;
+		bottom: 0px;
+		font-size: 80%;
 	}
 	.user {
 		display: inline;
 		float: left;
+		padding-right: 1em;
+		color: $info-color;
 	}
 	.user_link {
 		display: inline;
