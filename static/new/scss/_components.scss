@@ -190,7 +190,7 @@ body.home #content_module {
 		box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
 		background: $body-color;
 		position: relative;
-		padding: $base-margin;
+		padding: $base-margin-reduced $base-margin;
 
 		.comment {
 			margin-bottom: 0;
