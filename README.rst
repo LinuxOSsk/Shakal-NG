@@ -70,6 +70,11 @@ TODO
 ====
 
 - nové css (v adresári new)
+  - layout - OK
+  - HTML elementy
+  - diskusia
+  - responzívne menu
+  - formuláre
 - integrovať https://linuxjourney.com/
 - hodnotenie článku
 - zaplatiť autorovi kávu
