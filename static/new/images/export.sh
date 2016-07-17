@@ -29,6 +29,15 @@ compress_files=(
 	search.png
 	star.png
 	tick.png
+	delete_invert.png
+	eye_invert.png
+	gear_invert.png
+	lock_invert.png
+	reply_invert.png
+	rss_invert.png
+	search_invert.png
+	star_invert.png
+	tick_invert.png
 	rating_0.png
 	rating_1.png
 	rating_2.png
@@ -48,15 +57,6 @@ transparent_files=(
 	search.png
 	star.png
 	tick.png
-	delete_invert.png
-	eye_invert.png
-	gear_invert.png
-	lock_invert.png
-	reply_invert.png
-	rss_invert.png
-	search_invert.png
-	star_invert.png
-	tick_invert.png
 	rating_0.png
 	rating_1.png
 	rating_2.png
