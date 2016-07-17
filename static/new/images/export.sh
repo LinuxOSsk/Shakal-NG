@@ -1,6 +1,15 @@
 #!/bin/sh
 
 svg_files=(
+	delete.svg
+	eye.svg
+	gear.svg
+	lock.svg
+	reply.svg
+	rss.svg
+	search.svg
+	star.svg
+	tick.svg
 	rating_0.svg
 	rating_1.svg
 	rating_2.svg
@@ -11,6 +20,15 @@ svg_files=(
 )
 
 compress_files=(
+	delete.png
+	eye.png
+	gear.png
+	lock.png
+	reply.png
+	rss.png
+	search.png
+	star.png
+	tick.png
 	rating_0.png
 	rating_1.png
 	rating_2.png
@@ -21,6 +39,24 @@ compress_files=(
 )
 
 transparent_files=(
+	delete.png
+	eye.png
+	gear.png
+	lock.png
+	reply.png
+	rss.png
+	search.png
+	star.png
+	tick.png
+	delete_invert.png
+	eye_invert.png
+	gear_invert.png
+	lock_invert.png
+	reply_invert.png
+	rss_invert.png
+	search_invert.png
+	star_invert.png
+	tick_invert.png
 	rating_0.png
 	rating_1.png
 	rating_2.png
@@ -30,9 +66,26 @@ transparent_files=(
 	rating_admin.png
 )
 
+invert_files=(
+	delete.png
+	eye.png
+	gear.png
+	lock.png
+	reply.png
+	rss.png
+	search.png
+	star.png
+	tick.png
+)
+
 for file in ${svg_files[@]}; do
 	inkscape $file -e "`basename $file .svg`.png" -d 90
 	inkscape $file -e "`basename $file .svg`@2x.png" -d 180
+done
+
+for file in ${invert_files[@]}; do
+	convert -negate "`basename $file .png`.png" "`basename $file .png`_invert.png"
+	convert -negate "`basename $file .png`@2x.png" "`basename $file .png`_invert@2x.png"
 done
 
 for file in ${transparent_files[@]}; do
