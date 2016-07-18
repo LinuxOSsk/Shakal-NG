@@ -19,6 +19,7 @@ SPRITES = (
 			{ 'name': 'user_rating_4', 'src': 'new/images/rating_4.png' },
 			{ 'name': 'user_rating_5', 'src': 'new/images/rating_5.png' },
 			{ 'name': 'user_rating_admin', 'src': 'new/images/rating_admin.png' },
+			{ 'name': 'reply', 'src': 'new/images/reply.png' },
 		),
 	},
 	{
