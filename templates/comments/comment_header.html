@@ -1,5 +1,9 @@
 {% extends "comments/comment_header_base.html" %}
 
 {% block comment_title %}
-	{{ comment.subject }}<a class="headerlink" href="#link_{{ comment.pk }}"></a><a id="link_{{ comment.pk }}" class="comment_link" href="#"></a>
+	{% if comment.parent_id and comment.level > 1 %}
+		<a class="parent-link" href="#link_{{ comment.parent_id }}"></a>
+	{% endif %}
+	{{ comment.subject }}
+	<a class="headerlink" href="#link_{{ comment.pk }}"></a><a id="link_{{ comment.pk }}" class="comment_link" href="#"></a>
 {% endblock %}

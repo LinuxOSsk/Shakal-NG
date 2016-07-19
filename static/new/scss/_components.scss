@@ -201,14 +201,6 @@ body.home #content_module {
 
 	.thread_2 .discussion.header {
 		border-top: 1px solid #eee;
-		.subject:before {
-			content: " ";
-			display: block;
-			float: left;
-			margin-top: 3px;
-			padding-right: $base-margin-reduced;
-			@include sprite(reply);
-		}
 	}
 
 	.discussion.content {
@@ -281,6 +273,13 @@ body.home #content_module {
 		&.rating_3 { @include sprite(user_rating_3, $setSize: false); }
 		&.rating_4 { @include sprite(user_rating_4, $setSize: false); }
 		&.rating_5 { @include sprite(user_rating_5, $setSize: false); }
+	}
+	.parent-link {
+		display: block;
+		float: left;
+		margin-top: 3px;
+		padding-right: $base-margin-reduced;
+		@include sprite(reply);
 	}
 }
 
