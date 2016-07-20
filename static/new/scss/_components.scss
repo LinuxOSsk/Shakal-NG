@@ -274,13 +274,14 @@ body.home #content_module {
 		&.rating_4 { @include sprite(user_rating_4, $setSize: false); }
 		&.rating_5 { @include sprite(user_rating_5, $setSize: false); }
 	}
-	.parent-link {
-		display: block;
-		float: left;
-		margin-top: 3px;
-		padding-right: $base-margin-reduced;
-		@include sprite(reply);
-	}
+}
+
+.parent-link {
+	display: block;
+	float: left;
+	margin-top: 3px;
+	padding-right: $base-margin-reduced;
+	@include sprite(reply);
 }
 
 /*
