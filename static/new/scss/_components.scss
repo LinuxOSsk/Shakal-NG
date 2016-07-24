@@ -288,6 +288,8 @@ body.home #content_module {
 	float: right;
 }
 
+.clear, fieldset, .module { clear: both; }
+
 /*
 .discussion.header {
 	border-top: 1px solid #eee;
