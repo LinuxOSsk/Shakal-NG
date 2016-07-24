@@ -284,6 +284,10 @@ body.home #content_module {
 	@include sprite(reply);
 }
 
+.comments_tree .links, .notifications .links {
+	float: right;
+}
+
 /*
 .discussion.header {
 	border-top: 1px solid #eee;
