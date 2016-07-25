@@ -71,6 +71,7 @@ TODO
 
 - nové css (v adresári new)
   - layout - OK
+  - responzívne menu
   - HTML elementy
   - diskusia
   - responzívne menu
