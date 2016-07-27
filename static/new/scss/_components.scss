@@ -220,6 +220,9 @@ body.home #content_module {
 	padding-top: $base-margin-reduced;
 	margin-bottom: $base-margin-reduced;
 	position: relative;
+	border-left: 3px solid #ddd;
+	padding-left: $base-margin-reduced;
+
 	.icon {
 		position: absolute;
 		top: $base-margin-reduced;
