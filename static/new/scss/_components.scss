@@ -199,8 +199,16 @@ body.home #content_module {
 		}
 	}
 
-	.thread_2 .discussion.header {
-		border-top: 1px solid #eee;
+	.thread_2 {
+		.discussion.header {
+			border-top: 1px solid #eee;
+			border-left: 3px solid #ddd;
+			padding-left: $base-margin-reduced;
+		}
+
+		.text {
+			padding-left: $base-margin-reduced;
+		}
 	}
 
 	.discussion.content {
@@ -220,8 +228,6 @@ body.home #content_module {
 	padding-top: $base-margin-reduced;
 	margin-bottom: $base-margin-reduced;
 	position: relative;
-	border-left: 3px solid #ddd;
-	padding-left: $base-margin-reduced;
 
 	.icon {
 		position: absolute;
