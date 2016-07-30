@@ -164,6 +164,10 @@ body.home #content_module {
 }
 
 .comments {
+	.text {
+		padding-left: $base-margin-reduced;
+	}
+
 	.comment_thread {
 		list-style: none;
 		padding: 0;
@@ -190,24 +194,19 @@ body.home #content_module {
 		box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
 		background: $body-color;
 		position: relative;
-		padding: $base-margin-reduced $base-margin;
+		border-left: $base-margin-reduced solid #ddd;
+		padding-right: $base-margin;
 
 		.comment {
 			margin-bottom: 0;
 			box-shadow: none;
-			padding: 0;
+			padding-right: 0;
 		}
 	}
 
 	.thread_2 {
-		.discussion.header {
+		.comment {
 			border-top: 1px solid #eee;
-			border-left: 3px solid #ddd;
-			padding-left: $base-margin-reduced;
-		}
-
-		.text {
-			padding-left: $base-margin-reduced;
 		}
 	}
 
@@ -225,18 +224,22 @@ body.home #content_module {
 }
 
 .discussion.header {
-	padding-top: $base-margin-reduced;
 	margin-bottom: $base-margin-reduced;
+	margin-left: -$base-margin-reduced;
 	position: relative;
+	padding: $base-margin-reduced;
+	border-left: $base-margin-reduced solid $primary-color;
 
 	.icon {
 		position: absolute;
-		top: $base-margin-reduced;
+		top: $base-margin-reduced / 2;
 		right: 0;
 	}
+
 	.role {
 		display: none;
 	}
+
 	.comment_info {
 		display: inline;
 		.info {
