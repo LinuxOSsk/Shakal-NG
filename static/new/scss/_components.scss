@@ -164,10 +164,6 @@ body.home #content_module {
 }
 
 .comments {
-	.text {
-		padding-left: $base-margin-reduced;
-	}
-
 	.comment_thread {
 		list-style: none;
 		padding: 0;
@@ -178,7 +174,7 @@ body.home #content_module {
 		padding: 0;
 		margin: 0;
 		.comment .comment {
-			margin-left: $base-margin;
+			margin-left: $base-margin-reduced;
 		}
 	}
 
@@ -195,12 +191,10 @@ body.home #content_module {
 		background: $body-color;
 		position: relative;
 		border-left: $base-margin-reduced solid #ddd;
-		padding-right: $base-margin;
 
 		.comment {
 			margin-bottom: 0;
 			box-shadow: none;
-			padding-right: 0;
 		}
 	}
 
@@ -212,6 +206,7 @@ body.home #content_module {
 
 	.discussion.content {
 		margin-bottom: $base-margin-reduced;
+		padding: 0 $base-margin-reduced;
 	}
 }
 
@@ -229,11 +224,12 @@ body.home #content_module {
 	position: relative;
 	padding: $base-margin-reduced;
 	border-left: $base-margin-reduced solid $primary-color;
+	height: 40px;
 
 	.icon {
 		position: absolute;
 		top: $base-margin-reduced / 2;
-		right: 0;
+		right: $base-margin-reduced / 2;
 	}
 
 	.role {
