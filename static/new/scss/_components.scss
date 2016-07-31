@@ -227,7 +227,6 @@ body.home #content_module {
 	position: relative;
 	padding: $base-margin-reduced;
 	border-left: $base-margin-reduced solid $primary-color;
-	height: 40px;
 
 	.icon {
 		position: absolute;
@@ -243,7 +242,7 @@ body.home #content_module {
 		.info {
 			clear: both;
 			float: right;
-			margin-right: 86px;
+			margin: 0 86px 0 0;
 			font-size: 70%;
 			margin-top: $base-margin-reduced / 2;
 		}
