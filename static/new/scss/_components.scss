@@ -32,7 +32,7 @@
 	@media #{$large-down} {
 		margin-left: 0;
 		margin-right: 0;
-		margin-bottom: 0;
+		margin-bottom: -1px;
 		border-bottom: 1px solid #eee;
 		box-shadow: none;
 	}
