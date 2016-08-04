@@ -2,5 +2,13 @@ body.home {
 	#content_module .module-row {
 		margin-left: -$base-margin;
 		margin-right: -$base-margin;
+
+		table {
+			margin-bottom: 0;
+		}
+
+		tr:last-child {
+			border-bottom: none;
+		}
 	}
 }
