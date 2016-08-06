@@ -60,7 +60,7 @@
 }
 
 .submit-row {
-	@include content-padding;
+	@include content-box;
 	@include content-fullwidth;
 	@include content-margin-bottom-cancel;
 	background: $body-color;
@@ -75,7 +75,7 @@
 .btn {
 	border: none;
 	padding: 0;
-	margin: 0;
+	margin: 0 0 $base-margin-content 0;
 	background: transparent;
 	cursor: pointer;
 	display: inline-block;
