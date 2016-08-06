@@ -34,12 +34,13 @@
 
 		background-color: $background-color;
 		font-weight: bold;
-		padding: $base-margin-reduced $base-margin;
 		display: block;
 
 		a, .text {
+			display: block;
 			color: $text-color;
 			line-height: $paragraph-line-height;
+			padding: $base-margin-reduced $base-margin;
 			&:hover {
 				color: $text-color;
 				text-decoration: none;
