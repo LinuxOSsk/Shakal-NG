@@ -1,5 +1,10 @@
 .form-row {
 	margin-bottom: $base-margin-content;
+	&:after {
+		content: " ";
+		display: block;
+		clear: both;
+	}
 
 	.field-label, .formset-label {
 		float: left;
@@ -76,4 +81,18 @@ textarea {
 	padding: $base-margin-reduced;
 	border: 1px solid $input-border-color;
 	background: linear-gradient(to bottom, mix($body-color, $text-color, 97%) 0%, $body-color 50%, $body-color 100%);
+}
+
+fieldset {
+	border-top: 1px solid $light-border-color;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid $light-border-color;
+	background: $light-block-background;
+	@include content-fullwidth;
+	@include content-box;
+	@include content-block-margin;
+	&:last-child {
+		border-bottom: none;
+	}
 }

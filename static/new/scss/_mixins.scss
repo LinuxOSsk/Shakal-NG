@@ -17,6 +17,13 @@
 	padding-right: $base-margin;
 }
 
+@mixin content-block-margin {
+	margin-bottom: $base-margin-content;
+	&:last-child {
+		@include content-margin-bottom-cancel;
+	}
+}
+
 @mixin button($background-color, $text-color) {
 	.wrap {
 		@if ($flat-buttons == false) {

@@ -46,16 +46,6 @@ hr {
 	border: none;
 }
 
-fieldset {
-	border-top: 1px solid $light-border-color;
-	border-left: none;
-	border-right: none;
-	border-bottom: 1px solid $light-border-color;
-	margin: 0 (-$base-margin) $base-margin-content (-$base-margin);
-	background: $light-block-background;
-	@include content-box;
-}
-
 p {
 	line-height: $paragraph-line-height;
 	margin: 0 0 $paragraph-margin-bottom 0;
