@@ -89,10 +89,15 @@ fieldset {
 	border-right: none;
 	border-bottom: 1px solid $light-border-color;
 	background: $light-block-background;
+	margin-bottom: $base-margin-content;
 	@include content-fullwidth;
 	@include content-box;
-	@include content-block-margin;
-	&:last-child {
+}
+
+form {
+	fieldset:last-child {
+		margin-bottom: 0;
 		border-bottom: none;
 	}
+	@include content-block-margin;
 }

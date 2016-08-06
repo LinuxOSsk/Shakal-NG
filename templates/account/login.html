@@ -50,11 +50,11 @@
 				<button class="btn primary" type="submit" title="Prihlásiť"><span class="wrap"><span class="text">Prihlásiť</span></span></button>
 			</div>
 		</div>
-	</fieldset>
 
-	{% if redirect_field_value %}
-		<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-	{% endif %}
+		{% if redirect_field_value %}
+			<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+		{% endif %}
+	</fieldset>
 </form>
 
 {% endblock %}
