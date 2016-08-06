@@ -52,6 +52,11 @@
 	@include content-margin-bottom-cancel;
 	background: $body-color;
 	border-top: 1px solid $light-border-color;
+	&:after {
+		content: " ";
+		display: block;
+		clear: both;
+	}
 }
 
 .btn {
@@ -88,13 +93,14 @@ textarea {
 	}
 }
 
-fieldset {
+fieldset, fieldset.module {
 	border-top: 1px solid $light-border-color;
 	border-left: none;
 	border-right: none;
 	border-bottom: 1px solid $light-border-color;
 	background: $light-block-background;
 	margin-bottom: $base-margin-content;
+	box-shadow: none;
 	@include content-fullwidth;
 	@include content-box;
 }
