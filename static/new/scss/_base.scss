@@ -37,6 +37,11 @@ h6 { font-size: $h6-font-size; }
 	h6 { font-size: $h6-font-size - $h6-font-reduction; }
 }
 
+fieldset {
+	border: 1px solid mix($text-color, $body-color, 7%);
+	margin-bottom: $base-margin-content;
+}
+
 p {
 	line-height: $paragraph-line-height;
 	margin: 0 0 $paragraph-margin-bottom 0;
