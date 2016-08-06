@@ -10,7 +10,7 @@
 }
 
 .form-row {
-	margin-bottom: $base-margin-content;
+	padding-bottom: $base-margin-content;
 
 	&:after {
 		content: " ";
@@ -39,6 +39,7 @@
 			float: none;
 			display: block;
 			width: auto;
+			padding-top: 0;
 		}
 
 		.form-control {
