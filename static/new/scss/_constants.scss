@@ -61,3 +61,9 @@ $light-border-color: mix($text-color, $body-color, 7%);
 $light-block-background: mix($text-color, $body-color, 1%);
 
 $flat-buttons: true;
+
+$error-color: #ff0000;
+
+$error-background: mix($error-color, $body-color, 10%);
+$error-border-color: mix($error-color, $body-color, 15%);
+$error-text-color: mix($error-color, $text-color, 50%);

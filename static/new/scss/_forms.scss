@@ -1,5 +1,17 @@
+.errorlist, .errornote {
+	@include content-fullwidth;
+	list-style: none;
+	background: $error-background;
+	padding-top: $base-margin-content;
+	padding-bottom: $base-margin-content;
+	border-top: 1px solid $error-border-color;
+	border-bottom: 1px solid $error-border-color;
+	color: $error-text-color;
+}
+
 .form-row {
 	margin-bottom: $base-margin-content;
+
 	&:after {
 		content: " ";
 		display: block;

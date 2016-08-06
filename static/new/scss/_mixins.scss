@@ -66,11 +66,15 @@
 	border: 1px solid $input-border-color;
 	background: linear-gradient(to bottom, mix($body-color, $text-color, 97%) 0%, $body-color 50%, $body-color 100%);
 
-	&:hover {
+	.errors & {
+		border-color: $error-border-color;
+	}
+
+	&:hover, .errors &:hover {
 		border-color: mix($primary-color, $body-color);
 	}
 
-	&:focus {
+	&:focus, .errors &:hover {
 		outline: 0;
 		border-color: $primary-color;
 		box-shadow: 0 0 5px $primary-color;;
