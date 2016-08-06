@@ -17,7 +17,7 @@ h1, h2, h2, h3, h4, h5, h6 {
 	padding: 0;
 }
 
-hr { background: #eee; display: block; height: 1px; border: none; }
+hr { background: $light-border-color; display: block; height: 1px; border: none; }
 
 h1 { font-weight: 300; }
 
@@ -38,7 +38,7 @@ h6 { font-size: $h6-font-size; }
 }
 
 fieldset {
-	border: 1px solid mix($text-color, $body-color, 7%);
+	border: 1px solid $light-border-color;
 	margin-bottom: $base-margin-content;
 }
 
