@@ -705,7 +705,7 @@ button:focus { outline: none; }
 .form-row {
 	padding: $row-padding;
 	border-bottom: $light-border;
-	.field_label, .formset_label {
+	.field-label, .formset-label {
 		display: block;
 		padding: 5px 10px 0 0;
 		float: left;

@@ -47,9 +47,12 @@ hr {
 }
 
 fieldset {
-	border: 1px solid $light-border-color;
+	border-top: 1px solid $light-border-color;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid $light-border-color;
+	margin: 0 (-$base-margin) $base-margin-content (-$base-margin);
 	background: $light-block-background;
-	margin: 0 0 $base-margin-content 0;
 	@include content-box;
 }
 
@@ -104,6 +107,10 @@ tr:nth-child(2n + 1) {
 
 td, th {
 	padding: $base-margin-table-vertical $base-margin-table-horizontal;
+}
+
+label {
+	color: $label-color;
 }
 
 #header {

@@ -14,7 +14,7 @@
 		<div class="form-row{% if field.errors %} errors{% endif %}"{% if field.name == "honeypot" %} style="display: none"{% endif %}>
 			<div>
 				{{ field.errors }}
-				<label for="{{ field.auto_id }}" class="field_label{% if field.field.required %} required{% endif %}">
+				<label for="{{ field.auto_id }}" class="field-label{% if field.field.required %} required{% endif %}">
 					{{ field.label|safe }}:
 				</label> {{ field }}
 				{% if field.help_text %}<p class="help">{{ field.field.help_text|safe }}</p>{% endif %}
@@ -27,7 +27,7 @@
 			<div class="form-row">
 				<div>
 					{% if subform.label %}
-						<label class="formset_label">{{ subform.label }}:</label>
+						<label class="formset-label">{{ subform.label }}:</label>
 					{% endif %}
 					{% with formset=subform %}
 						{% include "includes/form_set_loop.html" %}

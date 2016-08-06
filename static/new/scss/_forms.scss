@@ -1,0 +1,10 @@
+.form-row {
+	margin-bottom: $base-margin-content;
+
+	.field-label, .formset-label {
+		display: inline-block;
+		width: 12em;
+		padding-right: 0.5em;
+		vertical-align: middle;
+	}
+}

@@ -29,10 +29,6 @@ $base-margin-content: 12px !default;
 $base-margin-reduced: $base-margin / 2 !default;
 $base-margin-table-vertical: 4px !default;
 $base-margin-table-horizontal: 6px !default;
-//$base-margin-horizontal: 30px !default;
-//$base-margin-vertical: 20px !default;
-//$base-margin-horizontal-reduced: $base-margin-horizontal / 2 !default;
-//$base-margin-vertical-reduced: $base-margin-vertical / 2 !default;
 
 $header-line-height: 1.4 !default;
 $header-font-weight: 700 !default;
@@ -58,8 +54,7 @@ $h6-font-reduction: 0% !default;
 
 $button-font-size: 13px !default;
 
-//$sidebar-width: 20em !default;
-//$header-height: 62px !default;
+$label-color: mix($text-color, $body-color, 80%);
 
 $light-border-color: mix($text-color, $body-color, 7%);
-$light-block-background: mix($text-color, $body-color, 2%);
+$light-block-background: mix($text-color, $body-color, 1%);

@@ -333,7 +333,7 @@ fieldset.module {
 	border-bottom: 1px solid #ff8888;
 	@extend .clearfix;
 
-	.field_label, .formset_label {
+	.field-label, .formset-label {
 		display: block;
 		float: left;
 		width: 160px;
