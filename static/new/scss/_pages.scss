@@ -10,5 +10,12 @@ body.home {
 		tr:last-child {
 			border-bottom: none;
 		}
+
+		td:first-child, th:first-child {
+			padding-left: $base-margin;
+		}
+		td:last-child, th:last-child {
+			padding-right: $base-margin;
+		}
 	}
 }
