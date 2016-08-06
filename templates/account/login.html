@@ -45,7 +45,9 @@
 		<h2 class="block-title">Prihlásiť na {{ site.name }}</h2>
 		{% include "includes/form_loop.html" %}
 		<div class="submit-row">
-			<span class="btn"><span class="wrap"><a class="text" href="{{ url("account_reset_password") }}">Zabudnuté heslo?</a></span></span>
+			<div class="negative">
+				<span class="btn"><span class="wrap"><a class="text" href="{{ url("account_reset_password") }}">Zabudnuté heslo?</a></span></span>
+			</div>
 			<div class="positive">
 				<button class="btn primary" type="submit" title="Prihlásiť"><span class="wrap"><span class="text">Prihlásiť</span></span></button>
 			</div>
