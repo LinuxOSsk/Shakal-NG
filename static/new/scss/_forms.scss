@@ -79,18 +79,7 @@ input[type=password],
 input[type=email],
 input[type=number],
 textarea {
-	background: $body-color;
-	color: $label-color;
-	line-height: $paragraph-line-height;
-	vertical-align: middle;
-	padding: $base-margin-reduced;
-	border: 1px solid $input-border-color;
-	background: linear-gradient(to bottom, mix($body-color, $text-color, 97%) 0%, $body-color 50%, $body-color 100%);
-	&:focus {
-		outline: 0;
-		border-color: $primary-color;
-		box-shadow: 0 0 5px $primary-color;;
-	}
+	@include input;
 }
 
 fieldset, fieldset.module {

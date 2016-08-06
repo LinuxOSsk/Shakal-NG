@@ -47,4 +47,32 @@
 			}
 		}
 	}
+
+	&:hover .wrap {
+		background-color: darken($background-color, 5%);
+		@if ($flat-buttons == false) {
+			background: linear-gradient(to bottom, darken($background-color, 5%) 5%, darken(darken($background-color, 5%), 2%) 100%);
+			border: 1px solid darken(darken($background-color, 5%), 10%);
+		}
+	}
+}
+
+@mixin input {
+	background: $body-color;
+	color: $label-color;
+	line-height: $paragraph-line-height;
+	vertical-align: middle;
+	padding: $base-margin-reduced;
+	border: 1px solid $input-border-color;
+	background: linear-gradient(to bottom, mix($body-color, $text-color, 97%) 0%, $body-color 50%, $body-color 100%);
+
+	&:hover {
+		border-color: mix($primary-color, $body-color);
+	}
+
+	&:focus {
+		outline: 0;
+		border-color: $primary-color;
+		box-shadow: 0 0 5px $primary-color;;
+	}
 }
