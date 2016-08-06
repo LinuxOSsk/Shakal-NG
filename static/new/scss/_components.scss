@@ -16,7 +16,7 @@
 }
 
 .content-box {
-	padding: $base-margin $base-margin ($base-margin - $base-margin-content) $base-margin;
+	@include content-box;
 }
 
 .block-title {

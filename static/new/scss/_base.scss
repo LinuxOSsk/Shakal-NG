@@ -17,11 +17,13 @@ h1, h2, h2, h3, h4, h5, h6 {
 	padding: 0;
 }
 
-hr { background: $light-border-color; display: block; height: 1px; border: none; }
+h1, h2, h2, h3, h4, h5, h6 {
+	&:first-child {
+		margin-top: $header-top-margin-first;
+	}
+}
 
-h1 { font-weight: 300; }
-
-h1 { font-size: $h1-font-size; }
+h1 { font-size: $h1-font-size; font-weight: 300; }
 h2 { font-size: $h2-font-size; }
 h3 { font-size: $h3-font-size; }
 h4 { font-size: $h4-font-size; }
@@ -37,9 +39,18 @@ h6 { font-size: $h6-font-size; }
 	h6 { font-size: $h6-font-size - $h6-font-reduction; }
 }
 
+hr {
+	background: $light-border-color;
+	display: block;
+	height: 1px;
+	border: none;
+}
+
 fieldset {
 	border: 1px solid $light-border-color;
-	margin-bottom: $base-margin-content;
+	background: $light-block-background;
+	margin: 0 0 $base-margin-content 0;
+	@include content-box;
 }
 
 p {
