@@ -54,8 +54,9 @@ $h6-font-reduction: 0% !default;
 
 $button-font-size: 13px !default;
 
-$label-color: mix($text-color, $body-color, 80%);
+$label-color: mix($text-color, $body-color, 60%);
 
+$input-border-color: mix($text-color, $body-color, 10%);
 $light-border-color: mix($text-color, $body-color, 7%);
 $light-block-background: mix($text-color, $body-color, 1%);
 

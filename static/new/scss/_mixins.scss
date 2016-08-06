@@ -32,7 +32,7 @@
 
 		a, .text {
 			color: $text-color;
-			line-height: 1.4;
+			line-height: $paragraph-line-height;
 			&:hover {
 				color: $text-color;
 				text-decoration: none;

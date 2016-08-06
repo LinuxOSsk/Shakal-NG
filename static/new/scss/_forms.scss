@@ -2,10 +2,42 @@
 	margin-bottom: $base-margin-content;
 
 	.field-label, .formset-label {
-		display: inline-block;
+		float: left;
 		width: 12em;
 		padding-right: 0.5em;
+		padding-top: $base-margin-reduced;
+		padding-bottom: $base-margin-reduced / 2;
 		vertical-align: middle;
+	}
+
+	input[type=text],
+	input[type=password],
+	input[type=email],
+	input[type=number] {
+		width: 18em;
+	}
+
+	@media #{$medium-down} {
+		.field-label, .formset-label {
+			float: none;
+			display: block;
+			width: auto;
+		}
+
+		.form-control {
+			display: block;
+			margin: 0 $base-margin-reduced;
+		}
+
+		input[type=text],
+		input[type=password],
+		input[type=email],
+		input[type=number],
+		textarea {
+			margin-left: -$base-margin-reduced;
+			margin-right: -$base-margin-reduced;
+			width: 100%;
+		}
 	}
 }
 
@@ -30,9 +62,18 @@
 	&.primary {
 		@include button($primary-color, $primary-color-complement);
 	}
-
-	//.wrap {
-	//	@include button($primary-color, $primary-color-complement);
-	//}
 }
 
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=number],
+textarea {
+	background: $body-color;
+	color: $label-color;
+	line-height: $paragraph-line-height;
+	vertical-align: middle;
+	padding: $base-margin-reduced;
+	border: 1px solid $input-border-color;
+	background: linear-gradient(to bottom, mix($body-color, $text-color, 97%) 0%, $body-color 50%, $body-color 100%);
+}
