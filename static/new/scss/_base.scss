@@ -113,6 +113,17 @@ label {
 	color: $label-color;
 }
 
+button {
+	font-size: 100%;
+	line-height: 1.4;
+}
+
+button::-moz-focus-inner {
+	padding: 0;
+	border: 0
+}
+
+
 #header {
 	background-color: #6b8fc7;
 	background-position: sprite_position(header_shadow);
