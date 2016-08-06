@@ -1,4 +1,8 @@
 body.home {
+	#content_module {
+		@extend .reset-module;
+	}
+
 	#content_module .module-row {
 		margin-left: -$base-margin;
 		margin-right: -$base-margin;

@@ -128,44 +128,12 @@
 	float: right;
 }
 
-.btn {
-	border: none;
-	padding: 0;
-	margin: 0;
-	background: transparent;
-	cursor: pointer;
-	display: inline-block;
-
-	.wrap {
-		box-shadow: inset 0px 1px 0px 0px mix($primary-color, $body-color-background);
-		background:linear-gradient(to bottom, $primary-color 5%, darken($primary-color, 5%) 100%);
-		background-color:#637aad;
-		border: 1px solid darken($primary-color, 10%);
-		font-weight: bold;
-		padding: 6px 12px;
-		display: block;
-
-		a, .text {
-			color: #ffffff;
-			line-height: 1.4;
-			&:hover {
-				color: #ffffff;
-				text-decoration: none;
-			}
-		}
-	}
-}
-
 .reset-module {
 	box-shadow: none;
 	padding: 0;
 	margin: 0;
 	background: none;
 	border: none;
-}
-
-body.home #content_module {
-	@extend .reset-module;
 }
 
 .comments {

@@ -8,3 +8,31 @@
 		vertical-align: middle;
 	}
 }
+
+.submit-row {
+	@include content-padding;
+	@include content-fullwidth;
+	@include content-margin-bottom-cancel;
+	background: $body-color;
+	border-top: 1px solid $light-border-color;
+}
+
+.btn {
+	border: none;
+	padding: 0;
+	margin: 0;
+	background: transparent;
+	cursor: pointer;
+	display: inline-block;
+
+	@include button(mix($primary-color, $body-color, 30%), mix($primary-color, $text-color));
+
+	&.primary {
+		@include button($primary-color, $primary-color-complement);
+	}
+
+	//.wrap {
+	//	@include button($primary-color, $primary-color-complement);
+	//}
+}
+
