@@ -327,3 +327,31 @@ td.date {
 td.comments {
 	text-align: center;
 }
+
+ul.messages {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	li {
+		padding: $base-margin-reduced $base-margin;
+		margin: 0;
+		color: $text-color;
+		font-size: 100%;
+
+		&.debug {
+			@include messages-item($debug-background, $debug-border-color, $debug-text-color);
+		}
+		&.info {
+			@include messages-item($info-background, $info-border-color, $info-text-color);
+		}
+		&.success {
+			@include messages-item($success-background, $success-border-color, $success-text-color);
+		}
+		&.warning {
+			@include messages-item($warning-background, $warning-border-color, $warning-text-color);
+		}
+		&.error {
+			@include messages-item($error-background, $error-border-color, $error-text-color);
+		}
+	}
+}

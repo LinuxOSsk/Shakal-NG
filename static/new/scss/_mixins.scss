@@ -102,3 +102,18 @@
 		box-shadow: 0 0 5px $primary-color;;
 	}
 }
+
+@mixin messages-item($background, $border, $text) {
+	background: $background;
+	border-top: 1px solid $border;
+	border-bottom: 1px solid $border;
+	color: $text;
+	a {
+		color: $text;
+		text-decoration: none;
+		font-weight: bold;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
