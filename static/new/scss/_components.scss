@@ -356,14 +356,14 @@ ul.messages {
 		&.error {
 			@include messages-item($error-background, $error-border-color, $error-text-color);
 		}
-	}
 
-	.delete-action {
-		position: absolute;
-		top: $base-margin-reduced;
-		right: $base-margin;
-		&:hover {
-			text-decoration: none;
+		a.delete-action {
+			position: absolute;
+			top: $base-margin-reduced;
+			right: $base-margin;
+			&:hover {
+				text-decoration: none;
+			}
 		}
 	}
 }
