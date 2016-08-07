@@ -4,7 +4,7 @@ var registerMessage = function(element) {
 	var deleteAction = document.createElement('A');
 	deleteAction.className = 'delete-action';
 	deleteAction.setAttribute('href', '#');
-	deleteAction.appendChild(document.createTextNode('྾'));
+	deleteAction.appendChild(document.createTextNode('⨉'));
 	deleteAction.onclick = function() {
 		element.parentNode.removeChild(element);
 		return false;
