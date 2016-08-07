@@ -330,8 +330,10 @@ td.comments {
 
 ul.messages {
 	list-style: none;
+	margin-top: 0;
+	margin-bottom: 0;
+	@include content-fullwidth;
 	padding: 0;
-	margin: 0;
 	li {
 		padding: $base-margin-reduced $base-margin;
 		margin: 0;
@@ -354,4 +356,9 @@ ul.messages {
 			@include messages-item($error-background, $error-border-color, $error-text-color);
 		}
 	}
+}
+
+#global_messages ul.messages {
+	margin-left: 0;
+	margin-right: 0;
 }

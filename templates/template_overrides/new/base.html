@@ -21,7 +21,9 @@
 	{% include 'includes/analytics.html' %}
 
 	{% block messages %}
-		{{ render_messages(messages) }}
+		<div id="global_messages">
+			{{ render_messages(messages) }}
+		</div>
 	{% endblock %}
 
 	<header>
