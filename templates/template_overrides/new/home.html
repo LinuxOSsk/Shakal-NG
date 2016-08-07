@@ -53,4 +53,62 @@
 	</div>
 </div>
 
+<div class="module article">
+	<h2 class="block-title">Články</h2>
+	{% for top_article in top_articles %}
+		<div class="article top">
+			{% with article=top_article, show_thumbnail=1 %}
+				{% include "article/block_list_item.html" %}
+			{% endwith %}
+		</div>
+	{% endfor %}
+	{% for top_post in top_posts %}
+		{% with content_indicator=1, post=top_post %}
+			{% include "blog/partials/item.html" %}
+		{% endwith %}
+	{% endfor %}
+	{% for article in articles %}
+		{% if article not in top_articles %}
+			{% with show_thumbnail=0 %}
+				{% include "article/block_list_item.html" %}
+			{% endwith %}
+		{% endif %}
+	{% endfor %}
+	<div class="module-links bottom">
+		{% for category in article_categories %}
+			<a href="{{ category.get_absolute_url() }}">{{ category }}</a>
+			|
+		{% endfor %}
+		<a href="{{ url("article:series") }}">Seriály</a> |
+		<a href="{{ url("article:list") }}" class="next">Ďalšie</a>
+	</div>
+</div>
+
+<div class="module blog">
+	<h2 class="block-title">Blogy</h2>
+	{% for post in posts %}
+		{% if article not in top_articles %}
+			{% include "blog/partials/item.html" %}
+		{% endif %}
+	{% endfor %}
+	<div class="module-links bottom">
+		<a href="{{ url("blog:post-list") }}" class="next">Ďalšie</a>
+	</div>
+</div>
+
+<div class="module desktops horizontal">
+	<h2>Desktopy</h2>
+	<div class="module-row">
+		{% for desktop in desktops %}
+			{% include "desktops/partials/desktop_link.html" %}
+		{% endfor %}
+	</div>
+	<div class="module-links bottom">
+		{% if request.user.is_authenticated() %}
+			<a href="{{ url("desktops:create") }}">Pridať nový</a> |
+		{% endif %}
+		<a href="{{ url("desktops:list") }}" class="next">Ďalšie</a>
+	</div>
+</div>
+
 {% endblock %}

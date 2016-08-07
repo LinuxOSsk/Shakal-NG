@@ -44,9 +44,47 @@
 		</div>
 
 		<div id="layout_sidebar">
-			<div class="module">
-				sidebar
+			<div class="module news">
+				<h2 class="block-title">Správy</h2>
+				{{ news_frontpage() }}
+				<div class="module-links bottom">
+					<a href="{{ url('news:list') }}" class="next">Ďalšie</a>
+				</div>
+				<div class="submit-row">
+					<div class="positive">
+						<div class="btn"><span class="wrap"><a class="text" href="{{ url("news:create") }}">Pridať správu</a></span></div>
+					</div>
+				</div>
 			</div>
+
+			<div class="module-group">
+				<div class="module linux">
+					<h2 class="block-title">O Linuxe</h2>
+					<ul class="menu">
+						{% include "partials/menu_linux.html" %}
+					</ul>
+				</div>
+				<div class="module portal">
+					<h2 class="block-title">Portál</h2>
+					<ul class="menu">
+						{% include "partials/menu_portal.html" %}
+					</ul>
+				</div>
+				<div class="module odporucam">
+					<h2 class="block-title">Odporúčame</h2>
+					{% include "static/block-odporucame.html" %}
+				</div>
+				<div class="module podporte">
+					<h2 class="block-title">Podporte nás</h2>
+					{% include "static/block-podporte.html" %}
+				</div>
+				<div class="module polls">
+					<h2 class="block-title">Anketa</h2>
+					{{ render_messages(messages, 'polls') }}
+					{{ polls_frontpage() }}
+				</div>
+			</div>
+
 		</div>
 	</div>
 
