@@ -15,6 +15,11 @@
 	text-indent: -9999px;
 }
 
+@mixin no-text-right {
+	overflow: hidden;
+	text-indent: 9999px;
+}
+
 @mixin content-fullwidth {
 	margin-left: -$base-margin;
 	margin-right: -$base-margin;

@@ -104,7 +104,7 @@
 	margin: 0;
 	&.info, &.watch {
 		text-shadow: 0 -1px 0 darken(#6b8fc7, 10%);
-		background: #6b8fc7;
+		background-color: #6b8fc7;
 		color: white;
 	}
 	&.warning {
@@ -127,15 +127,31 @@
 %label-icon {
 	background-color: transparent;
 	padding: 0;
-	margin: 0 ($base-margin-reduced / 2);
-	float: left;
+	margin: 0 ($base-margin-reduced / 2) 0 0;
+	display: block;
+	float: right;
 }
 
 .label {
 	&.new {
 		@extend %label-icon;
-		@include no-text;
-		@include sprite(star);
+		@include no-text-right;
+		@include sprite(star_yellow);
+	}
+	&.resolved {
+		@extend %label-icon;
+		@include no-text-right;
+		@include sprite(tick_green);
+	}
+	&.locked {
+		@extend %label-icon;
+		@include no-text-right;
+		@include sprite(lock);
+	}
+	&.watch {
+		@extend %label-icon;
+		@include no-text-right;
+		@include sprite(eye_blue);
 	}
 }
 
@@ -286,6 +302,31 @@
 }
 
 .clear, fieldset, .module { clear: both; }
+
+td, th {
+	&.date {
+		width: 6em;
+		text-align: right;
+	}
+	&.comments {
+		width: 4em;
+		text-align: center;
+	}
+	&.status {
+		width: 100px;
+		text-align: right;
+	}
+}
+
+td.date {
+	width: 6em;
+	font-size: 90%;
+	color: $info-color;
+}
+
+td.comments {
+	text-align: center;
+}
 
 /*
 .discussion.header {
