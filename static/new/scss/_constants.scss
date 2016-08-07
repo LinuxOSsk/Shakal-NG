@@ -62,7 +62,7 @@ $light-block-background: mix($text-color, $body-color, 1%);
 
 $flat-buttons: true;
 
-$info-color: $primary-color;
+$info-msg-color: $primary-color;
 $success-color: #00ff00;
 $warning-color: #ffff00;
 $error-color: #ff0000;
@@ -71,9 +71,9 @@ $debug-background: mix($text-color, $body-color, 10%);
 $debug-border-color: mix($text-color, $body-color, 15%);
 $debug-text-color: mix($text-color, $body-color, 60%);
 
-$info-background: mix($info-color, $body-color, 20%);
-$info-border-color: mix($info-color, $body-color, 30%);
-$info-text-color: mix($info-color, $text-color, 80%);
+$info-background: mix($info-msg-color, $body-color, 20%);
+$info-border-color: mix($info-msg-color, $body-color, 30%);
+$info-text-color: mix($info-msg-color, $text-color, 80%);
 
 $success-background: mix($success-color, $body-color, 10%);
 $success-border-color: mix($success-color, $body-color, 15%);
