@@ -124,6 +124,21 @@
 	}
 }
 
+%label-icon {
+	background-color: transparent;
+	padding: 0;
+	margin: 0 ($base-margin-reduced / 2);
+	float: left;
+}
+
+.label {
+	&.new {
+		@extend %label-icon;
+		@include no-text;
+		@include sprite(star);
+	}
+}
+
 .positive {
 	float: right;
 }

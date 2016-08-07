@@ -10,6 +10,11 @@
 	margin-bottom: $base-margin-content - $base-margin;
 }
 
+@mixin no-text {
+	overflow: hidden;
+	text-indent: -9999px;
+}
+
 @mixin content-fullwidth {
 	margin-left: -$base-margin;
 	margin-right: -$base-margin;
