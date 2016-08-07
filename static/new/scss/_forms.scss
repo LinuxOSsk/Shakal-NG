@@ -10,8 +10,6 @@
 }
 
 .form-row {
-	padding-bottom: $base-margin-content;
-
 	&:after {
 		content: " ";
 		display: block;
@@ -23,7 +21,7 @@
 		width: 12em;
 		padding-right: 0.5em;
 		padding-top: $base-margin-reduced;
-		padding-bottom: $base-margin-reduced / 2;
+		padding-bottom: $base-margin-content;
 		vertical-align: middle;
 	}
 
@@ -40,6 +38,7 @@
 			display: block;
 			width: auto;
 			padding-top: 0;
+			padding-bottom: $base-margin-reduced / 2;
 		}
 
 		.form-control {
@@ -93,6 +92,10 @@ input[type=email],
 input[type=number],
 textarea {
 	@include input;
+}
+
+input, textarea {
+	margin-bottom: $base-margin-content;
 }
 
 fieldset, fieldset.module {
