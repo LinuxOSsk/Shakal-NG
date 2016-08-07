@@ -303,6 +303,10 @@ var byId = function(elementId) {
 	return document.getElementById(elementId);
 };
 
+var byTag = function(element, tagName) {
+	return element.getElementsByTagName(tagName);
+};
+
 var createDiv = function(className, id) {
 	var div = document.createElement('DIV');
 	if (className !== undefined) {
@@ -354,6 +358,7 @@ window._utils.removeClass = removeClass;
 window._utils.toggleClass = toggleClass;
 window._utils.cls = getElementsByClassName;
 window._utils.id = byId;
+window._utils.tag = byTag;
 window._utils.createDiv = createDiv;
 window._utils.escapeHTML = escapeHTML;
 window._utils.escapeHTMLAttr = escapeHTMLAttr;

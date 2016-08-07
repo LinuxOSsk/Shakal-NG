@@ -335,10 +335,11 @@ ul.messages {
 	@include content-fullwidth;
 	padding: 0;
 	li {
-		padding: $base-margin-reduced $base-margin;
+		padding: $base-margin-reduced 3em $base-margin-reduced $base-margin;
 		margin: 0;
 		color: $text-color;
 		font-size: 100%;
+		position: relative;
 
 		&.debug {
 			@include messages-item($debug-background, $debug-border-color, $debug-text-color);
@@ -354,6 +355,15 @@ ul.messages {
 		}
 		&.error {
 			@include messages-item($error-background, $error-border-color, $error-text-color);
+		}
+	}
+
+	.delete-action {
+		position: absolute;
+		top: $base-margin-reduced;
+		right: $base-margin;
+		&:hover {
+			text-decoration: none;
 		}
 	}
 }
