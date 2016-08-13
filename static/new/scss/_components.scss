@@ -293,7 +293,7 @@
 	display: block;
 	float: left;
 	margin-top: 3px;
-	padding-right: $base-margin-reduced;
+	margin-right: $base-margin-reduced;
 	@include sprite(reply);
 }
 
