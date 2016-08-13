@@ -181,9 +181,6 @@
 	.comment {
 		padding: 0;
 		margin: 0;
-		.comment .comment {
-			margin-left: $base-margin-reduced;
-		}
 	}
 
 	.thread_0 {
@@ -203,6 +200,7 @@
 		.comment {
 			margin-bottom: 0;
 			box-shadow: none;
+			border-left: none;
 		}
 	}
 
@@ -212,9 +210,30 @@
 		}
 	}
 
-	.discussion.content {
-		margin-bottom: $base-margin-reduced;
-		padding: 0 $base-margin-reduced;
+	.comment-container {
+		position: relative;
+		&:before {
+			content: " ";
+			display: block;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			width: 1px;
+			background: #eee;
+			position: absolute;
+		}
+	}
+
+	@for $i from 1 through 16 {
+		.thread_#{$i} {
+			.comment-container {
+				margin-left: $base-margin * ($i - 1);
+			}
+
+			.discussion.header:before {
+				left: -$base-margin-reduced + (-$base-margin * ($i - 1));
+			}
+		}
 	}
 }
 
@@ -228,10 +247,20 @@
 
 .discussion.header {
 	margin-bottom: $base-margin-reduced;
-	margin-left: -$base-margin-reduced;
 	position: relative;
 	padding: $base-margin-reduced;
-	border-left: $base-margin-reduced solid $primary-color;
+	//border-left: $base-margin-reduced solid $primary-color;
+
+	&:before {
+		content: " ";
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		width: $base-margin-reduced;
+		background: $primary-color;
+	}
 
 	.icon {
 		position: absolute;
@@ -287,6 +316,10 @@
 		&.rating_4 { @include sprite(user_rating_4, $setSize: false); }
 		&.rating_5 { @include sprite(user_rating_5, $setSize: false); }
 	}
+}
+
+.discussion.content {
+	padding: 0 $base-margin-reduced;
 }
 
 .parent-link {
