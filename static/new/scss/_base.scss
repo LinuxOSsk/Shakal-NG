@@ -101,6 +101,13 @@ td, th {
 
 label {
 	color: $label-color;
+	&.required {
+		color: $label-required-color;
+		&:after {
+			content: "*";
+			color: red;
+		}
+	}
 }
 
 button {
