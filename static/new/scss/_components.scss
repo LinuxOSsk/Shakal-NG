@@ -181,6 +181,7 @@
 	.comment {
 		padding: 0;
 		margin: 0;
+		position: relative;
 	}
 
 	.thread_0 {
@@ -197,6 +198,10 @@
 		position: relative;
 		border-left: $base-margin-reduced solid #ddd;
 
+		//.discussion.header {
+		//	border-bottom: 1px solid #eee;
+		//}
+
 		.comment {
 			margin-bottom: 0;
 			box-shadow: none;
@@ -206,33 +211,38 @@
 
 	.thread_2 {
 		.comment {
+			&:before {
+				content: " ";
+				display: block;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				width: 1px;
+				background: #eee;
+				position: absolute;
+			}
+		}
+		.discussion.header {
 			border-top: 1px solid #eee;
+			//border-bottom: 1px solid #eee;
 		}
 	}
-
-	.comment-container {
-		position: relative;
-		&:before {
-			content: " ";
-			display: block;
-			top: 0;
-			left: 0;
-			bottom: 0;
-			width: 1px;
-			background: #eee;
-			position: absolute;
-		}
-	}
-
 	@for $i from 1 through 16 {
 		.thread_#{$i} {
-			.comment-container {
-				margin-left: $base-margin * ($i - 1);
+			.comment {
+				@if $i > 1 {
+					margin-left: $base-margin;
+				}
 			}
-
-			.discussion.header:before {
-				left: -$base-margin-reduced + (-$base-margin * ($i - 1));
+			.discussion.header {
+				margin-left: -$base-margin-reduced + (-$base-margin * ($i - 1));
+				padding-left: $base-margin * $i;
 			}
+		}
+	}
+	.thread_17 {
+		.coment {
+			margin-left: 0;
 		}
 	}
 }
