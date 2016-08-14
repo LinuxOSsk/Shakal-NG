@@ -1,5 +1,9 @@
 .comments {
-	background: mix($body-color-background, $body-color, 20%);
+	//background: mix($body-color-background, $body-color, 20%);
+	background: $body-color;
+	box-shadow: none;
+	border: none;
+
 	.comment_thread {
 		list-style: none;
 		padding: 0;
@@ -15,27 +19,33 @@
 	.thread_0 {
 		margin-left: -$base-margin;
 		margin-right: -$base-margin;
-		background: mix($body-color-background, $body-color, 20%);
-		overflow: hidden;
+		background: $body-color-background;
 	}
 
 	.thread_1 .comment {
-		margin-top: $base-margin-reduced;
-		margin-bottom: $base-margin;
-		box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+		margin-bottom: $base-margin-reduced;
+		box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
 		background: $body-color;
 		position: relative;
 		border-left: $base-margin-reduced solid #ddd;
 
-		//.discussion.header {
-		//	border-bottom: 1px solid #eee;
-		//}
+		@media #{$large-down} {
+			box-shadow: none;
+			border-top: 1px solid #d9d9d9;
+			border-bottom: 1px solid #d9d9d9;
+		}
+
+		@if $comments-tree-fancy {
+			.discussion.header {
+				border-bottom: 1px solid #eee;
+			}
+		}
 
 		.comment {
 			margin-top: 0;
 			margin-bottom: 0;
 			box-shadow: none;
-			border-left: none;
+			border: none;
 		}
 	}
 
@@ -96,7 +106,6 @@
 	margin-bottom: $base-margin-reduced;
 	position: relative;
 	padding: $base-margin-reduced;
-	//border-left: $base-margin-reduced solid $primary-color;
 
 	&:before {
 		content: " ";
@@ -129,11 +138,10 @@
 		}
 		.subject {
 			@include text_ellipsis;
-			line-height: 1.4;
+			line-height: 1.2;
 			text-align: left;
 			display: block;
 			margin-right: 80px;
-			margin-bottom: -4px;
 		}
 	}
 	.distribution {
@@ -172,7 +180,6 @@
 .parent-link {
 	display: block;
 	float: left;
-	margin-top: 3px;
 	margin-right: $base-margin-reduced;
 	@include sprite(reply);
 }
