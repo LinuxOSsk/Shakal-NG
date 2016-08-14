@@ -32,4 +32,5 @@ django-extensions
 ipython
 ptpython
 pylint-django
+pyinotify
 watchdog
