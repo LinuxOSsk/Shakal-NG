@@ -3,7 +3,7 @@
 {% with root=comments.root_item, root_header=comments.root_header, user_attribute=comments.user_attribute %}
 <div class="module comments">
 	<a id="comments" href="#"></a>
-	<div class="links">
+	<div class="links top">
 		{% if request.user.is_authenticated() %}
 			<a href="{{ url("comments:forget", root_header.pk) }}" class="comment-link forget">Zabudnúť</a>
 		{% endif %}

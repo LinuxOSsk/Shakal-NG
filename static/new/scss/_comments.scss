@@ -1,8 +1,19 @@
-.comments {
-	//background: mix($body-color-background, $body-color, 20%);
+.module.comments {
 	background: $body-color;
 	box-shadow: none;
 	border: none;
+	padding-top: 0;
+
+	.links {
+		&.top, &.bottom {
+			@include content-box;
+			@include content-fullwidth;
+			@include shadow-box;
+		}
+		&.top {
+			border-bottom: none;
+		}
+	}
 
 	.comment_thread {
 		list-style: none;

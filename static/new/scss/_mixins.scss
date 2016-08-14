@@ -1,3 +1,21 @@
+@mixin shadow-box {
+	box-shadow: 0px 0px 4px -1px rgba(0, 0, 0, 0.15);
+	background: $body-color;
+	border: 1px solid #d9d9d9;
+	@media #{$large-down} {
+		box-shadow: none;
+	}
+}
+
+@mixin side-margin {
+	margin-left: $base-margin-reduced;
+	margin-right: $base-margin-reduced;
+	@media #{$large-down} {
+		margin-left: 0;
+		margin-right: 0;
+	}
+}
+
 @mixin content-box {
 	padding: $base-margin $base-margin ($base-margin - $base-margin-content) $base-margin;
 }

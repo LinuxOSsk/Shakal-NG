@@ -1,18 +1,7 @@
-.shadow-box {
-	box-shadow: 0px 0px 4px -1px rgba(0, 0, 0, 0.15);
-	background: $body-color;
-	border: 1px solid #d9d9d9;
-}
-
 .shadow-top-box {
 	box-shadow: 0px 0px 2px -1px rgba(0, 0, 0, 0.1);
 	background: $body-color;
 	border: 1px solid #dddddd;
-}
-
-.side-margin {
-	margin-left: $base-margin-reduced;
-	margin-right: $base-margin-reduced;
 }
 
 .content-box {
@@ -24,8 +13,8 @@
 }
 
 .module {
-	@extend .side-margin;
-	@extend .shadow-box;
+	@include side-margin;
+	@include shadow-box;
 	@extend .content-box;
 	margin-bottom: $base-margin;
 
@@ -33,7 +22,7 @@
 		margin-left: 0;
 		margin-right: 0;
 		margin-bottom: -1px;
-		border-bottom: 1px solid #eee;
+		//border-bottom: 1px solid #eee;
 		box-shadow: none;
 	}
 
@@ -47,11 +36,7 @@
 }
 
 .body-wrap {
-	@extend .side-margin;
-	@media #{$large-down} {
-		margin-left: 0;
-		margin-right: 0;
-	}
+	@include side-margin;
 }
 
 .label, .badge {
