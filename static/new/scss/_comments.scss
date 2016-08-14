@@ -143,16 +143,22 @@
 	.comment_info {
 		.info {
 			float: right;
-			margin: 0 86px 0 0;
+			margin: -1.5em 86px 0 0;
 			font-size: 70%;
-			margin-top: -1.5em;
+			@media #{$small-down} {
+				margin: -1.5em 48px 0 0;
+			}
 		}
 		.subject {
 			@include text_ellipsis;
 			line-height: 1.2;
 			text-align: left;
 			display: block;
+			padding-right: 7em;
 			margin-right: 180px;
+			@media #{$small-down} {
+				margin-right: 48px;
+			}
 		}
 	}
 	.distribution {
@@ -181,6 +187,9 @@
 		&.rating_3 { @include sprite(user_rating_3, $setSize: false); }
 		&.rating_4 { @include sprite(user_rating_4, $setSize: false); }
 		&.rating_5 { @include sprite(user_rating_5, $setSize: false); }
+		@media #{$small-down} {
+			visibility: hidden;
+		}
 	}
 }
 
