@@ -117,3 +117,11 @@ form {
 	}
 	@include content-block-margin;
 }
+
+.positive {
+	float: right;
+}
+
+.negative {
+	float: left;
+}

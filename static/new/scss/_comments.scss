@@ -1,0 +1,164 @@
+.comments {
+	.comment_thread {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.comment {
+		padding: 0;
+		margin: 0;
+		position: relative;
+	}
+
+	.thread_0 {
+		margin-left: -$base-margin;
+		margin-right: -$base-margin;
+		background: mix($body-color-background, $body-color);
+		overflow: hidden;
+	}
+
+	.thread_1 .comment {
+		margin-bottom: $base-margin;
+		box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+		background: $body-color;
+		position: relative;
+		border-left: $base-margin-reduced solid #ddd;
+
+		//.discussion.header {
+		//	border-bottom: 1px solid #eee;
+		//}
+
+		.comment {
+			margin-bottom: 0;
+			box-shadow: none;
+			border-left: none;
+		}
+	}
+
+	.thread_2 {
+		.comment {
+			&:before {
+				content: " ";
+				display: block;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				width: 1px;
+				background: #eee;
+				position: absolute;
+			}
+		}
+		.discussion.header {
+			border-top: 1px solid #eee;
+			//border-bottom: 1px solid #eee;
+		}
+	}
+	@for $i from 1 through 16 {
+		.thread_#{$i} {
+			.comment {
+				@if $i > 1 {
+					margin-left: $base-margin;
+				}
+			}
+			.discussion.header {
+				margin-left: -$base-margin-reduced + (-$base-margin * ($i - 1));
+				padding-left: $base-margin * $i;
+			}
+		}
+	}
+	.thread_17 {
+		.coment {
+			margin-left: 0;
+		}
+	}
+}
+
+.discussion.header {
+	margin-bottom: $base-margin-reduced;
+	position: relative;
+	padding: $base-margin-reduced;
+	//border-left: $base-margin-reduced solid $primary-color;
+
+	&:before {
+		content: " ";
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		width: $base-margin-reduced;
+		background: $primary-color;
+	}
+
+	.icon {
+		position: absolute;
+		top: $base-margin-reduced / 2;
+		right: $base-margin-reduced / 2;
+	}
+
+	.role {
+		display: none;
+	}
+
+	.comment_info {
+		.info {
+			clear: both;
+			float: right;
+			margin: 0 86px 0 0;
+			font-size: 70%;
+			margin-top: $base-margin-reduced / 2;
+		}
+		.subject {
+			@include text_ellipsis;
+			line-height: 1.4;
+			text-align: left;
+			display: block;
+			margin-right: 80px;
+			margin-bottom: -4px;
+		}
+	}
+	.distribution {
+		bottom: 0px;
+		font-size: 80%;
+		padding-left: 1em;
+	}
+	.user {
+		display: inline;
+		color: $info-color;
+	}
+	.user_link {
+		display: inline;
+		font-size: 80%;
+	}
+	.user_rating {
+		width: 20px;
+		height: 36px;
+		position: absolute;
+		top: 14px;
+		right: 48px + $base-margin-reduced * 3 / 2;
+		&.admin    { @include sprite(user_rating_admin, $setSize: false); }
+		&.rating_0 { @include sprite(user_rating_0, $setSize: false); }
+		&.rating_1 { @include sprite(user_rating_1, $setSize: false); }
+		&.rating_2 { @include sprite(user_rating_2, $setSize: false); }
+		&.rating_3 { @include sprite(user_rating_3, $setSize: false); }
+		&.rating_4 { @include sprite(user_rating_4, $setSize: false); }
+		&.rating_5 { @include sprite(user_rating_5, $setSize: false); }
+	}
+}
+
+.discussion.content {
+	padding: 0 $base-margin-reduced;
+}
+
+.parent-link {
+	display: block;
+	float: left;
+	margin-top: 3px;
+	margin-right: $base-margin-reduced;
+	@include sprite(reply);
+}
+
+.comments_tree .links {
+	float: right;
+}
