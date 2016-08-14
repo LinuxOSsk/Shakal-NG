@@ -69,6 +69,21 @@
 			}
 		}
 	}
+	@media #{$large-down} {
+		@for $i from 1 through 16 {
+			.thread_#{$i} {
+				.comment {
+					@if $i > 1 {
+						margin-left: $base-margin-reduced;
+					}
+				}
+				.discussion.header {
+					margin-left: -$base-margin-reduced + (-$base-margin-reduced * ($i - 1));
+					padding-left: $base-margin-reduced * ($i + 1);
+				}
+			}
+		}
+	}
 	.thread_17 {
 		.coment {
 			margin-left: 0;
