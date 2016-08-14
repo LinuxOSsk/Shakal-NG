@@ -118,6 +118,11 @@ form {
 	@include content-block-margin;
 }
 
+p.help {
+	font-size: 80%;
+	color: $info-color;
+}
+
 .positive {
 	float: right;
 }
