@@ -142,18 +142,17 @@
 
 	.comment_info {
 		.info {
-			clear: both;
 			float: right;
 			margin: 0 86px 0 0;
 			font-size: 70%;
-			margin-top: $base-margin-reduced / 2;
+			margin-top: -1.5em;
 		}
 		.subject {
 			@include text_ellipsis;
 			line-height: 1.2;
 			text-align: left;
 			display: block;
-			margin-right: 80px;
+			margin-right: 180px;
 		}
 	}
 	.distribution {
