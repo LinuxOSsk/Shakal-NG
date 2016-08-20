@@ -43,7 +43,7 @@ class WikiBaseView(DetailView):
 		ctx.update({
 			'children': children,
 			'revision': revision,
-			'object_version': revision._object_version, #pylint: disable=protected-access
+			'object_version': revision._object_version if revision else None, #pylint: disable=protected-access
 			'history': history,
 			'tree': self.object.get_ancestors(),
 		})
