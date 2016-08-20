@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView
 from django_simple_paginator.utils import paginate_queryset
 from reversion import revisions
+from reversion.models import Version
 
 from .forms import WikiEditForm
 from .models import Page
@@ -30,7 +31,7 @@ class WikiBaseView(DetailView):
 		return get_object_or_404(self.get_history(), pk=history)
 
 	def get_history(self):
-		return (revisions
+		return (Version.objects
 			.get_for_object(self.object)
 			.select_related('revision', 'revision__user'))
 
@@ -42,6 +43,7 @@ class WikiBaseView(DetailView):
 		ctx.update({
 			'children': children,
 			'revision': revision,
+			'object_version': revision._object_version, #pylint: disable=protected-access
 			'history': history,
 			'tree': self.object.get_ancestors(),
 		})
@@ -98,6 +100,8 @@ class WikiDetailView(WikiBaseView):
 
 
 class PageEditMixin(UserPassesTestMixin):
+	context_object_name = 'page'
+
 	def test_func(self, user):
 		request = self.request
 		if not request.user.is_authenticated():

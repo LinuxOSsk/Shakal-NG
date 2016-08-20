@@ -39,8 +39,8 @@
 {% endif %}
 
 {% if revision %}
-	<h1>{{ revision.object_version.object }}</h1>
-	{{ revision.object_version.object.text|safe }}
+	<h1>{{ object_version.object }}</h1>
+	{{ object_version.object.text|safe }}
 {% else %}
 	<h1>{{ page }}</h1>
 
