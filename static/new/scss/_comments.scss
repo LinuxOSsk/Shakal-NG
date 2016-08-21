@@ -178,7 +178,7 @@
 		width: 20px;
 		height: 36px;
 		position: absolute;
-		top: 14px;
+		top: $base-margin-reduced;
 		right: 48px + $base-margin-reduced * 3 / 2;
 		&.admin    { @include sprite(user_rating_admin, $setSize: false); }
 		&.rating_0 { @include sprite(user_rating_0, $setSize: false); }
