@@ -204,6 +204,21 @@
 	@include sprite(reply);
 }
 
-.comments_tree .links {
-	float: right;
+.comments_tree {
+	.discussion.content .text {
+		margin-bottom: $base-margin-content;
+	}
+
+	.links {
+		padding-left: $base-margin-content;
+		padding-right: $base-margin-content;
+	}
+
+	.reply {
+		margin-left: $base-margin-reduced;
+	}
+
+	.reply,  .admin {
+		float: right;
+	}
 }
