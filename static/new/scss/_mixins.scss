@@ -52,7 +52,7 @@
 	}
 }
 
-@mixin button($background-color, $text-color) {
+@mixin button($background-color, $text-color, $only-color: false) {
 	.wrap {
 		@if ($flat-buttons == false) {
 			box-shadow: inset 0px 1px 0px 0px mix($background-color, #fff);
@@ -61,17 +61,24 @@
 		}
 
 		background-color: $background-color;
-		font-weight: bold;
-		display: block;
+
+		@if ($only-color == false) {
+			font-weight: bold;
+			display: block;
+		}
 
 		a, .text {
-			display: block;
 			color: $text-color;
-			line-height: $paragraph-line-height;
-			padding: $base-margin-reduced $base-margin;
+			@if ($only-color == false) {
+				display: block;
+				line-height: $paragraph-line-height;
+				padding: $base-margin-reduced $base-margin;
+			}
 			&:hover {
 				color: $text-color;
-				text-decoration: none;
+				@if ($only-color == false) {
+					text-decoration: none;
+				}
 			}
 		}
 	}

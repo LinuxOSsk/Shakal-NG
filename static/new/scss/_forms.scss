@@ -82,7 +82,15 @@
 	@include button(mix($primary-color, $body-color, 30%), mix($primary-color, $text-color));
 
 	&.primary {
-		@include button($primary-color, $primary-color-complement);
+		@include button($primary-color, $primary-color-complement, $only-color: true);
+	}
+}
+
+.btn-group {
+	.btn {
+		display: block;
+		float: left;
+		margin-left: -1px
 	}
 }
 
