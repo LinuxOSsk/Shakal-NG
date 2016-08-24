@@ -127,3 +127,9 @@ def old_php_redirect(request): #pylint: disable=too-many-return-statements
 		return HttpResponsePermanentRedirect(reverse('forum:overview'))
 
 	return HttpResponseNotFound()
+
+def forum_page_redirect(request, page):
+	return HttpResponsePermanentRedirect(reverse('forum:overview', kwargs={'page': page}))
+
+def news_page_redirect(request, page):
+	return HttpResponsePermanentRedirect(reverse('news:list', kwargs={'page': page}))

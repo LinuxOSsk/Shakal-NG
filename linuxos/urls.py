@@ -39,6 +39,8 @@ urlpatterns = patterns('linuxos.redirect_views',
 	url(r'^eshop_zobraz_tovar/(?P<pk>\d+)/index.html$', 'eshop_redirect'),
 	url(r'^eshop_pridaj_odpoved/(?P<pk>\d+)/index.html$', 'eshop_redirect'),
 	url(r'^autori/(index.html)?$', 'home_temp_redirect'),
+	url(r'^forum/strana/(?P<page>\d+)/$', 'forum_page_redirect'),
+	url(r'^spravy/zoznam/(?P<page>\d+)/$', 'news_page_redirect'),
 )
 
 urlpatterns += static_urlpatterns
