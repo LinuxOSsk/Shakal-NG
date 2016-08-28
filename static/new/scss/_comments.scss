@@ -3,6 +3,7 @@
 	box-shadow: none;
 	border: none;
 	padding-top: 0;
+	padding-bottom: 0;
 	margin-top: $base-margin;
 
 	.links {
@@ -10,9 +11,13 @@
 			@include content-box;
 			@include content-fullwidth;
 			@include shadow-box;
+			overflow: hidden;
 		}
 		&.top {
 			border-bottom: none;
+		}
+		&.bottom {
+			border-top: none;
 		}
 	}
 
@@ -40,6 +45,10 @@
 		background: $body-color;
 		position: relative;
 		border-left: $base-margin-reduced solid #ddd;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
 
 		@include comment-shadow-box;
 
@@ -215,8 +224,6 @@
 }
 
 .comments_tree {
-	margin-bottom: $base-margin;
-
 	.discussion.content .text {
 		margin-bottom: $base-margin-content;
 	}
