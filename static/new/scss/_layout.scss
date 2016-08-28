@@ -10,24 +10,24 @@
 
 #layout_main {
 	float: left;
-	width: 75%;
+	width: 67%;
 	margin-top: -40px;
 	position: relative;
 }
 
 #layout_sidebar {
-	width: 25%;
+	width: 33%;
 	float: left;
 	margin-top: -20px;
 	position: relative;
 }
 
 #main_menu {
-	right: 25%;
+	right: 33%;
 	position: absolute;
 	right: 0;
 	bottom: 38px;
-	right: 25%;
+	right: 33%;
 }
 
 @media #{$large-down} {
@@ -43,7 +43,4 @@
 	#main_menu {
 		right: 0;
 	}
-}
-
-@media #{$medium-down} {
 }
