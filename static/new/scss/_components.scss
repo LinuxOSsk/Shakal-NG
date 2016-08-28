@@ -231,3 +231,14 @@ ul.messages {
 	margin-left: 0;
 	margin-right: 0;
 }
+
+#content_module {
+	.module {
+		&.preview {
+			padding: 0;
+			margin: 0 0 $base-margin-content 0;
+			border: none;
+			box-shadow: none;
+		}
+	}
+}
