@@ -112,6 +112,12 @@
 			margin-left: 0;
 		}
 	}
+
+	.signature {
+		font-size: 80%;
+		font-style: italic;
+		color: $info-color;
+	}
 }
 
 .discussion.header {
