@@ -134,9 +134,10 @@
 	@include content-fullwidth-nopadding;
 	margin-bottom: $base-margin-reduced;
 	position: relative;
-	padding: $base-margin-reduced;
+	padding: 6px $base-margin-reduced;
 	border-top: 1px solid $light-border-color;
 	padding-left: $base-margin;
+	min-height: 36px;
 
 	&:before {
 		content: " ";
@@ -163,7 +164,7 @@
 
 	.icon {
 		position: absolute;
-		top: -1px;
+		top: 0;
 		right: 0;
 	}
 
@@ -182,7 +183,7 @@
 		}
 		.subject {
 			@include text_ellipsis;
-			line-height: 1.2;
+			line-height: 1;
 			text-align: left;
 			display: block;
 			padding-right: 7em;
