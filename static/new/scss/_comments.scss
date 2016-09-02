@@ -71,7 +71,7 @@
 		}
 	}
 
-	.thread_2 {
+	.thread_1 .thread_2 {
 		.comment {
 			&:before {
 				content: " ";
@@ -147,6 +147,15 @@
 		bottom: 0;
 		width: $base-margin-reduced;
 		background: $primary-color;
+	}
+
+	&.me {
+	}
+
+	&.new {
+		&:before {
+			background: $new-color;
+		}
 	}
 
 	.icon {
