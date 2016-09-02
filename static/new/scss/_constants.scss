@@ -64,6 +64,9 @@ $light-block-background: mix($text-color, $body-color, 1%);
 $flat-buttons: true;
 $comments-tree-fancy: false;
 
+$new-color: #ffee55;
+$me-color: saturate($primary-color, 50%);
+
 $info-msg-color: $primary-color;
 $success-color: #00ff00;
 $warning-color: #ffff00;
@@ -88,5 +91,3 @@ $warning-text-color: mix($warning-color, $text-color, 50%);
 $error-background: mix($error-color, $body-color, 10%);
 $error-border-color: mix($error-color, $body-color, 15%);
 $error-text-color: mix($error-color, $text-color, 50%);
-
-$new-color: #ffee55;

@@ -150,6 +150,9 @@
 	}
 
 	&.me {
+		&:before {
+			background: $me-color;
+		}
 	}
 
 	&.new {
