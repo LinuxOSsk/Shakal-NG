@@ -295,6 +295,10 @@ li.comment {
 	}
 }
 
+.comment-link.next:before, .comment-link.prev:before {
+	content: ' | ';
+}
+
 fieldset.module {
 	border: 8px solid #880000;
 	background: #ff0000;

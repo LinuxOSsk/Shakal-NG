@@ -1553,6 +1553,10 @@ ul.messages {
 	content: ' ⇓';
 }
 
+.comment-link.next:before, .comment-link.prev:before {
+	content: ' | ';
+}
+
 /* === Anketa === */
 .progress {
 	border: solid 1px #e4e5e7;
