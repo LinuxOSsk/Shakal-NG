@@ -87,10 +87,11 @@
 }
 
 .btn-group {
+	overflow: hidden;
 	.btn {
 		display: block;
 		float: left;
-		margin-left: -1px
+		margin-left: -1px;
 	}
 }
 

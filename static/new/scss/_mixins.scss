@@ -117,6 +117,12 @@
 	&:focus .wrap, a:focus {
 		box-shadow: 0 0 5px $primary-color;;
 	}
+
+	@if ($flat-buttons == true) {
+		.btn-group & .wrap {
+			border-left: 1px solid darken($background-color, 5%);
+		}
+	}
 }
 
 @mixin input {
