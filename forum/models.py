@@ -15,7 +15,7 @@ from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
-COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 3000)
+FORUM_TOPIC_MAX_LENGTH = getattr(settings, 'FORUM_TOPIC_MAX_LENGTH', 5000)
 
 
 class Section(models.Model):
@@ -81,7 +81,7 @@ class Topic(TimestampModelMixin, models.Model):
 	ip_address = models.GenericIPAddressField('IP adresa', blank=True, null=True)
 	section = models.ForeignKey(Section, verbose_name='sekcia')
 	title = models.CharField('predmet', max_length=100)
-	original_text = RichTextOriginalField(filtered_field="filtered_text", property_name="text", verbose_name='text', max_length=COMMENT_MAX_LENGTH)
+	original_text = RichTextOriginalField(filtered_field="filtered_text", property_name="text", verbose_name='text', max_length=FORUM_TOPIC_MAX_LENGTH)
 	filtered_text = RichTextFilteredField()
 	authors_name = models.CharField('meno autora', max_length=50, blank=False)
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name='autor')
