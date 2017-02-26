@@ -13,13 +13,13 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.core.validators import MinValueValidator, MaxValueValidator, MaxLengthValidator
 from django.db import models
 from django.utils import timezone
+from django_geoposition_field.fields import GeopositionField
 
 from . import accounts_settings
 from .utils import get_count_new
 from autoimagefield.fields import AutoImageField
 from common_utils import get_default_manager
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
-from django_geoposition_field.fields import GeopositionField
 
 
 class User(AbstractUser):

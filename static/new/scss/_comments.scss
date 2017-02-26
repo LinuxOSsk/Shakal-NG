@@ -1,26 +1,4 @@
 .module.comments {
-	background: $body-color;
-	box-shadow: none;
-	border: none;
-	padding-top: 0;
-	padding-bottom: 0;
-	margin-top: $base-margin;
-
-	.links {
-		&.top, &.bottom {
-			@include content-box;
-			@include content-fullwidth;
-			@include shadow-box;
-			overflow: hidden;
-		}
-		&.top {
-			border-bottom: none;
-		}
-		&.bottom {
-			border-top: none;
-		}
-	}
-
 	.comment_thread {
 		list-style: none;
 		padding: 0;
@@ -37,181 +15,103 @@
 	.thread_0 {
 		margin-left: -$base-margin;
 		margin-right: -$base-margin;
-		background: $body-color-background;
-	}
-
-	.thread_1 .comment {
-		margin-bottom: $base-margin-reduced;
-		background: $body-color;
-		position: relative;
-		border-left: $base-margin-reduced solid #ddd;
-
-		&:last-child {
-			margin-bottom: 0;
-		}
-
-		@include comment-shadow-box;
-
-		@if $comments-tree-fancy {
-			.discussion.header {
-				border-bottom: 1px solid #eee;
-			}
-		}
-
-		.comment {
-			margin-top: 0;
-			margin-bottom: 0;
-			box-shadow: none;
-			border: none;
-		}
-
-		.discussion.header {
-			border-top: none;
-			margin-right: 0;
-		}
-	}
-
-	.thread_1 .thread_2 {
-		.comment {
-			&:before {
-				content: " ";
-				display: block;
-				top: 0;
-				left: 0;
-				bottom: 0;
-				width: 1px;
-				background: #eee;
-				position: absolute;
-			}
-		}
-		.discussion.header {
-			border-top: 1px solid $light-border-color;
-			//border-bottom: 1px solid #eee;
-		}
-	}
-	@for $i from 1 through 16 {
-		.thread_#{$i} {
-			.comment {
-				@if $i > 1 {
-					margin-left: $base-margin;
-				}
-			}
-			.discussion.header {
-				margin-left: -$base-margin-reduced + (-$base-margin * ($i - 1));
-				padding-left: $base-margin * $i;
-			}
-		}
-	}
-	@media #{$large-down} {
-		@for $i from 1 through 16 {
-			.thread_#{$i} {
-				.comment {
-					@if $i > 1 {
-						margin-left: $base-margin-reduced;
-					}
-				}
-				.discussion.header {
-					margin-left: -$base-margin-reduced + (-$base-margin-reduced * ($i - 1));
-					padding-left: $base-margin-reduced * ($i + 1);
-				}
-			}
-		}
-	}
-	.thread_17 {
-		.coment {
-			margin-left: 0;
-		}
-	}
-
-	.signature {
-		font-size: 80%;
-		font-style: italic;
-		color: $info-color;
 	}
 }
 
+.comments_tree form, .links form {
+	display: inline;
+}
+
 .discussion.header {
-	@include content-fullwidth-nopadding;
-	margin-bottom: $base-margin-reduced;
+	border-top: 1px solid #dbdfe3;
+	background: #eff3f7;
+	min-height: 56px;
 	position: relative;
-	padding: 6px $base-margin-reduced;
-	border-top: 1px solid $light-border-color;
-	padding-left: $base-margin;
-	min-height: 36px;
-
-	&:before {
-		content: " ";
-		display: block;
-		position: absolute;
-		top: 0;
-		left: 0;
-		bottom: 0;
-		width: $base-margin-reduced;
-		background: $primary-color;
-	}
-
 	&.me {
-		&:before {
-			background: $me-color;
+		background: #e0ebff;
+		.user { background: #e0ebff; }
+	}
+	&.resolved {
+		background: mix(#eff3f7, #00ff00, 90%);
+		.user { background: mix(#eff3f7, #00ff00, 90%); }
+	}
+	&.deleted {
+		background: mix(#eff3f7, #ff0000, 70%);
+		.user { background: mix(#eff3f7, #ff0000, 70%); }
+	}
+	&.new, &.highlight {
+		background-color: #fffae0;
+		.user { background: #fffae0; }
+	}
+	&.entry {
+		&.me { border-left-color: #1d5886; }
+		&.resolved { border-left-color: #00ff00; }
+		&.private { border-left-color: #ff6000; }
+		&.deleted { border-left-color: #ff0000; }
+	}
+	ul.files {
+		border-top: 1px solid rgba(0, 0, 0, 0.05);
+		margin-top: 4px;
+		padding-bottom: 4px;
+		padding-top: 4px;
+		clear: both;
+		small {
+			color: $info-color;
 		}
-	}
-
-	&.new {
-		&:before {
-			background: $new-color;
-		}
-	}
-
-	.icon {
-		position: absolute;
-		top: 0;
-		right: 0;
-	}
-
-	.role {
-		display: none;
-	}
-
-	.comment_info {
-		.info {
-			float: right;
-			margin: -1.5em 86px 0 0;
-			font-size: 70%;
-			@media #{$small-down} {
-				margin: -1.5em 48px 0 0;
-			}
-		}
-		.subject {
-			@include text_ellipsis;
-			line-height: 1;
-			text-align: left;
-			display: block;
-			padding-right: 7em;
-			margin-right: 180px;
-			@media #{$small-down} {
-				margin-right: 48px;
-			}
-		}
-	}
-	.distribution {
-		bottom: 0px;
-		font-size: 80%;
-		padding-left: 1em;
 	}
 	.user {
-		display: inline;
-		color: $info-color;
+		float: right;
+		display: block;
+		text-align: right;
+		padding-right: 3px;
+		min-height: 56px;
+		position: absolute;
+		right: 56px;
+		top: 0px;
+		background: #eff3f7;
 	}
 	.user_link {
-		display: inline;
+		display: block;
+		line-height: 22px;
+		vertical-align: bottom;
+		a {
+			line-height: 22px;
+			vertical-align: bottom;
+		}
+	}
+	.distribution, .rank {
+		display: block;
 		font-size: 80%;
+		color: $info-color;
+		white-space: nowrap;
+		padding-right: 28px;
+		line-height: 14px;
+	}
+	&.deleted {
+		.distribution, .rank, .info {
+			color: mix(mix(#eff3f7, #ff0000, 70%), $text-color, 40%);
+		}
+	}
+	.comment_info {
+		margin-left: 5px;
+		margin-right: 180px;
+		.subject {
+			display: block;
+			line-height: 25px;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			width: 100%;
+		}
+		.info {
+			line-height: 25px;
+		}
 	}
 	.user_rating {
+		float: right;
 		width: 20px;
 		height: 36px;
-		position: absolute;
-		top: $base-margin-reduced;
-		right: 48px + $base-margin-reduced * 3 / 2;
+		margin: -3px 0 0 8px;
 		&.admin    { @include sprite(user_rating_admin, $setSize: false); }
 		&.rating_0 { @include sprite(user_rating_0, $setSize: false); }
 		&.rating_1 { @include sprite(user_rating_1, $setSize: false); }
@@ -223,34 +123,303 @@
 			visibility: hidden;
 		}
 	}
-}
-
-.discussion.content {
-	padding: 0 $base-margin-reduced;
-}
-
-.parent-link {
-	display: block;
-	float: left;
-	margin-right: $base-margin-reduced;
-	@include sprite(reply);
-}
-
-.comments_tree {
-	.discussion.content .text {
-		margin-bottom: $base-margin-content;
-	}
-
-	.links {
-		padding-left: $base-margin-content;
-		padding-right: $base-margin-content;
-	}
-
-	.reply {
-		margin-left: $base-margin-reduced;
-	}
-
-	.reply,  .admin {
+	.icon {
+		display: block;
 		float: right;
+		width: 48px;
+		height: 48px;
+		padding: 4px;
+		position: absolute;
+		right: 0px;
+		top: 0px;
+	}
+	.comment_link {
+		position: absolute;
+		top: 0px;
 	}
 }
+
+.discussion.header {
+	border-left: 10px solid #e0ebff;
+	border-top: none;
+}
+
+.discussion.header.topic {
+	border-top: 1px solid #dbdfe3;
+	border-left: none;
+}
+
+.comments_tree .thread_1 .comment {
+	border: 1px solid #eff3f7;
+	border-top: 1px solid #dbdfe3;
+	background: #fafbfc;
+}
+
+.comments_tree .thread_1 > .comment + .comment {
+	margin-top: 0.5em;
+}
+
+.comments_tree .thread_2 .comment {
+	margin: 0 0 0 $base-margin-reduced;
+	border: none;
+	border-top: 1px solid #dbdfe3;
+	border-left: 1px solid #eff3f7;
+	background: white;
+}
+
+//.module.comments {
+//	background: $body-color;
+//	box-shadow: none;
+//	border: none;
+//	padding-top: 0;
+//	padding-bottom: 0;
+//	margin-top: $base-margin;
+//
+//	.links {
+//		&.top, &.bottom {
+//			@include content-box;
+//			@include content-fullwidth;
+//			@include shadow-box;
+//			overflow: hidden;
+//		}
+//		&.top {
+//			border-bottom: none;
+//		}
+//		&.bottom {
+//			border-top: none;
+//		}
+//	}
+//
+//	.comment_thread {
+//		list-style: none;
+//		padding: 0;
+//		margin: 0;
+//	}
+//
+//	.comment {
+//		padding: 0;
+//		margin: 0;
+//		clear: both;
+//		position: relative;
+//	}
+//
+//	.thread_0 {
+//		margin-left: -$base-margin;
+//		margin-right: -$base-margin;
+//		background: $body-color-background;
+//	}
+//
+//	.thread_1 .comment {
+//		margin-bottom: $base-margin-reduced;
+//		background: $body-color;
+//		position: relative;
+//		border-left: $base-margin-reduced solid #ddd;
+//
+//		&:last-child {
+//			margin-bottom: 0;
+//		}
+//
+//		@include comment-shadow-box;
+//
+//		@if $comments-tree-fancy {
+//			.discussion.header {
+//				border-bottom: 1px solid #eee;
+//			}
+//		}
+//
+//		.comment {
+//			margin-top: 0;
+//			margin-bottom: 0;
+//			box-shadow: none;
+//			border: none;
+//		}
+//
+//		.discussion.header {
+//			border-top: none;
+//			margin-right: 0;
+//		}
+//	}
+//
+//	.thread_1 .thread_2 {
+//		.comment {
+//			&:before {
+//				content: " ";
+//				display: block;
+//				top: 0;
+//				left: 0;
+//				bottom: 0;
+//				width: 1px;
+//				background: #eee;
+//				position: absolute;
+//			}
+//		}
+//		.discussion.header {
+//			border-top: 1px solid $light-border-color;
+//			//border-bottom: 1px solid #eee;
+//		}
+//	}
+//	@for $i from 1 through 16 {
+//		.thread_#{$i} {
+//			.comment {
+//				@if $i > 1 {
+//					margin-left: $base-margin;
+//				}
+//			}
+//			.discussion.header {
+//				margin-left: -$base-margin-reduced + (-$base-margin * ($i - 1));
+//				padding-left: $base-margin * $i;
+//			}
+//		}
+//	}
+//	@media #{$large-down} {
+//		@for $i from 1 through 16 {
+//			.thread_#{$i} {
+//				.comment {
+//					@if $i > 1 {
+//						margin-left: $base-margin-reduced;
+//					}
+//				}
+//				.discussion.header {
+//					margin-left: -$base-margin-reduced + (-$base-margin-reduced * ($i - 1));
+//					padding-left: $base-margin-reduced * ($i + 1);
+//				}
+//			}
+//		}
+//	}
+//	.thread_17 {
+//		.coment {
+//			margin-left: 0;
+//		}
+//	}
+//
+//	.signature {
+//		font-size: 80%;
+//		font-style: italic;
+//		color: $info-color;
+//	}
+//}
+//
+//.discussion.header {
+//	@include content-fullwidth-nopadding;
+//	margin-bottom: $base-margin-reduced;
+//	position: relative;
+//	padding: 6px $base-margin-reduced;
+//	border-top: 1px solid $light-border-color;
+//	padding-left: $base-margin;
+//	min-height: 36px;
+//
+//	&:before {
+//		content: " ";
+//		display: block;
+//		position: absolute;
+//		top: 0;
+//		left: 0;
+//		bottom: 0;
+//		width: $base-margin-reduced;
+//		background: $primary-color;
+//	}
+//
+//	&.me {
+//		&:before {
+//			background: $me-color;
+//		}
+//	}
+//
+//	&.new {
+//		&:before {
+//			background: $new-color;
+//		}
+//	}
+//
+//	.icon {
+//		position: absolute;
+//		top: 0;
+//		right: 0;
+//	}
+//
+//	.role {
+//		display: none;
+//	}
+//
+//	.comment_info {
+//		.info {
+//			float: right;
+//			margin: -1.5em 86px 0 0;
+//			font-size: 70%;
+//			@media #{$small-down} {
+//				margin: -1.5em 48px 0 0;
+//			}
+//		}
+//		.subject {
+//			@include text_ellipsis;
+//			line-height: 1;
+//			text-align: left;
+//			display: block;
+//			padding-right: 7em;
+//			margin-right: 180px;
+//			@media #{$small-down} {
+//				margin-right: 48px;
+//			}
+//		}
+//	}
+//	.distribution {
+//		bottom: 0px;
+//		font-size: 80%;
+//		padding-left: 1em;
+//	}
+//	.user {
+//		display: inline;
+//		color: $info-color;
+//	}
+//	.user_link {
+//		display: inline;
+//		font-size: 80%;
+//	}
+//	.user_rating {
+//		width: 20px;
+//		height: 36px;
+//		position: absolute;
+//		top: $base-margin-reduced;
+//		right: 48px + $base-margin-reduced * 3 / 2;
+//		&.admin    { @include sprite(user_rating_admin, $setSize: false); }
+//		&.rating_0 { @include sprite(user_rating_0, $setSize: false); }
+//		&.rating_1 { @include sprite(user_rating_1, $setSize: false); }
+//		&.rating_2 { @include sprite(user_rating_2, $setSize: false); }
+//		&.rating_3 { @include sprite(user_rating_3, $setSize: false); }
+//		&.rating_4 { @include sprite(user_rating_4, $setSize: false); }
+//		&.rating_5 { @include sprite(user_rating_5, $setSize: false); }
+//		@media #{$small-down} {
+//			visibility: hidden;
+//		}
+//	}
+//}
+//
+//.discussion.content {
+//	padding: 0 $base-margin-reduced;
+//}
+//
+//.parent-link {
+//	display: block;
+//	float: left;
+//	margin-right: $base-margin-reduced;
+//	@include sprite(reply);
+//}
+//
+//.comments_tree {
+//	.discussion.content .text {
+//		margin-bottom: $base-margin-content;
+//	}
+//
+//	.links {
+//		padding-left: $base-margin-content;
+//		padding-right: $base-margin-content;
+//	}
+//
+//	.reply {
+//		margin-left: $base-margin-reduced;
+//	}
+//
+//	.reply,  .admin {
+//		float: right;
+//	}
+//}
