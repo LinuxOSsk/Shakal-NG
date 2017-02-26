@@ -5,7 +5,9 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.contrib.contenttypes import views as contenttype_views
+from django.contrib.staticfiles.storage import staticfiles_storage
 from django.utils.translation import ugettext_lazy as _
+from django.views.generic import RedirectView
 
 from search.views import SearchView
 
@@ -34,6 +36,7 @@ urlpatterns = patterns('',
 	url(r'^api/editor/', include('rich_editor.urls', namespace='rich_editor')),
 	url(r'^hijack/', include('hijack.urls')),
 	url(r'^django-email-log/', include('django_email_log.urls')),
+	url(r'^favicon.ico$', RedirectView.as_view(url=staticfiles_storage.url('favicon.ico'), permanent=True)),
 )
 
 if settings.DEBUG:
