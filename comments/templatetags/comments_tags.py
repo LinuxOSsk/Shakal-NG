@@ -87,9 +87,8 @@ class DiscussionLoader:
 				prev_new_item = comment
 
 	def update_discussion_attribute(self, discussion_attribute):
-		pass
-		#discussion_attribute.time = timezone.now()
-		#discussion_attribute.save()
+		discussion_attribute.time = timezone.now()
+		discussion_attribute.save()
 
 	def get_last_display_time(self, discussion_attribute):
 		last_display_time = timezone.now()
