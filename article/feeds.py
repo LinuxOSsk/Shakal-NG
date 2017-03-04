@@ -37,4 +37,7 @@ class ArticleFeed(Feed):
 
 class LatestArticleFeed(ArticleFeed):
 	def items(self):
-		return Article.objects.all().select_related('author', 'category').only('authors_name', 'pub_time', 'category', 'author', 'filtered_perex').order_by('-pk')[:settings.FEED_SIZE]
+		return (Article.objects.all()
+			.select_related('author', 'category')
+			.only('title', 'authors_name', 'pub_time', 'category', 'author', 'filtered_perex')
+			.order_by('-pk')[:settings.FEED_SIZE])
