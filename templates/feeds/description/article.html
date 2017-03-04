@@ -1,7 +1,4 @@
 {{ obj.perex|safe }}
-{% if "full" in request.GET %}
-	{{ obj.content|safe }}
-{% endif %}
 {% if "include_comments" in request.GET %}
 	<div>
 		<a href="{{ obj.get_absolute_url() }}#comments">
