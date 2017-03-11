@@ -1,4 +1,6 @@
 .module.comments {
+	padding: $base-margin;
+
 	.comment_thread {
 		list-style: none;
 		padding: 0;
@@ -12,10 +14,10 @@
 		position: relative;
 	}
 
-	.thread_0 {
-		margin-left: -$base-margin;
-		margin-right: -$base-margin;
-	}
+	//.thread_0 {
+	//	margin-left: -$base-margin;
+	//	margin-right: -$base-margin;
+	//}
 }
 
 .comments_tree form, .links form {
