@@ -79,9 +79,10 @@
 	cursor: pointer;
 	display: inline-block;
 
-	@include button(mix($primary-color, $body-color, 30%), mix($primary-color, $text-color));
+	@include button(mix($text-color, $body-color, 5%), mix($primary-color, $text-color));
 
 	&.primary {
+		font-weight: bold;
 		@include button($primary-color, $primary-color-complement, $only-color: true);
 	}
 }

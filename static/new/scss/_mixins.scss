@@ -71,14 +71,13 @@
 	.wrap {
 		@if ($flat-buttons == false) {
 			box-shadow: inset 0px 1px 0px 0px mix($background-color, #fff);
-			background: linear-gradient(to bottom, $background-color 5%, darken($background-color, 2%) 100%);
+			background: linear-gradient(to bottom, $background-color 5%, darken($background-color, 4%) 100%);
 			border: 1px solid darken($background-color, 10%);
 		}
 
 		background-color: $background-color;
 
 		@if ($only-color == false) {
-			font-weight: bold;
 			display: block;
 		}
 
