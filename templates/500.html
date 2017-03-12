@@ -1,33 +1,31 @@
 {% extends "error.html" %}
 
-{% block info %}
-Táto chyba by sa štandardne nemala vyskytnúť. Znamená buď internú chybu v skripte, alebo neočakávané dáta od užívateľa.
-{% endblock %}
-
-{% block more_details %}
-	{% if request.sentry and request.sentry.id %}
-	{% else %}
-		<li>Typ výnimky: {{ exception_type }}</li>
-		<li>Chybové hlásenie: {{ exception_value }}</li>
-	{% endif %}
-{% endblock %}
-
 {% block details %}
-	{{ super() }}
-	{% if request.sentry and  request.sentry.id %}
-		<p>Ak chyba pretrváva hláste administrátorovi ID tejto chyby: {{ request.sentry.id }}</p>
-	{% endif %}
+	<p>Táto chyba by sa štandardne nemala vyskytnúť. Znamená buď internú chybu v skripte, alebo neočakávané dáta od užívateľa. Ak problém pretrváva nahláste nám prosím chybu.</p>
+	<h2>Podrobnosti</h2>
+	<ul>
+		<li>Čas: {{ date_now }}</li>
+		<li>Požadovaná adresa: {{ request.get_full_path() }}</li>
+		{% if request.sentry and  request.sentry.id %}
+			<li>Sentry ID: {{ request.sentry.id }}</li>
+		{% endif %}
+	</ul>
+{% endblock %}
+
+{% block extraheaders %}
+<script src="https://cdn.ravenjs.com/2.3.0/raven.js"></script>
 {% endblock %}
 
 {% block extrajs %}
-<script src="https://cdn.ravenjs.com/2.3.0/raven.min.js"></script>
-
 {% if request.sentry and request.sentry.id %}
+
 <script>
-	Raven.showReportDialog({
-		eventId: '{{ request.sentry.id }}',
-		dsn: 'https://public@sentry.linuxos.sk/1'
-	});
+	if (window.Raven) {
+		Raven.showReportDialog({
+			eventId: '{{ request.sentry.id }}',
+			dsn: 'https://public@sentry.linuxos.sk/1'
+		});
+	}
 </script>
 {% endif %}
 
