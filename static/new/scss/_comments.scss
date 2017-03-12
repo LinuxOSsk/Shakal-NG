@@ -14,10 +14,19 @@
 		position: relative;
 	}
 
-	//.thread_0 {
-	//	margin-left: -$base-margin;
-	//	margin-right: -$base-margin;
-	//}
+	.btn, button {
+		.wrap {
+			a, .text {
+				padding: ($base-margin-reduced / 2) ($base-margin / 2);
+				font-size: 90%;
+			}
+		}
+	}
+
+	.thread_0 {
+		margin-left: -$base-margin;
+		margin-right: -$base-margin;
+	}
 }
 
 .comments_tree form, .links form {
@@ -167,6 +176,30 @@
 	border-top: 1px solid #dbdfe3;
 	border-left: 1px solid #eff3f7;
 	background: white;
+}
+
+.module.comments {
+	padding-top: 0;
+	padding-bottom: 0;
+	.links {
+		&.top, &.bottom {
+			overflow: hidden;
+			@include content-box;
+			@include content-fullwidth;
+		}
+	}
+	.signature {
+		font-size: 80%;
+		font-style: italic;
+		color: $info-color;
+	}
+	.content {
+		margin: $base-margin-reduced $base-margin-reduced 0 $base-margin-reduced;
+	}
+	.comment .links {
+		float: right;
+		margin-right: $base-margin-content;
+	}
 }
 
 //.module.comments {

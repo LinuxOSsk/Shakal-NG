@@ -4,19 +4,25 @@
 <div class="module comments">
 	<a id="comments" href="#"></a>
 	<div class="links top">
-		{% if request.user.is_authenticated() %}
-			<a href="{{ url("comments:forget", root_header.pk) }}" class="comment-link forget">Zabudnúť</a>
-		{% endif %}
 		{% if root.next_new %}
 			<a href="#link_{{ root.next_new }}" class="comment-link first">Prvý neprečítaný komentár</a>
 		{% endif %}
-		{% if not root.is_locked %}
-			<div class="btn reply">
-				<span class="wrap">
-					<a href="{{ url("comments:reply", root.pk) }}" class="text" rel="nofollow">Pridať komentár</a>
-				</span>
-			</div>
-		{% endif %}
+		<div class="btn-group">
+			{% if not root.is_locked %}
+				<div class="btn reply">
+					<span class="wrap">
+						<a href="{{ url("comments:reply", root.pk) }}" class="text" rel="nofollow">Pridať komentár</a>
+					</span>
+				</div>
+				{% if request.user.is_authenticated() %}
+					<div class="btn">
+						<span class="wrap">
+							<a href="{{ url("comments:forget", root_header.pk) }}" class="text forget">Zabudnúť</a>
+						</span>
+					</div>
+				{% endif %}
+			{% endif %}
+		</div>
 		{% if request.user.is_authenticated() %}
 			<form action="{{ url("comments:watch", root_header.pk) }}" method="post">{% csrf_token %}
 				<div class="btn-group reply">

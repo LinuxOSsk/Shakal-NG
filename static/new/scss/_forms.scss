@@ -79,7 +79,7 @@
 	cursor: pointer;
 	display: inline-block;
 
-	@include button(mix($text-color, $body-color, 5%), mix($primary-color, $text-color));
+	@include button(mix($text-color, $body-color, 5%), mix($text-color, $body-color, 75%));
 
 	&.primary {
 		font-weight: bold;
@@ -88,11 +88,14 @@
 }
 
 .btn-group {
-	overflow: hidden;
+	margin: 0 0 0 1px;
 	.btn {
 		display: block;
 		float: left;
 		margin-left: -1px;
+	}
+	&.reply, &.voting, &.admin {
+		float: right;
 	}
 }
 
