@@ -21,10 +21,19 @@
 
 <script>
 	if (window.Raven) {
+		document.getElementById('report_button').onclick = function() {
+			var dialog = Raven.showReportDialog({
+				eventId: '{{ request.sentry.id }}',
+				dsn: 'https://4a634b221f9f4e21a5f8c04df67c6fbb@sentry.linuxos.sk/2'
+			});
+			return false;
+		};
+		/*
 		Raven.showReportDialog({
 			eventId: '{{ request.sentry.id }}',
-			dsn: 'https://public@sentry.linuxos.sk/1'
+			dsn: 'https://4a634b221f9f4e21a5f8c04df67c6fbb@sentry.linuxos.sk/2'
 		});
+		*/
 	}
 </script>
 {% endif %}
