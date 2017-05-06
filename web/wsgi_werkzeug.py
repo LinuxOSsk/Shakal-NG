@@ -1,8 +1,25 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import logging
 import os
+import warnings
+
+warnings.resetwarnings()
+warnings.filterwarnings('ignore', message='Not importing directory .*', module='django.utils.encoding')
+showwarning = warnings.showwarning
+
+
+BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+
+def warn_with_filter(message, category, filename, *args):
+	#if not os.path.abspath(filename).startswith(BASE_DIR):
+	#	return
+	showwarning(message, category, filename, *args)
+
+warnings.showwarning = warn_with_filter
+
+import logging
 
 from django.contrib.staticfiles.handlers import StaticFilesHandler
 from django.core.wsgi import get_wsgi_application
@@ -10,7 +27,7 @@ from django.template import TemplateSyntaxError
 from django.views import debug
 from django.views.debug import technical_500_response
 from django_extensions.management.utils import RedirectHandler
-from werkzeug import DebuggedApplication #pylint: disable=no-name-in-module
+from werkzeug.debug import DebuggedApplication
 
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "web.settings")
@@ -23,14 +40,14 @@ werklogger.addHandler(RedirectHandler(__name__))
 werklogger.propagate = False
 
 
-def null_technical_500_response(request, exc_type, exc_value, tb):
+def forward_technical_500_response(request, exc_type, exc_value, tb, **kwargs):
 	if request.META['REMOTE_ADDR'] == '127.0.0.1' and exc_type != TemplateSyntaxError:
-		raise exc_type, exc_value, tb
+		raise #pylint: disable=misplaced-bare-raise
 	else:
-		return technical_500_response(request, exc_type, exc_value, tb)
+		return technical_500_response(request, exc_type, exc_value, tb, **kwargs)
 
 
-debug.technical_500_response = null_technical_500_response
+debug.technical_500_response = forward_technical_500_response
 
 
 application = DebuggedApplication(StaticFilesHandler(get_wsgi_application()), True)
