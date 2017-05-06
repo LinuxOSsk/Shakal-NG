@@ -10,7 +10,7 @@ from django.template.defaultfilters import urlencode
 from django.template.defaulttags import date
 from django.template.loader import render_to_string
 from django.utils import timezone
-from django.utils.encoding import smart_unicode
+from django.utils.encoding import force_text
 from django.utils.html import escape, format_html
 from django.utils.safestring import mark_safe
 from django_jinja import library
@@ -46,7 +46,7 @@ def humandatetime(value, default=''):
 @register.simple_tag
 def user_link(user_object, username=None):
 	if user_object:
-		return format_html('<a class="url fn" href="{0}" rel="nofollow">{1}</a>', user_object.get_absolute_url(), smart_unicode(user_object))
+		return format_html('<a class="url fn" href="{0}" rel="nofollow">{1}</a>', user_object.get_absolute_url(), force_text(user_object))
 	else:
 		if username:
 			return escape(username)

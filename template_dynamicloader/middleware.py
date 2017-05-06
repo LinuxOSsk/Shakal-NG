@@ -5,7 +5,7 @@ import re
 
 import json
 from django.template.loader import render_to_string
-from django.utils.encoding import smart_unicode
+from django.utils.encoding import force_text
 
 from .forms import ChangeTemplateHiddenForm
 from .utils import decode_switch_template
@@ -23,7 +23,7 @@ class TemplateSwitcherMiddleware(object):
 			'settings': json.dumps(template_settings)
 		})
 		confirm = render_to_string('template_dynamicloader/switch_confirm_inline.html', {'form': form}, request=request)
-		return smart_unicode(content[0:match.end(0)]) + confirm + smart_unicode(content[match.end(0):])
+		return force_text(content[0:match.end(0)]) + confirm + force_text(content[match.end(0):])
 
 	def process_response(self, request, response):
 		if response.status_code != 200:

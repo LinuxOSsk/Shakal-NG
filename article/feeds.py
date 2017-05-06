@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse_lazy
-from django.utils.encoding import smart_unicode
+from django.utils.encoding import force_text
 
 from .models import Article, Category
 
@@ -32,7 +32,7 @@ class ArticleFeed(Feed):
 		return item.pub_time
 
 	def item_categories(self, item):
-		return [smart_unicode(item.category)]
+		return [force_text(item.category)]
 
 
 class LatestArticleFeed(ArticleFeed):
