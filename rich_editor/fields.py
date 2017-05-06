@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db.models import signals, TextField, SubfieldBase, Field
+from django.db.models import signals, TextField
 from django.utils import six
 
 from . import get_parser
@@ -10,9 +10,7 @@ from .syntax import highlight_pre_blocks
 from .widgets import TextVal
 
 
-class RichTextOriginalField(Field):
-	__metaclass__ = SubfieldBase
-
+class RichTextOriginalField(TextField):
 	def __init__(self, filtered_field, property_name, parsers=None, *args, **kwargs):
 		super(RichTextOriginalField, self).__init__(*args, **kwargs)
 		self.filtered_field = filtered_field
@@ -26,9 +24,6 @@ class RichTextOriginalField(Field):
 		kwargs['filtered_field'] = self.filtered_field
 		kwargs['property_name'] = self.property_name
 		return name, path, args, kwargs
-
-	def get_internal_type(self):
-		return "TextField"
 
 	def formfield(self, **kwargs):
 		defaults = {
@@ -52,8 +47,8 @@ class RichTextOriginalField(Field):
 				return TextVal(self.parsers.keys()[0] + value)
 
 	def contribute_to_class(self, cls, name, **kwargs):
-		signals.pre_save.connect(self.update_filtered_field, sender = cls)
-		signals.post_init.connect(self.save_old_value, sender = cls)
+		signals.pre_save.connect(self.update_filtered_field, sender=cls)
+		signals.post_init.connect(self.save_old_value, sender=cls)
 		self.create_filtered_property(cls, name)
 		super(RichTextOriginalField, self).contribute_to_class(cls, name)
 
