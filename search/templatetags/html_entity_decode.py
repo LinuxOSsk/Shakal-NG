@@ -3,9 +3,9 @@ from __future__ import unicode_literals
 
 import re
 
-import htmlentitydefs
 from django import template
 from django_jinja import library
+from html.entities import entitydefs
 
 
 register = template.Library()
@@ -15,7 +15,7 @@ dec_pattern = re.compile(r'&\#(\d+?);')
 
 
 def html_entity_decode_char(m, defs=None):
-	defs = defs or htmlentitydefs.entitydefs
+	defs = defs or entitydefs
 	try:
 		return unicode(defs[m.group(1)], errors='replace')
 	except KeyError:
