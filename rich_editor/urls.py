@@ -3,7 +3,9 @@ from __future__ import unicode_literals
 
 from django.conf.urls import url
 
+from . import views
+
 
 urlpatterns = [
-	url(r'^preview/$', 'Preview', name='preview'),
+	url(r'^preview/$', views.Preview.as_view(), name='preview'),
 ]

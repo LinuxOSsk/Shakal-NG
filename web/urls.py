@@ -3,17 +3,19 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.conf.urls import include, url
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.contenttypes import views as contenttype_views
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import RedirectView
 
-from search.views import SearchView
+import web.views
+import search.views
 
 
 urlpatterns = [
-	url(r'^$', 'web.views.Home', name='home'),
+	url(r'^$', web.views.Home.as_view(), name='home'),
 	url(r'^', include('linuxos.urls')),
 	url(_(r'^login/'), include('allauth.urls')),
 	url(_(r'^accounts/'), include('accounts.urls', namespace='accounts')),
@@ -29,7 +31,7 @@ urlpatterns = [
 	url(_(r'^polls/'), include('polls.urls', namespace='polls')),
 	url(_(r'^wiki/'), include('wiki.urls', namespace='wiki')),
 	url(_(r'^template-change/$'), 'template_dynamicloader.views.change', name='template-change'),
-	url(_(r'^search/'), SearchView(), name='haystack_search'),
+	url(_(r'^search/'), search.views.SearchView(), name='haystack_search'),
 	url(r'^v/(?P<content_type_id>\d+)/(?P<object_id>.+)/$', contenttype_views.shortcut, name='view-object'),
 	url(_(r'^admin/'), include(admin.site.urls)),
 	url(_(r'^admin_dashboard/'), include('admin_dashboard.urls', namespace='admin_dashboard')),
@@ -40,9 +42,7 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-	urlpatterns += [
-		url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT})
-	]
+	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 else:
 	handler404 = 'web.views.error_404'
 	handler500 = 'web.views.error_500'
