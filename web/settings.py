@@ -462,6 +462,3 @@ THUMBNAIL_PROCESSORS = (
 	'easy_thumbnails.processors.filters',
 	'easy_thumbnails.processors.background',
 )
-
-from .patch import patch_urls
-patch_urls()
