@@ -78,7 +78,7 @@ class Post(TimestampModelMixin, models.Model):
 
 	blog = models.ForeignKey(Blog)
 	title = models.CharField(max_length=100, verbose_name='názov')
-	slug = AutoSlugField(title_field='title', filter_fields=('blog',))
+	slug = AutoSlugField(title_field='title', in_respect_to=('blog',))
 	original_perex = RichTextOriginalField(filtered_field='filtered_perex', property_name='perex', verbose_name='perex', max_length=1000)
 	filtered_perex = RichTextFilteredField()
 	original_content = RichTextOriginalField(filtered_field='filtered_content', property_name='content', verbose_name='obsah', parsers={'html': 'blog'}, max_length=100000)
