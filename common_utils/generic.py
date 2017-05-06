@@ -5,7 +5,6 @@ from django.db.models import Q, Manager
 from django.shortcuts import get_object_or_404
 from django.utils.functional import cached_property
 from django.views.generic import CreateView, UpdateView, DetailView, ListView as OriginalListView
-from django_simple_paginator import Paginator
 
 
 # dokumentácia  k viewom tu https://ccbv.co.uk/
@@ -110,7 +109,6 @@ class ListView(OriginalListView):
 	category_key = 'slug'
 	category_field = 'category'
 	category_context = 'category'
-	paginator_class = Paginator
 
 	def filter_by_category(self, queryset):
 		if isinstance(queryset, Manager):
