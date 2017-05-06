@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from django.views.generic import TemplateView, RedirectView
 
 
@@ -29,4 +29,4 @@ sites = (
 sites_urls = [url('^' + u[1] + '/$', TemplateView.as_view(template_name='static/' + u[1] + '.html'), name="page_" + u[1]) for u in sites]
 redirect_urls = [url('^' + u[0] + '/index.html$', RedirectView.as_view(url='/' + u[1] + '/', permanent=True)) for u in sites]
 
-urlpatterns = patterns('', *(sites_urls + redirect_urls))
+urlpatterns = sites_urls + redirect_urls

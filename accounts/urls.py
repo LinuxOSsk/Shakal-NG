@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 
-urlpatterns = patterns('accounts.views',
+urlpatterns = [
 	url(r'^$', 'UserZone', name='user_zone'),
 	url(r'^(?P<pk>\d+)/$', 'Profile', name='profile'),
 	url(r'^(?P<pk>\d+)/prispevky/$', 'UserPosts', name='user_posts'),
@@ -22,4 +22,4 @@ urlpatterns = patterns('accounts.views',
 	url(r'^ja/avatar/$', 'MyProfileAvatarEdit', name='my_profile_avatar_edit'),
 	url(r'^ja/pozicia/$', 'MyProfilePositionEdit', name='my_profile_position_edit'),
 	url(r'^mapa-uzivatelov/$', 'UsersMap', name='users_map'),
-)
+]

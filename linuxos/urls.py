@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from .static_urls import urlpatterns as static_urlpatterns
 
 
-urlpatterns = patterns('linuxos.redirect_views',
+urlpatterns = [
 	url(r'^profil/(?P<pk>\d+)/index.html$', 'profile_redirect'),
 	url(r'^clanok/(?P<pk>\d+)/index.html$', 'article_redirect'),
 	url(r'^clanok_pdf/(?P<pk>\d+)/index.html$', 'article_redirect'),
@@ -41,6 +41,6 @@ urlpatterns = patterns('linuxos.redirect_views',
 	url(r'^autori/(index.html)?$', 'home_temp_redirect'),
 	url(r'^forum/strana/(?P<page>\d+)/$', 'forum_page_redirect'),
 	url(r'^spravy/zoznam/(?P<page>\d+)/$', 'news_page_redirect'),
-)
+]
 
 urlpatterns += static_urlpatterns

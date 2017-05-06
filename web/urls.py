@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.contenttypes import views as contenttype_views
 from django.contrib.staticfiles.storage import staticfiles_storage
@@ -12,7 +12,7 @@ from django.views.generic import RedirectView
 from search.views import SearchView
 
 
-urlpatterns = patterns('',
+urlpatterns = [
 	url(r'^$', 'web.views.Home', name='home'),
 	url(r'^', include('linuxos.urls')),
 	url(_(r'^login/'), include('allauth.urls')),
@@ -37,12 +37,12 @@ urlpatterns = patterns('',
 	url(r'^hijack/', include('hijack.urls')),
 	url(r'^django-email-log/', include('django_email_log.urls')),
 	url(r'^favicon.ico$', RedirectView.as_view(url=staticfiles_storage.url('favicon.ico'), permanent=True)),
-)
+]
 
 if settings.DEBUG:
-	urlpatterns += patterns('',
-		(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT})
-	)
+	urlpatterns += [
+		url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT})
+	]
 else:
 	handler404 = 'web.views.error_404'
 	handler500 = 'web.views.error_500'
