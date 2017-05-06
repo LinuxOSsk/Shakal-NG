@@ -10,8 +10,9 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import RedirectView
 
-import web.views
 import search.views
+import template_dynamicloader.views
+import web.views
 
 
 urlpatterns = [
@@ -30,7 +31,7 @@ urlpatterns = [
 	url(_(r'^notifications/'), include('notifications.urls', namespace='notifications')),
 	url(_(r'^polls/'), include('polls.urls', namespace='polls')),
 	url(_(r'^wiki/'), include('wiki.urls', namespace='wiki')),
-	url(_(r'^template-change/$'), 'template_dynamicloader.views.change', name='template-change'),
+	url(_(r'^template-change/$'), template_dynamicloader.views.change, name='template-change'),
 	url(_(r'^search/'), search.views.SearchView(), name='haystack_search'),
 	url(r'^v/(?P<content_type_id>\d+)/(?P<object_id>.+)/$', contenttype_views.shortcut, name='view-object'),
 	url(_(r'^admin/'), include(admin.site.urls)),
