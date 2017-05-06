@@ -1,4 +1,4 @@
-Django<1.9
+Django<2.0
 Pillow
 django-allauth
 django-braces
@@ -18,9 +18,9 @@ pip-tools
 pygments
 pytz
 raven
--e git+git://github.com/mireq/django-assets-manager.git@f552f72b6a059d2b87cd3a36f7fac0932b6fb4f5#egg=django_assets_manager
--e git+git://github.com/mireq/django-autoslugfield.git@1561720a050af11ee20c376e7cdc153b0f7c3dae#egg=django_autoslugfield
--e git+git://github.com/mireq/django-sample-data-generator.git@a0a9e0b850b225ee651fda48e3cb577692c45d72#egg=django_sample_data_generator
--e git+git://github.com/mireq/django-simple-paginator.git@1c8af0bd120ae1eecb17610c47e6a67ed3c934b1#egg=django_simple_paginator
--e git+git://github.com/mireq/django-email-log-backend.git@9ded677031f40f68c0742bb6a5c773e727e68869#egg=django_email_log_backend
--e git+git://github.com/mireq/django-geoposition-field.git@05419b8aef97e486d9b2c85e981acd5a494f5b28#egg=django_geoposition_field
+-e git+https://github.com/mireq/django-assets-manager.git@19fee178cc7abf80f05ee4fac8631c3bf5121371#egg=django_assets_manager
+-e git+https://github.com/mireq/django-autoslugfield.git@1561720a050af11ee20c376e7cdc153b0f7c3dae#egg=django_autoslugfield
+-e git+https://github.com/mireq/django-sample-data-generator.git@a0a9e0b850b225ee651fda48e3cb577692c45d72#egg=django_sample_data_generator
+-e git+https://github.com/mireq/django-simple-paginator.git@c22f2daee5c2c4e21e0fadc9de51c0f5257a60ca#egg=django_simple_paginator
+-e git+https://github.com/mireq/django-email-log-backend.git@066abda2dc86bf40b0b3fc65caa153a7e3e87599#egg=django_email_log_backend
+-e git+https://github.com/mireq/django-geoposition-field.git@6a639773f3cbd959e33fcedc991a4e3f50a38ab6#egg=django_geoposition_field

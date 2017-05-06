@@ -4,49 +4,46 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
-
--e git+git://github.com/mireq/django-assets-manager.git@f552f72b6a059d2b87cd3a36f7fac0932b6fb4f5#egg=django_assets_manager
--e git+git://github.com/mireq/django-autoslugfield.git@1561720a050af11ee20c376e7cdc153b0f7c3dae#egg=django_autoslugfield
--e git+git://github.com/mireq/django-email-log-backend.git@9ded677031f40f68c0742bb6a5c773e727e68869#egg=django_email_log_backend
--e git+git://github.com/mireq/django-geoposition-field.git@05419b8aef97e486d9b2c85e981acd5a494f5b28#egg=django_geoposition_field
--e git+git://github.com/mireq/django-sample-data-generator.git@a0a9e0b850b225ee651fda48e3cb577692c45d72#egg=django_sample_data_generator
--e git+git://github.com/mireq/django-simple-paginator.git@1c8af0bd120ae1eecb17610c47e6a67ed3c934b1#egg=django_simple_paginator
-click==6.6                # via pip-tools
-contextlib2==0.5.4        # via raven
-django-allauth==0.26.1
+-e git+https://github.com/mireq/django-assets-manager.git@19fee178cc7abf80f05ee4fac8631c3bf5121371#egg=django_assets_manager
+-e git+https://github.com/mireq/django-autoslugfield.git@1561720a050af11ee20c376e7cdc153b0f7c3dae#egg=django_autoslugfield
+-e git+https://github.com/mireq/django-email-log-backend.git@066abda2dc86bf40b0b3fc65caa153a7e3e87599#egg=django_email_log_backend
+-e git+https://github.com/mireq/django-geoposition-field.git@6a639773f3cbd959e33fcedc991a4e3f50a38ab6#egg=django_geoposition_field
+-e git+https://github.com/mireq/django-sample-data-generator.git@a0a9e0b850b225ee651fda48e3cb577692c45d72#egg=django_sample_data_generator
+-e git+https://github.com/mireq/django-simple-paginator.git@c22f2daee5c2c4e21e0fadc9de51c0f5257a60ca#egg=django_simple_paginator
+click==6.7                # via pip-tools
+contextlib2==0.5.5        # via raven
+defusedxml==0.5.0         # via python3-openid
+django-allauth==0.32.0
 django-appconf==1.0.2     # via django-compressor
-django-braces==1.9.0
-django-compat==1.0.13     # via django-hijack, django-hijack-admin
-django-compressor==2.1
-django-haystack==2.5.0
-django-hijack-admin==2.1.2
-django-hijack==2.1.2
-django-jinja==2.2.0
+django-braces==1.11.0
+django-compat==1.0.14     # via django-hijack, django-hijack-admin
+django-compressor==2.1.1
+django-haystack==2.6.0
+django-hijack-admin==2.1.4
+django-hijack==2.1.4
+django-jinja==2.3.0
 django-libsass==0.7
-django-mptt==0.8.5
-django-reversion==2.0.6
-django-static-sitemaps==4.1.1
-django-suit==0.2.20
-Django==1.8.14            # via django-allauth, django-compat, django-haystack, django-hijack, django-hijack-admin, django-jinja, django-reversion, django-static-sitemaps, easy-thumbnails
-easy-thumbnails==2.3
+django-mptt==0.8.7
+django-reversion==2.0.8
+django-static-sitemaps==4.2.1
+django-suit==0.2.25
+django==1.11.1            # via django-allauth, django-haystack, django-hijack-admin, django-jinja, django-reversion, django-static-sitemaps, easy-thumbnails
+easy-thumbnails==2.4.1
 feedparser==5.2.1
 first==2.0.1              # via pip-tools
-jinja2==2.8               # via django-jinja
-libsass==0.11.1           # via django-libsass
-MarkupSafe==0.23          # via jinja2
-oauthlib==1.1.2           # via requests-oauthlib
-Pillow==3.3.0             # via easy-thumbnails
-pip-tools==1.7.0
-pygments==2.1.3
-python-openid==2.2.5      # via django-allauth
-pytz==2016.6.1
-raven==5.24.3
+jinja2==2.9.6             # via django-jinja
+libsass==0.12.3           # via django-libsass
+markupsafe==1.0           # via jinja2
+oauthlib==2.0.2           # via requests-oauthlib
+olefile==0.44             # via pillow
+pillow==4.1.1             # via easy-thumbnails
+pip-tools==1.9.0
+pygments==2.2.0
+python3-openid==3.1.0     # via django-allauth
+pytz==2017.2
+raven==6.0.0
 rcssmin==1.0.6            # via django-compressor
-requests-oauthlib==0.6.2  # via django-allauth
-requests==2.11.0          # via django-allauth, requests-oauthlib
+requests-oauthlib==0.8.0  # via django-allauth
+requests==2.13.0          # via django-allauth, requests-oauthlib
 rjsmin==1.0.12            # via django-compressor
 six==1.10.0               # via django-compat, django-static-sitemaps, libsass, pip-tools
-
-# The following packages are commented out because they are
-# considered to be unsafe in a requirements file:
-# setuptools                # via django-static-sitemaps
