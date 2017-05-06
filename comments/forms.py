@@ -6,7 +6,7 @@ from time import time
 from django import forms
 from django.contrib.contenttypes.models import ContentType
 from django.utils.crypto import salted_hmac
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_text
 from django.utils.functional import cached_property
 
 from antispam.forms import AntispamFormMixin
@@ -118,10 +118,10 @@ class CommentForm(SecurityFormMixin, AttachmentFormMixin, AuthorsNameFormMixin, 
 
 		if parent_comment.parent_id:
 			new_subject = parent_comment.subject
-			if not new_subject.startswith(force_unicode('RE: ')):
-				new_subject = force_unicode('RE: ') + new_subject
+			if not new_subject.startswith('RE: '):
+				new_subject = 'RE: ' + new_subject
 		else:
-			new_subject = force_unicode('RE: ') + force_unicode(content_object)
+			new_subject = 'RE: ' + force_text(content_object)
 		return new_subject
 
 	def additional_security_data(self):
