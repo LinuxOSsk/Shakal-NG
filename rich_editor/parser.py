@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-import StringIO
 import copy
 import re
+from io import StringIO
 
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator

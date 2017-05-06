@@ -223,12 +223,12 @@ class CreateModelsMixin(object):
 
 def create_image(size=None, color=None, filetype='png', basename='image'):
 	from PIL import Image
-	from StringIO import StringIO
+	from io import StringIO
 
 	size = size or (50, 50)
 	color = color or (256, 0, 0)
 
-	file_obj = StringIO()
+	file_obj = StringIO.StringIO()
 
 	im = Image.new('RGBA', size=size, color=color)
 	im.save(file_obj, filetype)

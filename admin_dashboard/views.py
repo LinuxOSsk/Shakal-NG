@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import cStringIO
-import datetime
-
 import csv
+import datetime
+from io import StringIO
+from json import dumps
+
 from braces.views import StaffuserRequiredMixin
 from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django.http.response import HttpResponse
 from django.utils.translation import ugettext as _
 from django.views.generic import View
-from json import dumps
 
 from article.models import Article
 from comments.models import Comment
@@ -70,7 +70,7 @@ class Stats(StaffuserRequiredMixin, View):
 
 	def format_data(self, data, fmt):
 		if fmt == 'csv':
-			f = cStringIO.StringIO()
+			f = StringIO.StringIO()
 			writer = csv.writer(f, delimiter = str(','))
 			for row in data:
 				writer.writerow([unicode(s).encode("utf-8") for s in row])
