@@ -228,7 +228,7 @@ def create_image(size=None, color=None, filetype='png', basename='image'):
 	size = size or (50, 50)
 	color = color or (256, 0, 0)
 
-	file_obj = StringIO.StringIO()
+	file_obj = StringIO()
 
 	im = Image.new('RGBA', size=size, color=color)
 	im.save(file_obj, filetype)

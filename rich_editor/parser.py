@@ -186,7 +186,7 @@ class HtmlParser: #pylint: disable=R0902
 	auto_paragraphs = True
 
 	def __init__(self, supported_tags = None):
-		self.output = StringIO.StringIO()
+		self.output = StringIO()
 		self.errors = []
 		if supported_tags is not None:
 			self.supported_tags = supported_tags
@@ -490,7 +490,7 @@ class HtmlParser: #pylint: disable=R0902
 		# Vyčistenie výstupného bufferu
 		self.output.truncate(0)
 		# Dáta aktuálneho tagu
-		self.__tag_str = StringIO.StringIO()
+		self.__tag_str = StringIO()
 		# Aktuálny tag
 		self.__tag_obj = copy.deepcopy(self.supported_tags[''])
 		# Ak je tag ukončovací má hodnotu True

@@ -70,7 +70,7 @@ class Stats(StaffuserRequiredMixin, View):
 
 	def format_data(self, data, fmt):
 		if fmt == 'csv':
-			f = StringIO.StringIO()
+			f = StringIO()
 			writer = csv.writer(f, delimiter = str(','))
 			for row in data:
 				writer.writerow([unicode(s).encode("utf-8") for s in row])
