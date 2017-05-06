@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from datetime import datetime, date, time, timedelta
-
 from collections import namedtuple
-from django.db import models
-from django.db.models.expressions import DateTime, Date
-from django.utils import timezone
+from datetime import datetime, date, time, timedelta
 from functools import partial
+
+from django.db import models
+from django.db.models import DateField, DateTimeField
+from django.db.models.functions import Trunc
+from django.utils import timezone
 
 from common_utils import get_meta
 
@@ -64,7 +65,7 @@ def fill_time_series_gap(records, empty_record, interval, date_from, date_to):
 	return filled
 
 
-def time_series(qs, date_field, aggregate, interval, date_from=None, date_to=None):
+def time_series(qs, date_field, aggregate, interval, date_from=None, date_to=None): # pylint: disable=too-many-arguments
 	current_timezone = timezone.get_current_timezone()
 	is_date = interval in DATE_SERIES
 	is_week = interval == 'week'
@@ -72,9 +73,9 @@ def time_series(qs, date_field, aggregate, interval, date_from=None, date_to=Non
 		interval = 'day'
 
 	if isinstance(get_meta(qs.model).get_field(date_field), models.DateTimeField):
-		db_interval = DateTime(date_field, interval, current_timezone)
+		db_interval = Trunc(date_field, interval, output_field=DateTimeField(), tzinfo=current_timezone)
 	else:
-		db_interval = Date(date_field, interval)
+		db_interval = Trunc(date_field, interval, output_field=DateField())
 
 	if not isinstance(aggregate, dict):
 		aggregate = {'aggregate': aggregate}
@@ -149,7 +150,7 @@ def sum_weeks(data):
 	for record in data:
 		if last_time != record.time_value - timedelta(record.time_value.weekday()):
 			if current is not None:
-				weekly.append(record_cls(last_time, *current))
+				weekly.append(record_cls(last_time, *current)) # pylint: disable=not-an-iterable
 			current = [0] * (len(data[0]) - 1)
 			last_time = record.time_value - timedelta(record.time_value.weekday())
 		for i in range(len(data[0]) - 1):
