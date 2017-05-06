@@ -16,7 +16,8 @@ def get_username_field():
 		min_length=3,
 		regex=re.compile(r'^([\w]+[ ]?)*[\w]$', re.UNICODE),
 		help_text='Povinné. Dĺžka 3 - 30 znakov.',
-		error_message='Toto pole môže obsahovať maximálne jednu medzeru v strede.')
+		error_messages={'invalid': 'Toto pole môže obsahovať maximálne jednu medzeru v strede.'}
+	)
 
 
 class UserCreationForm(OrigUserCreationForm):
