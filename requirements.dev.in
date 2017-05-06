@@ -1,5 +1,3 @@
-Django<2.0
-Pillow
 django-allauth
 django-braces
 django-compressor
@@ -12,8 +10,11 @@ django-mptt
 django-reversion
 django-static-sitemaps
 django-suit
+django<2.0
 easy-thumbnails
 feedparser
+future
+pillow
 pip-tools
 pygments
 pytz

@@ -33,11 +33,12 @@ django-mptt==0.8.7
 django-reversion==2.0.8
 django-static-sitemaps==4.2.1
 django-suit==0.2.25
-django==1.11.1            # via django-allauth, django-debug-toolbar, django-haystack, django-hijack-admin, django-jinja, django-reversion, django-static-sitemaps, easy-thumbnails
+django==1.11.1
 docopt==0.6.2             # via ptpython
 easy-thumbnails==2.4.1
 feedparser==5.2.1
 first==2.0.1              # via pip-tools
+future==0.16.0
 ipython-genutils==0.2.0   # via traitlets
 ipython==6.0.0
 isort==4.2.5              # via pylint
@@ -52,7 +53,7 @@ olefile==0.44             # via pillow
 pathtools==0.1.2          # via watchdog
 pexpect==4.2.1            # via ipython
 pickleshare==0.7.4        # via ipython
-pillow==4.1.1             # via easy-thumbnails
+pillow==4.1.1
 pip-tools==1.9.0
 prompt-toolkit==1.0.14    # via ipython, ptpython
 ptpython==0.39
