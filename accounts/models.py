@@ -67,7 +67,7 @@ class User(AbstractUser):
 
 	@property
 	def count_new(self):
-		return {k.replace('.', '_'): v for k, v in get_count_new(self).iteritems()}
+		return {k.replace('.', '_'): v for k, v in get_count_new(self).items()}
 
 	@property
 	def last_desktop(self):

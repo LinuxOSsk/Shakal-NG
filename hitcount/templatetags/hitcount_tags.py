@@ -13,8 +13,8 @@ from common_utils.content_types import get_lookups
 def add_hitcount(*models):
 	hitcounts_lookups, content_types = get_lookups(models)
 
-	hitcounts_lookups = {content_type: [i for i in id_list if (i, content_type.pk) not in cache.cache] for content_type, id_list in hitcounts_lookups.iteritems()}
-	hitcounts_lookups = {content_type: id_list for content_type, id_list in hitcounts_lookups.iteritems() if id_list}
+	hitcounts_lookups = {content_type: [i for i in id_list if (i, content_type.pk) not in cache.cache] for content_type, id_list in hitcounts_lookups.items()}
+	hitcounts_lookups = {content_type: id_list for content_type, id_list in hitcounts_lookups.items() if id_list}
 
 	for model, content_type in zip(models, content_types):
 		for obj in model:
@@ -24,7 +24,7 @@ def add_hitcount(*models):
 		return ''
 
 	hitcount_q = Q()
-	for content_type, ids in hitcounts_lookups.iteritems():
+	for content_type, ids in hitcounts_lookups.items():
 		hitcount_q = hitcount_q | Q(content_type=content_type, object_id__in=ids)
 
 	hitcounts = HitCount.objects.all().\

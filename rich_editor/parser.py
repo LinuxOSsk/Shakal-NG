@@ -254,7 +254,7 @@ class HtmlParser: #pylint: disable=R0902
 				if self.__tag_str.getvalue()[-1] != ' ':
 					self.__tag_str.write(' ')
 				self.__tag_str.write(attribute + '=' + av[1] + av[0] + av[1])
-		for name, value in req_attributes.iteritems():
+		for name, value in req_attributes.items():
 			self.__log_error("Required attribute")
 			if self.__tag_str.getvalue()[-1] != ' ':
 				self.__tag_str.write(' ')

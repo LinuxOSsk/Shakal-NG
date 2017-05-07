@@ -68,7 +68,7 @@ def clear_last_objects_cache(sender, **kwargs):
 
 def count_new(last_visited, visited_items):
 	counts = {}
-	for model, items in last_objects().iteritems():
+	for model, items in last_objects().items():
 		count = None
 		count = 0
 		if model in last_visited:

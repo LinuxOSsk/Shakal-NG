@@ -77,7 +77,7 @@ def update_user_ratings_wiki():
 
 def update_user_ratings_sum():
 	UserRating.objects.update(
-		rating=sum([(F(column) * weight) for column, weight in UserRating.RATING_WEIGHTS.iteritems()])
+		rating=sum([(F(column) * weight) for column, weight in UserRating.RATING_WEIGHTS.items()])
 	)
 
 

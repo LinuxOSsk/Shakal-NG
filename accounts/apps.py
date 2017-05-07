@@ -34,7 +34,7 @@ class AccountsConfig(AppConfig):
 		if user:
 			rating = UserRating.objects.get_or_create(user=user)[0]
 			setattr(rating, property_name, max(getattr(rating, property_name) + change, 0))
-			rating.rating = sum(getattr(rating, w[0]) * w[1] for w in UserRating.RATING_WEIGHTS.iteritems())
+			rating.rating = sum(getattr(rating, w[0]) * w[1] for w in UserRating.RATING_WEIGHTS.items())
 			rating.save()
 
 	def update_count_post_save(self, sender, instance, **kwargs):

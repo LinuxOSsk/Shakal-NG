@@ -44,12 +44,12 @@ def resolve_content_objects(content_object_list):
 		object_list_by_content[obj[0]].append(obj[1])
 	content_types = {obj.id: obj for obj in ContentType.objects.filter(pk__in=object_list_by_content.keys())}
 
-	for content_type, content_object_ids in object_list_by_content.iteritems():
+	for content_type, content_object_ids in object_list_by_content.items():
 		object_list_by_content[content_type] = (get_default_manager(content_types[content_type].model_class())
 			.filter(pk__in=content_object_ids))
 
 	objects_idx = {}
-	for content_type, content_objects in object_list_by_content.iteritems():
+	for content_type, content_objects in object_list_by_content.items():
 		for content_object in content_objects:
 			objects_idx[(content_type, content_object.pk)] = content_object
 

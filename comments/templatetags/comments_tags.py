@@ -131,7 +131,7 @@ def load_user_discussion_attributes(headers, user):
 
 
 def copy_attributes(obj, attributes):
-	for name, value in attributes.iteritems():
+	for name, value in attributes.items():
 		setattr(obj, name, value)
 
 
@@ -143,14 +143,14 @@ def add_discussion_attributes(context, *models):
 
 	discussion_lookups = {
 		content_type: id_list
-		for content_type, id_list in discussion_lookups.iteritems() if id_list
+		for content_type, id_list in discussion_lookups.items() if id_list
 	}
 
 	if not discussion_lookups:
 		return ''
 
 	headers = (RootHeader.objects
-		.filter(reduce(or_, (Q(content_type=content_type, object_id__in=id_list) for content_type, id_list in discussion_lookups.iteritems()), Q()))
+		.filter(reduce(or_, (Q(content_type=content_type, object_id__in=id_list) for content_type, id_list in discussion_lookups.items()), Q()))
 		.values('id', 'object_id', 'content_type_id', 'last_comment', 'comment_count', 'is_locked')
 	)
 	headers_dict = {(obj['object_id'], obj['content_type_id']): obj for obj in headers}
