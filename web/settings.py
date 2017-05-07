@@ -125,10 +125,11 @@ TEMPLATES = [
 				"compressor.contrib.jinja2ext.CompressorExtension",
 			],
 			"context_processors": [
+				'django.template.context_processors.debug',
 				'django.template.context_processors.request',
 				'django.contrib.auth.context_processors.auth',
 				'django.contrib.messages.context_processors.messages',
-				'django.core.context_processors.i18n',
+				'django.template.context_processors.i18n',
 				'breadcrumbs.context_processors.breadcrumbs',
 				'template_dynamicloader.context_processors.style',
 			],
