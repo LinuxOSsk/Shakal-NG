@@ -18,7 +18,7 @@ from hijack.templatetags.hijack_tags import hijack_notification as core_hijack_n
 from jinja2 import contextfunction
 
 from common_utils import get_meta
-from common_utils.middlewares.ThreadLocal import get_current_request
+from web.middlewares.threadlocal import get_current_request
 
 
 register = template.Library()

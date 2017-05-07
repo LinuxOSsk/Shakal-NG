@@ -8,6 +8,7 @@ class ChangeTemplateForm(forms.Form):
 	template = forms.CharField(required=False)
 	css = forms.CharField(required=False)
 	settings = forms.CharField(required=False)
+	next = forms.CharField(required=False)
 
 
 class ChangeTemplateHiddenForm(ChangeTemplateForm):

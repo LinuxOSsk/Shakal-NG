@@ -25,7 +25,11 @@ UPDATE_VISITED_ITEMS = {
 
 
 class LastViewedMiddleware(object):
-	def process_response(self, request, response):
+	def __init__(self, get_response):
+		self.get_response = get_response
+
+	def __call__(self, request):
+		response = self.get_response(request)
 		if not hasattr(request, 'user'):
 			return response
 		if request.user.is_authenticated() and request.resolver_match:
@@ -42,16 +46,17 @@ class LastViewedMiddleware(object):
 
 
 class AuthRememberMiddleware(object):
-	def process_request(self, request):
-		if not hasattr(request, 'user') or request.user.is_authenticated():
-			return
-		user = authenticate_user(request)
-		if user is None:
-			setattr(request, '_delete_auth_remember', True)
+	def __init__(self, get_response):
+		self.get_response = get_response
 
-	def process_response(self, request, response):
+	def __call__(self, request):
+		if not hasattr(request, 'user') or request.user.is_authenticated():
+			return self.get_response(request)
+		user = authenticate_user(request)
+		delete_auth_remember = user is None
+		response = self.get_response(request)
 		if not hasattr(request, 'user'):
 			return response
-		if getattr(request, '_delete_auth_remember', False):
+		if delete_auth_remember:
 			delete_cookie(response)
 		return response

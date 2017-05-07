@@ -5,7 +5,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.core import validators
 
-from common_utils.middlewares.ThreadLocal import get_current_request
+from web.middlewares.threadlocal import get_current_request
 
 
 USERNAME_VALIDATOR = validators.RegexValidator(r'^[\w.@+-]+$', 'Meno môže obsahovať len alfanumerické znaky, čísla a znaky @/./+/-/_.', 'invalid')

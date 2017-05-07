@@ -5,7 +5,7 @@ import os
 
 from template_dynamicloader.utils import get_template_settings
 
-from common_utils.middlewares.ThreadLocal import get_current_request
+from web.middlewares.threadlocal import get_current_request
 
 
 class DynamicLoaderMixin(object):
