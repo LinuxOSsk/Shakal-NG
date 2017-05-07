@@ -2,9 +2,10 @@
 from __future__ import unicode_literals
 
 import json
-from datetime import datetime, timedelta
 
 from django.conf import settings
+
+from common_utils.cookies import set_cookie
 
 
 def get_default_template(request):
@@ -25,21 +26,12 @@ def switch_template(response, **kwargs):
 	template_settings = kwargs['settings']
 	try:
 		if template.split(',', 1)[0] in settings.DYNAMIC_TEMPLATES:
-			cookie_value = json.dumps({
+			cookie_val = json.dumps({
 				'skin': template,
 				'css': css,
 				'settings': template_settings,
 			})
-			cookie_age = 3600 * 24 * 365 * 10 # 10 years
-			expires = datetime.utcnow() + timedelta(seconds=cookie_age)
-			response.set_cookie(
-				'user_template',
-				cookie_value,
-				max_age=None,
-				expires=expires,
-				domain=settings.SESSION_COOKIE_DOMAIN,
-				path=settings.SESSION_COOKIE_PATH
-			)
+			set_cookie(response, 'user_template', cookie_val)
 		else:
 			return
 	except KeyError:
