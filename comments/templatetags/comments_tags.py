@@ -198,7 +198,7 @@ def add_discussion_attributes_heterogenous(context, *models):
 
 @library.global_function
 def get_comments_for_item(item, display_last=False):
-	return mark_safe(render_to_string("comments/comment_count.html", {'item': item, display_last: 'display_last'}))
+	return mark_safe(render_to_string("comments/comment_count.html", {'item': item, 'display_last': 'display_last'}))
 
 
 @library.global_function
