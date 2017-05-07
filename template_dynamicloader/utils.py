@@ -60,6 +60,9 @@ def decode_switch_template(data):
 
 
 def get_template_settings(request):
+	if hasattr(request, '_template_settings'):
+		return getattr(request, '_template_settings')
+
 	template_skin = css = template_settings = None
 
 	templates = settings.DYNAMIC_TEMPLATES
@@ -87,4 +90,6 @@ def get_template_settings(request):
 	if not template_skin in templates:
 		template_skin = default
 
-	return (template_skin, css, template_settings)
+	result = (template_skin, css, template_settings)
+	setattr(request, '_template_settings', result)
+	return result
