@@ -5,15 +5,15 @@ from operator import or_
 
 from django import template
 from django.contrib.contenttypes.models import ContentType
+from django.core.urlresolvers import reverse
 from django.db.models import Count, Q, Case, When, BooleanField
 from django.template.loader import render_to_string
-from django.utils import timezone
+from django.utils import six, timezone
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django_jinja import library
 from jinja2 import contextfunction
 from mptt.templatetags import mptt_tags
-from django.core.urlresolvers import reverse
 
 from ..models import RootHeader, UserDiscussionAttribute
 from comments.models import Comment
@@ -150,7 +150,7 @@ def add_discussion_attributes(context, *models):
 		return ''
 
 	headers = (RootHeader.objects
-		.filter(reduce(or_, (Q(content_type=content_type, object_id__in=id_list) for content_type, id_list in discussion_lookups.items()), Q()))
+		.filter(six.moves.reduce(or_, (Q(content_type=content_type, object_id__in=id_list) for content_type, id_list in discussion_lookups.items()), Q()))
 		.values('id', 'object_id', 'content_type_id', 'last_comment', 'comment_count', 'is_locked')
 	)
 	headers_dict = {(obj['object_id'], obj['content_type_id']): obj for obj in headers}
