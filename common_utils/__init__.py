@@ -54,9 +54,5 @@ def get_default_manager(obj):
 		return getattr(obj.__class__, "_default_manager")
 
 
-def reload_model(obj):
-	return get_default_manager(obj.__class__).get(pk=obj.pk)
-
-
 def get_client_ip(request):
 	return request.META.get('REMOTE_ADDR')
