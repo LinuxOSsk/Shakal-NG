@@ -24,7 +24,7 @@ DEFAULT_FROM_EMAIL = 'LinuxOS.sk <web@linuxos.sk>'
 ALLOWED_HOSTS = []
 
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
 	'template_dynamicloader',
 	'suit',
 	'common_utils',
@@ -76,25 +76,24 @@ INSTALLED_APPS = (
 	'polls',
 	'search',
 	'wiki',
-)
+]
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = [
+	'django.middleware.security.SecurityMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.middleware.common.CommonMiddleware',
 	'django.middleware.csrf.CsrfViewMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
-	'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
-	'django.middleware.security.SecurityMiddleware',
 	'django.middleware.locale.LocaleMiddleware',
 	# custom
 	'accounts.middleware.LastViewedMiddleware',
 	'accounts.middleware.AuthRememberMiddleware',
-	'common_utils.middlewares.ThreadLocal.ThreadLocalMiddleware',
-	'template_dynamicloader.middleware.TemplateSwitcherMiddleware',
+	'web.middlewares.ThreadLocalMiddleware',
+	'template_dynamicloader.middleware.TemplateSwitchMiddleware',
 	'feeds.middleware.FeedsMiddleware',
-)
+]
 
 ROOT_URLCONF = 'web.urls'
 
@@ -161,6 +160,13 @@ TEMPLATES = [
 ]
 
 DYNAMIC_TEMPLATES = ('default', '386', 'new')
+
+AUTH_PASSWORD_VALIDATORS = [
+	{ 'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator', },
+	{ 'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', },
+	{ 'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator', },
+	{ 'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator', },
+]
 
 CACHES = {
 	'default': {
