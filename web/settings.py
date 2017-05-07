@@ -101,11 +101,6 @@ TEMPLATES = [
 	{
 		"BACKEND": "template_dynamicloader.backend.Jinja2",
 		'DIRS': [os.path.join(BASE_DIR, 'templates'),],
-		"ENGINE_OPTIONS": {
-			'loaders': [
-				'template_dynamicloader.loader_jinja_filesystem.JinjaLoader',
-			]
-		},
 		"OPTIONS": {
 			"match_extension": None,
 			"match_regex": re.compile(r"^(?!(admin/|debug_toolbar/|suit/|profiler/|search/indexes/|reversion/|sitemap.xml|static_sitemaps/|hijack/|django_extensions/)).*"),
@@ -136,6 +131,7 @@ TEMPLATES = [
 			"autoescape": True,
 			"auto_reload": True,
 			"translation_engine": "django.utils.translation",
+			"environment": "template_dynamicloader.environment.Environment",
 			"bytecode_cache": {
 				"name": "jinja",
 				"enabled": True,
