@@ -46,39 +46,42 @@ class RichTextOriginalField(TextField):
 			else:
 				return TextVal(self.parsers.keys()[0] + value)
 
-	#def contribute_to_class(self, cls, name, **kwargs):
-	#	signals.pre_save.connect(self.update_filtered_field, sender=cls)
-	#	signals.post_init.connect(self.save_old_value, sender=cls)
-	#	self.create_filtered_property(cls, name)
-	#	super(RichTextOriginalField, self).contribute_to_class(cls, name)
+	def contribute_to_class(self, cls, name, **kwargs):
+		signals.pre_save.connect(self.update_filtered_field, sender=cls)
+		signals.post_init.connect(self.save_old_value, sender=cls)
+		self.create_filtered_property(cls, name)
+		super(RichTextOriginalField, self).contribute_to_class(cls, name)
 
-	#def update_filtered_field(self, instance, **kwargs):
-	#	if not hasattr(instance, "old_values") or not self.name in instance.old_values or instance.old_values[self.name] != getattr(instance, self.name) or not instance.pk:
-	#		setattr(instance, self.filtered_field, self.filter_data(getattr(instance, self.name)))
+	def update_filtered_field(self, instance, **kwargs):
+		if not hasattr(instance, "old_values") or not self.name in instance.old_values or instance.old_values[self.name] != getattr(instance, self.name) or not instance.pk:
+			setattr(instance, self.filtered_field, self.filter_data(getattr(instance, self.name)))
 
-	#def save_old_value(self, instance, **kwargs):
-	#	old_values = getattr(instance, "old_values", {})
-	#	old_values[self.name] = getattr(instance, self.name)
-	#	setattr(instance, "old_values", old_values)
+	def save_old_value(self, instance, **kwargs):
+		if not self.name in instance.__dict__:
+			return
+		old_values = getattr(instance, "old_values", {})
+		if hasattr(instance, self.name):
+			old_values[self.name] = getattr(instance, self.name)
+			setattr(instance, "old_values", old_values)
 
-	#def create_filtered_property(self, cls, field_name):
-	#	original_field = field_name
-	#	filtered_field = self.filtered_field
-	#	parsers = self.parsers
+	def create_filtered_property(self, cls, field_name):
+		original_field = field_name
+		filtered_field = self.filtered_field
+		parsers = self.parsers
 
-	#	def filtered_property(self):
-	#		old_values = getattr(self, "old_values", {})
-	#		old_field_value = old_values.get(original_field, None)
-	#		if old_field_value is not None and getattr(self, original_field) != old_field_value:
-	#			value = getattr(self, original_field)
-	#			parser = parsers[value.field_format]
-	#			parser.parse(value.field_text)
-	#			parsed = parser.get_output()
-	#			parsed = highlight_pre_blocks(parsed)
-	#			old_values[original_field] = parsed
-	#			setattr(self, filtered_field, parsed)
-	#		return getattr(self, filtered_field)
-	#	setattr(cls, self.property_name, property(filtered_property))
+		def filtered_property(self):
+			old_values = getattr(self, "old_values", {})
+			old_field_value = old_values.get(original_field, None)
+			if old_field_value is not None and getattr(self, original_field) != old_field_value:
+				value = getattr(self, original_field)
+				parser = parsers[value.field_format]
+				parser.parse(value.field_text)
+				parsed = parser.get_output()
+				parsed = highlight_pre_blocks(parsed)
+				old_values[original_field] = parsed
+				setattr(self, filtered_field, parsed)
+			return getattr(self, filtered_field)
+		setattr(cls, self.property_name, property(filtered_property))
 
 	def filter_data(self, data):
 		if hasattr(data, 'field_filtered') and data.field_filtered is not None:
