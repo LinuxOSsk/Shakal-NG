@@ -57,6 +57,7 @@ INSTALLED_APPS = [
 	'reversion',
 	'static_sitemaps',
 	'easy_thumbnails',
+	'tests',
 	# apps
 	'accounts',
 	'article',

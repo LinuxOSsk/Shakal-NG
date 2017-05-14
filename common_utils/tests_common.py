@@ -2,19 +2,15 @@
 from __future__ import unicode_literals
 
 import os
+import unittest
 from datetime import datetime
 
-import unittest
 from django.contrib.auth import get_user_model
-from django.core.management.color import no_style
 from django.core.urlresolvers import reverse
-from django.db import connection, models
 from django.db.models.fields.files import FieldFile
 from django.forms import BaseForm
 from django.shortcuts import resolve_url
 from django.test import LiveServerTestCase
-
-from common_utils import get_meta
 
 
 User = get_user_model()
@@ -174,61 +170,14 @@ class FrontendTest(ProcessFormTestMixin, LiveServerTestCase):
 		return response
 
 
-class TestModel(models.Model):
-	class Meta:
-		abstract = True
-
-	@classmethod
-	def create_table(cls):
-		raw_sql = connection.creation.sql_create_model(cls, no_style(), [])[0]
-		create_sql = u'\n'.join(raw_sql).encode('utf-8')
-		cls.delete_table()
-		cursor = connection.cursor()
-		try:
-			cursor.execute(create_sql)
-		finally:
-			cursor.close()
-
-	@classmethod
-	def delete_table(cls):
-		cursor = connection.cursor()
-		try:
-			cursor.execute('DROP TABLE IF EXISTS %s' % get_meta(cls).db_table)
-		finally:
-			cursor.close()
-
-	def __unicode__(self):
-		return "Test %d" % self.pk
-
-
-class CreateModelsMixin(object):
-	temporary_models = ()
-
-	def setUp(self):
-		self.create_temporary_models()
-		super(CreateModelsMixin, self).setUp()
-
-	def tearDown(self):
-		self.delete_temporary_models()
-		super(CreateModelsMixin, self).tearDown()
-
-	def create_temporary_models(self):
-		for model in self.temporary_models:
-			model.create_table()
-
-	def delete_temporary_models(self):
-		for model in self.temporary_models:
-			model.delete_table()
-
-
 def create_image(size=None, color=None, filetype='png', basename='image'):
 	from PIL import Image
-	from io import StringIO
+	from io import BytesIO
 
 	size = size or (50, 50)
 	color = color or (256, 0, 0)
 
-	file_obj = StringIO()
+	file_obj = BytesIO()
 
 	im = Image.new('RGBA', size=size, color=color)
 	im.save(file_obj, filetype)

@@ -6,21 +6,12 @@ import os
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 
-from .fields import AutoImageField
 from autoimagefield.utils import thumbnail as generate_thumbnail
-from common_utils.tests_common import CreateModelsMixin, TestModel, create_image
+from common_utils.tests_common import create_image
+from tests.models import ImageFieldModel
 
 
-class ImageFieldModel(TestModel):
-	image = AutoImageField(upload_to='test/thumbnails', resize_source=dict(size=(64, 64)), blank=True, null=True)
-
-	def __unicode__(self):
-		return self.image.path
-
-
-class AutoImageFieldTest(CreateModelsMixin, TestCase):
-	temporary_models = (ImageFieldModel,)
-
+class AutoImageFieldTest(TestCase):
 	def create_image_instance(self, **kwargs):
 		image = create_image(**kwargs)
 
@@ -43,7 +34,7 @@ class AutoImageFieldTest(CreateModelsMixin, TestCase):
 		from PIL import Image
 		instance = self.create_image_instance(size=(128, 128))
 		im = Image.open(instance.image.path)
-		self.assertEquals(im.size, (64, 64))
+		self.assertEqual(im.size, (64, 64))
 		self.destroy_image_instance(instance)
 
 	def test_rename(self):
@@ -62,9 +53,9 @@ class AutoImageFieldTest(CreateModelsMixin, TestCase):
 		path2_thumbnail_url = thumbnail.url
 		path2_thumbnail_size = thumbnail.size
 
-		self.assertNotEquals(path1, path2)
-		self.assertNotEquals(path1_thumbnail_url, path2_thumbnail_url)
-		self.assertEquals(path1_thumbnail_size, path2_thumbnail_size)
+		self.assertNotEqual(path1, path2)
+		self.assertNotEqual(path1_thumbnail_url, path2_thumbnail_url)
+		self.assertEqual(path1_thumbnail_size, path2_thumbnail_size)
 		self.assertFalse(os.path.exists(path1))
 		self.assertFalse(os.path.exists(path1_thumbnail))
 		self.assertTrue(os.path.exists(path2))
@@ -85,8 +76,8 @@ class AutoImageFieldTest(CreateModelsMixin, TestCase):
 		path2 = instance.image.path
 		path2_thumbnail = generate_thumbnail(instance.image, size=(32, 32)).path
 
-		self.assertNotEquals(path1, path2)
-		self.assertNotEquals(path1_thumbnail, path2_thumbnail)
+		self.assertNotEqual(path1, path2)
+		self.assertNotEqual(path1_thumbnail, path2_thumbnail)
 		self.assertFalse(os.path.exists(path1))
 		self.assertFalse(os.path.exists(path1_thumbnail))
 		self.assertTrue(os.path.exists(path2))
