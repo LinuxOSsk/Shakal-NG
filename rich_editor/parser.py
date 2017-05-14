@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import copy
 import re
+from collections import OrderedDict
 from io import StringIO
 
 from django.core.exceptions import ValidationError
@@ -433,7 +434,7 @@ class HtmlParser: #pylint: disable=R0902
 					# Zápis atribútov
 					self.__tag_str.write('>')
 					self.output.write(self.__tag_str.getvalue())
-					self.__tag_attributes = {}
+					self.__tag_attributes = OrderedDict()
 					self.__tag_str.truncate(0)
 					self.__tag_str.seek(0)
 					self.__tag_obj = to
@@ -497,6 +498,7 @@ class HtmlParser: #pylint: disable=R0902
 		# Vyčistenie výstupného bufferu
 		self.output.truncate(0)
 		self.output.seek(0)
+		self.errors = []
 		# Dáta aktuálneho tagu
 		self.__tag_str = StringIO()
 		# Aktuálny tag
@@ -510,7 +512,7 @@ class HtmlParser: #pylint: disable=R0902
 		# Tokenizer skenujúci pomocou regulárnych výrazov
 		self.__tokens = self.xmlrx.scanner(code)
 		# Atribút aktuálneho tagu
-		self.__tag_attributes = {}
+		self.__tag_attributes = OrderedDict()
 
 		# Čítanie súboru
 		self.__state = self.TEXT_READ
