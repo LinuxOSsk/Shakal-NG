@@ -48,8 +48,8 @@ class NewsCreateView(PreviewCreateView):
 
 		ret = super(NewsCreateView, self).form_valid(form)
 		if news.pk and not news.approved:
-			messages.add_message(self.request, messages.INFO, u"Správa bola uložená, počkajte prosím na schválenie administrátormi.")
-			title = u"Správa " + news.title + u" čaká na schválenie"
+			messages.add_message(self.request, messages.INFO, "Správa bola uložená, počkajte prosím na schválenie administrátormi.")
+			title = "Správa " + news.title + " čaká na schválenie"
 			Event.objects.broadcast(
 				title,
 				news,

@@ -108,9 +108,9 @@ class Topic(TimestampModelMixin, models.Model):
 		if self.is_resolved:
 			tags.append('resolved')
 		if tags:
-			return u' ' + u' '.join(tags)
+			return ' ' + ' '.join(tags)
 		else:
-			return u''
+			return ''
 
 	def get_attachments(self):
 		return self.attachments.all()

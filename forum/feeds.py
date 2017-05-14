@@ -10,8 +10,8 @@ from forum.models import Topic, Section
 
 
 class TopicFeed(Feed):
-	title = u"Fórum"
-	description = u"Témy fóra"
+	title = "Fórum"
+	description = "Témy fóra"
 	link = reverse_lazy('forum:overview')
 	feed_url = reverse_lazy('forum:feed-latest')
 	description_template = 'feeds/description/forum_topic.html'

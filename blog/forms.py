@@ -18,7 +18,7 @@ class BlogForm(forms.ModelForm):
 
 
 class PostForm(forms.ModelForm):
-	pub_now = forms.BooleanField(label=u'Publikovať teraz', required=False)
+	pub_now = forms.BooleanField(label='Publikovať teraz', required=False)
 
 	def __init__(self, *args, **kwargs):
 		super(PostForm, self).__init__(*args, **kwargs)

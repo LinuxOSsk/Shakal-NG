@@ -14,18 +14,18 @@ from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 @python_2_unicode_compatible
 class Page(mptt.models.MPTTModel, TimestampModelMixin):
 	TYPE_CHOICES = (
-		('h', u'Domovská stránka'),
-		('i', u'Interná stránka'),
-		('p', u'Stránka wiki'),
+		('h', 'Domovská stránka'),
+		('i', 'Interná stránka'),
+		('p', 'Stránka wiki'),
 	)
 
-	title = models.CharField(u'titulok', max_length=255)
-	last_author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'posledný autor', blank=True, null=True)
-	slug = AutoSlugField(unique=True, verbose_name=u'slug', title_field='title')
-	parent = models.ForeignKey('self', related_name='children', blank=True, null=True, verbose_name=u'nadradená stránka')
+	title = models.CharField('titulok', max_length=255)
+	last_author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='posledný autor', blank=True, null=True)
+	slug = AutoSlugField(unique=True, verbose_name='slug', title_field='title')
+	parent = models.ForeignKey('self', related_name='children', blank=True, null=True, verbose_name='nadradená stránka')
 	original_text = RichTextOriginalField(filtered_field="filtered_text", property_name="text")
 	filtered_text = RichTextFilteredField()
-	page_type = models.CharField(u'typ stránky', max_length=1, choices=TYPE_CHOICES, default='p')
+	page_type = models.CharField('typ stránky', max_length=1, choices=TYPE_CHOICES, default='p')
 
 	content_fields = ('original_text',)
 
@@ -33,8 +33,8 @@ class Page(mptt.models.MPTTModel, TimestampModelMixin):
 		return self.title
 
 	class Meta:
-		verbose_name = u'Wiki stránka'
-		verbose_name_plural = u'Wiki stránky'
+		verbose_name = 'Wiki stránka'
+		verbose_name_plural = 'Wiki stránky'
 
 	@models.permalink
 	def get_absolute_url(self):

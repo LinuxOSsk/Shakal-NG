@@ -7,12 +7,13 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db import models, transaction
 from django.utils import timezone
-from django.utils.encoding import force_str, python_2_unicode_compatible
+from django.utils.encoding import force_str
 from mptt.models import MPTTModel, TreeForeignKey
 
 from attachment.models import Attachment
 from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
+from django.utils.encoding import python_2_unicode_compatible
 
 
 COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 50000)
@@ -95,9 +96,9 @@ class Comment(MPTTModel, TimestampModelMixin):
 		if self.is_removed:
 			tags.append('deleted')
 		if tags:
-			return u' ' + u' '.join(tags)
+			return ' ' + ' '.join(tags)
 		else:
-			return u''
+			return ''
 
 	def _get_name(self):
 		return self.user_name
@@ -135,7 +136,7 @@ class CommentFlag(models.Model):
 		verbose_name_plural = 'značky komentárov'
 
 	def __str__(self):
-		return u"%s flag of comment ID %s by %s" % (self.flag, self.comment_id, self.user.get_username())
+		return "%s flag of comment ID %s by %s" % (self.flag, self.comment_id, self.user.get_username())
 
 	def save(self, *args, **kwargs):
 		if self.flag_date is None:

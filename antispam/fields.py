@@ -17,7 +17,7 @@ class AntispamInput(TextInput):
 		data = super(AntispamInput, self).render(name, value, attrs)
 		self.attrs['question'] = question
 		self.attrs['answer'] = answer
-		return mark_safe(u'<span class="question">' + question + u'</span>' + data)
+		return mark_safe('<span class="question">' + question + '</span>' + data)
 
 
 class AntispamField(CharField):
@@ -28,5 +28,5 @@ class AntispamField(CharField):
 			return ''
 		value = super(AntispamField, self).clean(value)
 		if value != self.widget.attrs.get("answer", ""):
-			raise ValidationError(u"Nesprávna odpoveď.")
+			raise ValidationError("Nesprávna odpoveď.")
 		return value
