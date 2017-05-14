@@ -269,6 +269,7 @@ class HtmlParser: #pylint: disable=R0902
 	def __tag_start_tag(self, token):
 		self.output.write(escape(self.__tag_str.getvalue()))
 		self.__tag_str.truncate(0)
+		self.__tag_str.seek(0)
 		if token[0] == '/':
 			self.__endtag = True
 			token = token[1:]
@@ -295,6 +296,7 @@ class HtmlParser: #pylint: disable=R0902
 		except KeyError:
 			self.output.write(escape(self.__tag_str.getvalue() + '/>'))
 		self.__tag_str.truncate(0)
+		self.__tag_str.seek(0)
 		self.__state = self.TEXT_READ
 		self.__tagname = ''
 
@@ -395,10 +397,12 @@ class HtmlParser: #pylint: disable=R0902
 						self.__unroll_stack()
 						self.__tag_obj = self.__get_current_tag()
 					self.__tag_str.truncate(0)
+					self.__tag_str.seek(0)
 				except KeyError:
 					self.__log_error("Bad end tag")
 					self.output.write(escape(self.__tag_str.getvalue()))
 					self.__tag_str.truncate(0)
+					self.__tag_str.seek(0)
 					self.__tagname = ''
 				if len(self.__tags) == 1 and self.auto_paragraphs:
 					self.__add_auto_paragraph()
@@ -431,6 +435,7 @@ class HtmlParser: #pylint: disable=R0902
 					self.output.write(self.__tag_str.getvalue())
 					self.__tag_attributes = {}
 					self.__tag_str.truncate(0)
+					self.__tag_str.seek(0)
 					self.__tag_obj = to
 				# Nepodporovany tag
 				except KeyError:
@@ -438,6 +443,7 @@ class HtmlParser: #pylint: disable=R0902
 					self.__tag_str.write('>')
 					self.output.write(escape(self.__tag_str.getvalue()))
 					self.__tag_str.truncate(0)
+					self.__tag_str.seek(0)
 					self.__state = self.TEXT_READ
 			self.__tag_obj = self.__get_current_tag()
 		else:
@@ -465,7 +471,7 @@ class HtmlParser: #pylint: disable=R0902
 		if self.auto_paragraphs:
 			paragraph = copy.deepcopy(self.supported_tags['p'])
 			paragraph.trim_empty = True
-			paragraph.pos = self.output.pos
+			paragraph.pos = self.output.tell()
 			self.__tags.append(paragraph)
 			self.output.write("<p>")
 
@@ -476,6 +482,7 @@ class HtmlParser: #pylint: disable=R0902
 			if not self.whitespace_rx.match(part[3:]):
 				return
 			self.output.truncate(self.__tags[-1].pos)
+			self.output.seek(self.__tags[-1].pos)
 			self.output.write(part[3:])
 			self.__tags.pop()
 
@@ -489,6 +496,7 @@ class HtmlParser: #pylint: disable=R0902
 		code = code.replace("\r\n", "\n")
 		# Vyčistenie výstupného bufferu
 		self.output.truncate(0)
+		self.output.seek(0)
 		# Dáta aktuálneho tagu
 		self.__tag_str = StringIO()
 		# Aktuálny tag
@@ -559,6 +567,7 @@ class HtmlParser: #pylint: disable=R0902
 				except TagReadException:
 					self.output.write(escape(self.__tag_str.getvalue()))
 					self.__tag_str.truncate(0)
+					self.__tag_str.seek(0)
 					self.__state = self.TEXT_READ
 		self.__trim_empty_tags()
 		# Uzatvorenie neuzatvorenych tagov
