@@ -17,7 +17,6 @@ from .models import UploadSession, Attachment
 from .utils import get_available_size
 from common_utils import get_meta
 from common_utils.tests_common import ProcessFormTestMixin
-from django.forms.widgets import HiddenInput
 
 
 class AttachmentModelTest(TestCase):
@@ -81,13 +80,13 @@ class AttachmentModelTest(TestCase):
 			attachment.save()
 
 			file_readed = open(attachment.filename, 'rb').read()
-			self.assertEqual(file_readed, "A")
+			self.assertEqual(file_readed, b"A")
 
 			attachment.attachment = SimpleUploadedFile("test.txt", b"B")
 			attachment.save()
 
 			file_readed = open(attachment.filename, 'rb').read()
-			self.assertEqual(file_readed, "B")
+			self.assertEqual(file_readed, b"B")
 			self.assertEqual(attachment.basename, "test.txt")
 		finally:
 			attachment.delete()
@@ -106,7 +105,7 @@ class AttachmentModelTest(TestCase):
 			temp_attachment.delete()
 
 			file_readed = open(attachment.filename, 'rb').read()
-			self.assertEqual(file_readed, "A")
+			self.assertEqual(file_readed, b"A")
 		finally:
 			temp_attachment.delete_file()
 			attachment.delete_file()
@@ -169,21 +168,21 @@ class AttachmentFormTest(ProcessFormTestMixin, TestCase):
 		form = self.create_attachment_form({}, {'attachment': SimpleUploadedFile("test.txt", b"A")})
 
 		self.assertTrue(form.is_valid())
-		self.assertEquals(len(form.get_attachments()), 1)
+		self.assertEqual(len(form.get_attachments()), 1)
 		form.get_attachments()[0].delete()
 
 	def test_no_files(self):
 		form = self.create_attachment_form({})
 
 		self.assertTrue(form.is_valid())
-		self.assertEquals(len(form.get_attachments()), 0)
+		self.assertEqual(len(form.get_attachments()), 0)
 
 	def test_validation(self):
 		with self.settings(ATTACHMENT_MAX_SIZE=1, ATTACHMENT_SIZE_FOR_CONTENT={}):
 			form = self.create_attachment_form({}, {'attachment': SimpleUploadedFile("test.txt", b"AA")})
 
 		self.assertFalse(form.is_valid())
-		self.assertEquals(len(form.get_attachments()), 0)
+		self.assertEqual(len(form.get_attachments()), 0)
 
 	def test_delete(self):
 		form = self.create_attachment_form({}, {'attachment': SimpleUploadedFile("test.txt", b"A")})
@@ -200,4 +199,4 @@ class AttachmentFormTest(ProcessFormTestMixin, TestCase):
 		form.process_attachments()
 
 		self.assertTrue(form.is_valid())
-		self.assertEquals(len(form.get_attachments()), 0)
+		self.assertEqual(len(form.get_attachments()), 0)
