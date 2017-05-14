@@ -116,7 +116,7 @@ def get_count_new(user):
 
 
 def generated_avatar(data):
-	hash_str = hashlib.md5(data).hexdigest()
+	hash_str = hashlib.md5(data.encode('utf-8')).hexdigest()
 
 	avatar_dirname = os.path.join('CACHE', 'avatars', hash_str[-2:])
 	avatar_filename = hash_str[:8] + '.png'
@@ -125,14 +125,14 @@ def generated_avatar(data):
 
 	data_hash = int(hash_str, 16)
 	sex = 'male' if bool(data_hash % 4) else 'female'
-	data_hash = data_hash / 4
+	data_hash = data_hash // 4
 	avatar_recipe = AVATAR_IMAGES[sex]
 
 	img = None
 	for name, count in avatar_recipe:
 		imgnum = (data_hash % count) + 1
 		filename = os.path.join(os.path.dirname(__file__), '8biticon', '8bit-client', 'img', sex, name + str(imgnum) + '.png')
-		data_hash = data_hash / count
+		data_hash = data_hash // count
 		if img is None:
 			img = Image.open(filename).convert('RGB')
 			img = img.filter(ImageFilter.GaussianBlur(25))
