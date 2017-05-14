@@ -9,6 +9,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import Q
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -65,6 +66,7 @@ class EventManager(models.Manager):
 		events.update(level=0)
 
 
+@python_2_unicode_compatible
 class Event(models.Model):
 	OTHER_ACTION = 'x'
 	CREATE_ACTION = 'c'
@@ -96,21 +98,19 @@ class Event(models.Model):
 	class Meta:
 		index_together = [['object_id', 'content_type', 'action', 'level']]
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.message
 
 
 class InboxManager(models.Manager):
 	def user_messages(self, user):
-		return self.get_queryset().\
-			select_related('event', 'event__content_type').\
-			filter(recipient=user).\
-			order_by('readed', '-pk')
-
-	def get_queryset(self):
-		return super(InboxManager, self).get_queryset()
+		return (self.get_queryset()
+			.select_related('event', 'event__content_type')
+			.filter(recipient=user)
+			.order_by('readed', '-pk'))
 
 
+@python_2_unicode_compatible
 class Inbox(models.Model):
 	objects = InboxManager()
 
@@ -118,7 +118,7 @@ class Inbox(models.Model):
 	event = models.ForeignKey(Event)
 	readed = models.BooleanField(default=False)
 
-	def __unicode__(self):
+	def __str__(self):
 		return str(self.event_id)
 
 	@property

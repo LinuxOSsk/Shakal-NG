@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# pylint: disable=no-member,model-missing-unicode
 from __future__ import unicode_literals
 
 import os
@@ -11,6 +10,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import signals
 from django.utils import six
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from easy_thumbnails.fields import ThumbnailerField
 
@@ -52,6 +52,7 @@ class ThumbnailImageField(AutoImageFieldMixin, ThumbnailerField):
 		super(ThumbnailImageField, self).contribute_to_class(cls, name)
 
 
+@python_2_unicode_compatible
 class Attachment(models.Model):
 	attachment = ThumbnailImageField(_('attachment'), upload_to=upload_to)
 	created = models.DateTimeField(_('created'), auto_now_add=True)
@@ -82,7 +83,7 @@ class Attachment(models.Model):
 	def filename(self):
 		return os.path.join(settings.MEDIA_ROOT, self.attachment.name)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.attachment.name
 
 	def delete_file(self):
@@ -116,12 +117,10 @@ class Attachment(models.Model):
 				self.attachment = file_name
 
 
+@python_2_unicode_compatible
 class AttachmentImage(Attachment):
 	width = models.IntegerField()
 	height = models.IntegerField()
-
-	def __unicode__(self):
-		super(AttachmentImage, self).__unicode__()
 
 
 class AttachmentImageRaw(models.Model):
@@ -139,6 +138,7 @@ def generate_uuid():
 	return uuid.uuid1().hex
 
 
+@python_2_unicode_compatible
 class UploadSession(models.Model):
 	created = models.DateTimeField(auto_now_add=True)
 	uuid = models.CharField(max_length=32, unique=True, default=generate_uuid)
@@ -163,7 +163,7 @@ class UploadSession(models.Model):
 			self.__replace_content_attachment_urls(content_object, moves)
 		return moves
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.uuid
 
 	def __replace_content_attachment_urls(self, content_object, moves):

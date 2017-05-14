@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models import permalink
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
 from django_autoslugfield.fields import AutoSlugField
 
@@ -28,6 +29,7 @@ class NewsListManager(models.Manager):
 		return super(NewsListManager, self).get_queryset().select_related('author').filter(approved=True).order_by('-pk')
 
 
+@python_2_unicode_compatible
 class Category(models.Model):
 	name = models.CharField('názov', max_length=255)
 	slug = models.SlugField(unique=True)
@@ -37,7 +39,7 @@ class Category(models.Model):
 	def get_absolute_url(self):
 		return ('news:list-category', None, {'category': self.slug})
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.name
 
 	class Meta:
@@ -45,6 +47,7 @@ class Category(models.Model):
 		verbose_name_plural = 'kategórie'
 
 
+@python_2_unicode_compatible
 class News(TimestampModelMixin, models.Model):
 	all_news = NewsManager()
 	objects = NewsListManager()
@@ -99,5 +102,5 @@ class News(TimestampModelMixin, models.Model):
 	def admin_notes(self):
 		return self.notes.order_by('pk')
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.title

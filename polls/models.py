@@ -7,6 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
+from django.utils.encoding import python_2_unicode_compatible
 from django_autoslugfield.fields import AutoSlugField
 
 from comments.models import RootHeader, Comment
@@ -28,6 +29,7 @@ class PollListManager(ActivePollsListManager):
 			.filter(content_type_id=None)
 
 
+@python_2_unicode_compatible
 class Poll(TimestampModelMixin, models.Model):
 	all_objects = models.Manager()
 	objects = PollListManager()
@@ -84,7 +86,7 @@ class Poll(TimestampModelMixin, models.Model):
 		if self.content_type:
 			self.slug = self.content_type.model + '-' + str(self.object_id)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.question
 
 	class Meta:
@@ -92,6 +94,7 @@ class Poll(TimestampModelMixin, models.Model):
 		verbose_name_plural = 'ankety'
 
 
+@python_2_unicode_compatible
 class Choice(models.Model):
 	poll = models.ForeignKey(Poll, verbose_name='anketa')
 	choice = models.CharField('odpoveď', max_length=255)
@@ -103,7 +106,7 @@ class Choice(models.Model):
 		else:
 			return 100.0 * self.votes / self.poll.answer_count
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.choice
 
 	class Meta:
@@ -111,6 +114,7 @@ class Choice(models.Model):
 		verbose_name_plural = 'odpovede'
 
 
+@python_2_unicode_compatible
 class RecordIp(models.Model):
 	poll = models.ForeignKey(Poll)
 	ip = models.GenericIPAddressField()
@@ -119,10 +123,11 @@ class RecordIp(models.Model):
 	class Meta:
 		unique_together = ('poll', 'ip', )
 
-	def __unicode__(self):
+	def __str__(self):
 		return str(self.poll.pk) + ' - ' + str(self.ip)
 
 
+@python_2_unicode_compatible
 class RecordUser(models.Model):
 	poll = models.ForeignKey(Poll)
 	user = models.ForeignKey(settings.AUTH_USER_MODEL)
@@ -131,7 +136,7 @@ class RecordUser(models.Model):
 	class Meta:
 		unique_together = ('poll', 'user', )
 
-	def __unicode__(self):
+	def __str__(self):
 		return str(self.poll.pk) + ' - ' + str(self.user.pk)
 
 

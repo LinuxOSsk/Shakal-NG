@@ -3,7 +3,9 @@ from __future__ import unicode_literals
 
 import re
 
+from builtins import chr as chr_
 from django import template
+from django.utils.encoding import force_text
 from django_jinja import library
 from html.entities import entitydefs
 
@@ -17,13 +19,13 @@ dec_pattern = re.compile(r'&\#(\d+?);')
 def html_entity_decode_char(m, defs=None):
 	defs = defs or entitydefs
 	try:
-		return unicode(defs[m.group(1)], errors='replace')
+		return force_text(defs[m.group(1)], errors='replace')
 	except KeyError:
 		return m.group(0)
 
 def xml_entity_decode_char(m):
 	try:
-		return unichr(int(m.group(1)))
+		return chr_(int(m.group(1)))
 	except (UnicodeError, ValueError):
 		return m
 

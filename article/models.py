@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models import permalink
+from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.functional import cached_property
 from django.utils.timezone import now
 
@@ -18,6 +19,7 @@ from polls.models import Poll
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
+@python_2_unicode_compatible
 class Category(models.Model):
 	name = models.CharField('názov', max_length=255)
 	slug = models.SlugField('skratka URL', unique=True)
@@ -27,7 +29,7 @@ class Category(models.Model):
 	def get_absolute_url(self):
 		return ('article:list-category', None, {'category': self.slug})
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.name
 
 	class Meta:
@@ -43,6 +45,7 @@ class ArticleManager(models.Manager):
 			.order_by('-pub_time', '-pk'))
 
 
+@python_2_unicode_compatible
 class Article(TimestampModelMixin, models.Model):
 	all_articles = models.Manager()
 	objects = ArticleManager()
@@ -122,7 +125,7 @@ class Article(TimestampModelMixin, models.Model):
 	def is_published(self):
 		return self.published and self.pub_time <= now()
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.title
 
 	class Meta:
@@ -130,6 +133,7 @@ class Article(TimestampModelMixin, models.Model):
 		verbose_name_plural = 'články'
 
 
+@python_2_unicode_compatible
 class Series(TimestampModelMixin, models.Model):
 	name = models.CharField('názov seriálu', max_length=100)
 	slug = models.SlugField('skratka URL', unique=True)
@@ -140,7 +144,7 @@ class Series(TimestampModelMixin, models.Model):
 	def get_absolute_url(self):
 		return ('article:list-series', None, {'category': self.slug})
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.name
 
 	class Meta:
@@ -148,12 +152,13 @@ class Series(TimestampModelMixin, models.Model):
 		verbose_name_plural = 'seriály'
 
 
+@python_2_unicode_compatible
 class SeriesArticle(models.Model):
 	article = models.OneToOneField(Article, verbose_name='článok', related_name='series')
 	series = models.ForeignKey(Series, verbose_name='seriál')
 
-	def __unicode__(self, *args, **kwargs):
-		return unicode(self.series) + ' / ' + unicode(self.article)
+	def __str__(self, *args, **kwargs):
+		return force_text(self.series) + ' / ' + force_text(self.article)
 
 	class Meta:
 		verbose_name = 'seriálový článok'

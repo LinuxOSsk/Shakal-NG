@@ -6,11 +6,13 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import Q
+from django.utils.encoding import python_2_unicode_compatible
 
 from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
+@python_2_unicode_compatible
 class Note(TimestampModelMixin, models.Model):
 	content_type = models.ForeignKey(
 		ContentType,
@@ -46,7 +48,7 @@ class Note(TimestampModelMixin, models.Model):
 	)
 	filtered_text = RichTextFilteredField()
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.subject
 		#return Truncator(strip_tags(self.filtered_text).replace('&shy;', '')).words(3, truncate="...")
 

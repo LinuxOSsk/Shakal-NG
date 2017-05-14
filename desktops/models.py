@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models import permalink, Count
+from django.utils.encoding import python_2_unicode_compatible
 
 from autoimagefield.fields import AutoImageField
 from comments.models import RootHeader, Comment
@@ -22,6 +23,7 @@ class DesktopManager(models.Manager):
 			.annotate(favorited_count=Count('favorited')))
 
 
+@python_2_unicode_compatible
 class Desktop(TimestampModelMixin, models.Model):
 	objects = DesktopManager()
 
@@ -65,7 +67,7 @@ class Desktop(TimestampModelMixin, models.Model):
 	def get_update_url(self):
 		return ('desktops:update', (self.pk,), {})
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.title
 
 	class Meta:
@@ -73,11 +75,12 @@ class Desktop(TimestampModelMixin, models.Model):
 		verbose_name_plural = 'desktopy'
 
 
+@python_2_unicode_compatible
 class FavoriteDesktop(TimestampModelMixin, models.Model):
 	desktop = models.ForeignKey(Desktop, verbose_name='desktop')
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='používateľ')
 
-	def __unicode__(self):
+	def __str__(self):
 		return str(self.pk)
 
 	class Meta:

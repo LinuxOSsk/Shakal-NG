@@ -4,12 +4,14 @@ from __future__ import unicode_literals
 import mptt
 from django.conf import settings
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from django_autoslugfield.fields import AutoSlugField
 
 from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
+@python_2_unicode_compatible
 class Page(mptt.models.MPTTModel, TimestampModelMixin):
 	TYPE_CHOICES = (
 		('h', u'Domovská stránka'),
@@ -27,7 +29,7 @@ class Page(mptt.models.MPTTModel, TimestampModelMixin):
 
 	content_fields = ('original_text',)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.title
 
 	class Meta:

@@ -8,6 +8,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models import permalink
 from django.utils import timezone
+from django.utils.encoding import python_2_unicode_compatible
 
 from attachment.models import Attachment
 from comments.models import RootHeader, Comment
@@ -18,6 +19,7 @@ from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 FORUM_TOPIC_MAX_LENGTH = getattr(settings, 'FORUM_TOPIC_MAX_LENGTH', 5000)
 
 
+@python_2_unicode_compatible
 class Section(models.Model):
 	name = models.CharField('názov', max_length=255)
 	slug = models.SlugField(unique=True)
@@ -27,7 +29,7 @@ class Section(models.Model):
 	def get_absolute_url(self):
 		return ('forum:section', None, {'category': self.slug})
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.name
 
 	class Meta:
@@ -74,6 +76,7 @@ class TopicListManager(models.Manager):
 		return queryset
 
 
+@python_2_unicode_compatible
 class Topic(TimestampModelMixin, models.Model):
 	objects = TopicManager()
 	topics = TopicListManager()
@@ -130,7 +133,7 @@ class Topic(TimestampModelMixin, models.Model):
 	def get_list_url(self):
 		return ('forum:overview', None, None)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.title
 
 	class Meta:

@@ -2,22 +2,25 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from mptt.models import MPTTModel, TreeForeignKey
 
 from comments.models import RootHeader, Comment
 from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
-from django.contrib.contenttypes.fields import GenericRelation
 
 
+@python_2_unicode_compatible
 class VocabularyNodeType(models.Model):
 	name = models.CharField(max_length=32, db_column='type')
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.name
 
 
+@python_2_unicode_compatible
 class Term(MPTTModel, models.Model):
 	parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
 	vocabulary = models.ForeignKey(VocabularyNodeType, db_column='vid')
@@ -28,10 +31,11 @@ class Term(MPTTModel, models.Model):
 	def get_absolute_url(self):
 		return ('blackhole:story_list_term', (self.pk,), {})
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.name
 
 
+@python_2_unicode_compatible
 class Node(TimestampModelMixin, models.Model):
 	node_type = models.CharField(max_length=32)
 	title = models.CharField(max_length=128)
@@ -54,10 +58,11 @@ class Node(TimestampModelMixin, models.Model):
 	def get_absolute_url(self):
 		return ('blackhole:story_detail', (self.pk,), {})
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.title
 
 
+@python_2_unicode_compatible
 class NodeRevision(TimestampModelMixin, models.Model):
 	node = models.ForeignKey('blackhole.Node')
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
@@ -70,10 +75,11 @@ class NodeRevision(TimestampModelMixin, models.Model):
 	filtered_body = RichTextFilteredField()
 	log = models.TextField(blank=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.title
 
 
+@python_2_unicode_compatible
 class File(models.Model):
 	node = models.ForeignKey('blackhole.Node')
 	filename = models.CharField(max_length=255)
@@ -81,5 +87,5 @@ class File(models.Model):
 	filemime = models.CharField(max_length=255)
 	filesize = models.IntegerField()
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.filename

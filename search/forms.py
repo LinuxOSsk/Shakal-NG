@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django import forms
+from django.utils.encoding import force_text
 from haystack.forms import HighlightedModelSearchForm
 
 
@@ -25,7 +26,7 @@ class SearchForm(HighlightedModelSearchForm):
 	def __init__(self, *args, **kwargs):
 		super(SearchForm, self).__init__(*args, **kwargs)
 		self.fields['models'].label = 'Hľadať v'
-		self.fields['models'].choices.sort(key=lambda x: unicode(x[0]))
+		self.fields['models'].choices.sort(key=lambda x: force_text(x[0]))
 
 	def search(self):
 		if not self.is_valid():

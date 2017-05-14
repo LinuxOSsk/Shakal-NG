@@ -7,6 +7,7 @@ from django.db import models
 from django.db.models import Q, Case, When
 from django.db.models.query import QuerySet
 from django.utils import timezone
+from django.utils.encoding import python_2_unicode_compatible
 from django_autoslugfield.fields import AutoSlugField
 
 from attachment.models import Attachment
@@ -17,6 +18,7 @@ from polls.models import Poll
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
+@python_2_unicode_compatible
 class Blog(TimestampModelMixin, models.Model):
 	author = models.OneToOneField(settings.AUTH_USER_MODEL)
 	title = models.CharField(max_length=100, verbose_name='názov blogu')
@@ -32,7 +34,7 @@ class Blog(TimestampModelMixin, models.Model):
 	def get_absolute_url(self):
 		return ('blog:post-list-category', [self.slug], {})
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.title
 
 	class Meta:
@@ -72,6 +74,7 @@ class PublishedPostManager(PostManager):
 		return super(PublishedPostManager, self).get_queryset().filter(is_published=True)
 
 
+@python_2_unicode_compatible
 class Post(TimestampModelMixin, models.Model):
 	all_objects = PostManager()
 	objects = PublishedPostManager()
@@ -108,7 +111,7 @@ class Post(TimestampModelMixin, models.Model):
 	def author(self):
 		return self.blog.author
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.title
 
 	class Meta:

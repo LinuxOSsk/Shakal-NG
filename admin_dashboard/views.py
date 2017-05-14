@@ -10,6 +10,7 @@ from braces.views import StaffuserRequiredMixin
 from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django.http.response import HttpResponse
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
 from django.views.generic import View
 
@@ -73,7 +74,7 @@ class Stats(StaffuserRequiredMixin, View):
 			f = StringIO()
 			writer = csv.writer(f, delimiter = str(','))
 			for row in data:
-				writer.writerow([unicode(s).encode("utf-8") for s in row])
+				writer.writerow([force_text(s).encode("utf-8") for s in row])
 			return HttpResponse(f.getvalue())
 		else: # json
 			return HttpResponse(dumps(data))

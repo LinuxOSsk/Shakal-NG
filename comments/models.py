@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db import models, transaction
 from django.utils import timezone
-from django.utils.encoding import force_str
+from django.utils.encoding import force_str, python_2_unicode_compatible
 from mptt.models import MPTTModel, TreeForeignKey
 
 from attachment.models import Attachment
@@ -42,6 +42,7 @@ class CommentManager(models.Manager):
 				return (root_comment, created)
 
 
+@python_2_unicode_compatible
 class Comment(MPTTModel, TimestampModelMixin):
 	objects = CommentManager()
 
@@ -107,7 +108,7 @@ class Comment(MPTTModel, TimestampModelMixin):
 			self.user_name = force_str(self.user)
 		return super(Comment, self).save(*args, **kwargs)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.subject
 
 	class Meta:
@@ -117,6 +118,7 @@ class Comment(MPTTModel, TimestampModelMixin):
 		verbose_name_plural = 'komentáre'
 
 
+@python_2_unicode_compatible
 class CommentFlag(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='používateľ', related_name="threadedcomment_flags")
 	comment = models.ForeignKey(Comment, verbose_name='komentár', related_name="flags")
@@ -132,7 +134,7 @@ class CommentFlag(models.Model):
 		verbose_name = 'značka komenára'
 		verbose_name_plural = 'značky komentárov'
 
-	def __unicode__(self):
+	def __str__(self):
 		return u"%s flag of comment ID %s by %s" % (self.flag, self.comment_id, self.user.get_username())
 
 	def save(self, *args, **kwargs):
@@ -141,6 +143,7 @@ class CommentFlag(models.Model):
 		super(CommentFlag, self).save(*args, **kwargs)
 
 
+@python_2_unicode_compatible
 class RootHeader(models.Model):
 	pub_date = models.DateTimeField(db_index=True)
 	last_comment = models.DateTimeField(db_index=True)
@@ -150,7 +153,7 @@ class RootHeader(models.Model):
 	object_id = models.PositiveIntegerField()
 	content_object = GenericForeignKey('content_type', 'object_id')
 
-	def __unicode__(self):
+	def __str__(self):
 		return '#%d' % self.id
 
 	@property
@@ -167,13 +170,14 @@ class RootHeader(models.Model):
 		verbose_name_plural = 'diskusie'
 
 
+@python_2_unicode_compatible
 class UserDiscussionAttribute(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL)
 	discussion = models.ForeignKey(RootHeader)
 	time = models.DateTimeField(null=True, blank=True)
 	watch = models.BooleanField(default=False)
 
-	def __unicode__(self):
+	def __str__(self):
 		return '#%d' % self.id
 
 	class Meta:

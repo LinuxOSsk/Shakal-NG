@@ -13,6 +13,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.core.validators import MinValueValidator, MaxValueValidator, MaxLengthValidator
 from django.db import models
 from django.utils import timezone
+from django.utils.encoding import python_2_unicode_compatible
 from django_geoposition_field.fields import GeopositionField
 
 from . import accounts_settings
@@ -22,6 +23,7 @@ from common_utils import get_default_manager
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
+@python_2_unicode_compatible
 class User(AbstractUser):
 	objects = UserManager()
 
@@ -77,7 +79,7 @@ class User(AbstractUser):
 			.order_by('-pk')
 			.first())
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.get_full_name() or self.username
 
 	class Meta:
@@ -86,6 +88,7 @@ class User(AbstractUser):
 		verbose_name_plural = 'používatelia'
 
 
+@python_2_unicode_compatible
 class UserRating(models.Model):
 	RATING_WEIGHTS = {
 		'comments': 1,
@@ -107,7 +110,7 @@ class UserRating(models.Model):
 		r = self.rating
 		return (r >= 1000 and '5') or (r >= 400 and '4') or (r >= 50 and '3') or (r >= 10 and '2') or '1'
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.get_rating_label()
 
 
@@ -119,15 +122,16 @@ class RememberTokenManager(models.Manager):
 			return None
 
 		max_age = timezone.now() - timedelta(seconds=accounts_settings.COOKIE_AGE)
-		for token in self.all().filter(created__gte=max_age, user=user_id):
+		for db_token in self.all().filter(created__gte=max_age, user=user_id):
 			if check_password(token_hash, token.token_hash):
-				return token
+				return db_token
 
 	def clean_remember_tokens(self):
 		max_age = timezone.now() - timedelta(seconds=accounts_settings.COOKIE_AGE)
 		return self.all().filter(created__lte=max_age).delete()
 
 
+@python_2_unicode_compatible
 class RememberToken(models.Model):
 	objects = RememberTokenManager()
 
@@ -135,5 +139,5 @@ class RememberToken(models.Model):
 	created = models.DateTimeField(editable=False, blank=True, auto_now_add=True)
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="remember_me_tokens")
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.token_hash

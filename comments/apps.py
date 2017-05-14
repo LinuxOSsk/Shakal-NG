@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save, post_delete
+from django.utils.encoding import force_text
 
 
 class CommentsConfig(AppConfig):
@@ -25,7 +26,7 @@ class CommentsConfig(AppConfig):
 		watchers = (get_user_model().objects
 			.filter(userdiscussionattribute__discussion=instance.get_or_create_root_header(), userdiscussionattribute__watch=True)
 			.distinct())
-		title = u"Pridaný komentár v diskusii " + unicode(instance.content_object)
+		title = "Pridaný komentár v diskusii " + force_text(instance.content_object)
 		author = None
 		if instance.user:
 			author = instance.user
