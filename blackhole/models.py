@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
+from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from mptt.models import MPTTModel, TreeForeignKey
 
@@ -27,9 +28,8 @@ class Term(MPTTModel, models.Model):
 	name = models.CharField(max_length=255)
 	description = models.TextField()
 
-	@models.permalink
 	def get_absolute_url(self):
-		return ('blackhole:story_list_term', (self.pk,), {})
+		return reverse('blackhole:story_list_term', args=(self.pk,))
 
 	def __str__(self):
 		return self.name
@@ -54,9 +54,8 @@ class Node(TimestampModelMixin, models.Model):
 		verbose_name = 'blackhole článok'
 		verbose_name_plural = 'blackhole články'
 
-	@models.permalink
 	def get_absolute_url(self):
-		return ('blackhole:story_detail', (self.pk,), {})
+		return reverse('blackhole:story_detail', args=(self.pk,))
 
 	def __str__(self):
 		return self.title

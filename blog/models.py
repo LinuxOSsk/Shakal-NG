@@ -6,6 +6,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models import Q, Case, When
 from django.db.models.query import QuerySet
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django_autoslugfield.fields import AutoSlugField
@@ -30,9 +31,8 @@ class Blog(TimestampModelMixin, models.Model):
 
 	content_fields = ('original_descriptoin', 'original_sidebar',)
 
-	@models.permalink
 	def get_absolute_url(self):
-		return ('blog:post-list-category', [self.slug], {})
+		return reverse('blog:post-list-category', args=(self.slug))
 
 	def __str__(self):
 		return self.title
@@ -96,9 +96,8 @@ class Post(TimestampModelMixin, models.Model):
 
 	content_fields = ('original_perex', 'original_content',)
 
-	@models.permalink
 	def get_absolute_url(self):
-		return ('blog:post-detail', [self.blog.slug, self.slug], {})
+		return reverse('blog:post-detail', args=(self.blog.slug, self.slug))
 
 	def published(self):
 		if not self.pub_time:

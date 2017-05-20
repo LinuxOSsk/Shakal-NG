@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
-from django.db.models import permalink
+from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
 from django_autoslugfield.fields import AutoSlugField
@@ -35,9 +35,8 @@ class Category(models.Model):
 	slug = models.SlugField(unique=True)
 	description = models.TextField('popis')
 
-	@models.permalink
 	def get_absolute_url(self):
-		return ('news:list-category', None, {'category': self.slug})
+		return reverse('news:list-category', kwargs={'category': self.slug})
 
 	def __str__(self):
 		return self.name
@@ -90,13 +89,11 @@ class News(TimestampModelMixin, models.Model):
 		verbose_name = 'správa'
 		verbose_name_plural = 'správy'
 
-	@permalink
 	def get_absolute_url(self):
-		return ('news:detail', None, {'slug': self.slug})
+		return reverse('news:detail', kwargs={'slug': self.slug})
 
-	@permalink
 	def get_list_url(self):
-		return ('news:list', None, None)
+		return reverse('news:list')
 
 	@cached_property
 	def admin_notes(self):

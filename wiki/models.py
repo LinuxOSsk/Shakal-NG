@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import mptt
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from django_autoslugfield.fields import AutoSlugField
 
@@ -36,9 +37,8 @@ class Page(mptt.models.MPTTModel, TimestampModelMixin):
 		verbose_name = 'Wiki stránka'
 		verbose_name_plural = 'Wiki stránky'
 
-	@models.permalink
 	def get_absolute_url(self):
 		if self.page_type == 'h' and not self.parent:
-			return ('wiki:home', None, None)
+			return reverse('wiki:home')
 		else:
-			return ('wiki:page', None, {'slug': self.slug})
+			return reverse('wiki:page', kwargs={'slug': self.slug})

@@ -6,7 +6,7 @@ from datetime import timedelta
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
-from django.db.models import permalink
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 
@@ -25,9 +25,8 @@ class Section(models.Model):
 	slug = models.SlugField(unique=True)
 	description = models.TextField('popis')
 
-	@permalink
 	def get_absolute_url(self):
-		return ('forum:section', None, {'category': self.slug})
+		return reverse('forum:section', kwargs={'category': self.slug})
 
 	def __str__(self):
 		return self.name
@@ -125,13 +124,11 @@ class Topic(TimestampModelMixin, models.Model):
 			return self.authors_name
 	get_authors_name.short_description = 'meno autora'
 
-	@permalink
 	def get_absolute_url(self):
-		return ('forum:topic-detail', None, {'pk': self.pk})
+		return reverse('forum:topic-detail', kwargs={'pk': self.pk})
 
-	@permalink
 	def get_list_url(self):
-		return ('forum:overview', None, None)
+		return reverse('forum:overview')
 
 	def __str__(self):
 		return self.title

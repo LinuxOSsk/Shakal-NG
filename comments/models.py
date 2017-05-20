@@ -7,13 +7,12 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db import models, transaction
 from django.utils import timezone
-from django.utils.encoding import force_str
+from django.utils.encoding import force_str, python_2_unicode_compatible
 from mptt.models import MPTTModel, TreeForeignKey
 
 from attachment.models import Attachment
 from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
-from django.utils.encoding import python_2_unicode_compatible
 
 
 COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 50000)
@@ -83,9 +82,8 @@ class Comment(MPTTModel, TimestampModelMixin):
 	def get_absolute_url(self):
 		return '%s#link_%d' % (reverse('comments:comments', args=(self.get_or_create_root_header().pk,), kwargs={}), self.id)
 
-	@models.permalink
 	def get_single_comment_url(self):
-		return ('comments:comment-single', (self.pk,), {})
+		return reverse('comments:comment-single', args=(self.pk,))
 
 	def get_tags(self):
 		tags = []
@@ -161,9 +159,8 @@ class RootHeader(models.Model):
 	def title(self):
 		return force_str(self.content_object)
 
-	@models.permalink
 	def get_absolute_url(self):
-		return ('comments:comments', (self.pk,), {})
+		return reverse('comments:comments', args=(self.pk,))
 
 	class Meta:
 		unique_together = (('content_type', 'object_id',),)

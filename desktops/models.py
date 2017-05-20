@@ -4,7 +4,8 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
-from django.db.models import permalink, Count
+from django.db.models import Count
+from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 
 from autoimagefield.fields import AutoImageField
@@ -59,13 +60,11 @@ class Desktop(TimestampModelMixin, models.Model):
 	comments = GenericRelation(Comment)
 	hit = HitCountField()
 
-	@permalink
 	def get_absolute_url(self):
-		return ('desktops:detail', (self.pk,), {})
+		return reverse('desktops:detail', args=(self.pk,))
 
-	@permalink
 	def get_update_url(self):
-		return ('desktops:update', (self.pk,), {})
+		return reverse('desktops:update', args=(self.pk,))
 
 	def __str__(self):
 		return self.title

@@ -6,6 +6,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelatio
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django_autoslugfield.fields import AutoSlugField
@@ -55,13 +56,11 @@ class Poll(TimestampModelMixin, models.Model):
 	def choices(self):
 		return Choice.objects.filter(poll=self.pk).select_related('poll__answer_count').order_by('pk')
 
-	@models.permalink
 	def get_absolute_url(self):
-		return ('polls:detail-by-slug', None, {'slug': self.slug})
+		return reverse('polls:detail-by-slug', kwargs={'slug': self.slug})
 
-	@models.permalink
 	def get_list_url(self):
-		return ('polls:list', None, None)
+		return reverse('polls:list')
 
 	def msg_id(self):
 		return 'poll-' + str(self.pk)

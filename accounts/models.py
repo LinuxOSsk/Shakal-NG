@@ -12,6 +12,7 @@ from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.validators import MinValueValidator, MaxValueValidator, MaxLengthValidator
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django_geoposition_field.fields import GeopositionField
@@ -46,9 +47,8 @@ class User(AbstractUser):
 				raise ValidationError({'email': ['Používateľ s touto e-mailovou adresou už existuje']})
 		super(User, self).clean_fields(exclude)
 
-	@models.permalink
 	def get_absolute_url(self):
-		return ('accounts:profile', [], {'pk': self.pk})
+		return reverse('accounts:profile', kwargs={'pk': self.pk})
 
 	def get_full_name(self):
 		full_name = ('%s %s' % (self.first_name, self.last_name)).strip()

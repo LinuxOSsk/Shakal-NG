@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
-from django.db.models import permalink
+from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.functional import cached_property
 from django.utils.timezone import now
@@ -25,9 +25,8 @@ class Category(models.Model):
 	slug = models.SlugField('skratka URL', unique=True)
 	description = models.TextField('popis')
 
-	@permalink
 	def get_absolute_url(self):
-		return ('article:list-category', None, {'category': self.slug})
+		return reverse('article:list-category', kwargs={'category': self.slug})
 
 	def __str__(self):
 		return self.name
@@ -96,9 +95,8 @@ class Article(TimestampModelMixin, models.Model):
 	def poll_set(self):
 		return self.polls.all().filter(approved=True).order_by('pk').all()
 
-	@permalink
 	def get_absolute_url(self):
-		return ('article:detail', None, {'slug': self.slug})
+		return reverse('article:detail', kwargs={'slug': self.slug})
 
 	@cached_property
 	def series_object(self):
@@ -140,9 +138,8 @@ class Series(TimestampModelMixin, models.Model):
 	image = AutoImageField('obrázok', upload_to='article/thumbnails', resize_source=dict(size=(2048, 2048)), blank=True)
 	description = models.TextField('popis')
 
-	@permalink
 	def get_absolute_url(self):
-		return ('article:list-series', None, {'category': self.slug})
+		return reverse('article:list-series', kwargs={'category': self.slug})
 
 	def __str__(self):
 		return self.name

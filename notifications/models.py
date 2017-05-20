@@ -127,6 +127,5 @@ class Inbox(models.Model):
 			return None
 		return self.event.content_type.app_label + '.' + self.event.content_type.model
 
-	@models.permalink
 	def get_absolute_url(self):
-		return ('notifications:read', None, {'pk': self.pk})
+		return reverse('notifications:read', kwargs={'pk': self.pk})
