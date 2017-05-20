@@ -104,7 +104,7 @@ class PageEditMixin(UserPassesTestMixin):
 
 	def test_func(self, user):
 		request = self.request
-		if not request.user.is_authenticated():
+		if not request.user.is_authenticated:
 			return False
 
 		wiki_page = get_object_or_404(Page, slug=self.kwargs['slug'])

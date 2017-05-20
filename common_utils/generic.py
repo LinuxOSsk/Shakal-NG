@@ -72,11 +72,11 @@ class DetailUserProtectedView(DetailView):
 		q = []
 		if self.published_field:
 			q.append(Q(**{self.published_field: True}))
-		if self.author_field and self.request.user.is_authenticated():
+		if self.author_field and self.request.user.is_authenticated:
 			q.append(Q(**{self.author_field: self.request.user}))
 		qs = super(DetailUserProtectedView, self).get_queryset()
 		if q:
-			return qs.filter(six.moves.reduce(lambda a, b: a | b, q))
+			return qs.filter(six.moves.reduce(lambda a, b: a | b, q)) # pylint: disable=no-member
 		else:
 			return qs
 

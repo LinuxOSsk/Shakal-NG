@@ -67,13 +67,13 @@ class Poll(TimestampModelMixin, models.Model):
 		return 'poll-' + str(self.pk)
 
 	def can_vote(self, request):
-		if request.user.is_authenticated():
+		if request.user.is_authenticated:
 			return not RecordUser.objects.filter(user=request.user, poll=self).exists()
 		else:
 			return not RecordIp.objects.filter(ip=request.META['REMOTE_ADDR'], poll=self).exists()
 
 	def record_vote(self, request):
-		if request.user.is_authenticated():
+		if request.user.is_authenticated:
 			RecordUser(user=request.user, poll=self).save()
 		else:
 			RecordIp(ip=request.META['REMOTE_ADDR'], poll=self).save()
@@ -141,7 +141,7 @@ class RecordUser(models.Model):
 
 
 def record_vote(request, poll):
-	if request.user.is_authenticated():
+	if request.user.is_authenticated:
 		RecordUser(user=request.user, poll=poll).save()
 	else:
 		RecordIp(ip=request.META['REMOTE_ADDR'], poll=poll).save()

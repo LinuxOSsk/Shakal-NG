@@ -19,7 +19,7 @@ class AuthorsNameFormMixin(object):
 		super(AuthorsNameFormMixin, self).__init__(*args, **kwargs)
 		request = get_current_request()
 		authors_name_field = self.authors_name_field
-		if request.user.is_authenticated():
+		if request.user.is_authenticated:
 			if authors_name_field in self.fields:
 				del self.fields[authors_name_field]
 		else:
@@ -46,7 +46,7 @@ class AuthorsNameFormMixin(object):
 	def save(self, commit=True):
 		obj = super(AuthorsNameFormMixin, self).save(commit=False)
 		request = get_current_request()
-		if request.user.is_authenticated():
+		if request.user.is_authenticated:
 			username = get_current_request().user.get_full_name()
 			setattr(obj, self.authors_name_field, username)
 			if self.author_field:

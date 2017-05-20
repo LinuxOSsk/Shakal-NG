@@ -32,7 +32,7 @@ class LastViewedMiddleware(object):
 		response = self.get_response(request)
 		if not hasattr(request, 'user'):
 			return response
-		if request.user.is_authenticated() and request.resolver_match:
+		if request.user.is_authenticated and request.resolver_match:
 			if request.resolver_match.view_name in UPDATE_LAST_VIEW_TIME:
 				content_type = UPDATE_LAST_VIEW_TIME[request.resolver_match.view_name]
 				if content_type is not None or not request.user.user_settings:
@@ -50,7 +50,7 @@ class AuthRememberMiddleware(object):
 		self.get_response = get_response
 
 	def __call__(self, request):
-		if not hasattr(request, 'user') or request.user.is_authenticated():
+		if not hasattr(request, 'user') or request.user.is_authenticated:
 			return self.get_response(request)
 		user = authenticate_user(request)
 		delete_auth_remember = user is None

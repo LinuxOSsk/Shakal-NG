@@ -62,7 +62,7 @@ class NewsCreateView(PreviewCreateView):
 		return ret
 
 	def get_success_url(self):
-		if self.request.user.is_authenticated():
+		if self.request.user.is_authenticated:
 			return super(NewsCreateView, self).get_success_url()
 		else:
 			return reverse('home')

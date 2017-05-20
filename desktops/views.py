@@ -61,14 +61,14 @@ class DesktopDetail(DetailUserProtectedView):
 			('Ďalšie desktopy', next_desktops),
 		)
 		favorited = False
-		if self.request.user.is_authenticated() and self.object.favorited.filter(pk=self.request.user.pk).exists():
+		if self.request.user.is_authenticated and self.object.favorited.filter(pk=self.request.user.pk).exists():
 			favorited = True
 		return (super(DesktopDetail, self)
 			.get_context_data(other_desktops=other_desktops, favorited=favorited, **kwargs))
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object()
-		if request.user.is_authenticated():
+		if request.user.is_authenticated:
 			if 'favorite' in request.POST and self.object.author != self.request.user:
 				if request.POST['favorite']:
 					FavoriteDesktop.objects.get_or_create(desktop=self.object, user=self.request.user)

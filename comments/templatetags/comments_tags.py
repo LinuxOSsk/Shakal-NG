@@ -101,7 +101,7 @@ class DiscussionLoader:
 		self.context = context
 		attrib = None
 		query_set = self.get_queryset()
-		if 'user' in context and context['user'].is_authenticated():
+		if 'user' in context and context['user'].is_authenticated:
 			attrib = self.get_discussion_attribute()
 			last_display_time = self.get_last_display_time(attrib)
 			self.update_discussion_attribute(attrib)
@@ -115,7 +115,7 @@ class DiscussionLoader:
 		else:
 			setattr(query_set, 'root_item', query_set.get(level=0))
 		setattr(query_set, 'root_header', self.root_header)
-		if 'user' in context and context['user'].is_authenticated():
+		if 'user' in context and context['user'].is_authenticated:
 			setattr(query_set, 'user_attribute', attrib)
 		return query_set
 
@@ -139,7 +139,7 @@ def copy_attributes(obj, attributes):
 @library.global_function
 def add_discussion_attributes(context, *models):
 	discussion_lookups, content_types = get_lookups(models)
-	user = context['user'] if 'user' in context and context['user'].is_authenticated() else None
+	user = context['user'] if 'user' in context and context['user'].is_authenticated else None
 
 	discussion_lookups = {
 		content_type: id_list

@@ -25,7 +25,7 @@ class PostListView(ListView):
 
 	def get_queryset(self):
 		queryset = self.filter_by_category(Post.all_objects.all())
-		if self.request.user.is_authenticated():
+		if self.request.user.is_authenticated:
 			return queryset.for_auth_user(self.request.user)
 		else:
 			return queryset.published()

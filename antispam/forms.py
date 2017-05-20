@@ -14,7 +14,7 @@ class AntispamFormMixin(object):
 	def __init__(self, *args, **kwargs):
 		super(AntispamFormMixin, self).__init__(*args, **kwargs)
 		request = get_current_request()
-		if not request.user.is_authenticated():
+		if not request.user.is_authenticated:
 			self.fields['captcha'] = AntispamField(required=True)
 			self.process_antispam(get_current_request())
 
