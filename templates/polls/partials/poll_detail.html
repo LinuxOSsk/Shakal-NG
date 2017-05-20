@@ -8,7 +8,7 @@
 {% endwith %}
 <div class="submit-row">
 	<input type="hidden" name="next" value="{{ request.path }}" />
-	{% if request.user.is_authenticated() %}
+	{% if request.user.is_authenticated %}
 	<div class="negative">
 		<div class="btn"><span class="wrap"><a class="text" href="{{ url("polls:create") }}">Navrhnúť</a></span></div>
 	</div>
@@ -22,7 +22,7 @@
 
 </form>
 {% else %}
-	{% if request.user.is_authenticated() %}
+	{% if request.user.is_authenticated %}
 		<div class="submit-row">
 			<div class="negative">
 				<div class="btn"><span class="wrap"><a class="text" href="{{ url("polls:create") }}">Navrhnúť</a></span></div>

@@ -91,8 +91,8 @@ html, body {
 					{% block site_menu %}{% include "partials/site_menu.html" %}{% endblock %}
 				</ul>
 				<div class="pull-right">
-					<div id="user_panel" class="btn username {% if user.is_authenticated() %} authenticated{% endif %}">
-						{% if user.is_authenticated() %}
+					<div id="user_panel" class="btn username {% if user.is_authenticated %} authenticated{% endif %}">
+						{% if user.is_authenticated %}
 							<span class="wrap">
 								<a class="text" href="{{ request.user.get_absolute_url() }}">
 									<span class="icon-user"></span>

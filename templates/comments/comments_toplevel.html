@@ -14,7 +14,7 @@
 						<a href="{{ url("comments:reply", root.pk) }}" class="text" rel="nofollow">Pridať komentár</a>
 					</span>
 				</div>
-				{% if request.user.is_authenticated() %}
+				{% if request.user.is_authenticated %}
 					<div class="btn">
 						<span class="wrap">
 							<a href="{{ url("comments:forget", root_header.pk) }}" class="text forget">Zabudnúť</a>
@@ -23,7 +23,7 @@
 				{% endif %}
 			{% endif %}
 		</div>
-		{% if request.user.is_authenticated() %}
+		{% if request.user.is_authenticated %}
 			<form action="{{ url("comments:watch", root_header.pk) }}" method="post">{% csrf_token %}
 				<div class="btn-group reply">
 					<button class="btn watch" name="watch" value="{{ user_attribute.watch|yesno(",1") }}">

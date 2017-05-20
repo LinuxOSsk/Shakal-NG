@@ -104,7 +104,7 @@
 		{% endfor %}
 	</div>
 	<div class="module-links bottom">
-		{% if request.user.is_authenticated() %}
+		{% if request.user.is_authenticated %}
 			<a href="{{ url("desktops:create") }}">Pridať nový</a> |
 		{% endif %}
 		<a href="{{ url("desktops:list") }}" class="next">Ďalšie</a>

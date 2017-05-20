@@ -31,7 +31,7 @@
 
 {% block content %}
 
-{% if request.user.is_authenticated() and not revision %}
+{% if request.user.is_authenticated and not revision %}
 <ul class="object-tools btn-group">
 	<li class="btn"><span class="wrap"><a class="text" href="{{ url("wiki:create", page.slug) }}">Pridať podstránku</a></span></li>
 	<li class="btn"><span class="wrap"><a class="text" href="{{ url("wiki:edit", page.slug) }}">Editovať</a></span></li>

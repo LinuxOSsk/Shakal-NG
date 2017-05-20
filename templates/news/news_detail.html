@@ -25,7 +25,7 @@
 {% block html_extra %}{% include "partials/htmlscope_article.html" %}{% endblock %}
 
 {% block content %}
-{% if request.user.is_authenticated() %}
+{% if request.user.is_authenticated %}
 	<form action="{{ request.path }}" method="post">{% csrf_token %}
 		<ul class="object-tools btn-group">
 			{% if user.is_staff and perms.news.change_news %}
