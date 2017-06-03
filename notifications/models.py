@@ -9,6 +9,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import Q
+from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
@@ -87,12 +88,12 @@ class Event(models.Model):
 	objects = EventManager()
 
 	object_id = models.PositiveIntegerField(blank=True, null=True)
-	content_type = models.ForeignKey(ContentType, blank=True, null=True)
+	content_type = models.ForeignKey(ContentType, blank=True, null=True, on_delete=models.PROTECT)
 	time = models.DateTimeField(auto_now_add=True)
 	content_object = GenericForeignKey('content_type', 'object_id')
 	action = models.CharField(max_length=1, choices=ACTION_TYPE, default=MESSAGE_ACTION)
 	level = models.IntegerField(default=messages.INFO)
-	author = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
+	author = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.SET_NULL)
 	message = models.TextField()
 
 	class Meta:
@@ -114,8 +115,8 @@ class InboxManager(models.Manager):
 class Inbox(models.Model):
 	objects = InboxManager()
 
-	recipient = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='inbox')
-	event = models.ForeignKey(Event)
+	recipient = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='inbox', on_delete=models.CASCADE)
+	event = models.ForeignKey(Event, on_delete=models.CASCADE)
 	readed = models.BooleanField(default=False)
 
 	def __str__(self):

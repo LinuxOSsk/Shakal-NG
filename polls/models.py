@@ -39,7 +39,7 @@ class Poll(TimestampModelMixin, models.Model):
 	question = models.TextField('otázka')
 	slug = AutoSlugField(unique=True, title_field='question')
 
-	content_type = models.ForeignKey(ContentType, limit_choices_to={'model__in': ('article',)}, null=True, blank=True, verbose_name='typ obsahu')
+	content_type = models.ForeignKey(ContentType, limit_choices_to={'model__in': ('article',)}, null=True, blank=True, verbose_name='typ obsahu', on_delete=models.PROTECT)
 	object_id = models.PositiveIntegerField(verbose_name='id objektu', null=True, blank=True)
 	content_object = GenericForeignKey('content_type', 'object_id')
 
@@ -95,7 +95,7 @@ class Poll(TimestampModelMixin, models.Model):
 
 @python_2_unicode_compatible
 class Choice(models.Model):
-	poll = models.ForeignKey(Poll, verbose_name='anketa')
+	poll = models.ForeignKey(Poll, verbose_name='anketa', on_delete=models.CASCADE)
 	choice = models.CharField('odpoveď', max_length=255)
 	votes = models.PositiveIntegerField('hlasov', default=0)
 
@@ -115,7 +115,7 @@ class Choice(models.Model):
 
 @python_2_unicode_compatible
 class RecordIp(models.Model):
-	poll = models.ForeignKey(Poll)
+	poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
 	ip = models.GenericIPAddressField()
 	date = models.DateTimeField(auto_now_add=True)
 
@@ -128,8 +128,8 @@ class RecordIp(models.Model):
 
 @python_2_unicode_compatible
 class RecordUser(models.Model):
-	poll = models.ForeignKey(Poll)
-	user = models.ForeignKey(settings.AUTH_USER_MODEL)
+	poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	date = models.DateTimeField(auto_now_add=True)
 
 	class Meta:

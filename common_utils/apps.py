@@ -27,7 +27,7 @@ class AppConfig(CoreAppConfig):
 		def unexpand_tabs(text):
 			for length in range(16, 0, -4):
 				rx = re.compile('^' + '[ ]' * length, re.MULTILINE)
-				text = rx.sub('\t' * (length / 4), str(text))
+				text = rx.sub('\t' * (length // 4), str(text))
 			return text
 
 		from django.db.migrations.writer import MigrationWriter

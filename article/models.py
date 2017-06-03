@@ -151,8 +151,8 @@ class Series(TimestampModelMixin, models.Model):
 
 @python_2_unicode_compatible
 class SeriesArticle(models.Model):
-	article = models.OneToOneField(Article, verbose_name='článok', related_name='series')
-	series = models.ForeignKey(Series, verbose_name='seriál')
+	article = models.OneToOneField(Article, verbose_name='článok', related_name='series', on_delete=models.CASCADE)
+	series = models.ForeignKey(Series, verbose_name='seriál', on_delete=models.CASCADE)
 
 	def __str__(self, *args, **kwargs):
 		return force_text(self.series) + ' / ' + force_text(self.article)

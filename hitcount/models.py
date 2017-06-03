@@ -12,7 +12,7 @@ from .cache import cache
 @python_2_unicode_compatible
 class HitCount(models.Model):
 	hits = models.PositiveIntegerField(default=0)
-	content_type = models.ForeignKey(ContentType)
+	content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
 	object_id = models.PositiveIntegerField()
 	content_object = GenericForeignKey('content_type', 'object_id')
 

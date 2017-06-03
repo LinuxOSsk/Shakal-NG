@@ -19,7 +19,8 @@ class Note(TimestampModelMixin, models.Model):
 		limit_choices_to = (
 			Q(app_label='news', model='news')
 		),
-		verbose_name='typ obsahu'
+		verbose_name='typ obsahu',
+		on_delete=models.PROTECT
 	)
 	object_id = models.PositiveIntegerField(
 		verbose_name='id objektu',
@@ -30,10 +31,10 @@ class Note(TimestampModelMixin, models.Model):
 
 	author = models.ForeignKey(
 		settings.AUTH_USER_MODEL,
-		on_delete=models.SET_NULL,
 		blank=True,
 		null=True,
-		verbose_name='autor'
+		verbose_name='autor',
+		on_delete=models.SET_NULL
 	)
 	authors_name = models.CharField(
 		max_length=255,

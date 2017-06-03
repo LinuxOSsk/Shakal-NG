@@ -46,10 +46,10 @@ class CommentManager(models.Manager):
 class Comment(MPTTModel, TimestampModelMixin):
 	objects = CommentManager()
 
-	content_type = models.ForeignKey(ContentType, verbose_name='typ obsahu', related_name='content_type_set_for_%(class)s')
+	content_type = models.ForeignKey(ContentType, verbose_name='typ obsahu', related_name='content_type_set_for_%(class)s', on_delete=models.PROTECT)
 	object_id = models.PositiveIntegerField('ID objektu')
 	content_object = GenericForeignKey('content_type', 'object_id')
-	parent = TreeForeignKey('self', null=True, blank=True, related_name='children', verbose_name='nadradený')
+	parent = TreeForeignKey('self', null=True, blank=True, related_name='children', verbose_name='nadradený', on_delete=models.CASCADE)
 
 	subject = models.CharField('predmet', max_length=100)
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='používateľ', blank=True, null=True, related_name='%(class)s_comments', on_delete=models.SET_NULL)
@@ -119,8 +119,8 @@ class Comment(MPTTModel, TimestampModelMixin):
 
 @python_2_unicode_compatible
 class CommentFlag(models.Model):
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='používateľ', related_name="threadedcomment_flags")
-	comment = models.ForeignKey(Comment, verbose_name='komentár', related_name="flags")
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='používateľ', related_name="comment_flags", on_delete=models.CASCADE)
+	comment = models.ForeignKey(Comment, verbose_name='komentár', related_name="flags", on_delete=models.CASCADE)
 	flag = models.CharField('značka', max_length=30, db_index=True)
 	flag_date = models.DateTimeField('dátum', default=None)
 
@@ -148,7 +148,7 @@ class RootHeader(models.Model):
 	last_comment = models.DateTimeField(db_index=True)
 	comment_count = models.PositiveIntegerField(default=0, db_index=True)
 	is_locked = models.BooleanField(default=False)
-	content_type = models.ForeignKey(ContentType)
+	content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
 	object_id = models.PositiveIntegerField()
 	content_object = GenericForeignKey('content_type', 'object_id')
 
@@ -170,8 +170,8 @@ class RootHeader(models.Model):
 
 @python_2_unicode_compatible
 class UserDiscussionAttribute(models.Model):
-	user = models.ForeignKey(settings.AUTH_USER_MODEL)
-	discussion = models.ForeignKey(RootHeader)
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	discussion = models.ForeignKey(RootHeader, on_delete=models.CASCADE)
 	time = models.DateTimeField(null=True, blank=True)
 	watch = models.BooleanField(default=False)
 

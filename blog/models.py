@@ -21,7 +21,7 @@ from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 @python_2_unicode_compatible
 class Blog(TimestampModelMixin, models.Model):
-	author = models.OneToOneField(settings.AUTH_USER_MODEL)
+	author = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	title = models.CharField(max_length=100, verbose_name='názov blogu')
 	slug = AutoSlugField(title_field='title', unique=True)
 	original_description = RichTextOriginalField(filtered_field='filtered_description', property_name='description', verbose_name='popis blogu', max_length=1000, blank=True)
@@ -79,7 +79,7 @@ class Post(TimestampModelMixin, models.Model):
 	all_objects = PostManager()
 	objects = PublishedPostManager()
 
-	blog = models.ForeignKey(Blog)
+	blog = models.ForeignKey(Blog, on_delete=models.PROTECT)
 	title = models.CharField(max_length=100, verbose_name='názov')
 	slug = AutoSlugField(title_field='title', in_respect_to=('blog',))
 	original_perex = RichTextOriginalField(filtered_field='filtered_perex', property_name='perex', verbose_name='perex', max_length=1000)

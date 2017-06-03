@@ -31,7 +31,8 @@ class Desktop(TimestampModelMixin, models.Model):
 	author = models.ForeignKey(
 		settings.AUTH_USER_MODEL,
 		verbose_name='autor',
-		related_name='my_desktops'
+		related_name='my_desktops',
+		on_delete=models.CASCADE
 	)
 	title = models.CharField(
 		'názov',
@@ -76,8 +77,8 @@ class Desktop(TimestampModelMixin, models.Model):
 
 @python_2_unicode_compatible
 class FavoriteDesktop(TimestampModelMixin, models.Model):
-	desktop = models.ForeignKey(Desktop, verbose_name='desktop')
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='používateľ')
+	desktop = models.ForeignKey(Desktop, verbose_name='desktop', on_delete=models.CASCADE)
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='používateľ', on_delete=models.CASCADE)
 
 	def __str__(self):
 		return str(self.pk)

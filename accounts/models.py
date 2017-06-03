@@ -98,7 +98,7 @@ class UserRating(models.Model):
 		'wiki': 50,
 	}
 
-	user = models.OneToOneField(User, related_name='rating')
+	user = models.OneToOneField(User, related_name='rating', on_delete=models.CASCADE)
 	comments = models.IntegerField(default=0)
 	articles = models.IntegerField(default=0)
 	helped = models.IntegerField(default=0)
@@ -137,7 +137,7 @@ class RememberToken(models.Model):
 
 	token_hash = models.CharField(max_length=255, blank=False, primary_key=True)
 	created = models.DateTimeField(editable=False, blank=True, auto_now_add=True)
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="remember_me_tokens")
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="remember_me_tokens", on_delete=models.CASCADE)
 
 	def __str__(self):
 		return self.token_hash

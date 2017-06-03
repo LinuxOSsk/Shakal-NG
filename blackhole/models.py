@@ -23,8 +23,8 @@ class VocabularyNodeType(models.Model):
 
 @python_2_unicode_compatible
 class Term(MPTTModel, models.Model):
-	parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
-	vocabulary = models.ForeignKey(VocabularyNodeType, db_column='vid')
+	parent = TreeForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.PROTECT)
+	vocabulary = models.ForeignKey(VocabularyNodeType, db_column='vid', on_delete=models.PROTECT)
 	name = models.CharField(max_length=255)
 	description = models.TextField()
 
@@ -39,8 +39,8 @@ class Term(MPTTModel, models.Model):
 class Node(TimestampModelMixin, models.Model):
 	node_type = models.CharField(max_length=32)
 	title = models.CharField(max_length=128)
-	author = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
-	revision = models.ForeignKey('blackhole.NodeRevision', related_name='revisions')
+	author = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.SET_NULL)
+	revision = models.ForeignKey('blackhole.NodeRevision', related_name='revisions', on_delete=models.CASCADE)
 	is_published = models.BooleanField(blank=True, default=False)
 	is_commentable = models.BooleanField(blank=True, default=True)
 	is_promoted = models.BooleanField(blank=True, default=False)
@@ -63,8 +63,8 @@ class Node(TimestampModelMixin, models.Model):
 
 @python_2_unicode_compatible
 class NodeRevision(TimestampModelMixin, models.Model):
-	node = models.ForeignKey('blackhole.Node')
-	author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+	node = models.ForeignKey('blackhole.Node', on_delete=models.CASCADE)
+	author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
 	title = models.CharField(max_length=128)
 	original_body = RichTextOriginalField(
 		filtered_field='filtered_body',
@@ -80,7 +80,7 @@ class NodeRevision(TimestampModelMixin, models.Model):
 
 @python_2_unicode_compatible
 class File(models.Model):
-	node = models.ForeignKey('blackhole.Node')
+	node = models.ForeignKey('blackhole.Node', on_delete=models.PROTECT)
 	filename = models.CharField(max_length=255)
 	filepath = models.FileField(upload_to='blackhole')
 	filemime = models.CharField(max_length=255)

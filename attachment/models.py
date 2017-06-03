@@ -59,7 +59,7 @@ class Attachment(models.Model):
 	size = models.IntegerField(_('size'))
 	is_visible = models.BooleanField(_('is visible'), blank=True, default=True)
 
-	content_type = models.ForeignKey(ContentType)
+	content_type = models.ForeignKey(ContentType, on_delete=models.PROTECT)
 	object_id = models.PositiveIntegerField()
 	content_object = GenericForeignKey('content_type', 'object_id')
 
