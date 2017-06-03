@@ -7,7 +7,7 @@ from django.utils import six
 from . import get_parser
 from .forms import RichOriginalField
 from .syntax import highlight_pre_blocks
-from .widgets import TextVal
+from .widgets import TextVal, RichOriginalEditor
 
 
 class RichTextOriginalField(TextField):
@@ -30,7 +30,8 @@ class RichTextOriginalField(TextField):
 			'form_class': RichOriginalField,
 			'parsers': self.parsers,
 			'parsers_conf': self.parsers_conf,
-			'max_length': self.max_length
+			'max_length': self.max_length,
+			'widget': RichOriginalEditor,
 		}
 		defaults.update(kwargs)
 		return super(RichTextOriginalField, self).formfield(**defaults)
@@ -44,7 +45,10 @@ class RichTextOriginalField(TextField):
 			if 'html' in self.parsers:
 				return TextVal('html:' + value)
 			else:
-				return TextVal(self.parsers.keys()[0] + value)
+				return TextVal(list(self.parsers.keys())[0] + value)
+
+	def from_db_value(self, value, expression, connection, context): # pylint: disable=unused-argument
+		return self.to_python(value)
 
 	def contribute_to_class(self, cls, name, **kwargs):
 		signals.pre_save.connect(self.update_filtered_field, sender=cls)
