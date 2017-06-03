@@ -6,11 +6,11 @@ import unittest
 from datetime import datetime
 
 from django.contrib.auth import get_user_model
-from django.core.urlresolvers import reverse
 from django.db.models.fields.files import FieldFile
 from django.forms import BaseForm
 from django.shortcuts import resolve_url
 from django.test import LiveServerTestCase
+from django.urls import reverse
 
 
 User = get_user_model()

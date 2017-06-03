@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.core.urlresolvers import reverse
 from django.http.response import HttpResponsePermanentRedirect, HttpResponseBadRequest, HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 
 from article.models import Article, Category as ArticleCategory
 from forum.models import Section as ForumSection
@@ -12,7 +12,7 @@ from polls.models import Poll
 from wiki.models import Page as WikiPage
 
 
-def profile_redirect(request, pk):
+def profile_redirect(request, pk, *args, **kwargs):
 	return HttpResponsePermanentRedirect(reverse('accounts:profile', kwargs={'pk': pk}))
 
 def article_redirect(request, pk):

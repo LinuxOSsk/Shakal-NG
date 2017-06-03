@@ -5,9 +5,9 @@ from operator import or_
 
 from django import template
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
 from django.db.models import Count, Q, Case, When, BooleanField
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils import six, timezone
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe

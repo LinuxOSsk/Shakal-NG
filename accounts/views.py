@@ -5,9 +5,9 @@ from datetime import datetime, time
 
 from braces.views import LoginRequiredMixin
 from django.contrib.auth import get_user_model
-from django.core.urlresolvers import reverse
 from django.db import models
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe

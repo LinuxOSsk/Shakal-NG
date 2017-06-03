@@ -4,8 +4,8 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
 from django.db import models, transaction
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import force_str, python_2_unicode_compatible
 from mptt.models import MPTTModel, TreeForeignKey

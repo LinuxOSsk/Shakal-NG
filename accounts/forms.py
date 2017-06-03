@@ -7,7 +7,7 @@ from allauth.account.utils import perform_login
 from django import forms
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 
 from .auth_remember_utils import remember_user

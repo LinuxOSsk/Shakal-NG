@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.contrib.syndication.views import Feed
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.utils.encoding import force_text
 
 from .models import Article, Category

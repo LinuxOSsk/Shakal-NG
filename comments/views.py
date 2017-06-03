@@ -4,11 +4,11 @@ from __future__ import unicode_literals
 from braces.views import PermissionRequiredMixin, LoginRequiredMixin
 from django import http
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import capfirst
 from django.template.response import TemplateResponse
+from django.urls import reverse
 from django.utils.translation import ungettext
 from django.views.generic import DetailView, View
 from django.views.generic.edit import FormView

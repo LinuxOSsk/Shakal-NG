@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from braces.views import LoginRequiredMixin
+from braces.views import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib import messages
-from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from braces.views import PermissionRequiredMixin
-from notes.views import NoteCreateBase
+from django.urls import reverse
 
 from .forms import NewsForm, NewsChangeForm
 from .models import News, Category
 from common_utils.generic import PreviewCreateView, PreviewUpdateView, DetailUserProtectedView, ListView
+from notes.views import NoteCreateBase
 from notifications.models import Event
 
 

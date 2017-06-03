@@ -2,8 +2,8 @@
 from __future__ import unicode_literals, absolute_import
 
 from braces.views import LoginRequiredMixin
-from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.views.generic import RedirectView
@@ -79,9 +79,6 @@ class PostUpdateView(LoginRequiredMixin, PreviewUpdateView):
 class PostAttachmentsUpdateView(LoginRequiredMixin, FormView):
 	template_name = 'blog/post_attachments.html'
 	form_class = BlogAttachmentForm
-
-	def __init__(self, *args, **kwargs):
-		super(PostAttachmentsUpdateView, self).__init__(*args, **kwargs)
 
 	def get_object(self):
 		qs = Post.all_objects.all().\

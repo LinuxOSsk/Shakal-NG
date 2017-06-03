@@ -7,9 +7,9 @@ from io import StringIO
 from json import dumps
 
 from braces.views import StaffuserRequiredMixin
-from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django.http.response import HttpResponse
+from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
 from django.views.generic import View

@@ -3,11 +3,11 @@ from __future__ import unicode_literals
 
 from braces.views import LoginRequiredMixin
 from django.contrib import messages
-from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.db.models import F
 from django.http import HttpResponseRedirect, HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.views.generic import FormView
 
 from .forms import PollForm, VoteForm

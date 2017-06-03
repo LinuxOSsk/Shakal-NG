@@ -3,9 +3,9 @@ from __future__ import unicode_literals
 
 import os
 
-from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 from django.utils.functional import cached_property
 
 
