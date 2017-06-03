@@ -32,7 +32,7 @@ class Blog(TimestampModelMixin, models.Model):
 	content_fields = ('original_descriptoin', 'original_sidebar',)
 
 	def get_absolute_url(self):
-		return reverse('blog:post-list-category', args=(self.slug))
+		return reverse('blog:post-list-category', args=(self.slug,))
 
 	def __str__(self):
 		return self.title
