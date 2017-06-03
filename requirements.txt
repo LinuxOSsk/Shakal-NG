@@ -10,6 +10,8 @@
 -e git+https://github.com/mireq/django-geoposition-field.git@6a639773f3cbd959e33fcedc991a4e3f50a38ab6#egg=django_geoposition_field
 -e git+https://github.com/mireq/django-sample-data-generator.git@a0a9e0b850b225ee651fda48e3cb577692c45d72#egg=django_sample_data_generator
 -e git+https://github.com/mireq/django-simple-paginator.git@c22f2daee5c2c4e21e0fadc9de51c0f5257a60ca#egg=django_simple_paginator
+certifi==2017.4.17        # via requests
+chardet==3.0.3            # via requests
 click==6.7                # via pip-tools
 contextlib2==0.5.5        # via raven
 defusedxml==0.5.0         # via python3-openid
@@ -18,20 +20,21 @@ django-appconf==1.0.2     # via django-compressor
 django-braces==1.11.0
 django-compat==1.0.14     # via django-hijack, django-hijack-admin
 django-compressor==2.1.1
-django-haystack==2.6.0
+django-haystack==2.6.1
 django-hijack-admin==2.1.4
 django-hijack==2.1.4
-django-jinja==2.3.0
+django-jinja==2.3.1
 django-libsass==0.7
 django-mptt==0.8.7
 django-reversion==2.0.8
 django-static-sitemaps==4.2.1
 django-suit==0.2.25
-django==1.11.1
+django==1.11.2
 easy-thumbnails==2.4.1
 feedparser==5.2.1
 first==2.0.1              # via pip-tools
 future==0.16.0
+idna==2.5                 # via requests
 jinja2==2.9.6             # via django-jinja
 libsass==0.12.3           # via django-libsass
 markupsafe==1.0           # via jinja2
@@ -42,9 +45,10 @@ pip-tools==1.9.0
 pygments==2.2.0
 python3-openid==3.1.0     # via django-allauth
 pytz==2017.2
-raven==6.0.0
+raven==6.1.0
 rcssmin==1.0.6            # via django-compressor
 requests-oauthlib==0.8.0  # via django-allauth
-requests==2.13.0          # via django-allauth, requests-oauthlib
+requests==2.17.3          # via django-allauth, requests-oauthlib
 rjsmin==1.0.12            # via django-compressor
 six==1.10.0               # via django-compat, django-static-sitemaps, libsass, pip-tools
+urllib3==1.21.1           # via requests

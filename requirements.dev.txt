@@ -12,6 +12,8 @@
 -e git+https://github.com/mireq/django-simple-paginator.git@c22f2daee5c2c4e21e0fadc9de51c0f5257a60ca#egg=django_simple_paginator
 argh==0.26.2              # via watchdog
 astroid==1.5.2            # via pylint, pylint-plugin-utils
+certifi==2017.4.17        # via requests
+chardet==3.0.3            # via requests
 click==6.7                # via pip-tools
 contextlib2==0.5.5        # via raven
 decorator==4.0.11         # via ipython, traitlets
@@ -24,24 +26,25 @@ django-compressor==2.1.1
 django-debug-toolbar==1.8
 django-debugtools==1.7.2
 django-extensions==1.7.9
-django-haystack==2.6.0
+django-haystack==2.6.1
 django-hijack-admin==2.1.4
 django-hijack==2.1.4
-django-jinja==2.3.0
+django-jinja==2.3.1
 django-libsass==0.7
 django-mptt==0.8.7
 django-reversion==2.0.8
 django-static-sitemaps==4.2.1
 django-suit==0.2.25
-django==1.11.1
+django==1.11.2
 docopt==0.6.2             # via ptpython
 easy-thumbnails==2.4.1
 feedparser==5.2.1
 first==2.0.1              # via pip-tools
 future==0.16.0
+idna==2.5                 # via requests
 ipython-genutils==0.2.0   # via traitlets
-ipython==6.0.0
-isort==4.2.5              # via pylint
+ipython==6.1.0
+isort==4.2.13             # via pylint
 jedi==0.10.2              # via ipython, ptpython
 jinja2==2.9.6             # via django-jinja
 lazy-object-proxy==1.3.1  # via astroid
@@ -66,17 +69,18 @@ pylint==1.7.1             # via pylint-django, pylint-plugin-utils
 python3-openid==3.1.0     # via django-allauth
 pytz==2017.2
 pyyaml==3.12              # via watchdog
-raven==6.0.0
+raven==6.1.0
 rcssmin==1.0.6            # via django-compressor
 requests-oauthlib==0.8.0  # via django-allauth
-requests==2.13.0          # via django-allauth, requests-oauthlib
+requests==2.17.3          # via django-allauth, requests-oauthlib
 rjsmin==1.0.12            # via django-compressor
 simplegeneric==0.8.1      # via ipython
 six==1.10.0               # via astroid, django-compat, django-extensions, django-static-sitemaps, libsass, pip-tools, prompt-toolkit, pylint, traitlets
 sqlparse==0.2.3           # via django-debug-toolbar
 traitlets==4.3.2          # via ipython
 typing==3.6.1             # via ipython
+urllib3==1.21.1           # via requests
 watchdog==0.8.3
 wcwidth==0.1.7            # via prompt-toolkit
-werkzeug==0.12.1
+werkzeug==0.12.2
 wrapt==1.10.10            # via astroid
