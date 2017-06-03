@@ -26,7 +26,9 @@ DJANGO_MANAGE=cd shakal&&DJANGO_SETTINGS_MODULE=web.settings_local ../venv/bin/p
 all: localinstall
 
 .stamp_downloaded:
-	git clone --recursive https://github.com/LinuxOSsk/Shakal-NG.git shakal
+	git clone https://github.com/LinuxOSsk/Shakal-NG.git shakal
+	git submodule foreach git fetch
+	git submodule update
 	@touch .stamp_downloaded
 
 .stamp_virtualenv: .stamp_downloaded
