@@ -17,8 +17,6 @@ except ImportError:
 
 
 class RichEditorWidget(RichOriginalEditor):
-	template_name = 'widgets/admin_richeditor.html'
-
 	class Media:
 		js = [
 			'js/richeditor/editor.js',
@@ -26,6 +24,9 @@ class RichEditorWidget(RichOriginalEditor):
 		css = {
 			'screen': ['css/editor.light.css'],
 		}
+
+	def get_template_name(self):
+		return 'widgets/admin_richeditor.html'
 
 	def __init__(self, *args, **kwargs):
 		super(RichEditorWidget, self).__init__(*args, **kwargs)

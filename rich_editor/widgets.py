@@ -71,11 +71,12 @@ class RichEditor(RichEditorMixin):
 
 
 class RichOriginalEditor(RichEditorMixin):
-	template_name = 'widgets/editor.html'
-
 	def __init__(self, formats=(('html', 'HTML'), ), *args, **kwargs):
 		super(RichOriginalEditor, self).__init__(*args, **kwargs)
 		self.formats = formats
+
+	def get_template_name(self):
+		return 'widgets/editor.html'
 
 	def render(self, name, value, attrs=None, **kwargs):
 		if value is None:
@@ -110,7 +111,7 @@ class RichOriginalEditor(RichEditorMixin):
 			'skin': self.skin,
 			'lexers': dumps(LEXERS),
 		}
-		return mark_safe(render_to_string(self.template_name, context))
+		return mark_safe(render_to_string(self.get_template_name(), context))
 
 	def value_from_datadict(self, data, files, name):
 		text = data.get(name)
