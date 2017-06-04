@@ -2,12 +2,12 @@
 from __future__ import unicode_literals
 
 from .models import User
-from django_sample_generator import GeneratorRegister, ModelGenerator, samples
+from django_sample_generator import generator, fields
 from django.utils import timezone
 from django.conf import settings
 
 
-class SuperuserGenerator(ModelGenerator):
+class SuperuserGenerator(generator.ModelGenerator):
 	def __init__(self, *args, **kwargs):
 		self.users = []
 
@@ -37,9 +37,14 @@ class SuperuserGenerator(ModelGenerator):
 	def __iter__(self):
 		return iter(self.users)
 
+	class Meta:
+		model = User
+		unique_checks = [('email',), ('username',)]
+		fields = []
 
-class UserGenerator(ModelGenerator):
-	email = samples.EmailSample(unique=True)
+
+class UserGenerator(generator.ModelGenerator):
+	email = fields.EmailFieldGenerator()
 
 	def get_object(self):
 		obj = super(UserGenerator, self).get_object()
@@ -49,7 +54,13 @@ class UserGenerator(ModelGenerator):
 		obj.last_login = timezone.now()
 		return obj
 
+	class Meta:
+		model = User
+		unique_checks = [('email',), ('username',)]
+		fields = []
 
-register = GeneratorRegister()
-register.register(SuperuserGenerator(User))
-register.register(UserGenerator(User, settings.INITIAL_DATA_COUNT['accounts_user'] - 2))
+
+generators = [
+	SuperuserGenerator(),
+	UserGenerator(settings.INITIAL_DATA_COUNT['accounts_user'] - 2),
+]

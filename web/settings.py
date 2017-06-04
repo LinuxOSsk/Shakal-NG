@@ -280,12 +280,12 @@ INITIAL_DATA_COUNT = {
 }
 
 SAMPLE_DATA_GENERATORS = (
-	'accounts.generators.register',
-	'article.generators.register',
-	'blog.generators.register',
-	'forum.generators.register',
-	'news.generators.register',
-	'comments.generators.register',
+	'accounts.generators',
+	#'article.generators',
+	#'blog.generators',
+	#'forum.generators',
+	#'news.generators',
+	#'comments.generators',
 )
 
 ATTACHMENT_MAX_SIZE = 1024 * 1024 * 50
