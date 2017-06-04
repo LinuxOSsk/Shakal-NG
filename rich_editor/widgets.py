@@ -50,7 +50,7 @@ class RichEditorMixin(Textarea):
 			unsupported_tags = unsupported_tags - set(['pre > span'])
 		return {
 			'unsupported': list(unsupported_tags),
-			'known': supported_tags.keys(),
+			'known': list(supported_tags.keys()),
 		}
 
 
