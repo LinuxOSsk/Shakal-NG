@@ -21,7 +21,7 @@ pytz
 raven
 -e git+https://github.com/mireq/django-assets-manager.git@19fee178cc7abf80f05ee4fac8631c3bf5121371#egg=django_assets_manager
 -e git+https://github.com/mireq/django-autoslugfield.git@ba4c052145ef3e19bc3bad88cc32ab003ebddb38#egg=django_autoslugfield
--e git+https://github.com/mireq/django-sample-data-generator.git@19d6289c5fa78d57c199321d45406b0cec8c9e00#egg=django_sample_data_generator
+-e git+https://github.com/mireq/django-sample-data-generator.git@e1f09592015ca0f6bec89aef35fdee0ea3550dd5#egg=django_sample_data_generator
 -e git+https://github.com/mireq/django-simple-paginator.git@c22f2daee5c2c4e21e0fadc9de51c0f5257a60ca#egg=django_simple_paginator
 -e git+https://github.com/mireq/django-email-log-backend.git@066abda2dc86bf40b0b3fc65caa153a7e3e87599#egg=django_email_log_backend
 -e git+https://github.com/mireq/django-geoposition-field.git@6a639773f3cbd959e33fcedc991a4e3f50a38ab6#egg=django_geoposition_field

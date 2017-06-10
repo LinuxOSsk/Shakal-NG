@@ -4,35 +4,32 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django_autoslugfield.utils import unique_slugify
-from django_sample_generator import GeneratorRegister, ModelGenerator, samples
+from django_sample_generator import generator, fields
 
 from .models import Category, Article
-from accounts.models import User
-from common_utils.samples import LongHtmlGenerator
+from common_utils import generator_fields as extra_generator_fields
 from hitcount.models import HitCount
 
 
-class CategoryGenerator(ModelGenerator):
-	name = samples.NameSample(unique=True)
-	description = samples.ParagraphSample()
+class CategoryGenerator(generator.ModelGenerator):
+	name = extra_generator_fields.NameFieldGenerator(uppercase_word=True)
 
 	def get_object(self):
 		obj = super(CategoryGenerator, self).get_object()
 		unique_slugify(obj, 'slug')
 		return obj
 
+	class Meta:
+		model = Category
+		fields = ('description',)
+		unique_checks = [('name',),]
 
-class ArticleGenerator(ModelGenerator):
-	title = samples.SentenceSample(unique=True)
-	category_id = samples.RelationSample(queryset=Category.objects.all().order_by("pk"), random_data=True, only_pk=True, fetch_all=True)
-	original_annotation = samples.ParagraphSample(max_length=500)
-	original_perex = samples.ParagraphSample(max_length=500)
-	original_content = LongHtmlGenerator()
-	author_id = samples.RelationSample(queryset=User.objects.all().order_by("pk"), random_data=True, only_pk=True, fetch_all=True)
-	authors_name = samples.NameSample()
-	pub_time = samples.DateTimeSample()
-	updated = samples.DateTimeSample()
-	top = samples.BooleanSample()
+
+class ArticleGenerator(generator.ModelGenerator):
+	title = extra_generator_fields.SentenceFieldGenerator()
+	authors_name = extra_generator_fields.NameFieldGenerator()
+	original_perex = extra_generator_fields.LongHtmlFieldGenerator(paragraph_count=1)
+	original_content = extra_generator_fields.LongHtmlFieldGenerator()
 
 	def get_object(self):
 		obj = super(ArticleGenerator, self).get_object()
@@ -45,10 +42,21 @@ class ArticleGenerator(ModelGenerator):
 		unique_slugify(obj, 'slug')
 		return obj
 
+	class Meta:
+		model = Article
+		unique_checks = [('title',),]
+		fields = ('category', 'pub_time', 'updated', 'author', 'top')
 
-class HitCountGenerator(ModelGenerator):
-	hits = samples.NumberSample()
-	object_id = samples.RelationSample(queryset=Article.objects.all().order_by("pk"), random_data=False, only_pk=True, fetch_all=True)
+
+class HitCountGenerator(generator.ModelGenerator):
+	object_id = fields.ForeignKeyFieldGenerator(
+		queryset=Article.all_articles.all().order_by('pk').values_list('pk', flat=True),
+		random_data=False
+	)
+
+	class Meta:
+		model = HitCount
+		fields = ('hits',)
 
 	def __init__(self, *args, **kwargs):
 		super(HitCountGenerator, self).__init__(*args, **kwargs)
@@ -60,7 +68,8 @@ class HitCountGenerator(ModelGenerator):
 		return obj
 
 
-register = GeneratorRegister()
-register.register(CategoryGenerator(Category, settings.INITIAL_DATA_COUNT['article_category']))
-register.register(ArticleGenerator(Article, settings.INITIAL_DATA_COUNT['article_article']))
-register.register(HitCountGenerator(HitCount, settings.INITIAL_DATA_COUNT['article_article']))
+generators = [
+	CategoryGenerator(settings.INITIAL_DATA_COUNT['article_category']),
+	ArticleGenerator(settings.INITIAL_DATA_COUNT['article_article']),
+	HitCountGenerator(settings.INITIAL_DATA_COUNT['article_article']),
+]
