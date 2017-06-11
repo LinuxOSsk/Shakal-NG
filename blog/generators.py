@@ -3,46 +3,54 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django_autoslugfield.utils import unique_slugify
-from django_sample_generator import GeneratorRegister, ModelGenerator, samples
+from django_sample_generator import fields, generator
+from accounts.models import User
 
 from .models import Blog, Post
-from accounts.models import User
-from common_utils.samples import LongHtmlGenerator
+from common_utils import generator_fields as extra_generator_fields
 
 
-class BlogGenerator(ModelGenerator):
-	author_id = samples.RelationSample(queryset=User.objects.all().order_by("pk"), random_data=False, only_pk=True, fetch_all=True)
-	title = samples.SentenceSample(unique=True, max_length=20)
-	original_description = samples.ParagraphSample()
-	original_sidebar = samples.ParagraphSample()
-	created = samples.DateTimeSample()
-	updated = samples.DateTimeSample()
+class BlogGenerator(generator.ModelGenerator):
+	author_id = fields.ForeignKeyFieldGenerator(
+		queryset=User.objects.all().order_by('pk').values_list('pk', flat=True),
+		random_data=False
+	)
+	title = extra_generator_fields.SentenceFieldGenerator(max_length=20)
+	original_description = extra_generator_fields.LongHtmlFieldGenerator(paragraph_count=1)
+	original_sidebar = extra_generator_fields.LongHtmlFieldGenerator(paragraph_count=1)
 
 	def get_object(self):
 		obj = super(BlogGenerator, self).get_object()
-		obj.filtered_description = obj.original_description.field_text
-		obj.filtered_sidebar = obj.original_sidebar.field_text
+		obj.filtered_description = obj.original_description[3:]
+		obj.filtered_sidebar = obj.original_sidebar[3:]
 		unique_slugify(obj, 'slug')
 		return obj
 
+	class Meta:
+		model = Blog
+		fields = ('created', 'updated')
+		unique_checks = (('title',),)
 
-class PostGenerator(ModelGenerator):
-	blog_id = samples.RelationSample(queryset=Blog.objects.all().order_by("pk"), random_data=True, only_pk=True, fetch_all=True)
-	title = samples.SentenceSample(unique=True, max_length=50)
-	original_perex = samples.ParagraphSample(max_length=500)
-	original_content = LongHtmlGenerator()
-	pub_time = samples.DateTimeSample()
-	created = samples.DateTimeSample()
-	updated = samples.DateTimeSample()
-	linux = samples.BooleanSample()
+
+class PostGenerator(generator.ModelGenerator):
+	title = extra_generator_fields.SentenceFieldGenerator(max_length=50)
+	original_perex = extra_generator_fields.LongHtmlFieldGenerator(paragraph_count=1)
+	original_content = extra_generator_fields.LongHtmlFieldGenerator()
 
 	def get_object(self):
 		obj = super(PostGenerator, self).get_object()
-		obj.filtered_perex = obj.original_perex.field_text
-		obj.filtered_content = obj.original_content.field_text
+		obj.filtered_perex = obj.original_perex[3:]
+		obj.filtered_content = obj.original_content[3:]
 		unique_slugify(obj, 'slug')
 		return obj
 
-register = GeneratorRegister()
-register.register(BlogGenerator(Blog, settings.INITIAL_DATA_COUNT['accounts_user']))
-register.register(PostGenerator(Post, settings.INITIAL_DATA_COUNT['blog_post']))
+	class Meta:
+		model = Post
+		fields = ('blog', 'pub_time', 'created', 'updated', 'linux')
+		unique_checks = (('title',),)
+
+
+generators = [
+	BlogGenerator(settings.INITIAL_DATA_COUNT['accounts_user']),
+	PostGenerator(settings.INITIAL_DATA_COUNT['blog_post']),
+]

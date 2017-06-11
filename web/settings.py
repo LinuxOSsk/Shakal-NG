@@ -282,7 +282,7 @@ INITIAL_DATA_COUNT = {
 SAMPLE_DATA_GENERATORS = (
 	'accounts.generators',
 	'article.generators',
-	#'blog.generators',
+	'blog.generators',
 	#'forum.generators',
 	#'news.generators',
 	#'comments.generators',
