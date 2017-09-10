@@ -1,30 +1,40 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from datetime import datetime, timedelta
-
 from django.conf import settings
-from django_sample_generator import GeneratorRegister, ModelGenerator, samples
+from django_sample_generator import fields, generator
 
 from .models import Section, Topic
 from accounts.models import User
+from common_utils import generator_fields as extra_generator_fields
 
 
-class TopicGenerator(ModelGenerator):
-	section_id = samples.RelationSample(queryset=Section.objects.all().order_by("pk"), random_data=True, only_pk=True, fetch_all=True)
-	title = samples.SentenceSample()
-	original_text = samples.ParagraphSample()
-	created = samples.DateTimeSample(min_date=datetime.now() - timedelta(14), max_date=datetime.now())
-	author_id = samples.RelationSample(queryset=User.objects.all().order_by("pk"), random_data=True, only_pk=True, fetch_all=True)
-	authors_name = samples.NameSample()
+class TopicGenerator(generator.ModelGenerator):
+	section_id = fields.ForeignKeyFieldGenerator(
+		queryset=Section.objects.all().order_by("pk").values_list('pk', flat=True),
+		random_data=True,
+	)
+	title = extra_generator_fields.SentenceFieldGenerator(max_length=60)
+	original_text = extra_generator_fields.LongHtmlFieldGenerator(paragraph_count=1)
+
+	author_id = fields.ForeignKeyFieldGenerator(
+		queryset=User.objects.all().order_by('pk').values_list('pk', flat=True),
+		random_data=True
+	)
+	authors_name = extra_generator_fields.NameFieldGenerator()
+
+	class Meta:
+		model = Topic
+		fields = ('created', 'updated')
+		unique_checks = (('title',),)
 
 	def get_object(self):
 		obj = super(TopicGenerator, self).get_object()
-		obj.filtered_text = obj.original_text.field_text
+		obj.filtered_text = obj.original_text[3:]
 		obj.updated = obj.created
-		obj.title = obj.title[:60]
 		return obj
 
 
-register = GeneratorRegister()
-register.register(TopicGenerator(Topic, settings.INITIAL_DATA_COUNT['forum_topic']))
+generators = [
+	TopicGenerator(settings.INITIAL_DATA_COUNT['forum_topic'])
+]
