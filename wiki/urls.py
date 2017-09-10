@@ -6,6 +6,8 @@ from django.conf.urls import url
 from . import views
 
 
+app_name = 'wiki'
+
 urlpatterns = [
 	url(r'^$', views.WikiHomeView.as_view(), name='home'),
 	url(r'(?P<slug>[-\w]+)/create/$', views.PageCreateView.as_view(), name='create'),

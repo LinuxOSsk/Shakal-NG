@@ -6,6 +6,8 @@ from django.conf.urls import url
 from . import feeds, views
 
 
+app_name = 'news'
+
 urlpatterns = [
 	url(r'^detail/(?P<slug>[-\w]+)/$', views.NewsDetailView.as_view(), name='detail'),
 	url(r'^detail/(?P<slug>[-\w]+)/upravit/$', views.NewsUpdateView.as_view(), name='update'),

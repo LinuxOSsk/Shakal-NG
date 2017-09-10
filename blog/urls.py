@@ -6,6 +6,8 @@ from django.conf.urls import url
 from . import feeds, views
 
 
+app_name = 'blog'
+
 urlpatterns = [
 	url(r'^admin/update/$', views.BlogUpdateView.as_view(), name='blog-update'),
 	url(r'^(?:(?P<page>\d+)/)?$', views.PostListView.as_view(), name='post-list'),

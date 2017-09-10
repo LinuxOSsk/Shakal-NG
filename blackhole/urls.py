@@ -6,6 +6,8 @@ from django.conf.urls import url
 from . import views
 
 
+app_name = 'blackhole'
+
 urlpatterns = [
 	url(r'^clanky/(?:(?P<page>\d+)/)?$', views.StoryList.as_view(), name='story_list'),
 	url(r'^clanky/kategoria/(?P<category>\d+)/(?:(?P<page>\d+)/)?$', views.StoryList.as_view(), name='story_list_term'),

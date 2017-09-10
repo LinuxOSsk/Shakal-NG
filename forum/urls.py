@@ -7,6 +7,8 @@ from django.views.generic.base import RedirectView
 from . import feeds, views
 
 
+app_name = 'forum'
+
 urlpatterns = [
 	url(r'^$', RedirectView.as_view(pattern_name='forum:overview', permanent=False)),
 	url(r'^prehlad/(?:(?P<page>\d+)/)?$', views.TopicListView.as_view(), name='overview'),

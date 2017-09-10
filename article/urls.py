@@ -6,6 +6,8 @@ from django.conf.urls import url
 from . import feeds, views
 
 
+app_name = 'article'
+
 urlpatterns = [
 	url(r'^(?:(?P<page>\d+)/)?$', views.ArticleListView.as_view(), name='list'),
 	url(r'^(?P<slug>[-\w]+)/$', views.ArticleDetailView.as_view(), name='detail'),

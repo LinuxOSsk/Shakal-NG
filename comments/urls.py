@@ -6,6 +6,8 @@ from django.conf.urls import url
 from . import feeds, views
 
 
+app_name = 'comments'
+
 urlpatterns = [
 	url(r'^odpovedat/(?P<parent>\d+)/$', views.Reply.as_view(), name='reply'),
 	url(r'^zamknut/(?P<pk>\d+)/$', views.Admin.as_view(), name='admin'),

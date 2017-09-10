@@ -6,6 +6,8 @@ from django.conf.urls import url
 from . import views
 
 
+app_name = 'polls'
+
 urlpatterns = [
 	url(r'^detail/(?P<slug>[-\w]+)/$', views.PollDetail.as_view(), name='detail-by-slug'),
 	url(r'^(?:(?P<page>\d+)/)?$', views.PollList.as_view(), name='list'),

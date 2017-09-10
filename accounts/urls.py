@@ -6,6 +6,8 @@ from django.conf.urls import url
 from . import views
 
 
+app_name = 'accounts'
+
 urlpatterns = [
 	url(r'^$', views.UserZone.as_view(), name='user_zone'),
 	url(r'^(?P<pk>\d+)/$', views.Profile.as_view(), name='profile'),
