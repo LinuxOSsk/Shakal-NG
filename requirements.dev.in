@@ -19,12 +19,12 @@ pip-tools
 pygments
 pytz
 raven
--e git+https://github.com/mireq/django-assets-manager.git@19fee178cc7abf80f05ee4fac8631c3bf5121371#egg=django_assets_manager
+-e git+https://github.com/mireq/django-assets-manager.git@af4944e6f1def727b84f51583a911ef60e978d55#egg=django_assets_manager
 -e git+https://github.com/mireq/django-autoslugfield.git@ba4c052145ef3e19bc3bad88cc32ab003ebddb38#egg=django_autoslugfield
--e git+https://github.com/mireq/django-sample-data-generator.git@e1f09592015ca0f6bec89aef35fdee0ea3550dd5#egg=django_sample_data_generator
--e git+https://github.com/mireq/django-simple-paginator.git@c22f2daee5c2c4e21e0fadc9de51c0f5257a60ca#egg=django_simple_paginator
--e git+https://github.com/mireq/django-email-log-backend.git@066abda2dc86bf40b0b3fc65caa153a7e3e87599#egg=django_email_log_backend
--e git+https://github.com/mireq/django-geoposition-field.git@6a639773f3cbd959e33fcedc991a4e3f50a38ab6#egg=django_geoposition_field
+-e git+https://github.com/mireq/django-sample-data-generator.git@adaf2e1687fe921fa37179f3aee5d94e130f6ed6#egg=django_sample_data_generator
+-e git+https://github.com/mireq/django-simple-paginator.git@c784ee788c7f288487253b84508b57c402822d83#egg=django_simple_paginator
+-e git+https://github.com/mireq/django-email-log-backend.git@31ae6ad31fb692fdf4528d0034aa29a64818dca5#egg=django_email_log_backend
+-e git+https://github.com/mireq/django-geoposition-field.git@662bb9c460977a6100f02272e89914ef88da16f4#egg=django_geoposition_field
 Werkzeug
 django-debug-toolbar
 django-debugtools
