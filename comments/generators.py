@@ -2,18 +2,19 @@
 from __future__ import unicode_literals
 
 import random
+
 from django.apps import apps
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Max
-from django_sample_generator import GeneratorRegister, ModelGenerator, samples
+from django_sample_generator import fields, generator
 
 from .models import Comment
 from .utils import update_comments_header
 from accounts.models import User
-from common_utils import get_default_manager
+from common_utils import get_default_manager, generator_fields as extra_generator_fields
 
 
-class CommentGenerator(ModelGenerator):
+class CommentGenerator(generator.ModelGenerator):
 	GENERATE_FOR_MODELS = (
 		'article.article',
 		'forum.topic',
@@ -24,11 +25,17 @@ class CommentGenerator(ModelGenerator):
 	next_id = 0
 	next_tree_id = 1
 
-	subject = samples.SentenceSample()
-	user_id = samples.RelationSample(queryset=User.objects.all().order_by("pk"), random_data=True, only_pk=True, fetch_all=True)
-	user_name = samples.NameSample()
-	original_comment = samples.ParagraphSample()
-	created = samples.DateTimeSample()
+	subject = extra_generator_fields.SentenceFieldGenerator(max_length=60)
+	user_id = fields.ForeignKeyFieldGenerator(
+		queryset=User.objects.all().order_by('pk').values_list('pk', flat=True),
+		random_data=True
+	)
+	user_name = extra_generator_fields.NameFieldGenerator()
+	original_comment = extra_generator_fields.LongHtmlFieldGenerator(paragraph_count=1)
+
+	class Meta:
+		model = Comment
+		fields = ('created', 'updated')
 
 	def generate_tree(self, parent_id, lft, level):
 		if level > 8:
@@ -82,7 +89,7 @@ class CommentGenerator(ModelGenerator):
 				for comment in tree:
 					comment.content_type = ctype
 					comment.object_id = instance.pk
-					comment.filtered_comment = comment.original_comment.field_text
+					comment.filtered_comment = comment.original_comment[3:]
 					comment.updated = comment.created
 					comment.tree_id = root_comment.tree_id
 					yield comment
@@ -98,5 +105,6 @@ class CommentGenerator(ModelGenerator):
 					self.command.stdout.write('#', ending='')
 
 
-register = GeneratorRegister()
-register.register(CommentGenerator(Comment))
+generators = [
+	CommentGenerator(),
+]

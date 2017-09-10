@@ -285,7 +285,7 @@ SAMPLE_DATA_GENERATORS = (
 	'blog.generators',
 	'forum.generators',
 	'news.generators',
-	#'comments.generators',
+	'comments.generators',
 )
 
 ATTACHMENT_MAX_SIZE = 1024 * 1024 * 50
