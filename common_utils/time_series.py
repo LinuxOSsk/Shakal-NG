@@ -80,7 +80,7 @@ def time_series(qs, date_field, aggregate, interval, date_from=None, date_to=Non
 	if not isinstance(aggregate, dict):
 		aggregate = {'aggregate': aggregate}
 
-	SeriesRecord = namedtuple('SeriesRecord', ['time_value'] + aggregate.keys())
+	SeriesRecord = namedtuple('SeriesRecord', ['time_value'] + list(aggregate.keys()))
 
 	if is_date:
 		if date_from and not isinstance(date_from, datetime):

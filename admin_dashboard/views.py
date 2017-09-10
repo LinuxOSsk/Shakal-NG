@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import csv
 import datetime
 from io import StringIO
 from json import dumps
@@ -72,9 +71,8 @@ class Stats(StaffuserRequiredMixin, View):
 	def format_data(self, data, fmt):
 		if fmt == 'csv':
 			f = StringIO()
-			writer = csv.writer(f, delimiter = str(','))
 			for row in data:
-				writer.writerow([force_text(s).encode("utf-8") for s in row])
+				f.write(','.join([force_text(s) for s in row]) + '\n')
 			return HttpResponse(f.getvalue())
 		else: # json
 			return HttpResponse(dumps(data))
