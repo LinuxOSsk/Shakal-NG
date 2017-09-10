@@ -24,4 +24,8 @@ class Migration(migrations.Migration):
 			name='user',
 			field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comment_flags', to=settings.AUTH_USER_MODEL, verbose_name='používateľ'),
 		),
+		migrations.AlterModelOptions(
+			name='rootheader',
+			options={'ordering': ('-pk',), 'verbose_name': 'diskusia', 'verbose_name_plural': 'diskusie'},
+		),
 	]

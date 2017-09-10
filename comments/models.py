@@ -166,6 +166,7 @@ class RootHeader(models.Model):
 		unique_together = (('content_type', 'object_id',),)
 		verbose_name = 'diskusia'
 		verbose_name_plural = 'diskusie'
+		ordering = ('-pk',)
 
 
 @python_2_unicode_compatible

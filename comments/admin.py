@@ -2,10 +2,11 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
+from django.utils.encoding import force_text
 from django.utils.translation import ungettext
 from mptt.admin import MPTTModelAdmin
 
-from .models import Comment
+from .models import Comment, RootHeader
 from .utils import perform_flag, perform_approve, perform_delete
 from attachment.admin import AttachmentInline, AttachmentAdminMixin
 
@@ -78,4 +79,24 @@ class CommentAdmin(AttachmentAdminMixin, MPTTModelAdmin):
 		self.message_user(request, msg % {'count': n_comments, 'action': msg(n_comments)})
 
 
+class RootHeaderAdmin(admin.ModelAdmin):
+	list_filter = ('content_type',)
+	list_display = ('get_name',)
+	list_display_links = (None,)
+
+	def get_queryset(self, request):
+		return super(RootHeaderAdmin, self).get_queryset(request).select_related('content_type')
+
+	def has_add_permission(self, request):
+		return False
+
+	def has_delete_permission(self, request, obj=None):
+		return False
+
+	def get_name(self, obj):
+		return force_text(obj.content_object)
+	get_name.short_description = "Názov"
+
+
 admin.site.register(Comment, CommentAdmin)
+admin.site.register(RootHeader, RootHeaderAdmin)
