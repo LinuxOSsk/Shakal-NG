@@ -284,7 +284,7 @@ SAMPLE_DATA_GENERATORS = (
 	'article.generators',
 	'blog.generators',
 	'forum.generators',
-	#'news.generators',
+	'news.generators',
 	#'comments.generators',
 )
 
