@@ -57,6 +57,17 @@ class CommentAdmin(AttachmentAdminMixin, MPTTModelAdmin):
 		self._flag_comments(request, queryset, perform_delete, msg)
 	remove_comments.short_description = 'Odstrániť zvolené komentáre'
 
+	def get_queryset(self, request):
+		return super(CommentAdmin, self).get_queryset(request).none()
+
+	def get_model_perms(self, request):
+		perms = super(CommentAdmin, self).get_model_perms(request)
+		if request.resolver_match.view_name not in ('admin:comments_comment_changelist', 'admin:comments_comment_change', 'admin:comments_comment_delete', 'admin:comments_comment_history', 'admin:comments_comment_add'):
+			perms['delete'] = False
+			perms['add'] = False
+			perms['change'] = False
+		return perms
+
 	def _flag_comments(self, request, queryset, action, msg):
 		n_comments = 0
 		for comment in queryset:
