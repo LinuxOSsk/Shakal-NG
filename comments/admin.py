@@ -2,13 +2,14 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from django.utils.encoding import force_text
+from django.utils.html import format_html
 from django.utils.translation import ungettext
 from mptt.admin import MPTTModelAdmin
 
 from .models import Comment, RootHeader
 from .utils import perform_flag, perform_approve, perform_delete
 from attachment.admin import AttachmentInline, AttachmentAdminMixin
+from common_utils.url_utils import build_url
 
 
 class CommentAdmin(AttachmentAdminMixin, MPTTModelAdmin):
@@ -27,7 +28,7 @@ class CommentAdmin(AttachmentAdminMixin, MPTTModelAdmin):
 		),
 	)
 	list_display = ('subject', 'name', 'content_type', 'ip_address', 'created', 'is_public', 'is_removed', 'is_locked')
-	list_filter = ('created', 'is_public', 'is_removed')
+	list_filter = ('created', 'is_public', 'is_removed',)
 	date_hierarchy = 'created'
 	ordering = ('-created',)
 	raw_id_fields = ('user', 'parent',)
@@ -59,7 +60,17 @@ class CommentAdmin(AttachmentAdminMixin, MPTTModelAdmin):
 	remove_comments.short_description = 'Odstrániť zvolené komentáre'
 
 	def get_queryset(self, request):
-		return super(CommentAdmin, self).get_queryset(request).none()
+		qs = super(CommentAdmin, self).get_queryset(request).order_by('lft')
+		if 'content_type_id__exact' in request.GET and 'object_id__exact' in request.GET:
+			try:
+				content_type_id = int(request.GET['content_type_id__exact'])
+				object_id = int(request.GET['object_id__exact'])
+				return qs.filter(content_type_id=content_type_id, object_id=object_id)
+			except ValueError:
+				return qs.none()
+		if request.resolver_match.view_name in ('admin:comments_comment_change', 'admin:comments_comment_delete', 'admin:comments_comment_history', 'admin:comments_comment_add'):
+			return qs
+		return qs.none()
 
 	def get_model_perms(self, request):
 		perms = super(CommentAdmin, self).get_model_perms(request)
@@ -82,7 +93,7 @@ class CommentAdmin(AttachmentAdminMixin, MPTTModelAdmin):
 class RootHeaderAdmin(admin.ModelAdmin):
 	list_filter = ('content_type',)
 	list_display = ('get_name',)
-	list_display_links = (None,)
+	list_display_links = None
 
 	def get_queryset(self, request):
 		return super(RootHeaderAdmin, self).get_queryset(request).select_related('content_type')
@@ -94,7 +105,12 @@ class RootHeaderAdmin(admin.ModelAdmin):
 		return False
 
 	def get_name(self, obj):
-		return force_text(obj.content_object)
+		url_query = {
+			'content_type_id__exact': obj.content_type_id,
+			'object_id__exact': obj.object_id,
+		}
+		url = build_url('admin:comments_comment_changelist', query=url_query)
+		return format_html('<a href="{}">{}&nbsp;</a>', url, obj.content_object)
 	get_name.short_description = "Názov"
 
 
