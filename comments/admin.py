@@ -96,7 +96,7 @@ class CommentAdmin(AttachmentAdminMixin, DraggableMPTTAdmin):
 
 class RootHeaderAdmin(admin.ModelAdmin):
 	list_filter = ('content_type',)
-	list_display = ('get_name',)
+	list_display = ('get_name', 'get_link')
 	list_display_links = None
 
 	def get_queryset(self, request):
@@ -111,6 +111,10 @@ class RootHeaderAdmin(admin.ModelAdmin):
 	def get_name(self, obj):
 		return format_html('<a href="{}">{}&nbsp;</a>', obj.get_admin_url(), obj.content_object)
 	get_name.short_description = "Názov"
+
+	def get_link(self, obj):
+		return format_html('<a href="{}">Zobraziť</a>', obj.get_absolute_url())
+	get_link.short_description = "Zobraziť"
 
 
 admin.site.register(Comment, CommentAdmin)
