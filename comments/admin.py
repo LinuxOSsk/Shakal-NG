@@ -4,19 +4,15 @@ from __future__ import unicode_literals
 from django.contrib import admin
 from django.utils.html import format_html
 from django.utils.translation import ungettext
-from mptt.admin import MPTTModelAdmin
+from mptt.admin import DraggableMPTTAdmin
 
 from .models import Comment, RootHeader
 from .utils import perform_flag, perform_approve, perform_delete
 from attachment.admin import AttachmentInline, AttachmentAdminMixin
 
 
-class CommentAdmin(AttachmentAdminMixin, MPTTModelAdmin):
+class CommentAdmin(AttachmentAdminMixin, DraggableMPTTAdmin):
 	fieldsets = (
-		(
-			None,
-			{'fields': ('content_type', 'object_id', 'parent')}
-		),
 		(
 			'Komentár',
 			{'fields': ('subject', 'user', 'user_name', 'original_comment')}
@@ -26,13 +22,23 @@ class CommentAdmin(AttachmentAdminMixin, MPTTModelAdmin):
 			{'fields': ('ip_address', 'is_public', 'is_removed', 'is_locked')}
 		),
 	)
-	list_display = ('subject', 'name', 'content_type', 'ip_address', 'created', 'is_public', 'is_removed', 'is_locked')
+	list_display = ('tree_actions', 'get_subject', 'name', 'content_type', 'ip_address', 'created', 'is_public', 'is_removed', 'is_locked')
+	list_display_links = ('get_subject',)
 	list_filter = ('created', 'is_public', 'is_removed',)
 	date_hierarchy = 'created'
 	raw_id_fields = ('user', 'parent',)
 	search_fields = ('filtered_comment', 'user__username', 'user_name', 'ip_address')
 	actions = ['flag_comments', 'approve_comments', 'remove_comments']
 	inlines = [AttachmentInline]
+
+	def get_subject(self, obj):
+		return format_html(
+			'<div style="text-indent:{}px">{}</div>',
+			(obj._mpttfield('level')-1) * self.mptt_level_indent,
+			obj.subject,  # Or whatever you want to put here
+		)
+	get_subject.short_description = 'Predmet'
+	get_subject.admin_order_field = 'subject'
 
 	def get_actions(self, request):
 		actions = super(CommentAdmin, self).get_actions(request)
