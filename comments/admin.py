@@ -35,7 +35,7 @@ class CommentAdmin(AttachmentAdminMixin, DraggableMPTTAdmin):
 		return format_html(
 			'<div style="text-indent:{}px">{}</div>',
 			(obj._mpttfield('level')-1) * self.mptt_level_indent,
-			obj.subject,  # Or whatever you want to put here
+			obj.subject,
 		)
 	get_subject.short_description = 'Predmet'
 	get_subject.admin_order_field = 'subject'
