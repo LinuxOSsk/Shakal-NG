@@ -12,6 +12,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 
 from attachment.models import Attachment
 from common_utils.models import TimestampModelMixin
+from common_utils.url_utils import build_url
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
@@ -161,6 +162,13 @@ class RootHeader(models.Model):
 
 	def get_absolute_url(self):
 		return reverse('comments:comments', args=(self.pk,))
+
+	def get_admin_url(self):
+		url_query = {
+			'content_type_id__exact': self.content_type_id,
+			'object_id__exact': self.object_id,
+		}
+		return build_url('admin:comments_comment_changelist', query=url_query)
 
 	class Meta:
 		unique_together = (('content_type', 'object_id',),)

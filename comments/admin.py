@@ -9,7 +9,6 @@ from mptt.admin import MPTTModelAdmin
 from .models import Comment, RootHeader
 from .utils import perform_flag, perform_approve, perform_delete
 from attachment.admin import AttachmentInline, AttachmentAdminMixin
-from common_utils.url_utils import build_url
 
 
 class CommentAdmin(AttachmentAdminMixin, MPTTModelAdmin):
@@ -104,12 +103,7 @@ class RootHeaderAdmin(admin.ModelAdmin):
 		return False
 
 	def get_name(self, obj):
-		url_query = {
-			'content_type_id__exact': obj.content_type_id,
-			'object_id__exact': obj.object_id,
-		}
-		url = build_url('admin:comments_comment_changelist', query=url_query)
-		return format_html('<a href="{}">{}&nbsp;</a>', url, obj.content_object)
+		return format_html('<a href="{}">{}&nbsp;</a>', obj.get_admin_url(), obj.content_object)
 	get_name.short_description = "Názov"
 
 
