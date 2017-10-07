@@ -30,7 +30,6 @@ class CommentAdmin(AttachmentAdminMixin, MPTTModelAdmin):
 	list_display = ('subject', 'name', 'content_type', 'ip_address', 'created', 'is_public', 'is_removed', 'is_locked')
 	list_filter = ('created', 'is_public', 'is_removed',)
 	date_hierarchy = 'created'
-	ordering = ('-created',)
 	raw_id_fields = ('user', 'parent',)
 	search_fields = ('filtered_comment', 'user__username', 'user_name', 'ip_address')
 	actions = ['flag_comments', 'approve_comments', 'remove_comments']
@@ -60,7 +59,7 @@ class CommentAdmin(AttachmentAdminMixin, MPTTModelAdmin):
 	remove_comments.short_description = 'Odstrániť zvolené komentáre'
 
 	def get_queryset(self, request):
-		qs = super(CommentAdmin, self).get_queryset(request).order_by('lft')
+		qs = super(CommentAdmin, self).get_queryset(request).exclude(level=0)
 		if 'content_type_id__exact' in request.GET and 'object_id__exact' in request.GET:
 			try:
 				content_type_id = int(request.GET['content_type_id__exact'])
