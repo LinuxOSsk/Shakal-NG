@@ -22,7 +22,7 @@ class CommentAdmin(AttachmentAdminMixin, DraggableMPTTAdmin):
 			{'fields': ('ip_address', 'is_public', 'is_removed', 'is_locked')}
 		),
 	)
-	list_display = ('tree_actions', 'get_subject', 'name', 'content_type', 'ip_address', 'created', 'is_public', 'is_removed', 'is_locked')
+	list_display = ('tree_actions', 'get_subject', 'name', 'ip_address', 'created', 'is_public', 'is_removed', 'is_locked')
 	list_display_links = ('get_subject',)
 	list_filter = ('created', 'is_public', 'is_removed',)
 	date_hierarchy = 'created'
