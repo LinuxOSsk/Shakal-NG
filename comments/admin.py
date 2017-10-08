@@ -25,8 +25,7 @@ class CommentAdmin(AttachmentAdminMixin, DraggableMPTTAdmin):
 	list_display = ('tree_actions', 'get_subject', 'name', 'ip_address', 'created', 'is_public', 'is_removed', 'is_locked')
 	list_display_links = ('get_subject',)
 	list_filter = ('created', 'is_public', 'is_removed',)
-	date_hierarchy = 'created'
-	raw_id_fields = ('user', 'parent',)
+	raw_id_fields = ('user',)
 	search_fields = ('filtered_comment', 'user__username', 'user_name', 'ip_address')
 	actions = ['flag_comments', 'approve_comments', 'remove_comments']
 	inlines = [AttachmentInline]
