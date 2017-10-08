@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from django.utils.html import format_html
+from django.utils.html import format_html, escape, mark_safe
 from django.utils.translation import ungettext
 from mptt.admin import DraggableMPTTAdmin
 
@@ -32,11 +32,7 @@ class CommentAdmin(AttachmentAdminMixin, DraggableMPTTAdmin):
 	inlines = [AttachmentInline]
 
 	def get_subject(self, obj):
-		return format_html(
-			'<div style="text-indent:{}px">{}</div>',
-			(obj._mpttfield('level')-1) * self.mptt_level_indent,
-			obj.subject,
-		)
+		return mark_safe(('<span style="display: inline-block; border-left: 1px solid #ddd; width: 16px">&nbsp;</span>' * (obj._mpttfield('level')-1)) + escape(obj.subject))
 	get_subject.short_description = 'Predmet'
 	get_subject.admin_order_field = 'subject'
 
