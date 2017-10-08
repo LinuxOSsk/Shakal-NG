@@ -32,7 +32,7 @@ class CommentAdmin(AttachmentAdminMixin, DraggableMPTTAdmin):
 	inlines = [AttachmentInline]
 
 	def get_subject(self, obj):
-		return mark_safe(('<span style="display: inline-block; border-left: 1px solid #ddd; width: 16px">&nbsp;</span>' * (obj._mpttfield('level')-1)) + escape(obj.subject))
+		return mark_safe(('<span style="display: inline-block; border-left: 1px solid #ddd; width: 16px; padding-top: 4px; padding-bottom: 8px; margin-top: -4px; margin-bottom: -8px;">&nbsp;</span>' * (obj._mpttfield('level')-1)) + escape(obj.subject))
 	get_subject.short_description = 'Predmet'
 	get_subject.admin_order_field = 'subject'
 
