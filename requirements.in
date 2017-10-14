@@ -19,7 +19,7 @@ pip-tools
 pygments
 pytz
 raven
--e git+https://github.com/mireq/django-assets-manager.git@af4944e6f1def727b84f51583a911ef60e978d55#egg=django_assets_manager
+-e git+https://github.com/mireq/django-assets-manager.git@4e5e7ea7e4868070edc001a22e525b44bf872c5c#egg=django_assets_manager
 -e git+https://github.com/mireq/django-autoslugfield.git@ba4c052145ef3e19bc3bad88cc32ab003ebddb38#egg=django_autoslugfield
 -e git+https://github.com/mireq/django-sample-data-generator.git@adaf2e1687fe921fa37179f3aee5d94e130f6ed6#egg=django_sample_data_generator
 -e git+https://github.com/mireq/django-simple-paginator.git@c784ee788c7f288487253b84508b57c402822d83#egg=django_simple_paginator
