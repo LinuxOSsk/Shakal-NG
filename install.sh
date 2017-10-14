@@ -19,7 +19,7 @@ mkdir -p shakal
 cat << 'EOF' > ${MAKEFILE}
 .PHONY: all compilesprites migrate update update2 resetdb
 
-PYTHON=python2.7
+PYTHON=python3
 VENV_PYTHON=venv/bin/python
 DJANGO_MANAGE=cd shakal&&DJANGO_SETTINGS_MODULE=web.settings_local ../venv/bin/python manage.py
 
@@ -27,8 +27,10 @@ all: localinstall
 
 .stamp_downloaded:
 	git clone https://github.com/LinuxOSsk/Shakal-NG.git shakal
+	cd shakal
 	git submodule foreach git fetch
 	git submodule update
+	cd ..
 	@touch .stamp_downloaded
 
 .stamp_virtualenv: .stamp_downloaded

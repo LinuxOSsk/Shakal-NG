@@ -15,13 +15,13 @@ Debian 8
 
 ::
 
-    sudo apt-get --yes install libjpeg-dev build-essential python-dev libfreetype6-dev git
+    sudo apt-get --yes install libjpeg-dev build-essential python3-dev libfreetype6-dev git
 
 Arch linux:
 
 ::
 
-    pacman -S --needed --noconfirm base-devel python2 libjpeg-turbo freetype2 zlib python2-virtualenv git
+    pacman -S --needed --noconfirm base-devel python3 libjpeg-turbo freetype2 zlib git
 
 Inštalácia virtuálneho prostredia
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
