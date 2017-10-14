@@ -24,6 +24,7 @@ class CommentGenerator(generator.ModelGenerator):
 
 	next_id = 0
 	next_tree_id = 1
+	command = None
 
 	subject = extra_generator_fields.SentenceFieldGenerator(max_length=60)
 	user_id = fields.ForeignKeyFieldGenerator(
@@ -36,6 +37,10 @@ class CommentGenerator(generator.ModelGenerator):
 	class Meta:
 		model = Comment
 		fields = ('created', 'updated')
+
+	def generate(self, command):
+		self.command = command
+		return super(CommentGenerator, self).generate(command)
 
 	def generate_tree(self, parent_id, lft, level):
 		if level > 8:
