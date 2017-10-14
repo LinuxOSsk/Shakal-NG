@@ -27,10 +27,8 @@ all: localinstall
 
 .stamp_downloaded:
 	git clone https://github.com/LinuxOSsk/Shakal-NG.git shakal
-	cd shakal
-	git submodule foreach git fetch
-	git submodule update
-	cd ..
+	cd shakal; git submodule init
+	cd shakal; git submodule update
 	@touch .stamp_downloaded
 
 .stamp_virtualenv: .stamp_downloaded
