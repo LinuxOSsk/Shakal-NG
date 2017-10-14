@@ -5,7 +5,6 @@ from __future__ import unicode_literals
 from .settings import *
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 INSTALLED_APPS += (
 	'django_extensions',
