@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="sk" xml:lang="sk">
+<head>
+	<title>{% block head_title %}LinuxOS.sk{% endblock %}</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	{% include "template_overrides/alpha/css.compress.html" %}
+	<link rel="shortcut icon" href="/favicon.ico" />
+	<link rel="canonical" href="{{ get_base_uri() }}{{ request.path }}" />
+	<meta property="og:site_name" content="LinuxOS.sk" />
+	{{ render_all_feeds(template="feeds/header_feeds.html") }}
+	{% include "includes/common_headers.html" %}
+	{% include "partials/microformats_header.html" %}
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	{% block extrastyle %}{% endblock %}{% block extraheaders %}{% endblock %}
+</head>
+<body class="{% block bodyclass %}{% endblock %}">
+	{{ hijack_notification() }}
+	{% include 'includes/analytics.html' %}
+
+	{% block messages %}
+		<div id="global_messages">
+			{{ render_messages(messages) }}
+		</div>
+	{% endblock %}
+
+	<header>
+		<div id="header">
+			<div id="logo"><a href="{{ url("home") }}">LinuxOS.sk</a></div>
+
+			<ul id="main_menu" class="tabs">
+				{% block site_menu %}{% include "partials/site_menu.html" %}{% endblock %}
+			</ul>
+		</div>
+	</header>
+
+	<div id="main_content">
+		{% block content %}
+		{% endblock %}
+
+		{% block discussion %}
+		{% endblock %}
+	</div>
+
+	<div id="sidebar_1">
+		{% block left %}
+			<div class="module news">
+				<h2>Správy</h2>
+				{{ news_frontpage() }}
+				<div class="module-links bottom">
+					<a href="{{ url('news:list') }}" class="next">Ďalšie</a>
+				</div>
+				<div class="submit-row">
+					<div class="positive">
+						<div class="btn"><span class="wrap"><a class="text" href="{{ url("news:create") }}">Pridať správu</a></span></div>
+					</div>
+				</div>
+			</div>
+		{% endblock %}
+	</div>
+
+	<div id="sidebar_2">
+		{% block right %}
+			<div class="module-group">
+				<div class="module linux">
+					<h2>O Linuxe</h2>
+					<ul class="menu">
+						{% include "partials/menu_linux.html" %}
+					</ul>
+				</div>
+				<div class="module portal">
+					<h2>Portál</h2>
+					<ul class="menu">
+						{% include "partials/menu_portal.html" %}
+					</ul>
+				</div>
+				<div class="module odporucam">
+					<h2>Odporúčame</h2>
+					{% include "static/block-odporucame.html" %}
+				</div>
+				<div class="module podporte">
+					<h2>Podporte nás</h2>
+					{% include "static/block-podporte.html" %}
+				</div>
+			</div>
+			<div class="module polls">
+				<h2>Anketa</h2>
+				{{ render_messages(messages, 'polls') }}
+				{{ polls_frontpage() }}
+			</div>
+		{% endblock %}
+	</div>
+
+	<!--[if lt IE 7]>
+	<script src="{{ static("js/fixiepng.js") }}"></script>
+	<![endif]-->
+	{% include "template_overrides/alpha/js.compress.html" %}
+</body>
+</html>

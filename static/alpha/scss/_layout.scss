@@ -1,0 +1,43 @@
+#main_content {
+	float: left;
+	width: 50%;
+	margin-left: 25%;
+	overflow: hidden;
+}
+
+#sidebar_1 {
+	width: 25%;
+	float: left;
+	margin-left: -75%;
+}
+
+#sidebar_2 {
+	width: 25%;
+	float: left;
+}
+
+@media #{$large-down} {
+	#main_content {
+		width: 66%;
+		margin-left: 0;
+		float: right;
+	}
+
+	#sidebar_1 {
+		width: 34%;
+		margin-left: 0;
+	}
+
+	#sidebar_2 {
+		width: 34%;
+		margin-left: 0;
+	}
+}
+
+@media #{$small-down} {
+	#main_content, #sidebar_1, #sidebar_2 {
+		width: auto;
+		margin-left: 0;
+		float: none;
+	}
+}

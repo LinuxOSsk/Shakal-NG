@@ -1,0 +1,82 @@
+$text-color: #000000 !default;
+$body-color: #ffffff !default;
+$body-color-background: #e7edf6 !default;
+
+$paragraph-line-height: 1.4 !default;
+$paragraph-margin-bottom: 12px !default;
+
+$primary-color: #6b8fc7 !default;
+$primary-color-complement: #ffffff !default;
+
+$link-color: #003399 !default;;
+$link-color-hover: mix($link-color, $text-color) !default;
+
+$info-color: #888 !default;
+
+$base-margin: 16px !default;
+$base-margin-content: 12px !default;
+$base-margin-reduced: $base-margin / 2 !default;
+$base-margin-table-vertical: 4px !default;
+$base-margin-table-horizontal: 6px !default;
+
+$header-line-height: 1.4 !default;
+$header-font-weight: 700 !default;
+$header-font-style: none !default;
+$header-font-color: mix($primary-color, $text-color, 75%) !default;
+$header-top-margin: 1em !default;
+$header-bottom-margin: 0.75em !default;
+$header-top-margin-first: 0.25em !default;
+
+$h1-font-size: 200% !default;
+$h2-font-size: 150% !default;
+$h3-font-size: 130% !default;
+$h4-font-size: 120% !default;
+$h5-font-size: 110% !default;
+$h6-font-size: 100% !default;
+
+$h1-font-reduction: 20% !default;
+$h2-font-reduction: 20% !default;
+$h3-font-reduction: 10% !default;
+$h4-font-reduction: 5% !default;
+$h5-font-reduction: 0% !default;
+$h6-font-reduction: 0% !default;
+
+$button-font-size: 90% !default;
+
+$label-color: mix($text-color, $body-color, 80%);
+$label-required-color: $text-color;
+
+$input-border-color: mix($text-color, $body-color, 10%);
+$light-border-color: mix($text-color, $body-color, 7%);
+$light-block-background: mix($text-color, $body-color, 1%);
+
+$flat-buttons: false;
+$comments-tree-fancy: false;
+
+$new-color: #ffee55;
+$me-color: saturate($primary-color, 50%);
+
+$info-msg-color: $primary-color;
+$success-color: #00ff00;
+$warning-color: #ffff00;
+$error-color: #ff0000;
+
+$debug-background: mix($text-color, $body-color, 10%);
+$debug-border-color: mix($text-color, $body-color, 15%);
+$debug-text-color: mix($text-color, $body-color, 60%);
+
+$info-background: mix($info-msg-color, $body-color, 20%);
+$info-border-color: mix($info-msg-color, $body-color, 30%);
+$info-text-color: mix($info-msg-color, $text-color, 80%);
+
+$success-background: mix($success-color, $body-color, 10%);
+$success-border-color: mix($success-color, $body-color, 15%);
+$success-text-color: mix($success-color, $text-color, 50%);
+
+$warning-background: mix($warning-color, $body-color, 10%);
+$warning-border-color: mix($warning-color, $body-color, 15%);
+$warning-text-color: mix($warning-color, $text-color, 50%);
+
+$error-background: mix($error-color, $body-color, 10%);
+$error-border-color: mix($error-color, $body-color, 15%);
+$error-text-color: mix($error-color, $text-color, 50%);
