@@ -1,0 +1,100 @@
+html, body {
+	padding: 0;
+	margin: 0;
+	font-family: sans-serif;
+	background: $body-color-background;
+	color: $text-color;
+	line-height: $paragraph-line-height;
+}
+
+h1, h2, h2, h3, h4, h5, h6 {
+	font-weight: $header-font-weight;
+	font-style: $header-font-style;
+	color: $header-font-color;
+	margin-top: $header-margin;
+	margin-bottom: $header-margin;
+	line-height: $header-line-height;
+	padding: 0;
+}
+
+h1 { font-size: $h1-font-size; font-weight: 300; }
+h2 { font-size: $h2-font-size; }
+h3 { font-size: $h3-font-size; }
+h4 { font-size: $h4-font-size; }
+h5 { font-size: $h5-font-size; }
+h6 { font-size: $h6-font-size; }
+
+@media #{$medium-down} {
+	h1 { font-size: $h1-font-size - $h1-font-reduction; }
+	h2 { font-size: $h2-font-size - $h2-font-reduction; }
+	h3 { font-size: $h3-font-size - $h3-font-reduction; }
+	h4 { font-size: $h4-font-size - $h4-font-reduction; }
+	h5 { font-size: $h5-font-size - $h5-font-reduction; }
+	h6 { font-size: $h6-font-size - $h6-font-reduction; }
+}
+
+hr {
+	background: $light-border-color;
+	display: block;
+	height: 1px;
+	border: none;
+}
+
+p {
+	line-height: $paragraph-line-height;
+	margin: $paragraph-margin 0;
+	padding: 0;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+	margin: $table-margin 0;
+}
+
+tr {
+	border-bottom: 1px solid #eee;
+	border-top: 1px solid #eee;
+}
+
+th {
+	background: $primary-color;
+	color: $primary-color-complement;
+	text-align: left;
+	font-weight: normal;
+	a {
+		color: $primary-color-complement;
+	}
+}
+
+tr:nth-child(2n) {
+	background: $body-color;
+}
+
+tr:nth-child(2n + 1) {
+	background: mix($body-color, $primary-color, 95%);
+}
+
+a {
+	text-decoration: none;
+	color: $link-color;
+	&:hover {
+		color: $link-color-hover;
+		text-decoration: underline;
+	}
+}
+
+button {
+	font-size: $button-font-size;
+	line-height: 1.4;
+}
+
+button::-moz-focus-inner {
+	padding: 0;
+	border: 0
+}
+
+ul, ol {
+	margin: $base-spacing-content 0 $base-spacing-content 124px;
+	padding: 0;
+}

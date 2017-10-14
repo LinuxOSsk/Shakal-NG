@@ -47,7 +47,7 @@
 	<div id="sidebar_1">
 		{% block left %}
 			<div class="module news">
-				<h2>Správy</h2>
+				<h2 class="block-title">Správy</h2>
 				{{ news_frontpage() }}
 				<div class="module-links bottom">
 					<a href="{{ url('news:list') }}" class="next">Ďalšie</a>
@@ -65,28 +65,28 @@
 		{% block right %}
 			<div class="module-group">
 				<div class="module linux">
-					<h2>O Linuxe</h2>
+					<h2 class="block-title">O Linuxe</h2>
 					<ul class="menu">
 						{% include "partials/menu_linux.html" %}
 					</ul>
 				</div>
 				<div class="module portal">
-					<h2>Portál</h2>
+					<h2 class="block-title">Portál</h2>
 					<ul class="menu">
 						{% include "partials/menu_portal.html" %}
 					</ul>
 				</div>
 				<div class="module odporucam">
-					<h2>Odporúčame</h2>
+					<h2 class="block-title">Odporúčame</h2>
 					{% include "static/block-odporucame.html" %}
 				</div>
 				<div class="module podporte">
-					<h2>Podporte nás</h2>
+					<h2 class="block-title">Podporte nás</h2>
 					{% include "static/block-podporte.html" %}
 				</div>
 			</div>
 			<div class="module polls">
-				<h2>Anketa</h2>
+				<h2 class="block-title">Anketa</h2>
 				{{ render_messages(messages, 'polls') }}
 				{{ polls_frontpage() }}
 			</div>

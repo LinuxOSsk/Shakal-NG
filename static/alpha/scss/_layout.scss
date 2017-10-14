@@ -3,20 +3,33 @@
 	width: 50%;
 	margin-left: 25%;
 	overflow: hidden;
+
+	.module {
+		margin-left: $base-margin;
+		margin-right: $base-margin;
+	}
 }
 
 #sidebar_1 {
 	width: 25%;
 	float: left;
 	margin-left: -75%;
+
+	.module {
+		margin-left: $base-margin;
+	}
 }
 
 #sidebar_2 {
 	width: 25%;
 	float: left;
+
+	.module {
+		margin-right: $base-margin;
+	}
 }
 
-@media #{$large-down} {
+@media #{$xlarge-down} {
 	#main_content {
 		width: 66%;
 		margin-left: 0;
@@ -31,13 +44,22 @@
 	#sidebar_2 {
 		width: 34%;
 		margin-left: 0;
+		clear: left;
+		.module {
+			margin-left: $base-margin;
+			margin-right: 0;
+		}
 	}
 }
 
-@media #{$small-down} {
+@media #{$large-down} {
 	#main_content, #sidebar_1, #sidebar_2 {
 		width: auto;
 		margin-left: 0;
 		float: none;
+		.module {
+			margin-left: 0;
+			margin-right: 0;
+		}
 	}
 }

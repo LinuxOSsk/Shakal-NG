@@ -2,8 +2,12 @@ $text-color: #000000 !default;
 $body-color: #ffffff !default;
 $body-color-background: #e7edf6 !default;
 
+$base-margin: 16px !default;
+$base-spacing-content: 12px !default;
+$base-margin-reduced: $base-margin / 2 !default;
+
 $paragraph-line-height: 1.4 !default;
-$paragraph-margin-bottom: 12px !default;
+$paragraph-margin: $base-spacing-content !default;
 
 $primary-color: #6b8fc7 !default;
 $primary-color-complement: #ffffff !default;
@@ -13,19 +17,11 @@ $link-color-hover: mix($link-color, $text-color) !default;
 
 $info-color: #888 !default;
 
-$base-margin: 16px !default;
-$base-margin-content: 12px !default;
-$base-margin-reduced: $base-margin / 2 !default;
-$base-margin-table-vertical: 4px !default;
-$base-margin-table-horizontal: 6px !default;
-
 $header-line-height: 1.4 !default;
 $header-font-weight: 700 !default;
 $header-font-style: none !default;
 $header-font-color: mix($primary-color, $text-color, 75%) !default;
-$header-top-margin: 1em !default;
-$header-bottom-margin: 0.75em !default;
-$header-top-margin-first: 0.25em !default;
+$header-margin: $base-spacing-content !default;
 
 $h1-font-size: 200% !default;
 $h2-font-size: 150% !default;
@@ -40,6 +36,8 @@ $h3-font-reduction: 10% !default;
 $h4-font-reduction: 5% !default;
 $h5-font-reduction: 0% !default;
 $h6-font-reduction: 0% !default;
+
+$table-margin: $base-spacing-content !default;
 
 $button-font-size: 90% !default;
 

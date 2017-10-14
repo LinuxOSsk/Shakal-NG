@@ -1,0 +1,9 @@
+.module {
+	@include shadow-box;
+	margin: $base-margin 0;
+	padding: 0 $base-spacing-content;
+}
+
+.block-title {
+	font-weight: 300;
+}
