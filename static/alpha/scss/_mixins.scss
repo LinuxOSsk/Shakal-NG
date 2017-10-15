@@ -19,3 +19,28 @@
 @mixin content-padding {
 	@extend %content-padding;
 }
+
+@mixin no-text {
+	overflow: hidden;
+	text-indent: -9999px;
+}
+
+@mixin no-text-right {
+	overflow: hidden;
+	text-indent: 9999px;
+}
+
+@mixin messages-item($background, $border, $text) {
+	background: $background;
+	border-top: 1px solid $border;
+	border-bottom: 1px solid $border;
+	color: $text;
+	a {
+		color: $text;
+		text-decoration: none;
+		font-weight: bold;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}

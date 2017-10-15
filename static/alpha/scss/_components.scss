@@ -32,3 +32,179 @@
 		border-top: 1px solid $light-border-color;
 	}
 }
+
+.label, .badge {
+	display: inline-block;
+	padding: 2px 4px;
+	font-size: 0.8em;
+	font-weight: bold;
+	text-decoration: none;
+	line-height: 1.1em;
+	color: white;
+	text-shadow: 0 -1px 0 darken(#999, 10%);
+	white-space: nowrap;
+	vertical-align: baseline;
+	background-color: #999;
+}
+
+.badge {
+	padding-right: 0.8em;
+	padding-left: 0.8em;
+	border-radius: 0.8em;
+	&:hover {
+		border-radius: 0.8em;
+	}
+}
+
+.label {
+	border-radius: 3px;
+}
+
+.clearfix {
+	clear: both;
+}
+
+.info {
+	color: $info-color;
+	margin: $paragraph-margin 0;
+	font-size: 90%;
+	.subject {
+		color: $text-color;
+		font-weight: bold;
+	}
+}
+
+.subject {
+	font-weight: bold;
+}
+
+.label, .badge {
+	color: white;
+	margin: 0;
+	&.info, &.watch {
+		text-shadow: 0 -1px 0 darken(#6b8fc7, 10%);
+		background-color: #6b8fc7;
+		color: white;
+	}
+	&.warning {
+		text-shadow: 0 -1px 0 darken(#468847, 10%);
+		background-color: #468847;
+		color: white;
+	}
+	&.success, &.new {
+		text-shadow: 0 -1px 0 darken(#468847, 10%);
+		background-color: #468847;
+		color: white;
+	}
+	&.important {
+		text-shadow: 0 -1px 0 darken(#b94a48, 10%);
+		background-color: #b94a48;
+		color: white;
+	}
+}
+
+%label-icon {
+	background-color: transparent;
+	padding: 0;
+	margin: 0 ($base-margin-reduced / 2) 0 0;
+	display: block;
+	float: right;
+}
+
+.label {
+	&.new {
+		@extend %label-icon;
+		@include no-text-right;
+		@include sprite(star_yellow);
+	}
+	&.resolved {
+		@extend %label-icon;
+		@include no-text-right;
+		@include sprite(tick_green);
+	}
+	&.locked {
+		@extend %label-icon;
+		@include no-text-right;
+		@include sprite(lock);
+	}
+	&.watch {
+		@extend %label-icon;
+		@include no-text-right;
+		@include sprite(eye_blue);
+	}
+}
+
+.notifications .links {
+	float: right;
+}
+
+.clear, fieldset, .module { clear: both; }
+
+td, th {
+	&.date {
+		width: 6em;
+		text-align: right;
+	}
+	&.comments {
+		width: 4em;
+		text-align: center;
+	}
+	&.status {
+		width: 100px;
+		text-align: right;
+	}
+}
+
+td.date {
+	width: 6em;
+	font-size: 90%;
+	color: $info-color;
+}
+
+td.comments {
+	text-align: center;
+}
+
+ul.messages {
+	list-style: none;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding: 0;
+	li {
+		padding: $base-margin-reduced 3em $base-margin-reduced $base-margin;
+		margin: 0;
+		color: $text-color;
+		font-size: 100%;
+		position: relative;
+
+		&.debug {
+			@include messages-item($debug-background, $debug-border-color, $debug-text-color);
+		}
+		&.info {
+			@include messages-item($info-background, $info-border-color, $info-text-color);
+		}
+		&.success {
+			@include messages-item($success-background, $success-border-color, $success-text-color);
+		}
+		&.warning {
+			@include messages-item($warning-background, $warning-border-color, $warning-text-color);
+		}
+		&.error {
+			@include messages-item($error-background, $error-border-color, $error-text-color);
+		}
+
+		a.delete-action {
+			position: absolute;
+			top: $base-margin-reduced;
+			right: $base-margin;
+			&:hover {
+				text-decoration: none;
+			}
+		}
+	}
+}
+
+#global_messages ul.messages {
+	margin-left: 0;
+	margin-right: 0;
+}
