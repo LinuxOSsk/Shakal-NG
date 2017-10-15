@@ -1,9 +1,34 @@
 .module {
 	@include shadow-box;
 	margin: $base-margin 0;
-	padding: 0 $base-spacing-content;
+	@media #{$large-down} {
+		margin-top: 0;
+		margin-bottom: -1px;
+	}
+}
+
+.module-row {
+	table {
+		margin-bottom: 0;
+		margin-top: 0;
+		td:first-child, th:first-child {
+			padding-left: $base-spacing-content;
+		}
+		td:last-child, th:last-child {
+			padding-right: $base-spacing-content;
+		}
+	}
 }
 
 .block-title {
 	font-weight: 300;
+	@include content-padding;
+}
+
+.module-links {
+	text-align: center;
+	padding: 4px 6px;
+	&.bottom {
+		border-top: 1px solid $light-border-color;
+	}
 }

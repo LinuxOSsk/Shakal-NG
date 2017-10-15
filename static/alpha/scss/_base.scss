@@ -52,9 +52,13 @@ table {
 	margin: $table-margin 0;
 }
 
-tr {
-	border-bottom: 1px solid #eee;
-	border-top: 1px solid #eee;
+td {
+	border-bottom: 1px solid $light-border-color;
+	border-top: 1px solid $light-border-color;
+}
+
+th {
+	border-bottom: 1px solid $primary-color-complement;
 }
 
 th {
@@ -67,12 +71,20 @@ th {
 	}
 }
 
+td, th {
+	padding: 4px 6px;
+}
+
 tr:nth-child(2n) {
 	background: $body-color;
 }
 
 tr:nth-child(2n + 1) {
 	background: mix($body-color, $primary-color, 95%);
+}
+
+tr:last-child td {
+	border-bottom: none;
 }
 
 a {
@@ -95,6 +107,6 @@ button::-moz-focus-inner {
 }
 
 ul, ol {
-	margin: $base-spacing-content 0 $base-spacing-content 124px;
+	margin: $base-spacing-content 0 $base-spacing-content 24px;
 	padding: 0;
 }
