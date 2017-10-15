@@ -1,8 +1,12 @@
+$header-height: 120px;
+
 #main_content {
 	float: left;
 	width: 50%;
 	margin-left: 25%;
 	overflow: hidden;
+	margin-top: -(40px + $base-margin);
+	position: relative;
 
 	.module {
 		margin-left: $base-margin;
@@ -14,41 +18,89 @@
 	width: 25%;
 	float: left;
 	margin-left: -75%;
+	margin-top: -($header-height + $base-margin);
+	position: relative;
+
+	&:before {
+		content: " ";
+		display: block;
+		background: lighten($primary-color, 10%);
+		height: 80px;
+		position: absolute;
+		top: $base-margin;
+		left: 0;
+		right: 0px;
+		box-shadow: -3px -3px 4px rgba(0, 0, 0, 0.25);
+	}
 
 	.module {
-		margin-left: $base-margin;
+		padding-top: 80px;
 	}
 }
 
 #sidebar_2 {
 	width: 25%;
 	float: left;
+	margin-top: -(20px + $base-margin);
+	position: relative;
 
 	.module {
 		margin-right: $base-margin;
 	}
 }
 
+#header {
+	height: $header-height;
+	position: relative;
+}
+
+#logo {
+	top: 0;
+	left: $base-margin;
+	position: absolute;
+	z-index: 1;
+}
+
+#main_menu {
+	position: absolute;
+	left: 25%;
+	bottom: 40px;
+}
+
 @media #{$xlarge-down} {
 	#main_content {
 		width: 66%;
 		margin-left: 0;
-		float: right;
+		float: left;
 	}
 
 	#sidebar_1 {
 		width: 34%;
-		margin-left: 0;
+		float: right;
+		margin-top: -(20px + $base-margin);
+		&:before {
+			display: none;
+		}
+		.module {
+			padding-top: 0;
+		}
 	}
 
 	#sidebar_2 {
 		width: 34%;
+		float: right;
+		clear: right;
+		margin-top: -$base-margin;
+	}
+
+	#sidebar_1 .module, #sidebar_2 .module {
 		margin-left: 0;
-		clear: left;
-		.module {
-			margin-left: $base-margin;
-			margin-right: 0;
-		}
+		margin-right: $base-margin;
+	}
+
+	#main_menu {
+		left: auto;
+		right: 34%;
 	}
 }
 
@@ -61,5 +113,21 @@
 			margin-left: 0;
 			margin-right: 0;
 		}
+	}
+
+	#main_content {
+		margin-top: -40px;
+	}
+
+	#sidebar_1, #sidebar_2 {
+		margin-top: 0;
+	}
+
+	#sidebar_1 {
+		margin-bottom: 0;
+	}
+
+	#main_menu {
+		right: 0;
 	}
 }

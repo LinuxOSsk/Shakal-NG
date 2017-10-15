@@ -1,0 +1,58 @@
+#header {
+	background-color: #6b8fc7;
+	background-position: sprite_position(header_shadow);
+	@include sprite_background;
+}
+
+#logo {
+	a {
+		display: block;
+		text-indent: -9999px;
+		overflow: hidden;
+		margin-left: auto;
+		margin-right: auto;
+		@include sprite(logo);
+	}
+}
+
+#main_menu {
+	padding: 0;
+	margin: 0 $base-margin;
+	list-style: none;
+	box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.05);
+	background: rgba(0, 0, 0, 0.05);
+
+	li {
+		background: darken($primary-color, 15%);
+		float: left;
+		position: relative;
+		margin-left: 2px;
+
+		&:first-child {
+			margin-left: 0;
+		}
+
+		&.active, &:hover {
+			z-index: 1;
+			background: $primary-color-complement;
+			color: $link-color;
+			a {
+				color: $link-color;
+			}
+		}
+
+		a {
+			display: block;
+			padding: 0.75em 1em;
+			color: $primary-color-complement;
+			&:hover {
+				text-decoration: none;
+			}
+		}
+		.badge {
+			position: absolute;
+			top: -8px;
+			right: 8px;
+		}
+	}
+}
