@@ -18,9 +18,9 @@ $link-color-hover: mix($link-color, $text-color) !default;
 $info-color: #888 !default;
 
 $header-line-height: 1.4 !default;
-$header-font-weight: 700 !default;
+$header-font-weight: 300 !default;
 $header-font-style: none !default;
-$header-font-color: mix($primary-color, $text-color, 75%) !default;
+$header-font-color: mix($text-color, $primary-color, 50%) !default;
 $header-margin: $base-spacing-content !default;
 
 $h1-font-size: 200% !default;

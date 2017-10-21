@@ -19,36 +19,30 @@
 	padding: 0;
 	margin: 0 $base-margin;
 	list-style: none;
-	box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.05);
-	background: rgba(0, 0, 0, 0.05);
+	z-index: 1;
 
 	li {
-		background: darken($primary-color, 15%);
 		float: left;
 		position: relative;
-		margin-left: 2px;
-
-		&:first-child {
-			margin-left: 0;
-		}
-
-		&.active, &:hover {
-			z-index: 1;
-			background: $primary-color-complement;
-			color: $link-color;
-			a {
-				color: $link-color;
-			}
-		}
+		margin-left: 1px;
+		margin-right: 1px;
 
 		a {
 			display: block;
-			padding: 0.75em 1em;
+			padding: 0.5em 0.75em 0.4em 0.75em;
+			background: darken($primary-color, 15%);
 			color: $primary-color-complement;
-			&:hover {
-				text-decoration: none;
-			}
+			border-bottom: 1px solid #dddddd;
 		}
+
+		&.active a, a:hover {
+			text-decoration: none;
+			color: mix($text-color, $primary-color);
+			background: $primary-color-complement;
+			border-bottom: 1px solid $primary-color-complement;
+			box-shadow: 0px -5px 5px -5px rgba(0, 0, 0, 0.1), -5px 0px 5px -5px rgba(0, 0, 0, 0.1), 5px 0px 5px -5px rgba(0, 0, 0, 0.1);
+		}
+
 		.badge {
 			position: absolute;
 			top: -8px;

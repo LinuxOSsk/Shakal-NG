@@ -18,23 +18,11 @@ $header-height: 120px;
 	width: 25%;
 	float: left;
 	margin-left: -75%;
-	margin-top: -($header-height + $base-margin);
+	margin-top: -(40px + $base-margin);
 	position: relative;
 
-	&:before {
-		content: " ";
-		display: block;
-		background: lighten($primary-color, 10%);
-		height: 80px;
-		position: absolute;
-		top: $base-margin;
-		left: 0;
-		right: 0px;
-		box-shadow: -3px -3px 4px rgba(0, 0, 0, 0.25);
-	}
-
 	.module {
-		padding-top: 80px;
+		margin-left: $base-margin;
 	}
 }
 
@@ -64,7 +52,7 @@ $header-height: 120px;
 #main_menu {
 	position: absolute;
 	left: 25%;
-	bottom: 40px;
+	bottom: 39px;
 }
 
 @media #{$xlarge-down} {
