@@ -12,12 +12,21 @@
 	padding-right: $base-spacing-content;
 }
 
+%cancel-content-padding {
+	margin-left: -$base-spacing-content;
+	margin-right: -$base-spacing-content;
+}
+
 @mixin shadow-box {
 	@extend %shadow-box;
 }
 
 @mixin content-padding {
 	@extend %content-padding;
+}
+
+@mixin cancel-content-padding {
+	@extend %cancel-content-padding;
 }
 
 @mixin no-text {

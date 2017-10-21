@@ -21,8 +21,15 @@
 }
 
 .block-title {
-	font-weight: 300;
-	@include content-padding;
+	@extend %content-padding;
+}
+
+.module-row {
+	@extend %content-padding;
+	&.tabular {
+		padding-left: 0;
+		padding-right: 0;
+	}
 }
 
 .module-links {

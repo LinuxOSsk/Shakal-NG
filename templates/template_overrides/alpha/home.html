@@ -16,7 +16,7 @@
 
 <div class="module article">
 	<h2 class="block-title">Články a blogy</h2>
-	<div class="module-row">
+	<div class="module-row tabular">
 		{% with caption="Najnovšie články a blogy", topic_list=new_items %}
 			{% include "partials/object_list_table.html" %}
 		{% endwith %}
@@ -25,24 +25,24 @@
 
 <div class="module">
 	<h2 class="block-title">Diskusné fórum</h2>
-	<div class="module-row">
+	<div class="module-row tabular">
 		{% with caption="Najnovšie komentáre", topic_list=forum_new %}
 			{% include "forum/block_topics_table.html" %}
 		{% endwith %}
 	</div>
 	{% if forum_no_comments %}
-	<div class="module-row">
+	<div class="module-row tabular">
 		{% with caption="Nediskutované témy", topic_list=forum_no_comments %}
 			{% include "forum/block_topics_table.html" %}
 		{% endwith %}
 	</div>
 	{% endif %}
-	<div class="module-row">
+	<div class="module-row tabular">
 		{% with caption="Najdiskutovanejšie témy", topic_list=forum_most_comments %}
 			{% include "forum/block_topics_table.html" %}
 		{% endwith %}
 	</div>
-	<div class="module-row">
+	<div class="module-row tabular">
 		{% with caption="Najnovšie blogy", topic_list=posts %}
 			{% include "forum/block_topics_table.html" %}
 		{% endwith %}
@@ -97,7 +97,7 @@
 </div>
 
 <div class="module desktops horizontal">
-	<h2>Desktopy</h2>
+	<h2 class="block-title">Desktopy</h2>
 	<div class="module-row">
 		{% for desktop in desktops %}
 			{% include "desktops/partials/desktop_link.html" %}

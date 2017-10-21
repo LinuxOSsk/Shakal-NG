@@ -50,6 +50,7 @@ table {
 	border-collapse: collapse;
 	width: 100%;
 	margin: $table-margin 0;
+	box-sizing: border-box;
 }
 
 td {
