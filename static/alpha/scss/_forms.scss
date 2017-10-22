@@ -1,0 +1,154 @@
+.errorlist, .errornote {
+	@include cancel-content-padding;
+	@include content-padding;
+	list-style: none;
+	background: $error-background;
+	padding-top: $base-spacing-content;
+	padding-bottom: $base-spacing-content;
+	border-top: 1px solid $error-border-color;
+	border-bottom: 1px solid $error-border-color;
+	color: $error-text-color;
+}
+
+.form-row {
+	margin-top: $base-spacing-content;
+	margin-bottom: $base-spacing-content;
+
+	&:after {
+		content: " ";
+		display: block;
+		clear: both;
+	}
+
+	.field-label, .formset-label {
+		float: left;
+		width: 12em;
+		padding-right: 0.5em;
+		vertical-align: middle;
+	}
+
+	input[type=text],
+	input[type=password],
+	input[type=email],
+	input[type=number] {
+		width: 18em;
+	}
+
+	@media #{$medium-down} {
+		.field-label, .formset-label {
+			float: none;
+			display: block;
+			width: auto;
+			margin-top: 0;
+			margin-bottom: $base-spacing-content / 2;
+		}
+
+		.form-control {
+			display: block;
+			margin: 0 $base-spacing-content;
+		}
+
+		input[type=text],
+		input[type=password],
+		input[type=email],
+		input[type=number],
+		textarea {
+			margin-left: -$base-spacing-content;
+			margin-right: -$base-spacing-content;
+			width: 100%;
+		}
+	}
+}
+
+.submit-row {
+	@include content-padding;
+	@include cancel-content-padding;
+	margin-bottom: $base-spacing-content - $base-margin;
+	background: $body-color;
+	border-top: 1px solid $light-border-color;
+	padding-top: $base-spacing-content;
+	&:after {
+		content: " ";
+		display: block;
+		clear: both;
+	}
+}
+
+.btn {
+	border: none;
+	padding: 0;
+	margin: 0 0 $base-spacing-content 0;
+	background: transparent;
+	cursor: pointer;
+	display: inline-block;
+
+	@include button(mix($text-color, $body-color, 5%), mix($text-color, $body-color, 75%));
+
+	&.primary {
+		font-weight: bold;
+		@include button($primary-color, $primary-color-complement, $only-color: true);
+	}
+}
+
+.btn-group {
+	margin: 0 0 0 1px;
+	.btn {
+		display: block;
+		float: left;
+		margin-left: -1px;
+	}
+	&.reply, &.voting, &.admin {
+		float: right;
+	}
+}
+
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=number],
+textarea {
+	@include input;
+}
+
+input, textarea {
+	margin-bottom: $base-spacing-content;
+}
+
+fieldset, fieldset.module {
+	border-top: 1px solid $light-border-color;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid $light-border-color;
+	background: $light-block-background;
+	margin-bottom: $base-spacing-content;
+	margin-top: $base-spacing-content;
+	box-shadow: none;
+	padding-top: 0;
+	padding-bottom: 0;
+	@include content-padding;
+	@include cancel-content-padding;
+}
+
+form {
+	fieldset:last-child {
+		margin-bottom: 0;
+		border-bottom: none;
+	}
+	@include content-margin-vertical;
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+p.help {
+	font-size: 80%;
+	color: $info-color;
+}
+
+.positive {
+	float: right;
+}
+
+.negative {
+	float: left;
+}

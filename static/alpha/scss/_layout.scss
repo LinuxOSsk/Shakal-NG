@@ -7,11 +7,6 @@ $header-height: 120px;
 	overflow: hidden;
 	margin-top: -(40px + $base-margin);
 	position: relative;
-
-	.module {
-		margin-left: $base-margin;
-		margin-right: $base-margin;
-	}
 }
 
 #sidebar_1 {

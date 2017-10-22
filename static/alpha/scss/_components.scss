@@ -1,22 +1,36 @@
-.module {
+.module, .content-module {
 	@include shadow-box;
+	margin: $base-margin;
+}
+
+.content-module {
+	@include content-padding;
+	.block-title {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
+body.home .content-module {
+	@include shadow-box-cancel;
+	margin: 0;
+	padding: 0;
+
+	.block-title {
+		@include content-padding;
+	}
+
+	.module {
+		margin-left: $base-margin;
+		margin-right: $base-margin;
+	}
+}
+
+.module {
 	margin: $base-margin 0;
 	@media #{$large-down} {
 		margin-top: 0;
 		margin-bottom: -1px;
-	}
-}
-
-.module-row {
-	table {
-		margin-bottom: 0;
-		margin-top: 0;
-		td:first-child, th:first-child {
-			padding-left: $base-spacing-content;
-		}
-		td:last-child, th:last-child {
-			padding-right: $base-spacing-content;
-		}
 	}
 }
 
@@ -29,6 +43,16 @@
 	&.tabular {
 		padding-left: 0;
 		padding-right: 0;
+		table {
+			margin-bottom: 0;
+			margin-top: 0;
+			td:first-child, th:first-child {
+				padding-left: $base-spacing-content;
+			}
+			td:last-child, th:last-child {
+				padding-right: $base-spacing-content;
+			}
+		}
 	}
 }
 
