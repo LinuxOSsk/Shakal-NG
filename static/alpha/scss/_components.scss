@@ -239,3 +239,8 @@ ul.messages {
 	margin-left: 0;
 	margin-right: 0;
 }
+
+.object-tools, .object-tools.btn-group {
+	float: right;
+	margin: $base-spacing-content 0 $base-spacing-content $base-spacing-content;
+}

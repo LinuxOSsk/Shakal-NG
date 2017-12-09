@@ -148,6 +148,10 @@
 	display: inline;
 }
 
+.comments .links {
+	@include content-padding;
+}
+
 .comments_tree .thread_1 > .comment + .comment {
 	margin-top: 0.5em;
 }
