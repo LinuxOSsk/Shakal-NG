@@ -1,0 +1,206 @@
+.content-module .comments.module {
+	@include cancel-content-padding;
+	box-shadow: none;
+	border: none;
+}
+
+.discussion.header {
+	border-top: 1px solid $light-border-color;
+	background: mix($primary-color, $body-color, 10%);
+	min-height: 56px;
+	position: relative;
+	&.me {
+		background: mix($primary-color, $body-color, 30%);
+		.user { background: mix($primary-color, $body-color, 30%); }
+	}
+	&.resolved {
+		background: mix($success-color, $body-color, 10%);
+		.user { background: mix($success-color, $body-color, 10%); }
+	}
+	&.deleted {
+		background: mix($error-color, $body-color, 30%);
+		.user { background: mix($error-color, $body-color, 30%); }
+	}
+	&.new, &.highlight {
+		background: mix($alert-color, $body-color, 20%);
+		.user { background: mix($alert-color, $body-color, 20%); }
+	}
+	&.entry {
+		&.me { border-left-color: $primary-color; }
+		&.resolved { border-left-color: $success-color; }
+		&.private { border-left-color: $warning-color; }
+		&.deleted { border-left-color: $error-color; }
+	}
+	ul.files {
+		border-top: 1px solid rgba(0, 0, 0, 0.05);
+		margin-top: 4px;
+		padding-bottom: 4px;
+		padding-top: 4px;
+		clear: both;
+		small {
+			color: $info-color;
+		}
+	}
+	.user {
+		float: right;
+		display: block;
+		text-align: right;
+		padding-right: 3px;
+		min-height: 56px;
+		position: absolute;
+		right: 56px;
+		top: 0px;
+		background: mix($primary-color, $body-color, 10%);
+	}
+	.user_link {
+		display: block;
+		line-height: 22px;
+		vertical-align: bottom;
+		a {
+			line-height: 22px;
+			vertical-align: bottom;
+		}
+	}
+	.distribution, .rank {
+		display: block;
+		font-size: 80%;
+		color: $info-color;
+		white-space: nowrap;
+		padding-right: 28px;
+		line-height: 14px;
+	}
+	&.deleted {
+		.distribution, .rank, .info {
+			color: mix($error-color, $text-color, 50%);
+		}
+	}
+	.comment_info {
+		margin-left: 5px;
+		margin-right: 180px;
+		.subject {
+			display: block;
+			line-height: 25px;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			width: 100%;
+		}
+		.info {
+			line-height: 25px;
+		}
+	}
+	.user_rating {
+		float: right;
+		width: 20px;
+		height: 36px;
+		margin: -3px 0 0 8px;
+		//&.admin { @include sprite-generated(user_rating_admin, $setSize: false); }
+		//&.rating_0 { @include sprite-generated(user_rating_0, $setSize: false); }
+		//&.rating_1 { @include sprite-generated(user_rating_1, $setSize: false); }
+		//&.rating_2 { @include sprite-generated(user_rating_2, $setSize: false); }
+		//&.rating_3 { @include sprite-generated(user_rating_3, $setSize: false); }
+		//&.rating_4 { @include sprite-generated(user_rating_4, $setSize: false); }
+		//&.rating_5 { @include sprite-generated(user_rating_5, $setSize: false); }
+	}
+	.icon {
+		display: block;
+		float: right;
+		width: 48px;
+		height: 48px;
+		padding: 4px;
+		position: absolute;
+		right: 0px;
+		top: 0px;
+		//@include sprite-generated(avatar_placeholder, $setSize: false);
+	}
+	.comment_link {
+		position: absolute;
+		top: 0px;
+	}
+}
+
+.thread_1 .discussion.header {
+	border-left-color: mix($primary-color, $text-color, 80%);
+}
+
+.thread_2 .discussion.header {
+	border-left-color: mix($primary-color, $body-color, 100%);
+	margin-left: -1px;
+}
+
+.thread_3 .discussion.header {
+	border-left-color: mix($primary-color, $body-color, 80%);
+}
+
+.thread_4 .discussion.header {
+	border-left-color: mix($primary-color, $body-color, 60%);
+}
+
+.thread_5 .discussion.header {
+	border-left-color: mix($primary-color, $body-color, 40%);
+}
+
+.thread_6 .discussion.header {
+	border-left: none;
+}
+
+.comments_tree form, .links form {
+	display: inline;
+}
+
+.comments_tree .thread_1 > .comment + .comment {
+	margin-top: 0.5em;
+}
+
+.comments_tree .thread_2 .comment {
+	margin-bottom: 0;
+	border: none;
+	border-left: 1px solid $light-border-color;
+	background: white;
+}
+
+.discussion.header.new, .discussion.header.highlight {
+	border-left-color: $alert-color;
+}
+
+.discussion.header {
+	border-left: 10px solid mix($primary-color, $text-color, 80%);
+	border-top: none;
+}
+
+.discussion.header.topic {
+	border-top: 1px solid $light-border-color;
+	border-left: none;
+}
+
+.discussion.header.entry .subject {
+	font-weight: bold;
+}
+
+.comments_tree ul.comment_thread {
+	margin: 0;
+	padding: 0;
+	clear: both;
+}
+
+.comments_tree ul.comment_thread ul.comment_thread ul.comment_thread {
+	margin-left: $base-spacing-content / 2;
+}
+
+.comments_tree ul.comment_thread.thread_1 {
+	margin-left: 0;
+}
+
+.discussion.content, .topic.content {
+	padding: .7em .7em 0 .7em;
+}
+
+.comments_tree li.comment {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	border-top: none;
+	li.comment {
+		border-top: 1px solid $light-border-color;
+	}
+}

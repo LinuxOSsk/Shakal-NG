@@ -16,17 +16,18 @@ click==6.7                # via pip-tools
 defusedxml==0.5.0         # via python3-openid
 django-allauth==0.34.0
 django-appconf==1.0.2     # via django-compressor
-django-braces==1.11.0
-django-compat==1.0.14     # via django-hijack, django-hijack-admin
+django-braces==1.12.0
+django-compat==1.0.15     # via django-hijack, django-hijack-admin
 django-compressor==2.2
 django-haystack==2.6.1
-django-hijack-admin==2.1.4
-django-hijack==2.1.4
+django-hijack-admin==2.1.5
+django-hijack==2.1.5
 django-jinja==2.4.1
+django-js-asset==0.1.1    # via django-mptt
 django-libsass==0.7
-django-mptt==0.8.7
-django-reversion==2.0.11
-django-static-sitemaps==4.4.0
+django-mptt==0.9.0
+django-reversion==2.0.12
+django-static-sitemaps==4.4.1
 django-suit==0.2.25
 django==1.11.8
 easy-thumbnails==2.5
