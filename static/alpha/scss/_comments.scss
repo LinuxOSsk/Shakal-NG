@@ -204,3 +204,7 @@
 		border-top: 1px solid $light-border-color;
 	}
 }
+
+.discussion.header.topic, .topic.content {
+	@include cancel-content-padding;
+}
