@@ -25,6 +25,16 @@ def process_images(basename, shaders, suffix=''):
 	process_image(basename + '@2x', shaders, basename + suffix + '@2x.png')
 
 
+def make_identity(basename, suffix=''):
+	shaders = [
+		lambda i: i,
+		lambda i: i,
+		lambda i: i,
+		lambda i: i,
+	]
+	process_images(basename, shaders, suffix)
+
+
 def make_transparent_gray(basename, suffix=''):
 	shaders = [
 		lambda i: i,
@@ -76,6 +86,7 @@ def main():
 	make_colorized('star', (221, 221, 0), '_yellow')
 	make_colorized('tick', (102, 221, 102), '_green')
 	make_colorized('eye', (102, 102, 221), '_blue')
+	make_identity('avatar_placeholder')
 
 
 if __name__ == "__main__":

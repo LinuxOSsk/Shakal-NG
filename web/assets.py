@@ -43,6 +43,7 @@ SPRITES = (
 		'images': (
 			{ 'name': 'header_shadow', 'src': 'alpha/images/header_shadow.png', 'mode': 'repeat-x' },
 			{ 'name': 'logo', 'src': 'alpha/images/logo.png', },
+			{ 'name': 'avatar_placeholder', 'src': 'alpha/images/avatar_placeholder.png', },
 			{ 'name': 'user_rating_0', 'src': 'alpha/images/rating_0.png' },
 			{ 'name': 'user_rating_1', 'src': 'alpha/images/rating_1.png' },
 			{ 'name': 'user_rating_2', 'src': 'alpha/images/rating_2.png' },

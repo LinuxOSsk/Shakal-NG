@@ -111,7 +111,7 @@
 		position: absolute;
 		right: 0px;
 		top: 0px;
-		//@include sprite(avatar_placeholder, $setSize: false);
+		@include sprite(avatar_placeholder, $setSize: false);
 	}
 	.comment_link {
 		position: absolute;
