@@ -267,3 +267,15 @@ ul.messages {
 		}
 	}
 }
+
+.banner_button {
+	text-indent: -9999px;
+	overflow: hidden;
+	background-position: top left;
+	cursor: pointer;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	vertical-align: top;
+}
