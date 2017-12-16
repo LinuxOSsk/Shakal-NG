@@ -50,3 +50,43 @@
 		}
 	}
 }
+
+#user_panel {
+	padding: $base-margin;
+	z-index: 1;
+
+	.user {
+		display: block;
+		text-align: right;
+		color: $primary-color-complement;
+		line-height: 32px;
+		vertical-align: middle;
+		a, a:hover {
+			color: $primary-color-complement;
+		}
+		@include text-ellipsis();
+	}
+
+	.avatar {
+		float: right;
+		margin-left: $base-spacing-content;
+		border: 2px solid $primary-color-complement;
+		img {
+			display: block;
+		}
+	}
+
+	a:hover {
+		text-decoration: none;
+	}
+
+	&:hover #userlinks {
+		display: block;
+	}
+}
+
+#userlinks {
+	float: right;
+	width: 80%;
+	margin: 0 -6px 0 0;
+}

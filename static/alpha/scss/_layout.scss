@@ -50,6 +50,13 @@ $header-height: 120px;
 	bottom: 39px;
 }
 
+#user_panel {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 25%;
+}
+
 @media #{$xlarge-down} {
 	#main_content {
 		width: 66%;
