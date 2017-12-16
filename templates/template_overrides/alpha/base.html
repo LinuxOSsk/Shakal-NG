@@ -33,6 +33,10 @@
 			<ul id="main_menu" class="tabs">
 				{% block site_menu %}{% include "partials/site_menu.html" %}{% endblock %}
 			</ul>
+
+			<div id="user_panel"{% if user.is_authenticated %} class="authenticated"{% endif %}>
+				{% include "partials/user_panel.html" %}
+			</div>
 		</div>
 	</header>
 
