@@ -65,14 +65,23 @@
 			color: $primary-color-complement;
 		}
 		@include text-ellipsis();
+		&:before {
+			content: "";
+			float: right;
+			margin-left: $base-spacing-content;
+			@include sprite(user);
+		}
 	}
 
 	.avatar {
 		float: right;
 		margin-left: $base-spacing-content;
 		border: 2px solid $primary-color-complement;
+		overflow: hidden;
 		img {
 			display: block;
+			width: 32px;
+			height: 32px;
 		}
 	}
 
@@ -82,6 +91,10 @@
 
 	&:hover #userlinks {
 		display: block;
+	}
+
+	&.authenticated .user:before {
+		display: none;
 	}
 }
 

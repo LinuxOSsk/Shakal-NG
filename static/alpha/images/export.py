@@ -87,6 +87,7 @@ def main():
 	make_colorized('tick', (102, 221, 102), '_green')
 	make_colorized('eye', (102, 102, 221), '_blue')
 	make_identity('avatar_placeholder')
+	make_identity('user')
 
 
 if __name__ == "__main__":
