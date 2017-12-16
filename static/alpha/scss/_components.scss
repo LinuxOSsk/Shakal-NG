@@ -32,6 +32,30 @@ body.home .content-module {
 		margin-top: 0;
 		margin-bottom: -1px;
 	}
+
+	&.sidebar {
+		width: 33%;
+		margin-left: $base-margin;
+		float: right;
+		@include shadow-box;
+
+		h2 {
+			@include content-padding;
+		}
+
+		.module-row h2 {
+			padding-left: 0;
+			padding-right: 0;
+		}
+
+		.info.top {
+			display: none;
+		}
+
+		hr {
+			display: none;
+		}
+	}
 }
 
 .block-title {
