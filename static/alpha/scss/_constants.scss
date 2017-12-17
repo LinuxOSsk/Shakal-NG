@@ -1,3 +1,10 @@
+$xsmall-range: (0, 24em) !default;
+$small-range: (24.063em, 40em) !default;
+$medium-range: (40.063em, 52em) !default;
+$large-range: (52.063em, 64em) !default;
+$xlarge-range: (64.063em, 90em) !default;
+$xxlarge-range: (90.063em, 99999999em) !default;
+
 $text-color: #000000 !default;
 $body-color: #ffffff !default;
 $body-color-background: #eeeeee !default;

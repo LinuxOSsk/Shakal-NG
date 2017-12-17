@@ -1,7 +1,7 @@
 #header {
 	background-color: #6b8fc7;
-	background-position: sprite_position(header_shadow);
-	@include sprite_background;
+	@include sprite-background-position(header_shadow);
+	@include sprite-background;
 }
 
 #logo {

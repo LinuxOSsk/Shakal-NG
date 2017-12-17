@@ -1,0 +1,48 @@
+$hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx)";
+
+@function sprite-width($image) {
+	@return map-get(map-get($sprites, $image), w);
+}
+
+@function sprite-height($image) {
+	@return map-get(map-get($sprites, $image), h);
+}
+
+@mixin sprite-background() {
+	background-image: nth(map-get($sprites, _url), 1);
+	@media #{$hdpi} {
+		background-image: nth(map-get($sprites, _url), 2);
+	}
+}
+
+@mixin sprite-background-position($image) {
+	background-position: map-get(map-get($sprites, $image), offset);
+}
+
+@mixin sprite-geometry($image) {
+	@include sprite-background-position($image);
+	width: sprite-width($image);
+	height: sprite-height($image);
+}
+
+
+.sprite-after:after, .sprite-before:before {
+	content: "";
+}
+
+.sprite, .sprite-after:after, .sprite-before:before {
+	background-repeat: no-repeat;
+	background-size: map-get($sprites, _size);
+	display: block;
+	@include sprite-background;
+}
+
+@mixin sprite($image, $setSize: true) {
+	@if ($setSize) {
+		@include sprite-geometry($image)
+	}
+	@else {
+		@include sprite-background-position($image);
+	}
+	@extend .sprite;
+}
