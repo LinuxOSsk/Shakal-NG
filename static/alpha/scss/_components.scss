@@ -60,6 +60,17 @@ body.home .content-module {
 
 .block-title {
 	@extend %content-padding;
+	&:after {
+		content: "";
+		display: block;
+		height: 1px;
+		background: $light-border-color;
+		margin-top: $base-spacing-content;
+		@include cancel-content-padding;
+	}
+	.module.tabular &:after {
+		display: none;
+	}
 }
 
 .module-row {
@@ -294,6 +305,10 @@ ul.messages {
 	&.dropdown {
 		box-shadow: 0px 0px 12px -1px rgba(0, 0, 0, 0.5);
 		display: none;
+	}
+
+	.block-title + & {
+		margin-top: -($base-spacing-content / 2);
 	}
 }
 
