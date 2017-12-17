@@ -269,12 +269,12 @@ ul.messages {
 	margin: $base-spacing-content 0 $base-spacing-content $base-spacing-content;
 }
 
-.dropdown.menu {
+.menu {
 	list-style: none;
 	background: $body-color;
 	color: $text-color;
-	box-shadow: 0px 0px 12px -1px rgba(0, 0, 0, 0.5);
-	display: none;
+	margin: 0;
+	padding: 0;
 	&:hover {
 		display: block;
 	}
@@ -287,8 +287,13 @@ ul.messages {
 			&:hover, &:active {
 				background: $primary-color;
 				color: $primary-color-complement;
+				text-decoration: none;
 			}
 		}
+	}
+	&.dropdown {
+		box-shadow: 0px 0px 12px -1px rgba(0, 0, 0, 0.5);
+		display: none;
 	}
 }
 
