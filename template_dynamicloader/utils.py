@@ -62,7 +62,7 @@ def get_template_settings(request):
 	default = get_default_template(request)
 
 	if request is None:
-		return (default, css, {})
+		return UserTemplateSettings(default, css, {})
 
 	if request.method == 'GET' and 'switch_template' in request.GET:
 		template_skin, css, template_settings = decode_switch_template(request.GET['switch_template'])
