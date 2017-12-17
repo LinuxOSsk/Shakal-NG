@@ -72,6 +72,9 @@
 		display: block;
 		clear: both;
 	}
+	#sidebar_1 &, #sidebar_2 & {
+		margin: 0;
+	}
 }
 
 .btn {
