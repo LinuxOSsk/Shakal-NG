@@ -1,8 +1,8 @@
 $sprites: (
 _url: (url(static("alpha/images/sprites.png")) url(static("alpha/images/sprites@2x.png"))),
-_ratio: (1 2),
-_w: 400px,
 _h: 400px,
+_w: 400px,
+_ratio: (1 2),
 _size: 400px 400px,
 header_shadow: (w: 400px, h: 120px, x: 0px, y: 280px, size: 400px 120px, offset: -0px -280px),
 logo: (w: 228px, h: 80px, x: 0px, y: 0px, size: 228px 80px, offset: -0px -0px),
@@ -19,12 +19,13 @@ delete: (w: 19px, h: 19px, x: 319px, y: 0px, size: 19px 19px, offset: -319px -0p
 eye: (w: 19px, h: 19px, x: 339px, y: 0px, size: 19px 19px, offset: -339px -0px),
 eye_blue: (w: 19px, h: 19px, x: 359px, y: 0px, size: 19px 19px, offset: -359px -0px),
 gear: (w: 19px, h: 19px, x: 379px, y: 0px, size: 19px 19px, offset: -379px -0px),
-lock: (w: 19px, h: 19px, x: 286px, y: 33px, size: 19px 19px, offset: -286px -33px),
-reply: (w: 19px, h: 19px, x: 306px, y: 33px, size: 19px 19px, offset: -306px -33px),
-rss: (w: 19px, h: 19px, x: 326px, y: 33px, size: 19px 19px, offset: -326px -33px),
-search: (w: 19px, h: 19px, x: 346px, y: 33px, size: 19px 19px, offset: -346px -33px),
-star: (w: 19px, h: 19px, x: 366px, y: 33px, size: 19px 19px, offset: -366px -33px),
-star_yellow: (w: 19px, h: 19px, x: 229px, y: 57px, size: 19px 19px, offset: -229px -57px),
-tick: (w: 19px, h: 19px, x: 249px, y: 57px, size: 19px 19px, offset: -249px -57px),
-tick_green: (w: 19px, h: 19px, x: 269px, y: 57px, size: 19px 19px, offset: -269px -57px)
+gear_white: (w: 19px, h: 19px, x: 286px, y: 33px, size: 19px 19px, offset: -286px -33px),
+lock: (w: 19px, h: 19px, x: 306px, y: 33px, size: 19px 19px, offset: -306px -33px),
+reply: (w: 19px, h: 19px, x: 326px, y: 33px, size: 19px 19px, offset: -326px -33px),
+rss: (w: 19px, h: 19px, x: 346px, y: 33px, size: 19px 19px, offset: -346px -33px),
+search: (w: 19px, h: 19px, x: 366px, y: 33px, size: 19px 19px, offset: -366px -33px),
+star: (w: 19px, h: 19px, x: 229px, y: 57px, size: 19px 19px, offset: -229px -57px),
+star_yellow: (w: 19px, h: 19px, x: 249px, y: 57px, size: 19px 19px, offset: -249px -57px),
+tick: (w: 19px, h: 19px, x: 269px, y: 57px, size: 19px 19px, offset: -269px -57px),
+tick_green: (w: 19px, h: 19px, x: 289px, y: 57px, size: 19px 19px, offset: -289px -57px)
 );

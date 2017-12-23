@@ -2,6 +2,16 @@
 	background-color: #6b8fc7;
 	@include sprite-background-position(header_shadow);
 	@include sprite-background;
+
+	.templates {
+		float: right;
+		display: block;
+		overflow: hidden;
+		text-indent: -9999px;
+		margin-top: $base-margin;
+		margin-right: $base-margin;
+		@include sprite(gear_white);
+	}
 }
 
 #logo {
@@ -53,6 +63,7 @@
 
 #user_panel {
 	padding: $base-margin;
+	margin-right: sprite_width(gear_white) + $base-margin;
 	z-index: 1;
 
 	.user {

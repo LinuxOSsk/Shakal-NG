@@ -56,6 +56,7 @@ SPRITES = (
 			{ 'name': 'eye', 'src': 'alpha/images/eye.png' },
 			{ 'name': 'eye_blue', 'src': 'alpha/images/eye_blue.png' },
 			{ 'name': 'gear', 'src': 'alpha/images/gear.png' },
+			{ 'name': 'gear_white', 'src': 'alpha/images/gear_white.png' },
 			{ 'name': 'lock', 'src': 'alpha/images/lock.png' },
 			{ 'name': 'reply', 'src': 'alpha/images/reply.png' },
 			{ 'name': 'rss', 'src': 'alpha/images/rss.png' },

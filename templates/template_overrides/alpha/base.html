@@ -36,6 +36,7 @@
 			<div id="logo"><a href="{{ url("home") }}">LinuxOS.sk</a></div>
 
 			<div id="menu_panel">
+				<a href="{{ url("template-list") }}" class="templates">Šablóny</a>
 				<div id="user_panel"{% if user.is_authenticated %} class="authenticated"{% endif %}>
 					{% include "partials/user_panel.html" %}
 				</div>
