@@ -30,7 +30,7 @@ class TemplateListView(TemplateView):
 			'verbose_name': 'Alpha',
 			'variants': [
 				{
-					'settings': {'font-size': 13},
+					'settings': {'font_size': 13},
 					'verbose_name': 'Drobný text'
 				}
 			]
