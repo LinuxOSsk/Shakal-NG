@@ -1,10 +1,17 @@
-.module, .content-module {
+#sidebar_1 .module, #sidebar_2 .module, .content-module {
 	@include shadow-box;
-	margin: $base-margin;
 }
 
 .content-module {
 	@include content-padding;
+	margin: $base-margin;
+	.module {
+		@include cancel-content-padding;
+		border-top: 1px solid $light-border-color;
+		.module {
+			@include content-padding;
+		}
+	}
 	.block-title {
 		padding-left: 0;
 		padding-right: 0;
@@ -21,6 +28,7 @@ body.home .content-module {
 	}
 
 	.module {
+		@include shadow-box;
 		margin-left: $base-margin;
 		margin-right: $base-margin;
 	}
