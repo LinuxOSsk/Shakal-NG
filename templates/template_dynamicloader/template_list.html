@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block breadcrumbs %}
+	{{ breadcrumb("Šablóny") }}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+	<h1>Šablóny</h1>
+
+	<div class="module templates">
+		{% for template in available_templates %}
+			<div class="module-row">
+				<h3><a href="{{ template.url }}">{{ template.verbose_name }}</a></h3>
+				{% if template.variants %}
+					<p>Varianty:</p>
+					<ul>
+						{% for variant in template.variants %}
+							<li><a href="{{ variant.url }}">{{ variant.verbose_name }}</a></li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

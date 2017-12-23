@@ -32,6 +32,7 @@ urlpatterns = [
 	url(_(r'^polls/'), include('polls.urls')),
 	url(_(r'^wiki/'), include('wiki.urls')),
 	url(_(r'^template-change/$'), template_dynamicloader.views.change, name='template-change'),
+	url(_(r'^templates/$'), template_dynamicloader.views.TemplateListView.as_view(), name='template-list'),
 	url(_(r'^search/'), search.views.SearchView(), name='haystack_search'),
 	url(r'^v/(?P<content_type_id>\d+)/(?P<object_id>.+)/$', contenttype_views.shortcut, name='view-object'),
 	url(_(r'^admin/'), include(admin.site.urls)),
