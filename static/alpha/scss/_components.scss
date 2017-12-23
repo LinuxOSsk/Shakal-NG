@@ -8,6 +8,8 @@
 	.module {
 		@include cancel-content-padding;
 		border-top: 1px solid $light-border-color;
+		margin-top: 0;
+		margin-bottom: 0;
 		.module {
 			@include content-padding;
 		}
@@ -29,8 +31,7 @@ body.home .content-module {
 
 	.module {
 		@include shadow-box;
-		margin-left: $base-margin;
-		margin-right: $base-margin;
+		margin: $base-margin;
 	}
 }
 
