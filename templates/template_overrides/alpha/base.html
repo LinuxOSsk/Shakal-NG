@@ -4,7 +4,11 @@
 	<title>{% block head_title %}LinuxOS.sk{% endblock %}</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	{% include "template_overrides/alpha/css.compress.html" %}
+	{% if style_options.small %}
+		{% include "template_overrides/alpha/css.compress.small.html" %}
+	{% else %}
+		{% include "template_overrides/alpha/css.compress.html" %}
+	{% endif %}
 	{% include "css.extra.html" %}
 	<link rel="shortcut icon" href="/favicon.ico" />
 	<link rel="canonical" href="{{ get_base_uri() }}{{ request.path }}" />
