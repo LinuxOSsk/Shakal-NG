@@ -99,14 +99,10 @@ $header-height: 120px;
 		width: auto;
 		margin-left: 0;
 		float: none;
-		.module {
+		.module, .content-module {
 			margin-left: 0;
 			margin-right: 0;
 		}
-	}
-
-	#main_content {
-		margin-top: -40px;
 	}
 
 	#sidebar_1, #sidebar_2 {
@@ -118,7 +114,8 @@ $header-height: 120px;
 	}
 
 	#main_menu {
-		left: 0;
+		left: sprite-width(logo) + $base-margin;
+		right: auto;
 	}
 }
 
