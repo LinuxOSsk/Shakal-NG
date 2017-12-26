@@ -127,6 +127,7 @@ $header-height: 120px;
 		height: 100%;
 		width: 280px;
 		z-index: 10;
+		overflow-y: auto;
 		#user_panel {
 			width: 100%;
 		}
