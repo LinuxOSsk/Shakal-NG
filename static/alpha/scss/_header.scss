@@ -73,7 +73,9 @@
 		text-align: right;
 		color: $primary-color-complement;
 		line-height: 32px;
+		height: 36px;
 		vertical-align: middle;
+		position: relative;
 		a, a:hover {
 			color: $primary-color-complement;
 		}
@@ -81,14 +83,22 @@
 		&:before {
 			content: "";
 			float: right;
-			margin-left: $base-spacing-content;
+			margin-left: $base-spacing-content * 2 + sprite-width(arrow_down_white);
 			@include sprite(user);
+		}
+		&:after {
+			content: "";
+			position: absolute;
+			right: 36px + $base-spacing-content;
+			top: 50%;
+			margin-top: -(sprite-height(arrow_down_white)) / 2;
+			@include sprite(arrow_down_white);
 		}
 	}
 
 	.avatar {
 		float: right;
-		margin-left: $base-spacing-content;
+		margin-left: $base-spacing-content * 2 + sprite-width(arrow_down_white);
 		border: 2px solid $primary-color-complement;
 		overflow: hidden;
 		img {
@@ -147,6 +157,9 @@
 		.user {
 			padding-right: sprite_width(gear_white) + $base-spacing-content * 2;
 			text-align: left;
+			&:after {
+				right: $base-margin;
+			}
 		}
 	}
 

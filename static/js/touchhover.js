@@ -1,9 +1,11 @@
 (function (_) {
 
 var register = function(root) {
+	/*
 	if (!_.checkFeatures(['touch'])) {
 		return;
 	}
+	*/
 
 	var toggleHover = function(event) {
 		if (_.hasClass(this, 'touchhover')) {
