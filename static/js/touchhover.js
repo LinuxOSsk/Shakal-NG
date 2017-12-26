@@ -16,8 +16,8 @@ var register = function(root) {
 		}
 		else {
 			_.addClass(this, 'touchhover');
+			event.preventDefault();
 		}
-		event.preventDefault();
 	};
 
 	_.forEach(_.cls(root, 'touchhover-emul'), function(element) {
