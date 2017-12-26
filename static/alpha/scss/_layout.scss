@@ -121,6 +121,23 @@ $header-height: 120px;
 
 @media #{$medium-down} {
 	#menu_panel {
-		display: none;
+		position: fixed;
+		left: 0;
+		top: 0;
+		height: 100%;
+		width: 280px;
+		z-index: 10;
+		#user_panel {
+			width: 100%;
+		}
+	}
+
+	#menu_shadow {
+		z-index: 10;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
 	}
 }

@@ -31,13 +31,15 @@
 		</div>
 	{% endblock %}
 
+	<div id="menu_shadow"></div>
+
 	<header>
 		<div id="header">
 			<div id="logo"><a href="{{ url("home") }}">LinuxOS.sk</a></div>
 
 			<div id="menu_panel">
 				<a href="{{ url("template-list") }}" class="templates">Šablóny</a>
-				<div id="user_panel"{% if user.is_authenticated %} class="authenticated"{% endif %}>
+				<div id="user_panel" class="touchhover-emul{% if user.is_authenticated %} authenticated{% endif %}">
 					{% include "partials/user_panel.html" %}
 				</div>
 

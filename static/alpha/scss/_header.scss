@@ -10,6 +10,8 @@
 		text-indent: -9999px;
 		margin-top: $base-margin;
 		margin-right: $base-margin;
+		position: relative;
+		z-index: 2;
 		@include sprite(gear_white);
 	}
 }
@@ -63,7 +65,7 @@
 
 #user_panel {
 	padding: $base-margin;
-	margin-right: sprite_width(gear_white) + $base-margin;
+	margin-right: sprite_width(gear_white) + $base-margin + $base-spacing-content;
 	z-index: 1;
 
 	.user {
@@ -100,7 +102,7 @@
 		text-decoration: none;
 	}
 
-	&:hover #userlinks {
+	&.touchover-emul:hover #userlinks, &.touchhover #userlinks {
 		display: block;
 	}
 
@@ -113,4 +115,71 @@
 	float: right;
 	width: 80%;
 	margin: 0 -6px 0 0;
+}
+
+#menu_shadow {
+	display: none;
+}
+
+@media #{$medium-down} {
+	#menu_panel {
+		background: $body-color;
+		box-shadow: 0px 0px 12px -1px rgba(0, 0, 0, 0.5);
+		#user_panel {
+			background: $primary-color;
+			margin-right: 0;
+			padding-left: 0;
+			padding-right: 0;
+			height: 36px;
+			position: relative;
+			#userlinks {
+				position: absolute;
+				right: -$base-margin;
+			}
+		}
+
+		.avatar {
+			float: left;
+			margin-left: $base-spacing-content;
+			margin-right: $base-spacing-content;
+		}
+
+		.user {
+			padding-right: sprite_width(gear_white) + $base-spacing-content * 2;
+			text-align: left;
+		}
+	}
+
+	#main_menu {
+		position: static;
+		margin: $base-margin-reduced 0;
+		li {
+			float: none;
+			padding: 0;
+			margin: 0;
+			position: relative;
+			a {
+				background: $body-color;
+				border: none;
+				color: $link-color;
+				padding: $base-margin-reduced $base-spacing-content;
+				&:hover, &:active {
+					box-shadow: none;
+					border: none;
+					background: $primary-color;
+					color: $primary-color-complement;
+				}
+			}
+
+			.badge {
+				top: 50%;
+				margin-top: -.7em;
+			}
+		}
+	}
+
+	#menu_shadow {
+		display: block;
+		background: rgba(0, 0, 0, .5);
+	}
 }

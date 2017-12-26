@@ -5,21 +5,22 @@ var register = function(root) {
 		return;
 	}
 
-	var toggleHover = function() {
+	var toggleHover = function(event) {
 		if (_.hasClass(this, 'touchhover')) {
-			_.removeClass(this, 'touchhover')
+			_.removeClass(this, 'touchhover');
 			_.forEach(_.cls(this, 'touchhover'), function(element) {
 				_.removeClass(element, 'touchhover');
 			});
 		}
 		else {
-			_.addClass(this, 'touchhover')
+			_.addClass(this, 'touchhover');
 		}
+		event.preventDefault();
 	};
 
 	_.forEach(_.cls(root, 'touchhover-emul'), function(element) {
 		_.removeClass(element, 'touchhover-emul');
-		element.onclick = toggleHover;
+		_.bindEvent(element, 'click', toggleHover);
 	});
 };
 
