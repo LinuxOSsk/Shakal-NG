@@ -87,6 +87,18 @@
 
 	@include button(mix($text-color, $body-color, 5%), mix($text-color, $body-color, 75%));
 
+	.wrap {
+		padding: 0;
+		margin: 0;
+		font-size: $button-font-size;
+		cursor: pointer;
+	}
+
+	a {
+		text-decoration: none;
+		&:hover { text-decoration: none; }
+	}
+
 	&.primary {
 		font-weight: bold;
 		@include button($primary-color, $primary-color-complement, $only-color: true);

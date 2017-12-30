@@ -14,6 +14,10 @@
 		z-index: 2;
 		@include sprite(gear_white);
 	}
+
+	a {
+		outline: none;
+	}
 }
 
 #logo {
@@ -150,15 +154,19 @@
 
 		.avatar {
 			float: left;
-			margin-left: $base-spacing-content;
+			margin-left: 0;
 			margin-right: $base-spacing-content;
 		}
 
 		.user {
 			padding-right: sprite_width(gear_white) + $base-spacing-content * 2;
 			text-align: left;
+			margin-left: $base-spacing-content;
 			&:after {
 				right: $base-margin;
+			}
+			&:before {
+				display: none;
 			}
 		}
 	}

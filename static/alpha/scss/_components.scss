@@ -337,3 +337,8 @@ ul.messages {
 	border: 0;
 	vertical-align: top;
 }
+
+.btn::-moz-focus-inner {
+	padding: 0;
+	border: 0
+}
