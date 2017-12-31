@@ -31,11 +31,13 @@
 		</div>
 	{% endblock %}
 
-	<a id="menu_shadow" href="{{ current_link_remove('_visible_menu') }}"></a>
+	<a id="menu_shadow" href="{{ current_link_remove('_visible_menu') }}" class="toggle-menu-action"></a>
 
 	<header>
 		<div id="header">
 			<div id="logo"><a href="{{ url("home") }}">LinuxOS.sk</a></div>
+
+			<a id="main_menu_toggle" href="{{ current_link_add(_visible_menu=1) }}" class="toggle-menu-action">Menu</a>
 
 			<div id="menu_panel">
 				<a href="{{ url("template-list") }}" class="templates">Šablóny</a>

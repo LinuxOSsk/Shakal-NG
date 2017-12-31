@@ -88,6 +88,7 @@ def main():
 	make_colorized('eye', (102, 102, 221), '_blue')
 	make_colorized('gear', (255, 255, 255), '_white')
 	make_colorized('arrow_down', (255, 255, 255), '_white')
+	make_colorized('menu', (255, 255, 255), '_white')
 	make_identity('avatar_placeholder')
 	make_identity('user')
 

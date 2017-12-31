@@ -57,6 +57,11 @@ $header-height: 120px;
 	width: 25%;
 }
 
+#main_menu_toggle {
+	position: absolute;
+	right: $base-margin;
+}
+
 @media #{$xlarge-down} {
 	#main_content {
 		width: 66%;

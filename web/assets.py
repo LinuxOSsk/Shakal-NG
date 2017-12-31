@@ -52,6 +52,7 @@ SPRITES = (
 			{ 'name': 'user_rating_4', 'src': 'alpha/images/rating_4.png' },
 			{ 'name': 'user_rating_5', 'src': 'alpha/images/rating_5.png' },
 			{ 'name': 'user_rating_admin', 'src': 'alpha/images/rating_admin.png' },
+			{ 'name': 'menu_white', 'src': 'alpha/images/menu_white.png' },
 			{ 'name': 'delete', 'src': 'alpha/images/delete.png' },
 			{ 'name': 'eye', 'src': 'alpha/images/eye.png' },
 			{ 'name': 'eye_blue', 'src': 'alpha/images/eye_blue.png' },

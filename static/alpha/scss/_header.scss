@@ -67,6 +67,10 @@
 	}
 }
 
+#main_menu_toggle {
+	display: none;
+}
+
 #user_panel {
 	padding: $base-margin;
 	margin-right: sprite_width(gear_white) + $base-margin + $base-spacing-content;
@@ -209,5 +213,35 @@
 			display: block;
 			background: rgba(0, 0, 0, .5);
 		}
+	}
+
+	#main_menu_toggle {
+		display: block;
+		vertical-align: middle;
+		height: sprite-height(logo);
+		line-height: sprite-height(logo);
+		color: white;
+		font-weight: bold;
+		text-transform: uppercase;
+
+		&:hover {
+			text-decoration: none;
+		}
+
+		&:after {
+			content: "";
+			float: right;
+			position: relative;
+			top: 50%;
+			margin-top: -(sprite-height(menu_white) / 2);
+			margin-left: $base-spacing-content;
+			@include sprite(menu_white);
+		}
+	}
+}
+
+@media #{$small-down} {
+	#main_menu_toggle {
+		text-indent: -9999px;
 	}
 }

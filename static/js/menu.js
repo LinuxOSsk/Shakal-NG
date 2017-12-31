@@ -20,6 +20,29 @@ var registerUserPanel = function(root) {
 	});
 };
 
-_.onLoad(function(e) { registerUserPanel(e.memo); });
+_.onLoad(function(e) {
+	registerUserPanel(e.memo);
+});
+
+var onClick = function(e) {
+	if (e.which !== 1) {
+		return;
+	}
+	var target = e.target || e.srcElement;
+
+	while (target) {
+		if (_.hasClass(target, 'toggle-menu-action')) {
+			_.toggleClass(document.body, 'visible-menu');
+			e.preventDefault();
+			return;
+		}
+		target = target.parentNode;
+		if (!(target instanceof Element)) {
+			return;
+		}
+	}
+};
+
+_.bindEvent(document.body, 'click', onClick);
 
 }(_utils));
