@@ -139,6 +139,11 @@
 	#menu_panel {
 		background: $body-color;
 		box-shadow: 0px 0px 12px -1px rgba(0, 0, 0, 0.5);
+		body.visible-menu & {
+			margin-left: 0;
+			transform: none;
+			transition-delay: 0s;
+		}
 		#user_panel {
 			background: $primary-color;
 			margin-right: 0;
@@ -200,7 +205,9 @@
 	}
 
 	#menu_shadow {
-		display: block;
-		background: rgba(0, 0, 0, .5);
+		body.visible-menu & {
+			display: block;
+			background: rgba(0, 0, 0, .5);
+		}
 	}
 }

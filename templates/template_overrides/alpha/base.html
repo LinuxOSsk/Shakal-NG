@@ -21,7 +21,7 @@
 	<![endif]-->
 	{% block extrastyle %}{% endblock %}{% block extraheaders %}{% endblock %}
 </head>
-<body class="{% block bodyclass %}{% endblock %}">
+<body class="{% block bodyclass %}{% endblock %}{% if request.GET._visible_menu %} visible-menu{% endif %}">
 	{{ hijack_notification() }}
 	{% include 'includes/analytics.html' %}
 
@@ -31,7 +31,7 @@
 		</div>
 	{% endblock %}
 
-	<div id="menu_shadow"></div>
+	<a id="menu_shadow" href="{{ current_link_remove('_visible_menu') }}"></a>
 
 	<header>
 		<div id="header">
