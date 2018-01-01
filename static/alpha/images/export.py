@@ -89,6 +89,7 @@ def main():
 	make_colorized('gear', (255, 255, 255), '_white')
 	make_colorized('arrow_down', (255, 255, 255), '_white')
 	make_colorized('menu', (255, 255, 255), '_white')
+	make_colorized('menu_back', (255, 255, 255), '_white')
 	make_identity('avatar_placeholder')
 	make_identity('user')
 

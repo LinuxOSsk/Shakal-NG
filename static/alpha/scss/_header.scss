@@ -71,9 +71,13 @@
 	display: none;
 }
 
+#main_menu_back {
+	display: none;
+}
+
 #user_panel {
 	padding: $base-margin;
-	margin-right: sprite_width(gear_white) + $base-margin + $base-spacing-content;
+	margin-right: sprite-width(gear_white) + $base-margin + $base-spacing-content;
 	z-index: 1;
 
 	.user {
@@ -168,9 +172,9 @@
 		}
 
 		.user {
-			padding-right: sprite_width(gear_white) + $base-spacing-content * 2;
+			padding-right: sprite-width(gear_white) + $base-spacing-content * 2;
 			text-align: left;
-			margin-left: $base-spacing-content;
+			margin-left: $base-spacing-content * 2 + sprite-width(menu_back_white);
 			&:after {
 				right: $base-margin;
 			}
@@ -237,6 +241,17 @@
 			margin-left: $base-spacing-content;
 			@include sprite(menu_white);
 		}
+	}
+
+	#main_menu_back {
+		display: block;
+		text-indent: -9999px;
+		position: absolute;
+		left: $base-spacing-content;
+		z-index: 1;
+		top: 50%;
+		margin-top: -(sprite-height(menu_back_white) / 2);
+		@include sprite(menu_back_white);
 	}
 }
 
