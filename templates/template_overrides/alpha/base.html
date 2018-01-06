@@ -49,6 +49,15 @@
 				<ul id="main_menu" class="tabs">
 					{% block site_menu %}{% include "partials/site_menu.html" %}{% endblock %}
 				</ul>
+
+				<div id="search_panel" class="search">
+					<form method="get" action="{{ url('haystack_search') }}" class="search btn">
+						<div class="search-input">
+							<input type="text" name="q"/>
+							<button class="btn-search" title="Hľadať">Hľadať</button>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
 	</header>
