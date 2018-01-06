@@ -3,15 +3,28 @@
 	@include sprite-background-position(header_shadow);
 	@include sprite-background;
 
-	.templates {
-		overflow: hidden;
-		text-indent: -9999px;
+	.actions {
 		top: $header-height - sprite-height(gear_white);
 		right: $base-margin;
 		margin-top: -$base-margin - 24px;
 		position: absolute;
 		z-index: 2;
+	}
+
+	.templates, .search-link {
+		overflow: hidden;
+		text-indent: -9999px;
+		float: right;
+		margin-left:$base-spacing-content;
+	}
+
+	.templates {
 		@include sprite(gear_white);
+	}
+
+	.search-link {
+		@include sprite(search_white);
+		display: none;
 	}
 
 	a {
@@ -163,6 +176,21 @@
 	}
 }
 
+@media #{$large-down} {
+	#header {
+		.search-link {
+			display: block;
+		}
+		.actions {
+			margin-top: -$base-margin - 32px;
+		}
+	}
+
+	#search_panel {
+		display: none;
+	}
+}
+
 @media #{$medium-down} {
 	#menu_panel {
 		background: $body-color;
@@ -275,6 +303,7 @@
 	}
 
 	#search_panel {
+		display: block;
 		.search-input {
 			box-shadow: none;
 			border: 1px solid $light-border-color;
@@ -286,13 +315,17 @@
 	}
 
 	#header {
-		.templates {
+		.actions {
 			margin-top: $base-margin;
 			margin-right: $base-margin;
 			top: auto;
 			right: auto;
 			position: relative;
 			float: right;
+		}
+
+		.search-link {
+			display: none;
 		}
 	}
 }

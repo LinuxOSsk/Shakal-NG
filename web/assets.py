@@ -63,6 +63,7 @@ SPRITES = (
 			{ 'name': 'reply', 'src': 'alpha/images/reply.png' },
 			{ 'name': 'rss', 'src': 'alpha/images/rss.png' },
 			{ 'name': 'search', 'src': 'alpha/images/search.png' },
+			{ 'name': 'search_white', 'src': 'alpha/images/search_white.png' },
 			{ 'name': 'star', 'src': 'alpha/images/star.png' },
 			{ 'name': 'star_yellow', 'src': 'alpha/images/star_yellow.png' },
 			{ 'name': 'tick', 'src': 'alpha/images/tick.png' },

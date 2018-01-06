@@ -40,7 +40,10 @@
 			<a id="main_menu_toggle" href="{{ current_link_add(_visible_menu=1) }}" class="toggle-menu-action">Menu</a>
 
 			<div id="menu_panel">
-				<a href="{{ url("template-list") }}" class="templates">Šablóny</a>
+				<div class="actions">
+					<a href="{{ url("template-list") }}" class="templates">Šablóny</a>
+					<a href="{{ url('haystack_search') }}" class="search-link" title="Hľadať">Hľadať</a>
+				</div>
 				<div id="user_panel" class="touchhover-emul{% if user.is_authenticated %} authenticated{% endif %}">
 					<a id="main_menu_back" href="{{ current_link_remove('_visible_menu') }}" class="toggle-menu-action">Skryť menu</a>
 					{% include "partials/user_panel.html" %}
