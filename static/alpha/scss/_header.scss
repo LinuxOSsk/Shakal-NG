@@ -4,13 +4,12 @@
 	@include sprite-background;
 
 	.templates {
-		float: right;
-		display: block;
 		overflow: hidden;
 		text-indent: -9999px;
-		margin-top: $base-margin;
-		margin-right: $base-margin;
-		position: relative;
+		top: $header-height - sprite-height(gear_white);
+		right: $base-margin;
+		margin-top: -$base-margin - 24px;
+		position: absolute;
 		z-index: 2;
 		@include sprite(gear_white);
 	}
@@ -77,7 +76,7 @@
 
 #user_panel {
 	padding: $base-margin;
-	margin-right: sprite-width(gear_white) + $base-margin + $base-spacing-content;
+	margin-right: 0;
 	z-index: 1;
 
 	.user {
@@ -283,6 +282,17 @@
 		input {
 			padding-top: $base-margin-reduced;
 			padding-bottom: $base-margin-reduced;
+		}
+	}
+
+	#header {
+		.templates {
+			margin-top: $base-margin;
+			margin-right: $base-margin;
+			top: auto;
+			right: auto;
+			position: relative;
+			float: right;
 		}
 	}
 }
