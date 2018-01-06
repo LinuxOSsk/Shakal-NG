@@ -145,7 +145,14 @@
 
 #search_panel {
 	.search-input {
-		box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.1);
+		box-shadow: 0px 0px 3px -1px rgba(0, 0, 0, 0.5);
+	}
+
+	input {
+		border: none;
+		box-shadow: none;
+		padding-top: 12px;
+		padding-bottom: 12px;
 	}
 
 	button {
@@ -266,6 +273,17 @@
 		top: 50%;
 		margin-top: -(sprite-height(menu_back_white) / 2);
 		@include sprite(menu_back_white);
+	}
+
+	#search_panel {
+		.search-input {
+			box-shadow: none;
+			border: 1px solid $light-border-color;
+		}
+		input {
+			padding-top: $base-margin-reduced;
+			padding-bottom: $base-margin-reduced;
+		}
 	}
 }
 
