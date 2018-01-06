@@ -4,4 +4,4 @@
 	branch = stable
 [submodule "accounts/8biticon"]
 	path = accounts/8biticon
-	url = git://github.com/matveyco/8biticon.git
+	url = https://github.com/mireq/8biticon-data.git

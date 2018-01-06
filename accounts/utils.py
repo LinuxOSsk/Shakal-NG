@@ -131,14 +131,14 @@ def generated_avatar(data):
 	img = None
 	for name, count in avatar_recipe:
 		imgnum = (data_hash % count) + 1
-		filename = os.path.join(os.path.dirname(__file__), '8biticon', 'public', 'static', '8bit', 'img', sex, name + str(imgnum) + '.png')
+		filename = os.path.join(os.path.dirname(__file__), '8biticon', sex, name + str(imgnum) + '.png')
 		data_hash = data_hash // count
 		if img is None:
 			img = Image.open(filename).convert('RGB')
 			img = img.filter(ImageFilter.GaussianBlur(25))
 			img = img.resize((48, 48), Image.NEAREST)
 		else:
-			past = Image.open(filename)
+			past = Image.open(filename).convert('RGBA')
 			past = past.resize((40, 40), Image.NEAREST)
 			img.paste(past, (4, 7, 44, 47), past)
 
