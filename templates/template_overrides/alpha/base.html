@@ -122,8 +122,10 @@
 			</div>
 			<div class="module polls">
 				<h2 class="block-title">Anketa</h2>
-				{{ render_messages(messages, 'polls') }}
-				{{ polls_frontpage() }}
+				<div class="module-row">
+					{{ render_messages(messages, 'polls') }}
+					{{ polls_frontpage() }}
+				</div>
 			</div>
 		{% endblock %}
 	</div>

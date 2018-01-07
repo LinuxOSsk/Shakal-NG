@@ -54,7 +54,7 @@ class Poll(TimestampModelMixin, models.Model):
 
 	@property
 	def choices(self):
-		return Choice.objects.filter(poll=self.pk).select_related('poll__answer_count').order_by('pk')
+		return Choice.objects.filter(poll=self.pk).select_related('poll').order_by('pk')
 
 	def get_absolute_url(self):
 		return reverse('polls:detail-by-slug', kwargs={'slug': self.slug})
