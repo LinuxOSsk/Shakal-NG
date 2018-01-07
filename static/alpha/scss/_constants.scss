@@ -19,7 +19,7 @@ $paragraph-margin: $base-spacing-content !default;
 $primary-color: #6b8fc7 !default;
 $primary-color-complement: #ffffff !default;
 
-$link-color: #003399 !default;;
+$link-color: mix($primary-color, $text-color, 75%) !default;;
 $link-color-hover: mix($link-color, $text-color) !default;
 
 $info-color: #888 !default;
@@ -67,10 +67,10 @@ $new-color: #ffee55;
 $me-color: saturate($primary-color, 50%);
 
 $info-msg-color: $primary-color;
-$success-color: #00ff00;
-$warning-color: #ffff00;
+$success-color: #468847;
+$warning-color: #f89406;
 $alert-color: #ffff00;
-$error-color: #ff0000;
+$error-color: #b94a48;
 
 $debug-background: mix($text-color, $body-color, 10%);
 $debug-border-color: mix($text-color, $body-color, 15%);
@@ -78,16 +78,16 @@ $debug-text-color: mix($text-color, $body-color, 60%);
 
 $info-background: mix($info-msg-color, $body-color, 20%);
 $info-border-color: mix($info-msg-color, $body-color, 30%);
-$info-text-color: mix($info-msg-color, $text-color, 80%);
+$info-text-color: $info-msg-color;
 
 $success-background: mix($success-color, $body-color, 10%);
 $success-border-color: mix($success-color, $body-color, 15%);
-$success-text-color: mix($success-color, $text-color, 50%);
+$success-text-color: $success-color;
 
-$warning-background: mix($warning-color, $body-color, 10%);
-$warning-border-color: mix($warning-color, $body-color, 15%);
-$warning-text-color: mix($warning-color, $text-color, 50%);
+$warning-background: mix($warning-color, $body-color, 15%);
+$warning-border-color: mix($warning-color, $body-color, 20%);
+$warning-text-color: $warning-color;
 
-$error-background: mix($error-color, $body-color, 10%);
-$error-border-color: mix($error-color, $body-color, 15%);
-$error-text-color: mix($error-color, $text-color, 50%);
+$error-background: mix($error-color, $body-color, 15%);
+$error-border-color: mix($error-color, $body-color, 20%);
+$error-text-color: $error-color;
