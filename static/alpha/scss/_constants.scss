@@ -60,6 +60,9 @@ $light-block-background: mix($text-color, $body-color, 1%);
 $flat-buttons: false;
 $comments-tree-fancy: false;
 
+$input-padding: $base-margin / 2 !default;
+$button-padding: ($base-margin / 3) $base-margin !default;
+
 $new-color: #ffee55;
 $me-color: saturate($primary-color, 50%);
 

@@ -1,4 +1,7 @@
 $base-margin: 12px;
 $base-spacing-content: 8px;
 
+$input-padding: $base-margin / 2;
+$button-padding: ($base-margin / 2) $base-margin;
+
 @import "style";

@@ -8,7 +8,6 @@
 		right: $base-margin;
 		margin-top: -$base-margin - 24px;
 		position: absolute;
-		z-index: 2;
 	}
 
 	.templates, .search-link {
@@ -322,6 +321,7 @@
 			right: auto;
 			position: relative;
 			float: right;
+			z-index: 2;
 		}
 
 		.search-link {

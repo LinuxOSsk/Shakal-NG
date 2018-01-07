@@ -86,7 +86,7 @@
 			@if ($only-color == false) {
 				display: block;
 				line-height: $paragraph-line-height;
-				padding: ($base-margin / 3) $base-margin;
+				padding: $button-padding;
 			}
 			&:hover {
 				color: $text-color;
@@ -125,7 +125,7 @@
 }
 
 @mixin input {
-	padding: $base-margin-reduced;
+	padding: $input-padding;
 
 	display: block;
 	background: $body-color;
