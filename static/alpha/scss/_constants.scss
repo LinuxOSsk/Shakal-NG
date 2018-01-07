@@ -22,7 +22,7 @@ $primary-color-complement: #ffffff !default;
 $link-color: mix($primary-color, $text-color, 75%) !default;;
 $link-color-hover: mix($link-color, $text-color) !default;
 
-$info-color: #888 !default;
+$info-color: mix($text-color, $body-color, 50%) !default;
 
 $header-line-height: 1.4 !default;
 $header-font-weight: 300 !default;
