@@ -339,3 +339,63 @@ ul.messages {
 	padding: 0;
 	border: 0
 }
+
+.progress {
+	border: 1px solid $light-border-color;
+	height: 16px;
+	margin: $base-spacing-content 0;
+
+	.bar {
+		border: 1px solid darken($primary-color, 10%);
+		background-color: $primary-color;
+		background: linear-gradient(to bottom, $primary-color 5%, darken($primary-color, 4%) 100%);
+		box-shadow: inset 0px 1px 0px 0px mix($primary-color, #fff);
+		text-indent: -9999px;
+		overflow: hidden;
+		position: relative;
+		top: -1px;
+		left: -1px;
+		height: 16px;
+	}
+}
+
+.module.polls {
+	.poll {
+		@include cancel-content-padding;
+	}
+}
+
+#main_content .module.polls.compact {
+	@include cancel-content-padding;
+
+	.module-row .module-row {
+		overflow: hidden;
+		border: none;
+	}
+
+	label {
+		width: 30%;
+		float: left;
+		text-align: right;
+		margin: $base-spacing-content 0;
+	}
+
+	.progress {
+		width: 69%;
+		float: right;
+	}
+
+	.module-links.bottom {
+		margin-left: 30%;
+	}
+
+	@media #{$small-down} {
+		label, .progress, .module-links.bottom {
+			float: none;
+			width: auto;
+		}
+		.module-links.bottom {
+			margin-left: 0;
+		}
+	}
+}
