@@ -167,3 +167,34 @@ p.help {
 .negative {
 	float: left;
 }
+
+table.formset {
+	td, tr {
+		background: transparent;
+		border: none;
+	}
+
+	td:first-child {
+		padding-left: 0;
+	}
+
+	td:last-child {
+		padding-right: 0;
+	}
+}
+
+.formset-field {
+	margin-right: $base-margin-reduced * 2;
+
+	input[type=text],
+	input[type=password],
+	input[type=email],
+	input[type=number],
+	textarea {
+		width: 100%;
+	}
+
+	input, textarea {
+		margin-bottom: 0;
+	}
+}
