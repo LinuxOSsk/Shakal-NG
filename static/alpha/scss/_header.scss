@@ -1,5 +1,5 @@
 #header {
-	background-color: #6b8fc7;
+	background-color: $primary-color;
 	@include sprite-background-position(header_shadow);
 	@include sprite-background;
 
@@ -59,7 +59,7 @@
 			padding: 0.5em 0.75em 0.4em 0.75em;
 			background: darken($primary-color, 15%);
 			color: $primary-color-complement;
-			border-bottom: 1px solid #dddddd;
+			border-bottom: 1px solid $light-border-color;
 		}
 
 		&.active a, a:hover {
