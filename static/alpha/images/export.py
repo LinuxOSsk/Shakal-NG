@@ -93,6 +93,8 @@ def main():
 	make_colorized('menu_back', (255, 255, 255), '_white')
 	make_identity('avatar_placeholder')
 	make_identity('user')
+	make_identity('logo')
+	make_identity('logo_mini')
 
 
 if __name__ == "__main__":

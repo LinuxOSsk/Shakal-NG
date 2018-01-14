@@ -269,8 +269,8 @@
 	#main_menu_toggle {
 		display: block;
 		vertical-align: middle;
-		height: sprite-height(logo);
-		line-height: sprite-height(logo);
+		height: sprite-height(logo_mini) + ($base-margin-reduced * 2);
+		line-height: sprite-height(logo_mini) + ($base-margin-reduced * 2);
 		color: white;
 		font-weight: bold;
 		text-transform: uppercase;
@@ -328,10 +328,10 @@
 			display: none;
 		}
 	}
-}
 
-@media #{$small-down} {
-	#main_menu_toggle {
-		text-indent: -9999px;
+	#logo a {
+		@include sprite(logo_mini);
+		margin-top: $base-margin-reduced;
+		margin-bottom: $base-margin-reduced;
 	}
 }

@@ -1,4 +1,5 @@
 $header-height: 120px;
+$small-header-height: sprite-height(logo_mini) + ($base-margin-reduced * 2);
 
 #main_content {
 	float: left;
@@ -144,6 +145,13 @@ $header-height: 120px;
 		}
 	}
 
+	#main_content {
+		margin-top: -40px;
+		.content-module > .module:first-child {
+			margin-top: 0;
+		}
+	}
+
 	#sidebar_1, #sidebar_2 {
 		margin-top: 0;
 	}
@@ -170,6 +178,10 @@ $header-height: 120px;
 }
 
 @media #{$medium-down} {
+	#header {
+		height: $small-header-height;
+	}
+
 	#menu_panel {
 		position: fixed;
 		left: 0;
@@ -194,5 +206,9 @@ $header-height: 120px;
 		left: 0;
 		width: 100%;
 		height: 100%;
+	}
+
+	#main_content {
+		margin-top: 0px;
 	}
 }
