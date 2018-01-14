@@ -73,6 +73,8 @@ body.home .content-module {
 
 .block-title {
 	@extend %content-padding;
+	font-family: $body-font-family;
+	font-weight: 300;
 	&:after {
 		content: "";
 		display: block;

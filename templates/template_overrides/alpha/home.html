@@ -56,11 +56,9 @@
 <div class="module article">
 	<h2 class="block-title">Články</h2>
 	{% for top_article in top_articles %}
-		<div class="article top">
-			{% with article=top_article, show_thumbnail=1 %}
-				{% include "article/block_list_item.html" %}
-			{% endwith %}
-		</div>
+		{% with article=top_article, show_thumbnail=1, extra_classes="article top" %}
+			{% include "article/block_list_item.html" %}
+		{% endwith %}
 	{% endfor %}
 	{% for top_post in top_posts %}
 		{% with content_indicator=1, post=top_post %}

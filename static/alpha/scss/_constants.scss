@@ -8,6 +8,7 @@ $xxlarge-range: (90.063em, 99999999em) !default;
 $text-color: #000000 !default;
 $body-color: #ffffff !default;
 $body-color-background: #eeeeee !default;
+$body-font-family: sans-serif !default;
 
 $base-margin: 16px !default;
 $base-spacing-content: 12px !default;
@@ -25,7 +26,8 @@ $link-color-hover: mix($link-color, $text-color) !default;
 $info-color: mix($text-color, $body-color, 50%) !default;
 
 $header-line-height: 1.4 !default;
-$header-font-weight: 300 !default;
+$header-font-family: "Trebuchet MS", Helvetica, sans-serif !default;
+$header-font-weight: bold !default;
 $header-font-style: none !default;
 $header-font-color: mix($text-color, $primary-color, 50%) !default;
 $header-margin: $base-spacing-content !default;
