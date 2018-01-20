@@ -143,6 +143,9 @@ $small-header-height: sprite-height(logo_mini) + ($base-margin-reduced * 2);
 			margin-left: 0;
 			margin-right: 0;
 		}
+		.content-module {
+			margin-top: 0;
+		}
 	}
 
 	#main_content {
