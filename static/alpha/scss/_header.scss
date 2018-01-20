@@ -195,9 +195,9 @@
 		background: $body-color;
 		box-shadow: 0px 0px 12px -1px rgba(0, 0, 0, 0.5);
 		body.visible-menu & {
-			margin-left: 0;
 			transform: none;
-			transition-delay: 0s;
+			transition: transform 200ms ease, visibility 0ms ease 0ms;
+			visibility: visible;
 		}
 		#user_panel {
 			background: $primary-color;
@@ -233,7 +233,9 @@
 
 	#main_menu {
 		position: static;
-		margin: $base-margin-reduced 0;
+		padding: $base-margin-reduced 0;
+		margin: 0;
+		border-bottom: 1px solid $light-border-color;
 		li {
 			float: none;
 			padding: 0;
