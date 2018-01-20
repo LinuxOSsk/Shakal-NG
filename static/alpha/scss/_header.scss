@@ -155,6 +155,8 @@
 }
 
 #search_panel {
+	overflow: hidden;
+
 	.search-input {
 		box-shadow: 0px 0px 3px -1px rgba(0, 0, 0, 0.5);
 	}
@@ -172,6 +174,12 @@
 		overflow: hidden;
 		background-color: transparent;
 		@include sprite(search);
+	}
+}
+
+#menu_panel {
+	.module {
+		display: none;
 	}
 }
 
@@ -229,13 +237,20 @@
 				display: none;
 			}
 		}
+
+		.module {
+			display: block;
+		}
+	}
+
+	.menu, #main_menu {
+		border-bottom: 1px solid $light-border-color;
 	}
 
 	#main_menu {
 		position: static;
 		padding: $base-margin-reduced 0;
 		margin: 0;
-		border-bottom: 1px solid $light-border-color;
 		li {
 			float: none;
 			padding: 0;
@@ -305,6 +320,8 @@
 
 	#search_panel {
 		display: block;
+		bottom: 0;
+		margin: $base-margin 0;
 		.search-input {
 			box-shadow: none;
 			border: 1px solid $light-border-color;

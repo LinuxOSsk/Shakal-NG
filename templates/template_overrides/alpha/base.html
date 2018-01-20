@@ -95,32 +95,32 @@
 	<div id="sidebar_2">
 		{% block right %}
 			<div class="module-group">
-				<div class="module linux">
+				<div id="module_block_linux" class="module linux">
 					<h2 class="block-title">O Linuxe</h2>
 					<ul class="menu">
 						{% include "partials/menu_linux.html" %}
 					</ul>
 				</div>
-				<div class="module portal">
+				<div id="module_block_portal" class="module portal">
 					<h2 class="block-title">Portál</h2>
 					<ul class="menu">
 						{% include "partials/menu_portal.html" %}
 					</ul>
 				</div>
-				<div class="module odporucam">
+				<div id="module_block_recommended" class="module odporucam">
 					<h2 class="block-title">Odporúčame</h2>
 					<div class="module-row">
 						{% include "static/block-odporucame.html" %}
 					</div>
 				</div>
-				<div class="module podporte">
+				<div id="module_block_support" class="module podporte">
 					<h2 class="block-title">Podporte nás</h2>
 					<div class="module-row">
 						{% include "static/block-podporte.html" %}
 					</div>
 				</div>
 			</div>
-			<div class="module polls">
+			<div id="module_block_polls" class="module polls">
 				<h2 class="block-title">Anketa</h2>
 				<div class="module-row">
 					{{ render_messages(messages, 'polls') }}

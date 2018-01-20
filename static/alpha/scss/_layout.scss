@@ -216,4 +216,8 @@ $small-header-height: sprite-height(logo_mini) + ($base-margin-reduced * 2);
 	#main_content {
 		margin-top: 0px;
 	}
+
+	#module_block_linux, #module_block_portal, #module_block_recommended, #module_block_support {
+		display: none;
+	}
 }
