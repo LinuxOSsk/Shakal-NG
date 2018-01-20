@@ -401,3 +401,29 @@ ul.messages {
 		}
 	}
 }
+
+.fieldset {
+	border-top: 1px solid $light-border-color;
+	margin-top: 2em;
+	@include cancel-content-padding();
+
+	.legend {
+		float: left;
+		background: $body-color;
+		font-size: 1.25em;
+		font-weight: $header-font-weight;
+		color: $header-font-color;
+		line-height: 1;
+		margin-top: -0.5em;
+		padding-right: .2em;
+		padding-left: .2em;
+		margin-left: 0.5em;
+	}
+
+	.content {
+		clear: both;
+		padding-top: 1em;
+		@include content-padding;
+		@include content-margin-vertical;
+	}
+}
