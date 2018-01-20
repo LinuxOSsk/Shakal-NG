@@ -14,6 +14,7 @@ from attachment.models import Attachment
 from common_utils.models import TimestampModelMixin
 from common_utils.url_utils import build_url
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
+from rich_editor.widgets import TextVal
 
 
 COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 50000)
@@ -34,7 +35,7 @@ class CommentManager(models.Manager):
 					content_type=ctype,
 					object_id=object_id,
 					defaults={
-						'original_comment': 'html:',
+						'original_comment': TextVal('html:'),
 						'filtered_comment': '',
 						'user_name': '',
 						'created': timezone.now(),
