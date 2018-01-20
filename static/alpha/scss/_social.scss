@@ -1,0 +1,46 @@
+.social {
+	overflow: hidden;
+
+	ul, li {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	li {
+		padding: 0 10px 0 0;
+		display: inline-block;
+	}
+
+	a {
+		display: block;
+		line-height: 32px;
+		text-decoration: none;
+		padding: 0 6px 0 0;
+	}
+
+	li a:before {
+		content: " ";
+		@extend .sprite;
+		display: inline-block;
+		margin-right: 8px;
+		vertical-align: middle;
+	}
+
+	li.facebook a:before {
+		@include sprite-geometry(facebook);
+	}
+
+	li.twitter a:before {
+		@include sprite-geometry(twitter);
+	}
+
+	li.gplus a:before {
+		@include sprite-geometry(gplus);
+	}
+
+	li.vybralisme a:before {
+		@include sprite-geometry(vybralisme);
+	}
+}
+
