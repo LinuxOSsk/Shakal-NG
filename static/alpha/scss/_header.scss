@@ -261,12 +261,20 @@
 				border: none;
 				color: $link-color;
 				padding: $base-margin-reduced $base-spacing-content;
-				&:hover, &:active {
-					box-shadow: none;
-					border: none;
-					background: $primary-color;
-					color: $primary-color-complement;
-				}
+			}
+
+			a:hover, a:active, &.active a:hover, &.active a:active {
+				box-shadow: none;
+				border: none;
+				color: $primary-color-complement;
+				background: $primary-color;
+			}
+
+			&.active a {
+				box-shadow: none;
+				border: none;
+				background: mix($primary-color, $body-color, 75%);
+				color: $primary-color-complement;
 			}
 
 			.badge {
