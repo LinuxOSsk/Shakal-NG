@@ -454,6 +454,7 @@ ul.messages {
 #site_breadcrumbs {
 	overflow: hidden;
 	border-bottom: 1px dotted $light-border-color;
+	color: $info-color;
 	@include cancel-content-padding;
 	@include content-padding-vertical;
 
