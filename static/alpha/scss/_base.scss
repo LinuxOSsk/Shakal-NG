@@ -108,3 +108,79 @@ ul, ol {
 	margin: $base-spacing-content 0 $base-spacing-content 24px;
 	padding: 0;
 }
+
+ul {
+	list-style: square;
+}
+
+ul ul {
+	list-style: circle;
+}
+
+img {
+	border: none;
+}
+
+dl, dt, dd {
+	padding: 0;
+	margin: 0;
+}
+
+dt {
+	font-weight: bold;
+}
+
+dd {
+	margin-left: 4EM;
+}
+
+.pull-left {
+	float: left;
+}
+
+.pull-right {
+	float: right;
+}
+
+#main_content img {
+	max-width: 100%;
+}
+
+pre, .codeblock {
+	color: mix($text-color, $body-color, 60%);
+}
+
+code {
+	color: $code-color;
+	background: mix($body-color, $text-color, 98%);
+}
+
+pre, .annotation, .codeblock {
+	margin: $base-spacing-content 0;
+	padding: $base-spacing-content;
+	background: mix($body-color, $text-color, 98%);
+	border: 1px solid $light-border-color;
+	overflow: auto;
+}
+
+blockquote {
+	font-style: italic;
+	margin: $base-spacing-content 0;
+	padding: $base-spacing-content $base-spacing-content $base-spacing-content (32px + $base-spacing-content);
+	background: mix($primary-color, $body-color, 10%);
+	position: relative;
+	&:before {
+		font-family: "Georgia", "Times New Roman", serif;
+		content: "”";
+		font-size: 300%;
+		display: block;
+		position: absolute;
+		width: 32px;
+		text-align: center;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		color: $body-color;
+		background: mix($primary-color, $body-color, 40%) ;
+	}
+}
