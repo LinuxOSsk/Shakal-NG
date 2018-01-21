@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 import subprocess
 import sys
-from comments.utils import update_comments_header
 from collections import namedtuple
 from datetime import datetime
 from os import path
@@ -20,6 +19,8 @@ from ...models import Term, Node, NodeRevision, File
 from accounts.models import User
 from blackhole.models import VocabularyNodeType
 from comments.models import Comment
+from comments.utils import update_comments_header
+from rich_editor.widgets import TextVal
 
 
 #from common_utils.asciitable import NamedtupleTablePrinter
@@ -284,7 +285,7 @@ class Command(BaseCommand):
 						node=node_instance,
 						title=revision.title,
 						author_id=self.users_map.get(node.uid),
-						original_body=(self.filter_formats.get(revision.format, 'raw') + ':' + body),
+						original_body=TextVal(self.filter_formats.get(revision.format, 'raw') + ':' + body),
 						log=revision.log or '',
 						created=timestamp_to_time(revision.timestamp),
 						updated=timestamp_to_time(revision.timestamp)
@@ -338,7 +339,7 @@ class Command(BaseCommand):
 				user_name=comment.name,
 				is_public=True,
 				is_locked=root_comment.is_locked,
-				original_comment=(self.filter_formats.get(comment.format, 'raw') + ':' + comment.comment),
+				original_comment=TextVal(self.filter_formats.get(comment.format, 'raw') + ':' + comment.comment),
 			)
 			comment_instance.save()
 			Comment.objects.filter(pk=comment_instance.pk).update(filtered_comment=filtered_comment)
