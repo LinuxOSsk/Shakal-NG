@@ -7,7 +7,7 @@
 			{% if page %}
 			<li class="page {% if page_obj.number == page %}active{% endif %}"><a href="{{ pager_url(page) }}">{{ page }}</a></li>
 			{% else %}
-			<li class="disabled"><a href="#">...</a></li>
+			<li class="disabled skip"><a href="#">...</a></li>
 			{% endif %}
 		{% endfor %}
 		<li class="next{% if not page_obj.has_next() %} disabled{% endif %}"><a href="{% if page_obj.has_next() %}{{ pager_url(page_obj.next_page_number()) }}{% else %}#{% endif %}">&gt;</a></li>
