@@ -1,7 +1,7 @@
 django-allauth
 django-braces
 django-compressor
-django-haystack
+django-haystack==2.7.dev1
 django-hijack
 django-hijack-admin
 django-jinja

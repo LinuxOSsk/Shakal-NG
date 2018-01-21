@@ -12,10 +12,10 @@
 -e git+https://github.com/mireq/django-simple-paginator.git@c09ad39a33b9d07cb5a399e822c79542bf7b4a8c#egg=django_simple_paginator
 argh==0.26.2              # via watchdog
 astroid==1.6.0            # via pylint, pylint-plugin-utils
-certifi==2017.11.5        # via requests
+certifi==2018.1.18        # via requests
 chardet==3.0.4            # via requests
 click==6.7                # via pip-tools
-decorator==4.2.0          # via ipython, traitlets
+decorator==4.2.1          # via ipython, traitlets
 defusedxml==0.5.0         # via python3-openid
 django-allauth==0.34.0
 django-appconf==1.0.2     # via django-compressor
@@ -25,11 +25,11 @@ django-compressor==2.2
 django-debug-toolbar==1.9.1
 django-debugtools==1.7.2
 django-extensions==1.9.9
-django-haystack==2.6.1
+django-haystack==2.7.dev1
 django-hijack-admin==2.1.6
 django-hijack==2.1.6
 django-jinja==2.4.1
-django-js-asset==0.1.1    # via django-mptt
+django-js-asset==1.0.0    # via django-mptt
 django-libsass==0.7
 django-mptt==0.9.0
 django-reversion==2.0.12
@@ -48,7 +48,7 @@ isort==4.2.15             # via pylint
 jedi==0.11.1              # via ipython, ptpython
 jinja2==2.10              # via django-jinja
 lazy-object-proxy==1.3.1  # via astroid
-libsass==0.13.5           # via django-libsass
+libsass==0.13.6           # via django-libsass
 markupsafe==1.0           # via jinja2
 mccabe==0.6.1             # via pylint
 oauthlib==2.0.6           # via requests-oauthlib
@@ -63,13 +63,13 @@ ptpython==0.41
 ptyprocess==0.5.2         # via pexpect
 pygments==2.2.0
 pyinotify==0.9.6
-pylint-django==0.7.2
+pylint-django==0.8.0
 pylint-plugin-utils==0.2.6  # via pylint-django
 pylint==1.8.1             # via pylint-django, pylint-plugin-utils
 python3-openid==3.1.0     # via django-allauth
 pytz==2017.3
 pyyaml==3.12              # via watchdog
-raven==6.4.0
+raven==6.5.0
 rcssmin==1.0.6            # via django-compressor
 requests-oauthlib==0.8.0  # via django-allauth
 requests==2.18.4          # via django-allauth, requests-oauthlib
