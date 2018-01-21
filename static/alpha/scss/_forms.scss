@@ -29,7 +29,6 @@
 	.form-control {
 		display: block;
 		margin-left: 12em;
-		margin-right: $input-padding * 2;
 	}
 
 	input[type=text],
@@ -38,6 +37,7 @@
 	input[type=number],
 	textarea {
 		width: 100%;
+		box-sizing: border-box;
 	}
 
 	@media #{$medium-down} {
@@ -50,18 +50,14 @@
 		}
 
 		.form-control {
-			margin: 0 $base-spacing-content;
+			margin-left: 0;
 		}
+	}
+}
 
-		input[type=text],
-		input[type=password],
-		input[type=email],
-		input[type=number],
-		textarea {
-			margin-left: -$base-spacing-content;
-			margin-right: -$base-spacing-content;
-			width: 100%;
-		}
+.textareawrapper {
+	div.richedit_container {
+		clear: none;
 	}
 }
 
