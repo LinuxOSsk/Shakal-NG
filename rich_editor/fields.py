@@ -90,6 +90,8 @@ class RichTextOriginalField(TextField):
 	def filter_data(self, data):
 		if hasattr(data, 'field_filtered') and data.field_filtered is not None:
 			return data.field_filtered
+		if not isinstance(data, TextVal):
+			data = TextVal(data)
 		fmt = data.field_format
 		value = data.field_text
 		if not fmt:
