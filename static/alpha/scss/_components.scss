@@ -25,6 +25,10 @@ body.home .content-module {
 	margin: 0;
 	padding: 0;
 
+	#site_breadcrumbs {
+		display: none;
+	}
+
 	.block-title {
 		@include content-padding;
 	}
@@ -444,5 +448,30 @@ ul.messages {
 		padding-top: 1em;
 		@include content-padding;
 		@include content-margin-vertical;
+	}
+}
+
+#site_breadcrumbs {
+	overflow: hidden;
+	border-bottom: 1px dotted $light-border-color;
+	@include cancel-content-padding;
+	@include content-padding-vertical;
+
+	ul {
+		margin: 0;
+		list-style: none;
+		@include content-padding;
+	}
+
+	li {
+		margin: 0;
+		padding: 0;
+		float: left;
+		&:before {
+			content: "  »  "
+		}
+		&.home:before {
+			content: "";
+		}
 	}
 }

@@ -42,6 +42,11 @@
 	margin-bottom: $base-spacing-content;
 }
 
+@mixin content-padding-vertical {
+	padding-top: $base-spacing-content;
+	padding-bottom: $base-spacing-content;
+}
+
 @mixin no-text {
 	overflow: hidden;
 	text-indent: -9999px;
