@@ -32,6 +32,10 @@ body.home .content-module {
 	.module {
 		@include shadow-box;
 		margin: $base-margin;
+		@media #{$large-down} {
+			margin-left: 0;
+			margin-right: 0;
+		}
 	}
 }
 
@@ -75,6 +79,9 @@ body.home .content-module {
 	@extend %content-padding;
 	font-family: $body-font-family;
 	font-weight: 300;
+}
+
+.module .block-title {
 	&:after {
 		content: "";
 		display: block;
@@ -83,8 +90,22 @@ body.home .content-module {
 		margin-top: $base-spacing-content;
 		@include cancel-content-padding;
 	}
-	.module.tabular &:after {
-		display: none;
+}
+
+.module.tabular .block-title:after {
+	display: none;
+}
+
+.module.preview {
+	margin-left: 0;
+	margin-right: 0;
+	border: 1px solid $light-border-color;
+	.module {
+		border: none;
+	}
+	@media #{$small-down} {
+		border: none;
+		@include cancel-content-padding;
 	}
 }
 
@@ -368,8 +389,6 @@ ul.messages {
 }
 
 #main_content .module.polls.compact {
-	@include cancel-content-padding;
-
 	.module-row .module-row {
 		overflow: hidden;
 		border: none;

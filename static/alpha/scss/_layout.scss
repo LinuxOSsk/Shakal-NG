@@ -139,11 +139,9 @@ $small-header-height: sprite-height(logo_mini) + ($base-margin-reduced * 2);
 		width: auto;
 		margin-left: 0;
 		float: none;
-		.module, .content-module {
+		.content-module {
 			margin-left: 0;
 			margin-right: 0;
-		}
-		.content-module {
 			margin-top: 0;
 		}
 	}
@@ -157,6 +155,10 @@ $small-header-height: sprite-height(logo_mini) + ($base-margin-reduced * 2);
 
 	#sidebar_1, #sidebar_2 {
 		margin-top: 0;
+		.module {
+			margin-left: 0;
+			margin-right: 0;
+		}
 	}
 
 	#sidebar_1 {
