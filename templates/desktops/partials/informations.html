@@ -1,7 +1,7 @@
 {% if other_desktops %}
 	<div class="module sidebar desktops">
 		{% if desktop and desktop.author == request.user %}
-			<h2>Správa</h2>
+			<h2 class="block-title">Správa</h2>
 
 			<p>
 				<a href="{{ desktop.get_update_url() }}">Upraviť desktop</a>

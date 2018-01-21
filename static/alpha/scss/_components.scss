@@ -52,9 +52,11 @@ body.home .content-module {
 
 	&.sidebar {
 		width: 33%;
+		margin-right: 0;
 		margin-left: $base-margin;
+		margin-top: $base-spacing-content;
 		float: right;
-		@include shadow-box;
+		border: 1px solid $light-border-color;
 
 		h2 {
 			@include content-padding;
@@ -106,10 +108,6 @@ body.home .content-module {
 	border: 1px solid $light-border-color;
 	.module {
 		border: none;
-	}
-	@media #{$small-down} {
-		border: none;
-		@include cancel-content-padding;
 	}
 }
 
@@ -243,7 +241,7 @@ body.home .content-module {
 	float: right;
 }
 
-.clear, fieldset, .module { clear: both; }
+.clear { clear: both; }
 
 td, th {
 	&.date {
@@ -413,16 +411,6 @@ ul.messages {
 	.module-links.bottom {
 		margin-left: 30%;
 	}
-
-	@media #{$small-down} {
-		label, .progress, .module-links.bottom {
-			float: none;
-			width: auto;
-		}
-		.module-links.bottom {
-			margin-left: 0;
-		}
-	}
 }
 
 .fieldset {
@@ -474,5 +462,31 @@ ul.messages {
 		&.home:before {
 			content: "";
 		}
+	}
+}
+
+@media #{$small-down} {
+	#main_content .module.polls.compact {
+		label, .progress, .module-links.bottom {
+			float: none;
+			width: auto;
+		}
+		.module-links.bottom {
+			margin-left: 0;
+		}
+	}
+
+	.module.preview {
+		border: none;
+		@include cancel-content-padding;
+	}
+
+	.module.sidebar {
+		width: auto;
+		float: none;
+		margin-top: 0;
+		margin-bottom: 0;
+		border: none;
+		@include cancel-content-padding;
 	}
 }
