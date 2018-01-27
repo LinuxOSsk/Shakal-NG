@@ -41,7 +41,6 @@ var copyMenu = function(root) {
 	clone = blockLinux.cloneNode(true);
 	clone.setAttribute('id', clone.getAttribute('id') + '_clone');
 	menuPanel.insertBefore(clone, searchPanel);
-	console.log(blockLinux.cloneNode(true));
 };
 
 _.onLoad(function(e) {
