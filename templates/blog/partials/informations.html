@@ -17,14 +17,14 @@
 		{{ blog.sidebar|safe }}
 	</div>
 	{% with desktop=blog.author.last_desktop %}
-		<div class="module-row">
-			{% if desktop %}
+		{% if desktop %}
+			<div class="module-row">
 				<div class="desktop item">
 					<a href="{{ desktop.get_absolute_url() }}" class="img-link">
 						<img src="{{ thumbnail(desktop.image, size=(512, 512), format='jpg', quality=85) }}" alt="{{ desktop }}" />
 					</a>
 				</div>
-			{% endif %}
-		</div>
+			</div>
+		{% endif %}
 	{% endwith %}
 </div>
