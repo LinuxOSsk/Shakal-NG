@@ -455,7 +455,7 @@ ul.messages {
 	li {
 		margin: 0;
 		padding: 0;
-		float: left;
+		display: inline;
 		&:before {
 			content: "  »  "
 		}
