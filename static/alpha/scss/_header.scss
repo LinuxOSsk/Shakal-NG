@@ -169,7 +169,7 @@
 		text-indent: -9999px;
 		overflow: hidden;
 		background-color: transparent;
-		@include sprite-bw(search, $dark: true);
+		@include sprite-bw(search_transparent, $dark: true);
 	}
 }
 
