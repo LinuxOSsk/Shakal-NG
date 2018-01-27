@@ -26,7 +26,7 @@ django-jinja==2.4.1
 django-js-asset==1.0.0    # via django-mptt
 django-libsass==0.7
 django-mptt==0.9.0
-django-reversion==2.0.12
+django-reversion==2.0.13
 django-static-sitemaps==4.4.1
 django-suit==0.2.25
 django==1.11.9

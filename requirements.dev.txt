@@ -11,7 +11,7 @@
 -e git+https://github.com/mireq/django-sample-data-generator.git@adaf2e1687fe921fa37179f3aee5d94e130f6ed6#egg=django_sample_data_generator
 -e git+https://github.com/mireq/django-simple-paginator.git@c09ad39a33b9d07cb5a399e822c79542bf7b4a8c#egg=django_simple_paginator
 argh==0.26.2              # via watchdog
-astroid==1.6.0            # via pylint, pylint-plugin-utils
+astroid==1.6.1            # via pylint, pylint-plugin-utils
 certifi==2018.1.18        # via requests
 chardet==3.0.4            # via requests
 click==6.7                # via pip-tools
@@ -32,7 +32,7 @@ django-jinja==2.4.1
 django-js-asset==1.0.0    # via django-mptt
 django-libsass==0.7
 django-mptt==0.9.0
-django-reversion==2.0.12
+django-reversion==2.0.13
 django-static-sitemaps==4.4.1
 django-suit==0.2.25
 django==1.11.9
@@ -63,9 +63,9 @@ ptpython==0.41
 ptyprocess==0.5.2         # via pexpect
 pygments==2.2.0
 pyinotify==0.9.6
-pylint-django==0.8.0
+pylint-django==0.9.0
 pylint-plugin-utils==0.2.6  # via pylint-django
-pylint==1.8.1             # via pylint-django, pylint-plugin-utils
+pylint==1.8.2             # via pylint-django, pylint-plugin-utils
 python3-openid==3.1.0     # via django-allauth
 pytz==2017.3
 pyyaml==3.12              # via watchdog
@@ -78,7 +78,7 @@ simplegeneric==0.8.1      # via ipython
 six==1.11.0               # via astroid, django-compat, django-extensions, django-static-sitemaps, libsass, pip-tools, prompt-toolkit, pylint, traitlets
 sqlparse==0.2.4           # via django-debug-toolbar
 traitlets==4.3.2          # via ipython
-typing==3.6.2             # via django-extensions
+typing==3.6.4             # via django-extensions
 urllib3==1.22             # via requests
 watchdog==0.8.3
 wcwidth==0.1.7            # via prompt-toolkit
