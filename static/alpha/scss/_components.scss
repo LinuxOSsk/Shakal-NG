@@ -1,10 +1,13 @@
 #sidebar_1 .module, #sidebar_2 .module, .content-module {
 	@include shadow-box;
+	padding-top: 0.1px;
 }
 
 .content-module {
 	@include content-padding;
+	@include clearfix;
 	margin: $base-margin;
+
 	.module {
 		@include cancel-content-padding;
 		border-top: 1px solid $light-border-color;
@@ -55,12 +58,6 @@ body.home .content-module {
 .module {
 	margin: $base-margin 0;
 
-	&:before, &:after {
-		content: "";
-		display: table;
-		clear: both;
-	}
-
 	@media #{$large-down} {
 		margin-top: 0;
 		margin-bottom: -1px;
@@ -74,6 +71,7 @@ body.home .content-module {
 		margin-bottom: $base-spacing-content;
 		float: right;
 		border: 1px solid $light-border-color;
+		background: $body-color;
 
 		h2 {
 			@include content-padding;

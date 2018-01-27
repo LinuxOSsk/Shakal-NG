@@ -157,3 +157,11 @@
 		color: mix($body-color, $label-color, 40%);
 	}
 }
+
+@mixin clearfix {
+	&:before, &:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+}
