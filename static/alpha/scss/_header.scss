@@ -59,14 +59,12 @@
 			padding: 0.5em 0.75em 0.4em 0.75em;
 			background: darken($primary-color, 15%);
 			color: $primary-color-complement;
-			border-bottom: 1px solid $light-border-color;
 		}
 
 		&.active a, a:hover {
 			text-decoration: none;
 			color: mix($text-color, $primary-color);
 			background: $primary-color-complement;
-			border-bottom: 1px solid $primary-color-complement;
 			box-shadow: 0px -5px 5px -5px rgba(0, 0, 0, 0.1), -5px 0px 5px -5px rgba(0, 0, 0, 0.1), 5px 0px 5px -5px rgba(0, 0, 0, 0.1);
 		}
 

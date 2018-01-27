@@ -8,6 +8,11 @@ $small-header-height: sprite-height(logo_mini) + ($base-margin-reduced * 2);
 	overflow: hidden;
 	margin-top: -(40px + $base-margin);
 	position: relative;
+	.content-module:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
 }
 
 #sidebar_1 {
@@ -48,7 +53,7 @@ $small-header-height: sprite-height(logo_mini) + ($base-margin-reduced * 2);
 #main_menu {
 	position: absolute;
 	left: 25%;
-	bottom: 39px;
+	bottom: 40px;
 }
 
 #user_panel {
