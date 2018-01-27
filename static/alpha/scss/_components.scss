@@ -35,10 +35,19 @@ body.home .content-module {
 
 	.module {
 		@include shadow-box;
+		border-top: none;
 		margin: $base-margin;
-		@media #{$large-down} {
+	}
+
+	@media #{$large-down} {
+		margin-bottom: $base-margin;
+		border-bottom: 1px solid $light-border-color;
+		.module {
+			border-top: 1px solid $light-border-color;
 			margin-left: 0;
 			margin-right: 0;
+			margin-top: 0;
+			margin-bottom: 0;
 		}
 	}
 }
@@ -107,7 +116,6 @@ body.home .content-module {
 }
 
 .module.tabular {
-	border-top: none;
 	.block-title:after {
 		display: none;
 	}
