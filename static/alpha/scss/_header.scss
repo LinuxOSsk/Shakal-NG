@@ -4,7 +4,7 @@
 	@include sprite-background;
 
 	.actions {
-		top: $header-height - sprite-height(gear_white);
+		top: $header-height - sprite-height(gear);
 		right: $base-margin;
 		margin-top: -$base-margin - 24px;
 		position: absolute;
@@ -18,11 +18,11 @@
 	}
 
 	.templates {
-		@include sprite(gear_white);
+		@include sprite(gear_light);
 	}
 
 	.search-link {
-		@include sprite(search_white);
+		@include sprite(search_light);
 		display: none;
 	}
 
@@ -64,7 +64,7 @@
 		&.active a, a:hover {
 			text-decoration: none;
 			color: mix($text-color, $primary-color);
-			background: $primary-color-complement;
+			background: $body-color;
 			box-shadow: 0px -5px 5px -5px rgba(0, 0, 0, 0.1), -5px 0px 5px -5px rgba(0, 0, 0, 0.1), 5px 0px 5px -5px rgba(0, 0, 0, 0.1);
 		}
 
@@ -104,22 +104,22 @@
 		&:before {
 			content: "";
 			float: right;
-			margin-left: $base-spacing-content * 2 + sprite-width(arrow_down_white);
-			@include sprite(user);
+			margin-left: $base-spacing-content * 2 + sprite-width(arrow_down);
+			@include sprite(user_light);
 		}
 		&:after {
 			content: "";
 			position: absolute;
 			right: 36px + $base-spacing-content;
 			top: 50%;
-			margin-top: -(sprite-height(arrow_down_white)) / 2;
-			@include sprite(arrow_down_white);
+			margin-top: -(sprite-height(arrow_down)) / 2;
+			@include sprite(arrow_down_light);
 		}
 	}
 
 	.avatar {
 		float: right;
-		margin-left: $base-spacing-content * 2 + sprite-width(arrow_down_white);
+		margin-left: $base-spacing-content * 2 + sprite-width(arrow_down);
 		border: 2px solid $primary-color-complement;
 		overflow: hidden;
 		img {
@@ -169,7 +169,7 @@
 		text-indent: -9999px;
 		overflow: hidden;
 		background-color: transparent;
-		@include sprite(search);
+		@include sprite-bw(search, $dark: true);
 	}
 }
 
@@ -223,9 +223,9 @@
 		}
 
 		.user {
-			padding-right: sprite-width(gear_white) + $base-spacing-content * 2;
+			padding-right: sprite-width(gear) + $base-spacing-content * 2;
 			text-align: left;
-			margin-left: $base-spacing-content * 2 + sprite-width(menu_back_white);
+			margin-left: $base-spacing-content * 2 + sprite-width(menu_back);
 			&:after {
 				right: $base-margin;
 			}
@@ -305,9 +305,9 @@
 			float: right;
 			position: relative;
 			top: 50%;
-			margin-top: -(sprite-height(menu_white) / 2);
+			margin-top: -(sprite-height(menu) / 2);
 			margin-left: $base-spacing-content;
-			@include sprite(menu_white);
+			@include sprite(menu_light);
 		}
 	}
 
@@ -318,8 +318,8 @@
 		left: $base-spacing-content;
 		z-index: 1;
 		top: 50%;
-		margin-top: -(sprite-height(menu_back_white) / 2);
-		@include sprite(menu_back_white);
+		margin-top: -(sprite-height(menu_back) / 2);
+		@include sprite(menu_back_light);
 	}
 
 	#search_panel {

@@ -1,11 +1,25 @@
 $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx)";
 
 @function sprite-width($image) {
-	@return map-get(map-get($sprites, $image), w);
+	$img: map-get($sprites, $image);
+	@if ($img) {
+		@return map-get($img, w);
+	}
+	@else {
+		$img: map-get($sprites, $image + '_dark');
+		@return map-get($img, w);
+	}
 }
 
 @function sprite-height($image) {
-	@return map-get(map-get($sprites, $image), h);
+	$img: map-get($sprites, $image);
+	@if ($img) {
+		@return map-get($img, h);
+	}
+	@else {
+		$img: map-get($sprites, $image + '_dark');
+		@return map-get($img, h);
+	}
 }
 
 @mixin sprite-background() {
@@ -45,4 +59,25 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 		@include sprite-background-position($image);
 	}
 	@extend .sprite;
+}
+
+@mixin sprite-bw($image, $setSize: true, $dark: true) {
+	$suffix: "";
+	@if ($dark-theme) {
+		@if ($dark) {
+			$suffix: "light";
+		}
+		@else {
+			$suffix: "dark";
+		}
+	}
+	@else {
+		@if ($dark) {
+			$suffix: "dark";
+		}
+		@else {
+			$suffix: "light";
+		}
+	}
+	@include sprite($image + '_' + $suffix, $setSize);
 }
