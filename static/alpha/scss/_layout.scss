@@ -112,9 +112,6 @@ $small-header-height: sprite-height(logo_mini) + ($base-margin-reduced * 2);
 		&:before {
 			display: none;
 		}
-		.module {
-			padding-top: 0;
-		}
 	}
 
 	#sidebar_2 {
