@@ -21,8 +21,8 @@ class BlogGenerator(generator.ModelGenerator):
 
 	def get_object(self):
 		obj = super(BlogGenerator, self).get_object()
-		obj.filtered_description = obj.original_description[3:]
-		obj.filtered_sidebar = obj.original_sidebar[3:]
+		obj.filtered_description = obj.original_description
+		obj.filtered_sidebar = obj.original_sidebar
 		unique_slugify(obj, 'slug')
 		return obj
 
@@ -39,8 +39,8 @@ class PostGenerator(generator.ModelGenerator):
 
 	def get_object(self):
 		obj = super(PostGenerator, self).get_object()
-		obj.filtered_perex = obj.original_perex[3:]
-		obj.filtered_content = obj.original_content[3:]
+		obj.filtered_perex = obj.original_perex
+		obj.filtered_content = obj.original_content
 		unique_slugify(obj, 'slug')
 		return obj
 

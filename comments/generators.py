@@ -94,7 +94,7 @@ class CommentGenerator(generator.ModelGenerator):
 				for comment in tree:
 					comment.content_type = ctype
 					comment.object_id = instance.pk
-					comment.filtered_comment = comment.original_comment[3:]
+					comment.filtered_comment = comment.original_comment
 					comment.updated = comment.created
 					comment.tree_id = root_comment.tree_id
 					yield comment

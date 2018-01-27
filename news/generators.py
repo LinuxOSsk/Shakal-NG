@@ -30,9 +30,9 @@ class NewsGenerator(generator.ModelGenerator):
 
 	def get_object(self):
 		obj = super(NewsGenerator, self).get_object()
-		obj.filtered_short_text = obj.original_short_text[3:]
+		obj.filtered_short_text = obj.original_short_text
 		obj.original_long_text = obj.original_short_text
-		obj.filtered_long_text = obj.original_long_text[3:]
+		obj.filtered_long_text = obj.original_long_text
 		obj.approved = True
 		unique_slugify(obj, 'slug')
 		return obj

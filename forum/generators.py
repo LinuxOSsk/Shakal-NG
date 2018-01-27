@@ -30,7 +30,7 @@ class TopicGenerator(generator.ModelGenerator):
 
 	def get_object(self):
 		obj = super(TopicGenerator, self).get_object()
-		obj.filtered_text = obj.original_text[3:]
+		obj.filtered_text = obj.original_text
 		obj.updated = obj.created
 		return obj
 
