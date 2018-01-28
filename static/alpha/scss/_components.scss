@@ -562,7 +562,7 @@ ul.messages {
 }
 
 .trashcan-icon {
-	@include sprite(trashcan_transparent_light);
+	@include sprite-bw(trashcan_transparent);
 	overflow: hidden;
 	text-indent: -9999px;
 }

@@ -53,6 +53,13 @@
 			margin-left: 0;
 		}
 	}
+
+	&.tabular {
+		@include cancel-content-padding;
+		label {
+			margin-left: $base-spacing-content;
+		}
+	}
 }
 
 .textareawrapper {
@@ -170,17 +177,22 @@ p.help {
 }
 
 table.formset {
-	td, tr {
-		background: transparent;
-		border: none;
+	background: $light-block-background;
+	width: 100%;
+	box-sizing: border-box;
+
+	input {
+		margin: 0;
 	}
 
-	td:first-child {
-		padding-left: 0;
+	th {
+		background: $light-block-background;
+		color: $text-color;
+		border-top: 1px solid $light-border-color;
 	}
 
-	td:last-child {
-		padding-right: 0;
+	.formset-field {
+		margin-right: 0;
 	}
 }
 

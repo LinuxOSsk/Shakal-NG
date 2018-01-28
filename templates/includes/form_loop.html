@@ -27,7 +27,7 @@
 	{% block nested %}
 	{% if form.nested %}
 		{% for subform in form.nested %}
-			<div class="form-row">
+			<div class="form-row tabular">
 				<div>
 					{% if subform.label %}
 						<label class="formset-label">{{ subform.label }}:</label>
