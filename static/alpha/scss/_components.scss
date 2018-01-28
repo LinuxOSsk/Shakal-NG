@@ -560,3 +560,9 @@ ul.messages {
 		}
 	}
 }
+
+.trashcan-icon {
+	@include sprite(trashcan_transparent_light);
+	overflow: hidden;
+	text-indent: -9999px;
+}

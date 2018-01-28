@@ -125,6 +125,7 @@ def main():
 	make_transparent_light_dark('rating_admin')
 	make_transparent_light_dark('foldable_open')
 	make_transparent_light_dark('foldable_closed')
+	make_transparent_light_dark('trashcan')
 
 	make_colorized('star', (221, 221, 0), '_yellow')
 	make_colorized('tick', (102, 221, 102), '_green')

@@ -92,6 +92,8 @@ SPRITES = (
 			{ 'name': 'foldable_closed_transparent_light', 'src': 'alpha/images/png/foldable_closed_transparent_light.png' },
 			{ 'name': 'foldable_open_transparent_dark', 'src': 'alpha/images/png/foldable_open_transparent_dark.png' },
 			{ 'name': 'foldable_open_transparent_light', 'src': 'alpha/images/png/foldable_open_transparent_light.png' },
+			{ 'name': 'trashcan_transparent_dark', 'src': 'alpha/images/png/trashcan_transparent_dark.png' },
+			{ 'name': 'trashcan_transparent_light', 'src': 'alpha/images/png/trashcan_transparent_light.png' },
 		),
 	},
 	{
