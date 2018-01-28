@@ -160,6 +160,9 @@ pre, .annotation, .codeblock {
 	padding: $base-spacing-content;
 	background: mix($body-color, $text-color, 98%);
 	border: 1px solid $light-border-color;
+}
+
+pre, .codeblock {
 	overflow: auto;
 }
 
