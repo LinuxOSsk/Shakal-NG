@@ -5,7 +5,7 @@
 #    pip-compile --output-file requirements.txt requirements.in
 #
 -e git+https://github.com/mireq/django-ajax-utils.git@e9be194995ae9505470588d47b171ed0f4dafc90#egg=django_ajax_utils
--e git+https://github.com/mireq/django-assets-manager.git@e20bb9cadd9e80ecdf38872720837ea1d2b315ab#egg=django_assets_manager
+-e git+https://github.com/mireq/django-assets-manager.git@df91730b1f8693c3b97d4260099084e44586fb48#egg=django_assets_manager
 -e git+https://github.com/mireq/django-autoslugfield.git@ba4c052145ef3e19bc3bad88cc32ab003ebddb38#egg=django_autoslugfield
 -e git+https://github.com/mireq/django-email-log-backend.git@31ae6ad31fb692fdf4528d0034aa29a64818dca5#egg=django_email_log_backend
 -e git+https://github.com/mireq/django-geoposition-field.git@662bb9c460977a6100f02272e89914ef88da16f4#egg=django_geoposition_field
