@@ -23,7 +23,8 @@
 
 {% if valid %}
 	<div class="module preview">
-		<h2>Náhľad</h2>
+		<h2 class="block-title">Náhľad</h2>
+		<h1>{{ form.instance }}</h1>
 		{% with object=form.instance %}
 			{% include "blog/partials/content.html" %}
 		{% endwith %}
@@ -36,7 +37,7 @@
 		<div class="submit-row">
 			<div class="positive">
 				<button class="btn" type="submit" title="Náhľad"><span class="wrap"><span class="text">Náhľad</span></span></button>
-				<button class="btn" type="submit" title="Uložiť" name="{% if object %}update{% else %}create{% endif %}" value="1"><span class="wrap"><span class="text">Uložiť</span></span></button>
+				<button class="btn primary" type="submit" title="Uložiť" name="{% if object %}update{% else %}create{% endif %}" value="1"><span class="wrap"><span class="text">Uložiť</span></span></button>
 			</div>
 		</div>
 	</fieldset>
