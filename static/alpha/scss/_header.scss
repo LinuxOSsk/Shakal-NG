@@ -11,15 +11,30 @@
 		position: absolute;
 	}
 
-	.templates, .search-link {
+	.templates, .feeds, .search-link {
 		overflow: hidden;
 		text-indent: -9999px;
 		float: right;
 		margin-left:$base-spacing-content;
+		cursor: pointer;
 	}
 
 	.templates {
 		@include sprite(gear_light);
+	}
+
+	.feeds {
+		@include sprite(rss_light);
+		position: relative;
+		overflow: visible;
+		.dropdown {
+			position: absolute;
+			right: 0;
+			top: sprite-height(rss);
+			width: 200px;
+			text-indent: 0;
+			z-index: 2;
+		}
 	}
 
 	.search-link {

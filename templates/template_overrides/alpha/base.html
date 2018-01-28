@@ -43,6 +43,9 @@
 			<div id="menu_panel">
 				<div class="actions">
 					<a href="{{ url("template-list") }}" class="templates">Šablóny</a>
+					<div class="touchhover-emul feeds">
+						{{ render_all_feeds(template="feeds/home_feeds.html") }}
+					</div>
 					<a href="{{ url('haystack_search') }}" class="search-link" title="Hľadať">Hľadať</a>
 				</div>
 				<div id="user_panel" class="touchhover-emul{% if user.is_authenticated %} authenticated{% endif %}">

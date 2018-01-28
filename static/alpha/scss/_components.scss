@@ -377,6 +377,10 @@ ul.messages {
 	}
 }
 
+.touchhover-emul:hover .dropdown, .touchhover .dropdown {
+	display: block;
+}
+
 .banner_button {
 	text-indent: -9999px;
 	overflow: hidden;

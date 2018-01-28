@@ -1,22 +1,19 @@
 (function(_) {
 
-var registerUserPanel = function(root) {
-	var userPanel = _.id(root, 'user_panel');
-	if (userPanel === null || !_.hasClass(userPanel, 'touchhover-emul')) {
-		return;
-	}
-	var user = _.cls(userPanel, 'user')[0];
-	if (user === undefined) {
-		return;
-	}
-	_.removeClass(userPanel, 'touchhover-emul');
-
-	_.bindEvent(user, 'click', function(event) {
-		if (event.which !== 1) {
-			return;
-		}
-		_.toggleClass(userPanel, 'touchhover');
-		event.preventDefault();
+var registerTouchhover = function(root) {
+	var elements = [];
+	_.forEach(_.cls(root, 'touchhover-emul'), function(element) {
+		elements.push(element);
+	});
+	_.forEach(elements, function(element) {
+		_.removeClass(element, 'touchhover-emul');
+		_.bindEvent(element, 'click', function(event) {
+			if (event.which !== 1) {
+				return;
+			}
+			_.toggleClass(element, 'touchhover');
+			event.preventDefault();
+		});
 	});
 };
 
@@ -44,7 +41,7 @@ var copyMenu = function(root) {
 };
 
 _.onLoad(function(e) {
-	registerUserPanel(e.memo);
+	registerTouchhover(e.memo);
 	copyMenu(e.memo);
 });
 
