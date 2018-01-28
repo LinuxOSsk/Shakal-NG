@@ -501,3 +501,25 @@ ul.messages {
 		@include cancel-content-padding;
 	}
 }
+
+@media #{$xlarge-down} {
+	.foldable-sidebar {
+		.block-title {
+			cursor: pointer;
+			&:after {
+				display: none;
+			}
+		}
+		.module-row {
+			display: none;
+		}
+		&.open {
+			.block-title:after {
+				display: block;
+			}
+			.module-row {
+				display: block;
+			}
+		}
+	}
+}
