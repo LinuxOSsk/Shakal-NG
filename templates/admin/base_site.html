@@ -1,14 +1,11 @@
 {% extends "admin/base.html" %}
-{% load i18n %}
 
-{% load admin_static %}
-{% load staticfiles %}
+{% load admin_static assets_manager i18n staticfiles %}
 
 {% block extrastyle %}
 	{{ block.super }}
 	<link rel="stylesheet" type="text/css" href="{% static 'admin/css/suit_extra.css' %}" media="all" />
-	<script src="{% static "js/utils.js" %}" type="text/javascript" charset="utf-8"></script>
-	<script src="{% static "js/utils_ajax.js" %}" type="text/javascript" charset="utf-8"></script>
+	{% assets_js "utils_ajax" %}
 {% endblock %}
 
 {% block title %}{{ title }} | Shakal CMS{% endblock %}

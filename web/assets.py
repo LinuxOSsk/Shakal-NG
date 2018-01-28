@@ -156,10 +156,23 @@ SPRITES = (
 )
 
 ASSETS = {
-	"utils": {
-		"js": "static://js/utils.js",
+	'utils': {
+		'js': 'static://django_ajax_utils/js/utils.js',
 	},
-	"utils_ajax": {
-		"js": "static://js/utils_ajax.js",
+	'utils_ajax': {
+		'js': 'static://django_ajax_utils/js/utils_ajax.js',
+		'depends': ['utils'],
+	},
+	"menu": {
+		"js": "static://js/menu.js",
+		'depends': ['utils_ajax'],
+	},
+	"messages": {
+		"js": "static://js/messages.js",
+		'depends': ['utils_ajax'],
+	},
+	"toggle": {
+		"js": "static://js/toggle.js",
+		'depends': ['utils_ajax'],
 	},
 }

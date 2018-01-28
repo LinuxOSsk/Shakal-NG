@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 	'blackhole',
 	'compat',
 	'django_assets_manager',
+	'django_ajax_utils',
 	'django_autoslugfield',
 	'django_geoposition_field',
 	'django_sample_generator',

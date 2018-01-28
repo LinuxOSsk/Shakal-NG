@@ -1,4 +1,3 @@
 {% compress js %}
-	<script src="{{ static('js/utils.js') }}" type="text/javascript" charset="utf-8"></script>
-	<script src="{{ static('js/utils_ajax.js') }}" type="text/javascript" charset="utf-8"></script>
+	{{ assets_js("utils_ajax") }}
 {% endcompress %}
