@@ -1,0 +1,21 @@
+.gallery {
+	img {
+		display: block;
+	}
+
+	.image {
+		margin: $base-margin-reduced;
+		display: inline-block;
+		position: relative;
+	}
+
+	.title {
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		background: rgba(0, 0, 0, 0.5);
+		padding: 5px 0;
+		text-align: center;
+		color: white;
+	}
+}
