@@ -509,13 +509,26 @@ ul.messages {
 			&:after {
 				display: none;
 			}
+			&:before {
+				content: "";
+				vertical-align: middle;
+				@include sprite-bw(foldable_closed_transparent);
+				display: inline-block;
+				margin-right: $base-margin-reduced;;
+			}
 		}
 		.module-row {
 			display: none;
 		}
 		&.open {
-			.block-title:after {
-				display: block;
+			.block-title {
+				&:after {
+					display: block;
+				}
+				&:before {
+					@include sprite-bw(foldable_open_transparent);
+					display: inline-block;
+				}
 			}
 			.module-row {
 				display: block;

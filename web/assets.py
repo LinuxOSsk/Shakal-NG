@@ -88,6 +88,10 @@ SPRITES = (
 			{ 'name': 'tick_green', 'src': 'alpha/images/png/tick_green.png' },
 			{ 'name': 'arrow_down_dark', 'src': 'alpha/images/png/arrow_down_dark.png' },
 			{ 'name': 'arrow_down_light', 'src': 'alpha/images/png/arrow_down_light.png' },
+			{ 'name': 'foldable_closed_transparent_dark', 'src': 'alpha/images/png/foldable_closed_transparent_dark.png' },
+			{ 'name': 'foldable_closed_transparent_light', 'src': 'alpha/images/png/foldable_closed_transparent_light.png' },
+			{ 'name': 'foldable_open_transparent_dark', 'src': 'alpha/images/png/foldable_open_transparent_dark.png' },
+			{ 'name': 'foldable_open_transparent_light', 'src': 'alpha/images/png/foldable_open_transparent_light.png' },
 		),
 	},
 	{
