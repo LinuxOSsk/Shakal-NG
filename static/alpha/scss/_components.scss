@@ -115,8 +115,28 @@ body.home .content-module {
 	margin-left: 0;
 	margin-right: 0;
 	border: 1px solid $light-border-color;
+	overflow-y: auto;
+	@include content-padding;
+	.block-title:after {
+		display: none;
+	}
 	.module {
-		border: none;
+		padding: 0;
+		.module {
+			@include content-padding;
+		}
+		.block-title:after {
+			display: block;
+		}
+		&.sidebar {
+			width: auto;
+			float: none;
+			margin-left: 0;
+			margin-right: 0;
+		}
+	}
+	.clearpadding {
+		@include cancel-content-padding;
 	}
 }
 

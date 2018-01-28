@@ -21,7 +21,9 @@
 		<h1>{{ blog.title }}</h1>
 		<div class="module sidebar">
 			<h2 class="block-title">Informácie</h2>
-			{{ blog.sidebar|safe }}
+			<div class="module-row">
+				{{ blog.sidebar|safe }}
+			</div>
 		</div>
 
 		<div class="annotation">{{ blog.description|safe }}</div>
@@ -34,7 +36,7 @@
 		<div class="submit-row">
 			<div class="positive">
 				<button class="btn" type="submit" title="Náhľad"><span class="wrap"><span class="text">Náhľad</span></span></button>
-				{% if valid %}<button class="btn" type="submit" title="Uložiť" name="{% block action %}update{% endblock %}" value="1"><span class="wrap"><span class="text">Uložiť</span></span></button>{% endif %}
+				{% if valid %}<button class="btn primary" type="submit" title="Uložiť" name="{% block action %}update{% endblock %}" value="1"><span class="wrap"><span class="text">Uložiť</span></span></button>{% endif %}
 			</div>
 		</div>
 	</fieldset>

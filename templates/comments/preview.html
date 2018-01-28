@@ -17,8 +17,8 @@
 <h1>Pridať komentár</h1>
 
 {% if parent %}
-<h2 class="block-title">Príspevok, na ktorý odpovedáte</h2>
 <div class="module preview">
+	<h2 class="block-title">Príspevok, na ktorý odpovedáte</h2>
 	{% with comment=parent, readonly=1 %}
 		<div class="clearpadding">{% include "comments/comment_item.html" %}</div>
 	{% endwith %}
@@ -26,8 +26,8 @@
 {% endif %}
 
 {% if valid %}
-<h2 class="block-title">Náhľad</h2>
 <div class="module preview">
+	<h2 class="block-title">Náhľad</h2>
 	<div class="clearpadding">{% include "comments/comment_item.html" %}</div>
 </div>
 {% endif %}
