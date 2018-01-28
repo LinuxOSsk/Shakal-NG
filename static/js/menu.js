@@ -12,6 +12,19 @@ var registerTouchhover = function(root) {
 				return;
 			}
 			_.toggleClass(element, 'touchhover');
+			var target = event.target || event.srcElement;
+			while (target) {
+				if (target === element) {
+					break;
+				}
+				if (_.hasClass(target, 'notouch')) {
+					break;
+				}
+				if (target.tagName.toLowerCase() === 'a') {
+					return;
+				}
+				target = target.parentNode;
+			}
 			event.preventDefault();
 		});
 	});
