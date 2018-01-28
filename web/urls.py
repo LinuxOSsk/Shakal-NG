@@ -35,7 +35,7 @@ urlpatterns = [
 	url(_(r'^templates/$'), template_dynamicloader.views.TemplateListView.as_view(), name='template-list'),
 	url(_(r'^search/'), search.views.SearchView(), name='haystack_search'),
 	url(r'^v/(?P<content_type_id>\d+)/(?P<object_id>.+)/$', contenttype_views.shortcut, name='view-object'),
-	url(_(r'^admin/'), include(admin.site.urls)),
+	url(_(r'^admin/'), admin.site.urls),
 	url(_(r'^admin_dashboard/'), include('admin_dashboard.urls')),
 	url(r'^api/editor/', include('rich_editor.urls')),
 	url(r'^hijack/', include('hijack.urls')),
