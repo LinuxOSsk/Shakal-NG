@@ -19,18 +19,18 @@ var SimpleEditorHtml = function(element, options) {
 	var hasPreview = false;
 	var hasCode = true;
 
-	var chrome = _.createDiv('richedit_chrome');
-	var inner = _.createDiv('richedit_inner');
-	var top = _.createDiv('richedit_top');
-	var topOverlay = _.createDiv('richedit_top_overlay');
-	var contents = _.createDiv('richedit_contents');
-	var contentsEdit = _.createDiv('richedit_contents_edit');
-	var bottom = _.createDiv('richedit_bottom');
-	var toolbox = _.createDiv('richedit_toolbox');
-	var modal = _.createDiv('richedit_modal');
+	var chrome = _.elem('DIV', {'class': 'richedit_chrome'});
+	var inner = _.elem('DIV', {'class': 'richedit_inner'});
+	var top = _.elem('DIV', {'class': 'richedit_top'});
+	var topOverlay = _.elem('DIV', {'class': 'richedit_top_overlay'});
+	var contents = _.elem('DIV', {'class': 'richedit_contents'});
+	var contentsEdit = _.elem('DIV', {'class': 'richedit_contents_edit'});
+	var bottom = _.elem('DIV', {'class': 'richedit_bottom'});
+	var toolbox = _.elem('DIV', {'class': 'richedit_toolbox'});
+	var modal = _.elem('DIV', {'class': 'richedit_modal'});
 	var modalClose = _.elem('A', {'class': 'richedit_modal_close', 'href': '#'}, 'x');
 	var modalSubmit = _.elem('A', {'class': 'richedit_modal_submit', 'href': '#'}, 'VLOŽIŤ');
-	var modalContent = _.createDiv('richedit_modal_content');
+	var modalContent = _.elem('DIV', {'class': 'richedit_modal_content'});
 	var preview = _.elem('IFRAME');
 	preview.onload = function() { updatePreviewCss(); };
 	preview.setAttribute('src', options.static_base + 'js/richeditor/iframe.html');
@@ -94,10 +94,13 @@ var SimpleEditorHtml = function(element, options) {
 	};
 
 	var addToolbar = function(group) {
-		var toolbar = _.createDiv('richedit_toolbar');
-		var toolbarStart = _.createDiv('richedit_toolbar_start');
-		var toolbarGroup = _.createDiv(group === false ? undefined : 'richedit_toolgroup');
-		var toolbarEnd = _.createDiv('richedit_toolbar_end');
+		var toolbar = _.elem('DIV', {'class': 'richedit_toolbar'});
+		var toolbarStart = _.elem('DIV', {'class': 'richedit_toolbar_start'});
+		var toolbarEnd = _.elem('DIV', {'class': 'richedit_toolbar_end'});
+		var toolbarGroup = _.elem('DIV');
+		if (group !== false) {
+			toolbarGroup.className = 'richedit_toolgroup';
+		}
 		toolbar.appendChild(toolbarStart);
 		toolbar.appendChild(toolbarGroup);
 		toolbar.appendChild(toolbarEnd);
@@ -193,11 +196,11 @@ var SimpleEditorHtml = function(element, options) {
 	};
 
 	var addSeparator = function(group) {
-		group.appendChild(_.createDiv('richedit_toolbar_separator'));
+		group.appendChild(_.elem('DIV', {'class': 'richedit_toolbar_separator'}));
 	};
 
 	var addBreak = function(toolbar) {
-		toolbar.appendChild(_.createDiv('richedit_toolbar_break'));
+		toolbar.appendChild(_.elem('DIV', {'class': 'richedit_toolbar_break'}));
 	};
 
 	var addCombo = function(group) {
@@ -914,7 +917,7 @@ var RichEditor = function(element, options) {
 
 	var switchToolgroupContainer;
 
-	var richeditContainer = _.createDiv('richedit_container');
+	var richeditContainer = _.elem('DIV', {'class': 'richedit_container'});
 	element.parentNode.insertBefore(richeditContainer, element);
 	element.parentNode.removeChild(element);
 	richeditContainer.appendChild(element);
@@ -933,8 +936,8 @@ var RichEditor = function(element, options) {
 		for (var k in options) { if (options.hasOwnProperty(k)) o[k] = options[k]; }
 		o.format = format;
 
-		switchToolgroupContainer = _.createDiv('richedit_switch_toolgroup_container');
-		var switchToolgroup = _.createDiv('richedit_toolgroup richedit_switch_toolgroup');
+		switchToolgroupContainer = _.elem('DIV', {'class': 'richedit_switch_toolgroup_container'});
+		var switchToolgroup = _.elem('DIV', {'class': 'richedit_toolgroup richedit_switch_toolgroup'});
 		var switchButton = _.elem('A', {'class': 'richedit_button', 'href': '#'});
 		var label = _.elem('SPAN', {'class': 'richedit_button_label'}, 'CKEditor');
 
