@@ -40,7 +40,7 @@ urlpatterns = [
 	url(r'^api/editor/', include('rich_editor.urls')),
 	url(r'^hijack/', include('hijack.urls')),
 	url(r'^django-email-log/', include('django_email_log.urls')),
-	url(r'^favicon.ico$', RedirectView.as_view(url=staticfiles_storage.url('favicon.ico'), permanent=True)),
+	url(r'^favicon.ico$', RedirectView.as_view(url=staticfiles_storage.url('images/favicon/favicon.ico'), permanent=True)),
 ]
 
 if settings.DEBUG:
