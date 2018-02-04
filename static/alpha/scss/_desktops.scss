@@ -1,0 +1,54 @@
+.desktop.item {
+	img {
+		max-height: 256px;
+	}
+
+	.title {
+		font-weight: bold;
+	}
+}
+
+.module.desktops {
+	.module-row {
+		overflow: hidden;
+	}
+
+	img {
+		width: 100%;
+	}
+
+	.img-link {
+		display: block;
+		overflow: hidden;
+		max-height: 256px;
+	}
+
+	@media #{$small-up} {
+		.module-row {
+			padding-right: 0;
+		}
+		.desktop.item {
+			float: left;
+			width: 50%;
+			max-width: 256px + $base-spacing-content;
+		}
+		.desktop-content {
+			margin-right: $base-spacing-content;
+		}
+	}
+	@media #{$medium-up} {
+		.desktop {
+			width: 25%;
+		}
+	}
+
+	&.sidebar {
+		.desktop.item {
+			float: none;
+			width: auto;
+		}
+		.module-row {
+			overflow: visible;
+		}
+	}
+}

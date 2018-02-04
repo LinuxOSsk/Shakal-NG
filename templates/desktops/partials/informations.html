@@ -3,22 +3,26 @@
 		{% if desktop and desktop.author == request.user %}
 			<h2 class="block-title">Správa</h2>
 
-			<p>
-				<a href="{{ desktop.get_update_url() }}">Upraviť desktop</a>
-			</p>
+			<div class="module-row">
+				<ul>
+					<li><a href="{{ desktop.get_update_url() }}">Upraviť desktop</a></li>
+				</ul>
+			</div>
 		{% endif %}
 
 		{% for label, desktop_list in other_desktops %}
-			<h2>{{ label }}</h2>
+			{% if desktop_list %}
+				<div class="module-row">
+					<h3>{{ label }}</h3>
 
-			<div class="module-row">
-				{% for desktop in desktop_list %}
-					{% include "desktops/partials/desktop_link.html" %}
-				{% endfor %}
-			</div>
-			<div class="module-links bottom">
-				<a href="{{ url("desktops:list-author", desktop.author.pk) }}" class="next">Ďalšie desktopy</a>
-			</div>
+					{% for desktop in desktop_list %}
+						{% include "desktops/partials/desktop_link.html" %}
+					{% endfor %}
+				</div>
+				<div class="module-links bottom">
+					<a href="{{ url("desktops:list-author", desktop.author.pk) }}" class="next">Ďalšie desktopy</a>
+				</div>
+			{% endif %}
 		{% endfor %}
 	</div>
 {% endif %}
