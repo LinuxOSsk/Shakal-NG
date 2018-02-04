@@ -1,6 +1,8 @@
-.errorlist, .errornote {
+.errorlist, .errornote, .form-row ul.errorlist {
 	@include cancel-content-padding;
 	@include content-padding;
+	margin-top: $base-spacing-content;
+	margin-bottom: $base-spacing-content;
 	list-style: none;
 	background: $error-background;
 	padding-top: $base-spacing-content;
