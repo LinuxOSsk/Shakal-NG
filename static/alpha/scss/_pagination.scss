@@ -4,12 +4,12 @@
 	a {
 		text-decoration: none;
 		display: inline-block;
-		border: 1px solid $light-border-color;
-		padding: ($base-margin-reduced / 2) ($base-margin-reduced);
+		padding: ($base-margin-reduced / 4) 0.3em;
 		min-width: 1.25em;
+		border-radius: 5px;
 		&.prev:before { content: "\00AB "; }
 		&.next:after { content: " \00BB"; }
-		&:hover { color: $primary-color-complement; background: $primary-color; border-color: $primary-color; }
+		&:hover { color: $primary-color-complement; background: $primary-color; }
 	}
 
 	li {
@@ -18,8 +18,7 @@
 		margin: 0;
 		padding: 0;
 
-		&.disabled a, &.disabled a:hover { color: $info-color; background: $body-color; cursor: default; border-color: $light-border-color; }
-		&.active a, &.active a:hover { color: $primary-color-complement; background: $primary-color; border-color: $primary-color; }
-		&.skip a { border: none; }
+		&.disabled a, &.disabled a:hover { color: $info-color; background: $body-color; cursor: default; }
+		&.active a, &.active a:hover { color: $primary-color-complement; background: $primary-color; }
 	}
 }
