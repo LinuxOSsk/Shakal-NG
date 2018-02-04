@@ -60,6 +60,7 @@
 	input[type=password],
 	input[type=email],
 	input[type=number],
+	input[type=search],
 	textarea {
 		width: 100%;
 		box-sizing: border-box;
@@ -161,6 +162,7 @@ input[type=text],
 input[type=password],
 input[type=email],
 input[type=number],
+input[type=search],
 textarea {
 	@include input;
 }
@@ -235,6 +237,7 @@ table.formset {
 	input[type=password],
 	input[type=email],
 	input[type=number],
+	input[type=search],
 	textarea {
 		width: 100%;
 	}
