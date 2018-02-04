@@ -105,15 +105,21 @@ body.home .content-module {
 	}
 }
 
+.module.tabular {
+	border-top: none;
+}
+
 .module > .block-title {
 	@include content-padding;
 }
 
-.module.tabular {
+.module.tabular, .tabular .module {
 	.block-title:after {
 		display: none;
 	}
 }
+
+
 
 .module.preview {
 	margin-left: 0;
@@ -150,7 +156,7 @@ body.home .content-module {
 	&:last-child {
 		border-bottom: none;
 	}
-	&.tabular {
+	&.tabular, .tabular & {
 		padding-left: 0;
 		padding-right: 0;
 		table {
