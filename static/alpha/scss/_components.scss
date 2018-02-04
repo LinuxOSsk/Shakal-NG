@@ -122,11 +122,17 @@ body.home .content-module {
 .module.preview {
 	margin-left: 0;
 	margin-right: 0;
+	margin-top: $base-spacing-content;
+	margin-bottom: $base-spacing-content;
 	border: 1px solid $light-border-color;
 	overflow-y: auto;
 	@include content-padding;
-	.block-title:after {
-		display: none;
+	.block-title {
+		padding-left: 0;
+		padding-right: 0;
+		&:after {
+			display: none;
+		}
 	}
 	.module {
 		padding: 0;
