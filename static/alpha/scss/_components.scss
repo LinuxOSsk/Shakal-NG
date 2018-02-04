@@ -528,7 +528,7 @@ ul.messages {
 
 @media #{$xlarge-down} {
 	.foldable-sidebar {
-		.block-title {
+		.block-title:first-child {
 			cursor: pointer;
 			&:after {
 				display: none;
@@ -541,7 +541,7 @@ ul.messages {
 				margin-right: $base-margin-reduced;;
 			}
 		}
-		.module-row {
+		.module-row, .module-links {
 			display: none;
 		}
 		&.open {
@@ -554,7 +554,7 @@ ul.messages {
 					display: inline-block;
 				}
 			}
-			.module-row {
+			.module-row, .module-links {
 				display: block;
 			}
 		}
