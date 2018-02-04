@@ -1,7 +1,7 @@
 .pagination {
 	text-align: center;
 
-	a {
+	a, span {
 		text-decoration: none;
 		display: inline-block;
 		padding: ($base-margin-reduced / 4) 0.3em;
@@ -18,7 +18,7 @@
 		margin: 0;
 		padding: 0;
 
-		&.disabled a, &.disabled a:hover { color: $info-color; background: $body-color; cursor: default; }
-		&.active a, &.active a:hover { color: $primary-color-complement; background: $primary-color; }
+		&.disabled a, &.disabled span, &.disabled a:hover &.disabled span:hover { color: $info-color; background: $body-color; cursor: default; }
+		&.active a, &.active span, &.active a:hover, &.active span:hover { color: $primary-color-complement; background: $primary-color; }
 	}
 }
