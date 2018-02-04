@@ -1,0 +1,11 @@
+<div id="hijacked-warning-wrapper">
+<div id="hijacked-warning" class="hijacked-warning hijacked-warning-default">
+	<span style="padding-top: 4px; float: left;"><b>Momentálne ste prihlásený ako {{ request.user }}.</b></span>
+	<div class="hijacked-warning-controls hijacked-warning-controls-pull-right">
+		<form action="{% url 'hijack:release_hijack' %}" method="POST">
+			{% csrf_token %}
+			<button class="django-hijack-button-default">Odhlásiť</button>
+		</form>
+	</div>
+</div>
+</div>
