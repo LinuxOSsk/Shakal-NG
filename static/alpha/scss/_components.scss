@@ -105,6 +105,10 @@ body.home .content-module {
 	}
 }
 
+.module > .block-title {
+	@include content-padding;
+}
+
 .module.tabular {
 	.block-title:after {
 		display: none;

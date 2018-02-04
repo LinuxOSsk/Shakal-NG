@@ -2,7 +2,6 @@
 	margin: $base-spacing-content 0;
 
 	img {
-		max-height: 256px;
 		display: block;
 	}
 
@@ -14,6 +13,7 @@
 .module.desktops {
 	.module-row {
 		overflow: hidden;
+		padding-right: 0;
 	}
 
 	img {
@@ -26,22 +26,33 @@
 		max-height: 256px;
 	}
 
-	@media #{$small-up} {
-		.module-row {
-			padding-right: 0;
-		}
+	.desktop.item {
+		float: left;
+		width: 25%;
+		max-width: 256px + $base-spacing-content;
+	}
+
+	.desktop-content {
+		margin-right: $base-spacing-content;
+	}
+
+	@media #{$medium-down} {
 		.desktop.item {
-			float: left;
 			width: 50%;
-			max-width: 256px + $base-spacing-content;
-		}
-		.desktop-content {
-			margin-right: $base-spacing-content;
 		}
 	}
-	@media #{$medium-up} {
+
+	@media #{$small-down} {
+		.module-row {
+			padding-right: $base-spacing-content;
+		}
+		.desktop-content {
+			margin-right: 0;
+		}
 		.desktop.item {
-			width: 25%;
+			float: none;
+			width: auto;
+			max-width: inherit;
 		}
 	}
 
@@ -52,6 +63,40 @@
 		}
 		.module-row {
 			overflow: visible;
+		}
+	}
+}
+
+.module.desktop-list {
+	.module-row.desktop.item {
+		overflow: hidden;
+		margin: 0;
+		padding-top: $base-spacing-content;
+		padding-bottom: $base-spacing-content;
+	}
+	.image {
+		float: left;
+		width: 256px;
+		margin-right: $base-spacing-content;
+
+		img {
+			max-width: 256px;
+			max-height: 256px;
+			display: block;
+		}
+		@media #{$medium-down} {
+			width: 128px;
+			img {
+				max-width: 128px;
+				max-height: 128px;
+			}
+		}
+		@media #{$small-down} {
+			width: 96px;
+			img {
+				max-width: 96px;
+				max-height: 96px;
+			}
 		}
 	}
 }

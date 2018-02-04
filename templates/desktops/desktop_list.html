@@ -15,7 +15,7 @@
 
 	{% if not author and page_obj.number == 1 %}
 		<div class="module desktops horizontal">
-			<h2>Obľúbené desktopy</h2>
+			<h2 class="block-title">Obľúbené desktopy</h2>
 			<div class="module-row">
 				{% for desktop in favorite_desktops %}
 					{% include "desktops/partials/desktop_link.html" %}

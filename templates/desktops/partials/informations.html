@@ -1,8 +1,7 @@
 {% if other_desktops %}
 	<div class="module sidebar desktops foldable-sidebar">
+		<h2 class="block-title">Ostatné desktopy</h2>
 		{% if desktop and desktop.author == request.user %}
-			<h2 class="block-title">Správa</h2>
-
 			<div class="module-row">
 				<ul>
 					<li><a href="{{ desktop.get_update_url() }}">Upraviť desktop</a></li>
