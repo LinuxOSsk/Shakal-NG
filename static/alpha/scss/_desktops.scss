@@ -1,6 +1,9 @@
 .desktop.item {
+	margin: $base-spacing-content 0;
+
 	img {
 		max-height: 256px;
+		display: block;
 	}
 
 	.title {
@@ -37,7 +40,7 @@
 		}
 	}
 	@media #{$medium-up} {
-		.desktop {
+		.desktop.item {
 			width: 25%;
 		}
 	}
