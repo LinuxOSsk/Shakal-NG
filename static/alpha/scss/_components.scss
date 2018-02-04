@@ -179,6 +179,8 @@ body.home .content-module {
 .module-links {
 	text-align: center;
 	padding: 4px 6px;
+	.prev:before { content: "\00AB "; }
+	.next:after { content: " \00BB"; }
 }
 
 .label, .badge {
