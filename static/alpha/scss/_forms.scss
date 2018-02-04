@@ -24,11 +24,34 @@
 		float: left;
 		width: 12em;
 		vertical-align: middle;
+		padding: $input-padding 0;
 	}
 
 	.form-control {
 		display: block;
 		margin-left: 12em;
+	}
+
+	.required {
+		font-weight: bold;
+	}
+
+	.radio-description {
+		padding: 0;
+		margin: 0;
+		font-size: .875em;
+		margin: 0 0 .5em 0;
+		color: $info-color;
+	}
+
+	ul {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	li {
+		list-style: none;
 	}
 
 	input[type=text],
@@ -38,6 +61,13 @@
 	textarea {
 		width: 100%;
 		box-sizing: border-box;
+	}
+
+	input[type=checkbox],
+	input[type=radio] {
+		vertical-align: middle;
+		margin-top: 0;
+		margin-bottom: 0;
 	}
 
 	@media #{$medium-down} {
