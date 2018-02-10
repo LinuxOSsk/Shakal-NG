@@ -491,7 +491,7 @@ ul.messages {
 	}
 
 	.content {
-		clear: both;
+		clear: left;
 		padding-top: 1em;
 		@include content-padding;
 		@include content-margin-vertical;
