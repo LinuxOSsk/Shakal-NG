@@ -1,12 +1,24 @@
-.content-module .comments.module {
-	@include cancel-content-padding;
-	box-shadow: none;
-	border: none;
-	clear: both;
+.discussion-block {
+	margin-left: $base-margin;
+	margin-right: $base-margin;
+	.comments_tree .thread_1 .comment {
+		box-shadow: 0px 0px 3px -1px rgba(0, 0, 0, 0.5);
+		.comment {
+			box-shadow: none;
+		}
+	}
+
+	@media #{$large-down} {
+		margin-left: 0;
+		margin-right: 0;
+		.comments_tree .thread_1 .comment {
+			box-shadow: none;
+		}
+	}
 }
 
 .discussion.header {
-	border-top: 1px solid $light-border-color;
+	border: 1px solid $body-color;
 	background: mix($primary-color, $body-color, 10%);
 	min-height: 56px;
 	position: relative;
@@ -26,11 +38,12 @@
 		background: mix($alert-color, $body-color, 20%);
 		.user { background: mix($alert-color, $body-color, 20%); }
 	}
+	&.resolved:after { background: $success-color; }
 	&.entry {
-		&.me { border-left-color: $primary-color; }
-		&.resolved { border-left-color: $success-color; }
-		&.private { border-left-color: $warning-color; }
-		&.deleted { border-left-color: $error-color; }
+		&.me:after { background: $primary-color; }
+		&.resolved:after { background: $success-color; }
+		&.private:after { background: $warning-color; }
+		&.deleted:after { background: $error-color; }
 	}
 	ul.files {
 		border-top: 1px solid rgba(0, 0, 0, 0.05);
@@ -120,29 +133,31 @@
 	}
 }
 
-.thread_1 .discussion.header {
-	border-left-color: mix($primary-color, $text-color, 80%);
+.thread_1 .discussion.header:after {
+	background-color: mix($primary-color, $text-color, 80%);
 }
 
-.thread_2 .discussion.header {
-	border-left-color: mix($primary-color, $body-color, 100%);
-	margin-left: -1px;
+.thread_2 .discussion.header:after {
+	background-color: mix($primary-color, $body-color, 100%);
 }
 
-.thread_3 .discussion.header {
-	border-left-color: mix($primary-color, $body-color, 80%);
+.thread_3 .discussion.header:after {
+	background-color: mix($primary-color, $body-color, 80%);
 }
 
-.thread_4 .discussion.header {
-	border-left-color: mix($primary-color, $body-color, 60%);
+.thread_4 .discussion.header:after {
+	background-color: mix($primary-color, $body-color, 60%);
 }
 
-.thread_5 .discussion.header {
-	border-left-color: mix($primary-color, $body-color, 40%);
+.thread_5 .discussion.header:after {
+	background-color: mix($primary-color, $body-color, 40%);
 }
 
 .thread_6 .discussion.header {
-	border-left: none;
+	margin-left: 0;
+	&:after {
+		display: none;
+	}
 }
 
 .comments_tree form, .links form {
@@ -151,17 +166,18 @@
 
 .comments .links {
 	@include content-padding;
+	@include content-margin-vertical;
 }
 
 .comments_tree .thread_1 > .comment + .comment {
-	margin-top: 0.5em;
+	margin-top: $base-spacing-content;
 }
 
 .comments_tree .thread_2 .comment {
 	margin-bottom: 0;
 	border: none;
-	border-left: 1px solid $light-border-color;
 	background: white;
+	border-left: 1px solid $light-border-color;
 }
 
 .discussion.header.new, .discussion.header.highlight {
@@ -169,13 +185,22 @@
 }
 
 .discussion.header {
-	border-left: 10px solid mix($primary-color, $text-color, 80%);
-	border-top: none;
+	margin-left: 10px;
+	position: relative;
+	&:after {
+		content: "";
+		display: block;
+		position: absolute;
+		top: 0;
+		left: -11px;
+		bottom: 0;
+		width: 11px;
+		background: mix($primary-color, $text-color, 80%);
+	}
 }
 
 .discussion.header.topic {
 	border-top: 1px solid $light-border-color;
-	border-left: none;
 }
 
 .discussion.header.entry .subject {
@@ -204,18 +229,81 @@
 	list-style: none;
 	padding: 0;
 	margin: 0;
-	border-top: none;
+	background: $body-color-background;
 	li.comment {
-		border-top: 1px solid $light-border-color;
-		border-bottom: 1px solid $light-border-color;
-		margin-bottom: -1px;
 		background: mix($primary-color, $body-color, 5%);
+		overflow: hidden;
 		li.comment {
 			background: $body-color;
+			.discussion.header {
+				border: 1px solid rgba($text-color, .1);
+				&:after {
+					top: -1px;
+					bottom: -1px;
+				}
+			}
 		}
 	}
 }
 
-.discussion.header.topic, .topic.content {
+.forum-topic {
 	@include cancel-content-padding;
+}
+
+.comments {
+	.btn {
+		.wrap {
+			border: none;
+			background: transparent;
+			box-shadow: none;
+		}
+		.text {
+			padding: 0 $base-spacing-content;
+			color: $link-color;
+		}
+		&.reply {
+			float: right;
+			margin-left: $base-margin;
+		}
+	}
+
+	.links.top {
+		.btn-group {
+			display: inline;
+		}
+
+		.comment-link {
+			float: left;
+			font-size: 90%;
+			line-height: 1.4;
+		}
+	}
+
+	.comments_tree {
+
+		.btn.reply, .btn.lock, .btn.private {
+			overflow: hidden;
+			text-indent: 9999px;
+		}
+
+		.btn.reply {
+			@include sprite-bw(reply);
+		}
+
+		.btn.lock {
+			@include sprite-bw(lock);
+			&.active {
+				@include sprite-bw(unlock);
+			}
+		}
+
+		.btn.private {
+			@include sprite-bw(delete);
+		}
+
+	}
+
+	.links.bottom {
+		display: none;
+	}
 }

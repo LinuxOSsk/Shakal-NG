@@ -35,7 +35,7 @@
 		{% if not is_locked %}
 			<div class="btn reply">
 				<span class="wrap">
-					<a href="{{ url("comments:reply", comment.pk) }}" class="text" rel="nofollow">Odpovedať</a>
+					<a href="{{ url("comments:reply", comment.pk) }}" class="text" rel="nofollow" title="Odpovedať">Odpovedať</a>
 				</span>
 			</div>
 		{% endif %}
@@ -60,7 +60,7 @@
 				{% if is_staff and perms.comments.change_threaded_comment %}
 					<form action="{{ url("comments:admin", comment.pk) }}" method="post">{% csrf_token %}
 						<div class="btn-group admin">
-							<button class="btn delete" type="submit" name="delete" value="{{ is_removed|yesno(",1") }}">
+							<button class="btn delete" type="submit" name="delete" value="{{ is_removed|yesno(",1") }}" title="{% if is_removed %}Obnoviť{% else %}Zmazať{% endif %}">
 								<span class="wrap">
 									<span class="text">
 										{% if is_removed %}Obnoviť{% else %}Zmazať{% endif %}
@@ -68,7 +68,7 @@
 								</span>
 							</button>
 							{% if not is_removed %}
-								<button class="btn private" type="submit" name="public" value="{{ is_public|yesno(",1") }}">
+							<button class="btn private {% if not is_public %}active{% endif %}" type="submit" name="public" value="{{ is_public|yesno(",1") }}" title="{% if is_public %}Závadný{% else %}Nezávadný{% endif %}">
 									<span class="wrap">
 										<span class="text">
 											{% if is_public %}Závadný{% else %}Nezávadný{% endif %}
@@ -76,7 +76,7 @@
 									</span>
 								</button>
 							{% endif %}
-							<button class="btn lock" type="submit" name="lock" value="{{ is_locked|yesno(",1") }}">
+							<button class="btn lock{% if is_locked %} active{% endif %}" type="submit" name="lock" value="{{ is_locked|yesno(",1") }}" title="{% if is_locked %}Odomknúť{% else %}Zamknúť{% endif %}">
 								<span class="wrap">
 									<span class="text">
 										{% if is_locked %}Odomknúť{% else %}Zamknúť{% endif %}
