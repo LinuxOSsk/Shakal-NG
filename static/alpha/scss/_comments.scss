@@ -207,6 +207,12 @@
 	border-top: none;
 	li.comment {
 		border-top: 1px solid $light-border-color;
+		border-bottom: 1px solid $light-border-color;
+		margin-bottom: -1px;
+		background: mix($primary-color, $body-color, 5%);
+		li.comment {
+			background: $body-color;
+		}
 	}
 }
 
