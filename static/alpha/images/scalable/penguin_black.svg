@@ -14,7 +14,7 @@
    viewBox="0 0 99.2 112"
    preserveAspectRatio="xMidYMid meet"
    id="svg2"
-   inkscape:version="0.48.5 r10040"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
    sodipodi:docname="penguin_black.svg">
   <defs
      id="defs136" />
@@ -30,16 +30,20 @@
      inkscape:window-width="1029"
      inkscape:window-height="658"
      id="namedview134"
-     showgrid="false"
+     showgrid="true"
      inkscape:zoom="2.4807435"
-     inkscape:cx="115.07476"
-     inkscape:cy="55.128976"
+     inkscape:cx="45.740708"
+     inkscape:cy="53.516556"
      inkscape:window-x="106"
      inkscape:window-y="63"
      inkscape:window-maximized="0"
      inkscape:current-layer="g6"
      showguides="true"
-     inkscape:guide-bbox="true" />
+     inkscape:guide-bbox="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4171" />
+  </sodipodi:namedview>
   <metadata
      id="metadata4">
 Created by potrace 1.10, written by Peter Selinger 2001-2011
@@ -117,14 +121,13 @@ Created by potrace 1.10, written by Peter Selinger 2001-2011
        id="g3115"
        transform="matrix(0.62,0,0,-0.62,2.5226308e-6,-1777.2935)">
       <text
-         sodipodi:linespacing="125%"
          id="text3100"
-         style="font-size:272px;font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Lato;-inkscape-font-specification:Lato Heavy"
+         style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:272px;line-height:0%;font-family:Lato;-inkscape-font-specification:'Lato Heavy';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
          xml:space="preserve"><textPath
            id="textPath3112"
            xlink:href="#path3110"><tspan
    id="tspan3104"
-   style="font-size:272px;font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Lato;-inkscape-font-specification:Lato Heavy">LinuxOS.sk</tspan></textPath></text>
+   style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:272px;line-height:125%;font-family:Lato;-inkscape-font-specification:'Lato Heavy';text-align:start;writing-mode:lr-tb;text-anchor:start">LinuxOS.sk</tspan></textPath></text>
       <path
          inkscape:connector-curvature="0"
          id="path3110"

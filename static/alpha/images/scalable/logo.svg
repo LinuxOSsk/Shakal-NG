@@ -11,7 +11,7 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
    width="228"
    height="80"
    viewBox="0 0 228 80"
@@ -134,7 +134,7 @@
      id="namedview4"
      showgrid="true"
      inkscape:zoom="4"
-     inkscape:cx="46.507282"
+     inkscape:cx="3.007282"
      inkscape:cy="54.581715"
      inkscape:window-x="624"
      inkscape:window-y="187"
@@ -148,16 +148,16 @@
      id="g4217"
      style="filter:url(#filter4555)">
     <text
-       sodipodi:linespacing="125%"
        id="text4135"
        y="54.001369"
        x="148.85324"
-       style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:28.75px;line-height:125%;font-family:Lato;-inkscape-font-specification:'Lato Heavy';text-align:center;letter-spacing:-0.36000001px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+       style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;line-height:0%;font-family:Lato;-inkscape-font-specification:'Lato Heavy';text-align:center;letter-spacing:-0.36000001px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        xml:space="preserve"><tspan
          y="54.001369"
          x="148.67323"
          id="tspan4137"
-         sodipodi:role="line">LinuxOS.sk</tspan></text>
+         sodipodi:role="line"
+         style="font-size:28.75px;line-height:1.25">LinuxOS.sk</tspan></text>
     <g
        style="fill:#ffffff;stroke:none;fill-opacity:1;"
        transform="matrix(0.04610804,0,0,-0.04610804,-0.13254878,75.396718)"

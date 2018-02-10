@@ -11,7 +11,7 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
    width="20"
    height="36"
    viewBox="0 0 20 36"
@@ -24,7 +24,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -45,8 +45,8 @@
      showgrid="true"
      showguides="false"
      inkscape:zoom="5.6568543"
-     inkscape:cx="14.351006"
-     inkscape:cy="8.4373307"
+     inkscape:cx="2.1534141"
+     inkscape:cy="4.1946901"
      inkscape:window-x="105"
      inkscape:window-y="214"
      inkscape:window-maximized="0"

@@ -12,7 +12,7 @@
    width="8"
    height="8"
    id="svg2"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
    sodipodi:docname="arrow_down.svg">
   <metadata
      id="metadata12">
@@ -22,7 +22,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -37,13 +37,13 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1578"
-     inkscape:window-height="880"
+     inkscape:window-width="758"
+     inkscape:window-height="426"
      id="namedview8"
      showgrid="true"
-     inkscape:zoom="1"
-     inkscape:cx="31.160204"
-     inkscape:cy="-3.4143023"
+     inkscape:zoom="16"
+     inkscape:cx="2.9119247"
+     inkscape:cy="2.9566548"
      inkscape:window-x="0"
      inkscape:window-y="18"
      inkscape:window-maximized="1"

@@ -11,7 +11,7 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
    width="130"
    height="30"
    viewBox="0 0 130 30"
@@ -24,7 +24,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -133,9 +133,9 @@
      inkscape:window-height="774"
      id="namedview4"
      showgrid="true"
-     inkscape:zoom="2"
-     inkscape:cx="31.008872"
-     inkscape:cy="-61.831257"
+     inkscape:zoom="5.6568542"
+     inkscape:cx="38.139303"
+     inkscape:cy="7.9834963"
      inkscape:window-x="389"
      inkscape:window-y="51"
      inkscape:window-maximized="0"
@@ -148,21 +148,23 @@
     <sodipodi:guide
        position="130,-15"
        orientation="1,0"
-       id="guide4174" />
+       id="guide4174"
+       inkscape:locked="false" />
     <sodipodi:guide
        position="105,30"
        orientation="0,1"
-       id="guide4176" />
+       id="guide4176"
+       inkscape:locked="false" />
   </sodipodi:namedview>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:25px;line-height:125%;font-family:Lato;-inkscape-font-specification:'Lato Heavy';text-align:center;letter-spacing:-0.36000001px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4555)"
+     style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;line-height:0%;font-family:Lato;-inkscape-font-specification:'Lato Heavy';text-align:center;letter-spacing:-0.36000001px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4555)"
      x="65.072098"
      y="24.99736"
-     id="text4135"
-     sodipodi:linespacing="125%"><tspan
+     id="text4135"><tspan
        sodipodi:role="line"
        id="tspan4137"
        x="64.892097"
-       y="24.99736">LinuxOS.sk</tspan></text>
+       y="24.99736"
+       style="font-size:25px;line-height:1.25">LinuxOS.sk</tspan></text>
 </svg>

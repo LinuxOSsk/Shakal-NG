@@ -12,7 +12,7 @@ SIZES = (
 	(2, '@2x'),
 )
 
-DPI = 90
+DPI = 96
 
 
 def convert_svg_files():
@@ -126,6 +126,7 @@ def main():
 	make_transparent_light_dark('foldable_open')
 	make_transparent_light_dark('foldable_closed')
 	make_transparent_light_dark('trashcan')
+	make_transparent_light_dark('unlock')
 
 	make_colorized('star', (221, 221, 0), '_yellow')
 	make_colorized('tick', (102, 221, 102), '_green')
