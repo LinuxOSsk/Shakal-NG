@@ -14,17 +14,15 @@
 
 {% block content %}
 	<h1>Obsah diskusie</h1>
-	Diskusia k: <a href="{{ object.get_absolute_url() }}">{{ object }}</a>
+	<p>
+		Diskusia k: <a href="{{ object.get_absolute_url() }}">{{ object }}</a>
+	</p>
 {% endblock %}
 
 {% block discussion %}
 	{% if single %}
-		<div class="comments_tree secondary_content">
-			<ul class="comment_thread thread_1">
-				<li class="comment">
-					{% include "comments/comment_item.html" %}
-				</li>
-			</ul>
+		<div class="module comments">
+			{% include "comments/comment_item.html" %}
 		</div>
 	{% else %}
 		{{ render_comments_toplevel(object) }}
