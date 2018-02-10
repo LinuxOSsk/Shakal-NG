@@ -7,11 +7,20 @@
 	@include clearfix;
 	margin: $base-margin;
 
+	.module-row {
+		@include cancel-content-padding;
+	}
+
 	.module {
 		@include cancel-content-padding;
 		border-top: 1px solid $light-border-color;
+		border-bottom: 1px solid $light-border-color;
 		margin-top: 0;
-		margin-bottom: 0;
+		margin-bottom: -1px;
+		.module-row {
+			margin-left: 0;
+			margin-right: 0;
+		}
 		.module {
 			@include content-padding;
 		}
@@ -38,6 +47,7 @@ body.home .content-module {
 	.module {
 		@include shadow-box;
 		border-top: none;
+		border-bottom: none;
 		margin: $base-margin;
 	}
 
