@@ -60,3 +60,7 @@
 body .geoposition-widget {
 	clear: none;
 }
+
+.module-row > .geoposition-widget {
+	@include content-margin-vertical;
+}
