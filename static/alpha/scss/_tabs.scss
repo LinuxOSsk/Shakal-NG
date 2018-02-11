@@ -31,4 +31,12 @@
 		background: $primary-color;
 		color: $primary-color-complement;
 	}
+
+	+ .module {
+		border-top: none;
+	}
+
+	+ form {
+		margin-top: -($base-spacing-content + 1px);
+	}
 }
