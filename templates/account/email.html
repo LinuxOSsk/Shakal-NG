@@ -31,7 +31,7 @@
 								{% else %}
 									<span class="unverified">Neoverená</span>
 								{% endif %}
-								{% if emailaddress.primary %}<span class="primary">Primárna</span>{% endif %}
+								{% if emailaddress.primary %}<span class="primary-address">Primárna</span>{% endif %}
 							</label>
 						</div>
 					</div>
@@ -42,8 +42,8 @@
 						<button class="btn danger" type="submit" name="action_remove"><span class="wrap"><span class="text">Odstrániť</span></span></button>
 					</div>
 					<div class="positive">
-						<button class="btn" type="submit" name="action_primary"><span class="wrap"><span class="text">Primárna</span></span></button>
-						<button class="btn" type="submit" name="action_send"><span class="wrap"><span class="text">Overiť</span></span></button>
+						<button class="btn primary" type="submit" name="action_primary"><span class="wrap"><span class="text">Primárna</span></span></button>
+						<button class="btn confirm" type="submit" name="action_send"><span class="wrap"><span class="text">Overiť</span></span></button>
 					</div>
 				</div>
 			</fieldset>

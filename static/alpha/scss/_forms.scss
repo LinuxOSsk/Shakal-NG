@@ -140,9 +140,20 @@
 		&:hover { text-decoration: none; }
 	}
 
-	&.primary {
+	&.primary, &.danger, &.confirm {
 		font-weight: bold;
+	}
+
+	&.primary {
 		@include button($primary-color, $primary-color-complement, $only-color: true);
+	}
+
+	&.danger {
+		@include button($error-color, $primary-color-complement, $only-color: true);
+	}
+
+	&.confirm {
+		@include button($success-color, $primary-color-complement, $only-color: true);
 	}
 }
 

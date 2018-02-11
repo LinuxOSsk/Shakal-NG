@@ -202,7 +202,7 @@ body.home .content-module {
 	.next:after { content: " \00BB"; }
 }
 
-.label, .badge, .verified, .unverified {
+.label, .badge, .verified, .unverified, .primary-address {
 	display: inline-block;
 	padding: 2px 4px;
 	font-size: 0.8em;
@@ -225,7 +225,7 @@ body.home .content-module {
 	}
 }
 
-.label, .verified, .unverified {
+.label, .verified, .unverified, .primary-address {
 	border-radius: 3px;
 }
 
@@ -235,6 +235,10 @@ body.home .content-module {
 
 .verified {
 	background: $success-color;
+}
+
+.primary-address {
+	background: $primary-color;
 }
 
 .clearfix {
