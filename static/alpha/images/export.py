@@ -109,7 +109,7 @@ def main():
 	make_light_dark('user')
 	make_light_dark('rss')
 
-	make_transparent_light_dark('delete')
+	make_transparent_light_dark('block')
 	make_transparent_light_dark('gear')
 	make_transparent_light_dark('lock')
 	make_transparent_light_dark('reply')
