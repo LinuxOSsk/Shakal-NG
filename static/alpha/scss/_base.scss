@@ -121,7 +121,12 @@ img {
 	border: none;
 }
 
-dl, dt, dd {
+dl {
+	padding: 0;
+	margin: $base-spacing-content 0;
+}
+
+dt, dd {
 	padding: 0;
 	margin: 0;
 }
