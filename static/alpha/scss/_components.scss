@@ -202,7 +202,7 @@ body.home .content-module {
 	.next:after { content: " \00BB"; }
 }
 
-.label, .badge {
+.label, .badge, .verified, .unverified {
 	display: inline-block;
 	padding: 2px 4px;
 	font-size: 0.8em;
@@ -225,8 +225,16 @@ body.home .content-module {
 	}
 }
 
-.label {
+.label, .verified, .unverified {
 	border-radius: 3px;
+}
+
+.unverified {
+	background: $error-color;
+}
+
+.verified {
+	background: $success-color;
 }
 
 .clearfix {
