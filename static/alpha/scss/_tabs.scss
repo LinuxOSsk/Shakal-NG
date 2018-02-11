@@ -1,0 +1,34 @@
+.content-tabs {
+	display: block;
+	list-style: none;
+	border-bottom: 1px solid $light-border-color;
+	overflow: hidden;
+	padding: 0 $base-spacing-content $base-spacing-content $base-spacing-content;
+	@include cancel-content-padding;
+	@include content-margin-vertical;
+
+	li {
+		list-style: none;
+		display: inline;
+		margin: 0;
+		padding: 0;
+	}
+
+	a {
+		display: block;
+		float: left;
+		margin-right: $base-margin-reduced;
+		padding: .2em .4em;
+		text-decoration: none;
+		border-radius: .8em;
+		&:hover, &:active {
+			background: mix($primary-color, $body-color);
+			color: $primary-color-complement;
+		}
+	}
+
+	.active a {
+		background: $primary-color;
+		color: $primary-color-complement;
+	}
+}
