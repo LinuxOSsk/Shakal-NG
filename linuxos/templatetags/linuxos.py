@@ -26,20 +26,20 @@ register = template.Library()
 
 @library.filter
 @register.filter
-def humandatetime(value, default=''):
+def humandatetime(value, default='', separator='&nbsp;|&nbsp;'):
 	if not value:
 		return default
 	today = timezone.now().date()
 	value = timezone.localtime(value)
 	if value.year != today.year:
-		return mark_safe(value.strftime("%d.%m.%Y&nbsp;|&nbsp;%H:%M"))
+		return mark_safe(value.strftime("%d.%m.%Y" + separator + "%H:%M"))
 	else:
 		if today == value.date():
-			return mark_safe("Dnes&nbsp;|&nbsp;" + value.strftime("%H:%M"))
+			return mark_safe("Dnes" + separator + value.strftime("%H:%M"))
 		elif (today - timedelta(days=1)) == value.date():
-			return mark_safe("Včera&nbsp;|&nbsp;" + value.strftime("%H:%M"))
+			return mark_safe("Včera" + separator + value.strftime("%H:%M"))
 		else:
-			return mark_safe(value.strftime("%d.%m&nbsp;|&nbsp;%H:%M"))
+			return mark_safe(value.strftime("%d.%m" + separator + "%H:%M"))
 
 
 @library.global_function

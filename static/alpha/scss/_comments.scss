@@ -324,3 +324,28 @@
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
 }
+
+.comments-stats {
+	.text {
+		display: none;
+	}
+
+	.count {
+		padding-right: 1em;
+		font-size: 85%;
+		&:before {
+			@include sprite-bw(comments);
+			content: "";
+			display: inline-block;
+			vertical-align: middle;
+			margin-right: .25em;
+		}
+	}
+
+	&.empty a:before {
+		@include sprite-bw(comments);
+		content: "";
+		display: inline-block;
+		vertical-align: middle;
+	}
+}

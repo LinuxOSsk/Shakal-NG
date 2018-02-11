@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-22 18:29+0100\n"
+"POT-Creation-Date: 2018-02-11 12:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -162,6 +162,13 @@ msgstr[0] "1 komentár bol %(action)s."
 msgstr[1] "%(count)s komentáre boli %(action)s."
 msgstr[2] "%(count)s komentárov bolo %(action)s."
 
+#, python-format
+msgid "%(num)s comment"
+msgid_plural "%(num)s comments"
+msgstr[0] "%(num)s komentár"
+msgstr[1] "%(num)s komentáre"
+msgstr[2] "%(num)s komentárov"
+
 msgid "other"
 msgstr "iné"
 
@@ -234,12 +241,17 @@ msgstr "Pridať"
 msgid "You don't have permission to edit anything."
 msgstr "Nemáte žiadne práva na editáciu."
 
-#, python-format
-msgid "%(num)s comment"
-msgid_plural "%(num)s comments"
-msgstr[0] "%(num)s komentár"
-msgstr[1] "%(num)s komentáre"
-msgstr[2] "%(num)s komentárov"
+#, fuzzy, python-format
+#| msgid "%(num)s<span class=\"text name\"> comment</span>"
+#| msgid_plural "%(num)s<span class=\"text name\"> comments</span>"
+msgid ""
+"<span class=\"count\">%(num)s</span><span class=\"text name\"> comment</span>"
+msgid_plural ""
+"<span class=\"count\">%(num)s</span><span class=\"text name\"> comments</"
+"span>"
+msgstr[0] "<span class=\"count\">%(num)s</span><span class=\"text name\"> komentár</span>"
+msgstr[1] "<span class=\"count\">%(num)s</span><span class=\"text name\"> komentáre</span>"
+msgstr[2] "<span class=\"count\">%(num)s</span><span class=\"text name\"> komentárov</span>"
 
 msgid "last"
 msgstr "posledný"
@@ -308,6 +320,11 @@ msgid "^wiki/"
 msgstr "^wiki/"
 
 msgid "^template-change/$"
+msgstr "^template-cache/$"
+
+#, fuzzy
+#| msgid "^template-change/$"
+msgid "^templates/$"
 msgstr "^template-cache/$"
 
 msgid "^search/"

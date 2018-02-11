@@ -1,10 +1,7 @@
-{% if item.comment_count %}
-	<a href="{{ item.get_absolute_url() }}#comments">
-		{% trans num=item.comment_count %}{{ num }} comment{% pluralize %}{{ num }} comments{% endtrans %}{% if item.new_comments %}(*){% endif %}
-	</a>{% if display_last %}, {{ _("last") }}: {{ item.last_comment|date("d.m.Y H:i") }}{% endif %}
-{% else %}
-	<a href="{{ item.get_absolute_url() }}#comments">
-		{{ _("No comments") }}
-	</a>
-{% endif %}
-
+<span class="comments-stats{% if item.comment_count == 0 %} empty{% endif %}">
+	{% if item.comment_count %}
+		<a href="{{ item.get_absolute_url() }}#comments">{% trans num=item.comment_count %}<span class="count">{{ num }}</span><span class="text name"> comment</span>{% pluralize %}<span class="count">{{ num }}</span><span class="text name"> comments</span>{% endtrans %}{% if item.new_comments %}(*){% endif %}</a>{% if display_last %}<span class="text">, {{ _("last") }}: </span><span class="date">{{ item.last_comment|humandatetime("No comments", separator=" ") }}</span>{% endif %}
+	{% else %}
+		<a href="{{ item.get_absolute_url() }}#comments"><span class="text">{{ _("No comments") }}</span></a>
+	{% endif %}
+</span>

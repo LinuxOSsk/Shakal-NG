@@ -74,6 +74,7 @@ def process_images(basename, shaders, suffix=''):
 
 INVERT_SHADER = lambda r, g, b, a: (255-r, 255-g, 255-b, a)
 SEMI_TRANSPARENT = lambda r, g, b, a: (r, g, b, a // 2)
+LIGHT_TRANSPARENT = lambda r, g, b, a: (r, g, b, a // 4)
 
 
 def make_light_dark(basename):
@@ -83,6 +84,10 @@ def make_light_dark(basename):
 def make_transparent_light_dark(basename):
 	process_images(basename, [SEMI_TRANSPARENT], '_transparent_dark')
 	process_images(basename, [INVERT_SHADER, SEMI_TRANSPARENT], '_transparent_light')
+
+def make_lighttransparent_light_dark(basename):
+	process_images(basename, [LIGHT_TRANSPARENT], '_transparent_dark')
+	process_images(basename, [INVERT_SHADER, LIGHT_TRANSPARENT], '_transparent_light')
 
 def make_identity(basename):
 	process_images(basename, [], '')
@@ -110,7 +115,6 @@ def main():
 	make_light_dark('rss')
 
 	make_transparent_light_dark('block')
-	make_transparent_light_dark('comments')
 	make_transparent_light_dark('gear')
 	make_transparent_light_dark('lock')
 	make_transparent_light_dark('reply')
@@ -128,6 +132,8 @@ def main():
 	make_transparent_light_dark('foldable_closed')
 	make_transparent_light_dark('trashcan')
 	make_transparent_light_dark('unlock')
+
+	make_lighttransparent_light_dark('comments')
 
 	make_colorized('star', (221, 221, 0), '_yellow')
 	make_colorized('tick', (102, 221, 102), '_green')
