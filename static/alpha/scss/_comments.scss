@@ -261,9 +261,10 @@
 			padding: 0 $base-spacing-content;
 			color: $link-color;
 		}
+		margin-left: $base-margin-reduced;
 		&.reply {
 			float: right;
-			margin-left: $base-margin;
+			margin-left: $base-margin * 2;
 		}
 	}
 
@@ -281,7 +282,7 @@
 
 	.comments_tree {
 
-		.btn.reply, .btn.lock, .btn.private {
+		.btn.reply, .btn.lock, .btn.private, .btn.delete {
 			overflow: hidden;
 			text-indent: 9999px;
 		}
@@ -299,6 +300,10 @@
 
 		.btn.private {
 			@include sprite-bw(block);
+		}
+
+		.btn.delete {
+			@include sprite(delete_red);
 		}
 
 	}

@@ -110,6 +110,7 @@ def main():
 	make_light_dark('rss')
 
 	make_transparent_light_dark('block')
+	make_transparent_light_dark('comments')
 	make_transparent_light_dark('gear')
 	make_transparent_light_dark('lock')
 	make_transparent_light_dark('reply')
@@ -131,6 +132,7 @@ def main():
 	make_colorized('star', (221, 221, 0), '_yellow')
 	make_colorized('tick', (102, 221, 102), '_green')
 	make_colorized('eye', (102, 102, 221), '_blue')
+	make_colorized('delete', (221, 102, 102), '_red')
 
 
 if __name__ == "__main__":
