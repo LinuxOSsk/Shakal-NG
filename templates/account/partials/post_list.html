@@ -20,7 +20,11 @@
 							{% if object.new_comments %}&nbsp;<span class="label success new">Nové komentáre</span>{% endif %}
 							{% if object.is_resolved %}&nbsp;<span class="label success resolved">Vyriešené</span>{% endif %}
 							{% if object.is_locked %}&nbsp;<span class="label warning locked">Zamknuté</span>{% endif %}
-							{% if object.discussion_watch %}&nbsp;<a title="Nesledovať" href="{{ url("comments:watch", object.rootheader_id) }}?watch=&amp;next={{ request.get_full_path()|urlquote }}" class="label info watch">Sledované</a>{% endif %}
+							{% if object.discussion_watch %}
+								<form action="{{ url("comments:watch", object.rootheader_id) }}" method="post">{% csrf_token %}
+									<button class="watch active" name="watch" value="" title="Nesledovať">Nesledovať</button>
+								</form>
+							{% endif %}
 						</td>
 						{% if object.new_comments == None %}
 							<td class="comments"><span class="badge default">{{ object.comment_count }}</span></td>

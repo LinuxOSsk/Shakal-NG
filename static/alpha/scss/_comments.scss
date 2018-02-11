@@ -419,3 +419,20 @@
 		}
 	}
 }
+
+.status form {
+	display: inline;
+
+	button.watch {
+		float: right;
+		cursor: pointer;
+		border: none;
+		display: inline-block;
+		overflow: hidden;
+		text-indent: 9999px;
+		@include sprite-bw(eye);
+		&.active {
+			@include sprite(eye_blue);
+		}
+	}
+}
