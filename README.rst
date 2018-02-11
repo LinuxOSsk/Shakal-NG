@@ -69,13 +69,6 @@ vymazanie celej databázy je možné vytvoriť novú db príkazom:
 TODO
 ====
 
-- nové css (v adresári new)
-  - layout - OK
-  - responzívne menu
-  - HTML elementy
-  - diskusia
-  - responzívne menu
-  - formuláre
 - integrovať https://linuxjourney.com/
 - hodnotenie článku
 - zaplatiť autorovi kávu
@@ -83,12 +76,3 @@ TODO
 - tweety
 - ponuky práce
 - bazár
-- pripraviť responzívny web (http://localhost:8000/?switch_template=new pre
-  zobrazenie v akom je stave) [1]_
-
-
-
-.. [1] Využiť podľa možnosti čo najviac súčasného kódu (nerobiť zbytočne
-   template overridy). V CSS podľa možnosti nepoužívať gradienty a tiene,
-   spomaľujú zbytočne renderovanie. Sprity sa generujú príkazom
-   `python manage.py compilesprites`
