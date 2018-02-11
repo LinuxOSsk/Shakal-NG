@@ -3,6 +3,7 @@
 	color: #fff;
 	padding: $base-margin-reduced;
 	background: url(static('alpha/images/bitmap/warning_pattern.png')) repeat;
+	@include content-margin-vertical;
 }
 
 .under-construction .warning {

@@ -117,15 +117,6 @@ body.home .content-module {
 
 .module.tabular {
 	border-top: none;
-	.block-title:before {
-		content: "";
-		display: block;
-		height: 1px;
-		background: $light-border-color;
-		position: relative;
-		top: -$base-spacing-content;
-		@include cancel-content-padding;
-	}
 }
 
 .module > .block-title {
