@@ -101,6 +101,9 @@
 		}
 		.info {
 			line-height: 25px;
+			.comment-link:before {
+				content: " | ";
+			}
 		}
 	}
 	.user_rating {
