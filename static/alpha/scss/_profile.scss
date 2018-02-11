@@ -11,3 +11,48 @@
 .vcard .module-row {
 	overflow: hidden;
 }
+
+#monthly_stats {
+	height: 200px;
+}
+
+.monthly-stats-container .monthly-stats, .daily-stats-container .daily-stats {
+	@include content-margin-vertical;
+	position: relative;
+}
+
+.daily-stats {
+	.block {
+		border: 1px solid $body-color;
+		background: $body-color-background;
+	}
+
+	@media #{$medium-down} {
+		.block {
+			border-right: 0;
+			border-bottom: 0;
+		}
+	}
+
+	.block.a-0 { background: rgb(250,240,225); }
+	.block.a-1 { background: rgb(250,236,202); }
+	.block.a-2 { background: rgb(249,238,179); }
+	.block.a-3 { background: rgb(249,245,157); }
+	.block.a-4 { background: rgb(240,248,134); }
+	.block.a-5 { background: rgb(222,248,112); }
+	.block.a-6 { background: rgb(198,248,89); }
+	.block.a-7 { background: rgb(170,247,67); }
+	.block.a-8 { background: rgb(136,247,44); }
+	.block.a-9 { background: rgb(97,246,22); }
+	.block.a-10 { background: rgb(53,246,0); }
+	.block.a-11 { background: rgb(49,227,0); }
+	.block.a-12 { background: rgb(45,207,0); }
+	.block.a-13 { background: rgb(40,188,0); }
+	.block.a-14 { background: rgb(36,168,0); }
+	.block.a-15 { background: rgb(32,149,0); }
+	.block.a-16 { background: rgb(28,129,0); }
+	.block.a-17 { background: rgb(24,110,0); }
+	.block.a-18 { background: rgb(19,90,0); }
+	.block.a-19 { background: rgb(15,71,0); }
+	.block.a-20 { background: rgb(11,51,0); }
+}

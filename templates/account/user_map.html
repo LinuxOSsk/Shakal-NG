@@ -17,9 +17,11 @@
 {% include "account/partials/profile_tabs.html" %}
 
 <div class="module">
+	<div class="module-row">
 <h3>{{ user_profile }}</h3>
 <div id="map" class="geoposition-widget"></div>
 <p>Súradnice: <span id="geoposition">{{ user_profile.geoposition }}</span></p>
+	</div>
 </div>
 {% endblock %}
 
