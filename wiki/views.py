@@ -147,7 +147,7 @@ class PageCreateView(PageEditMixin, PreviewCreateView):
 	create = True
 
 	def dispatch(self, *args, **kwargs):
-		self.extra_context = {'slug': kwargs['slug'], 'page': get_object_or_404(Page, slug = kwargs['slug'])}
+		self.extra_context = {'slug': kwargs['slug'], 'page': get_object_or_404(Page, slug=kwargs['slug'])}
 		with revisions.create_revision():
 			response = super(PageCreateView, self).dispatch(*args, **kwargs)
 			revisions.set_user(args[0].user)
