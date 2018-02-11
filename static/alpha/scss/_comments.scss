@@ -252,6 +252,7 @@
 
 .comments {
 	.btn {
+		margin-left: $base-margin-reduced;
 		.wrap {
 			border: none;
 			background: transparent;
@@ -261,11 +262,14 @@
 			padding: 0 $base-spacing-content;
 			color: $link-color;
 		}
-		margin-left: $base-margin-reduced;
 		&.reply {
 			float: right;
-			margin-left: $base-margin * 2;
 		}
+	}
+
+	.btn-group {
+		margin-right: $base-margin;
+		margin-left: $base-margin;
 	}
 
 	.links.top {
@@ -311,4 +315,12 @@
 	.links.bottom {
 		display: none;
 	}
+}
+
+.signature {
+	color: $info-color;
+	font-size: 85%;
+	font-style: italic;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
 }
