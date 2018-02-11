@@ -14,14 +14,18 @@
 {% block content %}
 	{% if daily_stats and monthly_stats and (not page_obj or page_obj.number == 1) %}
 		<div class="module monthly-stats-container">
-			<div class="monthly-stats">
-				<div id="monthly_stats"></div>
+			<div class="mdoule-row">
+				<div class="monthly-stats">
+					<div id="monthly_stats"></div>
+				</div>
 			</div>
 		</div>
 		<div class="module daily-stats-container">
-			<div class="daily-stats">
-				<div id="daily_stats"></div>
-				<div style="clear: both"></div>
+			<div class="module-row">
+				<div class="daily-stats">
+					<div id="daily_stats"></div>
+					<div style="clear: both"></div>
+				</div>
 			</div>
 		</div>
 	{% endif %}

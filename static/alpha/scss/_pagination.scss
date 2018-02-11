@@ -21,4 +21,8 @@
 		&.disabled a, &.disabled span, &.disabled a:hover &.disabled span:hover { color: $info-color; background: $body-color; cursor: default; }
 		&.active a, &.active span, &.active a:hover, &.active span:hover { color: $primary-color-complement; background: $primary-color; }
 	}
+
+	.module.tabular & {
+		border-top: 1px solid $light-border-color;
+	}
 }
