@@ -14,6 +14,7 @@
 				<div class="module-row">
 					<h3>{{ label }}</h3>
 
+					{{ add_discussion_attributes(desktop_list) }}
 					{% for desktop in desktop_list %}
 						{% include "desktops/partials/desktop_link.html" %}
 					{% endfor %}

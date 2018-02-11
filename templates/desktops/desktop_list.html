@@ -17,6 +17,7 @@
 		<div class="module desktops horizontal">
 			<h2 class="block-title">Obľúbené desktopy</h2>
 			<div class="module-row">
+				{{ add_discussion_attributes(favorite_desktops) }}
 				{% for desktop in favorite_desktops %}
 					{% include "desktops/partials/desktop_link.html" %}
 				{% endfor %}
