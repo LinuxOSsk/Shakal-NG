@@ -74,6 +74,8 @@ SPRITES = (
 			{ 'name': 'comments_dark', 'src': 'alpha/images/png/comments_transparent_dark.png' },
 			{ 'name': 'comments_light', 'src': 'alpha/images/png/comments_transparent_light.png' },
 			{ 'name': 'delete_red', 'src': 'alpha/images/png/delete_red.png' },
+			{ 'name': 'eye_dark', 'src': 'alpha/images/png/eye_transparent_dark.png' },
+			{ 'name': 'eye_light', 'src': 'alpha/images/png/eye_transparent_light.png' },
 			{ 'name': 'eye_blue', 'src': 'alpha/images/png/eye_blue.png' },
 			{ 'name': 'gear_dark', 'src': 'alpha/images/png/gear_dark.png' },
 			{ 'name': 'gear_light', 'src': 'alpha/images/png/gear_light.png' },

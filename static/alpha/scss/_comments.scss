@@ -262,11 +262,21 @@
 			box-shadow: none;
 		}
 		.text {
-			padding: 0 $base-spacing-content;
+			padding: 0;
 			color: $link-color;
 		}
 		&.reply {
 			float: right;
+			&:before {
+				content: "";
+				display: inline-block;
+				vertical-align: middle;
+				margin-right: .5em;
+				@include sprite-bw(reply);
+			}
+			.wrap {
+				display: inline-block;
+			}
 		}
 	}
 
@@ -284,6 +294,59 @@
 			float: left;
 			font-size: 90%;
 			line-height: 1.4;
+			margin-right: $base-spacing-content;
+		}
+	}
+
+	@media #{$medium-down} {
+		.links.top {
+			.btn.forget {
+				margin-left: 0;
+			}
+			.comment-link {
+				float: none;
+				display: block;
+				margin-bottom: $base-spacing-content;
+			}
+		}
+	}
+
+	.btn.lock, .btn.private, .btn.delete, .btn.watch {
+		overflow: hidden;
+		text-indent: 9999px;
+	}
+
+	.btn.lock {
+		@include sprite-bw(lock);
+		&.active {
+			@include sprite-bw(unlock);
+		}
+	}
+
+	.btn.private {
+		@include sprite-bw(block);
+	}
+
+	.btn.delete {
+		@include sprite(delete_red);
+	}
+
+	.btn.watch {
+		@include sprite-bw(eye);
+		&.active {
+			@include sprite(eye_blue);
+		}
+	}
+
+	.links.top {
+		.btn-group.reply {
+			margin-left: 0;
+			margin-right: $base-margin;
+		}
+
+		.btn-group.admin {
+			margin-left: 0;
+			margin-right: 0;
 		}
 	}
 
@@ -297,28 +360,16 @@
 			margin-bottom: 0;
 		}
 
-		.btn.reply, .btn.lock, .btn.private, .btn.delete {
+		.btn.reply {
 			overflow: hidden;
 			text-indent: 9999px;
 		}
 
 		.btn.reply {
 			@include sprite-bw(reply);
-		}
-
-		.btn.lock {
-			@include sprite-bw(lock);
-			&.active {
-				@include sprite-bw(unlock);
+			&:before {
+				display: none;
 			}
-		}
-
-		.btn.private {
-			@include sprite-bw(block);
-		}
-
-		.btn.delete {
-			@include sprite(delete_red);
 		}
 
 		.signature {

@@ -87,7 +87,7 @@ def make_transparent_light_dark(basename):
 
 def make_lighttransparent_light_dark(basename):
 	process_images(basename, [LIGHT_TRANSPARENT], '_transparent_dark')
-	process_images(basename, [INVERT_SHADER, LIGHT_TRANSPARENT], '_transparent_light')
+	process_images(basename, [INVERT_SHADER, SEMI_TRANSPARENT], '_transparent_light')
 
 def make_identity(basename):
 	process_images(basename, [], '')
@@ -115,6 +115,7 @@ def main():
 	make_light_dark('rss')
 
 	make_transparent_light_dark('block')
+	make_transparent_light_dark('eye')
 	make_transparent_light_dark('gear')
 	make_transparent_light_dark('lock')
 	make_transparent_light_dark('reply')
