@@ -24,11 +24,11 @@ from desktops.models import FavoriteDesktop
 
 class UserZone(LoginRequiredMixin, RedirectView):
 	permanent = False
-	pattern_url = 'accounts:my_profile'
+	pattern_name = 'accounts:my_profile'
 
 
 class Profile(DetailView):
-	pattern_url = 'accounts:my_profile'
+	pattern_name = 'accounts:my_profile'
 	model = get_user_model()
 	template_name = 'account/profile.html'
 	context_object_name = 'user_profile'
