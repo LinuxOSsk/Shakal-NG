@@ -19,7 +19,7 @@
 {% for child in children %}
 	<h2>{{ child }}</h2>
 	{{ child.text|safe }}
-	<div class="module">
+	<div class="module tabular">
 		{% with child_pages=child.pages %}
 			<div class="module-row">
 				{% with pages=child_pages[:20] %}
