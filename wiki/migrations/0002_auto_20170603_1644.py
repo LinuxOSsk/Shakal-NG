@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
+import rich_editor.fields
 
 
 class Migration(migrations.Migration):
@@ -23,5 +24,10 @@ class Migration(migrations.Migration):
 			model_name='page',
 			name='parent',
 			field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='children', to='wiki.Page', verbose_name='nadradená stránka'),
+		),
+		migrations.AlterField(
+			model_name='page',
+			name='original_text',
+			field=rich_editor.fields.RichTextOriginalField(filtered_field='filtered_text', property_name='text', verbose_name='text'),
 		),
 	]

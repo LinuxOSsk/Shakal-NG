@@ -24,7 +24,7 @@ class Page(mptt.models.MPTTModel, TimestampModelMixin):
 	last_author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='posledný autor', blank=True, null=True, on_delete=models.SET_NULL)
 	slug = AutoSlugField(unique=True, verbose_name='slug', title_field='title')
 	parent = models.ForeignKey('self', related_name='children', blank=True, null=True, verbose_name='nadradená stránka', on_delete=models.PROTECT)
-	original_text = RichTextOriginalField(filtered_field="filtered_text", property_name="text")
+	original_text = RichTextOriginalField(filtered_field="filtered_text", property_name="text", verbose_name="text")
 	filtered_text = RichTextFilteredField()
 	page_type = models.CharField('typ stránky', max_length=1, choices=TYPE_CHOICES, default='p')
 
