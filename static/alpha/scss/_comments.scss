@@ -180,8 +180,8 @@
 	border-left: 1px solid $light-border-color;
 }
 
-.discussion.header.new, .discussion.header.highlight {
-	border-left-color: $alert-color;
+.discussion.header.new:after, .discussion.header.highlight:after {
+	background: $alert-color;
 }
 
 .discussion.header {

@@ -7,6 +7,7 @@ $button-padding: ($base-margin / 2) $base-margin;
 //$dark-theme: true;
 //$text-color: #ffffff;
 //$body-color: #000000;
-//$body-color-background: #333333;
+//$body-color-background: #555555;
+//$light-border-color: mix($text-color, $body-color, 20%);
 
 @import "style";
