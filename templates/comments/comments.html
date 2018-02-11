@@ -22,7 +22,17 @@
 {% block discussion %}
 	{% if single %}
 		<div class="module comments">
-			{% include "comments/comment_item.html" %}
+			<div class="comments_tree">
+				<ul class="comment_thread thread_0">
+					<li class="comment">
+						<ul class="comment_thread thread_1">
+							<li class="comment">
+								{% include "comments/comment_item.html" %}
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
 		</div>
 	{% else %}
 		{{ render_comments_toplevel(object) }}
