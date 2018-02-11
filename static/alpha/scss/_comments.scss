@@ -394,8 +394,11 @@
 		display: none;
 	}
 
+	a {
+		padding-right: 0.75em;
+	}
+
 	.count {
-		padding-right: 1em;
 		font-size: 85%;
 		&:before {
 			@include sprite-bw(comments);
@@ -406,10 +409,13 @@
 		}
 	}
 
-	&.empty a:before {
-		@include sprite-bw(comments);
-		content: "";
-		display: inline-block;
-		vertical-align: middle;
+	&.empty a {
+		padding-right: 0;
+		&:before {
+			@include sprite-bw(comments);
+			content: "";
+			display: inline-block;
+			vertical-align: middle;
+		}
 	}
 }
