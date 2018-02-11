@@ -21,11 +21,9 @@
 	<li><a href="https://github.com/LinuxOSsk/Shakal-NG/commits/master">Prehľad aktivity</a></li>
 </ul>
 
-<h2>Pre vývojárov</h2>
-
 {% cache 1800 "shakal_rss_feeds" %}
-	<div class="module feeds">
-		<h2>Aktuálne zmeny</h2>
+	<div class="module feeds tabular">
+		<h2 class="block-title">Aktuálne zmeny</h2>
 		<div class="module-row">
 			{{ pull_feeds("https://github.com/LinuxOSsk/Shakal-NG/commits/master.atom", max_count=20) }}
 		</div>

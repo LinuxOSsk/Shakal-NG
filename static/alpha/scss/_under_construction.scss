@@ -1,0 +1,15 @@
+.under-construction {
+	border: 1px solid #000;
+	color: #fff;
+	padding: $base-margin-reduced;
+	background: url(static('alpha/images/bitmap/warning_pattern.png')) repeat;
+}
+
+.under-construction .warning {
+	display: block;
+	padding: $base-spacing-content $base-spacing-content $base-spacing-content (48px + $base-spacing-content * 2);
+	background: #111 url(static('alpha/images/bitmap/warning_construction.png')) $base-spacing-content center no-repeat;
+	font-weight: bold;
+	min-height: 48px;
+}
+
