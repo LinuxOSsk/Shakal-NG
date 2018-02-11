@@ -286,6 +286,14 @@
 
 	.comments_tree {
 
+		.links {
+			overflow: hidden;
+			min-width: (sprite-width(reply) + $base-margin-reduced) * 4 + 50px;
+			float: right;
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+
 		.btn.reply, .btn.lock, .btn.private, .btn.delete {
 			overflow: hidden;
 			text-indent: 9999px;
@@ -310,10 +318,10 @@
 			@include sprite(delete_red);
 		}
 
-	}
+		.signature {
+			float: left;
+		}
 
-	.links.bottom {
-		display: none;
 	}
 }
 
