@@ -1,0 +1,13 @@
+.avatar-profile {
+	border: 1px solid $light-border-color;
+	float: left;
+	padding: $base-spacing-content;
+	margin: $base-margin $base-margin $base-margin $base-margin-reduced;
+	img {
+		display: block;
+	}
+}
+
+.vcard .module-row {
+	overflow: hidden;
+}
