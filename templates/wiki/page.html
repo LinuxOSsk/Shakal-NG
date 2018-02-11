@@ -52,7 +52,7 @@
 
 	{% if children %}
 	<div class="module subpages">
-		<h2>Podstránky</h2>
+		<h2 class="block-title">Podstránky</h2>
 		<ul>
 			{% for child in children %}
 				<li><a href="{{ child.get_absolute_url() }}">{{ child }}</a></li>
@@ -69,17 +69,21 @@
 {% endif %}
 
 {% if history %}
-	<h2>História úprav </h2>
+	<div class="module tabular">
+		<h2 class="block-title">História úprav</h2>
 
-	<table>
-		<tr><th class="title">Autor</th><th>Dátum</th></tr>
-		{% for item in history %}
-		<tr>
-			<td class="title"><a href="{{ item.revision.user.get_absolute_url() }}">{{ item.revision.user }}</a></td>
-			<td class="date"><a href="{{ url("wiki:page-history", slug=page.slug, history=item.pk) }}" rel="nofollow">{{ item.revision.date_created|humandatetime }}</a></td>
-		</tr>
-		{% endfor %}
-	</table>
+		<div class="module-row">
+			<table>
+				<tr><th class="title">Autor</th><th>Dátum</th></tr>
+				{% for item in history %}
+				<tr>
+					<td class="title"><a href="{{ item.revision.user.get_absolute_url() }}">{{ item.revision.user }}</a></td>
+					<td class="date"><a href="{{ url("wiki:page-history", slug=page.slug, history=item.pk) }}" rel="nofollow">{{ item.revision.date_created|humandatetime }}</a></td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</div>
 	{{ pagination() }}
 {% endif %}
 
