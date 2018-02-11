@@ -320,12 +320,10 @@ msgid "^wiki/"
 msgstr "^wiki/"
 
 msgid "^template-change/$"
-msgstr "^template-cache/$"
+msgstr "^template-change/$"
 
-#, fuzzy
-#| msgid "^template-change/$"
 msgid "^templates/$"
-msgstr "^template-cache/$"
+msgstr "^sablony/$"
 
 msgid "^search/"
 msgstr "^hladat/"
