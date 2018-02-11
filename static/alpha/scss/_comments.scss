@@ -261,6 +261,9 @@
 			background: transparent;
 			box-shadow: none;
 		}
+		&:focus .wrap, a:focus {
+			box-shadow: none;
+		}
 		.text {
 			padding: 0;
 			color: $link-color;
@@ -361,14 +364,13 @@
 		}
 
 		.btn.reply {
-			overflow: hidden;
-			text-indent: 9999px;
-		}
-
-		.btn.reply {
-			@include sprite-bw(reply);
 			&:before {
 				display: none;
+			}
+			.text {
+				overflow: hidden;
+				text-indent: 9999px;
+				@include sprite-bw(reply);
 			}
 		}
 
