@@ -173,9 +173,11 @@ body.home .content-module {
 	&.tabular, .tabular & {
 		padding-left: 0;
 		padding-right: 0;
+		overflow-x: auto;
 		table {
 			margin-bottom: 0;
 			margin-top: 0;
+			min-width: 36em;
 			td:first-child, th:first-child {
 				padding-left: $base-spacing-content;
 			}
