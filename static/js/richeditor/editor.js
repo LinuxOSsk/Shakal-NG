@@ -552,7 +552,7 @@ var SimpleEditorHtml = function(element, options) {
 		var format = options.format;
 		var parser = options.parsers[format];
 		_.xhrSend({
-			type: 'POST',
+			method: 'POST',
 			url: options.preview,
 			data: 'format=' + encodeURIComponent(format) + '&parser=' + encodeURIComponent(parser) + '&text=' + encodeURIComponent(text),
 			successFn: function(response) {

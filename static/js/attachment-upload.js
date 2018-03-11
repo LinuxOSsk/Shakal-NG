@@ -1,6 +1,36 @@
 (function(_) {
 "use strict";
 
+var filesizeformat = function(bytes) {
+	var KB = 1 << 10;
+	var MB = 1 << 20;
+	var GB = 1 << 30;
+	var TB = 1 << 40;
+	var PB = 1 << 50;
+
+	var formatFloat = function(val) {
+		return (Math.round(val * 100.0)) / 100.0;
+	};
+
+	if (bytes < KB) {
+		return bytes + ' B';
+	}
+	else if (bytes < MB) {
+		return formatFloat(bytes / KB) + ' KB';
+	}
+	else if (bytes < GB) {
+		return formatFloat(bytes / MB) + ' MB';
+	}
+	else if (bytes < TB) {
+		return formatFloat(bytes / GB) + ' GB';
+	}
+	else {
+		return formatFloat(bytes / PB) + ' PB';
+	}
+};
+
+window._utils.filesizeformat = filesizeformat;
+
 var createUploader = function(element) {
 	var uploadAjax = _.cls(element, 'attachment-upload-ajax')[0];
 	if (uploadAjax === undefined) {
@@ -43,7 +73,7 @@ var createUploader = function(element) {
 
 			var req = _.xhrSend({
 				url: urls.manage,
-				type: 'POST',
+				method: 'POST',
 				data: formData,
 				contentType: null,
 				successFn: function(data, req) {
@@ -190,7 +220,7 @@ var createUploader = function(element) {
 
 		var filesizeTemplate = _.cls(element, 'template-filesize')[0];
 		if (filesizeTemplate !== undefined) {
-			filesizeTemplate.appendChild(document.createTextNode(_.filesizeformat(data.filesize)));
+			filesizeTemplate.appendChild(document.createTextNode(filesizeformat(data.filesize)));
 		}
 
 		var progressTemplate = _.cls(element, 'template-progress')[0];
@@ -214,7 +244,7 @@ var createUploader = function(element) {
 				deleteTemplate.onclick = function() {
 					_.xhrSend({
 						url: urls.manage,
-						type: 'POST',
+						method: 'POST',
 						data: 'attachment_action=delete&upload_session=' + encodeURIComponent(uploadSession) + '&pk=' + data.id,
 						successFn: updatePreviewsFromData,
 						failFn: function() {
