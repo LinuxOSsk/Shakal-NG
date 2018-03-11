@@ -65,6 +65,7 @@
 		right: 56px;
 		top: 0px;
 		background: mix($primary-color, $body-color, 10%);
+		padding-left: $base-spacing-content;
 	}
 	.user_link {
 		display: block;
