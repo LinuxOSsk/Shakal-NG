@@ -34,6 +34,7 @@ class ArticleGenerator(generator.ModelGenerator):
 	def get_object(self):
 		obj = super(ArticleGenerator, self).get_object()
 		obj.title = obj.title[:50]
+		obj.original_annotation = obj.original_perex
 		obj.filtered_annotation = obj.original_annotation
 		obj.filtered_perex = obj.original_perex
 		obj.filtered_content = obj.original_content
