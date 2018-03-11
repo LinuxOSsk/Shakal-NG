@@ -26,12 +26,19 @@
 				</div>
 			</form>
 		{% endif %}
-		{% if user.is_staff and perms.comments.change_threaded_comment %}
-			<form action="{{ url("comments:admin", root.pk) }}" method="post">{% csrf_token %}
-				<div class="btn-group admin">
+		{% if user.is_staff and perms.comments.change_comment %}
+			<div class="btn-group admin">
+				<form action="{{ url("comments:admin", root.pk) }}" method="post">{% csrf_token %}
 					<button class="btn lock{% if root.is_locked %} active{% endif %}" name="lock" value="{{ root.is_locked|yesno(",1") }}" title="{% if root.is_locked %}Odomknúť{% else %}Zamknúť{% endif %}"><span class="wrap"><span class="text">{% if root.is_locked %}Odomknúť{% else %}Zamknúť{% endif %}</span></span></button>
-				</div>
-			</form>
+				</form>
+				<a class="btn edit" title="Spravovať" href="{{ url("admin:comments_comment_changelist") }}?content_type_id__exact={{ root_header.content_type_id }}&object_id__exact={{ root_header.object_id }}">
+					<span class="wrap">
+						<span class="text">
+							Spravovať
+						</span>
+					</span>
+				</a>
+			</div>
 		{% endif %}
 	</div>
 	{% if comments|length > 1 %}
