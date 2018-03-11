@@ -39,13 +39,11 @@ class RichTextOriginalField(TextField):
 	def to_python(self, value):
 		if not isinstance(value, six.string_types):
 			return value
-		if ':' in value:
-			return TextVal(value)
-		else:
-			if 'html' in self.parsers:
-				return TextVal('html:' + value)
-			else:
-				return TextVal(list(self.parsers.keys())[0] + value)
+		parsers = list(self.parsers.keys())
+		for parser in parsers:
+			if value.startswith(parser + ':'):
+				return TextVal(value)
+		return TextVal(parsers[0] + ':' + value)
 
 	def from_db_value(self, value, expression, connection, context): # pylint: disable=unused-argument
 		return self.to_python(value)
