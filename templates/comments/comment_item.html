@@ -56,8 +56,8 @@
 			-->
 		{% endif %}
 		{% if is_authenticated %}
-			{% if is_staff and perms.comments.change_threaded_comment or not is_locked %}
-				{% if is_staff and perms.comments.change_threaded_comment %}
+			{% if is_staff and perms.comments.change_comment or not is_locked %}
+				{% if is_staff and perms.comments.change_comment %}
 					<form action="{{ url("comments:admin", comment.pk) }}" method="post">{% csrf_token %}
 						<div class="btn-group admin">
 							<button class="btn delete" type="submit" name="delete" value="{{ is_removed|yesno(",1") }}" title="{% if is_removed %}Obnoviť{% else %}Zmazať{% endif %}">
@@ -83,6 +83,13 @@
 									</span>
 								</span>
 							</button>
+							<a class="btn edit" title="Spravovať" href="{{ url("admin:comments_comment_change", comment.pk) }}">
+								<span class="wrap">
+									<span class="text">
+										Spravovať
+									</span>
+								</span>
+							</a>
 						</div>
 					</form>
 				{% endif %}

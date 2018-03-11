@@ -315,7 +315,7 @@
 		}
 	}
 
-	.btn.lock, .btn.private, .btn.delete, .btn.watch {
+	.btn.lock, .btn.private, .btn.delete, .btn.watch, .btn.edit {
 		overflow: hidden;
 		text-indent: 9999px;
 	}
@@ -341,6 +341,11 @@
 			@include sprite(eye_blue);
 		}
 	}
+
+	.btn.edit {
+		@include sprite-bw(pencil);
+	}
+
 
 	.links.top {
 		.btn-group.reply {

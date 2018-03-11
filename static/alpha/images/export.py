@@ -118,6 +118,7 @@ def main():
 	make_transparent_light_dark('eye')
 	make_transparent_light_dark('gear')
 	make_transparent_light_dark('lock')
+	make_transparent_light_dark('pencil')
 	make_transparent_light_dark('reply')
 	make_transparent_light_dark('search')
 	make_transparent_light_dark('star')

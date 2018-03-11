@@ -83,6 +83,8 @@ SPRITES = (
 			{ 'name': 'lock_light', 'src': 'alpha/images/png/lock_transparent_light.png' },
 			{ 'name': 'unlock_dark', 'src': 'alpha/images/png/unlock_transparent_dark.png' },
 			{ 'name': 'unlock_light', 'src': 'alpha/images/png/unlock_transparent_light.png' },
+			{ 'name': 'pencil_dark', 'src': 'alpha/images/png/pencil_transparent_dark.png' },
+			{ 'name': 'pencil_light', 'src': 'alpha/images/png/pencil_transparent_light.png' },
 			{ 'name': 'reply_dark', 'src': 'alpha/images/png/reply_transparent_dark.png' },
 			{ 'name': 'reply_light', 'src': 'alpha/images/png/reply_transparent_light.png' },
 			{ 'name': 'rss_dark', 'src': 'alpha/images/png/rss_dark.png' },
