@@ -371,6 +371,15 @@ SUIT_CONFIG = {
 			)
 		},
 		{
+			'label': 'Komentre',
+			'icon': 'icon-comment',
+			'permissions': 'comments.change_rootheader',
+			'models': (
+				'comments.rootheader',
+				'comments.comment',
+			)
+		},
+		{
 			'label': 'Používatelia',
 			'icon': 'icon-lock',
 			'permissions': 'accounts.change_user',

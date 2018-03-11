@@ -90,7 +90,7 @@ class CommentAdmin(AttachmentAdminMixin, DraggableMPTTAdmin):
 
 
 class RootHeaderAdmin(admin.ModelAdmin):
-	list_filter = ('content_type',)
+	date_hierarchy = 'pub_date'
 	list_display = ('get_name', 'get_link')
 	list_display_links = None
 
