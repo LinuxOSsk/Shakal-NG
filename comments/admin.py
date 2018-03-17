@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
+from django.contrib.contenttypes.admin import GenericTabularInline
 from django.utils.html import format_html, escape, mark_safe
 from django.utils.translation import ungettext
 from mptt.admin import DraggableMPTTAdmin
@@ -110,6 +111,32 @@ class RootHeaderAdmin(admin.ModelAdmin):
 	def get_link(self, obj):
 		return format_html('<a href="{}">Zobraziť</a>', obj.get_absolute_url())
 	get_link.short_description = "Zobraziť"
+
+
+class CommentInline(GenericTabularInline):
+	model = Comment
+	fields = ('get_subject',)
+	readonly_fields = ('get_subject',)
+
+	template = 'admin/edit_inline/comments.html'
+
+	verbose_name = 'komentár'
+	verbose_name_plural = 'komentáre'
+
+	ct_field = 'content_type'
+	ct_fk_field = 'object_id'
+
+	extra = 0
+
+	def get_queryset(self, request):
+		return super(CommentInline, self).get_queryset(request).order_by('lft')
+
+	def get_subject(self, obj):
+		indent = ''
+		if obj.level:
+			indent = mark_safe('&nbsp;&nbsp;' * (obj.level-1))
+		return format_html("{}{}", indent, obj.subject)
+	get_subject.short_description = "Predmet"
 
 
 admin.site.register(Comment, CommentAdmin)

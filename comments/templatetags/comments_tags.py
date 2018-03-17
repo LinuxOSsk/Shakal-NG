@@ -230,3 +230,15 @@ register.assignment_tag(get_comments_list, takes_context=True)
 def comments_count_image_link(instance):
 	ctype = ContentType.objects.get_for_model(instance.__class__)
 	return reverse('comments:count-image', args=(ctype.pk, instance.pk), kwargs={})
+
+
+@register.simple_tag
+def admin_comments_url(instance):
+	content_type = ContentType.objects.get_for_model(instance)
+	object_id = instance.pk
+	try:
+		header = RootHeader.objects.get(content_type=content_type, object_id=object_id)
+		return header.get_admin_url()
+	except RootHeader.DoesNotExist:
+		pass
+	return reverse('admin:comments_rootheader_changelist')

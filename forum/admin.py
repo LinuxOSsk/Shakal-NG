@@ -5,6 +5,7 @@ from django.contrib import admin
 
 from .models import Section, Topic
 from attachment.admin import AttachmentInline, AttachmentAdminMixin
+from comments.admin import CommentInline
 
 
 class SectionAdmin(admin.ModelAdmin):
@@ -19,7 +20,7 @@ class TopicAdmin(AttachmentAdminMixin, admin.ModelAdmin):
 	search_fields = ('title', 'get_authors_name',)
 	ordering = ('-id',)
 	raw_id_fields = ('author',)
-	inlines = [AttachmentInline]
+	inlines = [AttachmentInline, CommentInline]
 
 
 admin.site.register(Section, SectionAdmin)

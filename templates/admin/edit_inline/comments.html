@@ -1,0 +1,55 @@
+{% load comments_tags %}
+
+{% if adminform.form.instance.pk %}
+
+<div class="tabular inline-related {% if forloop.last %}last-related{% endif %}">
+
+<fieldset class="module">
+	<h2>{{ inline_admin_formset.opts.verbose_name_plural|capfirst }}{% if adminform.form.instance %} <small><a href="{% admin_comments_url adminform.form.instance %}">Spravovať</a></small>{% endif %}</h2>
+	{{ inline_admin_formset.formset.non_form_errors }}
+	{{ inline_admin_formset.formset.management_form }}
+
+	<table class="table table-bordered table-condensed table-striped">
+		<thead>
+			<tr>
+				<th>Názov</th>
+				<th>&nbsp;</th>
+			</th>
+		</thead>
+		<tbody>
+			{% for inline_admin_form in inline_admin_formset %}
+				<tr{% if inline_admin_form.original.level == 0 %} style="display: none" {% endif %}>
+					<td>
+						{% if inline_admin_form.needs_explicit_pk_field %}{{ inline_admin_form.pk_field.field }}{% endif %}
+						{% for fieldset in inline_admin_form %}
+							{% for line in fieldset %}
+								{% for field in line %}
+									{% if field.is_readonly %}
+										{{ field.contents }}
+									{% else %}
+										{{ field.field }}
+									{% endif %}
+								{% endfor %}
+							{% endfor %}
+						{% endfor %}
+					</td>
+					<td>
+						{% if inline_admin_form.original.pk %}
+							<a href="{% url "admin:comments_comment_change" inline_admin_form.original.pk %}">Upraviť</a>
+						{% endif %}
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+
+</fieldset>
+
+</div>
+
+{% else %}
+
+{{ inline_admin_formset.formset.management_form }}
+
+{% endif %}
