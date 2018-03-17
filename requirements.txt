@@ -7,10 +7,10 @@
 -e git+https://github.com/mireq/django-ajax-utils.git@7d3aa3bda8500a841c446c8657ef5cfefd78585a#egg=django_ajax_utils
 -e git+https://github.com/mireq/django-assets-manager.git@df91730b1f8693c3b97d4260099084e44586fb48#egg=django_assets_manager
 -e git+https://github.com/mireq/django-autoslugfield.git@ba4c052145ef3e19bc3bad88cc32ab003ebddb38#egg=django_autoslugfield
--e git+https://github.com/mireq/django-email-log-backend.git@ebe0f79d061c16051afb6b6bc82d603d092250b6#egg=django_email_log_backend
+-e git+https://github.com/mireq/django-email-log-backend.git@af0da9cf3d4c10bc81b95cb91e799484eac5b298#egg=django_email_log_backend
 -e git+https://github.com/mireq/django-geoposition-field.git@662bb9c460977a6100f02272e89914ef88da16f4#egg=django_geoposition_field
 -e git+https://github.com/mireq/django-sample-data-generator.git@adaf2e1687fe921fa37179f3aee5d94e130f6ed6#egg=django_sample_data_generator
--e git+https://github.com/mireq/django-simple-paginator.git@c09ad39a33b9d07cb5a399e822c79542bf7b4a8c#egg=django_simple_paginator
+-e git+https://github.com/mireq/django-simple-paginator.git@7ba70f0aec8c4daa0f324ce60055f0101201b8d0#egg=django_simple_paginator
 certifi==2018.1.18        # via requests
 chardet==3.0.4            # via requests
 click==6.7                # via pip-tools
@@ -37,7 +37,7 @@ first==2.0.1              # via pip-tools
 future==0.16.0
 idna==2.6                 # via requests
 jinja2==2.10              # via django-jinja
-libsass==0.14.0           # via django-libsass
+libsass==0.14.1           # via django-libsass
 markupsafe==1.0           # via jinja2
 oauthlib==2.0.6           # via requests-oauthlib
 pillow==5.0.0
