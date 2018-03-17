@@ -37,9 +37,11 @@
 		<span class="user">{{ user_link(desktop.author) }}</span>
 	</div>
 
-	<a href="{{ desktop.image.url }}">
-		<img src="{{ thumbnail(desktop.image, size=(2048, 2048), format="jpg", quaity=85) }}" alt="{{ desktop }}" />
-	</a>
+	<div class="desktop">
+		<a href="{{ desktop.image.url }}">
+			<img src="{{ thumbnail(desktop.image, size=(2048, 2048), format="jpg", quaity=85) }}" alt="{{ desktop }}" />
+		</a>
+	</div>
 
 	{{ desktop.text|safe }}
 

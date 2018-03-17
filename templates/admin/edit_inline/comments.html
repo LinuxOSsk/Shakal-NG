@@ -5,7 +5,7 @@
 <div class="tabular inline-related {% if forloop.last %}last-related{% endif %}">
 
 <fieldset class="module">
-	<h2>{{ inline_admin_formset.opts.verbose_name_plural|capfirst }}{% if adminform.form.instance.pk %} <small><a href="{% admin_comments_url adminform.form.instance %}">Spravovať</a></small>{% endif %}</h2>
+	<h2>{{ inline_admin_formset.opts.verbose_name_plural|capfirst }}{% if adminform.form.instance.pk %}{% admin_comments_url adminform.form.instance as comments_url %}{% if comments_url %} <small><a href="{% admin_comments_url adminform.form.instance %}">Spravovať</a></small>{% endif %}{% endif %}</h2>
 	{{ inline_admin_formset.formset.non_form_errors }}
 	{{ inline_admin_formset.formset.management_form }}
 

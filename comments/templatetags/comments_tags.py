@@ -241,4 +241,4 @@ def admin_comments_url(instance):
 		return header.get_admin_url()
 	except RootHeader.DoesNotExist:
 		pass
-	return reverse('admin:comments_rootheader_changelist')
+	return None
