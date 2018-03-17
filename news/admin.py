@@ -5,6 +5,7 @@ from django.contrib import admin
 
 from .models import News, Category
 from attachment.admin import AttachmentInline, AttachmentAdminMixin
+from comments.admin import CommentInline
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -20,7 +21,7 @@ class NewsAdmin(AttachmentAdminMixin, admin.ModelAdmin):
 	ordering = ('-id',)
 	raw_id_fields = ('author',)
 	prepopulated_fields = {'slug': ('title',)}
-	inlines = [AttachmentInline]
+	inlines = [AttachmentInline, CommentInline]
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(News, NewsAdmin)

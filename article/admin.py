@@ -10,6 +10,7 @@ from .admin_forms import ArticleForm
 from .models import Category, Article, Series, SeriesArticle
 from admin_actions.views import AdminActionsMixin
 from attachment.admin import AttachmentInline, AttachmentAdminMixin
+from comments.admin import CommentInline
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -25,7 +26,7 @@ class ArticleAdmin(AttachmentAdminMixin, AdminActionsMixin, admin.ModelAdmin):
 	raw_id_fields = ('author', )
 	list_filter = ('published', 'top', 'category', )
 	ordering = ('-id', )
-	inlines = [AttachmentInline]
+	inlines = [AttachmentInline, CommentInline]
 	form = ArticleForm
 	fieldsets = (
 		(None, {'fields': ('title', 'slug', 'category', 'author', 'authors_name', 'pub_time', 'published', 'top', 'image',)}),
