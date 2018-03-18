@@ -1,5 +1,21 @@
 (function (_) {
 
+var escapeHTML = function(text) {
+	return text
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;");
+};
+
+var escapeHTMLAttr = function(text) {
+	return escapeHTML(text)
+		.replace(/"/g, "&quot;")
+		.replace(/'/g, "&#039;");
+};
+
+_.escapeHTML = escapeHTML;
+_.escapeHTMLAttr = escapeHTMLAttr;
+
 var SimpleEditorHtml = function(element, options) {
 	var hasTag = function(tagName) {
 		if (options.format === 'html') {
