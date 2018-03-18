@@ -40,6 +40,7 @@ class AttachmentFormMixin(forms.BaseForm):
 				return None
 			session = UploadSession()
 			session.save()
+		self.data = self.data.copy()
 		self.data['upload_session'] = session.uuid
 		return session
 
