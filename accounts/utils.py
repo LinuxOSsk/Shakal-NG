@@ -27,17 +27,17 @@ AVATAR_IMAGES = {
 	'male': (
 		('background', 5),
 		('face', 4),
-		('clothes', 66),
+		('clothes', 65),
 		('mouth', 26),
 		('hair', 36),
-		('eye', 33),
+		('eye', 32),
 	),
 	'female': (
 		('background', 5),
 		('face', 4),
 		('clothes', 59),
 		('mouth', 17),
-		('head', 34),
+		('head', 33),
 		('eye', 53),
 	),
 }
