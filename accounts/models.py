@@ -123,8 +123,9 @@ class RememberTokenManager(models.Manager):
 
 		max_age = timezone.now() - timedelta(seconds=accounts_settings.COOKIE_AGE)
 		for db_token in self.all().filter(created__gte=max_age, user=user_id):
-			if check_password(token_hash, token.token_hash):
+			if check_password(token_hash, db_token.token_hash):
 				return db_token
+		return None
 
 	def clean_remember_tokens(self):
 		max_age = timezone.now() - timedelta(seconds=accounts_settings.COOKIE_AGE)
