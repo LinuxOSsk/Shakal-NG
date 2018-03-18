@@ -158,7 +158,7 @@ TEMPLATES = [
 	},
 ]
 
-DYNAMIC_TEMPLATES = ('alpha', 'default', '386')
+DYNAMIC_TEMPLATES = ('alpha', '2013', '386')
 
 AUTH_PASSWORD_VALIDATORS = [
 	{ 'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator', },

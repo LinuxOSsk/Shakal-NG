@@ -40,8 +40,8 @@ class TemplateListView(TemplateView):
 			]
 		},
 		{
-			'name': 'default',
-			'verbose_name': 'Starý štýl',
+			'name': '2013',
+			'verbose_name': 'Štýl z roku 2013',
 		},
 		{
 			'name': '386',

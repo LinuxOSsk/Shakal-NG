@@ -3,7 +3,7 @@ var supersleight= function() {
 	var root = false;
 	var applyPositioning = true;
 
-	var shim	= '/static/default/images/empty.gif';
+	var shim	= '/static/2013/images/empty.gif';
 
 	var fnLoadPngs = function() {
 		if (root) {

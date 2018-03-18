@@ -1,6 +1,6 @@
-@import "default/sprites";
-@import "default/utility";
-@import "css/code_dark";
+@import "../2013/sprites";
+@import "../2013/utility";
+@import "../css/code_dark";
 
 $left-background: #000088;
 $generic-background: #000088;
@@ -26,8 +26,8 @@ $line-height: 20px;
 	}
 }
 
-@import "386/fonts/fonts";
-@import "386/layout";
-@import "386/base";
-@import "386/components";
-@import "386/scrollbar";
+@import "fonts/fonts";
+@import "layout";
+@import "base";
+@import "components";
+@import "scrollbar";
