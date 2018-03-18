@@ -167,6 +167,14 @@ pre, .annotation, .codeblock {
 	border: 1px solid $light-border-color;
 }
 
+.annotation {
+	overflow: auto;
+}
+
+.article.thumbnail {
+	margin-right: $base-spacing-content;
+}
+
 pre, .codeblock {
 	overflow: auto;
 }
