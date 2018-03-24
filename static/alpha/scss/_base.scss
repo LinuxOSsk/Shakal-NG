@@ -175,6 +175,11 @@ pre, .annotation, .codeblock {
 	margin-right: $base-spacing-content;
 }
 
+.highlighted {
+	background: $highlight-color;
+	color: $highlight-text-color;
+}
+
 pre, .codeblock {
 	overflow: auto;
 }
