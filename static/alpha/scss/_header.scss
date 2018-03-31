@@ -1,5 +1,5 @@
 #header {
-	background-color: $primary-color;
+	background-color: $header-background-color;
 	@include sprite-background-position(header_shadow);
 	@include sprite-background;
 	background-size: map-get($sprites, _size);

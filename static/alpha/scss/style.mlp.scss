@@ -1,0 +1,64 @@
+$base-margin: 12px;
+$base-spacing-content: 8px;
+
+$input-padding: $base-margin / 2;
+$button-padding: ($base-margin / 2) $base-margin;
+
+$primary-color: #ff88aa;
+$body-color-background: #ffaacc;
+
+$header-background-color: #5b7fd7;
+
+@import "style";
+
+#header {
+	background-image: url(static('alpha/images/mlp/header_shadow.png'));
+	background-position: 300px 0px;
+	background-size: 800px 120px;
+	@media #{$hdpi} {
+		background-image: url(static('alpha/images/mlp/header_shadow@2x.png'));
+	}
+}
+
+#logo a {
+	background-image: url(static('alpha/images/mlp/logo.png'));
+	background-position: 0px 0px;
+	background-size: 228px 80px;
+	@media #{$hdpi} {
+		background-image: url(static('alpha/images/mlp/logo@2x.png'));
+	}
+}
+
+#user_panel a.user {
+	background: rgba(0, 0, 0, .2);
+	border-radius: 5px;
+}
+
+.gravatar.photo.placeholder {
+	display: none;
+}
+
+.discussion.header .icon {
+	background-size: 56px 56px;
+	background-image: url(static('alpha/images/mlp/avatar_placeholder.png'));
+	background-position: 0px 0px;
+	@media #{$hdpi} {
+		background-image: url(static('alpha/images/mlp/avatar_placeholder@2x.png'));
+	}
+}
+
+@media #{$medium-down} {
+	#user_panel a.user {
+		background: transparent;
+		border-radius: none;
+	}
+
+	#logo a {
+		background-image: url(static('alpha/images/mlp/logo_mini.png'));
+		background-position: 0px 0px;
+		background-size: 130px 30px;
+		@media #{$hdpi} {
+			background-image: url(static('alpha/images/mlp/logo_mini@2x.png'));
+		}
+	}
+}

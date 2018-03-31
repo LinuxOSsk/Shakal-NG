@@ -6,6 +6,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	{% if style_options.small %}
 		{% include "template_overrides/alpha/css.compress.small.html" %}
+	{% elif style_options.colorscheme == "mlp" %}
+		{% include "template_overrides/alpha/css.compress.mlp.html" %}
 	{% else %}
 		{% include "template_overrides/alpha/css.compress.html" %}
 	{% endif %}

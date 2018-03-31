@@ -36,7 +36,11 @@ class TemplateListView(TemplateView):
 				{
 					'settings': {'font_size': 13, 'small': True},
 					'verbose_name': 'Drobný text, malé okraje'
-				}
+				},
+				{
+					'settings': {'colorscheme': 'mlp'},
+					'verbose_name': 'MLP'
+				},
 			]
 		},
 		{
