@@ -15,7 +15,7 @@ UserTemplateSettings = namedtuple('UserTemplateSettings', ('template', 'css', 's
 def get_default_template(request):
 	request_time = getattr(request, 'request_time', None)
 	if request_time is None:
-		return django_settings.DYNAMIC_TEMPLATES[0]
+		return (django_settings.DYNAMIC_TEMPLATES[0], None, {})
 	t = request_time.date()
 	if t.day == 1 and t.month == 4:
 		return ('alpha', None, {'colorscheme': 'mlp'})
