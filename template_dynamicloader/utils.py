@@ -18,9 +18,9 @@ def get_default_template(request):
 		return django_settings.DYNAMIC_TEMPLATES[0]
 	t = request_time.date()
 	if t.day == 1 and t.month == 4:
-		return '386'
+		return ('alpha', None, {'colorscheme': 'mlp'})
 	else:
-		return django_settings.DYNAMIC_TEMPLATES[0]
+		return (django_settings.DYNAMIC_TEMPLATES[0], None, {})
 
 
 
@@ -62,7 +62,7 @@ def get_template_settings(request):
 	default = get_default_template(request)
 
 	if request is None:
-		return UserTemplateSettings(default, css, {})
+		return UserTemplateSettings(*default)
 
 	if request.method == 'GET' and 'switch_template' in request.GET:
 		template_skin, css, template_settings = decode_switch_template(request.GET['switch_template'])
@@ -81,7 +81,7 @@ def get_template_settings(request):
 	if template_skin is None:
 		template_skin = request.session.get('template_skin', default)
 	if not template_skin in templates:
-		template_skin = default
+		template_skin, css, template_settings = default
 
 	result = UserTemplateSettings(template_skin, css, template_settings)
 	setattr(request, '_template_settings', result)
