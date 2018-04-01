@@ -20,7 +20,7 @@
 		<h2>Náhľad</h2>
 		<h3>{{ item }}</h3>
 		<div class="clearpadding">
-		{% with topic=item, content_type="topic", comment=topic, user=topic.author, user_name=topic.authors_name %}
+		{% with topic=item, content_type="topic", comment=item, user=item.author, user_name=item.authors_name %}
 			{% include "forum/topic_header.html" %}
 			{% include "forum/topic_content.html" %}
 		{% endwith %}
@@ -35,7 +35,7 @@
 			<div class="positive">
 				<button class="btn" type="submit" title="Náhľad"><span class="wrap"><span class="text">Náhľad</span></span></button>
 				{% if valid %}
-				<button class="btn" type="submit" title="Vytvoriť tému" name="create" value="1"><span class="wrap"><span class="text">Vytvoriť tému</span></span></button>
+				<button class="btn primary" type="submit" title="Vytvoriť tému" name="create" value="1"><span class="wrap"><span class="text">Vytvoriť tému</span></span></button>
 				{% endif %}
 			</div>
 		</div>
