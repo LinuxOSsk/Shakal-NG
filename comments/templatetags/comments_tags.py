@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from operator import or_
-
 from django import template
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Count, Q, Case, When, BooleanField
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils import six, timezone
+from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django_jinja import library
@@ -149,8 +147,12 @@ def add_discussion_attributes(context, *models):
 	if not discussion_lookups:
 		return ''
 
+	headers_filter = Q()
+	for content_type, id_list in discussion_lookups.items():
+		headers_filter |= Q(content_type=content_type, object_id__in=id_list)
+
 	headers = (RootHeader.objects
-		.filter(six.moves.reduce(or_, (Q(content_type=content_type, object_id__in=id_list) for content_type, id_list in discussion_lookups.items()), Q()))
+		.filter(headers_filter)
 		.values('id', 'object_id', 'content_type_id', 'last_comment', 'comment_count', 'is_locked')
 	)
 	headers_dict = {(obj['object_id'], obj['content_type_id']): obj for obj in headers}
