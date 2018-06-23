@@ -22,8 +22,8 @@ class Migration(migrations.Migration):
 				('action', models.CharField(default='m', max_length=1, choices=[('x', 'other'), ('c', 'create'), ('u', 'update'), ('d', 'delete'), ('m', 'message'), ('a', 'comment')])),
 				('level', models.IntegerField(default=20)),
 				('message', models.TextField()),
-				('author', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True)),
-				('content_type', models.ForeignKey(blank=True, to='contenttypes.ContentType', null=True)),
+				('author', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)),
+				('content_type', models.ForeignKey(blank=True, to='contenttypes.ContentType', null=True, on_delete=models.CASCADE)),
 			],
 		),
 		migrations.CreateModel(
@@ -31,8 +31,8 @@ class Migration(migrations.Migration):
 			fields=[
 				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
 				('readed', models.BooleanField(default=False)),
-				('event', models.ForeignKey(to='notifications.Event')),
-				('recipient', models.ForeignKey(related_name='inbox', to=settings.AUTH_USER_MODEL)),
+				('event', models.ForeignKey(to='notifications.Event', on_delete=models.CASCADE)),
+				('recipient', models.ForeignKey(related_name='inbox', to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
 			],
 		),
 		migrations.AlterIndexTogether(

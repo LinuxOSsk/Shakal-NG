@@ -58,7 +58,7 @@ class Migration(migrations.Migration):
 			fields=[
 				('token_hash', models.CharField(max_length=255, serialize=False, primary_key=True)),
 				('created', models.DateTimeField(auto_now_add=True)),
-				('user', models.ForeignKey(related_name='remember_me_tokens', to=settings.AUTH_USER_MODEL)),
+				('user', models.ForeignKey(related_name='remember_me_tokens', to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
 			],
 		),
 		migrations.CreateModel(
@@ -71,7 +71,7 @@ class Migration(migrations.Migration):
 				('news', models.IntegerField(default=0)),
 				('wiki', models.IntegerField(default=0)),
 				('rating', models.IntegerField(default=0)),
-				('user', models.OneToOneField(related_name='rating', to=settings.AUTH_USER_MODEL)),
+				('user', models.OneToOneField(related_name='rating', to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
 			],
 		),
 	]

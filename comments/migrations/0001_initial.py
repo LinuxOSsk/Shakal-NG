@@ -35,8 +35,8 @@ class Migration(migrations.Migration):
 				('rght', models.PositiveIntegerField(editable=False, db_index=True)),
 				('tree_id', models.PositiveIntegerField(editable=False, db_index=True)),
 				('level', models.PositiveIntegerField(editable=False, db_index=True)),
-				('content_type', models.ForeignKey(related_name='content_type_set_for_comment', verbose_name='typ obsahu', to='contenttypes.ContentType')),
-				('parent', mptt.fields.TreeForeignKey(related_name='children', verbose_name='nadraden\xfd', blank=True, to='comments.Comment', null=True)),
+				('content_type', models.ForeignKey(related_name='content_type_set_for_comment', verbose_name='typ obsahu', to='contenttypes.ContentType', on_delete=models.CASCADE)),
+				('parent', mptt.fields.TreeForeignKey(related_name='children', verbose_name='nadraden\xfd', blank=True, to='comments.Comment', null=True, on_delete=models.CASCADE)),
 				('user', models.ForeignKey(related_name='comment_comments', on_delete=django.db.models.deletion.SET_NULL, verbose_name='pou\u017e\xedvate\u013e', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
 			],
 			options={
@@ -51,8 +51,8 @@ class Migration(migrations.Migration):
 				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
 				('flag', models.CharField(max_length=30, verbose_name='zna\u010dka', db_index=True)),
 				('flag_date', models.DateTimeField(default=None, verbose_name='d\xe1tum')),
-				('comment', models.ForeignKey(related_name='flags', verbose_name='koment\xe1r', to='comments.Comment')),
-				('user', models.ForeignKey(related_name='threadedcomment_flags', verbose_name='pou\u017e\xedvate\u013e', to=settings.AUTH_USER_MODEL)),
+				('comment', models.ForeignKey(related_name='flags', verbose_name='koment\xe1r', to='comments.Comment', on_delete=models.CASCADE)),
+				('user', models.ForeignKey(related_name='threadedcomment_flags', verbose_name='pou\u017e\xedvate\u013e', to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
 			],
 			options={
 				'verbose_name': 'zna\u010dka komen\xe1ra',
@@ -68,7 +68,7 @@ class Migration(migrations.Migration):
 				('comment_count', models.PositiveIntegerField(default=0, db_index=True)),
 				('is_locked', models.BooleanField(default=False)),
 				('object_id', models.PositiveIntegerField()),
-				('content_type', models.ForeignKey(to='contenttypes.ContentType')),
+				('content_type', models.ForeignKey(to='contenttypes.ContentType', on_delete=models.CASCADE)),
 			],
 			options={
 				'verbose_name': 'diskusia',
@@ -81,8 +81,8 @@ class Migration(migrations.Migration):
 				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
 				('time', models.DateTimeField(null=True, blank=True)),
 				('watch', models.BooleanField(default=False)),
-				('discussion', models.ForeignKey(to='comments.RootHeader')),
-				('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+				('discussion', models.ForeignKey(to='comments.RootHeader', on_delete=models.CASCADE)),
+				('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
 			],
 		),
 		migrations.AlterUniqueTogether(

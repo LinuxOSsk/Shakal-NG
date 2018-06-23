@@ -29,8 +29,8 @@ class Migration(migrations.Migration):
 				('rght', models.PositiveIntegerField(editable=False, db_index=True)),
 				('tree_id', models.PositiveIntegerField(editable=False, db_index=True)),
 				('level', models.PositiveIntegerField(editable=False, db_index=True)),
-				('last_author', models.ForeignKey(verbose_name='posledn\xfd autor', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
-				('parent', models.ForeignKey(related_name='children', verbose_name='nadraden\xe1 str\xe1nka', blank=True, to='wiki.Page', null=True)),
+				('last_author', models.ForeignKey(verbose_name='posledn\xfd autor', blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)),
+				('parent', models.ForeignKey(related_name='children', verbose_name='nadraden\xe1 str\xe1nka', blank=True, to='wiki.Page', null=True, on_delete=models.CASCADE)),
 			],
 			options={
 				'verbose_name': 'Wiki str\xe1nka',

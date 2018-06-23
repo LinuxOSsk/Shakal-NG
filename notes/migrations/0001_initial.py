@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
 				('original_text', rich_editor.fields.RichTextOriginalField(max_length=20000, verbose_name='pozn\xe1mka', property_name='text', filtered_field='filtered_text')),
 				('filtered_text', rich_editor.fields.RichTextFilteredField(editable=False)),
 				('author', models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL, verbose_name='autor', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
-				('content_type', models.ForeignKey(verbose_name='typ obsahu', to='contenttypes.ContentType')),
+				('content_type', models.ForeignKey(verbose_name='typ obsahu', to='contenttypes.ContentType', on_delete=models.CASCADE)),
 			],
 			options={
 				'verbose_name': 'pozn\xe1mka',

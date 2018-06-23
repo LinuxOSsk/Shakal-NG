@@ -49,7 +49,7 @@ class Migration(migrations.Migration):
 		migrations.CreateModel(
 			name='AttachmentImage',
 			fields=[
-				('attachment_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='attachment.Attachment')),
+				('attachment_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='attachment.Attachment', on_delete=models.CASCADE)),
 				('width', models.IntegerField()),
 				('height', models.IntegerField()),
 			],
@@ -58,6 +58,6 @@ class Migration(migrations.Migration):
 		migrations.AddField(
 			model_name='attachment',
 			name='content_type',
-			field=models.ForeignKey(to='contenttypes.ContentType'),
+			field=models.ForeignKey(to='contenttypes.ContentType', on_delete=models.CASCADE),
 		),
 	]

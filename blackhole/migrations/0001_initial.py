@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
 				('is_commentable', models.BooleanField(default=True)),
 				('is_promoted', models.BooleanField(default=False)),
 				('is_sticky', models.BooleanField(default=False)),
-				('author', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+				('author', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)),
 			],
 			options={
 				'verbose_name': 'blackhole \u010dl\xe1nok',
@@ -53,8 +53,8 @@ class Migration(migrations.Migration):
 				('original_body', rich_editor.fields.RichTextOriginalField(property_name='body', filtered_field='filtered_body')),
 				('filtered_body', rich_editor.fields.RichTextFilteredField(editable=False)),
 				('log', models.TextField(blank=True)),
-				('author', models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True)),
-				('node', models.ForeignKey(to='blackhole.Node')),
+				('author', models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)),
+				('node', models.ForeignKey(to='blackhole.Node', on_delete=models.CASCADE)),
 			],
 			options={
 				'abstract': False,
@@ -70,7 +70,7 @@ class Migration(migrations.Migration):
 				('rght', models.PositiveIntegerField(editable=False, db_index=True)),
 				('tree_id', models.PositiveIntegerField(editable=False, db_index=True)),
 				('level', models.PositiveIntegerField(editable=False, db_index=True)),
-				('parent', mptt.fields.TreeForeignKey(related_name='children', blank=True, to='blackhole.Term', null=True)),
+				('parent', mptt.fields.TreeForeignKey(related_name='children', blank=True, to='blackhole.Term', null=True, on_delete=models.CASCADE)),
 			],
 			options={
 				'abstract': False,
@@ -86,12 +86,12 @@ class Migration(migrations.Migration):
 		migrations.AddField(
 			model_name='term',
 			name='vocabulary',
-			field=models.ForeignKey(to='blackhole.VocabularyNodeType', db_column='vid'),
+			field=models.ForeignKey(to='blackhole.VocabularyNodeType', db_column='vid', on_delete=models.CASCADE),
 		),
 		migrations.AddField(
 			model_name='node',
 			name='revision',
-			field=models.ForeignKey(related_name='revisions', to='blackhole.NodeRevision'),
+			field=models.ForeignKey(related_name='revisions', to='blackhole.NodeRevision', on_delete=models.CASCADE),
 		),
 		migrations.AddField(
 			model_name='node',
@@ -101,6 +101,6 @@ class Migration(migrations.Migration):
 		migrations.AddField(
 			model_name='file',
 			name='node',
-			field=models.ForeignKey(to='blackhole.Node'),
+			field=models.ForeignKey(to='blackhole.Node', on_delete=models.CASCADE),
 		),
 	]

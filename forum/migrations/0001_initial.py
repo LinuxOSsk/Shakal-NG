@@ -38,8 +38,8 @@ class Migration(migrations.Migration):
 				('authors_name', models.CharField(max_length=50, verbose_name='meno autora')),
 				('is_removed', models.BooleanField(default=False, verbose_name='vymazan\xe9')),
 				('is_resolved', models.BooleanField(default=False, verbose_name='vyrie\u0161en\xe9')),
-				('author', models.ForeignKey(verbose_name='autor', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
-				('section', models.ForeignKey(verbose_name='sekcia', to='forum.Section')),
+				('author', models.ForeignKey(verbose_name='autor', blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)),
+				('section', models.ForeignKey(verbose_name='sekcia', to='forum.Section', on_delete=models.CASCADE)),
 			],
 			options={
 				'verbose_name': 't\xe9ma vo f\xf3re',

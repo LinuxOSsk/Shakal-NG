@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
 				('filtered_description', rich_editor.fields.RichTextFilteredField(editable=False)),
 				('original_sidebar', rich_editor.fields.RichTextOriginalField(max_length=1000, verbose_name='bo\u010dn\xfd panel', property_name='sidebar', filtered_field='filtered_sidebar', blank=True)),
 				('filtered_sidebar', rich_editor.fields.RichTextFilteredField(editable=False)),
-				('author', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
+				('author', models.OneToOneField(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
 			],
 			options={
 				'verbose_name': 'blog',
@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
 				('filtered_content', rich_editor.fields.RichTextFilteredField(editable=False)),
 				('pub_time', models.DateTimeField(verbose_name='\u010das publik\xe1cie', db_index=True)),
 				('linux', models.BooleanField(default=False, verbose_name='linuxov\xfd blog')),
-				('blog', models.ForeignKey(to='blog.Blog')),
+				('blog', models.ForeignKey(to='blog.Blog', on_delete=models.CASCADE)),
 			],
 			options={
 				'ordering': ('-pub_time',),
