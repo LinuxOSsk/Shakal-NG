@@ -442,3 +442,16 @@
 		}
 	}
 }
+
+.headerlink {
+	text-decoration: none;
+	color: $code-color;
+	display: none;
+	&:after {
+		content: "¶"
+	}
+}
+
+.comment_info:hover .headerlink {
+	display: inline;
+}
