@@ -5,7 +5,7 @@ import re
 
 from django.template.defaultfilters import striptags
 
-from search.templatetags.html_entity_decode import html_entity_decode
+from search.templatetags.html_entity_decode import html_entity_decode_char, xml_entity_decode_char
 
 
 LEXERS = (
@@ -60,6 +60,15 @@ LEXERS = (
 	('xslt', 'XSLT'),
 	('vhdl', 'vhdl'),
 )
+
+
+ENTITY_PATTERN = re.compile(r'&(\w+?);')
+DECIMAL_ENTITY_PATTERN = re.compile(r'&\#(\d+?);')
+
+
+def html_entity_decode(string):
+	without_entity = ENTITY_PATTERN.sub(html_entity_decode_char, string)
+	return DECIMAL_ENTITY_PATTERN.sub(xml_entity_decode_char, without_entity)
 
 
 def format_code(code, lang):
