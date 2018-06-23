@@ -8,6 +8,7 @@ class ParserTest(TestCase):
 	def setUp(self):
 		self.parser = HtmlParser()
 		self.parser.auto_paragraphs = True
+		self.parser.add_nofollow = False
 
 	def test_auto_paragraph(self):
 		code = """Test"""
@@ -15,9 +16,9 @@ class ParserTest(TestCase):
 		self.assertEqual(self.parser.get_output(), "<p>" + code + "</p>")
 
 	def test_valid_html(self):
-		code = "<p><strong>Test</strong></p>\n<pre>\nTadaaa\n\n</pre><p>Text</p>"
+		code = "<p><strong>Test</strong></p>\n<pre>Tadaaa\n\n</pre><p>Text</p>"
 		self.parser.parse(code)
-		self.assertEqual(self.parser.get_output(), "<p><strong>Test</strong></p>\n<pre>\nTadaaa\n\n</pre><p>Text</p>")
+		self.assertEqual(self.parser.get_output(), "<p><strong>Test</strong></p>\n<pre>Tadaaa\n\n</pre><p>Text</p>")
 
 	def test_opened_tag(self):
 		code = """<p>Test"""
@@ -32,7 +33,7 @@ class ParserTest(TestCase):
 	def test_unknown_tag(self):
 		code = """<xxx>Test</xxx>"""
 		self.parser.parse(code)
-		self.assertEqual(self.parser.get_output(), code.replace('<', '&lt;').replace('>', '&gt;'))
+		self.assertEqual(self.parser.get_output(), '<p>' + code.replace('<', '&lt;').replace('>', '&gt;') + '</p>')
 
 	def test_attribute(self):
 		code = """<p><a href="#test">Test</a></p>"""
@@ -62,7 +63,7 @@ class ParserTest(TestCase):
 		self.assertEqual(parser.get_output(), """<a href="http://www.linuxos.sk" rel="nofollow">Test</a>""")
 
 	def test_profile_parser(self):
-		code = """<p><img src="http://www.linuxos.sk/img.png" alt="" /></p>"""
+		code = """<p><img alt="" src="http://www.linuxos.sk/img.png"></p>"""
 		parser = get_parser('profile')
 		parser.parse(code)
 		self.assertEqual(parser.get_output(), code)
@@ -81,3 +82,11 @@ class ParserTest(TestCase):
 		code = """<p><a href="http://linuxos.sk/a&amp;b">Test</a></p>"""
 		self.parser.parse(code)
 		self.assertEqual(self.parser.get_output(), """<p><a href="http://linuxos.sk/a&amp;b">Test</a></p>""")
+
+	def test_code_class(self):
+		code = """<pre class="code-cpp">cpp</pre>"""
+		self.parser.parse(code)
+		self.assertEqual(self.parser.get_output(), """<pre class="code-cpp">cpp</pre>""")
+		code = """<pre class="wrong">wrong</pre>"""
+		self.parser.parse(code)
+		self.assertEqual(self.parser.get_output(), """<pre>wrong</pre>""")
