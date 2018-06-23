@@ -130,6 +130,10 @@ class HtmlParser:
 	def get_attributes(self):
 		return {}
 
+	@property
+	def supported_tags(self):
+		return self.cleaner.tags
+
 
 class RawParser:
 	def parse(self, text):

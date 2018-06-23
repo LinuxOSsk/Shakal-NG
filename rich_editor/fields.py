@@ -30,9 +30,12 @@ class RichTextOriginalField(TextField):
 			'form_class': RichOriginalField,
 			'parsers': self.parsers,
 			'parsers_conf': self.parsers_conf,
+			'supported_tags': [],
 			'max_length': self.max_length,
 			'widget': RichOriginalEditor,
 		}
+		if 'html' in self.parsers:
+			defaults['supported_tags'] = self.parsers['html'].supported_tags
 		defaults.update(kwargs)
 		return super(RichTextOriginalField, self).formfield(**defaults)
 

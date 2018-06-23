@@ -28,14 +28,16 @@ class RichTextField(CharField):
 class RichOriginalField(CharField):
 	widget = RichOriginalEditor
 
-	def __init__(self, parsers, parsers_conf, *args, **kwargs):
+	def __init__(self, parsers, parsers_conf, supported_tags, *args, **kwargs):
 		self.parsers = parsers
 		self.parsers_conf = parsers_conf
+		self.supported_tags = supported_tags
 		super(RichOriginalField, self).__init__(*args, **kwargs)
 
 	def widget_attrs(self, widget):
 		attrs = super(RichOriginalField, self).widget_attrs(widget)
 		attrs['parsers_conf'] = self.parsers_conf
+		attrs['supported_tags'] = self.supported_tags
 		for parser in self.parsers.values():
 			attrs.update(parser.get_attributes())
 		return attrs

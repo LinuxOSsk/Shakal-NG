@@ -39,18 +39,10 @@ class RichEditorMixin(Textarea):
 		super(RichEditorMixin, self).__init__(attrs)
 
 	def get_tags_info(self, supported_tags):
-		unsupported_tags = set(ALL_TAGS) - set(supported_tags.keys()) - set(('html', 'body'))
-		defined_tags = set(supported_tags.keys()) - set('')
-		for tag in supported_tags:
-			if tag == '':
-				tag_name = 'body'
-			else:
-				tag_name = tag
-			unsupported_tags.update([tag_name + ' > ' + t for t in defined_tags - supported_tags[tag].get_child_tags() if t != ''])
-			unsupported_tags = unsupported_tags - set(['pre > span'])
+		unsupported_tags = set(ALL_TAGS) - set(supported_tags) - set(('html', 'body'))
 		return {
 			'unsupported': list(unsupported_tags),
-			'known': list(supported_tags.keys()),
+			'known': list(supported_tags),
 		}
 
 
