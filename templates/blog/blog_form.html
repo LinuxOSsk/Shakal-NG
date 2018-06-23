@@ -5,22 +5,22 @@
 {{ super() }}
 {% endblock %}
 
-{% block head_title %}Správa blogu{% endblock %}
+{% block head_title %}Nastavenie blogu{% endblock %}
 {% block breadcrumbs %}
-	{{ breadcrumb("Správa blogu") }}
+	{{ breadcrumb("Nastavenie blogu") }}
 	{{ breadcrumb("Blog", url='blog:post-list') }}
 	{{ super() }}
 {% endblock %}
 
 {% block content %}
-<h1>Správa blogu</h1>
+<h1>Nastavenie bogu</h1>
 
 {% if valid %}
 	<div class="module preview">
 		<h2 class="block-title">Náhľad</h2>
 		<h1>{{ blog.title }}</h1>
 		<div class="module sidebar">
-			<h2 class="block-title">Informácie</h2>
+			<h2>Informácie</h2>
 			<div class="module-row">
 				{{ blog.sidebar|safe }}
 			</div>
