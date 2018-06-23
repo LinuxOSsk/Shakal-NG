@@ -179,7 +179,7 @@ def create_image(size=None, color=None, filetype='png', basename='image'):
 
 	file_obj = BytesIO()
 
-	im = Image.new('RGBA', size=size, color=color)
+	im = Image.new('RGBA' if filetype == 'png' else 'RGB', size=size, color=color)
 	im.save(file_obj, filetype)
 
 	file_obj.name = basename + '.' + filetype

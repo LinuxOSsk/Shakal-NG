@@ -14,7 +14,10 @@ from common_utils import clean_dir
 class AutoImageFieldMixin(object):
 	def generate_filename(self, instance, filename):
 		if instance.pk:
-			filename = os.path.join(self.upload_to, "{0:02x}".format(instance.pk % 256), str(instance.pk), filename)
+			upload_to = self.upload_to
+			if callable(upload_to):
+				upload_to = upload_to(instance, filename)
+			filename = os.path.join(upload_to, "{0:02x}".format(instance.pk % 256), str(instance.pk), filename)
 			return self.storage.generate_filename(filename)
 		else:
 			return super(AutoImageFieldMixin, self).generate_filename(instance, filename)
