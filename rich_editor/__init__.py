@@ -15,7 +15,7 @@ def get_parser(parser, fmt='html'):
 			parser_instance.auto_paragraphs = False
 			return parser_instance
 		elif parser == 'profile':
-			parser_instance = HtmlParser(supported_tags=DEFAULT_TAG_LIST)
+			parser_instance = HtmlParser(supported_tags=FULL_TAGS_LIST)
 			parser_instance.add_nofollow = False
 			return parser_instance
 		elif parser == 'blog' or parser == 'full':
