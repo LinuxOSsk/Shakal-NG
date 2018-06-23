@@ -1,5 +1,5 @@
 #!/bin/bash
 cat requirements.in requirements.dev > requirements.dev.in
-pip-compile --upgrade requirements.in
-pip-compile --upgrade requirements.dev.in
+pip-compile --upgrade -v requirements.in
+pip-compile --upgrade -v requirements.dev.in
 pip-sync requirements.dev.txt
