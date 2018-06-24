@@ -15,8 +15,8 @@ from forum.models import Topic as ForumTopic
 from linuxos.templatetags.linuxos import now
 
 
-def error_500(request):
-	template = get_template('500.html')
+def error_500(request, template_name='500.html'):
+	template = get_template(template_name)
 	except_type, value, _ = sys.exc_info()
 	return HttpResponseServerError(template.render({
 		'date_now': now(r"Y-m-d\TH:m:sO"),
@@ -26,8 +26,8 @@ def error_500(request):
 	}))
 
 
-def error_404(request):
-	template = get_template('404.html')
+def error_404(request, exception, template_name='404.html'):
+	template = get_template(template_name)
 	return HttpResponseNotFound(template.render({
 		'date_now': now(r"Y-m-d\TH:m:sO"),
 		'request': request,
