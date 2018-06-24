@@ -1,0 +1,32 @@
+{% extends "tweets/tweets_base.html" %}
+
+{% block head_title %}Tweety{% endblock %}
+
+{% block breadcrumbs %}
+	{{ breadcrumb("Tweety", url="tweets:list", page=1) }}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<ul class="object-tools btn-group">
+	<li class="btn"><span class="wrap"><a href="{{ url("tweets:create") }}" class="text">Napísať tweet</a></span></li>
+</ul>
+{% endif %}
+
+<h1>Tweety</h1>
+
+{% if page_obj.number == 1 %}
+	<p class="description">
+		Do tejto sekcie je možné pridávať rôzne krátke texty a odkazy, ktoré nepatria do fóra ani do správ. Texty nemusia nijako súvisieť s Linuxom.
+	</p>
+{% endif %}
+<div class="module">
+	{{ add_discussion_attributes(tweet_list) }}
+	{% for item in tweet_list %}
+		<div class="module-row">{% include "tweets/partials/list_item.html" %}</div>
+	{% endfor %}
+	{{ pagination() }}
+</div>
+{% endblock %}
+

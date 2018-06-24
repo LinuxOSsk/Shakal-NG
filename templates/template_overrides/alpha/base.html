@@ -114,6 +114,12 @@
 						{% include "partials/menu_linux.html" %}
 					</ul>
 				</div>
+				{% if tweets is defined %}
+					<div id="module_block_portal" class="module tweets">
+						<h2 class="block-title">Tweety</h2>
+						{% include "partials/tweets.html" %}
+					</div>
+				{% endif %}
 				<div id="module_block_portal" class="module portal">
 					<h2 class="block-title">Portál</h2>
 					<ul class="menu">

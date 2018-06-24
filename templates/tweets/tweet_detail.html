@@ -1,0 +1,54 @@
+{% extends "tweets/tweets_base.html" %}
+
+{% block breadcrumbs %}
+	{{ breadcrumb(tweet|truncatechars(80)) }}
+	{{ breadcrumb("Správy", url="tweets:list", page=1) }}
+	{{ super() }}
+{% endblock %}
+
+{% block extraheaders %}
+	{{ super() }}
+	<meta name="description" content="{{ object.text|striptags }}" />
+	{% with
+		name=object.title,
+		description=object.text|striptags,
+		created=object.created,
+		updated=object.updated,
+		author=object.author
+	%}
+		{% include "partials/social_media.html" %}
+	{% endwith %}
+{% endblock %}
+
+{% block head_title %}{{ tweet }}{% endblock %}
+{% block html_extra %}{% include "partials/htmlscope_article.html" %}{% endblock %}
+
+{% block content %}
+{% if request.user.is_authenticated %}
+	<form action="{{ request.path }}" method="post">{% csrf_token %}
+		<ul class="object-tools btn-group">
+			{% if user.is_staff and perms.tweets.change_tweet %}
+				<li class="btn"><span class="wrap"><a href="{{ url("admin:tweets_tweet_change", tweet.pk) }}" class="text">Admin</a></span></li>
+			{% endif %}
+		</ul>
+	</form>
+{% endif %}
+
+<h1>{{ tweet }}</h1>
+
+<div class="info">
+	<span class="time">{{ tweet.created|humandatetime }}</span> |
+	<span class="user">{{ user_link(tweet.author) }}</span> |
+</div>
+
+<p>
+{{ tweet.text|safe }}
+</p>
+
+{% include "tweets/partials/source.html" %}
+{% with name=tweet.title %}
+	{% include "partials/share.html" %}
+{% endwith %}
+{% endblock %}
+
+{% block discussion %}{{ render_comments_toplevel(tweet) }}{% endblock %}

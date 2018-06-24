@@ -10,7 +10,7 @@
 -e git+https://github.com/mireq/django-email-log-backend.git@af0da9cf3d4c10bc81b95cb91e799484eac5b298#egg=django_email_log_backend
 -e git+https://github.com/mireq/django-geoposition-field.git@662bb9c460977a6100f02272e89914ef88da16f4#egg=django_geoposition_field
 -e git+https://github.com/mireq/django-sample-data-generator.git@c95e3cea0f2b48880e669d2ce67020656fdebd39#egg=django_sample_data_generator
--e git+https://github.com/mireq/django-simple-paginator.git@e70aca827ceb733b354a02bd8f4baea470638018#egg=django_simple_paginator
+-e git+https://github.com/mireq/django-simple-paginator.git@170f89534a9e295ec6399f0ea461d76860b781ea#egg=django_simple_paginator
 bleach==2.1.3
 certifi==2018.4.16        # via requests
 chardet==3.0.4            # via requests

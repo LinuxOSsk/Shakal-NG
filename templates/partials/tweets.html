@@ -1,0 +1,11 @@
+{% for item in tweets %}
+	<div class="module-row">{% include "tweets/partials/list_item.html" %}</div>
+{% endfor %}
+<div class="module-links bottom">
+	<a href="{{ url("tweets:list", page=1) }}" class="next">Ďalšie</a>
+</div>
+<div class="submit-row">
+	<div class="positive">
+		<div class="btn"><span class="wrap"><a class="text" href="{{ url("tweets:create") }}">Pridať tweet</a></span></div>
+	</div>
+</div>

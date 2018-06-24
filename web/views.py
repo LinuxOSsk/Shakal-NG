@@ -13,6 +13,7 @@ from common_utils.cache import cached_method
 from desktops.models import Desktop
 from forum.models import Topic as ForumTopic
 from linuxos.templatetags.linuxos import now
+from tweets.models import Tweet
 
 
 def error_500(request, template_name='500.html'):
@@ -98,6 +99,7 @@ class Home(TemplateView):
 			'forum_most_comments': forum_most_comments,
 			'new_items': new_items,
 			'article_categories': Category.objects.all(),
-			'desktops': self.get_desktops()
+			'desktops': self.get_desktops(),
+			'tweets': Tweet.objects.order_by('-pk').prefetch_related('author')[:2]
 		})
 		return ctx

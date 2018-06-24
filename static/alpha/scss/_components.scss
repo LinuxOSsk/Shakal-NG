@@ -96,6 +96,12 @@ body.home .content-module {
 	&.odporucam .module-row {
 		text-align: center;
 	}
+
+	&.tweets {
+		@media #{$large-down} {
+			display: none;
+		}
+	}
 }
 
 .block-title {

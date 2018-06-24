@@ -1,0 +1,14 @@
+{% if tweet.link_text or tweet.link_url %}
+	{% if inline %}| <span class="link">{% else %}<p>{% endif %}
+		Odkaz:
+		{% if tweet.link_url and tweet.link_text %}
+			<a href="{{ tweet.link_url }}" rel="nofollow">{{ tweet.link_text }}</a>
+		{% else %}
+			{% if tweet.link_url %}
+				<a href="{{ tweet.link_url }}" rel="nofollow">{{ tweet.link_url }}</a>
+			{% else %}
+				{{ tweet.link_text }}
+			{% endif %}
+		{% endif %}
+	{% if inline %}</span>{% else %}</p>{% endif %}
+{% endif %}

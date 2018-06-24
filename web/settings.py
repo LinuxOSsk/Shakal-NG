@@ -77,6 +77,7 @@ INSTALLED_APPS = [
 	'notifications',
 	'polls',
 	'search',
+	'tweets',
 	'wiki',
 ]
 
@@ -403,6 +404,14 @@ SUIT_CONFIG = {
 			'permissions': 'notes.note',
 			'models': (
 				'notes.note',
+			)
+		},
+		{
+			'label': 'Tweety',
+			'icon': 'icon-volume-up',
+			'permissions': 'tweets.tweet',
+			'models': (
+				'tweets.tweet',
 			)
 		},
 		{

@@ -7,12 +7,17 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.contenttypes import views as contenttype_views
 from django.contrib.staticfiles.storage import staticfiles_storage
+from django.urls import register_converter
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import RedirectView
+from django_simple_paginator.converter import PageConverter
 
 import search.views
 import template_dynamicloader.views
 import web.views
+
+
+register_converter(PageConverter, 'page')
 
 
 urlpatterns = [
@@ -28,6 +33,7 @@ urlpatterns = [
 	url(_(r'^forum/'), include('forum.urls')),
 	#url(_(r'^maintenance/'), include('maintenance.urls')),
 	url(_(r'^news/'), include('news.urls')),
+	url(_(r'^tweets/'), include('tweets.urls')),
 	url(_(r'^notifications/'), include('notifications.urls')),
 	url(_(r'^polls/'), include('polls.urls')),
 	url(_(r'^wiki/'), include('wiki.urls')),

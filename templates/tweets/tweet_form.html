@@ -1,0 +1,58 @@
+{% extends "tweets/tweets_base.html" %}
+
+{% block extraheaders %}
+<meta name="robots" content="noindex, nofollow" />
+{{ super() }}
+{% endblock %}
+
+{% block head_title %}{% if object %}Upraviť tweet{% else %}Pridať tweet{% endif %}{% endblock %}
+{% block breadcrumbs %}
+	{% if object %}
+		{{ breadcrumb("Upraviť tweet") }}
+	{% else %}
+		{{ breadcrumb("Pridať tweet") }}
+	{% endif %}
+	{{ breadcrumb("Tweety", url="tweets:list", page=1) }}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+<h1>{% if object %}Upraviť tweet{% else %}Pridať tweet{% endif %}</h1>
+
+{% if valid %}
+	<div class="module preview">
+		<h2>Náhľad</h2>
+		<h3>{{ item }}</h3>
+		<div class="info">
+			<span class="time">Teraz</span> |
+			<span class="user">{{ user_link(item.author) }}</span>
+		</div>
+		<p>{{ item.text|safe }}</p>
+		{% with tweet=item %}
+			{% if tweet.link_text or tweet.link_url %}
+				<hr />
+				{% include "tweets/partials/source.html" %}
+			{% endif %}
+		{% endwith %}
+	</div>
+{% endif %}
+
+<form action="{{ request.path }}" enctype="multipart/form-data" method="post" id="tweet-form">{% csrf_token %}
+	<fieldset class="module">
+		{% include "includes/form_loop.html" %}
+		<div class="submit-row">
+			<div class="positive">
+				<button class="btn" type="submit" title="Náhľad"><span class="wrap"><span class="text">Náhľad</span></span></button>
+				{% if valid %}
+					{% if object %}
+						<button class="btn primary" type="submit" title="Upraviť tweet" name="update" value="1"><span class="wrap"><span class="text">Upraviť tweet</span></span></button>
+					{% else %}
+						<button class="btn primary" type="submit" title="Vytvoriť tweet" name="create" value="1"><span class="wrap"><span class="text">Vytvoriť tweet</span></span></button>
+					{% endif %}
+				{% endif %}
+			</div>
+		</div>
+	</fieldset>
+</form>
+{% endblock %}
+

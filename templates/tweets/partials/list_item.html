@@ -1,0 +1,15 @@
+<h3><a href="{{ item.get_absolute_url() }}">{{ item }}</a></h3>
+<div class="info">
+	<span class="time">{{ item.created|humandatetime }}</span> |
+	<span class="user">{{ user_link(item.author) }}</span>
+</div>
+{{ item.text|safe }}
+<div class="info bottom">
+	<span class="comments">
+		{{ get_comments_for_item(item) }}
+		{% with tweet=item, inline=true %}
+			{% include "tweets/partials/source.html" %}
+		{% endwith %}
+	</span>
+</div>
+
