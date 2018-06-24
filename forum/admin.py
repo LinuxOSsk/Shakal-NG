@@ -17,7 +17,7 @@ class SectionAdmin(admin.ModelAdmin):
 class TopicAdmin(AttachmentAdminMixin, admin.ModelAdmin):
 	list_display = ('title', 'get_authors_name', 'is_removed', 'is_resolved',)
 	list_filter = ('section', 'is_removed', 'is_resolved',)
-	search_fields = ('title', 'get_authors_name',)
+	search_fields = ('title', 'original_text',)
 	ordering = ('-id',)
 	raw_id_fields = ('author',)
 	inlines = [AttachmentInline, CommentInline]
