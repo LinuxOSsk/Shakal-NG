@@ -10,9 +10,9 @@ from .models import Tweet
 
 
 class TweetFeed(Feed):
-	title = 'Tweete'
+	title = 'Tweety'
 	description = 'Zoznam posledných tweetov'
-	link = reverse_lazy('tweets:list')
+	link = reverse_lazy('tweets:list', kwargs={'page': 1})
 	feed_url = reverse_lazy('tweets:feed-latest')
 	description_template = 'feeds/description/tweet.html'
 

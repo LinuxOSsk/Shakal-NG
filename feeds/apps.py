@@ -17,6 +17,7 @@ class FeedsConfig(AppConfig):
 		from news.feeds import NewsFeed
 		from comments.feeds import CommentFeed
 		from desktops.feeds import DesktopFeed
+		from tweets.feeds import TweetFeed
 
 		FeedsRegister.register_standard_feed(ArticleFeed())
 		FeedsRegister.register_standard_feed(TopicFeed())
@@ -24,3 +25,4 @@ class FeedsConfig(AppConfig):
 		FeedsRegister.register_standard_feed(PostFeed())
 		FeedsRegister.register_standard_feed(CommentFeed())
 		FeedsRegister.register_standard_feed(DesktopFeed())
+		FeedsRegister.register_standard_feed(TweetFeed())
