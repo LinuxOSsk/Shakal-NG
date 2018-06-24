@@ -23,6 +23,12 @@ class XapianSearchBackend(CoreXapianSearchBackend):
 		database.replace_document = replace_document
 		return database
 
+	def parse_query(self, query_string):
+		try:
+			return super().parse_query(query_string)
+		except xapian.QueryParserError:
+			return xapian.Query()
+
 
 class XapianEngine(BaseEngine):
 	backend = XapianSearchBackend
