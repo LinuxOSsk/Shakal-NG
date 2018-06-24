@@ -113,7 +113,15 @@ class PostCreateView(LoginRequiredMixin, PreviewCreateView):
 		}
 
 	def form_valid(self, form):
-		form.instance.blog = self.request.user.blog
+		if hasattr(self.request.user, 'blog'):
+			form.instance.blog = self.request.user.blog
+		else:
+			if 'create' in self.request.POST:
+				blog = Blog()
+				blog.author = self.request.user
+				blog.title = self.request.user.get_full_name()
+				blog.save()
+				form.instance.blog = blog
 		return super(PostCreateView, self).form_valid(form)
 
 

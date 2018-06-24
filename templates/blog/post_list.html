@@ -18,17 +18,13 @@
 {% if blog %}
 	<h1>{{ blog }}</h1>
 
-	{% if page_obj.number == 1 %}
+	{% if page_obj.number == 1 and blog.description %}
 		<div class="annotation">{{ blog.description|safe }}</div>
 	{% endif %}
 {% else %}
 	{% if request.user.is_authenticated %}
 		<ul class="object-tools">
-			{% if request.user.blog %}
-				<li class="btn"><span class="wrap"><a class="text" href="{{ request.user.blog.get_absolute_url() }}">Môj blog</a></span></li>
-			{% else %}
-				<li class="btn"><span class="wrap"><a class="text" href="{{ url('blog:blog-update') }}">Vytvoriť blog</a></span></li>
-			{% endif %}
+			<li class="btn"><span class="wrap"><a class="text" href="{{ url('blog:post-create') }}">Vytvoriť príspevok</a></span></li>
 		</ul>
 	{% endif %}
 
