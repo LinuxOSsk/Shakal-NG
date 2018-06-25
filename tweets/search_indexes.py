@@ -19,5 +19,5 @@ class TweetIndex(indexes.SearchIndex, indexes.Indexable):
 		return Tweet
 
 	def index_queryset(self, using=None):
-		return self.get_model().objects.filter(approved=True)
+		return self.get_model().objects.all()
 
