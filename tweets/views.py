@@ -7,7 +7,7 @@ from common_utils.generic import PreviewCreateView, DetailView, ListView
 
 
 class TweetListView(ListView):
-	queryset = Tweet.objects.all().prefetch_related('author')
+	queryset = Tweet.objects.all().prefetch_related('author').ordr_by('-pk')
 	paginate_by = 20
 
 
