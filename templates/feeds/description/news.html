@@ -3,6 +3,9 @@
 {% else %}
 	{{ obj.short_text|safe }}
 {% endif %}
+{% with news=obj %}
+	{% include "news/partials/source.html" %}
+{% endwith %}
 {% if "include_comments" in request.GET %}
 	<div>
 		<a href="{{ obj.get_absolute_url() }}#comments">
