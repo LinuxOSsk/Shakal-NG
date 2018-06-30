@@ -279,6 +279,7 @@ INITIAL_DATA_COUNT = {
 	'blog_post': 30,
 	'forum_topic': 30,
 	'news_news': 30,
+	'tweets_tweet': 30,
 }
 
 SAMPLE_DATA_GENERATORS = (
@@ -287,6 +288,7 @@ SAMPLE_DATA_GENERATORS = (
 	'blog.generators',
 	'forum.generators',
 	'news.generators',
+	'tweets.generators',
 	'comments.generators',
 )
 

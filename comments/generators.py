@@ -20,6 +20,7 @@ class CommentGenerator(generator.ModelGenerator):
 		'forum.topic',
 		'news.news',
 		'blog.post',
+		'tweets.tweet',
 	)
 
 	next_id = 0
