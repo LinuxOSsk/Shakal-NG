@@ -1037,6 +1037,19 @@ ul#main_menu {
 			display: block;
 		}
 	}
+	#settings_panel {
+		float: right;
+		margin: 5px 0 0 0;
+		position: relative;
+		.settings-icon {
+			@include btn_icon();
+			@include sprite-generated(settings_icon);
+			&:hover {
+				border-radius: 0px;
+				@include sprite-generated(settings_icon);
+			}
+		}
+	}
 	.dropdown.menu {
 		margin-top: 38px;
 		&:before {

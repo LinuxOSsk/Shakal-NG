@@ -146,6 +146,9 @@ html, body {
 							</ul>
 						{% endif %}
 					</div>
+					<div id="settings_panel" class="btn">
+						<span class="wrap"><a class="settings-icon text" href="{{ url("template-list") }}">Nastavenia</a></span>
+					</div>
 					<div id="rss_panel" class="btn">
 						<span class="wrap"><a class="rss-icon text" href="#">RSS</a></span>
 						{{ render_all_feeds(template="feeds/home_feeds.html") }}

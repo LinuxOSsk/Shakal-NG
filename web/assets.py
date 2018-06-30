@@ -115,6 +115,7 @@ SPRITES = (
 			{ 'name': 'profile_icon_14', 'src': '2013/images/profile_icon_14.png' },
 			{ 'name': 'search_icon', 'src': '2013/images/search_icon.png' },
 			{ 'name': 'rss_icon', 'src': '2013/images/rss_icon.png' },
+			{ 'name': 'settings_icon', 'src': '2013/images/settings_icon.png' },
 			{ 'name': 'trashcan', 'src': '2013/images/trashcan.png' },
 			{ 'name': 'corner_arrow_up', 'src': '2013/images/corner_arrow_up.png' },
 			{ 'name': 'locked_icon', 'src': '2013/images/locked.png' },
