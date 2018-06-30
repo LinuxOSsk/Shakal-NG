@@ -13,6 +13,7 @@ from desktops.models import Desktop
 from forum.models import Topic
 from linuxos.static_urls import sites
 from news.models import News
+from tweets.models import Tweet
 from wiki.models import Page as WikiPage
 
 
@@ -29,13 +30,14 @@ class StaticPagesSitemap(sitemaps.Sitemap):
 
 sitemaps = {
 	'sites': StaticPagesSitemap(),
-	'accounts': GenericSitemap({'queryset': User.objects.filter(is_active=True)}, changefreq='monthly', priority=0.2),
-	'articles': GenericSitemap({'queryset': Article.objects.all(), 'date_field': 'pub_time'}, priority=0.9),
-	'blogposts': GenericSitemap({'queryset': Post.objects.all(), 'date_field': 'updated'}, priority=0.6),
-	'blogs': GenericSitemap({'queryset': Blog.objects.all(), 'date_field': 'updated'}, priority=0.8),
-	'desktops': GenericSitemap({'queryset': Desktop.objects.all(), 'date_field': 'updated'}, priority=0.5),
-	'news': GenericSitemap({'queryset': News.objects.all(), 'date_field': 'updated'}, priority=0.5),
-	'topics': GenericSitemap({'queryset': Topic.objects.topics(), 'date_field': 'updated'}, priority=0.5),
-	'wiki': GenericSitemap({'queryset': WikiPage.objects.all(), 'date_field': 'updated'}, priority=0.7),
-	'blackhole_story': GenericSitemap({'queryset': Node.objects.all().filter(node_type='story'), 'date_field': 'updated'}, priority=0.7),
+	'accounts': GenericSitemap({'queryset': User.objects.filter(is_active=True).order_by('-pk')}, changefreq='monthly', priority=0.4),
+	'articles': GenericSitemap({'queryset': Article.objects.order_by('-pk'), 'date_field': 'pub_time'}, priority=1.0),
+	'blogposts': GenericSitemap({'queryset': Post.objects.order_by('-pk'), 'date_field': 'updated'}, priority=0.7),
+	'blogs': GenericSitemap({'queryset': Blog.objects.order_by('-pk'), 'date_field': 'updated'}, priority=0.7),
+	'desktops': GenericSitemap({'queryset': Desktop.objects.order_by('-pk'), 'date_field': 'updated'}, priority=0.5),
+	'news': GenericSitemap({'queryset': News.objects.order_by('-pk'), 'date_field': 'updated'}, priority=0.5),
+	'tweets': GenericSitemap({'queryset': Tweet.objects.order_by('-pk'), 'date_field': 'updated'}, priority=0.4),
+	'topics': GenericSitemap({'queryset': Topic.objects.topics().order_by('-pk'), 'date_field': 'updated'}, priority=0.5),
+	'wiki': GenericSitemap({'queryset': WikiPage.objects.order_by('-pk'), 'date_field': 'updated'}, priority=0.9),
+	'blackhole_story': GenericSitemap({'queryset': Node.objects.order_by('-pk').filter(node_type='story'), 'date_field': 'updated'}, priority=0.8),
 }
