@@ -2,7 +2,7 @@
 
 {% block breadcrumbs %}
 	{{ breadcrumb(tweet|truncatechars(80)) }}
-	{{ breadcrumb("Správy", url="tweets:list", page=1) }}
+	{{ breadcrumb("Tweety", url="tweets:list", page=1) }}
 	{{ super() }}
 {% endblock %}
 
