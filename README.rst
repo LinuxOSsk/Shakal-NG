@@ -73,6 +73,5 @@ TODO
 - hodnotenie článku
 - zaplatiť autorovi kávu
 - nahlásenie chyby článku
-- tweety
 - ponuky práce
 - bazár
