@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.utils.encoding import force_text
 from django_jinja import library
 from jinja2 import contextfunction
 
@@ -44,6 +45,7 @@ def link_remove(context, url, *keys):
 @library.global_function
 @contextfunction
 def current_link_add(context, **values):
+	values = {key: force_text(value) for key, value in values.items()}
 	return link_add(context, context['request'].path, **values)
 
 
