@@ -134,6 +134,8 @@ def main():
 	make_transparent_light_dark('foldable_closed')
 	make_transparent_light_dark('trashcan')
 	make_transparent_light_dark('unlock')
+	make_transparent_light_dark('voting_down')
+	make_transparent_light_dark('voting_up')
 
 	make_lighttransparent_light_dark('comments')
 

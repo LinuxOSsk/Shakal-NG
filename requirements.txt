@@ -27,11 +27,11 @@ django-hijack==2.1.9
 django-jinja==2.4.1
 django-js-asset==1.1.0    # via django-mptt
 django-libsass==0.7
-django-mptt==0.9.0
-django-reversion==2.0.13
-django-static-sitemaps==4.4.1
+django-mptt==0.9.1
+django-reversion==3.0.0
+django-static-sitemaps==4.6.0
 django-suit==0.2.26
-django==2.0.6
+django==2.1
 easy-thumbnails==2.5
 feedparser==5.2.1
 first==2.0.1              # via pip-tools
@@ -42,11 +42,11 @@ jinja2==2.10              # via django-jinja
 libsass==0.14.5           # via django-libsass
 markupsafe==1.0           # via jinja2
 oauthlib==2.1.0           # via requests-oauthlib
-pillow==5.1.0
+pillow==5.2.0
 pip-tools==2.0.2
 pygments==2.2.0
 python3-openid==3.1.0     # via django-allauth
-pytz==2018.4
+pytz==2018.5
 raven==6.9.0
 rcssmin==1.0.6            # via django-compressor
 requests-oauthlib==1.0.0  # via django-allauth

@@ -76,6 +76,7 @@ INSTALLED_APPS = [
 	'notes',
 	'notifications',
 	'polls',
+	'rating',
 	'search',
 	'tweets',
 	'wiki',
