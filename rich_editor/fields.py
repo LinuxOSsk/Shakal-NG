@@ -50,7 +50,7 @@ class RichTextOriginalField(TextField):
 			else:
 				return TextVal(list(self.parsers.keys())[0] + value)
 
-	def from_db_value(self, value, expression, connection, context): # pylint: disable=unused-argument
+	def from_db_value(self, value, expression, connection): # pylint: disable=unused-argument
 		return self.to_python(value)
 
 	def contribute_to_class(self, cls, name, **kwargs):
