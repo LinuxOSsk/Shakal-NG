@@ -9,12 +9,12 @@ from django.utils.safestring import mark_safe
 
 
 class AntispamInput(TextInput):
-	def render(self, name, value, attrs = None):
+	def render(self, name, value, *args, **kwargs):
 		if getattr(settings, 'CAPTCHA_DISABLE', False):
 			return ''
 		question = self.attrs.pop("question", "")
 		answer = self.attrs.pop("answer", "")
-		data = super(AntispamInput, self).render(name, value, attrs)
+		data = super().render(name, value, *args, **kwargs)
 		self.attrs['question'] = question
 		self.attrs['answer'] = answer
 		return mark_safe('<span class="question">' + question + '</span>' + data)
@@ -26,7 +26,7 @@ class AntispamField(CharField):
 	def clean(self, value):
 		if getattr(settings, 'CAPTCHA_DISABLE', False):
 			return ''
-		value = super(AntispamField, self).clean(value)
+		value = super().clean(value)
 		if value != self.widget.attrs.get("answer", ""):
 			raise ValidationError("Nesprávna odpoveď.")
 		return value

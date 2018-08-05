@@ -23,10 +23,10 @@ def get_file_list(files, name):
 
 
 class AttachmentWidget(ClearableFileInput):
-	def render(self, name, value, attrs=None):
+	def render(self, name, value, attrs=None, *args, **kwargs):
 		attrs = attrs or {}
 		max_size = self.attrs.pop('max_size', -1)
-		widget = super(AttachmentWidget, self).render(name, value, attrs)
+		widget = super(AttachmentWidget, self).render(name, value, attrs, *args, **kwargs)
 		if max_size >= 0:
 			widget += mark_safe(
 				"<p class='help upload_size'>" +
@@ -38,10 +38,10 @@ class AttachmentWidget(ClearableFileInput):
 
 
 class AttachmentWidgetMultiple(AttachmentWidget):
-	def render(self, name, value, attrs=None):
+	def render(self, name, value, attrs=None, *args, **kwargs):
 		attrs = attrs or {}
 		attrs['multiple'] = 'multiple'
-		return super(AttachmentWidgetMultiple, self).render(name, value, attrs)
+		return super(AttachmentWidgetMultiple, self).render(name, value, attrs, *args, **kwargs)
 
 	def value_from_datadict(self, data, files, name):
 		return get_file_list(files, name)
