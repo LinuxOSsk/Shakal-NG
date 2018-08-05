@@ -36,7 +36,7 @@ class Category(models.Model):
 	description = models.TextField('popis')
 
 	def get_absolute_url(self):
-		return reverse('news:list-category', kwargs={'category': self.slug})
+		return reverse('news:list-category', kwargs={'category': self.slug, 'page': 1})
 
 	def __str__(self):
 		return self.name
@@ -93,7 +93,7 @@ class News(TimestampModelMixin, models.Model):
 		return reverse('news:detail', kwargs={'slug': self.slug})
 
 	def get_list_url(self):
-		return reverse('news:list')
+		return reverse('news:list', kwargs={'page': 1})
 
 	@cached_property
 	def admin_notes(self):

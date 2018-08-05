@@ -41,4 +41,4 @@ class Page(mptt.models.MPTTModel, TimestampModelMixin):
 		if self.page_type == 'h' and not self.parent:
 			return reverse('wiki:home')
 		else:
-			return reverse('wiki:page', kwargs={'slug': self.slug})
+			return reverse('wiki:page', kwargs={'slug': self.slug, 'page': 1})

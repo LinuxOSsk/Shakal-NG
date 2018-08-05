@@ -12,7 +12,7 @@ from forum.models import Topic, Section
 class TopicFeed(Feed):
 	title = "Fórum"
 	description = "Témy fóra"
-	link = reverse_lazy('forum:overview')
+	link = reverse_lazy('forum:overview', kwargs={'page': 1})
 	feed_url = reverse_lazy('forum:feed-latest')
 	description_template = 'feeds/description/forum_topic.html'
 

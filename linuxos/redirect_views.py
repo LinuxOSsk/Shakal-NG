@@ -38,13 +38,14 @@ def profile_old_redirect(request):
 
 def article_category_redirect(request, pk):
 	category = get_object_or_404(ArticleCategory, pk=pk)
-	return HttpResponsePermanentRedirect(reverse('article:list-category', kwargs={'category': category.slug}))
+	return HttpResponsePermanentRedirect(reverse('article:list-category', kwargs={'category': category.slug, 'page': 1}))
 
 def news_list_redirect(request, **kwargs):
+	kwargs['page'] = 1
 	return HttpResponsePermanentRedirect(reverse('news:list', kwargs=kwargs))
 
 def topic_list_redirect(request):
-	return HttpResponsePermanentRedirect(reverse('forum:overview'))
+	return HttpResponsePermanentRedirect(reverse('forum:overview', kwargs={'page': 1}))
 
 def comments_redirect(request, parent):
 	return HttpResponsePermanentRedirect(reverse('comments:reply', kwargs={'parent': parent}))
@@ -66,6 +67,8 @@ def forum_category_redirect(request, category, page=None):
 	kwargs = {}
 	if page:
 		kwargs['page'] = page
+	else:
+		kwargs['page'] = 1
 	section = get_object_or_404(ForumSection, pk=category)
 	kwargs['category'] = section.slug
 	return HttpResponsePermanentRedirect(reverse('forum:section', kwargs=kwargs))
@@ -124,7 +127,7 @@ def old_php_redirect(request): #pylint: disable=too-many-return-statements
 	elif show == 'odkazy':
 		return HttpResponsePermanentRedirect(reverse('page_odkazy'))
 	elif show == 'forum_zoznam':
-		return HttpResponsePermanentRedirect(reverse('forum:overview'))
+		return HttpResponsePermanentRedirect(reverse('forum:overview', kwargs={'page': 1}))
 
 	return HttpResponseNotFound()
 

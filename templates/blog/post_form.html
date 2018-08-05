@@ -14,7 +14,7 @@
 	{% else %}
 		{{ breadcrumb("Vytvorenie príspevku") }}
 	{% endif %}
-	{{ breadcrumb("Blog", url="blog:post-list") }}
+	{{ breadcrumb("Blog", url="blog:post-list", page=1) }}
 	{{ super() }}
 {% endblock %}
 

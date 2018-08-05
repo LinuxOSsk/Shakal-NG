@@ -3,8 +3,8 @@
 {% block head_title %}Seriály{% endblock %}
 
 {% block breadcrumbs %}
-	{{ breadcrumb("Seriály", url="article:series") }}
-	{{ breadcrumb("Články", url="article:list") }}
+	{{ breadcrumb("Seriály", url="article:series", page=1) }}
+	{{ breadcrumb("Články", url="article:list", page=1) }}
 	{{ super() }}
 {% endblock %}
 

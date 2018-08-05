@@ -6,7 +6,7 @@
 	{% if category %}
 		{{ breadcrumb(category) }}
 	{% endif %}
-	{{ breadcrumb("Správy", url="news:list") }}
+	{{ breadcrumb("Správy", url="news:list", page=1) }}
 	{{ super() }}
 {% endblock %}
 

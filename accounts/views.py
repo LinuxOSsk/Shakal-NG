@@ -134,7 +134,7 @@ class UserStatsMixin(object):
 
 	def get_all_stats(self):
 		def url(view_name):
-			return reverse('accounts:user_posts_' + view_name, args=(self.object.pk,), kwargs={})
+			return reverse('accounts:user_posts_' + view_name, kwargs={'pk': self.object.pk, 'page': 1})
 
 		return (
 			{

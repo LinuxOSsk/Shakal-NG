@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.conf.urls import url
+from django.urls import path
 
 from . import feeds, views
 
@@ -9,13 +9,13 @@ from . import feeds, views
 app_name = 'comments'
 
 urlpatterns = [
-	url(r'^odpovedat/(?P<parent>\d+)/$', views.Reply.as_view(), name='reply'),
-	url(r'^zamknut/(?P<pk>\d+)/$', views.Admin.as_view(), name='admin'),
-	url(r'^sledovat/(?P<pk>\d+)/$', views.Watch.as_view(), name='watch'),
-	url(r'^zabudnut/(?P<pk>\d+)/$', views.Forget.as_view(), name='forget'),
-	url(r'^pocet/(?P<ctype>\d+)/(?P<pk>\d+)/$', views.CommentCountImage.as_view(), name='count-image'),
-	url(r'^(?P<pk>\d+)/$', views.Comments.as_view(), name='comments'),
-	url(r'^zobrazit/(?P<pk>\d+)/$', views.CommentDetailSingle.as_view(), name='comment-single'),
-	url(r'^id/(?P<pk>\d+)/$', views.CommentDetail.as_view(), name='comment'),
-	url(r'^feeds/latest/$', feeds.CommentFeed(), name='feed-latest'),
+	path('odpovedat/<int:parent>/', views.Reply.as_view(), name='reply'),
+	path('zamknut/<int:pk>/', views.Admin.as_view(), name='admin'),
+	path('sledovat/<int:pk>/', views.Watch.as_view(), name='watch'),
+	path('zabudnut/<int:pk>/', views.Forget.as_view(), name='forget'),
+	path('pocet/<int:ctype>/<int:pk>/', views.CommentCountImage.as_view(), name='count-image'),
+	path('<int:pk>/', views.Comments.as_view(), name='comments'),
+	path('zobrazit/<int:pk>/', views.CommentDetailSingle.as_view(), name='comment-single'),
+	path('id/<int:pk>/', views.CommentDetail.as_view(), name='comment'),
+	path('feeds/latest/', feeds.CommentFeed(), name='feed-latest'),
 ]

@@ -5,7 +5,7 @@
 
 {% block breadcrumbs %}
 	{{ breadcrumb(article.title|truncatechars(80)) }}
-	{{ breadcrumb("Články", url="article:list") }}
+	{{ breadcrumb("Články", url="article:list", page=1) }}
 	{{ super() }}
 {% endblock %}
 

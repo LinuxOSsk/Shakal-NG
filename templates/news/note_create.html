@@ -9,7 +9,7 @@
 {% block breadcrumbs %}
 	{{ breadcrumb("Pridať poznámku") }}
 	{{ breadcrumb(content_object.title, url=content_object.get_absolute_url()) }}
-	{{ breadcrumb("Správy", url="news:list") }}
+	{{ breadcrumb("Správy", url="news:list", page=1) }}
 	{{ super() }}
 {% endblock %}
 

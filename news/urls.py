@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.conf.urls import url
+from django.urls import path
 
 from . import feeds, views
 
@@ -9,11 +9,11 @@ from . import feeds, views
 app_name = 'news'
 
 urlpatterns = [
-	url(r'^detail/(?P<slug>[-\w]+)/$', views.NewsDetailView.as_view(), name='detail'),
-	url(r'^detail/(?P<slug>[-\w]+)/upravit/$', views.NewsUpdateView.as_view(), name='update'),
-	url(r'^detail/(?P<slug>[-\w]+)/poznamka/$', views.NoteCreate.as_view(), name='note-create'),
-	url(r'^pridat/$', views.NewsCreateView.as_view(), name='create'),
-	url(r'^(?:(?P<page>\d+)/)?$', views.NewsListView.as_view(), name='list'),
-	url(r'^kategoria/(?P<category>[-\w]+)/(?:(?P<page>\d+)/)?$', views.NewsListView.as_view(), name='list-category'),
-	url(r'^feeds/latest/$', feeds.NewsFeed(), name='feed-latest'),
+	path('detail/<slug:slug>/', views.NewsDetailView.as_view(), name='detail'),
+	path('detail/<slug:slug>/upravit/', views.NewsUpdateView.as_view(), name='update'),
+	path('detail/<slug:slug>/poznamka/', views.NoteCreate.as_view(), name='note-create'),
+	path('pridat/', views.NewsCreateView.as_view(), name='create'),
+	path('<page:page>', views.NewsListView.as_view(), name='list'),
+	path('kategoria/<slug:category>/<page:page>', views.NewsListView.as_view(), name='list-category'),
+	path('feeds/latest/', feeds.NewsFeed(), name='feed-latest'),
 ]

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.conf.urls import url
+from django.urls import path
 
 from . import views
 
@@ -9,6 +9,6 @@ from . import views
 app_name = 'notifications'
 
 urlpatterns = [
-	url(r'^$', views.List.as_view(), name='list'),
-	url(r'^r/(?P<pk>\d+)/$', views.Read.as_view(), name='read'),
+	path('', views.List.as_view(), name='list'),
+	path('r/<int:pk>/', views.Read.as_view(), name='read'),
 ]

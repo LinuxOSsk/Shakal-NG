@@ -20,7 +20,7 @@
 					{% endfor %}
 				</div>
 				<div class="module-links bottom">
-					<a href="{{ url("desktops:list-author", desktop.author.pk) }}" class="next">Ďalšie desktopy</a>
+					<a href="{{ url("desktops:list-author", desktop.author.pk, page=1) }}" class="next">Ďalšie desktopy</a>
 				</div>
 			{% endif %}
 		{% endfor %}

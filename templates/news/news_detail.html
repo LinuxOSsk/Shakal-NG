@@ -2,7 +2,7 @@
 
 {% block breadcrumbs %}
 	{{ breadcrumb(news|truncatechars(80)) }}
-	{{ breadcrumb("Správy", url="news:list") }}
+	{{ breadcrumb("Správy", url="news:list", page=1) }}
 	{{ super() }}
 {% endblock %}
 

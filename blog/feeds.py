@@ -10,7 +10,7 @@ from .models import Blog, Post
 
 class PostFeed(Feed):
 	description = "Zoznam najnovších blogov"
-	link = reverse_lazy('blog:post-list')
+	link = reverse_lazy('blog:post-list', kwargs={'page': 1})
 	description_template = 'feeds/description/blog_post.html'
 
 	def __init__(self, linux=None, blog_slug=None, *args, **kwargs):

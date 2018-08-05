@@ -26,7 +26,7 @@ class Category(models.Model):
 	description = models.TextField('popis')
 
 	def get_absolute_url(self):
-		return reverse('article:list-category', kwargs={'category': self.slug})
+		return reverse('article:list-category', kwargs={'category': self.slug, 'page': 1})
 
 	def __str__(self):
 		return self.name
@@ -139,7 +139,7 @@ class Series(TimestampModelMixin, models.Model):
 	description = models.TextField('popis')
 
 	def get_absolute_url(self):
-		return reverse('article:list-series', kwargs={'category': self.slug})
+		return reverse('article:list-series', kwargs={'category': self.slug, 'page': 1})
 
 	def __str__(self):
 		return self.name

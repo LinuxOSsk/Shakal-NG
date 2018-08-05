@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.conf.urls import url
+from django.urls import path
 
 from . import views
 
@@ -9,5 +9,5 @@ from . import views
 app_name = 'admin_dashboard'
 
 urlpatterns = [
-	url(r'^stats/$', views.Stats.as_view(), name='stats'),
+	path('stats/', views.Stats.as_view(), name='stats'),
 ]

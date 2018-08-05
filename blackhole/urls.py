@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.conf.urls import url
+from django.urls import path
 
 from . import views
 
@@ -9,7 +9,7 @@ from . import views
 app_name = 'blackhole'
 
 urlpatterns = [
-	url(r'^clanky/(?:(?P<page>\d+)/)?$', views.StoryList.as_view(), name='story_list'),
-	url(r'^clanky/kategoria/(?P<category>\d+)/(?:(?P<page>\d+)/)?$', views.StoryList.as_view(), name='story_list_term'),
-	url(r'^clanok/(?P<pk>\d+)/$', views.StoryDetail.as_view(), name='story_detail'),
+	path('clanky/<page:page>', views.StoryList.as_view(), name='story_list'),
+	path('clanky/kategoria/<int:category>/<page:page>', views.StoryList.as_view(), name='story_list_term'),
+	path('clanok/<int:pk>/', views.StoryDetail.as_view(), name='story_detail'),
 ]

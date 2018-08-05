@@ -12,7 +12,7 @@
 	{% if category %}
 		{{ breadcrumb(category|truncatechars(60)) }}
 	{% endif %}
-	{{ breadcrumb("Fórum", url="forum:overview") }}
+	{{ breadcrumb("Fórum", url="forum:overview", page=1) }}
 	{{ super() }}
 {% endblock %}
 

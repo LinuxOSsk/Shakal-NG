@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
 {% block breadcrumbs %}
-{{ breadcrumb("Ankety", url="polls:list") }}
+{{ breadcrumb("Ankety", url="polls:list", page=1) }}
 {{ super() }}
 {% endblock %}

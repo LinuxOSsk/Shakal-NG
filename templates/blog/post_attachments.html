@@ -6,7 +6,7 @@
 	{{ breadcrumb("Správa príloh") }}
 	{{ breadcrumb(object, url=object.get_absolute_url()) }}
 	{{ breadcrumb(object.blog, url=object.blog.get_absolute_url()) }}
-	{{ breadcrumb("Blog", url='blog:post-list') }}
+	{{ breadcrumb("Blog", url='blog:post-list', page=1) }}
 	{{ super() }}
 {% endblock %}
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.conf.urls import url
+from django.urls import path, reverse_lazy
 from django.views.generic.base import RedirectView
 
 from . import feeds, views
@@ -10,10 +10,10 @@ from . import feeds, views
 app_name = 'forum'
 
 urlpatterns = [
-	url(r'^$', RedirectView.as_view(pattern_name='forum:overview', permanent=False)),
-	url(r'^prehlad/(?:(?P<page>\d+)/)?$', views.TopicListView.as_view(), name='overview'),
-	url(r'^pridat/$', views.TopicCreateView.as_view(), name='create'),
-	url(r'^(?P<pk>\d+)/$', views.TopicDetailView.as_view(), name='topic-detail'),
-	url(r'^(?P<category>[-\w]+)/(?:(?P<page>\d+)/)?$', views.TopicListView.as_view(), name='section'),
-	url(r'^feeds/latest/$', feeds.TopicFeed(), name='feed-latest'),
+	path('', RedirectView.as_view(url=reverse_lazy('forum:overview', kwargs={'page': 1}), permanent=False)),
+	path('prehlad/<page:page>', views.TopicListView.as_view(), name='overview'),
+	path('pridat/', views.TopicCreateView.as_view(), name='create'),
+	path('<int:pk>/', views.TopicDetailView.as_view(), name='topic-detail'),
+	path('<slug:category>/<page:page>', views.TopicListView.as_view(), name='section'),
+	path('feeds/latest/', feeds.TopicFeed(), name='feed-latest'),
 ]

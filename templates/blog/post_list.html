@@ -4,9 +4,9 @@
 
 {% block breadcrumbs %}
 	{% if blog %}
-		{{ breadcrumb(blog, url='blog:post-list') }}
+		{{ breadcrumb(blog, url='blog:post-list', page=1) }}
 	{% endif %}
-	{{ breadcrumb("Blog", url='blog:post-list') }}
+	{{ breadcrumb("Blog", url='blog:post-list', page=1) }}
 	{{ super() }}
 {% endblock %}
 

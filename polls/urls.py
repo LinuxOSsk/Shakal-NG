@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.conf.urls import url
+from django.urls import path
 
 from . import views
 
@@ -9,8 +9,8 @@ from . import views
 app_name = 'polls'
 
 urlpatterns = [
-	url(r'^detail/(?P<slug>[-\w]+)/$', views.PollDetail.as_view(), name='detail-by-slug'),
-	url(r'^(?:(?P<page>\d+)/)?$', views.PollList.as_view(), name='list'),
-	url(r'^post/(?P<pk>\d+)/$', views.PollPost.as_view(), name='post'),
-	url(r'^vytvorit/$', views.PollCreate.as_view(), name='create'),
+	path('detail/<slug:slug>/', views.PollDetail.as_view(), name='detail-by-slug'),
+	path('<page:page>', views.PollList.as_view(), name='list'),
+	path('post/<int:pk>/', views.PollPost.as_view(), name='post'),
+	path('vytvorit/', views.PollCreate.as_view(), name='create'),
 ]

@@ -23,6 +23,6 @@
 		{{ get_comments_for_item(poll) }}
 	</span>
 	{% if next_link %}
-		| <a class="next" href="{{ url('polls:list') }}">Ďalšie</a>
+		| <a class="next" href="{{ url('polls:list', page=1) }}">Ďalšie</a>
 	{% endif %}
 </div>

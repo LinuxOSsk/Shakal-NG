@@ -26,7 +26,7 @@ class Section(models.Model):
 	description = models.TextField('popis')
 
 	def get_absolute_url(self):
-		return reverse('forum:section', kwargs={'category': self.slug})
+		return reverse('forum:section', kwargs={'category': self.slug, 'page': 1})
 
 	def __str__(self):
 		return self.name
@@ -128,7 +128,7 @@ class Topic(TimestampModelMixin, models.Model):
 		return reverse('forum:topic-detail', kwargs={'pk': self.pk})
 
 	def get_list_url(self):
-		return reverse('forum:overview')
+		return reverse('forum:overview', kwargs={'page': 1})
 
 	def __str__(self):
 		return self.title

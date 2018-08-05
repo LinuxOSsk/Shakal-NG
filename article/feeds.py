@@ -12,7 +12,7 @@ from .models import Article, Category
 class ArticleFeed(Feed):
 	title = "Články"
 	description = "Zoznam najnovších článkov"
-	link = reverse_lazy('article:list')
+	link = reverse_lazy('article:list', kwargs={'page': 1})
 	feed_url = reverse_lazy('article:feed-latest')
 	description_template = 'feeds/description/article.html'
 

@@ -60,7 +60,7 @@ class Poll(TimestampModelMixin, models.Model):
 		return reverse('polls:detail-by-slug', kwargs={'slug': self.slug})
 
 	def get_list_url(self):
-		return reverse('polls:list')
+		return reverse('polls:list', kwargs={'page': 1})
 
 	def msg_id(self):
 		return 'poll-' + str(self.pk)

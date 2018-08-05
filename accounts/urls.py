@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.conf.urls import url
+from django.urls import path
 
 from . import views
 
@@ -9,21 +9,21 @@ from . import views
 app_name = 'accounts'
 
 urlpatterns = [
-	url(r'^$', views.UserZone.as_view(), name='user_zone'),
-	url(r'^(?P<pk>\d+)/$', views.Profile.as_view(), name='profile'),
-	url(r'^(?P<pk>\d+)/prispevky/$', views.UserPosts.as_view(), name='user_posts'),
-	url(r'^(?P<pk>\d+)/prispevky/clanky/(?:(?P<page>\d+)/)?$', views.UserPostsArticle.as_view(), name='user_posts_article'),
-	url(r'^(?P<pk>\d+)/prispevky/blogy/(?:(?P<page>\d+)/)?$', views.UserPostsBlogpost.as_view(), name='user_posts_blogpost'),
-	url(r'^(?P<pk>\d+)/prispevky/spravy/(?:(?P<page>\d+)/)?$', views.UserPostsNews.as_view(), name='user_posts_news'),
-	url(r'^(?P<pk>\d+)/prispevky/forum-temy/(?:(?P<page>\d+)/)?$', views.UserPostsForumTopic.as_view(), name='user_posts_forumtopic'),
-	url(r'^(?P<pk>\d+)/prispevky/komentare/(?:(?P<page>\d+)/)?$', views.UserPostsCommented.as_view(), name='user_posts_commented'),
-	url(r'^(?P<pk>\d+)/prispevky/wiki/(?:(?P<page>\d+)/)?$', views.UserPostsWikiPage.as_view(), name='user_posts_wikipage'),
-	url(r'^(?P<pk>\d+)/mapa/$', views.UserMap.as_view(), name='user_map'),
-	url(r'^ja/$', views.MyProfile.as_view(), name='my_profile'),
-	url(r'^ja/sledovane/(?:(?P<page>\d+)/)?$', views.MyWatched.as_view(), name='my_watched'),
-	url(r'^ja/navstivene/(?:(?P<page>\d+)/)?$', views.MyViewed.as_view(), name='my_viewed'),
-	url(r'^ja/upravit/$', views.MyProfileEdit.as_view(), name='my_profile_edit'),
-	url(r'^ja/avatar/$', views.MyProfileAvatarEdit.as_view(), name='my_profile_avatar_edit'),
-	url(r'^ja/pozicia/$', views.MyProfilePositionEdit.as_view(), name='my_profile_position_edit'),
-	url(r'^mapa-uzivatelov/$', views.UsersMap.as_view(), name='users_map'),
+	path('', views.UserZone.as_view(), name='user_zone'),
+	path('<int:pk>/', views.Profile.as_view(), name='profile'),
+	path('<int:pk>/prispevky/', views.UserPosts.as_view(), name='user_posts'),
+	path('<int:pk>/prispevky/clanky/<page:page>', views.UserPostsArticle.as_view(), name='user_posts_article'),
+	path('<int:pk>/prispevky/blogy/<page:page>', views.UserPostsBlogpost.as_view(), name='user_posts_blogpost'),
+	path('<int:pk>/prispevky/spravy/<page:page>', views.UserPostsNews.as_view(), name='user_posts_news'),
+	path('<int:pk>/prispevky/forum-temy/<page:page>', views.UserPostsForumTopic.as_view(), name='user_posts_forumtopic'),
+	path('<int:pk>/prispevky/komentare/<page:page>', views.UserPostsCommented.as_view(), name='user_posts_commented'),
+	path('<int:pk>/prispevky/wiki/<page:page>', views.UserPostsWikiPage.as_view(), name='user_posts_wikipage'),
+	path('<int:pk>/mapa/', views.UserMap.as_view(), name='user_map'),
+	path('ja/', views.MyProfile.as_view(), name='my_profile'),
+	path('ja/sledovane/<page:page>', views.MyWatched.as_view(), name='my_watched'),
+	path('ja/navstivene/<page:page>', views.MyViewed.as_view(), name='my_viewed'),
+	path('ja/upravit/', views.MyProfileEdit.as_view(), name='my_profile_edit'),
+	path('ja/avatar/', views.MyProfileAvatarEdit.as_view(), name='my_profile_avatar_edit'),
+	path('ja/pozicia/', views.MyProfilePositionEdit.as_view(), name='my_profile_position_edit'),
+	path('mapa-uzivatelov/', views.UsersMap.as_view(), name='users_map'),
 ]

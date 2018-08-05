@@ -19,10 +19,10 @@
 
 {% block breadcrumbs %}
 	{% if revision %}{{ breadcrumb("História") }}{% endif %}
-	{{ breadcrumb(page, url="wiki:page", slug=page.slug) }}
+	{{ breadcrumb(page, url="wiki:page", slug=page.slug, page=1) }}
 	{% for wiki_page in tree|reverse %}
 		{% if loop.revindex != 0 %}
-			{{ breadcrumb(wiki_page, url="wiki:page", slug=wiki_page.slug) }}
+			{{ breadcrumb(wiki_page, url="wiki:page", slug=wiki_page.slug, page=1) }}
 		{% endif %}
 	{% endfor %}
 	{{ breadcrumb("Wiki", url="wiki:home") }}

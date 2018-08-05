@@ -8,7 +8,7 @@
 {% block head_title %}Nastavenie blogu{% endblock %}
 {% block breadcrumbs %}
 	{{ breadcrumb("Nastavenie blogu") }}
-	{{ breadcrumb("Blog", url='blog:post-list') }}
+	{{ breadcrumb("Blog", url='blog:post-list', page=1) }}
 	{{ super() }}
 {% endblock %}
 

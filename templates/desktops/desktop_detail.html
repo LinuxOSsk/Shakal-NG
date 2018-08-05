@@ -20,7 +20,7 @@
 
 {% block breadcrumbs %}
 	{{ breadcrumb(desktop) }}
-	{{ breadcrumb("Desktopy", url='desktops:list') }}
+	{{ breadcrumb("Desktopy", url='desktops:list', page=1) }}
 	{{ super() }}
 {% endblock %}
 

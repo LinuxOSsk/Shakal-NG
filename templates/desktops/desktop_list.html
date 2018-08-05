@@ -4,9 +4,9 @@
 
 {% block breadcrumbs %}
 	{% if author %}
-		{{ breadcrumb(author, url='desktops:list-author', category=author.pk) }}
+		{{ breadcrumb(author, url='desktops:list-author', category=author.pk, page=1) }}
 	{% endif %}
-	{{ breadcrumb("Desktopy", url='desktops:list') }}
+	{{ breadcrumb("Desktopy", url='desktops:list', page=1) }}
 	{{ super() }}
 {% endblock %}
 

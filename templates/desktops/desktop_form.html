@@ -12,7 +12,7 @@
 	{% else %}
 		{{ breadcrumb("Pridať desktop") }}
 	{% endif %}
-	{{ breadcrumb("Desktopy", url="desktops:list") }}
+	{{ breadcrumb("Desktopy", url="desktops:list", page=1) }}
 	{{ super() }}
 {% endblock %}
 

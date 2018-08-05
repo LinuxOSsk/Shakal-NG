@@ -1,18 +1,18 @@
 {% with count_new=user.count_new, resolver_match=request.resolver_match, view_name=request.resolver_match.view_name, namespaces=request.resolver_match.namespaces  %}
 	<li{% if section=='forum' %} class="active"{% endif %}>
-		<a href="{{ url('forum:overview') }}">Fórum</a>
+		<a href="{{ url('forum:overview', page=1) }}">Fórum</a>
 		{% if count_new and count_new.forum_topic %}<span class="badge important">{{ count_new.forum_topic }}</span>{% endif %}
 	</li>
 	<li{% if section=='article' %} class="active"{% endif %}>
-		<a href="{{ url('article:list') }}">Články</a>
+		<a href="{{ url('article:list', page=1) }}">Články</a>
 		{% if count_new and count_new.article_article %}<span class="badge important">{{ count_new.article_article }}</span>{% endif %}
 	</li>
 	<li{% if section=='news' %} class="active"{% endif %}>
-		<a href="{{ url('news:list') }}">Správy</a>
+		<a href="{{ url('news:list', page=1) }}">Správy</a>
 		{% if count_new and count_new.news_news %}<span class="badge important">{{ count_new.news_news }}</span>{% endif %}
 	</li>
 	<li{% if section=='blog' %} class="active"{% endif %}>
-		<a href="{{ url('blog:post-list') }}">Blog</a>
+		<a href="{{ url('blog:post-list', page=1) }}">Blog</a>
 		{% if count_new and count_new.blog_post %}<span class="badge important">{{ count_new.blog_post }}</span>{% endif %}
 	</li>
 	<li{% if section=='wiki' %} class="active"{% endif %}>

@@ -5,8 +5,8 @@
 
 {% block breadcrumbs %}
 	{{ breadcrumb(topic|truncatechars(60)) }}
-	{{ breadcrumb(topic.section|truncatechars(60), url="forum:section", category=topic.section.slug) }}
-	{{ breadcrumb("Fórum", url="forum:overview") }}
+	{{ breadcrumb(topic.section|truncatechars(60), url="forum:section", category=topic.section.slug, page=1) }}
+	{{ breadcrumb("Fórum", url="forum:overview", page=1) }}
 	{{ super() }}
 {% endblock %}
 

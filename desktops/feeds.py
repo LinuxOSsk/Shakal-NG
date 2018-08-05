@@ -11,7 +11,7 @@ from .models import Desktop
 class DesktopFeed(Feed):
 	title = "Desktopy"
 	description = "Najnovšie desktopy"
-	link = reverse_lazy('blog:post-list')
+	link = reverse_lazy('blog:post-list', kwargs={'page': 1})
 	feed_url = reverse_lazy('desktops:feed-latest')
 	description_template = 'feeds/description/desktop.html'
 
