@@ -7,7 +7,7 @@ from django.utils.safestring import mark_safe
 
 
 class DescriptionRadioSelect(RadioSelect):
-	def render(self, name, value, attrs=None, choices=()):
+	def render(self, name, value, attrs=None, choices=(), *args, **kwargs):
 		queryset = self.choices.queryset #pylint: disable=no-member
 		ctx = {
 			'name': name,
