@@ -30,6 +30,9 @@
 			{% if user.is_staff and perms.tweets.change_tweet %}
 				<li class="btn"><span class="wrap"><a href="{{ url("admin:tweets_tweet_change", tweet.pk) }}" class="text">Admin</a></span></li>
 			{% endif %}
+			{% if tweet.author == user %}
+				<li class="btn"><span class="wrap"><a href="{{ url("tweets:update", tweet.slug) }}" class="text">Upraviť</a></span></li>
+			{% endif %}
 		</ul>
 	</form>
 {% endif %}

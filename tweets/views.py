@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from braces.views import LoginRequiredMixin
+
 from .forms import TweetForm
 from .models import Tweet
-from common_utils.generic import PreviewCreateView, DetailView, ListView
+from common_utils.generic import PreviewCreateView, PreviewUpdateView, DetailView, ListView
 
 
 class TweetListView(ListView):
@@ -16,6 +18,15 @@ class TweetDetailView(DetailView):
 		return Tweet.objects.order_by('-pk').prefetch_related('author')
 
 
-class TweetCreateView(PreviewCreateView):
+class TweetCreateView(LoginRequiredMixin, PreviewCreateView):
 	model = Tweet
 	form_class = TweetForm
+
+
+class TweetUpdateView(LoginRequiredMixin, PreviewUpdateView):
+	model = Tweet
+	form_class = TweetForm
+
+	def get_queryset(self):
+		return (Tweet.objects.all()
+			.filter(author=self.request.user))
