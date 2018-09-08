@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.http import QueryDict
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import resolve_url
+from django.utils.encoding import force_text
 
 
 def build_query(query):
@@ -13,7 +14,7 @@ def build_query(query):
 	else:
 		items = query
 	for key, value in items:
-		q.appendlist(key, value)
+		q.appendlist(key, force_text(value))
 	return q.urlencode()
 
 
