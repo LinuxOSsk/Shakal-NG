@@ -29,7 +29,7 @@ class Term(MPTTModel, models.Model):
 	description = models.TextField()
 
 	def get_absolute_url(self):
-		return reverse('blackhole:story_list_term', kwargs={'pk': self.pk, 'page': 1})
+		return reverse('blackhole:story_list_term', kwargs={'category': self.pk, 'page': 1})
 
 	def __str__(self):
 		return self.name
