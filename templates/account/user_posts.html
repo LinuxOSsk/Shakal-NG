@@ -51,3 +51,5 @@
 {% endif %}
 
 {% endblock %}
+
+{% block current_path_js %}{{ url(request.resolver_match.view_name, pk=view.kwargs.pk) }}{% endblock %}

@@ -46,7 +46,7 @@ var monthly_stats = [
 [[{{ month.year }}, {{ month.month }}, {{ month.day }}], {{ count }}]{% if not loop.last %},{% endif %}
 {% endfor %}
 ];
-var current_path = '{{ url(request.resolver_match.view_name, pk=view.kwargs.pk, page=1) }}';
+var current_path = '{% block current_path_js %}{{ url(request.resolver_match.view_name, pk=view.kwargs.pk, page=1) }}{% endblock %}';
 var current_day = {% if day %}'{{ day|date("Y-m-d") }}'{% else %}undefined{% endif %};
 //]]>
 </script>
