@@ -8,7 +8,7 @@ from .models import RememberToken
 
 
 class AuthRememberBackend(object):
-	def authenticate(self, token_string, request): #pylint: disable=unused-argument
+	def authenticate(self, request, token_string=None): #pylint: disable=unused-argument
 		token = RememberToken.objects.get_by_string(token_string)
 		if not token:
 			return
