@@ -1,0 +1,13 @@
+version: '3.5'
+services:
+  web:
+    build: .
+    environment: 
+      - DJANGO_SETTINGS_MODULE=web.settings_dev
+    command: make dev
+    volumes:
+      - type: bind
+        source: ./
+        target: /opt/shakal
+    ports:
+      - "8000:8000"
