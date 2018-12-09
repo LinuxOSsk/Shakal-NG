@@ -1,4 +1,5 @@
 bleach
+django
 django-allauth
 django-braces
 django-compressor
@@ -11,10 +12,10 @@ django-mptt
 django-reversion
 django-static-sitemaps
 django-suit
-django
 easy-thumbnails
 feedparser
 future
+html5lib
 pillow
 pip-tools
 pygments
@@ -26,4 +27,4 @@ raven
 -e git+https://github.com/mireq/django-simple-paginator.git@fe0d9ebbc37dc7cafed1b02a91c0efdb9fe28543#egg=django_simple_paginator
 -e git+https://github.com/mireq/django-email-log-backend.git@af0da9cf3d4c10bc81b95cb91e799484eac5b298#egg=django_email_log_backend
 -e git+https://github.com/mireq/django-geoposition-field.git@0c523e0c26ea7422db47cd2d12ec9ba7306547e1#egg=django_geoposition_field
--e git+https://github.com/mireq/django-ajax-utils.git@78b2db0eba07b08bd64812e7c310a71a2ffddf1d#egg=django_ajax_utils
+-e git+https://github.com/mireq/django-ajax-utils.git@b950b4491407f0b305d3706b003ff0e96cc77782#egg=django_ajax_utils

@@ -4,7 +4,7 @@
 #
 #    pip-compile --output-file requirements.dev.txt requirements.dev.in
 #
--e git+https://github.com/mireq/django-ajax-utils.git@78b2db0eba07b08bd64812e7c310a71a2ffddf1d#egg=django_ajax_utils
+-e git+https://github.com/mireq/django-ajax-utils.git@b950b4491407f0b305d3706b003ff0e96cc77782#egg=django_ajax_utils
 -e git+https://github.com/mireq/django-assets-manager.git@d8677dc8fcf2f6be950792c14f9982478f2063e0#egg=django_assets_manager
 -e git+https://github.com/mireq/django-autoslugfield.git@806506f1e6b6e963eed435977b471e467d0e2ff4#egg=django_autoslugfield
 -e git+https://github.com/mireq/django-email-log-backend.git@af0da9cf3d4c10bc81b95cb91e799484eac5b298#egg=django_email_log_backend
@@ -12,81 +12,78 @@
 -e git+https://github.com/mireq/django-sample-data-generator.git@c95e3cea0f2b48880e669d2ce67020656fdebd39#egg=django_sample_data_generator
 -e git+https://github.com/mireq/django-simple-paginator.git@fe0d9ebbc37dc7cafed1b02a91c0efdb9fe28543#egg=django_simple_paginator
 argh==0.26.2              # via watchdog
-astroid==2.0.2            # via pylint
+astroid==2.1.0            # via pylint
 backcall==0.1.0           # via ipython
-bleach==2.1.3
-certifi==2018.4.16        # via requests
+bleach==3.0.2
+certifi==2018.11.29       # via requests
 chardet==3.0.4            # via requests
-click==6.7                # via pip-tools
+click==7.0                # via pip-tools
 decorator==4.3.0          # via ipython, traitlets
 defusedxml==0.5.0         # via python3-openid
-django-allauth==0.36.0
+django-allauth==0.38.0
 django-appconf==1.0.2     # via django-compressor
 django-braces==1.13.0
 django-compat==1.0.15     # via django-hijack, django-hijack-admin
 django-compressor==2.2
-django-debug-toolbar==1.9.1
+django-debug-toolbar==1.11
 django-debugtools==1.7.3
-django-extensions==2.1.0
+django-extensions==2.1.4
 django-haystack==2.8.1
-django-hijack-admin==2.1.9
-django-hijack==2.1.9
+django-hijack-admin==2.1.10
+django-hijack==2.1.10
 django-jinja==2.4.1
 django-js-asset==1.1.0    # via django-mptt
 django-libsass==0.7
 django-mptt==0.9.1
-django-reversion==3.0.0
+django-reversion==3.0.2
 django-static-sitemaps==4.6.0
 django-suit==0.2.26
-django==2.1
+django==2.1.4
 docopt==0.6.2             # via ptpython
 easy-thumbnails==2.5
 feedparser==5.2.1
-first==2.0.1              # via pip-tools
-future==0.16.0
-html5lib==1.0.1           # via bleach
+future==0.17.1
+html5lib==1.0.1
 idna==2.7                 # via requests
 ipython-genutils==0.2.0   # via traitlets
-ipython==6.5.0
+ipython==7.2.0
 isort==4.3.4              # via pylint
-jedi==0.12.1              # via ipython, ptpython
+jedi==0.13.1              # via ipython, ptpython
 jinja2==2.10              # via django-jinja
 lazy-object-proxy==1.3.1  # via astroid
-libsass==0.14.5           # via django-libsass
-markupsafe==1.0           # via jinja2
+libsass==0.16.1           # via django-libsass
+markupsafe==1.1.0         # via jinja2
 mccabe==0.6.1             # via pylint
 oauthlib==2.1.0           # via requests-oauthlib
 parso==0.3.1              # via jedi
 pathtools==0.1.2          # via watchdog
 pexpect==4.6.0            # via ipython
-pickleshare==0.7.4        # via ipython
-pillow==5.2.0
-pip-tools==2.0.2
-prompt-toolkit==1.0.15    # via ipython, ptpython
-ptpython==0.41
+pickleshare==0.7.5        # via ipython
+pillow==5.3.0
+pip-tools==3.1.0
+prompt-toolkit==2.0.7     # via ipython, ptpython
+ptpython==2.0.4
 ptyprocess==0.6.0         # via pexpect
-pygments==2.2.0
+pygments==2.3.0
 pyinotify==0.9.6
-pylint-django==2.0
+pylint-django==2.0.4
 pylint-plugin-utils==0.4  # via pylint-django
-pylint==2.1.0             # via pylint-django, pylint-plugin-utils
+pylint==2.2.2             # via pylint-django, pylint-plugin-utils
 python3-openid==3.1.0     # via django-allauth
-pytz==2018.5
+pytz==2018.7
 pyyaml==3.13              # via watchdog
 raven==6.9.0
 rcssmin==1.0.6            # via django-compressor
 requests-oauthlib==1.0.0  # via django-allauth
-requests==2.19.1          # via django-allauth, requests-oauthlib
+requests==2.20.1          # via django-allauth, requests-oauthlib
 rjsmin==1.0.12            # via django-compressor
-simplegeneric==0.8.1      # via ipython
 six==1.11.0               # via astroid, bleach, django-compat, django-extensions, django-static-sitemaps, html5lib, libsass, pip-tools, prompt-toolkit, traitlets
 sqlparse==0.2.4           # via django-debug-toolbar
 traitlets==4.3.2          # via ipython
 typed-ast==1.1.0          # via astroid
-typing==3.6.4             # via astroid
-urllib3==1.23             # via requests
-watchdog==0.8.3
+urllib3==1.24.1           # via requests
+watchdog==0.9.0
 wcwidth==0.1.7            # via prompt-toolkit
-webencodings==0.5.1       # via html5lib
+webencodings==0.5.1       # via bleach, html5lib
 werkzeug==0.14.1
 wrapt==1.10.11            # via astroid
