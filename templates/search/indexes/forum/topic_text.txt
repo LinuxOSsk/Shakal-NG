@@ -1,2 +1,2 @@
-{% load html_entity_decode %}{{ object.title }}
-{{ object.text|striptags|html_entity_decode }}
+{% load html_entity_decode %}{% autoescape off %}{{ object.title }}
+{{ object.text|striptags|html_entity_decode }}{% endautoescape %}
