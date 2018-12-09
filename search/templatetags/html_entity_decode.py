@@ -7,7 +7,6 @@ from html.entities import entitydefs
 
 from django import template
 from django.utils.encoding import force_text
-from django.utils.safestring import mark_safe
 from django_jinja import library
 
 
@@ -37,4 +36,4 @@ def html_entity_decode(string):
 	without_entity = pattern.sub(html_entity_decode_char, string)
 	text = dec_pattern.sub(xml_entity_decode_char, without_entity)
 	text = ' '.join(w[:100] for w in text.split())
-	return mark_safe(text)
+	return text
