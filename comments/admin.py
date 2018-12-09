@@ -101,9 +101,6 @@ class RootHeaderAdmin(admin.ModelAdmin):
 	def has_add_permission(self, request):
 		return False
 
-	def has_delete_permission(self, request, obj=None):
-		return False
-
 	def get_name(self, obj):
 		return format_html('<a href="{}">{}&nbsp;</a>', obj.get_admin_url(), obj.content_object)
 	get_name.short_description = "Názov"
