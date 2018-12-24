@@ -29,7 +29,7 @@ register = template.Library()
 def humandatetime(value, default='', separator='&nbsp;|&nbsp;'):
 	if not value:
 		return default
-	today = timezone.now().date()
+	today = timezone.localtime(timezone.now()).date()
 	value = timezone.localtime(value)
 	if value.year != today.year:
 		return mark_safe(value.strftime("%d.%m.%Y" + separator + "%H:%M"))
