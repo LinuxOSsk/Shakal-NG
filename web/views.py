@@ -87,7 +87,7 @@ class Home(TemplateView):
 			new_items.append(post)
 			if i == 1:
 				break
-		new_items.sort(key=lambda x: x.created, reverse=True)
+		new_items.sort(key=lambda x: x.pub_time if isinstance(x, Article) else x.created, reverse=True)
 
 		ctx.update({
 			'top_articles': top_articles,
