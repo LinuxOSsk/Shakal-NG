@@ -34,7 +34,7 @@
 			{% endif %}
 			<div class="info">
 			{% if result.author %}Autor: {{ result.author }}&nbsp;|&nbsp;{% endif %}
-			{% if result.created %}Vytvorené: {{ result.created|date("d.m.Y H:i") }}&nbsp;|&nbsp;{% endif %}
+			{% if result.created %}Vytvorené: {{ result.created|localtime|date("d.m.Y H:i") }}&nbsp;|&nbsp;{% endif %}
 			Skóre: {{ result.score }}&nbsp;|&nbsp;
 			<a href="{{ result.object.get_absolute_url() }}">Čítať</a>
 			</div>

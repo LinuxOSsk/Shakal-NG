@@ -3,7 +3,7 @@
 {% block head_title %}Zoznam komentovaných diskusií | {{ super() }}{% endblock %}
 
 {% block breadcrumbs %}
-{% if day %}{{ breadcrumb(day|date("SHORT_DATE_FORMAT")) }}{% endif %}
+{% if day %}{{ breadcrumb(day|localtime|date("SHORT_DATE_FORMAT")) }}{% endif %}
 {{ breadcrumb("Komentované diskusie", url=url(request.resolver_match.view_name, pk=view.kwargs.pk, page=1)) }}
 {{ super() }}
 {% endblock %}

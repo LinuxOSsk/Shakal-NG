@@ -47,7 +47,7 @@ var monthly_stats = [
 {% endfor %}
 ];
 var current_path = '{% block current_path_js %}{{ url(request.resolver_match.view_name, pk=view.kwargs.pk, page=1) }}{% endblock %}';
-var current_day = {% if day %}'{{ day|date("Y-m-d") }}'{% else %}undefined{% endif %};
+var current_day = {% if day %}'{{ day|localtime|date("Y-m-d") }}'{% else %}undefined{% endif %};
 //]]>
 </script>
 <script src="{{ static('js/dygraph-combined.js') }}" type="text/javascript" charset="utf-8"></script>

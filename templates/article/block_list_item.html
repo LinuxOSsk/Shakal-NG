@@ -1,7 +1,7 @@
 <div class="module-row module-item-margin{% if is_last %} last{% endif %}{% if extra_classes %} {{ extra_classes }}{% endif %}">
 	<h3><a href="{{ article.get_absolute_url() }}">{{ article.title }}</a></h3>
 	<div class="info top">
-		<span class="first">{{ article.pub_time|date("d.m.Y H:i") }}</span> |
+		<span class="first">{{ article.pub_time|localtime|date("d.m.Y H:i") }}</span> |
 		<span><a href="{{ article.category.get_absolute_url() }}">{{ article.category }}</a></span> |
 		<span>
 			{% if article.author %}

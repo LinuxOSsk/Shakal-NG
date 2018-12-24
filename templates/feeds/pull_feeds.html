@@ -3,7 +3,7 @@
 	{% for post in posts %}
 		<tr>
 			<td class="title"><a href="{{ post.link }}" rel="nofollow">{{ post.title }}</a></td>
-			<td class="date">{{ post.published|date("d.m.Y") }}</td>
+			<td class="date">{{ post.published|localtime|date("d.m.Y") }}</td>
 		</tr>
 	{% endfor %}
 </table>

@@ -23,8 +23,8 @@
 {% if image %}<meta property="og:image" content="{{ get_base_uri() }}{{ image }}" />{% endif %}
 {% if description %}<meta property="og:description" content="{{ description }}" />{% endif %}
 
-{% if created %}<meta property="article:published_time" content="{{ created|date("c") }}" />{% endif %}
-{% if updated %}<meta property="article:modified_time" content="{{ updated|date("c") }}" />{% endif %}
+{% if created %}<meta property="article:published_time" content="{{ created|localtime|date("c") }}" />{% endif %}
+{% if updated %}<meta property="article:modified_time" content="{{ updated|localtime|date("c") }}" />{% endif %}
 {% if category %}<meta property="article:section" content="{{ category }}" />{% endif %}
 <!--
 <meta property="fb:admins" content="Facebook numberic ID" />

@@ -17,7 +17,7 @@
 				<h3><a href="{{ series.get_absolute_url() }}">{{ series }}</a></h3>
 				{% if series.last_article and series.count_articles %}
 					<div class="info top">
-						<span class="first">Posledný článok: {{ series.last_article|date("d.m.Y H:i") }}</span> |
+						<span class="first">Posledný článok: {{ series.last_article|localtime|date("d.m.Y H:i") }}</span> |
 						<span>Počet článkov: {{ series.count_articles }}</span>
 					</div>
 				{% endif %}

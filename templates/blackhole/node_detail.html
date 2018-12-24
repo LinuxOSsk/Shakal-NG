@@ -26,7 +26,7 @@
 <h1>{{ node.title }}</h1>
 
 <div class="info top">
-	{{ node.created|date("d.m.Y H:i") }}
+	{{ node.created|localtime|date("d.m.Y H:i") }}
 	{% if node.author %}
 		|
 		<a href="{{ node.author.get_absolute_url() }}">

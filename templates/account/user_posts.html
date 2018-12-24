@@ -3,7 +3,7 @@
 {% block head_title %}Zoznam príspevkov | {{ super() }}{% endblock %}
 
 {% block breadcrumbs %}
-{% if day %}{{ breadcrumb(day|date("SHORT_DATE_FORMAT")) }}{% endif %}
+{% if day %}{{ breadcrumb(day|localtime|date("SHORT_DATE_FORMAT")) }}{% endif %}
 {{ super() }}
 {% endblock %}
 
