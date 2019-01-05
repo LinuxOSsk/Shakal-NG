@@ -38,3 +38,4 @@ ptpython
 pylint-django
 pyinotify
 watchdog
+pyyaml>=4.2b1

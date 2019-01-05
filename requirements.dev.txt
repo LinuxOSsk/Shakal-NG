@@ -71,7 +71,7 @@ pylint-plugin-utils==0.4  # via pylint-django
 pylint==2.2.2             # via pylint-django, pylint-plugin-utils
 python3-openid==3.1.0     # via django-allauth
 pytz==2018.7
-pyyaml==3.13              # via watchdog
+pyyaml==4.2b4
 raven==6.10.0
 rcssmin==1.0.6            # via django-compressor
 requests-oauthlib==1.0.0  # via django-allauth
