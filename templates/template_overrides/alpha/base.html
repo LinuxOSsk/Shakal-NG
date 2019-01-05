@@ -91,7 +91,12 @@
 	<div id="sidebar_1">
 		{% block left %}
 			<div class="module news">
-				<h2 class="block-title">Správy</h2>
+				<ul class="object-tools">
+					<li class="btn"><span class="wrap"><a href="{{ url("news:create") }}" class="text">Pridať správu</a></span></li>
+				</ul>
+				<h2 class="block-title">
+					Správy
+				</h2>
 				{{ news_frontpage() }}
 				<div class="module-links bottom">
 					<a href="{{ url('news:list', page=1) }}" class="next">Ďalšie</a>
