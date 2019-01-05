@@ -33,3 +33,5 @@
 /scripts/setenv.server
 /upgrade.sh
 /static/386/fonts/FSEX300*
+/.bash_history
+/.stamp_*

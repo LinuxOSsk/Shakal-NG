@@ -1,9 +1,11 @@
 #!/bin/sh
 
 DUMPMAKE=
+DOCKER=
 while true; do
 	case "$1" in
 		--dumpmake ) DUMPMAKE="$2"; shift 2 ;;
+		--docker ) DUMPMAKE="/opt/shakal/Makefile"; DOCKER=1; shift 1 ;;
 		-- ) shift; break ;;
 		* ) break ;;
 	esac
@@ -15,20 +17,26 @@ then
 	MAKEFILE="shakal/Makefile"
 fi
 
+if [ -f $MAKEFILE ]; then
+	exit
+fi
+
 mkdir -p shakal
 cat << 'EOF' > ${MAKEFILE}
-.PHONY: all compilesprites migrate update update2 resetdb
+.PHONY: all compilesprites migrate update update2 resetdb rundocker fakeinstall
 
 PYTHON=python3
+PIP=venv/bin/pip
+CD_SHAKAL=cd shakal;
 VENV_PYTHON=venv/bin/python
-DJANGO_MANAGE=cd shakal&&DJANGO_SETTINGS_MODULE=web.settings_local ../venv/bin/python manage.py
+DJANGO_MANAGE=${CD_SHAKAL} DJANGO_SETTINGS_MODULE=web.settings_local ../venv/bin/python manage.py
 
 all: localinstall
 
 .stamp_downloaded:
 	git clone https://github.com/LinuxOSsk/Shakal-NG.git shakal
-	cd shakal; git submodule init
-	cd shakal; git submodule update
+	${CD_SHAKAL} git submodule init
+	${CD_SHAKAL} git submodule update
 	@touch .stamp_downloaded
 
 .stamp_virtualenv: .stamp_downloaded
@@ -45,10 +53,10 @@ all: localinstall
 
 .stamp_requirements: .stamp_setuptools
 	venv/bin/pip install -r shakal/requirements.dev.txt
-	touch .stamp_requirements
+	@touch .stamp_requirements
 
 .stamp_settings: .stamp_requirements
-	cp shakal/web/settings_sample.py shakal/web/settings_local.py
+	${CD_SHAKAL} cp web/settings_sample.py web/settings_local.py
 	@touch .stamp_settings
 
 compilesprites: .stamp_settings
@@ -64,12 +72,12 @@ runserver: .stamp_sampledata
 	${DJANGO_MANAGE} runserver_plus
 
 update: .stamp_settings
-	cd shakal; git pull; git submodule sync --recursive
+	${CD_SHAKAL} git pull; git submodule sync --recursive
 	@./shakal/install.sh --dumpmake Makefile
 	make update2
 
 update2: .stamp_settings
-	venv/bin/pip install -r shakal/requirements.dev.txt
+	${PIP} install -r shakal/requirements.dev.txt
 	${DJANGO_MANAGE} compilesprites
 	${DJANGO_MANAGE} migrate
 	${DJANGO_MANAGE} compilemessages
@@ -80,7 +88,7 @@ update2: .stamp_settings
 	${DJANGO_MANAGE} compilemessages
 	${DJANGO_MANAGE} loaddata forum/data/categories.json
 	${DJANGO_MANAGE} loaddata news/data/categories.json
-	${DJANGO_MANAGE} create_sample_data --verbosity 2
+	-${DJANGO_MANAGE} create_sample_data --verbosity 2
 	${DJANGO_MANAGE} loaddata wiki/data/pages.json
 	${DJANGO_MANAGE} rebuild_index --noinput
 	@touch .stamp_sampledata
@@ -93,6 +101,9 @@ resetdb:
 	${DJANGO_MANAGE} loaddata wiki/data/pages.json
 	${DJANGO_MANAGE} rebuild_index --noinput
 
+rundocker: fakeinstall banner
+	${DJANGO_MANAGE} runserver_plus 0.0.0.0:8000
+
 localinstall: .stamp_sampledata
 	@echo "================================================"
 	@echo "Inštalácia prebehla úspešne"
@@ -100,9 +111,28 @@ localinstall: .stamp_sampledata
 	@echo "Pre spustenie zadajte: cd shakal; make runserver"
 	@echo "Aktualizácia: cd shakal; make update"
 	@echo "================================================"
+
+banner:
+	@echo "================================================"
+	@echo "Inštalácia prebehla úspešne"
+	@echo "Používateľské meno je admin, heslo demo"
+	@echo "================================================"
+
+fakeinstall:
+	@if [ ! -f .stamp_downloaded ]; then touch .stamp_downloaded; fi
+	@if [ ! -f .stamp_virtualenv ]; then touch .stamp_virtualenv; fi
+	@if [ ! -f .stamp_setuptools ]; then touch .stamp_setuptools; fi
+	@if [ ! -f .stamp_requirements ]; then touch .stamp_requirements; fi
 EOF
 
 if [[ "$DUMPMAKE" == "" ]]
 then
 	make -C shakal
+fi
+
+if [[ "$DOCKER" == 1 ]]
+then
+	sed -i 's/CD_SHAKAL=.*/CD_SHAKAL=cd .;/g' /opt/shakal/Makefile
+	sed -i 's/PIP=.*/PIP=pip3/g' /opt/shakal/Makefile
+	sed -i 's/DJANGO_MANAGE=.*/DJANGO_MANAGE=\/opt\/shakal\/manage.py/g' /opt/shakal/Makefile
 fi
