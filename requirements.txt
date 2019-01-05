@@ -31,26 +31,26 @@ django-mptt==0.9.1
 django-reversion==3.0.2
 django-static-sitemaps==4.6.0
 django-suit==0.2.26
-django==2.1.4
+django==2.1.5
 easy-thumbnails==2.5
 feedparser==5.2.1
 future==0.17.1
 html5lib==1.0.1
-idna==2.7                 # via requests
+idna==2.8                 # via requests
 jinja2==2.10              # via django-jinja
-libsass==0.16.1           # via django-libsass
+libsass==0.17.0           # via django-libsass
 markupsafe==1.1.0         # via jinja2
 oauthlib==2.1.0           # via requests-oauthlib
-pillow==5.3.0
-pip-tools==3.1.0
-pygments==2.3.0
+pillow==5.4.0
+pip-tools==3.2.0
+pygments==2.3.1
 python3-openid==3.1.0     # via django-allauth
 pytz==2018.7
-raven==6.9.0
+raven==6.10.0
 rcssmin==1.0.6            # via django-compressor
 requests-oauthlib==1.0.0  # via django-allauth
-requests==2.20.1          # via django-allauth, requests-oauthlib
+requests==2.21.0          # via django-allauth, requests-oauthlib
 rjsmin==1.0.12            # via django-compressor
-six==1.11.0               # via bleach, django-compat, django-static-sitemaps, html5lib, libsass, pip-tools
+six==1.12.0               # via bleach, django-compat, django-static-sitemaps, html5lib, libsass, pip-tools
 urllib3==1.24.1           # via requests
 webencodings==0.5.1       # via bleach, html5lib
