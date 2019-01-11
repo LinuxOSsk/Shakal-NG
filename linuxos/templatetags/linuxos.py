@@ -46,7 +46,10 @@ def humandatetime(value, default='', separator='&nbsp;|&nbsp;'):
 @register.simple_tag
 def user_link(user_object, username=None):
 	if user_object:
-		return format_html('<a class="url fn" href="{0}" rel="nofollow">{1}</a>', user_object.get_absolute_url(), force_text(user_object))
+		if user_object.is_active:
+			return format_html('<a class="url fn" href="{0}" rel="nofollow">{1}</a>', user_object.get_absolute_url(), force_text(user_object))
+		else:
+			return force_text(user_object)
 	else:
 		if username:
 			return escape(username)

@@ -22,6 +22,9 @@ from common_utils.generic import ListView
 from desktops.models import FavoriteDesktop
 
 
+User = get_user_model()
+
+
 class UserZone(LoginRequiredMixin, RedirectView):
 	permanent = False
 	pattern_name = 'accounts:my_profile'
@@ -29,9 +32,14 @@ class UserZone(LoginRequiredMixin, RedirectView):
 
 class Profile(DetailView):
 	pattern_name = 'accounts:my_profile'
-	model = get_user_model()
 	template_name = 'account/profile.html'
 	context_object_name = 'user_profile'
+
+	def get_queryset(self):
+		if self.request.user.is_authenticated and self.request.user.is_superuser:
+			return User.objects.all()
+		else:
+			return User.objects.filter(is_active=True)
 
 	def get_context_data(self, **kwargs):
 		ctx = super(Profile, self).get_context_data(**kwargs)
@@ -146,7 +154,12 @@ class UserStatsMixin(object):
 		)
 
 	def get_object(self):
-		return get_object_or_404(get_user_model(), pk=self.kwargs['pk'])
+		if self.request.user.is_authenticated and self.request.user.is_superuser:
+			queryset = User.objects.all()
+		else:
+			queryset = User.objects.filter(is_active=True)
+
+		return get_object_or_404(queryset, pk=self.kwargs['pk'])
 
 	def get_day(self):
 		if not 'day' in self.request.GET:
@@ -284,6 +297,7 @@ class UsersMap(TemplateView):
 	def get_context_data(self, **kwargs):
 		ctx = super(UsersMap, self).get_context_data(**kwargs)
 		ctx['users'] = (User.objects.all()
+			.filter(is_active=True)
 			.exclude(geoposition='')
 			.values('pk', 'username', 'geoposition'))
 		for user in ctx['users']:
