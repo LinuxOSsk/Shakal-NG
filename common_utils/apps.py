@@ -24,20 +24,11 @@ class AppConfig(CoreAppConfig):
 		pre_save.connect(self.set_ip_for_object)
 
 	def patch_migrations(self):
-		def unexpand_tabs(text):
-			for length in range(16, 0, -4):
-				rx = re.compile('^' + '[ ]' * length, re.MULTILINE)
-				text = rx.sub('\t' * (length // 4), str(text))
-			return text
-
 		from django.db.migrations.writer import MigrationWriter
-
+		rx = re.compile('^(    )+', flags=re.MULTILINE)
+		replace = lambda match: '\t'*(len(match.group())//4)
 		old_as_string = MigrationWriter.as_string
-
-		def as_string(self):
-			return unexpand_tabs(old_as_string(self))
-
-		MigrationWriter.as_string = as_string
+		MigrationWriter.as_string = lambda self: rx.sub(replace, old_as_string(self))
 
 	def set_ip_for_object(self, instance, **kwargs):
 		opts = get_meta(instance)
