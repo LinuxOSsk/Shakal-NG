@@ -16,6 +16,6 @@ class Migration(migrations.Migration):
 		migrations.AlterField(
 			model_name='note',
 			name='content_type',
-			field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='contenttypes.ContentType', verbose_name='typ obsahu'),
+			field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='contenttypes.ContentType'),
 		),
 	]

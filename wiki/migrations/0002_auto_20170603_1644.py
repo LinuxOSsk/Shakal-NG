@@ -18,16 +18,16 @@ class Migration(migrations.Migration):
 		migrations.AlterField(
 			model_name='page',
 			name='last_author',
-			field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL, verbose_name='posledný autor'),
+			field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
 		),
 		migrations.AlterField(
 			model_name='page',
 			name='parent',
-			field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='children', to='wiki.Page', verbose_name='nadradená stránka'),
+			field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='children', to='wiki.Page'),
 		),
 		migrations.AlterField(
 			model_name='page',
 			name='original_text',
-			field=rich_editor.fields.RichTextOriginalField(filtered_field='filtered_text', property_name='text', verbose_name='text'),
+			field=rich_editor.fields.RichTextOriginalField(filtered_field='filtered_text', property_name='text'),
 		),
 	]

@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
 		migrations.AddField(
 			model_name='attachment',
 			name='is_visible',
-			field=models.BooleanField(default=True, verbose_name='is visible'),
+			field=models.BooleanField(default=True),
 		),
 	]

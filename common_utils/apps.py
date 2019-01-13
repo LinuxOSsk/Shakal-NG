@@ -4,11 +4,13 @@ from __future__ import unicode_literals
 import re
 
 from django.apps import AppConfig as CoreAppConfig
+from django.db import models
 from django.db.models.signals import pre_save
 
 from common_utils import get_meta, get_current_request, get_client_ip
 
 
+IGNORED_DECONSTRUCT_ATTRS = {'verbose_name', 'help_text'}
 SET_IP_MODELS = {
 	('comments', 'comment'),
 	('forum', 'topic'),
@@ -21,6 +23,7 @@ class AppConfig(CoreAppConfig):
 
 	def ready(self):
 		self.patch_migrations()
+		self.patch_deconstruct()
 		pre_save.connect(self.set_ip_for_object)
 
 	def patch_migrations(self):
@@ -37,3 +40,11 @@ class AppConfig(CoreAppConfig):
 			request = get_current_request()
 			if request:
 				instance.ip_address = get_client_ip(request)
+
+	def patch_deconstruct(self):
+		original_deconstruct = models.Field.deconstruct
+		def new_deconstruct(self):
+			name, path, args, kwargs = original_deconstruct(self)
+			kwargs = {key: value for key, value in kwargs.items() if key not in IGNORED_DECONSTRUCT_ATTRS}
+			return name, path, args, kwargs
+		models.Field.deconstruct = new_deconstruct

@@ -19,25 +19,25 @@ class Migration(migrations.Migration):
 		migrations.CreateModel(
 			name='Comment',
 			fields=[
-				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-				('created', models.DateTimeField(verbose_name='vytvoren\xe9', editable=False)),
-				('updated', models.DateTimeField(verbose_name='upraven\xe9', editable=False)),
+				('id', models.AutoField(serialize=False, auto_created=True, primary_key=True)),
+				('created', models.DateTimeField(editable=False)),
+				('updated', models.DateTimeField(editable=False)),
 				('object_id', models.PositiveIntegerField(verbose_name='ID objektu')),
-				('subject', models.CharField(max_length=100, verbose_name='predmet')),
-				('user_name', models.CharField(max_length=50, verbose_name='pou\u017e\xedvate\u013esk\xe9 meno', blank=True)),
-				('original_comment', rich_editor.fields.RichTextOriginalField(max_length=50000, verbose_name='obsah', property_name='comment', filtered_field='filtered_comment')),
+				('subject', models.CharField(max_length=100)),
+				('user_name', models.CharField(max_length=50, blank=True)),
+				('original_comment', rich_editor.fields.RichTextOriginalField(max_length=50000, property_name='comment', filtered_field='filtered_comment')),
 				('filtered_comment', rich_editor.fields.RichTextFilteredField(editable=False)),
-				('ip_address', models.GenericIPAddressField(null=True, verbose_name='IP adresa', blank=True)),
-				('is_public', models.BooleanField(default=True, verbose_name='verejn\xfd')),
-				('is_removed', models.BooleanField(default=False, verbose_name='odstr\xe1nen\xfd')),
-				('is_locked', models.BooleanField(default=False, verbose_name='uzamknut\xfd')),
+				('ip_address', models.GenericIPAddressField(null=True, blank=True)),
+				('is_public', models.BooleanField(default=True)),
+				('is_removed', models.BooleanField(default=False)),
+				('is_locked', models.BooleanField(default=False)),
 				('lft', models.PositiveIntegerField(editable=False, db_index=True)),
 				('rght', models.PositiveIntegerField(editable=False, db_index=True)),
 				('tree_id', models.PositiveIntegerField(editable=False, db_index=True)),
 				('level', models.PositiveIntegerField(editable=False, db_index=True)),
-				('content_type', models.ForeignKey(related_name='content_type_set_for_comment', verbose_name='typ obsahu', to='contenttypes.ContentType', on_delete=models.CASCADE)),
-				('parent', mptt.fields.TreeForeignKey(related_name='children', verbose_name='nadraden\xfd', blank=True, to='comments.Comment', null=True, on_delete=models.CASCADE)),
-				('user', models.ForeignKey(related_name='comment_comments', on_delete=django.db.models.deletion.SET_NULL, verbose_name='pou\u017e\xedvate\u013e', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+				('content_type', models.ForeignKey(related_name='content_type_set_for_comment', to='contenttypes.ContentType', on_delete=models.CASCADE)),
+				('parent', mptt.fields.TreeForeignKey(related_name='children', blank=True, to='comments.Comment', null=True, on_delete=models.CASCADE)),
+				('user', models.ForeignKey(related_name='comment_comments', on_delete=django.db.models.deletion.SET_NULL, blank=True, to=settings.AUTH_USER_MODEL, null=True)),
 			],
 			options={
 				'ordering': ('tree_id', 'lft'),
@@ -48,11 +48,11 @@ class Migration(migrations.Migration):
 		migrations.CreateModel(
 			name='CommentFlag',
 			fields=[
-				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-				('flag', models.CharField(max_length=30, verbose_name='zna\u010dka', db_index=True)),
-				('flag_date', models.DateTimeField(default=None, verbose_name='d\xe1tum')),
-				('comment', models.ForeignKey(related_name='flags', verbose_name='koment\xe1r', to='comments.Comment', on_delete=models.CASCADE)),
-				('user', models.ForeignKey(related_name='threadedcomment_flags', verbose_name='pou\u017e\xedvate\u013e', to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
+				('id', models.AutoField(serialize=False, auto_created=True, primary_key=True)),
+				('flag', models.CharField(max_length=30, db_index=True)),
+				('flag_date', models.DateTimeField(default=None)),
+				('comment', models.ForeignKey(related_name='flags', to='comments.Comment', on_delete=models.CASCADE)),
+				('user', models.ForeignKey(related_name='threadedcomment_flags', to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
 			],
 			options={
 				'verbose_name': 'zna\u010dka komen\xe1ra',
@@ -62,7 +62,7 @@ class Migration(migrations.Migration):
 		migrations.CreateModel(
 			name='RootHeader',
 			fields=[
-				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+				('id', models.AutoField(serialize=False, auto_created=True, primary_key=True)),
 				('pub_date', models.DateTimeField(db_index=True)),
 				('last_comment', models.DateTimeField(db_index=True)),
 				('comment_count', models.PositiveIntegerField(default=0, db_index=True)),
@@ -78,7 +78,7 @@ class Migration(migrations.Migration):
 		migrations.CreateModel(
 			name='UserDiscussionAttribute',
 			fields=[
-				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+				('id', models.AutoField(serialize=False, auto_created=True, primary_key=True)),
 				('time', models.DateTimeField(null=True, blank=True)),
 				('watch', models.BooleanField(default=False)),
 				('discussion', models.ForeignKey(to='comments.RootHeader', on_delete=models.CASCADE)),

@@ -27,9 +27,9 @@ class Migration(migrations.Migration):
 		migrations.CreateModel(
 			name='Attachment',
 			fields=[
-				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-				('attachment', attachment.models.ThumbnailImageField(upload_to=attachment.models.upload_to, verbose_name='attachment')),
-				('created', models.DateTimeField(auto_now_add=True, verbose_name='created')),
+				('id', models.AutoField(serialize=False, auto_created=True, primary_key=True)),
+				('attachment', attachment.models.ThumbnailImageField(upload_to=attachment.models.upload_to)),
+				('created', models.DateTimeField(auto_now_add=True)),
 				('size', models.IntegerField(verbose_name='size')),
 				('object_id', models.PositiveIntegerField()),
 			],
@@ -41,7 +41,7 @@ class Migration(migrations.Migration):
 		migrations.CreateModel(
 			name='UploadSession',
 			fields=[
-				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+				('id', models.AutoField(serialize=False, auto_created=True, primary_key=True)),
 				('created', models.DateTimeField(auto_now_add=True)),
 				('uuid', models.CharField(default=attachment.models.generate_uuid, unique=True, max_length=32)),
 			],

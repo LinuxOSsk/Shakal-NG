@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
 		migrations.AlterField(
 			model_name='article',
 			name='pub_time',
-			field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='\u010das publik\xe1cie', db_index=True),
+			field=models.DateTimeField(default=django.utils.timezone.now, db_index=True),
 		),
 	]

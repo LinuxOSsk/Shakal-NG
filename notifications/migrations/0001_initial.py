@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
 		migrations.CreateModel(
 			name='Event',
 			fields=[
-				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+				('id', models.AutoField(serialize=False, auto_created=True, primary_key=True)),
 				('object_id', models.PositiveIntegerField(null=True, blank=True)),
 				('time', models.DateTimeField(auto_now_add=True)),
 				('action', models.CharField(default='m', max_length=1, choices=[('x', 'other'), ('c', 'create'), ('u', 'update'), ('d', 'delete'), ('m', 'message'), ('a', 'comment')])),
@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
 		migrations.CreateModel(
 			name='Inbox',
 			fields=[
-				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+				('id', models.AutoField(serialize=False, auto_created=True, primary_key=True)),
 				('readed', models.BooleanField(default=False)),
 				('event', models.ForeignKey(to='notifications.Event', on_delete=models.CASCADE)),
 				('recipient', models.ForeignKey(related_name='inbox', to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),

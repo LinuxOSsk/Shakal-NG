@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
 		migrations.CreateModel(
 			name='File',
 			fields=[
-				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+				('id', models.AutoField(serialize=False, auto_created=True, primary_key=True)),
 				('filename', models.CharField(max_length=255)),
 				('filepath', models.FileField(upload_to='blackhole')),
 				('filemime', models.CharField(max_length=255)),
@@ -27,9 +27,9 @@ class Migration(migrations.Migration):
 		migrations.CreateModel(
 			name='Node',
 			fields=[
-				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-				('created', models.DateTimeField(verbose_name='vytvoren\xe9', editable=False)),
-				('updated', models.DateTimeField(verbose_name='upraven\xe9', editable=False)),
+				('id', models.AutoField(serialize=False, auto_created=True, primary_key=True)),
+				('created', models.DateTimeField(editable=False)),
+				('updated', models.DateTimeField(editable=False)),
 				('node_type', models.CharField(max_length=32)),
 				('title', models.CharField(max_length=128)),
 				('is_published', models.BooleanField(default=False)),
@@ -46,9 +46,9 @@ class Migration(migrations.Migration):
 		migrations.CreateModel(
 			name='NodeRevision',
 			fields=[
-				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-				('created', models.DateTimeField(verbose_name='vytvoren\xe9', editable=False)),
-				('updated', models.DateTimeField(verbose_name='upraven\xe9', editable=False)),
+				('id', models.AutoField(serialize=False, auto_created=True, primary_key=True)),
+				('created', models.DateTimeField(editable=False)),
+				('updated', models.DateTimeField(editable=False)),
 				('title', models.CharField(max_length=128)),
 				('original_body', rich_editor.fields.RichTextOriginalField(property_name='body', filtered_field='filtered_body')),
 				('filtered_body', rich_editor.fields.RichTextFilteredField(editable=False)),
@@ -63,7 +63,7 @@ class Migration(migrations.Migration):
 		migrations.CreateModel(
 			name='Term',
 			fields=[
-				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+				('id', models.AutoField(serialize=False, auto_created=True, primary_key=True)),
 				('name', models.CharField(max_length=255)),
 				('description', models.TextField()),
 				('lft', models.PositiveIntegerField(editable=False, db_index=True)),
@@ -79,7 +79,7 @@ class Migration(migrations.Migration):
 		migrations.CreateModel(
 			name='VocabularyNodeType',
 			fields=[
-				('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+				('id', models.AutoField(serialize=False, auto_created=True, primary_key=True)),
 				('name', models.CharField(max_length=32, db_column='type')),
 			],
 		),

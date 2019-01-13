@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
 		migrations.AddField(
 			model_name='user',
 			name='geoposition',
-			field=django_geoposition_field.fields.GeopositionField(max_length=100, verbose_name='poloha', blank=True),
+			field=django_geoposition_field.fields.GeopositionField(max_length=100, blank=True),
 		),
 	]

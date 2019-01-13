@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
 		migrations.AddField(
 			model_name='topic',
 			name='ip_address',
-			field=models.GenericIPAddressField(null=True, verbose_name='IP adresa', blank=True),
+			field=models.GenericIPAddressField(null=True, blank=True),
 		),
 	]

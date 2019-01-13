@@ -17,12 +17,12 @@ class Migration(migrations.Migration):
 		migrations.AlterField(
 			model_name='comment',
 			name='content_type',
-			field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='content_type_set_for_comment', to='contenttypes.ContentType', verbose_name='typ obsahu'),
+			field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='content_type_set_for_comment', to='contenttypes.ContentType'),
 		),
 		migrations.AlterField(
 			model_name='commentflag',
 			name='user',
-			field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comment_flags', to=settings.AUTH_USER_MODEL, verbose_name='používateľ'),
+			field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comment_flags', to=settings.AUTH_USER_MODEL),
 		),
 		migrations.AlterModelOptions(
 			name='rootheader',

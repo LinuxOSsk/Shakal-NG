@@ -23,6 +23,6 @@ class Migration(migrations.Migration):
 		migrations.AlterField(
 			model_name='poll',
 			name='content_type',
-			field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='contenttypes.ContentType', verbose_name='typ obsahu'),
+			field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='contenttypes.ContentType'),
 		),
 	]

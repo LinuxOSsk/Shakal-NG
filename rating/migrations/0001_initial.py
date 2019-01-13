@@ -18,9 +18,9 @@ class Migration(migrations.Migration):
 		migrations.CreateModel(
 			name='Rating',
 			fields=[
-				('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-				('value', models.SmallIntegerField(blank=True, null=True, verbose_name='Hodnotenie')),
-				('marked_solution', models.BooleanField(default=False, verbose_name='Označené hodnotenie')),
+				('id', models.AutoField(auto_created=True, primary_key=True, serialize=False)),
+				('value', models.SmallIntegerField(blank=True, null=True)),
+				('marked_solution', models.BooleanField(default=False)),
 			],
 			options={
 				'verbose_name_plural': 'Hodnotenia',
@@ -30,12 +30,12 @@ class Migration(migrations.Migration):
 		migrations.CreateModel(
 			name='Statistics',
 			fields=[
-				('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+				('id', models.AutoField(auto_created=True, primary_key=True, serialize=False)),
 				('object_id', models.PositiveIntegerField(verbose_name='ID objektu')),
-				('rating_total', models.IntegerField(default=0, verbose_name='Celkové hodnotenie')),
-				('rating_count', models.IntegerField(default=0, verbose_name='Počet hodnotiacich hlasov')),
-				('solution_count', models.IntegerField(default=0, verbose_name='Počet označení ako riešenie')),
-				('content_type', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='contenttypes.ContentType', verbose_name='typ obsahu')),
+				('rating_total', models.IntegerField(default=0)),
+				('rating_count', models.IntegerField(default=0)),
+				('solution_count', models.IntegerField(default=0)),
+				('content_type', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='contenttypes.ContentType')),
 			],
 			options={
 				'verbose_name_plural': 'Štatistiky hodnotenia',
@@ -45,12 +45,12 @@ class Migration(migrations.Migration):
 		migrations.AddField(
 			model_name='rating',
 			name='statistics',
-			field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='rating_set', to='rating.Statistics', verbose_name='Hodnotený objekt'),
+			field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='rating_set', to='rating.Statistics'),
 		),
 		migrations.AddField(
 			model_name='rating',
 			name='user',
-			field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='object_ratings', to=settings.AUTH_USER_MODEL, verbose_name='Používateľ'),
+			field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='object_ratings', to=settings.AUTH_USER_MODEL),
 		),
 		migrations.AlterUniqueTogether(
 			name='statistics',

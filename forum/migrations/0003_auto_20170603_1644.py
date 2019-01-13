@@ -18,16 +18,16 @@ class Migration(migrations.Migration):
 		migrations.AlterField(
 			model_name='topic',
 			name='author',
-			field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL, verbose_name='autor'),
+			field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
 		),
 		migrations.AlterField(
 			model_name='topic',
 			name='original_text',
-			field=rich_editor.fields.RichTextOriginalField(filtered_field='filtered_text', max_length=5000, property_name='text', verbose_name='text'),
+			field=rich_editor.fields.RichTextOriginalField(filtered_field='filtered_text', max_length=5000, property_name='text'),
 		),
 		migrations.AlterField(
 			model_name='topic',
 			name='section',
-			field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='forum.Section', verbose_name='sekcia'),
+			field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='forum.Section'),
 		),
 	]
