@@ -12,51 +12,79 @@ User = get_user_model()
 
 
 class RatingTest(TestCase):
-	def setUp(self):
-		self.category = Category.objects.create(name='ccategory', slug='category')
-		self.test_obj = Article.objects.create(title='test', slug='test', category=self.category)
-		self.test_obj2 = Article.objects.create(title='test2', slug='test2', category=self.category)
-		self.user1 = User.objects.create_user(username='test', email='test@test.tld')
-		self.user2 = User.objects.create_user(username='test2', email='test2@test.tld')
+	@classmethod
+	def setUpTestData(cls):
+		cls.category = Category.objects.create(name='ccategory', slug='category')
+		cls.articles = [
+			Article.objects.create(title='test %d' % i, slug='test-%d' % i, category=cls.category)
+			for i in range(1, 3)
+		]
+		cls.users = [
+			User.objects.create_user(username='test%d' % i, email='test%d@test.tld' % i)
+			for i in range(1, 4)
+		]
+
+	def add_rating(self, value=None, marked_solution=None, marked_spam=None, user=1, article=1):
+		user = self.users[user - 1]
+		obj = self.articles[article - 1]
+		Rating.objects.rate(
+			instance=obj,
+			user=user,
+			value=value,
+			marked_solution=marked_solution,
+			marked_spam=marked_spam
+		)
 
 	def test_add_rating(self):
-		Rating.objects.rate(instance=self.test_obj, value=1, user=self.user1)
-		Rating.objects.rate(instance=self.test_obj2, value=1, user=self.user2)
-		self.assertEquals(Rating.objects.count(), 2)
-
-	def test_unique_rating(self):
-		Rating.objects.rate(instance=self.test_obj, value=1, user=self.user1)
-		self.assertEquals(Rating.objects.count(), 1)
-		Rating.objects.rate(instance=self.test_obj, value=-1, user=self.user1)
+		self.add_rating(value=1)
 		self.assertEquals(Rating.objects.count(), 1)
 
-		Rating.objects.rate(instance=self.test_obj, value=1, user=self.user2)
-		self.assertEquals(Rating.objects.count(), 2)
-
-		Rating.objects.rate(instance=self.test_obj2, value=1, user=self.user1)
-		self.assertEquals(Rating.objects.count(), 3)
-
-	def test_change_rating(self):
-		Rating.objects.rate(instance=self.test_obj, value=1, user=self.user1)
-		Rating.objects.rate(instance=self.test_obj, value=-1, user=self.user1)
+	def test_replace_rating(self):
+		self.add_rating(value=1)
+		self.add_rating(value=-1)
+		self.assertEquals(Rating.objects.count(), 1)
 		self.assertEquals(Rating.objects.first().value, -1)
 
-	def test_statistics(self):
-		Rating.objects.rate(instance=self.test_obj, value=1, user=self.user1)
-		Rating.objects.all().delete()
-		Statistics.objects.all().refresh_statistics()
-		stat = Statistics.objects.first()
-		self.assertEquals(stat.rating_total, 0)
-		self.assertEquals(stat.rating_count, 0)
-		self.assertEquals(stat.solution_count, 0)
-		Rating.objects.rate(instance=self.test_obj, value=1, user=self.user1)
-		Rating.objects.rate(instance=self.test_obj, value=-1, marked_solution=True, user=self.user2)
-		stat.refresh_from_db()
-		self.assertEquals(stat.rating_total, 0)
-		self.assertEquals(stat.rating_count, 2)
-		self.assertEquals(stat.solution_count, 1)
-		Rating.objects.rate(instance=self.test_obj, value=False, marked_solution=False, user=self.user2)
-		stat.refresh_from_db()
-		self.assertEquals(stat.rating_total, 1)
-		self.assertEquals(stat.rating_count, 1)
-		self.assertEquals(stat.solution_count, 0)
+	def test_rate_from_multiple_users(self):
+		self.add_rating(value=1, user=1)
+		self.add_rating(value=1, user=2)
+		self.assertEquals(Rating.objects.count(), 2)
+
+	def test_rate_multiple_objects(self):
+		self.add_rating(value=1, article=1, user=1)
+		self.add_rating(value=1, article=2, user=1)
+		self.assertEquals(Rating.objects.count(), 2)
+
+	def test_statistics_rating_count(self):
+		self.add_rating(value=1, user=1)
+		self.add_rating(value=1, user=2)
+		self.assertEquals(Rating.objects.count(), 2)
+		self.assertEquals(Statistics.objects.first().rating_count, 2)
+
+	def test_statistics_empty_value(self):
+		self.add_rating(value=1, user=1)
+		self.add_rating(value=None, user=2)
+		self.assertEquals(Rating.objects.count(), 2)
+		self.assertEquals(Statistics.objects.first().rating_count, 1)
+
+	def test_statistics_rating_total(self):
+		self.add_rating(value=1, user=1)
+		self.add_rating(value=2, user=2)
+		self.assertEquals(Statistics.objects.first().rating_total, 3)
+
+	def test_statistics_rating_total_with_empty(self):
+		self.add_rating(value=None, user=1)
+		self.add_rating(value=2, user=2)
+		self.assertEquals(Statistics.objects.first().rating_total, 2)
+
+	def test_statistics_mark_solution(self):
+		self.add_rating(marked_solution=True, user=1)
+		self.add_rating(marked_solution=False, user=2)
+		self.assertEquals(Rating.objects.count(), 2)
+		self.assertEquals(Statistics.objects.first().solution_count, 1)
+
+	def test_statistics_mark_spam(self):
+		self.add_rating(marked_spam=True, user=1)
+		self.add_rating(marked_spam=False, user=2)
+		self.assertEquals(Rating.objects.count(), 2)
+		self.assertEquals(Statistics.objects.first().spam_count, 1)

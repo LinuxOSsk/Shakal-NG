@@ -29,10 +29,17 @@ class StatisticsQuerySet(models.QuerySet):
 			.order_by('statistics')
 			.annotate(computed_value=Count('marked_solution', filter=Q(marked_solution=True)))
 			.values('computed_value')[:1])
+		spam_count = Subquery(Rating.objects
+			.filter(statistics=OuterRef('pk'))
+			.values('statistics')
+			.order_by('statistics')
+			.annotate(computed_value=Count('marked_spam', filter=Q(marked_spam=True)))
+			.values('computed_value')[:1])
 		return self.update(
 			rating_total=Coalesce(rating_total, 0),
 			rating_count=Coalesce(rating_count, 0),
 			solution_count=Coalesce(solution_count, 0),
+			spam_count=Coalesce(spam_count, 0),
 		)
 
 
@@ -61,6 +68,10 @@ class Statistics(models.Model):
 		"Počet označení ako riešenie",
 		default=0
 	)
+	spam_count = models.IntegerField(
+		"Počet označení ako spam",
+		default=0
+	)
 
 	class Meta:
 		verbose_name = "Štatistika hodnotenia"
@@ -69,7 +80,7 @@ class Statistics(models.Model):
 
 
 class RatingManager(models.Manager):
-	def rate(self, instance, user, value=None, marked_solution=None):
+	def rate(self, instance, user, value=None, marked_solution=None, marked_spam=None):
 		defaults = {}
 		if value is not None:
 			if value is False:
@@ -78,6 +89,8 @@ class RatingManager(models.Manager):
 				defaults['value'] = value
 		if marked_solution is not None:
 			defaults['marked_solution'] = marked_solution
+		if marked_spam is not None:
+			defaults['marked_spam'] = marked_spam
 
 		content_type = ContentType.objects.get_for_model(instance.__class__)
 		object_id = instance.pk
@@ -113,6 +126,10 @@ class Rating(models.Model):
 	)
 	marked_solution = models.BooleanField(
 		"Označené hodnotenie",
+		default=False
+	)
+	marked_spam = models.BooleanField(
+		"Označené ako spam",
 		default=False
 	)
 
