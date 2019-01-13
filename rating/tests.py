@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db.models import Sum
+from django.contrib.auth import get_user_model
 from django.test import TestCase
+
 from .models import Statistics, Rating
 from article.models import Article, Category
-from django.contrib.auth import get_user_model
 
 
 User = get_user_model()
@@ -21,7 +21,7 @@ class RatingTest(TestCase):
 		]
 		cls.users = [
 			User.objects.create_user(username='test%d' % i, email='test%d@test.tld' % i)
-			for i in range(1, 4)
+			for i in range(1, 3)
 		]
 
 	def add_rating(self, value=None, marked_solution=None, marked_spam=None, user=1, article=1):
