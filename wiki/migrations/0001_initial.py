@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
 				('created', models.DateTimeField(editable=False)),
 				('updated', models.DateTimeField(editable=False)),
 				('title', models.CharField(max_length=255)),
-				('slug', django_autoslugfield.fields.AutoSlugField(unique=True)),
+				('slug', django_autoslugfield.fields.AutoSlugField(title_field='title', unique=True)),
 				('original_text', rich_editor.fields.RichTextOriginalField(property_name='text', filtered_field='filtered_text')),
 				('filtered_text', rich_editor.fields.RichTextFilteredField(editable=False)),
 				('page_type', models.CharField(default='p', max_length=1, choices=[('h', 'Domovsk\xe1 str\xe1nka'), ('i', 'Intern\xe1 str\xe1nka'), ('p', 'Str\xe1nka wiki')])),

@@ -10,4 +10,4 @@ from common_utils.forms import AuthorsNameFormMixin
 class NoteForm(AuthorsNameFormMixin, forms.ModelForm):
 	class Meta:
 		model = Note
-		fields = ('subject', 'original_text')
+		fields = ('subject', 'original_text', 'is_public')

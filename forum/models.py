@@ -13,6 +13,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from attachment.models import Attachment
 from comments.models import RootHeader, Comment
 from common_utils.models import TimestampModelMixin
+from notes.models import Note
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
@@ -90,6 +91,7 @@ class Topic(TimestampModelMixin, models.Model):
 	comments_header = GenericRelation(RootHeader)
 	attachments = GenericRelation(Attachment)
 	comments = GenericRelation(Comment)
+	notes = GenericRelation(Note)
 	is_removed = models.BooleanField('vymazané', default=False)
 	is_resolved = models.BooleanField('vyriešené', default=False)
 

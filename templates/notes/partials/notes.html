@@ -1,0 +1,16 @@
+{% for note in notes %}
+	<div class="module-row">
+		{% if note.subject %}
+			<div class="info">
+				<span class="subject">{{ note.subject }}</span>
+			</div>
+		{% endif %}
+		<p>{{ note.text|safe }}</p>
+		<div class="info bottom">
+			{{ note.created|humandatetime }}
+			{% if note.author %}
+			| <a href="{{ note.author.get_absolute_url() }}">{{ note.author }}</a>
+			{% endif %}
+		</div>
+	</div>
+{% endfor %}

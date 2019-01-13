@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
 				('created', models.DateTimeField(editable=False)),
 				('updated', models.DateTimeField(editable=False)),
 				('title', models.CharField(max_length=255)),
-				('slug', django_autoslugfield.fields.AutoSlugField(unique=True)),
+				('slug', django_autoslugfield.fields.AutoSlugField(title_field='title', unique=True)),
 				('original_short_text', rich_editor.fields.RichTextOriginalField(max_length=3000, property_name='short_text', filtered_field='filtered_short_text')),
 				('filtered_short_text', rich_editor.fields.RichTextFilteredField(editable=False)),
 				('original_long_text', rich_editor.fields.RichTextOriginalField(property_name='long_text', filtered_field='filtered_long_text')),

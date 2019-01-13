@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.db import models, migrations
 import django_autoslugfield.fields
 from django.conf import settings
+import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
@@ -33,13 +34,13 @@ class Migration(migrations.Migration):
 				('created', models.DateTimeField(editable=False)),
 				('updated', models.DateTimeField(editable=False)),
 				('question', models.TextField(verbose_name='ot\xe1zka')),
-				('slug', django_autoslugfield.fields.AutoSlugField(unique=True)),
+				('slug', django_autoslugfield.fields.AutoSlugField(title_field='question', unique=True)),
 				('object_id', models.PositiveIntegerField(null=True, blank=True)),
 				('active_from', models.DateTimeField(null=True, blank=True)),
 				('checkbox', models.BooleanField(default=False)),
 				('approved', models.BooleanField(default=False)),
 				('answer_count', models.PositiveIntegerField(default=0)),
-				('content_type', models.ForeignKey(blank=True, to='contenttypes.ContentType', null=True, on_delete=models.CASCADE)),
+				('content_type', models.ForeignKey(blank=True, limit_choices_to={'model__in': ('article',)}, null=True, on_delete=django.db.models.deletion.PROTECT, to='contenttypes.ContentType')),
 			],
 			options={
 				'verbose_name': 'anketa',

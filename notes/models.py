@@ -17,7 +17,9 @@ class Note(TimestampModelMixin, models.Model):
 	content_type = models.ForeignKey(
 		ContentType,
 		limit_choices_to = (
-			Q(app_label='news', model='news')
+			Q(app_label='news', model='news') |
+			Q(app_label='comments', model='comment') |
+			Q(app_label='forum', model='topic')
 		),
 		verbose_name='typ obsahu',
 		on_delete=models.PROTECT
@@ -27,7 +29,7 @@ class Note(TimestampModelMixin, models.Model):
 	)
 	content_object = GenericForeignKey('content_type', 'object_id')
 
-	subject = models.CharField('predmet', max_length=100)
+	subject = models.CharField('predmet', max_length=100, blank=True)
 
 	author = models.ForeignKey(
 		settings.AUTH_USER_MODEL,
@@ -48,6 +50,13 @@ class Note(TimestampModelMixin, models.Model):
 		max_length=20000
 	)
 	filtered_text = RichTextFilteredField()
+
+	is_public = models.BooleanField(
+		verbose_name="poznámka je verejná",
+		help_text="Poznámku môže vidieť ktorýkoľvek návštevník",
+		blank=True,
+		default=False,
+	)
 
 	def __str__(self):
 		return self.subject

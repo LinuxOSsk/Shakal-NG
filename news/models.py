@@ -99,5 +99,9 @@ class News(TimestampModelMixin, models.Model):
 	def admin_notes(self):
 		return self.notes.order_by('pk')
 
+	@cached_property
+	def public_notes(self):
+		return self.admin_notes.filter(is_public=True)
+
 	def __str__(self):
 		return self.title

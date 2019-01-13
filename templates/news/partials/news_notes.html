@@ -1,0 +1,10 @@
+{% if notes %}
+	<div class="fieldset">
+		<div class="legend">Poznámky k správe</div>
+		<div class="content">
+			<div class="module">
+				{% include "notes/partials/notes.html" %}
+			</div>
+		</div>
+	</div>
+{% endif %}

@@ -20,9 +20,4 @@ class Migration(migrations.Migration):
 				('all_objects', django.db.models.manager.Manager()),
 			],
 		),
-		migrations.AlterField(
-			model_name='poll',
-			name='content_type',
-			field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='contenttypes.ContentType'),
-		),
 	]

@@ -13,6 +13,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 from attachment.models import Attachment
 from common_utils.models import TimestampModelMixin
 from common_utils.url_utils import build_url
+from notes.models import Note
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 from rich_editor.widgets import TextVal
 
@@ -66,6 +67,7 @@ class Comment(MPTTModel, TimestampModelMixin):
 	is_locked = models.BooleanField('uzamknutý', default=False)
 
 	attachments = GenericRelation(Attachment)
+	notes = GenericRelation(Note)
 
 	content_fields = ('original_comment',)
 
