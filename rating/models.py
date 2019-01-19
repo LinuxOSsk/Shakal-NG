@@ -29,17 +29,17 @@ class StatisticsQuerySet(models.QuerySet):
 			.order_by('statistics')
 			.annotate(computed_value=Count('marked_solution', filter=Q(marked_solution=True)))
 			.values('computed_value')[:1])
-		spam_count = Subquery(Rating.objects
+		flag_count = Subquery(Rating.objects
 			.filter(statistics=OuterRef('pk'))
 			.values('statistics')
 			.order_by('statistics')
-			.annotate(computed_value=Count('marked_spam', filter=Q(marked_spam=True)))
+			.annotate(computed_value=Count('marked_flag', filter=~Q(marked_flag='')))
 			.values('computed_value')[:1])
 		return self.update(
 			rating_total=Coalesce(rating_total, 0),
 			rating_count=Coalesce(rating_count, 0),
 			solution_count=Coalesce(solution_count, 0),
-			spam_count=Coalesce(spam_count, 0),
+			flag_count=Coalesce(flag_count, 0),
 		)
 
 
@@ -68,8 +68,8 @@ class Statistics(models.Model):
 		"Počet označení ako riešenie",
 		default=0
 	)
-	spam_count = models.IntegerField(
-		"Počet označení ako spam",
+	flag_count = models.IntegerField(
+		"Počet označení ako flag",
 		default=0
 	)
 
@@ -80,7 +80,7 @@ class Statistics(models.Model):
 
 
 class RatingManager(models.Manager):
-	def rate(self, instance, user, value=None, marked_solution=None, marked_spam=None):
+	def rate(self, instance, user, value=None, marked_solution=None, marked_flag=None):
 		defaults = {}
 		if value is not None:
 			if value is False:
@@ -89,8 +89,8 @@ class RatingManager(models.Manager):
 				defaults['value'] = value
 		if marked_solution is not None:
 			defaults['marked_solution'] = marked_solution
-		if marked_spam is not None:
-			defaults['marked_spam'] = marked_spam
+		if marked_flag is not None:
+			defaults['marked_flag'] = marked_flag
 
 		content_type = ContentType.objects.get_for_model(instance.__class__)
 		object_id = instance.pk
@@ -106,6 +106,16 @@ class RatingManager(models.Manager):
 
 class Rating(models.Model):
 	objects = RatingManager()
+
+	FLAG_NONE = ''
+	FLAG_SPAM = 's'
+	FLAG_VULGARISM = 'v'
+	FLAG_OTHER = 'x'
+	FLAG_CHOICES = (
+		(FLAG_SPAM, "Spam"),
+		(FLAG_VULGARISM, "Vulgarizmus"),
+		(FLAG_OTHER, "Iné"),
+	)
 
 	statistics = models.ForeignKey(
 		Statistics,
@@ -128,9 +138,17 @@ class Rating(models.Model):
 		"Označené hodnotenie",
 		default=False
 	)
-	marked_spam = models.BooleanField(
-		"Označené ako spam",
-		default=False
+	marked_flag = models.CharField(
+		"Označené",
+		blank=True,
+		default='',
+		max_length=1,
+		choices=FLAG_CHOICES
+	)
+	comment = models.TextField(
+		"Komentár",
+		blank=True,
+		default='',
 	)
 
 	class Meta:

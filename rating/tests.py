@@ -24,7 +24,7 @@ class RatingTest(TestCase):
 			for i in range(1, 3)
 		]
 
-	def add_rating(self, value=None, marked_solution=None, marked_spam=None, user=1, article=1):
+	def add_rating(self, value=None, marked_solution=None, marked_flag=None, user=1, article=1):
 		user = self.users[user - 1]
 		obj = self.articles[article - 1]
 		Rating.objects.rate(
@@ -32,7 +32,7 @@ class RatingTest(TestCase):
 			user=user,
 			value=value,
 			marked_solution=marked_solution,
-			marked_spam=marked_spam
+			marked_flag=marked_flag
 		)
 
 	def test_add_rating(self):
@@ -83,8 +83,8 @@ class RatingTest(TestCase):
 		self.assertEquals(Rating.objects.count(), 2)
 		self.assertEquals(Statistics.objects.first().solution_count, 1)
 
-	def test_statistics_mark_spam(self):
-		self.add_rating(marked_spam=True, user=1)
-		self.add_rating(marked_spam=False, user=2)
+	def test_statistics_mark_flag(self):
+		self.add_rating(marked_flag=Rating.FLAG_SPAM, user=1)
+		self.add_rating(marked_flag=Rating.FLAG_NONE, user=2)
 		self.assertEquals(Rating.objects.count(), 2)
-		self.assertEquals(Statistics.objects.first().spam_count, 1)
+		self.assertEquals(Statistics.objects.first().flag_count, 1)
