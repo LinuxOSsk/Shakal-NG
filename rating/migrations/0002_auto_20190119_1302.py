@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
 		migrations.AddField(
 			model_name='rating',
 			name='marked_flag',
-			field=models.CharField(blank=True, choices=[('s', 'Spam'), ('v', 'Vulgarizmus'), ('x', 'Iné')], default='', max_length=1),
+			field=models.CharField(blank=True, choices=[('', 'Príspevok je v poriadku'), ('s', 'Spam'), ('v', 'Vulgarizmus'), ('x', 'Iné')], default='', max_length=1),
 		),
 		migrations.AddField(
 			model_name='statistics',

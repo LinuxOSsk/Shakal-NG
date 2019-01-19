@@ -116,6 +116,7 @@ def main():
 
 	make_transparent_light_dark('block')
 	make_transparent_light_dark('eye')
+	make_transparent_light_dark('flag')
 	make_transparent_light_dark('gear')
 	make_transparent_light_dark('lock')
 	make_transparent_light_dark('pencil')

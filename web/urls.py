@@ -33,6 +33,7 @@ urlpatterns = [
 	url(_(r'^forum/'), include('forum.urls')),
 	#url(_(r'^maintenance/'), include('maintenance.urls')),
 	url(_(r'^news/'), include('news.urls')),
+	url(_(r'^rating/'), include('rating.urls')),
 	url(_(r'^tweets/'), include('tweets.urls')),
 	url(_(r'^notifications/'), include('notifications.urls')),
 	url(_(r'^polls/'), include('polls.urls')),

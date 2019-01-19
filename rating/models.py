@@ -80,7 +80,7 @@ class Statistics(models.Model):
 
 
 class RatingManager(models.Manager):
-	def rate(self, instance, user, value=None, marked_solution=None, marked_flag=None):
+	def rate(self, instance, user, value=None, marked_solution=None, marked_flag=None, comment=None):
 		defaults = {}
 		if value is not None:
 			if value is False:
@@ -91,6 +91,8 @@ class RatingManager(models.Manager):
 			defaults['marked_solution'] = marked_solution
 		if marked_flag is not None:
 			defaults['marked_flag'] = marked_flag
+		if comment is not None:
+			defaults['comment'] = comment
 
 		content_type = ContentType.objects.get_for_model(instance.__class__)
 		object_id = instance.pk
@@ -103,6 +105,15 @@ class RatingManager(models.Manager):
 		Statistics.objects.filter(pk=statistics.pk).refresh_statistics()
 		return rating
 
+	def get_rating(self, instance, user):
+		content_type = ContentType.objects.get_for_model(instance.__class__)
+		object_id = instance.pk
+		return Rating.objects.get(
+			statistics__content_type=content_type,
+			statistics__object_id=object_id,
+			user=user
+		)
+
 
 class Rating(models.Model):
 	objects = RatingManager()
@@ -112,6 +123,7 @@ class Rating(models.Model):
 	FLAG_VULGARISM = 'v'
 	FLAG_OTHER = 'x'
 	FLAG_CHOICES = (
+		(FLAG_NONE, "Príspevok je v poriadku"),
 		(FLAG_SPAM, "Spam"),
 		(FLAG_VULGARISM, "Vulgarizmus"),
 		(FLAG_OTHER, "Iné"),

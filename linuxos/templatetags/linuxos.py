@@ -9,6 +9,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.template.defaultfilters import urlencode
 from django.template.defaulttags import date
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import force_text
 from django.utils.html import escape, format_html
@@ -138,3 +139,9 @@ def urlquote(string):
 @contextfunction
 def hijack_notification(context):
 	return core_hijack_notification(context)
+
+
+@library.global_function
+def flag_url(obj):
+	ctype = ContentType.objects.get_for_model(obj.__class__)
+	return reverse('rating:flag', kwargs={'content_type': ctype.pk, 'object_id': obj.pk})

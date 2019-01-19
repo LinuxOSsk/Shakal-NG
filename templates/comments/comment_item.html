@@ -40,8 +40,13 @@
 			</div>
 		{% endif %}
 		{% if is_authenticated and not is_locked and is_public and not is_removed %}
-			<!--
 			<div class="btn-group voting">
+				<div class="btn flag">
+					<span class="wrap">
+						<a href="{{ flag_url(comment) }}" class="text" rel="nofollow">Nahlásiť</a>
+					</span>
+				</div>
+			<!--
 				<div class="btn up">
 					<span class="wrap">
 						<a href="#" class="text" rel="nofollow">+ 1</a>
@@ -52,8 +57,8 @@
 						<a href="#" class="text" rel="nofollow">- 1</a>
 					</span>
 				</div>
-			</div>
 			-->
+			</div>
 		{% endif %}
 		{% if is_authenticated %}
 			{% if is_staff and perms.comments.change_comment or not is_locked %}

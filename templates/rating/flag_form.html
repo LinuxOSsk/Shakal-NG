@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block head_title %}Nahlásiť{% endblock %}
+
+{% block breadcrumbs %}
+{{ breadcrumb("Nahlásiť") }}
+{{ breadcrumb(content_object|truncatechars(50), url=content_object.get_absolute_url()) }}
+{{ breadcrumb(module_name, url=module_url) }}
+{{ super() }}
+{% endblock %}
+
+{% block extraheaders %}
+<meta name="robots" content="noindex, nofollow" />
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+	<h1>Nahlásiť {{ object_type_verbose_name }} „{{ content_object }}“</h1>
+
+	<form action="{{ flag_url(content_object) }}" method="post" id="flag-form">{% csrf_token %}
+	<fieldset class="module">
+		{% include "includes/form_loop.html" %}
+		<div class="submit-row">
+			<div class="positive">
+				<button class="btn primary" type="submit" title="Uložiť" name="{% if object %}update{% else %}create{% endif %}" value="1"><span class="wrap"><span class="text">Uložiť</span></span></button>
+			</div>
+		</div>
+	</fieldset>
+	</form>
+{% endblock %}
