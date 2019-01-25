@@ -117,18 +117,11 @@ class CommentForm(SecurityFormMixin, AttachmentFormMixin, AuthorsNameFormMixin, 
 		content_object = self.target_object
 
 		if parent_comment.parent_id:
-			if len(parent_comment.subject) > 96:
-				new_subject = parent_comment.subject[:96]
-			else:
-				new_subject = parent_comment.subject
-
+			new_subject = parent_comment.subject[:96]
 			if not new_subject.startswith('RE: '):
 				new_subject = 'RE: ' + new_subject
 		else:
-			if len(force_text(content_object)) > 96:
-				new_subject = 'RE: ' + force_text(content_object)[:96]
-			else:
-				new_subject = 'RE: ' + force_text(content_object)
+			new_subject = 'RE: ' + force_text(content_object)[:96]
 		return new_subject
 
 	def additional_security_data(self):
