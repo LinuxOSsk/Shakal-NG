@@ -19,6 +19,7 @@ from hijack.templatetags.hijack_tags import hijack_notification as core_hijack_n
 from jinja2 import contextfunction
 
 from common_utils import get_meta
+from rating.settings import FLAG_CONTENT_TYPES
 from web.middlewares.threadlocal import get_current_request
 
 
@@ -144,4 +145,6 @@ def hijack_notification(context):
 @library.global_function
 def flag_url(obj):
 	ctype = ContentType.objects.get_for_model(obj.__class__)
+	if (ctype.app_label, ctype.model) not in FLAG_CONTENT_TYPES:
+		return
 	return reverse('rating:flag', kwargs={'content_type': ctype.pk, 'object_id': obj.pk})
