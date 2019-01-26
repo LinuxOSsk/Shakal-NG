@@ -12,17 +12,10 @@ from django.views.generic import ListView, FormView
 
 from .forms import FlagForm
 from .models import Rating, Statistics
+from .settings import FLAG_CONTENT_TYPES
 from comments.views import get_module_name, get_module_url
 from common_utils import get_meta
 from notifications.models import Event
-
-
-FLAG_CONTENT_TYPES = (
-	('comments', 'comment'),
-	('forum', 'topic'),
-	('blog', 'blog'),
-	('blog', 'post'),
-)
 
 
 class FlagView(LoginRequiredMixin, FormView):
