@@ -28,6 +28,7 @@ class Blog(TimestampModelMixin, models.Model):
 	filtered_description = RichTextFilteredField()
 	original_sidebar = RichTextOriginalField(filtered_field='filtered_sidebar', property_name='sidebar', verbose_name='bočný panel', max_length=1000, blank=True)
 	filtered_sidebar = RichTextFilteredField()
+	ratings = GenericRelation('rating.Rating')
 
 	content_fields = ('original_descriptoin', 'original_sidebar',)
 
@@ -92,6 +93,7 @@ class Post(TimestampModelMixin, models.Model):
 	comments_header = GenericRelation(RootHeader)
 	comments = GenericRelation(Comment)
 	attachments = GenericRelation(Attachment)
+	ratings = GenericRelation('rating.Rating')
 	hit = HitCountField()
 
 	content_fields = ('original_perex', 'original_content',)
