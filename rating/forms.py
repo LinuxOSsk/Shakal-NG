@@ -12,10 +12,9 @@ class FlagForm(forms.ModelForm):
 		self.object = kwargs.pop('object')
 		super().__init__(*args, **kwargs)
 		if not self.instance or self.instance.marked_flag == Rating.FLAG_NONE:
-			self.fields['marked_flag'].choices = self.fields['marked_flag'].choices[1:]
+			self.fields['marked_flag'].choices = Rating.FLAG_CHOICES[1:]
 			self.fields['marked_flag'].required = True
 			self.initial['marked_flag'] = Rating.FLAG_SPAM
-
 		if self.data.get(self.add_prefix('marked_flag')) == Rating.FLAG_OTHER:
 			self.fields['comment'].required = True
 
@@ -25,6 +24,12 @@ class FlagForm(forms.ModelForm):
 		widgets = {
 			'marked_flag': RadioSelect(),
 		}
+
+	def clean(self):
+		cleaned_data = super().clean()
+		if cleaned_data.get('marked_flag') == Rating.FLAG_NONE:
+			cleaned_data['comment'] = ''
+		return cleaned_data
 
 	def save(self):
 		if self.instance and self.instance.pk:
