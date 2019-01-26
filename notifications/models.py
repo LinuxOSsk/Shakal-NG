@@ -111,6 +111,21 @@ class Event(models.Model):
 	)
 	content_object = GenericForeignKey('content_type', 'object_id')
 
+	linked_id = models.PositiveIntegerField(
+		verbose_name="ID odkazovaného objektu",
+		blank=True,
+		null=True
+	)
+	linked_type = models.ForeignKey(
+		ContentType,
+		verbose_name="typ odkazovaného obsahu",
+		related_name='+',
+		blank=True,
+		null=True,
+		on_delete=models.PROTECT
+	)
+	linked_object = GenericForeignKey('linked_type', 'linked_id')
+
 	time = models.DateTimeField(
 		auto_now_add=True
 	)

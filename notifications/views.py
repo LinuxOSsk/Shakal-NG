@@ -27,6 +27,8 @@ class Read(LoginRequiredMixin, DetailView):
 		event = notification.event
 		Inbox.objects.filter(pk=notification.pk).update(readed=True)
 
+		if event.linked_object:
+			return HttpResponseRedirect(event.linked_object.get_absolute_url())
 		if event.content_object:
 			return HttpResponseRedirect(event.content_object.get_absolute_url())
 		else:
