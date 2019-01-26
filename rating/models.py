@@ -40,6 +40,15 @@ class StatisticsQuerySet(models.QuerySet):
 			flag_count=Coalesce(flag_count, 0),
 		)
 
+	def get_statistics(self, instance):
+		content_type = ContentType.objects.get_for_model(instance.__class__)
+		object_id = instance.pk
+		stat = Statistics.objects.filter(content_type=content_type, object_id=object_id).first()
+		if stat is None:
+			return Statistics(content_type=content_type, object_id=object_id)
+		else:
+			return stat
+
 
 class Statistics(models.Model):
 	objects = StatisticsQuerySet.as_manager()

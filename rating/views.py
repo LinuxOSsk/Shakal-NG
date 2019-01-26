@@ -1,16 +1,19 @@
 # -*- coding: utf-8 -*-
 from braces.views import LoginRequiredMixin
+from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.functional import cached_property
 from django.views.generic import FormView
+from django.utils.translation import ungettext
 
 from .forms import FlagForm
-from .models import Rating
+from .models import Rating, Statistics
 from comments.views import get_module_name, get_module_url
 from common_utils import get_meta
+from notifications.models import Event
 
 
 FLAG_CONTENT_TYPES = (
@@ -64,6 +67,32 @@ class FlagView(LoginRequiredMixin, FormView):
 
 	def form_valid(self, form):
 		form.save()
+		model = self.flagged_object.__class__
+		model_name = model._meta.verbose_name
+		model_name = model_name[:1].lower() + model_name[1:]
+		statistics = Statistics.objects.get_statistics(self.flagged_object)
+		if statistics.flag_count:
+			flagged_message = ungettext(
+				'%(num)s user flagged this %(content_type)s',
+				'%(num)s users flagged this %(content_type)s',
+				statistics.flag_count
+			) % {'num': statistics.flag_count, 'content_type': model_name}
+			event = Event.objects.get_or_create(
+				content_type=ContentType.objects.get_for_model(model),
+				object_id=self.flagged_object.pk,
+				action=Event.FLAG_ACTION,
+				defaults={
+					'level': messages.WARNING,
+					'author': self.request.user,
+					'message': flagged_message
+				}
+			)[0]
+			if event.message != flagged_message:
+				Event.objects.filter(pk=event.pk).update(message=flagged_message)
+			Event.objects.broadcast_event(
+				event,
+				permissions=(model, 'change_' + model._meta.model_name)
+			)
 		return HttpResponseRedirect(self.get_success_url())
 
 	def get_success_url(self):
