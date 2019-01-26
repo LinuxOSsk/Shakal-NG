@@ -12,7 +12,9 @@
 
 {% block content %}
 {% if blog %}
-	{% include "blog/partials/informations.html" %}
+	{% with list=1 %}
+		{% include "blog/partials/informations.html" %}
+	{% endwith %}
 {% endif %}
 
 {% if blog %}

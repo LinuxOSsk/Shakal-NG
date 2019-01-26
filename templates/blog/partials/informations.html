@@ -15,6 +15,18 @@
 		{% endif %}
 		<hr />
 		{{ blog.sidebar|safe }}
+		{% if list and request.user.is_authenticated %}
+			{% set flag_url_link=flag_url(blog) %}
+			{% if flag_url_link %}
+				<div class="btn-group voting">
+					<div class="btn flag">
+						<span class="wrap">
+							<a href="{{ flag_url_link }}" class="text" rel="nofollow">Nahlásiť</a>
+						</span>
+					</div>
+				</div>
+			{% endif %}
+		{% endif %}
 	</div>
 	{% with desktop=blog.author.last_desktop %}
 		{% if desktop %}
