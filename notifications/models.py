@@ -59,7 +59,7 @@ class EventManager(models.Manager):
 	def broadcast(self, message, content_object=None, action=None, level=messages.INFO, author=None, users=None, is_staff=None, is_superuser=None, permissions=None): #pylint: disable=too-many-arguments
 		event = self.create_event(message, content_object, action=action, level=level, author=author)
 		event.save()
-		self.broadcast_event(users, event, is_staff, is_superuser, permissions)
+		self.broadcast_event(event, users, is_staff, is_superuser, permissions)
 
 	def broadcast_event(self, event, users=None, is_staff=None, is_superuser=None, permissions=None):
 		if users is None:
