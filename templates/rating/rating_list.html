@@ -15,17 +15,19 @@
 		</ul>
 	</form>
 
-	<h1>{{ object_type_verbose_name|title }} nahlásený</h1>
-	<p>{{ object_type_verbose_name|title }} s názvom „{{ object.statistics.content_object }}“ bol nahlásený.</p>
+	<h1>{{ object_type_verbose_name|title }} {% if object.statistics.flag_count %}nahlásený{% else %}nenahlásený{% endif %}</h1>
+	{% if object.statistics.flag_count %}
+		<p>{{ object_type_verbose_name|title }} s názvom „{{ object.statistics.content_object }}“ bol nahlásený.</p>
 
-	<div class="module ratings">
-		{% for rating in object_list %}
-			<div class="module-row">
-				<p><strong>{{ rating.get_marked_flag_display() }}</strong> | <a href="{{ rating.user.get_absolute_url() }}">{{ rating.user }}</a></p>
-				{% if rating.comment %}
-					<p>{{ rating.comment|linebreaksbr }}</p>
-				{% endif %}
-			</div>
-		{% endfor %}
-	</div>
+		<div class="module ratings">
+			{% for rating in object_list %}
+				<div class="module-row">
+					<p><strong>{{ rating.get_marked_flag_display() }}</strong> | <a href="{{ rating.user.get_absolute_url() }}">{{ rating.user }}</a></p>
+					{% if rating.comment %}
+						<p>{{ rating.comment|linebreaksbr }}</p>
+					{% endif %}
+				</div>
+			{% endfor %}
+		</div>
+	{% endif %}
 {% endblock %}
