@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from braces.views import LoginRequiredMixin
 from django.contrib import messages
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.functional import cached_property
-from django.views.generic import FormView
 from django.utils.translation import ungettext
+from django.views.generic import ListView, FormView
 
 from .forms import FlagForm
 from .models import Rating, Statistics
@@ -66,7 +67,7 @@ class FlagView(LoginRequiredMixin, FormView):
 		return ctx
 
 	def form_valid(self, form):
-		form.save()
+		instance = form.save()
 		model = self.flagged_object.__class__
 		model_name = model._meta.verbose_name
 		model_name = model_name[:1].lower() + model_name[1:]
@@ -84,11 +85,17 @@ class FlagView(LoginRequiredMixin, FormView):
 				defaults={
 					'level': messages.WARNING,
 					'author': self.request.user,
-					'message': flagged_message
+					'message': flagged_message,
+					'linked_type': ContentType.objects.get_for_model(instance.__class__),
+					'linked_id': instance.pk,
 				}
 			)[0]
 			if event.message != flagged_message:
-				Event.objects.filter(pk=event.pk).update(message=flagged_message)
+				Event.objects.filter(pk=event.pk).update(
+					message=flagged_message,
+					linked_type=ContentType.objects.get_for_model(instance.__class__),
+					linked_id=instance.pk
+				)
 			Event.objects.broadcast_event(
 				event,
 				permissions=(model, 'change_' + model._meta.model_name)
@@ -97,3 +104,22 @@ class FlagView(LoginRequiredMixin, FormView):
 
 	def get_success_url(self):
 		return self.flagged_object.get_absolute_url()
+
+
+class RatingsView(UserPassesTestMixin, ListView):
+	@cached_property
+	def object(self):
+		return get_object_or_404(Rating, pk=self.kwargs['pk'])
+
+	def test_func(self):
+		return self.request.user.is_staff
+
+	def get_queryset(self):
+		return (Rating.objects
+			.exclude(marked_flag=Rating.FLAG_NONE)
+			.filter(statistics_id=self.object.statistics_id)
+			.select_related('user')
+			.order_by('-pk'))
+
+	def get_context_data(self, **kwargs):
+		return super().get_context_data(object=self.object, **kwargs)

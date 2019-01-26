@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block breadcrumbs %}
+	{{ breadcrumb("Hodnotenia") }}
+	{{ super() }}
+{% endblock %}
+
+{% block head_title %}
+	Hodnotenia
+{% endblock %}
+
+{% block content %}
+	<h1>Hodnotenia „{{ object.statistics.content_object }}“</h1>
+
+	<div class="module ratings">
+		{% for rating in object_list %}
+			<div class="module-row">
+				<p><strong>{{ rating.get_marked_flag_display() }}</strong></p>
+				{% if rating.comment %}
+					<p>{{ rating.comment|linebreaksbr }}</p>
+				{% endif %}
+				<div class="info bottom">
+					<span class="label">{{ rating.user }}</span>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

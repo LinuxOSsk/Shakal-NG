@@ -5,6 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import Sum, Count, Q, Subquery, OuterRef
 from django.db.models.functions import Coalesce
+from django.urls import reverse
 
 
 class StatisticsQuerySet(models.QuerySet):
@@ -169,6 +170,9 @@ class Rating(models.Model):
 		blank=True,
 		default='',
 	)
+
+	def get_absolute_url(self):
+		return reverse('rating:ratings', kwargs={'pk': self.pk})
 
 	class Meta:
 		verbose_name = "Hodnotenie"
