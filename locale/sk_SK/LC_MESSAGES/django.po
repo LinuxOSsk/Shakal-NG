@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-24 18:09+0200\n"
+"POT-Creation-Date: 2019-01-26 13:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -134,33 +134,27 @@ msgstr "veľkosť"
 msgid "is visible"
 msgstr "viditeľné"
 
+msgid "content type"
+msgstr "typ obsahu"
+
+msgid "object id"
+msgstr "ID objektu"
+
 msgid "attachments"
 msgstr "prílohy"
 
-msgid "flagged"
-msgid_plural "flagged"
-msgstr[0] "označený"
-msgstr[1] "označené"
-msgstr[2] "označených"
+msgid "image width"
+msgstr "šírka obrázka"
 
-msgid "approved"
-msgid_plural "approved"
-msgstr[0] "schválené"
-msgstr[1] "schválené"
-msgstr[2] "schválené"
+msgid "image height"
+msgstr "výška obrázka"
 
-msgid "removed"
-msgid_plural "removed"
-msgstr[0] "odstránený"
-msgstr[1] "odstránené"
-msgstr[2] "odstránených"
+#| msgid "created"
+msgid "date created"
+msgstr "dátum vytvorenia"
 
-#, python-format
-msgid "1 comment was %(action)s."
-msgid_plural "%(count)s comments were %(action)s."
-msgstr[0] "1 komentár bol %(action)s."
-msgstr[1] "%(count)s komentáre boli %(action)s."
-msgstr[2] "%(count)s komentárov bolo %(action)s."
+msgid "UUID"
+msgstr "UUID"
 
 #, python-format
 msgid "%(num)s comment"
@@ -187,11 +181,22 @@ msgstr "správa"
 msgid "comment"
 msgstr "komentár"
 
+#| msgid "flagged"
+msgid "flag"
+msgstr "nahlásenie"
+
 msgid "Minimum 2 choices are required"
 msgstr "Sú požadované minimálne 2 odpovede"
 
 msgid "Choices"
 msgstr "Odpovede"
+
+#, python-format
+msgid "%(num)s user flagged this %(content_type)s"
+msgid_plural "%(num)s users flagged this %(content_type)s"
+msgstr[0] "%(num)s používateľ nahlásil tento %(content_type)s"
+msgstr[1] "%(num)s používatelia nahlásil tento %(content_type)s"
+msgstr[2] "%(num)s používateľov nahlásil tento %(content_type)s"
 
 msgid "Štatistiky"
 msgstr "Štatistiky"
@@ -242,8 +247,6 @@ msgid "You don't have permission to edit anything."
 msgstr "Nemáte žiadne práva na editáciu."
 
 #, python-format
-#| msgid "%(num)s<span class=\"text name\"> comment</span>"
-#| msgid_plural "%(num)s<span class=\"text name\"> comments</span>"
 msgid ""
 "<span class=\"count\">%(num)s</span><span class=\"text name\"> comment</span>"
 msgid_plural ""
@@ -316,6 +319,9 @@ msgstr "^forum/"
 msgid "^news/"
 msgstr "^spravy/"
 
+msgid "^rating/"
+msgstr "^hodnotenie/"
+
 msgid "^tweets/"
 msgstr "^tweety/"
 
@@ -342,3 +348,21 @@ msgstr "^administracia/"
 
 msgid "^admin_dashboard/"
 msgstr "^admin_dashboard/"
+
+#~ msgid "approved"
+#~ msgid_plural "approved"
+#~ msgstr[0] "schválené"
+#~ msgstr[1] "schválené"
+#~ msgstr[2] "schválené"
+
+#~ msgid "removed"
+#~ msgid_plural "removed"
+#~ msgstr[0] "odstránený"
+#~ msgstr[1] "odstránené"
+#~ msgstr[2] "odstránených"
+
+#~ msgid "1 comment was %(action)s."
+#~ msgid_plural "%(count)s comments were %(action)s."
+#~ msgstr[0] "1 komentár bol %(action)s."
+#~ msgstr[1] "%(count)s komentáre boli %(action)s."
+#~ msgstr[2] "%(count)s komentárov bolo %(action)s."
