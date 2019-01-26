@@ -47,8 +47,6 @@ class Blog(TimestampModelMixin, models.Model):
 	filtered_sidebar = RichTextFilteredField(
 	)
 
-	ratings = GenericRelation('rating.Rating')
-
 	content_fields = ('original_descriptoin', 'original_sidebar',)
 
 	def get_absolute_url(self):
@@ -142,7 +140,6 @@ class Post(TimestampModelMixin, models.Model):
 	comments_header = GenericRelation('comments.RootHeader')
 	comments = GenericRelation('comments.Comment')
 	attachments = GenericRelation('attachment.Attachment')
-	ratings = GenericRelation('rating.Rating')
 	hit = HitCountField()
 
 	content_fields = ('original_perex', 'original_content',)

@@ -120,7 +120,6 @@ class Topic(TimestampModelMixin, models.Model):
 	comments = GenericRelation('comments.Comment')
 	attachments = GenericRelation('attachment.Attachment')
 	notes = GenericRelation('notes.Note')
-	ratings = GenericRelation("rating.Rating")
 
 	is_removed = models.BooleanField("vymazané", default=False)
 	is_resolved = models.BooleanField("vyriešené", default=False)
