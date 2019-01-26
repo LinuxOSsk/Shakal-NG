@@ -71,7 +71,7 @@ class FlagView(LoginRequiredMixin, FormView):
 				'%(num)s users flagged this %(content_type)s',
 				statistics.flag_count
 			) % {'num': statistics.flag_count, 'content_type': model_name}
-			event = Event.objects.get_or_create(
+			event, created = Event.objects.get_or_create(
 				content_type=ContentType.objects.get_for_model(model),
 				object_id=self.flagged_object.pk,
 				action=Event.FLAG_ACTION,
@@ -82,8 +82,8 @@ class FlagView(LoginRequiredMixin, FormView):
 					'linked_type': ContentType.objects.get_for_model(instance.__class__),
 					'linked_id': instance.pk,
 				}
-			)[0]
-			if event.message != flagged_message:
+			)
+			if not created:
 				Event.objects.filter(pk=event.pk).update(
 					message=flagged_message,
 					linked_type=ContentType.objects.get_for_model(instance.__class__),
