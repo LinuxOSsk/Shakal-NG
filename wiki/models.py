@@ -1,18 +1,14 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import mptt
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
-from django.utils.encoding import python_2_unicode_compatible
 from django_autoslugfield.fields import AutoSlugField
 
 from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
-@python_2_unicode_compatible
 class Page(mptt.models.MPTTModel, TimestampModelMixin):
 	TYPE_CHOICES = (
 		('h', 'Domovská stránka'),
@@ -20,13 +16,43 @@ class Page(mptt.models.MPTTModel, TimestampModelMixin):
 		('p', 'Stránka wiki'),
 	)
 
-	title = models.CharField('titulok', max_length=255)
-	last_author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='posledný autor', blank=True, null=True, on_delete=models.SET_NULL)
-	slug = AutoSlugField(unique=True, verbose_name='slug', title_field='title')
-	parent = models.ForeignKey('self', related_name='children', blank=True, null=True, verbose_name='nadradená stránka', on_delete=models.PROTECT)
-	original_text = RichTextOriginalField(filtered_field="filtered_text", property_name="text", verbose_name="text")
-	filtered_text = RichTextFilteredField()
-	page_type = models.CharField('typ stránky', max_length=1, choices=TYPE_CHOICES, default='p')
+	title = models.CharField(
+		verbose_name="titulok",
+		max_length=255
+	)
+	last_author = models.ForeignKey(
+		settings.AUTH_USER_MODEL,
+		verbose_name="posledný autor",
+		blank=True,
+		null=True,
+		on_delete=models.SET_NULL
+	)
+	slug = AutoSlugField(
+		verbose_name="skratka URL",
+		title_field='title',
+		unique=True
+	)
+	parent = models.ForeignKey(
+		'self',
+		verbose_name="nadradená stránka",
+		related_name='children',
+		blank=True,
+		null=True,
+		on_delete=models.PROTECT
+	)
+	original_text = RichTextOriginalField(
+		verbose_name="text",
+		filtered_field='filtered_text',
+		property_name='text'
+	)
+	filtered_text = RichTextFilteredField(
+	)
+	page_type = models.CharField(
+		verbose_name="typ stránky",
+		max_length=1,
+		choices=TYPE_CHOICES,
+		default='p'
+	)
 
 	content_fields = ('original_text',)
 
@@ -34,8 +60,8 @@ class Page(mptt.models.MPTTModel, TimestampModelMixin):
 		return self.title
 
 	class Meta:
-		verbose_name = 'Wiki stránka'
-		verbose_name_plural = 'Wiki stránky'
+		verbose_name = "Wiki stránka"
+		verbose_name_plural = "Wiki stránky"
 
 	def get_absolute_url(self):
 		if self.page_type == 'h' and not self.parent:

@@ -20,4 +20,9 @@ class Migration(migrations.Migration):
 				('all_objects', django.db.models.manager.Manager()),
 			],
 		),
+		migrations.AlterField(
+			model_name='poll',
+			name='content_type',
+			field=models.ForeignKey(blank=True, limit_choices_to=models.Q(models.Q(('app_label', 'article'), ('model', 'article')), models.Q(('app_label', 'blog'), ('model', 'post')), _connector='OR'), null=True, on_delete=django.db.models.deletion.PROTECT, to='contenttypes.ContentType'),
+		),
 	]

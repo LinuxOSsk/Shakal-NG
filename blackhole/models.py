@@ -1,19 +1,14 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.urls import reverse
-from django.utils.encoding import python_2_unicode_compatible
 from mptt.models import MPTTModel, TreeForeignKey
 
-from comments.models import RootHeader, Comment
 from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
-@python_2_unicode_compatible
 class VocabularyNodeType(models.Model):
 	name = models.CharField(max_length=32, db_column='type')
 
@@ -21,7 +16,6 @@ class VocabularyNodeType(models.Model):
 		return self.name
 
 
-@python_2_unicode_compatible
 class Term(MPTTModel, models.Model):
 	parent = TreeForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.PROTECT)
 	vocabulary = models.ForeignKey(VocabularyNodeType, db_column='vid', on_delete=models.PROTECT)
@@ -35,7 +29,6 @@ class Term(MPTTModel, models.Model):
 		return self.name
 
 
-@python_2_unicode_compatible
 class Node(TimestampModelMixin, models.Model):
 	node_type = models.CharField(max_length=32)
 	title = models.CharField(max_length=128)
@@ -47,8 +40,8 @@ class Node(TimestampModelMixin, models.Model):
 	is_sticky = models.BooleanField(blank=True, default=False)
 	terms = models.ManyToManyField('blackhole.Term', blank=True)
 
-	comments_header = GenericRelation(RootHeader, related_query_name='blackhole_node')
-	comments = GenericRelation(Comment, related_query_name='blackhole_node')
+	comments_header = GenericRelation('comments.RootHeader', related_query_name='blackhole_node')
+	comments = GenericRelation('comments.Comment', related_query_name='blackhole_node')
 
 	class Meta:
 		verbose_name = 'blackhole článok'
@@ -61,7 +54,6 @@ class Node(TimestampModelMixin, models.Model):
 		return self.title
 
 
-@python_2_unicode_compatible
 class NodeRevision(TimestampModelMixin, models.Model):
 	node = models.ForeignKey('blackhole.Node', on_delete=models.CASCADE)
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
@@ -78,7 +70,6 @@ class NodeRevision(TimestampModelMixin, models.Model):
 		return self.title
 
 
-@python_2_unicode_compatible
 class File(models.Model):
 	node = models.ForeignKey('blackhole.Node', on_delete=models.PROTECT)
 	filename = models.CharField(max_length=255)

@@ -29,4 +29,12 @@ class Migration(migrations.Migration):
 			name='action',
 			field=models.CharField(choices=[('x', 'other'), ('c', 'create'), ('u', 'update'), ('d', 'delete'), ('m', 'message'), ('a', 'comment'), ('f', 'flag')], default='m', max_length=1),
 		),
+		migrations.AlterModelOptions(
+			name='event',
+			options={'verbose_name': 'udalosť', 'verbose_name_plural': 'udalosti'},
+		),
+		migrations.AlterModelOptions(
+			name='inbox',
+			options={'verbose_name': 'schránka', 'verbose_name_plural': 'schránky'},
+		),
 	]

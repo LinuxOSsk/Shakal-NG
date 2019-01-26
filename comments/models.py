@@ -44,22 +44,70 @@ class CommentManager(models.Manager):
 class Comment(MPTTModel, TimestampModelMixin):
 	objects = CommentManager()
 
-	content_type = models.ForeignKey(ContentType, verbose_name='typ obsahu', related_name='content_type_set_for_%(class)s', on_delete=models.PROTECT)
-	object_id = models.PositiveIntegerField('ID objektu')
+	content_type = models.ForeignKey(
+		ContentType,
+		verbose_name="typ obsahu",
+		related_name='content_type_set_for_%(class)s',
+		on_delete=models.PROTECT
+	)
+	object_id = models.PositiveIntegerField(
+		verbose_name="ID objektu"
+	)
 	content_object = GenericForeignKey('content_type', 'object_id')
-	parent = TreeForeignKey('self', null=True, blank=True, related_name='children', verbose_name='nadradený', on_delete=models.CASCADE)
 
-	subject = models.CharField('predmet', max_length=100)
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='používateľ', blank=True, null=True, related_name='%(class)s_comments', on_delete=models.SET_NULL)
-	user_name = models.CharField('používateľské meno', max_length=50, blank=True)
-	original_comment = RichTextOriginalField(filtered_field='filtered_comment', property_name='comment', verbose_name='obsah', max_length=COMMENT_MAX_LENGTH)
-	filtered_comment = RichTextFilteredField()
+	parent = TreeForeignKey(
+		'self',
+		verbose_name="nadradený",
+		related_name='children',
+		null=True,
+		blank=True,
+		on_delete=models.CASCADE
+	)
 
-	ip_address = models.GenericIPAddressField('IP adresa', blank=True, null=True)
-	is_public = models.BooleanField('verejný', default=True)
-	is_removed = models.BooleanField('odstránený', default=False)
+	subject = models.CharField(
+		verbose_name="predmet",
+		max_length=100
+	)
+	user = models.ForeignKey(
+		settings.AUTH_USER_MODEL,
+		verbose_name="používateľ",
+		related_name='%(class)s_comments',
+		blank=True,
+		null=True,
+		on_delete=models.SET_NULL
+	)
+	user_name = models.CharField(
+		verbose_name="používateľské meno",
+		max_length=50,
+		blank=True
+	)
+	original_comment = RichTextOriginalField(
+		verbose_name="obsah",
+		filtered_field='filtered_comment',
+		property_name='comment',
+		max_length=COMMENT_MAX_LENGTH
+	)
+	filtered_comment = RichTextFilteredField(
+	)
 
-	is_locked = models.BooleanField('uzamknutý', default=False)
+	ip_address = models.GenericIPAddressField(
+		verbose_name="IP adresa",
+		blank=True,
+		null=True
+	)
+	is_public = models.BooleanField(
+		verbose_name="verejný",
+		default=True
+	)
+	is_removed = models.BooleanField(
+		verbose_name="odstránený",
+		default=False
+	)
+
+	is_locked = models.BooleanField(
+		verbose_name="uzamknutý",
+		default=False
+	)
 
 	attachments = GenericRelation('attachment.Attachment')
 	notes = GenericRelation('notes.Note')
@@ -113,17 +161,36 @@ class Comment(MPTTModel, TimestampModelMixin):
 	class Meta:
 		ordering = ('tree_id', 'lft')
 		index_together = (('object_id', 'content_type',),)
-		verbose_name = 'komentár'
-		verbose_name_plural = 'komentáre'
+		verbose_name = "komentár"
+		verbose_name_plural = "komentáre"
 
 
 class RootHeader(models.Model):
-	pub_date = models.DateTimeField(db_index=True)
-	last_comment = models.DateTimeField(db_index=True)
-	comment_count = models.PositiveIntegerField(default=0, db_index=True)
-	is_locked = models.BooleanField(default=False)
-	content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-	object_id = models.PositiveIntegerField()
+	pub_date = models.DateTimeField(
+		verbose_name="dátum publikácie",
+		db_index=True
+	)
+	last_comment = models.DateTimeField(
+		verbose_name="posledný komentár",
+		db_index=True
+	)
+	comment_count = models.PositiveIntegerField(
+		verbose_name="počet komentárov",
+		default=0,
+		db_index=True
+	)
+	is_locked = models.BooleanField(
+		verbose_name="uzamknutý",
+		default=False
+	)
+	content_type = models.ForeignKey(
+		ContentType,
+		verbose_name="typ obsahu",
+		on_delete=models.CASCADE
+	)
+	object_id = models.PositiveIntegerField(
+		verbose_name="ID objektu",
+	)
 	content_object = GenericForeignKey('content_type', 'object_id')
 
 	def __str__(self):
@@ -145,16 +212,27 @@ class RootHeader(models.Model):
 
 	class Meta:
 		unique_together = (('content_type', 'object_id',),)
-		verbose_name = 'diskusia'
-		verbose_name_plural = 'diskusie'
+		verbose_name = "diskusia"
+		verbose_name_plural = "diskusie"
 		ordering = ('-pk',)
 
 
 class UserDiscussionAttribute(models.Model):
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-	discussion = models.ForeignKey(RootHeader, on_delete=models.CASCADE)
-	time = models.DateTimeField(null=True, blank=True)
-	watch = models.BooleanField(default=False)
+	user = models.ForeignKey(
+		settings.AUTH_USER_MODEL,
+		on_delete=models.CASCADE
+	)
+	discussion = models.ForeignKey(
+		RootHeader,
+		on_delete=models.CASCADE
+	)
+	time = models.DateTimeField(
+		null=True,
+		blank=True
+	)
+	watch = models.BooleanField(
+		default=False
+	)
 
 	def __str__(self):
 		return '#%d' % self.id

@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import os
 import uuid
 
@@ -10,7 +8,6 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import signals
 from django.utils import six
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from easy_thumbnails.fields import ThumbnailerField
 
@@ -35,32 +32,49 @@ class ThumbnailImageField(AutoImageFieldMixin, ThumbnailerField):
 		if getattr(instance, 'same_file', False):
 			return
 		if hasattr(instance, 'attachmentimage'):
-			return super(ThumbnailImageField, self)._rename_image(self.name, instance.attachmentimage, **kwargs)
+			return super()._rename_image(self.name, instance.attachmentimage, **kwargs)
 
 	def _store_old_value(self, instance, **kwargs):
 		if hasattr(instance, 'attachmentimage'):
-			return super(ThumbnailImageField, self)._store_old_value(self.name, instance.attachmentimage, **kwargs)
+			return super()._store_old_value(self.name, instance.attachmentimage, **kwargs)
 
 	def _delete_image(self, instance, **kwargs):
 		if hasattr(instance, 'attachmentimage'):
-			return super(ThumbnailImageField, self)._delete_image(self.name, instance.attachmentimage, **kwargs)
+			return super()._delete_image(self.name, instance.attachmentimage, **kwargs)
 
 	def contribute_to_class(self, cls, name):
 		signals.post_save.connect(self._rename_image, sender=cls)
 		signals.post_init.connect(self._store_old_value, sender=cls)
 		signals.post_delete.connect(self._delete_image, sender=cls)
-		super(ThumbnailImageField, self).contribute_to_class(cls, name)
+		super().contribute_to_class(cls, name)
 
 
-@python_2_unicode_compatible
 class Attachment(models.Model):
-	attachment = ThumbnailImageField(_('attachment'), upload_to=upload_to)
-	created = models.DateTimeField(_('created'), auto_now_add=True)
-	size = models.IntegerField(_('size'))
-	is_visible = models.BooleanField(_('is visible'), blank=True, default=True)
+	attachment = ThumbnailImageField(
+		verbose_name=_("attachment"),
+		upload_to=upload_to
+	)
+	created = models.DateTimeField(
+		verbose_name=_("created"),
+		auto_now_add=True
+	)
+	size = models.IntegerField(
+		verbose_name=_("size")
+	)
+	is_visible = models.BooleanField(
+		verbose_name=_("is visible"),
+		blank=True,
+		default=True
+	)
 
-	content_type = models.ForeignKey(ContentType, on_delete=models.PROTECT)
-	object_id = models.PositiveIntegerField()
+	content_type = models.ForeignKey(
+		ContentType,
+		verbose_name=_("content type"),
+		on_delete=models.PROTECT
+	)
+	object_id = models.PositiveIntegerField(
+		verbose_name=_("object id"),
+	)
 	content_object = GenericForeignKey('content_type', 'object_id')
 
 	class Meta:
@@ -100,12 +114,12 @@ class Attachment(models.Model):
 			if self.attachment and original.attachment:
 				if self.attachment == original.attachment:
 					setattr(self, 'same_file', True)
-					return super(Attachment, self).save(*args, **kwargs)
+					return super().save(*args, **kwargs)
 				original.attachment.storage.delete(original.attachment.path)
 
 		self.size = self.attachment.size
 		self.copy_to_new_location()
-		super(Attachment, self).save(*args, **kwargs)
+		super().save(*args, **kwargs)
 
 	def copy_to_new_location(self):
 		name = self.attachment.name
@@ -117,16 +131,27 @@ class Attachment(models.Model):
 				self.attachment = file_name
 
 
-@python_2_unicode_compatible
 class AttachmentImage(Attachment):
-	width = models.IntegerField()
-	height = models.IntegerField()
+	width = models.IntegerField(
+		verbose_name=_("image width")
+	)
+	height = models.IntegerField(
+		verbose_name=_("image height")
+	)
 
 
 class AttachmentImageRaw(models.Model):
-	attachment_ptr = models.PositiveIntegerField(db_column='attachment_ptr_id', primary_key=True)
-	width = models.IntegerField()
-	height = models.IntegerField()
+	attachment_ptr = models.PositiveIntegerField(
+		verbose_name=_("attachment"),
+		db_column='attachment_ptr_id',
+		primary_key=True
+	)
+	width = models.IntegerField(
+		verbose_name=_("image width")
+	)
+	height = models.IntegerField(
+		verbose_name=_("image height")
+	)
 
 	class Meta:
 		app_label = get_meta(AttachmentImage).app_label
@@ -138,10 +163,18 @@ def generate_uuid():
 	return uuid.uuid1().hex
 
 
-@python_2_unicode_compatible
 class UploadSession(models.Model):
-	created = models.DateTimeField(auto_now_add=True)
-	uuid = models.CharField(max_length=32, unique=True, default=generate_uuid)
+	created = models.DateTimeField(
+		verbose_name=_("date created"),
+		auto_now_add=True
+	)
+	uuid = models.CharField(
+		verbose_name=_("UUID"),
+		max_length=32,
+		unique=True,
+		default=generate_uuid
+	)
+
 	attachments = GenericRelation(Attachment)
 
 	def move_attachments(self, content_object, replace_urls=True):

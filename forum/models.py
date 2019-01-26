@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from datetime import timedelta
 
 from django.conf import settings
@@ -8,23 +6,26 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.encoding import python_2_unicode_compatible
 
-from attachment.models import Attachment
-from comments.models import RootHeader, Comment
 from common_utils.models import TimestampModelMixin
-from notes.models import Note
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
 FORUM_TOPIC_MAX_LENGTH = getattr(settings, 'FORUM_TOPIC_MAX_LENGTH', 5000)
 
 
-@python_2_unicode_compatible
 class Section(models.Model):
-	name = models.CharField('názov', max_length=255)
-	slug = models.SlugField(unique=True)
-	description = models.TextField('popis')
+	name = models.CharField(
+		verbose_name="názov",
+		max_length=255
+	)
+	slug = models.SlugField(
+		verbose_name="skratka URL",
+		unique=True
+	)
+	description = models.TextField(
+		verbose_name="popis"
+	)
 
 	def get_absolute_url(self):
 		return reverse('forum:section', kwargs={'category': self.slug, 'page': 1})
@@ -33,13 +34,13 @@ class Section(models.Model):
 		return self.name
 
 	class Meta:
-		verbose_name = 'sekcia'
-		verbose_name_plural = 'sekcie'
+		verbose_name = "sekcia"
+		verbose_name_plural = "sekcie"
 
 
 class TopicManager(models.Manager):
 	def get_queryset(self):
-		return super(TopicManager, self).get_queryset().select_related('author', 'section')
+		return super().get_queryset().select_related('author', 'section')
 
 	def topics(self):
 		return self.get_queryset().filter(is_removed=False)
@@ -47,7 +48,7 @@ class TopicManager(models.Manager):
 
 class TopicListManager(models.Manager):
 	def get_queryset(self):
-		return super(TopicListManager, self).get_queryset().filter(is_removed=False)
+		return super().get_queryset().filter(is_removed=False)
 
 	def newest_topics(self, section=None):
 		queryset = self.get_queryset()
@@ -76,28 +77,55 @@ class TopicListManager(models.Manager):
 		return queryset
 
 
-@python_2_unicode_compatible
 class Topic(TimestampModelMixin, models.Model):
 	objects = TopicManager()
 	topics = TopicListManager()
 
-	ip_address = models.GenericIPAddressField('IP adresa', blank=True, null=True)
-	section = models.ForeignKey(Section, verbose_name='sekcia', on_delete=models.PROTECT)
-	title = models.CharField('predmet', max_length=100)
-	original_text = RichTextOriginalField(filtered_field="filtered_text", property_name="text", verbose_name='text', max_length=FORUM_TOPIC_MAX_LENGTH)
-	filtered_text = RichTextFilteredField()
-	authors_name = models.CharField('meno autora', max_length=50, blank=False)
-	author = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, verbose_name='autor', on_delete=models.SET_NULL)
-	comments_header = GenericRelation(RootHeader)
-	attachments = GenericRelation(Attachment)
-	comments = GenericRelation(Comment)
-	notes = GenericRelation(Note)
-	ratings = GenericRelation('rating.Rating')
+	ip_address = models.GenericIPAddressField(
+		verbose_name="IP adresa",
+		blank=True,
+		null=True
+	)
+	section = models.ForeignKey(
+		Section,
+		verbose_name="sekcia",
+		on_delete=models.PROTECT
+	)
+	title = models.CharField(
+		verbose_name="predmet",
+		max_length=100
+	)
+	original_text = RichTextOriginalField(
+		verbose_name="text",
+		filtered_field='filtered_text',
+		property_name='text',
+		max_length=FORUM_TOPIC_MAX_LENGTH
+	)
+	filtered_text = RichTextFilteredField(
+	)
+	authors_name = models.CharField(
+		verbose_name="meno autora",
+		max_length=50,
+		blank=False
+	)
+	author = models.ForeignKey(
+		settings.AUTH_USER_MODEL,
+		verbose_name="autor",
+		blank=True,
+		null=True,
+		on_delete=models.SET_NULL
+	)
 
-	is_removed = models.BooleanField('vymazané', default=False)
-	is_resolved = models.BooleanField('vyriešené', default=False)
+	comments_header = GenericRelation('comments.RootHeader')
+	comments = GenericRelation('comments.Comment')
+	attachments = GenericRelation('attachment.Attachment')
+	notes = GenericRelation('notes.Note')
+	ratings = GenericRelation("rating.Rating")
 
-	breadcrumb_label = 'fórum'
+	is_removed = models.BooleanField("vymazané", default=False)
+	is_resolved = models.BooleanField("vyriešené", default=False)
+
+	breadcrumb_label = "fórum"
 
 	content_fields = ('original_text',)
 
@@ -126,7 +154,7 @@ class Topic(TimestampModelMixin, models.Model):
 				return self.author.username
 		else:
 			return self.authors_name
-	get_authors_name.short_description = 'meno autora'
+	get_authors_name.short_description = "meno autora"
 
 	def get_absolute_url(self):
 		return reverse('forum:topic-detail', kwargs={'pk': self.pk})
@@ -138,5 +166,5 @@ class Topic(TimestampModelMixin, models.Model):
 		return self.title
 
 	class Meta:
-		verbose_name = 'téma vo fóre'
-		verbose_name_plural = 'témy vo fóre'
+		verbose_name = "téma vo fóre"
+		verbose_name_plural = "témy vo fóre"

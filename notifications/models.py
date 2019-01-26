@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
@@ -10,7 +8,6 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import Q
 from django.urls import reverse
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -44,7 +41,13 @@ class EventManager(models.Manager):
 
 	def exclude_duplicate_events(self, users, event):
 		if event.content_object:
-			users = users.exclude(pk__in=get_user_model().objects.filter(Q(inbox__event__object_id=event.object_id) & Q(inbox__event__content_type_id=event.content_type_id) & Q(inbox__event__action=event.action) & Q(inbox__readed=False)))
+			excluded = get_user_model().objects.filter(
+				inbox__event__object_id=event.object_id,
+				inbox__event__content_type_id=event.content_type_id,
+				inbox__event__action=event.action,
+				inbox__readed=False
+			)
+			users = users.exclude(pk__in=excluded)
 		return users
 
 	def notify_users(self, users, event):
@@ -67,7 +70,6 @@ class EventManager(models.Manager):
 		events.update(level=0)
 
 
-@python_2_unicode_compatible
 class Event(models.Model):
 	OTHER_ACTION = 'x'
 	CREATE_ACTION = 'c'
@@ -78,28 +80,59 @@ class Event(models.Model):
 	FLAG_ACTION = 'f'
 
 	ACTION_TYPE = (
-		(OTHER_ACTION, _('other')),
-		(CREATE_ACTION, _('create')),
-		(UPDATE_ACTION, _('update')),
-		(DELETE_ACTION, _('delete')),
-		(MESSAGE_ACTION, _('message')),
-		(ADD_COMMENT_ACTION, _('comment')),
-		(FLAG_ACTION, _('flag')),
+		(OTHER_ACTION, _("other")),
+		(CREATE_ACTION, _("create")),
+		(UPDATE_ACTION, _("update")),
+		(DELETE_ACTION, _("delete")),
+		(MESSAGE_ACTION, _("message")),
+		(ADD_COMMENT_ACTION, _("comment")),
+		(FLAG_ACTION, _("flag")),
 	)
 
 	objects = EventManager()
 
-	object_id = models.PositiveIntegerField(blank=True, null=True)
-	content_type = models.ForeignKey(ContentType, blank=True, null=True, on_delete=models.PROTECT)
-	time = models.DateTimeField(auto_now_add=True)
+	object_id = models.PositiveIntegerField(
+		verbose_name="ID objektu",
+		blank=True,
+		null=True
+	)
+	content_type = models.ForeignKey(
+		ContentType,
+		verbose_name="typ obsahu",
+		blank=True,
+		null=True,
+		on_delete=models.PROTECT
+	)
 	content_object = GenericForeignKey('content_type', 'object_id')
-	action = models.CharField(max_length=1, choices=ACTION_TYPE, default=MESSAGE_ACTION)
-	level = models.IntegerField(default=messages.INFO)
-	author = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.SET_NULL)
-	message = models.TextField()
+
+	time = models.DateTimeField(
+		auto_now_add=True
+	)
+	action = models.CharField(
+		verbose_name="akcia",
+		max_length=1,
+		choices=ACTION_TYPE,
+		default=MESSAGE_ACTION
+	)
+	level = models.IntegerField(
+		verbose_name="úroveň",
+		default=messages.INFO
+	)
+	author = models.ForeignKey(
+		settings.AUTH_USER_MODEL,
+		verbose_name="autor",
+		blank=True,
+		null=True,
+		on_delete=models.SET_NULL
+	)
+	message = models.TextField(
+		verbose_name="správa",
+	)
 
 	class Meta:
-		index_together = [['object_id', 'content_type', 'action', 'level']]
+		index_together = (('object_id', 'content_type', 'action', 'level'),)
+		verbose_name = "udalosť"
+		verbose_name_plural = "udalosti"
 
 	def __str__(self):
 		return self.message
@@ -113,13 +146,24 @@ class InboxManager(models.Manager):
 			.order_by('readed', '-pk'))
 
 
-@python_2_unicode_compatible
 class Inbox(models.Model):
 	objects = InboxManager()
 
-	recipient = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='inbox', on_delete=models.CASCADE)
-	event = models.ForeignKey(Event, on_delete=models.CASCADE)
-	readed = models.BooleanField(default=False)
+	recipient = models.ForeignKey(
+		settings.AUTH_USER_MODEL,
+		verbose_name="príjemca",
+		related_name='inbox',
+		on_delete=models.CASCADE
+	)
+	event = models.ForeignKey(
+		Event,
+		verbose_name="udalosť",
+		on_delete=models.CASCADE
+	)
+	readed = models.BooleanField(
+		verbose_name="prečítané",
+		default=False
+	)
 
 	def __str__(self):
 		return str(self.event_id)
@@ -132,3 +176,7 @@ class Inbox(models.Model):
 
 	def get_absolute_url(self):
 		return reverse('notifications:read', kwargs={'pk': self.pk})
+
+	class Meta:
+		verbose_name = "schránka"
+		verbose_name_plural = "schránky"

@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import json
 from datetime import timedelta
 
@@ -15,7 +13,6 @@ from django.core.validators import MinValueValidator, MaxValueValidator, MaxLeng
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.encoding import python_2_unicode_compatible
 from django_geoposition_field.fields import GeopositionField
 
 from . import accounts_settings
@@ -27,35 +24,78 @@ from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 class UsernameValidator(validators.RegexValidator):
 	regex = r'^([\w]+[ ]?)*[\w]$'
-	message = 'Toto pole môže obsahovať maximálne jednu medzeru v strede.'
+	message = "Toto pole môže obsahovať maximálne jednu medzeru v strede."
 
 
-@python_2_unicode_compatible
 class User(AbstractUser):
 	objects = UserManager()
 
-	jabber = models.CharField(max_length=127, blank=True)
-	url = models.CharField(max_length=255, blank=True)
-	signature = models.CharField('podpis', max_length=255, blank=True)
-	display_mail = models.BooleanField('zobrazovať e-mail', default=False)
-	distribution = models.CharField('linuxová distribúcia', max_length=50, blank=True)
-	original_info = RichTextOriginalField(filtered_field='filtered_info', property_name='info', parsers={'html': 'profile'}, verbose_name='informácie', validators=[MaxLengthValidator(100000)], blank=True)
-	filtered_info = RichTextFilteredField(blank=True)
-	year = models.SmallIntegerField('rok narodenia', validators=[MinValueValidator(1900), MaxValueValidator(2015)], blank=True, null=True)
-	avatar = AutoImageField('fotografia', upload_to='accounts/avatars', resize_source=dict(size=(512, 512)), blank=True)
-	settings = models.TextField('nastavenia', blank=True)
-	geoposition = GeopositionField(verbose_name='poloha', blank=True)
+	jabber = models.CharField(
+		verbose_name="jabber",
+		max_length=127,
+		blank=True
+	)
+	url = models.CharField(
+		verbose_name="webová stránka",
+		max_length=255,
+		blank=True
+	)
+	signature = models.CharField(
+		verbose_name="podpis",
+		max_length=255,
+		blank=True
+	)
+	display_mail = models.BooleanField(
+		verbose_name="zobrazovať e-mail",
+		default=False
+	)
+	distribution = models.CharField(
+		verbose_name="linuxová distribúcia",
+		max_length=50,
+		blank=True
+	)
+	original_info = RichTextOriginalField(
+		verbose_name="informácie",
+		filtered_field='filtered_info',
+		property_name='info',
+		parsers={'html': 'profile'},
+		validators=[MaxLengthValidator(100000)],
+		blank=True
+	)
+	filtered_info = RichTextFilteredField(
+		blank=True
+	)
+	year = models.SmallIntegerField(
+		verbose_name="rok narodenia",
+		validators=[MinValueValidator(1900), MaxValueValidator(2015)],
+		blank=True,
+		null=True
+	)
+	avatar = AutoImageField(
+		verbose_name="fotografia",
+		upload_to='accounts/avatars',
+		resize_source=dict(size=(512, 512)),
+		blank=True
+	)
+	settings = models.TextField(
+		verbose_name="nastavenia",
+		blank=True
+	)
+	geoposition = GeopositionField(
+		verbose_name="poloha",
+		blank=True
+	)
 
 	def __init__(self, *args, **kwargs):
-		super(User, self).__init__(*args, **kwargs)
+		super().__init__(*args, **kwargs)
 		self._meta.get_field('username').validators = [UsernameValidator]
 
 	def clean_fields(self, exclude=None):
 		if self.email:
 			qs = get_default_manager(self).filter(email=self.email).exclude(pk=self.pk)
 			if qs.exists():
-				raise ValidationError({'email': ['Používateľ s touto e-mailovou adresou už existuje']})
-		super(User, self).clean_fields(exclude)
+				raise ValidationError({'email': ["Používateľ s touto e-mailovou adresou už existuje"]})
+		super().clean_fields(exclude)
 
 	def get_absolute_url(self):
 		return reverse('accounts:profile', kwargs={'pk': self.pk})
@@ -63,7 +103,7 @@ class User(AbstractUser):
 	def get_full_name(self):
 		full_name = ('%s %s' % (self.first_name, self.last_name)).strip()
 		return full_name or self.username or self.email
-	get_full_name.short_description = 'celé meno'
+	get_full_name.short_description = "celé meno"
 	get_full_name.admin_order_field = 'last_name,first_name,username'
 
 	@property
@@ -94,11 +134,10 @@ class User(AbstractUser):
 
 	class Meta:
 		db_table = 'auth_user'
-		verbose_name = 'používateľ'
-		verbose_name_plural = 'používatelia'
+		verbose_name = "používateľ"
+		verbose_name_plural = "používatelia"
 
 
-@python_2_unicode_compatible
 class UserRating(models.Model):
 	RATING_WEIGHTS = {
 		'comments': 1,
@@ -108,13 +147,36 @@ class UserRating(models.Model):
 		'wiki': 50,
 	}
 
-	user = models.OneToOneField(User, related_name='rating', on_delete=models.CASCADE)
-	comments = models.IntegerField(default=0)
-	articles = models.IntegerField(default=0)
-	helped = models.IntegerField(default=0)
-	news = models.IntegerField(default=0)
-	wiki = models.IntegerField(default=0)
-	rating = models.IntegerField(default=0)
+	user = models.OneToOneField(
+		User,
+		verbose_name="používateľ",
+		related_name='rating',
+		on_delete=models.CASCADE
+	)
+	comments = models.IntegerField(
+		verbose_name="komentárov",
+		default=0
+	)
+	articles = models.IntegerField(
+		verbose_name="článkov",
+		default=0
+	)
+	helped = models.IntegerField(
+		verbose_name="pomohol",
+		default=0
+	)
+	news = models.IntegerField(
+		verbose_name="správ",
+		default=0
+	)
+	wiki = models.IntegerField(
+		verbose_name="wiki stránok",
+		default=0
+	)
+	rating = models.IntegerField(
+		verbose_name="hodnotenie",
+		default=0
+	)
 
 	def get_rating_label(self):
 		r = self.rating
@@ -122,6 +184,10 @@ class UserRating(models.Model):
 
 	def __str__(self):
 		return self.get_rating_label()
+
+	class Meta:
+		verbose_name = "hodnotenie používateľa"
+		verbose_name_plural = "hodnotenia používateľov"
 
 
 class RememberTokenManager(models.Manager):
@@ -142,13 +208,24 @@ class RememberTokenManager(models.Manager):
 		return self.all().filter(created__lte=max_age).delete()
 
 
-@python_2_unicode_compatible
 class RememberToken(models.Model):
 	objects = RememberTokenManager()
 
-	token_hash = models.CharField(max_length=255, blank=False, primary_key=True)
-	created = models.DateTimeField(editable=False, blank=True, auto_now_add=True)
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="remember_me_tokens", on_delete=models.CASCADE)
+	token_hash = models.CharField(
+		max_length=255,
+		blank=False,
+		primary_key=True
+	)
+	created = models.DateTimeField(
+		editable=False,
+		blank=True,
+		auto_now_add=True
+	)
+	user = models.ForeignKey(
+		settings.AUTH_USER_MODEL,
+		related_name='remember_me_tokens',
+		on_delete=models.CASCADE
+	)
 
 	def __str__(self):
 		return self.token_hash
