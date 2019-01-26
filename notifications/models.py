@@ -74,6 +74,7 @@ class EventManager(models.Manager):
 		if action_type is not None:
 			events = events.filter(action=action_type)
 		events.update(level=0)
+		Inbox.objects.filter(event__in=events).update(readed=True)
 
 
 class Event(models.Model):
