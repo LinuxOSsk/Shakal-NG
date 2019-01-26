@@ -18,6 +18,19 @@
 					</div>
 				{% endif %}
 			{% endif %}
+
+			{% if request.user.is_authenticated %}
+				{% set flag_url_link=flag_url(target) %}
+				{% if flag_url_link %}
+					<div class="btn-group voting">
+						<div class="btn flag">
+							<span class="wrap">
+								<a href="{{ flag_url_link }}" class="text" rel="nofollow">Nahlásiť</a>
+							</span>
+						</div>
+					</div>
+				{% endif %}
+			{% endif %}
 		</div>
 		{% if request.user.is_authenticated %}
 			<form action="{{ url("comments:watch", root_header.pk) }}" method="post">{% csrf_token %}
