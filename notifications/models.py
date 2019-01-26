@@ -42,10 +42,13 @@ class EventManager(models.Manager):
 	def exclude_duplicate_events(self, users, event):
 		if event.content_object:
 			excluded = get_user_model().objects.filter(
-				inbox__event__object_id=event.object_id,
-				inbox__event__content_type_id=event.content_type_id,
-				inbox__event__action=event.action,
-				inbox__readed=False
+				Q(
+					inbox__event__object_id=event.object_id,
+					inbox__event__content_type_id=event.content_type_id,
+					inbox__event__action=event.action,
+					inbox__readed=False
+				) |
+				Q(inbox__event=event)
 			)
 			users = users.exclude(pk__in=excluded)
 		return users
