@@ -1,27 +1,30 @@
 {% extends "base.html" %}
 
 {% block breadcrumbs %}
-	{{ breadcrumb("Hodnotenia") }}
+	{{ breadcrumb("Nahlásený obsah") }}
 	{{ super() }}
 {% endblock %}
 
-{% block head_title %}
-	Hodnotenia
-{% endblock %}
+{% block head_title %}{{ object_type_verbose_name|title }} nahlásený{% endblock %}
 
 {% block content %}
-	<h1>Hodnotenia „{{ object.statistics.content_object }}“</h1>
+	<form action="{{ request.path }}" method="post">
+		{% csrf_token %}
+		<ul class="object-tools">
+			<li class="btn"><button class="wrap" type="submit" name="manage" value="1"><span href="#" class="text">Spravovať</span></button></li>
+		</ul>
+	</form>
+
+	<h1>{{ object_type_verbose_name|title }} nahlásený</h1>
+	<p>{{ object_type_verbose_name|title }} s názvom „{{ object.statistics.content_object }}“ bol nahlásený.</p>
 
 	<div class="module ratings">
 		{% for rating in object_list %}
 			<div class="module-row">
-				<p><strong>{{ rating.get_marked_flag_display() }}</strong></p>
+				<p><strong>{{ rating.get_marked_flag_display() }}</strong> | <a href="{{ rating.user.get_absolute_url() }}">{{ rating.user }}</a></p>
 				{% if rating.comment %}
 					<p>{{ rating.comment|linebreaksbr }}</p>
 				{% endif %}
-				<div class="info bottom">
-					<span class="label">{{ rating.user }}</span>
-				</div>
 			</div>
 		{% endfor %}
 	</div>
