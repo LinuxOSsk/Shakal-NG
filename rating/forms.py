@@ -3,7 +3,7 @@
 from django import forms
 from django.forms.widgets import RadioSelect
 
-from .models import Rating, Statistics
+from .models import Rating
 
 
 class FlagForm(forms.ModelForm):
@@ -32,9 +32,9 @@ class FlagForm(forms.ModelForm):
 		return cleaned_data
 
 	def save(self):
-		if self.instance and self.instance.pk:
-			instance = super().save()
-			Statistics.objects.filter(pk=instance.statistics_id).refresh_statistics()
-			return instance
-		else:
-			return Rating.objects.rate(self.object, self.user, marked_flag=self.cleaned_data['marked_flag'], comment=self.cleaned_data['comment'])
+		return Rating.objects.rate(
+			self.object,
+			self.user,
+			marked_flag=self.cleaned_data['marked_flag'],
+			comment=self.cleaned_data['comment']
+		)
