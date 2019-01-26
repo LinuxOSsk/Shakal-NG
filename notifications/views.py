@@ -13,8 +13,9 @@ class List(LoginRequiredMixin, ListView):
 	context_object_name = 'notifications'
 
 	def get_queryset(self):
-		return Inbox.objects.user_messages(self.request.user).\
-			filter(event__level__gt=0)[:99]
+		return (Inbox.objects
+			.user_messages(self.request.user)
+			.filter(event__level__gt=0))[:99]
 
 
 class Read(LoginRequiredMixin, DetailView):
