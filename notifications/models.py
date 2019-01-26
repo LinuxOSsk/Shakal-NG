@@ -75,6 +75,7 @@ class Event(models.Model):
 	DELETE_ACTION = 'd'
 	MESSAGE_ACTION = 'm'
 	ADD_COMMENT_ACTION = 'a'
+	FLAG_ACTION = 'f'
 
 	ACTION_TYPE = (
 		(OTHER_ACTION, _('other')),
@@ -83,6 +84,7 @@ class Event(models.Model):
 		(DELETE_ACTION, _('delete')),
 		(MESSAGE_ACTION, _('message')),
 		(ADD_COMMENT_ACTION, _('comment')),
+		(FLAG_ACTION, _('flag')),
 	)
 
 	objects = EventManager()

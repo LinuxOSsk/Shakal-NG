@@ -24,4 +24,9 @@ class Migration(migrations.Migration):
 			name='content_type',
 			field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='contenttypes.ContentType'),
 		),
+		migrations.AlterField(
+			model_name='event',
+			name='action',
+			field=models.CharField(choices=[('x', 'other'), ('c', 'create'), ('u', 'update'), ('d', 'delete'), ('m', 'message'), ('a', 'comment'), ('f', 'flag')], default='m', max_length=1),
+		),
 	]
