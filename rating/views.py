@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
-from django.http.response import HttpResponseRedirect
+from django.http.response import HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.functional import cached_property
 from django.utils.translation import ungettext
@@ -122,4 +122,16 @@ class RatingsView(UserPassesTestMixin, ListView):
 			.order_by('-pk'))
 
 	def get_context_data(self, **kwargs):
-		return super().get_context_data(object=self.object, **kwargs)
+		ctx = super().get_context_data(**kwargs)
+		ctx.update({
+			'object_type_verbose_name': get_meta(self.object.statistics.content_object).verbose_name,
+			'object': self.object,
+		})
+		return ctx
+
+	def post(self, request, *args, **kwargs):
+		if request.POST.get('manage'):
+			content_object = self.object.statistics.content_object
+			Event.objects.deactivate(content_object=content_object, action_type=Event.FLAG_ACTION)
+			return HttpResponseRedirect(content_object.get_absolute_url())
+		return HttpResponseBadRequest()
