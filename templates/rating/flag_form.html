@@ -22,7 +22,7 @@
 		{% include "includes/form_loop.html" %}
 		<div class="submit-row">
 			<div class="positive">
-				<button class="btn primary" type="submit" title="Uložiť" name="{% if object %}update{% else %}create{% endif %}" value="1"><span class="wrap"><span class="text">Uložiť</span></span></button>
+				<button class="btn primary" type="submit" title="Uložiť" name="{% if object %}update{% else %}create{% endif %}" value="1"><span class="wrap"><span class="text">{% if object and object.marked_flag %}Uložiť{% else %}Nahlásiť{% endif %}</span></span></button>
 			</div>
 		</div>
 	</fieldset>
