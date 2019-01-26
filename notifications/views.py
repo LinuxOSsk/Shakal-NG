@@ -24,8 +24,7 @@ class Read(LoginRequiredMixin, DetailView):
 	def get(self, request, **kwargs):
 		notification = self.get_object()
 		event = notification.event
-		notification.readed = True
-		notification.save()
+		Inbox.objects.filter(pk=notification.pk).update(readed=True)
 
 		if event.content_object:
 			return HttpResponseRedirect(event.content_object.get_absolute_url())
