@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models, transaction
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.encoding import force_str, python_2_unicode_compatible
+from django.utils.encoding import force_str
 from mptt.models import MPTTModel, TreeForeignKey
 
 from attachment.models import Attachment
@@ -45,7 +43,6 @@ class CommentManager(models.Manager):
 				return (root_comment, created)
 
 
-@python_2_unicode_compatible
 class Comment(MPTTModel, TimestampModelMixin):
 	objects = CommentManager()
 
@@ -109,7 +106,7 @@ class Comment(MPTTModel, TimestampModelMixin):
 	def save(self, *args, **kwargs):
 		if not self.user_name and self.user:
 			self.user_name = force_str(self.user)
-		return super(Comment, self).save(*args, **kwargs)
+		return super().save(*args, **kwargs)
 
 	def __str__(self):
 		return self.subject
@@ -121,32 +118,6 @@ class Comment(MPTTModel, TimestampModelMixin):
 		verbose_name_plural = 'komentáre'
 
 
-@python_2_unicode_compatible
-class CommentFlag(models.Model):
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='používateľ', related_name="comment_flags", on_delete=models.CASCADE)
-	comment = models.ForeignKey(Comment, verbose_name='komentár', related_name="flags", on_delete=models.CASCADE)
-	flag = models.CharField('značka', max_length=30, db_index=True)
-	flag_date = models.DateTimeField('dátum', default=None)
-
-	SUGGEST_REMOVAL = "removal suggestion"
-	MODERATOR_DELETION = "moderator deletion"
-	MODERATOR_APPROVAL = "moderator approval"
-
-	class Meta:
-		unique_together = [('user', 'comment', 'flag')]
-		verbose_name = 'značka komenára'
-		verbose_name_plural = 'značky komentárov'
-
-	def __str__(self):
-		return "%s flag of comment ID %s by %s" % (self.flag, self.comment_id, self.user.get_username())
-
-	def save(self, *args, **kwargs):
-		if self.flag_date is None:
-			self.flag_date = timezone.now()
-		super(CommentFlag, self).save(*args, **kwargs)
-
-
-@python_2_unicode_compatible
 class RootHeader(models.Model):
 	pub_date = models.DateTimeField(db_index=True)
 	last_comment = models.DateTimeField(db_index=True)
@@ -180,7 +151,6 @@ class RootHeader(models.Model):
 		ordering = ('-pk',)
 
 
-@python_2_unicode_compatible
 class UserDiscussionAttribute(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	discussion = models.ForeignKey(RootHeader, on_delete=models.CASCADE)

@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.utils.html import format_html, escape, mark_safe
-from django.utils.translation import ungettext
 from mptt.admin import DraggableMPTTAdmin
 
 from .models import Comment, RootHeader
-from .utils import perform_flag, perform_approve, perform_delete
 from attachment.admin import AttachmentInline, AttachmentAdminMixin
 
 
@@ -28,7 +24,6 @@ class CommentAdmin(AttachmentAdminMixin, DraggableMPTTAdmin):
 	list_filter = ('created', 'is_public', 'is_removed',)
 	raw_id_fields = ('user',)
 	search_fields = ('filtered_comment', 'user__username', 'user_name', 'ip_address')
-	actions = ['flag_comments', 'approve_comments', 'remove_comments']
 	inlines = [AttachmentInline]
 
 	def get_subject(self, obj):
@@ -37,30 +32,13 @@ class CommentAdmin(AttachmentAdminMixin, DraggableMPTTAdmin):
 	get_subject.admin_order_field = 'subject'
 
 	def get_actions(self, request):
-		actions = super(CommentAdmin, self).get_actions(request)
+		actions = super().get_actions(request)
 		if not request.user.is_superuser:
 			actions.pop('delete_selected', None)
-		if not request.user.has_perm('comments.can_moderate'):
-			actions.pop('approve_comments', None)
-			actions.pop('remove_comments', None)
-
-	def flag_comments(self, request, queryset):
-		msg = lambda n: ungettext('flagged', 'flagged', n)
-		self._flag_comments(request, queryset, perform_flag, msg)
-	flag_comments.short_description = 'Označiť zvolené komentáre'
-
-	def approve_comments(self, request, queryset):
-		msg = lambda n: ungettext('approved', 'approved', n)
-		self._flag_comments(request, queryset, perform_approve, msg)
-	approve_comments.short_description = 'Schváliť zvolené komentáre'
-
-	def remove_comments(self, request, queryset):
-		msg = lambda n: ungettext('removed', 'removed', n)
-		self._flag_comments(request, queryset, perform_delete, msg)
-	remove_comments.short_description = 'Odstrániť zvolené komentáre'
+		return actions
 
 	def get_queryset(self, request):
-		qs = super(CommentAdmin, self).get_queryset(request).exclude(level=0)
+		qs = super().get_queryset(request).exclude(level=0)
 		if 'content_type_id__exact' in request.GET and 'object_id__exact' in request.GET:
 			try:
 				content_type_id = int(request.GET['content_type_id__exact'])
@@ -73,21 +51,12 @@ class CommentAdmin(AttachmentAdminMixin, DraggableMPTTAdmin):
 		return qs.none()
 
 	def get_model_perms(self, request):
-		perms = super(CommentAdmin, self).get_model_perms(request)
+		perms = super().get_model_perms(request)
 		if request.resolver_match.view_name not in ('admin:comments_comment_changelist', 'admin:comments_comment_change', 'admin:comments_comment_delete', 'admin:comments_comment_history', 'admin:comments_comment_add'):
 			perms['delete'] = False
 			perms['add'] = False
 			perms['change'] = False
 		return perms
-
-	def _flag_comments(self, request, queryset, action, msg):
-		n_comments = 0
-		for comment in queryset:
-			action(comment)
-			n_comments += 1
-
-		msg = ungettext('1 comment was %(action)s.', '%(count)s comments were %(action)s.', n_comments)
-		self.message_user(request, msg % {'count': n_comments, 'action': msg(n_comments)})
 
 
 class RootHeaderAdmin(admin.ModelAdmin):
@@ -96,7 +65,7 @@ class RootHeaderAdmin(admin.ModelAdmin):
 	list_display_links = None
 
 	def get_queryset(self, request):
-		return super(RootHeaderAdmin, self).get_queryset(request).select_related('content_type')
+		return super().get_queryset(request).select_related('content_type')
 
 	def has_add_permission(self, request):
 		return False
@@ -126,7 +95,7 @@ class CommentInline(GenericTabularInline):
 	extra = 0
 
 	def get_queryset(self, request):
-		return super(CommentInline, self).get_queryset(request).order_by('lft')
+		return super().get_queryset(request).order_by('lft')
 
 	def get_subject(self, obj):
 		indent = ''

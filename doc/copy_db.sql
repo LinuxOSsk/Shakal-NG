@@ -170,11 +170,6 @@ INSERT INTO comments_comment(id, object_id, subject, user_name, original_comment
 		dblink('dbname=linuxos', 'SELECT id, object_id, subject, user_name, original_comment, filtered_comment, submit_date, ip_address, is_public, is_removed, is_locked, updated, lft, rght, tree_id, level, content_type_id, parent_id, user_id FROM django_comments')
 		AS t1(id integer, object_id text, subject character varying(100), user_name character varying(50), original_comment text, filtered_comment text, created timestamp with time zone, ip_address inet, is_public boolean, is_removed boolean, is_locked boolean, updated timestamp with time zone, lft integer, rght integer, tree_id integer, level integer, content_type_id integer, parent_id integer, user_id integer);
 
-INSERT INTO comments_commentflag(id, flag, flag_date, comment_id, user_id)
-	SELECT * FROM
-		dblink('dbname=linuxos', 'SELECT id, flag, flag_date, comment_id, user_id FROM django_comment_flags')
-		AS t1(id integer, flag character varying(30), flag_date timestamp with time zone, comment_id integer, user_id integer);
-
 ALTER TABLE comments_rootheader ALTER COLUMN last_comment DROP NOT NULL;
 INSERT INTO comments_rootheader(id, pub_date, last_comment, comment_count, is_locked, object_id, content_type_id)
 	SELECT * FROM
