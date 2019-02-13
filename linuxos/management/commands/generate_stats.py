@@ -20,7 +20,7 @@ from tweets.models import Tweet
 from wiki.models import Page as WikiPage
 
 
-ContentModel = namedtuple('ContentModel', ['model', 'label', 'author', 'username', 'agg_filter', 'agg_filter_date', 'reverse_name'])
+ContentModel = namedtuple('ContentModel', ['model', 'label', 'author', 'username', 'select_filter', 'agg_filter', 'agg_filter_date', 'reverse_name'])
 
 
 
@@ -50,6 +50,7 @@ class Command(BaseCommand):
 
 	def handle(self, *args, **options):
 		self.write_users()
+		self.write_models()
 
 	def get_content_models(self):
 		now = timezone.now()
@@ -58,6 +59,7 @@ class Command(BaseCommand):
 				Article, 'articles',
 				author='author',
 				username='authors_name',
+				select_filter=Q(published=True, pub_time__lte=now),
 				agg_filter=Q(article__published=True, article__pub_time__lte=now),
 				agg_filter_date=lambda date_range: Q(article__created__range=date_range),
 				reverse_name='article'
@@ -66,6 +68,7 @@ class Command(BaseCommand):
 				BlogPost, 'blogs',
 				author='blog__author',
 				username=None,
+				select_filter=Q(pub_time__lte=now),
 				agg_filter=Q(blog__post__pub_time__lte=now),
 				agg_filter_date=lambda date_range: Q(blog__post__created__range=date_range),
 				reverse_name='blog__posts'
@@ -74,6 +77,7 @@ class Command(BaseCommand):
 				Comment, 'comments',
 				author='user',
 				username='user_name',
+				select_filter=Q(parent__isnull=False, is_public=True, is_removed=False),
 				agg_filter=Q(comment_comments__parent__isnull=False, comment_comments__is_public=True, comment_comments__is_removed=False),
 				agg_filter_date=lambda date_range: Q(comment_comments__created__range=date_range),
 				reverse_name='comment_comments'
@@ -82,6 +86,7 @@ class Command(BaseCommand):
 				Desktop, 'desktops',
 				author='author',
 				username=None,
+				select_filter=None,
 				agg_filter=None,
 				agg_filter_date=lambda date_range: Q(desktop__created__range=date_range),
 				reverse_name='desktop'
@@ -90,6 +95,7 @@ class Command(BaseCommand):
 				Topic, 'topics',
 				author='author',
 				username='authors_name',
+				select_filter=None,
 				agg_filter=None,
 				agg_filter_date=lambda date_range: Q(topic__created__range=date_range),
 				reverse_name='topic'
@@ -98,6 +104,7 @@ class Command(BaseCommand):
 				News, 'news',
 				author='author',
 				username='authors_name',
+				select_filter=Q(approved=True),
 				agg_filter=Q(news__approved=True),
 				agg_filter_date=lambda date_range: Q(news__created__range=date_range),
 				reverse_name='news'
@@ -106,6 +113,7 @@ class Command(BaseCommand):
 				Tweet, 'tweets',
 				author='author',
 				username=None,
+				select_filter=None,
 				agg_filter=None,
 				agg_filter_date=lambda date_range: Q(tweet__created__range=date_range),
 				reverse_name='tweet'
@@ -114,6 +122,7 @@ class Command(BaseCommand):
 				WikiPage, 'wiki_pages',
 				author='last_author',
 				username=None,
+				select_filter=None,
 				agg_filter=None,
 				agg_filter_date=lambda date_range: Q(page__created__range=date_range),
 				reverse_name='page'
@@ -152,3 +161,43 @@ class Command(BaseCommand):
 			for user in users:
 				writer.write_row(user)
 			writer.close()
+
+	def write_models(self):
+		for content_model in self.get_content_models():
+			self.write_model(content_model)
+
+	def write_model(self, content_model):
+		self.write_model_table(content_model)
+
+	def write_model_table(self, content_model):
+		header = ['pk', 'created']
+		fields = ['pk', 'created']
+		if content_model.author:
+			header.append('user_id')
+			fields.append(content_model.author)
+		if content_model.username:
+			header.append('username')
+			fields.append(content_model.username)
+		field_map = {field: i for i, field in enumerate(header)}
+
+		queryset = content_model.model._default_manager.order_by('pk')
+		if content_model.select_filter:
+			queryset = queryset.filter(content_model.select_filter)
+
+		writer = CsvWriter('stats/%s_table.csv' % content_model.label)
+		writer.write_row(header)
+		for row in queryset.values_list(*fields):
+			date_field = field_map['created']
+			csv_row = list(row)
+			csv_row[date_field] = csv_row[date_field].isoformat()
+			if 'username' in field_map and 'user_id' in field_map:
+				username = csv_row[field_map['username']]
+				user_id = csv_row[field_map['user_id']]
+				if user_id is None:
+					user_id = ''
+				else:
+					username = ''
+				csv_row[field_map['username']] = username
+				csv_row[field_map['user_id']] = user_id
+			writer.write_row(csv_row)
+		writer.close()
