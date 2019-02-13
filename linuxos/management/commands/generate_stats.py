@@ -7,6 +7,7 @@ from django.core.files.storage import default_storage
 from django.core.management.base import BaseCommand
 from django.db.models import Count, Q
 from django.utils import timezone
+from datetime import timedelta
 
 from accounts.models import User
 from article.models import Article
@@ -19,7 +20,7 @@ from tweets.models import Tweet
 from wiki.models import Page as WikiPage
 
 
-ContentModel = namedtuple('ContentModel', ['model', 'label', 'author', 'username', 'date', 'agg_filter', 'reverse_name'])
+ContentModel = namedtuple('ContentModel', ['model', 'label', 'author', 'username', 'agg_filter', 'agg_filter_date', 'reverse_name'])
 
 
 
@@ -41,6 +42,7 @@ class CsvWriter(object):
 			default_storage.delete(self.path)
 		tmp_fp = default_storage.open(self.path + '.tmp', 'r')
 		default_storage.save(self.path, tmp_fp)
+		default_storage.delete(self.path + '.tmp')
 
 
 class Command(BaseCommand):
@@ -56,82 +58,97 @@ class Command(BaseCommand):
 				Article, 'articles',
 				author='author',
 				username='authors_name',
-				date='created',
 				agg_filter=Q(article__published=True, article__pub_time__lte=now),
+				agg_filter_date=lambda date_range: Q(article__created__range=date_range),
 				reverse_name='article'
 			),
 			ContentModel(
 				BlogPost, 'blogs',
 				author='blog__author',
 				username=None,
-				date='created',
 				agg_filter=Q(blog__post__pub_time__lte=now),
+				agg_filter_date=lambda date_range: Q(blog__post__created__range=date_range),
 				reverse_name='blog__posts'
 			),
 			ContentModel(
 				Comment, 'comments',
 				author='user',
 				username='user_name',
-				date='created',
 				agg_filter=Q(comment_comments__parent__isnull=False, comment_comments__is_public=True, comment_comments__is_removed=False),
+				agg_filter_date=lambda date_range: Q(comment_comments__created__range=date_range),
 				reverse_name='comment_comments'
 			),
 			ContentModel(
 				Desktop, 'desktops',
 				author='author',
 				username=None,
-				date='created',
 				agg_filter=None,
+				agg_filter_date=lambda date_range: Q(desktop__created__range=date_range),
 				reverse_name='desktop'
 			),
 			ContentModel(
 				Topic, 'topics',
 				author='author',
 				username='authors_name',
-				date='created',
 				agg_filter=None,
+				agg_filter_date=lambda date_range: Q(topic__created__range=date_range),
 				reverse_name='topic'
 			),
 			ContentModel(
 				News, 'news',
 				author='author',
 				username='authors_name',
-				date='created',
 				agg_filter=Q(news__approved=True),
+				agg_filter_date=lambda date_range: Q(news__created__range=date_range),
 				reverse_name='news'
 			),
 			ContentModel(
 				Tweet, 'tweets',
 				author='author',
 				username=None,
-				date='created',
 				agg_filter=None,
+				agg_filter_date=lambda date_range: Q(tweet__created__range=date_range),
 				reverse_name='tweet'
 			),
 			ContentModel(
 				WikiPage, 'wiki_pages',
 				author='last_author',
 				username=None,
-				date='created',
 				agg_filter=None,
+				agg_filter_date=lambda date_range: Q(page__created__range=date_range),
 				reverse_name='page'
 			),
 		)
 
-	def write_users(self):
-		logged_users_stats = User.objects.order_by('pk').values('username', 'pk')
+	def get_user_stats(self, date_start=None):
+		users = User.objects.order_by('pk').values('username', 'pk')
 		fields = []
 		for content_model in self.get_content_models():
 			if not content_model.author or not content_model.reverse_name:
 				continue
-			count = Count(content_model.reverse_name, distinct=True, filter=content_model.agg_filter)
-			logged_users_stats = logged_users_stats.annotate(**{'count_'+content_model.label: count})
+			agg_filter = content_model.agg_filter or Q()
+			if date_start:
+				if content_model.agg_filter_date is None:
+					continue
+				agg_filter = agg_filter & content_model.agg_filter_date([date_start, timezone.now()])
+			count = Count(content_model.reverse_name, distinct=True, filter=agg_filter)
+			users = users.annotate(**{'count_'+content_model.label: count})
 			fields.append(content_model.label)
+		return users.values_list('username', 'pk', *['count_'+label for label in fields]), fields
 
-		logged_users_stats = logged_users_stats.values_list('username', 'pk', *['count_'+label for label in fields])
-
+	def write_users(self):
+		users, fields = self.get_user_stats()
 		writer = CsvWriter('stats/user.csv')
 		writer.write_row(['username', 'pk'] + fields)
-		for user in logged_users_stats:
+		for user in users:
 			writer.write_row(user)
 		writer.close()
+
+		for year in (1, 2, 5):
+			start_date = timezone.now() - timedelta(days=365*year)
+			users, fields = self.get_user_stats(start_date)
+			writer = CsvWriter('stats/user_%d_year.csv' % year)
+			writer.write_row(['username', 'pk'] + fields)
+			for user in users:
+				writer.write_row(user)
+			writer.close()
