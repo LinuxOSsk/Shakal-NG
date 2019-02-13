@@ -116,8 +116,9 @@ class RatingsView(UserPassesTestMixin, ListView):
 
 	def get_context_data(self, **kwargs):
 		ctx = super().get_context_data(**kwargs)
+		content_object = self.object.statistics.content_object
 		ctx.update({
-			'object_type_verbose_name': get_meta(self.object.statistics.content_object).verbose_name,
+			'object_type_verbose_name': get_meta(content_object).verbose_name if content_object else '',
 			'object': self.object,
 		})
 		return ctx
