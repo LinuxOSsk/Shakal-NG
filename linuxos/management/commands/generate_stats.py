@@ -6,7 +6,8 @@ from io import BytesIO
 
 from django.core.files.storage import default_storage
 from django.core.management.base import BaseCommand
-from django.db.models import Count, Q, F, Value as V
+from django.db import models
+from django.db.models import Count, Q, F, Value as V, Subquery, OuterRef
 from django.db.models.functions import Concat
 from django.utils import timezone
 
@@ -25,7 +26,7 @@ from wiki.models import Page as WikiPage
 START_DATE = timezone.datetime(2004, 1, 1, tzinfo=timezone.utc)
 
 
-ContentModel = namedtuple('ContentModel', ['model', 'label', 'author', 'username', 'select_filter', 'agg_filter', 'agg_filter_date', 'reverse_name'])
+ContentModel = namedtuple('ContentModel', ['model', 'label', 'author', 'username', 'select_filter', 'reverse_name'])
 
 
 class CsvWriter(object):
@@ -74,8 +75,6 @@ class Command(BaseCommand):
 				author='author',
 				username='authors_name',
 				select_filter=Q(published=True, pub_time__lte=now),
-				agg_filter=Q(article__published=True, article__pub_time__lte=now),
-				agg_filter_date=lambda date_range: Q(article__created__range=date_range),
 				reverse_name='article'
 			),
 			ContentModel(
@@ -83,8 +82,6 @@ class Command(BaseCommand):
 				author='blog__author',
 				username=None,
 				select_filter=Q(pub_time__lte=now),
-				agg_filter=Q(blog__post__pub_time__lte=now),
-				agg_filter_date=lambda date_range: Q(blog__post__created__range=date_range),
 				reverse_name='blog__post'
 			),
 			ContentModel(
@@ -92,8 +89,6 @@ class Command(BaseCommand):
 				author='user',
 				username='user_name',
 				select_filter=Q(parent__isnull=False, is_public=True, is_removed=False),
-				agg_filter=Q(comment_comments__parent__isnull=False, comment_comments__is_public=True, comment_comments__is_removed=False),
-				agg_filter_date=lambda date_range: Q(comment_comments__created__range=date_range),
 				reverse_name='comment_comments'
 			),
 			ContentModel(
@@ -101,8 +96,6 @@ class Command(BaseCommand):
 				author='author',
 				username=None,
 				select_filter=None,
-				agg_filter=None,
-				agg_filter_date=lambda date_range: Q(desktop__created__range=date_range),
 				reverse_name='desktop'
 			),
 			ContentModel(
@@ -110,8 +103,6 @@ class Command(BaseCommand):
 				author='author',
 				username='authors_name',
 				select_filter=None,
-				agg_filter=None,
-				agg_filter_date=lambda date_range: Q(topic__created__range=date_range),
 				reverse_name='topic'
 			),
 			ContentModel(
@@ -119,8 +110,6 @@ class Command(BaseCommand):
 				author='author',
 				username='authors_name',
 				select_filter=Q(approved=True),
-				agg_filter=Q(news__approved=True),
-				agg_filter_date=lambda date_range: Q(news__created__range=date_range),
 				reverse_name='news'
 			),
 			ContentModel(
@@ -128,8 +117,6 @@ class Command(BaseCommand):
 				author='author',
 				username=None,
 				select_filter=None,
-				agg_filter=None,
-				agg_filter_date=lambda date_range: Q(tweet__created__range=date_range),
 				reverse_name='tweet'
 			),
 			ContentModel(
@@ -137,8 +124,6 @@ class Command(BaseCommand):
 				author='last_author',
 				username=None,
 				select_filter=None,
-				agg_filter=None,
-				agg_filter_date=lambda date_range: Q(page__created__range=date_range),
 				reverse_name='page'
 			),
 		)
@@ -149,12 +134,14 @@ class Command(BaseCommand):
 		for content_model in self.get_content_models():
 			if not content_model.author or not content_model.reverse_name:
 				continue
-			agg_filter = content_model.agg_filter or Q()
+			date_filter = Q()
 			if date_start:
-				if content_model.agg_filter_date is None:
-					continue
-				agg_filter = agg_filter & content_model.agg_filter_date([date_start, timezone.now()])
-			count = Count(content_model.reverse_name, distinct=True, filter=agg_filter)
+				date_filter = Q(created__range=[date_start - timedelta(365000), timezone.now()])
+			count = Subquery(content_model.model._default_manager
+				.filter(date_filter)
+				.filter(**{content_model.author: OuterRef('pk')})
+				.values(content_model.author)
+				.annotate(cnt=Count(content_model.author)).values('cnt')[:1], output_field=models.IntegerField())
 			users = users.annotate(**{'count_'+content_model.label: count})
 			fields.append(content_model.label)
 		return users.values_list('username', 'pk', *['count_'+label for label in fields]), fields
