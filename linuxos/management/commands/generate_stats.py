@@ -60,7 +60,7 @@ class Command(BaseCommand):
 		fp = default_storage.open('./stats/links.txt', 'w')
 		fp.write("./user.csv - users stats, years: all\n")
 		for year in (1, 2, 5):
-			fp.write("./users_%d_year.csv - users stats, years: %d\n" % (year, year))
+			fp.write("./user_%d_year.csv - users stats, years: %d\n" % (year, year))
 		for content_model in self.get_content_models():
 			fp.write("./%s_table.csv - table of %s objects\n" % (content_model.label, content_model.label))
 		for interval in ('month', 'week', 'day'):
