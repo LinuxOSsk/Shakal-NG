@@ -62,6 +62,8 @@ class Command(BaseCommand):
 			fp.write("./users_%d_year.csv - users stats, years: %d\n" % (year, year))
 		for content_model in self.get_content_models():
 			fp.write("./%s_table.csv - table of %s objects\n" % (content_model.label, content_model.label))
+		for interval in ('month', 'week', 'day'):
+			fp.write("./series_%s.csv - statistics for interval %s\n" % (interval, interval))
 		fp.close()
 
 	def get_content_models(self):
@@ -243,7 +245,9 @@ class Command(BaseCommand):
 
 			writer = CsvWriter('stats/series_%s.csv' % interval)
 			writer.write_row(['date'] + fields)
-
+			for row in zip(*[stats[field] for field in fields]):
+				csv_row = [row[0].time_value.isoformat()] + [col.count or 0 for col in row]
+				writer.write_row(csv_row)
 			writer.close()
 
 	def call_extra_model_action(self, content_model, action, *args, **kwargs):
