@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 import csv
 from collections import namedtuple
-from django.db.models import Count
 from datetime import timedelta
-from common_utils.time_series import time_series
 from io import BytesIO
 
 from django.core.files.storage import default_storage
 from django.core.management.base import BaseCommand
-from django.db.models import Count, Q
+from django.db.models import Count, Q, F, Value as V
+from django.db.models.functions import Concat
 from django.utils import timezone
 
 from accounts.models import User
 from article.models import Article
 from blog.models import Post as BlogPost
 from comments.models import Comment
+from common_utils.time_series import time_series
 from desktops.models import Desktop
 from forum.models import Topic
 from news.models import News
@@ -193,12 +193,20 @@ class Command(BaseCommand):
 		if content_model.select_filter:
 			queryset = queryset.filter(content_model.select_filter)
 
+		extra_queryset = self.call_extra_model_action(content_model, 'get_extra_queryset', queryset)
+		if extra_queryset is not None:
+			queryset = extra_queryset
+		extra_header_fields = self.call_extra_model_action(content_model, 'get_extra_header') or []
+		header = header + extra_header_fields
+		extra_values = self.call_extra_model_action(content_model, 'get_extra_fields') or []
+		fields = fields + extra_values
+
 		writer = CsvWriter('stats/%s_table.csv' % content_model.label)
 		writer.write_row(header)
 		for row in queryset.values_list(*fields):
 			date_field = field_map['created']
 			csv_row = list(row)
-			csv_row[date_field] = csv_row[date_field].isoformat()
+			csv_row[date_field] = csv_row[date_field].replace(microsecond=0).isoformat()
 			if 'username' in field_map and 'user_id' in field_map:
 				username = csv_row[field_map['username']]
 				user_id = csv_row[field_map['user_id']]
@@ -237,3 +245,21 @@ class Command(BaseCommand):
 			writer.write_row(['date'] + fields)
 
 			writer.close()
+
+	def call_extra_model_action(self, content_model, action, *args, **kwargs):
+		app_label = content_model.model._meta.app_label
+		model_name = content_model.model._meta.model_name
+		method = '%s_%s_%s' % (action, app_label, model_name)
+		if hasattr(self, method):
+			return getattr(self, method)(*args, **kwargs)
+
+	def get_extra_queryset_comments_comment(self, queryset):
+		return queryset.annotate(
+			object_type=Concat(F('content_type__app_label'), V('_'), F('content_type__model'))
+		)
+
+	def get_extra_header_comments_comment(self):
+		return ['parent', 'depth', 'type', 'object_id']
+
+	def get_extra_fields_comments_comment(self):
+		return ['parent', 'level', 'object_type', 'object_id']
