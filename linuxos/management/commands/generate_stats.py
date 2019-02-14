@@ -8,7 +8,7 @@ from django.core.files.storage import default_storage
 from django.core.management.base import BaseCommand
 from django.db import models
 from django.db.models import Count, Q, F, Value as V, Subquery, OuterRef
-from django.db.models.functions import Concat
+from django.db.models.functions import Concat, Coalesce
 from django.utils import timezone
 
 from accounts.models import User
@@ -142,7 +142,7 @@ class Command(BaseCommand):
 				.filter(**{content_model.author: OuterRef('pk')})
 				.values(content_model.author)
 				.annotate(cnt=Count(content_model.author)).values('cnt')[:1], output_field=models.IntegerField())
-			users = users.annotate(**{'count_'+content_model.label: count})
+			users = users.annotate(**{'count_'+content_model.label: Coalesce(count, V(0, output_field=models.IntegerField()))})
 			fields.append(content_model.label)
 		return users.values_list('username', 'pk', *['count_'+label for label in fields]), fields
 
