@@ -58,7 +58,7 @@ class Command(BaseCommand):
 		self.write_models()
 		self.write_time_series()
 		fp = default_storage.open('./stats/links.txt', 'w')
-		fp.write("./users.csv - users stats, years: all\n")
+		fp.write("./user.csv - users stats, years: all\n")
 		for year in (1, 2, 5):
 			fp.write("./users_%d_year.csv - users stats, years: %d\n" % (year, year))
 		for content_model in self.get_content_models():
