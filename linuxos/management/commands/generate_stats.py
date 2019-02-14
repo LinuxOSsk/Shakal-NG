@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 import csv
 from collections import namedtuple
+from django.db.models import Count
+from datetime import timedelta
+from common_utils.time_series import time_series
 from io import BytesIO
 
 from django.core.files.storage import default_storage
 from django.core.management.base import BaseCommand
 from django.db.models import Count, Q
 from django.utils import timezone
-from datetime import timedelta
 
 from accounts.models import User
 from article.models import Article
@@ -20,8 +22,10 @@ from tweets.models import Tweet
 from wiki.models import Page as WikiPage
 
 
-ContentModel = namedtuple('ContentModel', ['model', 'label', 'author', 'username', 'select_filter', 'agg_filter', 'agg_filter_date', 'reverse_name'])
+START_DATE = timezone.datetime(2004, 1, 1, tzinfo=timezone.utc)
 
+
+ContentModel = namedtuple('ContentModel', ['model', 'label', 'author', 'username', 'select_filter', 'agg_filter', 'agg_filter_date', 'reverse_name'])
 
 
 class CsvWriter(object):
@@ -51,6 +55,7 @@ class Command(BaseCommand):
 	def handle(self, *args, **options):
 		self.write_users()
 		self.write_models()
+		self.write_time_series()
 		fp = default_storage.open('stats/links.txt', 'w')
 		fp.write("users.csv - users stats, years: all\n")
 		for year in (1, 2, 5):
@@ -171,10 +176,7 @@ class Command(BaseCommand):
 
 	def write_models(self):
 		for content_model in self.get_content_models():
-			self.write_model(content_model)
-
-	def write_model(self, content_model):
-		self.write_model_table(content_model)
+			self.write_model_table(content_model)
 
 	def write_model_table(self, content_model):
 		header = ['pk', 'created']
@@ -208,3 +210,30 @@ class Command(BaseCommand):
 				csv_row[field_map['user_id']] = user_id
 			writer.write_row(csv_row)
 		writer.close()
+
+	def write_time_series(self):
+		end_date = timezone.now()
+		content_models = self.get_content_models()
+		fields = [content_model.label for content_model in content_models]
+
+		for interval in ('month', 'week', 'day'):
+			stats = {}
+			for content_model in content_models:
+				queryset = content_model.model._default_manager.order_by('pk')
+				if content_model.select_filter:
+					queryset = queryset.filter(content_model.select_filter)
+
+				ts = time_series(
+					queryset,
+					date_field='created',
+					aggregate={'count': Count('id')},
+					interval=interval,
+					date_from=START_DATE,
+					date_to=end_date
+				)
+				stats[content_model.label] = ts
+
+			writer = CsvWriter('stats/series_%s.csv' % interval)
+			writer.write_row(['date'] + fields)
+
+			writer.close()
