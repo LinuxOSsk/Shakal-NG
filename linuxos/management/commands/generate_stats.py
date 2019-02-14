@@ -85,7 +85,7 @@ class Command(BaseCommand):
 				select_filter=Q(pub_time__lte=now),
 				agg_filter=Q(blog__post__pub_time__lte=now),
 				agg_filter_date=lambda date_range: Q(blog__post__created__range=date_range),
-				reverse_name='blog__posts'
+				reverse_name='blog__post'
 			),
 			ContentModel(
 				Comment, 'comments',
