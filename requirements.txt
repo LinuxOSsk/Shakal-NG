@@ -11,7 +11,7 @@
 -e git+https://github.com/mireq/django-geoposition-field.git@0c523e0c26ea7422db47cd2d12ec9ba7306547e1#egg=django_geoposition_field
 -e git+https://github.com/mireq/django-sample-data-generator.git@c95e3cea0f2b48880e669d2ce67020656fdebd39#egg=django_sample_data_generator
 -e git+https://github.com/mireq/django-simple-paginator.git@fe0d9ebbc37dc7cafed1b02a91c0efdb9fe28543#egg=django_simple_paginator
-bleach==3.0.2
+bleach==3.1.0
 certifi==2018.11.29       # via requests
 chardet==3.0.4            # via requests
 click==7.0                # via pip-tools
@@ -25,14 +25,14 @@ django-haystack==2.8.1
 django-hijack-admin==2.1.10
 django-hijack==2.1.10
 django-jinja==2.4.1
-django-js-asset==1.1.0    # via django-mptt
+django-js-asset==1.2.1    # via django-mptt
 django-libsass==0.7
 django-mptt==0.9.1
-django-reversion==3.0.2
+django-reversion==3.0.3
 django-static-sitemaps==4.6.0
 django-suit==0.2.26
-django==2.1.5
-easy-thumbnails==2.5
+django==2.1.7
+easy-thumbnails==2.6
 feedparser==5.2.1
 future==0.17.1
 html5lib==1.0.1
@@ -40,15 +40,15 @@ idna==2.8                 # via requests
 jinja2==2.10              # via django-jinja
 libsass==0.17.0           # via django-libsass
 markupsafe==1.1.0         # via jinja2
-oauthlib==2.1.0           # via requests-oauthlib
-pillow==5.4.0
-pip-tools==3.2.0
+oauthlib==3.0.1           # via requests-oauthlib
+pillow==5.4.1
+pip-tools==3.3.2
 pygments==2.3.1
 python3-openid==3.1.0     # via django-allauth
-pytz==2018.7
+pytz==2018.9
 raven==6.10.0
 rcssmin==1.0.6            # via django-compressor
-requests-oauthlib==1.0.0  # via django-allauth
+requests-oauthlib==1.2.0  # via django-allauth
 requests==2.21.0          # via django-allauth, requests-oauthlib
 rjsmin==1.0.12            # via django-compressor
 six==1.12.0               # via bleach, django-compat, django-static-sitemaps, html5lib, libsass, pip-tools
