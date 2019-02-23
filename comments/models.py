@@ -111,6 +111,8 @@ class Comment(MPTTModel, TimestampModelMixin):
 
 	attachments = GenericRelation('attachment.Attachment')
 	notes = GenericRelation('notes.Note')
+	rating_statistics = GenericRelation('rating.Statistics')
+	notification_events = GenericRelation('notifications.Event')
 
 	content_fields = ('original_comment',)
 
