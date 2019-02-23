@@ -6,6 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 from django.http.response import HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import ungettext
 from django.views.generic import ListView, FormView
@@ -126,6 +127,10 @@ class RatingsView(UserPassesTestMixin, ListView):
 	def post(self, request, *args, **kwargs):
 		if request.POST.get('manage'):
 			stat = self.object.statistics
+			content_object = stat.content_object
 			Event.objects.deactivate(content_object=(stat.object_id, stat.content_type), action_type=Event.FLAG_ACTION)
-			return HttpResponseRedirect(content_object.get_absolute_url())
+			if content_object:
+				return HttpResponseRedirect(content_object.get_absolute_url())
+			else:
+				return HttpResponseRedirect(reverse('home'))
 		return HttpResponseBadRequest()
