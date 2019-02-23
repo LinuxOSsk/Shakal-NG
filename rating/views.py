@@ -125,7 +125,7 @@ class RatingsView(UserPassesTestMixin, ListView):
 
 	def post(self, request, *args, **kwargs):
 		if request.POST.get('manage'):
-			content_object = self.object.statistics.content_object
-			Event.objects.deactivate(content_object=content_object, action_type=Event.FLAG_ACTION)
+			stat = self.object.statistics
+			Event.objects.deactivate(content_object=(stat.object_id, stat.content_type), action_type=Event.FLAG_ACTION)
 			return HttpResponseRedirect(content_object.get_absolute_url())
 		return HttpResponseBadRequest()

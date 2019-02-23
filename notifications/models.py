@@ -70,7 +70,12 @@ class EventManager(models.Manager):
 		self.notify_users(users, event)
 
 	def deactivate(self, content_object, action_type=None):
-		events = Event.objects.filter(object_id=content_object.pk, content_type=ContentType.objects.get_for_model(content_object))
+		if isinstance(content_object, models.Model):
+			events = Event.objects.filter(object_id=content_object.pk, content_type=ContentType.objects.get_for_model(content_object))
+		elif isinstance(content_object, tuple):
+			events = Event.objects.filter(object_id=content_object[0], content_type=content_object[1])
+		else:
+			raise TypeError("Wrong type of content object")
 		if action_type is not None:
 			events = events.filter(action=action_type)
 		events.update(level=0)
