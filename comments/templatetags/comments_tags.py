@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from datetime import datetime
+
 from django import template
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Count, Q, Case, When, BooleanField
@@ -85,13 +87,21 @@ class DiscussionLoader:
 				prev_new_item = comment
 
 	def update_discussion_attribute(self, discussion_attribute):
-		discussion_attribute.time = timezone.now()
-		discussion_attribute.save()
+		request = self.context['request']
+		discussion_attribute.time = request.request_time
+		discussion_attribute.save(update_fields=['time'])
 
 	def get_last_display_time(self, discussion_attribute):
-		last_display_time = timezone.now()
+		request = self.context['request']
+		last_display_time = request.request_time
 		if discussion_attribute.time:
 			last_display_time = discussion_attribute.time
+		if 'time' in request.GET:
+			try:
+				time = float(request.GET['time'])
+				last_display_time = datetime.utcfromtimestamp(time).replace(tzinfo=timezone.utc)
+			except ValueError:
+				pass
 		return last_display_time
 
 	def load(self, context, target):
