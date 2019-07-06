@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from urllib.parse import urlparse, urlunparse
+
 from django.http import QueryDict
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import resolve_url
@@ -35,3 +37,18 @@ def build_url(url, args=None, kwargs=None, query=None):
 
 def redirect_url(*args, **kwargs):
 	return HttpResponseRedirect(build_url(*args, **kwargs))
+
+
+def link_add_query(url, **values):
+	if not values:
+		return url
+	parsed = list(urlparse(url))
+
+	query_string_position = 4
+	q = QueryDict(parsed[query_string_position], mutable=True)
+	parsed[query_string_position] = ''
+	url = urlunparse(parsed)
+
+	for key, value in values.items():
+		q[key] = value
+	return '%s?%s' % (url, q.urlencode(''))

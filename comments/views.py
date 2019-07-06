@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from common_utils.url_utils import link_add_query
 from braces.views import PermissionRequiredMixin, LoginRequiredMixin
 from django import http
 from django.contrib.contenttypes.models import ContentType
@@ -15,7 +16,7 @@ from django.views.generic.edit import FormView
 
 from .forms import CommentForm
 from .models import Comment
-from .utils import update_comments_header
+from .utils import get_requested_time, update_comments_header
 from comments.models import RootHeader, UserDiscussionAttribute
 from comments.templatetags.comments_tags import add_discussion_attributes
 from common_utils import get_meta
@@ -65,6 +66,7 @@ class Reply(FormView):
 			comment.user = self.request.user
 		ctx.update({
 			'next': self.request.POST.get('next', self.request.GET.get('next', content_object.get_absolute_url())),
+			'time': self.request.POST.get('time', get_requested_time(self.request, as_timestamp=True)),
 			'comment': comment,
 			'parent': self.parent if self.parent.parent_id else False,
 			'content_object': content_object,
@@ -93,7 +95,10 @@ class Reply(FormView):
 		comment.save()
 		form.move_attachments(comment)
 
-		return http.HttpResponseRedirect(self.request.POST.get('next', '') + '#link_' + str(comment.pk))
+		next_url = self.request.POST.get('next', '')
+		if self.request.POST.get('time'):
+			next_url = link_add_query(next_url, time=self.request.POST['time'])
+		return http.HttpResponseRedirect(next_url + '#link_' + str(comment.pk))
 
 
 class Admin(PermissionRequiredMixin, DetailView):

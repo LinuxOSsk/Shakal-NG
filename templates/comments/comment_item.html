@@ -35,7 +35,7 @@
 		{% if not is_locked %}
 			<div class="btn reply">
 				<span class="wrap">
-					<a href="{{ url("comments:reply", comment.pk) }}" class="text" rel="nofollow" title="Odpovedať">Odpovedať</a>
+					<a href="{{ url("comments:reply", comment.pk) }}?time={{ request_timestamp() }}" class="text" rel="nofollow" title="Odpovedať">Odpovedať</a>
 				</span>
 			</div>
 		{% endif %}

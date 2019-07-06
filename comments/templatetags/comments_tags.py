@@ -17,6 +17,7 @@ from mptt.templatetags import mptt_tags
 
 from ..models import RootHeader, UserDiscussionAttribute
 from comments.models import Comment
+from comments.utils import get_requested_time
 from common_utils import iterify, get_meta
 from common_utils.content_types import get_lookups
 
@@ -98,7 +99,7 @@ class DiscussionLoader:
 			last_display_time = discussion_attribute.time
 		if 'time' in request.GET:
 			try:
-				time = float(request.GET['time'])
+				time = int(request.GET['time'])
 				last_display_time = datetime.utcfromtimestamp(time).replace(tzinfo=timezone.utc)
 			except ValueError:
 				pass
@@ -254,3 +255,9 @@ def admin_comments_url(instance):
 	except RootHeader.DoesNotExist:
 		pass
 	return None
+
+
+@library.global_function
+@contextfunction
+def request_timestamp(context):
+	return get_requested_time(context['request'], as_timestamp=True)

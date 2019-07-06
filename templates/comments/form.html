@@ -1,6 +1,7 @@
-<form action="{{ request.get_full_path() }}" enctype="multipart/form-data" method="post" id="comment-form">{% csrf_token %}
+<form action="{{ request.path }}" enctype="multipart/form-data" method="post" id="comment-form">{% csrf_token %}
 	<fieldset class="module">
 		{% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+		{% if time %}<input type="hidden" name="time" value="{{ time }}" />{% endif %}
 		{% include "includes/form_attachment_loop.html" %}
 		<div class="submit-row">
 			<div class="positive">

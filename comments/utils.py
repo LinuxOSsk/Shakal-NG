@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import time
+from datetime import datetime
+from django.utils import timezone
+
 from django.db import transaction
 from django.db.models import Count, Max
 
@@ -40,3 +44,18 @@ def update_comments_header(sender, instance, **kwargs): #pylint: disable=unused-
 		header.comment_count = statistics['pk__count']
 		header.save()
 		return header
+
+
+def get_requested_time(request, as_timestamp=False):
+	result_time = None
+	if 'time' in request.GET:
+		try:
+			result_time = int(request.GET['time'])
+		except ValueError:
+			pass
+		else:
+			if not as_timestamp:
+				result_time = datetime.utcfromtimestamp(result_time).replace(tzinfo=timezone.utc)
+	if result_time is None:
+		result_time = int(time.mktime(request.request_time.timetuple()) if as_timestamp else request.request_time)
+	return result_time
