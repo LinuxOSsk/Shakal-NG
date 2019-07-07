@@ -24,7 +24,7 @@ class NewsDetailView(DetailUserProtectedView):
 	published_field = 'approved'
 	author_field = 'author'
 	superuser_perm = 'news.change_news'
-	queryset = News.all_news.all()
+	queryset = News.all_news.all().select_related('category', 'author')
 
 	def post(self, request, *args, **kwargs):
 		news = self.get_object()

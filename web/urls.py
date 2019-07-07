@@ -55,3 +55,12 @@ if settings.DEBUG:
 else:
 	handler404 = 'web.views.error_404'
 	handler500 = 'web.views.error_500'
+
+if settings.DEBUG:
+	try:
+		import debug_toolbar
+		urlpatterns += [
+			url(r'^__debug__/', include(debug_toolbar.urls)),
+		]
+	except ImportError:
+		pass

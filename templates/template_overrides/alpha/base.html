@@ -11,7 +11,13 @@
 	{% else %}
 		{% include "template_overrides/alpha/css.compress.html" %}
 	{% endif %}
-	{% include "css.extra.html" %}
+	{% if style_options.font_size == 13 %}
+	<style type="text/css" media="screen">
+	body, html {
+		font-size: 13px;
+	}
+	</style>
+	{% endif %}
 	<link rel="shortcut icon" href="/favicon.ico" />
 	<link rel="canonical" href="{{ get_base_uri() }}{{ request.path }}" />
 	<meta property="og:site_name" content="LinuxOS.sk" />

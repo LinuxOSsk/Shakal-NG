@@ -1,4 +1,4 @@
-<div class="discussion header {% if user %}vcard {% endif %}{{ comment_type }}{% if not single %}{% if user == request.user %} me{% endif %}{{ comment.get_tags() }}{% endif %}">
+<div class="discussion header {% if user %}vcard {% endif %}{{ comment_type }}{% if not single %}{% if user.pk == request.user.pk %} me{% endif %}{{ comment.get_tags() }}{% endif %}">
 	<div class="comment_info">
 		{% block parent_link %}
 		{% endblock %}

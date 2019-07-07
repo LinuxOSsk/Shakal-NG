@@ -151,10 +151,10 @@ TEMPLATES = [
 				'django.template.loaders.app_directories.Loader',
 			],
 			'context_processors': [
-				#'django.template.context_processors.debug',
-				'django.template.context_processors.request',
-				'django.contrib.auth.context_processors.auth',
-				'django.contrib.messages.context_processors.messages',
+				##'django.template.context_processors.debug',
+				#'django.template.context_processors.request',
+				#'django.contrib.auth.context_processors.auth',
+				#'django.contrib.messages.context_processors.messages',
 			],
 		},
 	},
@@ -186,6 +186,8 @@ WSGI_APPLICATION = os.environ.get('DJANGO_WSGI_APPLICATION', 'web.wsgi.applicati
 
 SITE_ID = 1
 
+BASE_URI = 'https://linuxos.sk'
+
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
@@ -209,9 +211,7 @@ LANGUAGES = (('sk', 'Slovak'),)
 TIME_ZONE = 'Europe/Bratislava'
 
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 SHORT_DATE_FORMAT = 'd. m. Y'

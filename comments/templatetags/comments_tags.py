@@ -5,7 +5,7 @@ from datetime import datetime
 
 from django import template
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import Count, Q, Case, When, BooleanField
+from django.db.models import Q
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
@@ -26,6 +26,12 @@ register = template.Library()
 
 
 class DiscussionLoader:
+	DISCUSSION_QUERY_SET = (Comment.objects
+		.select_related('user__rating')
+		.only('pk', 'created', 'updated', 'ip_address', 'parent_id', 'subject', 'filtered_comment', 'level', 'is_public', 'is_removed', 'is_locked', 'user_id', 'user_name', 'user', 'user__id', 'user__is_superuser', 'user__username', 'user__first_name', 'user__last_name', 'user__email', 'user__is_staff', 'user__is_active', 'user__signature', 'user__distribution', 'user__year', 'user__avatar', 'user__rating__rating')
+		.prefetch_related('attachments')
+		.order_by('lft'))
+
 	def __init__(self):
 		self.target = None
 		self.context = None
@@ -46,7 +52,7 @@ class DiscussionLoader:
 		if not object_id:
 			return Comment.objects.none()
 
-		queryset = Comment.objects.filter(
+		queryset = self.DISCUSSION_QUERY_SET.filter(
 			content_type=ctype,
 			object_id=object_id,
 		)
@@ -54,19 +60,19 @@ class DiscussionLoader:
 			queryset[0]
 		except IndexError:
 			Comment.objects.get_or_create_root_comment(ctype, object_id)
-			queryset = Comment.objects.filter(
+			queryset = self.DISCUSSION_QUERY_SET.filter(
 				content_type=ctype,
 				object_id=object_id,
 			)
-		queryset = queryset.select_related('user__rating')
-		queryset = queryset.prefetch_related('attachments')
-		queryset = queryset.annotate(attachment_count=Count('attachments'))
-		queryset = queryset.defer(
-			"original_comment",
-			"user__rating__comments", "user__rating__articles", "user__rating__helped", "user__rating__news", "user__rating__wiki",
-			"user__password", "user__filtered_info",
-		)
-		queryset = queryset.order_by('lft')
+		#queryset = queryset.select_related('user__rating')
+		#queryset = queryset.prefetch_related('attachments')
+		#queryset = queryset.annotate(attachment_count=Count('attachments'))
+		#queryset = queryset.defer(
+		#	"original_comment",
+		#	"user__rating__comments", "user__rating__articles", "user__rating__helped", "user__rating__news", "user__rating__wiki",
+		#	"user__password", "user__filtered_info",
+		#)
+		#queryset = queryset.order_by('lft')
 
 		return queryset
 
@@ -77,10 +83,12 @@ class DiscussionLoader:
 		discussion_attribute = UserDiscussionAttribute.objects.get_or_create(user=self.context['user'], discussion=header)[0]
 		return discussion_attribute
 
-	def highlight_new(self, query_set):
+	def highlight_new(self, query_set, discussion_attribute):
+		last_display_time = self.get_last_display_time(discussion_attribute)
 		root_item = query_set.root_item
 		prev_new_item = root_item
 		for comment in query_set:
+			comment.is_new = comment.created >= last_display_time
 			if comment.is_new:
 				prev_new_item.next_new = comment.pk
 				if prev_new_item != root_item:
@@ -109,24 +117,18 @@ class DiscussionLoader:
 		self.target = target
 		self.context = context
 		attrib = None
-		query_set = self.get_queryset()
+		queryset = self.get_queryset()
 		if 'user' in context and context['user'].is_authenticated:
 			attrib = self.get_discussion_attribute()
-			last_display_time = self.get_last_display_time(attrib)
 			self.update_discussion_attribute(attrib)
-			query_set = query_set.annotate(is_new=Case(
-				When(created__gte=last_display_time, then=True),
-				default=False,
-				output_field=BooleanField()
-			))
-			setattr(query_set, 'root_item', query_set.get(level=0))
-			self.highlight_new(query_set)
+			setattr(queryset, 'root_item', queryset[0])
+			self.highlight_new(queryset, attrib)
 		else:
-			setattr(query_set, 'root_item', query_set.get(level=0))
-		setattr(query_set, 'root_header', self.root_header)
+			setattr(queryset, 'root_item', queryset[0])
+		setattr(queryset, 'root_header', self.root_header)
 		if 'user' in context and context['user'].is_authenticated:
-			setattr(query_set, 'user_attribute', attrib)
-		return query_set
+			setattr(queryset, 'user_attribute', attrib)
+		return queryset
 
 
 def load_user_discussion_attributes(headers, user):
@@ -261,3 +263,28 @@ def admin_comments_url(instance):
 @contextfunction
 def request_timestamp(context):
 	return get_requested_time(context['request'], as_timestamp=True)
+
+
+@library.filter
+def comments_tree_info(comments):
+	comment = None
+	next_comment = None
+	last_level = -1
+	for next_comment in comments:
+		if comment:
+			tree = {
+				'new_level': list(range(last_level + 1, comment.level + 1)),
+				'closed_levels': list(range(comment.level, next_comment.level, -1)),
+				'level': comment.level,
+			}
+			last_level = comment.level
+			yield comment, tree
+		comment = next_comment
+	comment = next_comment
+	if comment is not None:
+		tree = {
+			'new_level': [],
+			'closed_levels': list(range(comment.level, -1, -1)),
+			'level': comment.level,
+		}
+		yield comment, tree

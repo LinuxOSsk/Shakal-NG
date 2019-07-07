@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 from django.shortcuts import resolve_url
 from django.template.loader import render_to_string
-from django.utils.safestring import mark_safe
 from django_jinja import library
 from jinja2 import contextfunction
 
@@ -29,4 +28,4 @@ def breadcrumb(context, contents, *args, **kwargs):
 def render_breadcrumbs(breadcrumbs):
 	breadcrumbs.reverse()
 	ctx = {'breadcrumbs': breadcrumbs}
-	return mark_safe(render_to_string('breadcrumbs/breadcrumbs.html', ctx))
+	return render_to_string('breadcrumbs/breadcrumbs.html', ctx)
