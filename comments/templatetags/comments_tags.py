@@ -19,7 +19,7 @@ from jinja2 import contextfunction
 from mptt.templatetags import mptt_tags
 
 from ..models import RootHeader, UserDiscussionAttribute
-from accounts.models import UserRating
+from accounts.models import UserRating, User
 from attachment.models import Attachment
 from comments.models import Comment
 from comments.utils import get_requested_time
@@ -56,6 +56,10 @@ class UserRecord(namedtuple('UserRecord', ['pk', 'avatar', 'email', 'username', 
 		return self.get_full_name() or self.username
 
 
+class S(str):
+	pass
+
+
 class CommentRecord(object):
 	__slots__ = [
 		'pk', 'created', 'updated', 'ip_address', 'parent_id', 'level', 'is_public', 'is_removed', 'is_locked', 'subject', 'comment', 'user_name', 'user_id', 'user_avatar', 'user_email', 'user_username', 'user_first_name', 'user_last_name', 'user_distribution', 'user_is_active', 'user_is_staff', 'user_is_superuser', 'user_rating',
@@ -71,6 +75,7 @@ class CommentRecord(object):
 		for attr_name, value in zip(self.__slots__, args):
 			setattr(self, attr_name, value)
 		if self.user_id:
+			self.user_avatar = S(self.user_avatar)
 			self.user = UserRecord(
 				self.user_id,
 				self.user_avatar,
@@ -84,6 +89,9 @@ class CommentRecord(object):
 				self.user_is_superuser,
 				self.user_rating or 0,
 			)
+			self.user_avatar.instance = self.user
+			self.user_avatar.field = User._meta.get_field('avatar')
+			self.user_avatar.name = str(self.user_avatar)
 
 	def get_tags(self):
 		tags = []
