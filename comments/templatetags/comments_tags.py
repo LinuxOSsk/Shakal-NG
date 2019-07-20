@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import os
+from collections import namedtuple, defaultdict
 from datetime import datetime
 
 from django import template
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 from django.template.loader import render_to_string
@@ -16,6 +19,8 @@ from jinja2 import contextfunction
 from mptt.templatetags import mptt_tags
 
 from ..models import RootHeader, UserDiscussionAttribute
+from accounts.models import UserRating
+from attachment.models import Attachment
 from comments.models import Comment
 from comments.utils import get_requested_time
 from common_utils import iterify, get_meta
@@ -25,11 +30,84 @@ from common_utils.content_types import get_lookups
 register = template.Library()
 
 
+class AttachmentRecord(namedtuple('Attachment', ['attachment', 'size'])):
+	@property
+	def url(self):
+		return settings.MEDIA_URL + self.attachment
+
+	@property
+	def basename(self):
+		return os.path.basename(self.attachment)
+
+
+class UserRecord(namedtuple('UserRecord', ['pk', 'avatar', 'email', 'username', 'first_name', 'last_name', 'distribution', 'is_active', 'is_staff', 'is_superuser', 'rating_value'])):
+	def get_absolute_url(self):
+		return reverse('accounts:profile', kwargs={'pk': self.pk})
+
+	def get_full_name(self):
+		full_name = ('%s %s' % (self.first_name, self.last_name)).strip()
+		return full_name or self.username or self.email
+
+	@cached_property
+	def rating(self):
+		return UserRating(rating=self.rating_value)
+
+	def __str__(self):
+		return self.get_full_name() or self.username
+
+
+class CommentRecord(object):
+	__slots__ = [
+		'pk', 'created', 'updated', 'ip_address', 'parent_id', 'level', 'is_public', 'is_removed', 'is_locked', 'subject', 'comment', 'user_name', 'user_id', 'user_avatar', 'user_email', 'user_username', 'user_first_name', 'user_last_name', 'user_distribution', 'user_is_active', 'user_is_staff', 'user_is_superuser', 'user_rating',
+		# extra
+		'ip_address_avatar', 'next_new', 'prev_new', 'is_new', 'attachments', 'user'
+	]
+
+	_meta = Comment._meta
+
+	def __init__(self, *args):
+		self.is_new = False
+		self.user = None
+		for attr_name, value in zip(self.__slots__, args):
+			setattr(self, attr_name, value)
+		if self.user_id:
+			self.user = UserRecord(
+				self.user_id,
+				self.user_avatar,
+				self.user_email,
+				self.user_username,
+				self.user_first_name,
+				self.user_last_name,
+				self.user_distribution,
+				self.user_is_active,
+				self.user_is_staff,
+				self.user_is_superuser,
+				self.user_rating or 0,
+			)
+
+	def get_tags(self):
+		tags = []
+		if self.is_new:
+			tags.append('new')
+		if not self.is_public:
+			tags.append('private')
+		if self.is_removed:
+			tags.append('deleted')
+		return ' ' + ' '.join(tags)
+
+	@property
+	def attachment_count(self):
+		return len(self.attachments)
+
+	def get_single_comment_url(self):
+		return reverse('comments:comment-single', args=(self.pk,))
+
+
 class DiscussionLoader:
 	DISCUSSION_QUERY_SET = (Comment.objects
-		.select_related('user__rating')
+		#.select_related('user__rating')
 		.only('pk', 'created', 'updated', 'ip_address', 'parent_id', 'subject', 'filtered_comment', 'level', 'is_public', 'is_removed', 'is_locked', 'user_id', 'user_name', 'user', 'user__id', 'user__is_superuser', 'user__username', 'user__first_name', 'user__last_name', 'user__email', 'user__is_staff', 'user__is_active', 'user__signature', 'user__distribution', 'user__year', 'user__avatar', 'user__rating__rating')
-		.prefetch_related('attachments')
+		#.prefetch_related('attachments')
 		.order_by('lft'))
 
 	def __init__(self):
@@ -64,15 +142,6 @@ class DiscussionLoader:
 				content_type=ctype,
 				object_id=object_id,
 			)
-		#queryset = queryset.select_related('user__rating')
-		#queryset = queryset.prefetch_related('attachments')
-		#queryset = queryset.annotate(attachment_count=Count('attachments'))
-		#queryset = queryset.defer(
-		#	"original_comment",
-		#	"user__rating__comments", "user__rating__articles", "user__rating__helped", "user__rating__news", "user__rating__wiki",
-		#	"user__password", "user__filtered_info",
-		#)
-		#queryset = queryset.order_by('lft')
 
 		return queryset
 
@@ -117,7 +186,7 @@ class DiscussionLoader:
 		self.target = target
 		self.context = context
 		attrib = None
-		queryset = self.get_queryset()
+		queryset = self.comments_to_list(self.get_queryset())
 		if 'user' in context and context['user'].is_authenticated:
 			attrib = self.get_discussion_attribute()
 			self.update_discussion_attribute(attrib)
@@ -129,6 +198,24 @@ class DiscussionLoader:
 		if 'user' in context and context['user'].is_authenticated:
 			setattr(queryset, 'user_attribute', attrib)
 		return queryset
+
+	def comments_to_list(self, queryset):
+		class L(list):
+			def all(self):
+				return self
+		attachments = (Attachment.objects
+			.filter(object_id__in=queryset.values('pk'), content_type=ContentType.objects.get_for_model(Comment))
+			.order_by('pk')
+			.values_list('object_id', 'attachment', 'size')
+		)
+		attachments_by_comment = defaultdict(L)
+		for attachment in attachments:
+			attachments_by_comment[attachment[0]].append(AttachmentRecord(*attachment[1:]))
+		queryset = queryset.values_list('pk', 'created', 'updated', 'ip_address', 'parent_id', 'level', 'is_public', 'is_removed', 'is_locked', 'subject', 'filtered_comment', 'user_name', 'user_id', 'user__avatar', 'user__email', 'user__username', 'user__first_name', 'user__last_name', 'user__distribution', 'user__is_active', 'user__is_staff', 'user__is_superuser', 'user__rating__rating')
+		comments = L([CommentRecord(*row) for row in queryset])
+		for comment in comments:
+			comment.attachments = attachments_by_comment[comment.pk]
+		return comments
 
 
 def load_user_discussion_attributes(headers, user):
@@ -266,25 +353,30 @@ def request_timestamp(context):
 
 
 @library.filter
-def comments_tree_info(comments):
-	comment = None
-	next_comment = None
-	last_level = -1
-	for next_comment in comments:
-		if comment:
-			tree = {
-				'new_level': list(range(last_level + 1, comment.level + 1)),
-				'closed_levels': list(range(comment.level, next_comment.level, -1)),
-				'level': comment.level,
+def comments_tree_info(items, start_level=-1):
+	current_item = None
+	prev_level = start_level
+	level = start_level
+	next_level = start_level
+	for item in items:
+		prev_level = level
+		level = next_level
+		next_level = item.level
+		if current_item is not None:
+			info = {
+				'new_level': list(range(prev_level + 1, level + 1)),
+				'closed_levels': list(range(level, next_level, -1)),
+				'level': level,
 			}
-			last_level = comment.level
-			yield comment, tree
-		comment = next_comment
-	comment = next_comment
-	if comment is not None:
-		tree = {
-			'new_level': [],
-			'closed_levels': list(range(comment.level, -1, -1)),
-			'level': comment.level,
+			yield current_item, info
+		current_item = item
+	prev_level = level
+	level = next_level
+	next_level = start_level
+	if current_item is not None:
+		info = {
+			'new_level': list(range(prev_level + 1, level + 1)),
+			'closed_levels': list(range(level, next_level, -1)),
+			'level': level,
 		}
-		yield comment, tree
+		yield current_item, info
