@@ -197,9 +197,9 @@ class DiscussionLoader:
 		queryset = self.comments_to_list(self.get_queryset())
 		if 'user' in context and context['user'].is_authenticated:
 			attrib = self.get_discussion_attribute()
-			self.update_discussion_attribute(attrib)
 			setattr(queryset, 'root_item', queryset[0])
 			self.highlight_new(queryset, attrib)
+			self.update_discussion_attribute(attrib)
 		else:
 			setattr(queryset, 'root_item', queryset[0])
 		setattr(queryset, 'root_header', self.root_header)
