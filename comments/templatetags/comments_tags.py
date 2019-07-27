@@ -40,7 +40,7 @@ class AttachmentRecord(namedtuple('Attachment', ['attachment', 'size'])):
 		return os.path.basename(self.attachment)
 
 
-class UserRecord(namedtuple('UserRecord', ['pk', 'avatar', 'email', 'username', 'first_name', 'last_name', 'distribution', 'is_active', 'is_staff', 'is_superuser', 'rating_value'])):
+class UserRecord(namedtuple('UserRecord', ['pk', 'avatar', 'email', 'username', 'first_name', 'last_name', 'signature', 'distribution', 'is_active', 'is_staff', 'is_superuser', 'rating_value'])):
 	def get_absolute_url(self):
 		return reverse('accounts:profile', kwargs={'pk': self.pk})
 
@@ -62,7 +62,7 @@ class S(str):
 
 class CommentRecord(object):
 	__slots__ = [
-		'pk', 'created', 'updated', 'ip_address', 'parent_id', 'level', 'is_public', 'is_removed', 'is_locked', 'subject', 'comment', 'user_name', 'user_id', 'user_avatar', 'user_email', 'user_username', 'user_first_name', 'user_last_name', 'user_distribution', 'user_is_active', 'user_is_staff', 'user_is_superuser', 'user_rating',
+		'pk', 'created', 'updated', 'ip_address', 'parent_id', 'level', 'is_public', 'is_removed', 'is_locked', 'subject', 'comment', 'user_name', 'user_id', 'user_avatar', 'user_email', 'user_username', 'user_first_name', 'user_last_name', 'user_signature', 'user_distribution', 'user_is_active', 'user_is_staff', 'user_is_superuser', 'user_rating',
 		# extra
 		'ip_address_avatar', 'next_new', 'prev_new', 'is_new', 'attachments', 'user'
 	]
@@ -83,6 +83,7 @@ class CommentRecord(object):
 				self.user_username,
 				self.user_first_name,
 				self.user_last_name,
+				self.user_signature,
 				self.user_distribution,
 				self.user_is_active,
 				self.user_is_staff,
@@ -219,7 +220,7 @@ class DiscussionLoader:
 		attachments_by_comment = defaultdict(L)
 		for attachment in attachments:
 			attachments_by_comment[attachment[0]].append(AttachmentRecord(*attachment[1:]))
-		queryset = queryset.values_list('pk', 'created', 'updated', 'ip_address', 'parent_id', 'level', 'is_public', 'is_removed', 'is_locked', 'subject', 'filtered_comment', 'user_name', 'user_id', 'user__avatar', 'user__email', 'user__username', 'user__first_name', 'user__last_name', 'user__distribution', 'user__is_active', 'user__is_staff', 'user__is_superuser', 'user__rating__rating')
+		queryset = queryset.values_list('pk', 'created', 'updated', 'ip_address', 'parent_id', 'level', 'is_public', 'is_removed', 'is_locked', 'subject', 'filtered_comment', 'user_name', 'user_id', 'user__avatar', 'user__email', 'user__username', 'user__first_name', 'user__last_name', 'user__signature', 'user__distribution', 'user__is_active', 'user__is_staff', 'user__is_superuser', 'user__rating__rating')
 		comments = L([CommentRecord(*row) for row in queryset])
 		for comment in comments:
 			comment.attachments = attachments_by_comment[comment.pk]
