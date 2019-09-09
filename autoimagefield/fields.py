@@ -63,7 +63,7 @@ class AutoImageFieldMixin(object):
 		if field:
 			field.delete_thumbnails()
 			field.storage.delete(field.path)
-			clean_dir(os.path.dirname(field.storage.path(field)), settings.MEDIA_ROOT)
+			clean_dir(os.path.dirname(field.storage.path(field.path)), settings.MEDIA_ROOT)
 
 	def _store_old_value(self, name, instance, **kwargs):
 		if instance.pk:
