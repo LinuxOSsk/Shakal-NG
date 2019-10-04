@@ -616,3 +616,25 @@ ul.messages {
 	overflow: hidden;
 	text-indent: -9999px;
 }
+
+figure {
+	overflow: hidden;
+	@include shadow-box;
+	margin: 6px auto;
+	display: table;
+	text-align: center;
+	@include clearfix;
+
+	img {
+		display: block;
+		margin: 0;
+	}
+
+	figcaption {
+		display: block;
+		padding: 6px;
+		background: $primary-color;
+		color: $primary-color-complement;
+		font-size: 80%;
+	}
+}
