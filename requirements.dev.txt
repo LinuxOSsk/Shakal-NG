@@ -12,22 +12,22 @@
 -e git+https://github.com/mireq/django-sample-data-generator.git@8f2121c21b78d1c16a98e55486771ac5589d36ee#egg=django_sample_data_generator
 -e git+https://github.com/mireq/django-simple-paginator.git@e69829b1f66aa070139b61cfdb388df5da4094f1#egg=django_simple_paginator
 argh==0.26.2              # via watchdog
-astroid==2.2.5            # via pylint
+astroid==2.3.1            # via pylint
 backcall==0.1.0           # via ipython
 bleach==3.1.0
-certifi==2019.6.16        # via requests
+certifi==2019.9.11        # via requests
 chardet==3.0.4            # via requests
 click==7.0                # via pip-tools
 decorator==4.4.0          # via ipython, traitlets
 defusedxml==0.6.0         # via python3-openid
-django-allauth==0.39.1
+django-allauth==0.40.0
 django-appconf==1.0.3     # via django-compressor
 django-braces==1.13.0
 django-compat==1.0.15     # via django-hijack, django-hijack-admin
 django-compressor==2.3
 django-debug-toolbar==2.0
 django-debugtools==1.7.4
-django-extensions==2.1.9
+django-extensions==2.2.3
 django-haystack==2.8.1
 django-hijack-admin==2.1.10
 django-hijack==2.1.10
@@ -37,8 +37,8 @@ django-libsass==0.7
 django-mptt==0.10.0
 django-reversion==3.0.4
 django-static-sitemaps==4.6.0
-django-suit==0.2.26
-django==2.2.3
+django-suit==0.2.28
+django==2.2.6
 docopt==0.6.2             # via ptpython
 easy-thumbnails==2.6
 feedparser==5.2.1
@@ -46,32 +46,32 @@ future==0.17.1
 html5lib==1.0.1
 idna==2.8                 # via requests
 ipython-genutils==0.2.0   # via traitlets
-ipython==7.6.1
+ipython==7.8.0
 isort==4.3.21             # via pylint
-jedi==0.14.0              # via ipython, ptpython
+jedi==0.15.1              # via ipython, ptpython
 jinja2==2.10.1            # via django-jinja
-lazy-object-proxy==1.4.1  # via astroid
+lazy-object-proxy==1.4.2  # via astroid
 libsass==0.19.2           # via django-libsass
 markupsafe==1.1.1         # via jinja2
 mccabe==0.6.1             # via pylint
-oauthlib==3.0.2           # via requests-oauthlib
-parso==0.5.0              # via jedi
+oauthlib==3.1.0           # via requests-oauthlib
+parso==0.5.1              # via jedi
 pathtools==0.1.2          # via watchdog
 pexpect==4.7.0            # via ipython
 pickleshare==0.7.5        # via ipython
-pillow==6.1.0
-pip-tools==3.8.0
-prompt-toolkit==2.0.9     # via ipython, ptpython
+pillow==6.2.0
+pip-tools==4.1.0
+prompt-toolkit==2.0.10    # via ipython, ptpython
 ptpython==2.0.4
 ptyprocess==0.6.0         # via pexpect
 pygments==2.4.2
 pyinotify==0.9.6
-pylint-django==2.0.9
-pylint-plugin-utils==0.5  # via pylint-django
-pylint==2.3.1             # via pylint-django, pylint-plugin-utils
+pylint-django==2.0.11
+pylint-plugin-utils==0.6  # via pylint-django
+pylint==2.4.2             # via pylint-django, pylint-plugin-utils
 python3-openid==3.1.0     # via django-allauth
-pytz==2019.1
-pyyaml==5.1.1
+pytz==2019.2
+pyyaml==5.1.2
 raven==6.10.0
 rcssmin==1.0.6            # via django-compressor
 requests-oauthlib==1.2.0  # via django-allauth
@@ -79,14 +79,14 @@ requests==2.22.0          # via django-allauth, requests-oauthlib
 rjsmin==1.1.0             # via django-compressor
 six==1.12.0               # via astroid, bleach, django-appconf, django-compat, django-extensions, django-static-sitemaps, html5lib, libsass, pip-tools, prompt-toolkit, traitlets
 sqlparse==0.3.0           # via django, django-debug-toolbar
-traitlets==4.3.2          # via ipython
+traitlets==4.3.3          # via ipython
 typed-ast==1.4.0          # via astroid
-urllib3==1.25.3           # via requests
+urllib3==1.25.6           # via requests
 watchdog==0.9.0
 wcwidth==0.1.7            # via prompt-toolkit
 webencodings==0.5.1       # via bleach, html5lib
-werkzeug==0.15.4
+werkzeug==0.16.0
 wrapt==1.11.2             # via astroid
 
 # The following packages are considered to be unsafe in a requirements file:
-# setuptools==41.0.1        # via django-static-sitemaps, ipython
+# setuptools==41.2.0        # via django-static-sitemaps, ipython
