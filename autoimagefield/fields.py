@@ -53,10 +53,10 @@ class AutoImageFieldMixin(object):
 			self._store_old_value(name, instance)
 			instance.save()
 
-		if old_file and old_file != new_filename and os.path.exists(field.storage.path(old_file)):
+		if old_file and old_file.name != new_filename and os.path.exists(field.storage.path(old_file.name)):
 			old_file.delete_thumbnails()
-			field.storage.delete(old_file)
-			clean_dir(os.path.dirname(field.storage.path(old_file)), settings.MEDIA_ROOT)
+			field.storage.delete(old_file.name)
+			clean_dir(os.path.dirname(field.storage.path(old_file.name)), settings.MEDIA_ROOT)
 
 	def _delete_image(self, name, instance, **kwargs):
 		field = getattr(instance, name)
