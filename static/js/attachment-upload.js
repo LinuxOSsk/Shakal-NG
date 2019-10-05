@@ -36,6 +36,13 @@ var createUploader = function(element) {
 	if (uploadAjax === undefined) {
 		return;
 	}
+	var form = element;
+	while (form !== undefined && form.tagName != undefined && form.tagName.toLowerCase() !== 'form') {
+		form = form.parentNode;
+	}
+	if (form === undefined || form.tagName === undefined) {
+		return;
+	}
 	var uploadSession = _.id('id_upload_session').value;
 	var attachmentTemplate = _.cls(uploadAjax, 'attachment-template')[0];
 	var uploadContainer = _.cls(element, 'attachment-upload-container')[0];
@@ -45,6 +52,25 @@ var createUploader = function(element) {
 		return;
 	}
 	var attachmentTemplateSibling = attachmentTemplate.nextSibling;
+
+	var submitButton;
+	var submited = false;
+	_.bindEvent(form, 'submit', function(event) {
+		if (submited === false) {
+			processNextFile();
+			event.preventDefault();
+		}
+	});
+	_.bindEvent(form, 'click', function(event) {
+		var target = event.target;
+		if (target.getAttribute('type') === 'submit') {
+			if (submited === false) {
+				submitButton = event.target;
+				processNextFile();
+				event.preventDefault();
+			}
+		}
+	});
 
 	_.addClass(element, 'ajax');
 	uploadInput.style.visibility = 'hidden';
@@ -111,10 +137,15 @@ var createUploader = function(element) {
 
 		if (!found) {
 			uploading = false;
+			if (submitButton === undefined) {
+				submitButton = form.querySelector('[type="submit"]');
+			}
+			submited = true;
+			submitButton.click();
 		}
 	};
 
-	var uploadFile = function(fileObject) {
+	var enqueueFile = function(fileObject) {
 		var mimetype = fileObject.type;
 		var previewData = {
 			name: fileObject.name,
@@ -131,14 +162,13 @@ var createUploader = function(element) {
 			};
 			reader.readAsDataURL(fileObject);
 		}
-
-		processNextFile();
+		//processNextFile();
 	};
 
 	var onUploadChanged = function() {
 		_.unbindEvent(uploadInput, 'change');
 		_.forEach(uploadInput.files, function(fileObject) {
-			uploadFile(fileObject);
+			enqueueFile(fileObject);
 		});
 		var newInput = uploadInput.cloneNode(true);
 		uploadInput.parentNode.insertBefore(newInput, uploadInput);
@@ -172,7 +202,7 @@ var createUploader = function(element) {
 		}
 		var files = dt.files;
 		_.forEach(files, function(fileObject) {
-			uploadFile(fileObject);
+			enqueueFile(fileObject);
 		});
 		_.removeClass(uploadContainer, 'dragover');
 	});
@@ -237,25 +267,27 @@ var createUploader = function(element) {
 
 		var deleteTemplate = _.cls(element, 'template-delete')[0];
 		if (deleteTemplate !== undefined) {
-			if (data.persistent) {
-				deleteTemplate.style.display = 'none';
-			}
-			else {
-				deleteTemplate.onclick = function() {
-					_.xhrSend({
-						url: urls.manage,
-						method: 'POST',
-						data: 'attachment_action=delete&upload_session=' + encodeURIComponent(uploadSession) + '&pk=' + data.id,
-						successFn: updatePreviewsFromData,
-						failFn: function() {
-							updatePreviews();
+			deleteTemplate.onclick = function() {
+				_.forEach(attachedFiles, function(preview, index) {
+					if (preview.element !== element) {
+						return;
+					}
+					element.parentNode.removeChild(element);
+					attachedFiles.splice(index, 1);
+					if (preview.data.id !== undefined) {
+						var id = 0;
+						while (document.getElementById('id_attachment-attachment-content_type-object_id-'+id+'-id') !== null) {
+							var idInput = document.getElementById('id_attachment-attachment-content_type-object_id-'+id+'-id');
+							if (idInput.value == preview.data.id) {
+								document.getElementById('id_attachment-attachment-content_type-object_id-'+id+'-DELETE').checked = true;
+							}
+							id++;
 						}
-					});
-
-					return false;
-				};
-			}
-		}
+					}
+				});
+				return false;
+			};
+	}
 
 		var preview = {
 			element: element,
