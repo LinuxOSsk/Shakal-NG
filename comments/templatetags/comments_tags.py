@@ -131,7 +131,11 @@ class DiscussionLoader:
 	def root_header(self):
 		object_id = self.target.pk
 		ctype = self.target_ctype
-		return RootHeader.objects.get(content_type=ctype, object_id=object_id)
+		try:
+			return RootHeader.objects.get(content_type=ctype, object_id=object_id)
+		except RootHeader.DoesNotExist:
+			Comment.objects.get_or_create_root_comment(ctype, object_id)
+			return RootHeader.objects.get(content_type=ctype, object_id=object_id)
 
 	def get_queryset(self):
 		object_id = self.target.pk
