@@ -8,6 +8,7 @@ from datetime import datetime
 from django import template
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
+from django.db import transaction
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -134,8 +135,9 @@ class DiscussionLoader:
 		try:
 			return RootHeader.objects.get(content_type=ctype, object_id=object_id)
 		except RootHeader.DoesNotExist:
-			Comment.objects.get_or_create_root_comment(ctype, object_id)
-			return RootHeader.objects.get(content_type=ctype, object_id=object_id)
+			with transaction.atomic():
+				header = Comment.objects.get_or_create_root_comment(ctype, object_id).get_or_create_root_header()
+			return header
 
 	def get_queryset(self):
 		object_id = self.target.pk
