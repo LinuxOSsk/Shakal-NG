@@ -135,7 +135,7 @@ class DiscussionLoader:
 			return RootHeader.objects.get(content_type=ctype, object_id=object_id)
 		except RootHeader.DoesNotExist:
 			with transaction.atomic():
-				header = Comment.objects.get_or_create_root_comment(ctype, object_id).get_or_create_root_header()
+				header = Comment.objects.get_or_create_root_comment(ctype, object_id)[0].get_or_create_root_header()
 			return header
 
 	def get_queryset(self):
