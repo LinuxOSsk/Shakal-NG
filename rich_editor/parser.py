@@ -89,7 +89,7 @@ ALL_TAGS = ['a', 'abbr', 'acronym', 'address', 'applet', 'area', 'article', 'asi
 TEXT_TAGS_LIST = ['b', 'u', 'i', 'em', 'strong', 'a', 'br', 'del', 'ins', 'sub', 'sup']
 ONELINE_TAGS_LIST = ['b', 'u', 'i', 'em', 'strong', 'a']
 FULL_TEXT_TAGS_LIST = ['b', 'u', 'i', 'em', 'strong', 'a', 'br', 'del', 'ins', 'abbr', 'img', 'sub', 'sup']
-FULL_TAGS_LIST = ['b', 'u', 'i', 'em', 'strong', 'a', 'pre', 'p', 'span', 'br', 'del', 'ins', 'sub', 'sup', 'code', 'blockquote', 'cite', 'ol', 'ul', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'dl', 'dt', 'dd', 'abbr', 'img', 'table', 'thead', 'tbody', 'tfoot', 'caption', 'tr', 'th', 'td', 'figure', 'figcaption']
+FULL_TAGS_LIST = ['b', 'u', 'i', 'em', 'strong', 'a', 'pre', 'p', 'span', 'br', 'del', 'ins', 'sub', 'sup', 'small', 'code', 'blockquote', 'cite', 'ol', 'ul', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'dl', 'dt', 'dd', 'abbr', 'img', 'table', 'thead', 'tbody', 'tfoot', 'caption', 'tr', 'th', 'td', 'figure', 'figcaption']
 DEFAULT_TAG_LIST = ['b', 'u', 'i', 'em', 'strong', 'a', 'pre', 'p', 'span', 'br', 'del', 'ins', 'sub', 'sup', 'code', 'blockquote', 'cite', 'ol', 'ul', 'li']
 ALLOWED_ATTRIBUTES = {
 	'a': ['href', 'title', 'nofollow'],
