@@ -120,7 +120,13 @@ class Comment(MPTTModel, TimestampModelMixin):
 		try:
 			header = RootHeader.objects.get(content_type=self.content_type, object_id=self.object_id)
 		except RootHeader.DoesNotExist:
-			header = RootHeader.objects.get_or_create(content_type=self.content_type, object_id=self.object_id, defaults={'pub_date': self.created})[0]
+			header = RootHeader.objects.get_or_create(
+				content_type=self.content_type,
+				object_id=self.object_id,
+				defaults={
+					'pub_date': self.created,
+					'last_comment': self.created,
+				})[0]
 		return header
 
 	def get_absolute_url(self):
