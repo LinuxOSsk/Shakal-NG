@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 import os
 from collections import namedtuple, defaultdict
 from datetime import datetime
@@ -161,10 +160,7 @@ class DiscussionLoader:
 		return queryset
 
 	def get_discussion_attribute(self):
-		object_id = self.target.pk
-		ctype = self.target_ctype
-		header = RootHeader.objects.get(content_type=ctype, object_id=object_id)
-		discussion_attribute = UserDiscussionAttribute.objects.get_or_create(user=self.context['user'], discussion=header)[0]
+		discussion_attribute = UserDiscussionAttribute.objects.get_or_create(user=self.context['user'], discussion=self.root_header)[0]
 		return discussion_attribute
 
 	def highlight_new(self, query_set, discussion_attribute):
