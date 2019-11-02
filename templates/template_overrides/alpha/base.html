@@ -118,6 +118,13 @@
 
 	<div id="sidebar_2">
 		{% block right %}
+			<div id="module_block_polls" class="module polls">
+				<h2 class="block-title">Anketa</h2>
+				<div class="module-row">
+					{{ render_messages(messages, 'polls') }}
+					{{ polls_frontpage() }}
+				</div>
+			</div>
 			<div class="module-group">
 				<div id="module_block_linux" class="module linux">
 					<h2 class="block-title">O Linuxe</h2>
@@ -148,13 +155,6 @@
 					<div class="module-row">
 						{% include "static/block-podporte.html" %}
 					</div>
-				</div>
-			</div>
-			<div id="module_block_polls" class="module polls">
-				<h2 class="block-title">Anketa</h2>
-				<div class="module-row">
-					{{ render_messages(messages, 'polls') }}
-					{{ polls_frontpage() }}
 				</div>
 			</div>
 		{% endblock %}
