@@ -94,10 +94,14 @@
 
 #main_menu_toggle {
 	display: none;
+	&:after {
+		@include sprite(menu_light);
+	}
 }
 
 #main_menu_back {
 	display: none;
+	@include sprite(menu_back_light);
 }
 
 #user_panel {
@@ -323,7 +327,6 @@
 			top: 50%;
 			margin-top: -(sprite-height(menu) / 2);
 			margin-left: $base-spacing-content;
-			@include sprite(menu_light);
 		}
 	}
 
@@ -335,7 +338,6 @@
 		z-index: 1;
 		top: 50%;
 		margin-top: -(sprite-height(menu_back) / 2);
-		@include sprite(menu_back_light);
 	}
 
 	#search_panel {

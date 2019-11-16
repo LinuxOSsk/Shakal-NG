@@ -548,6 +548,21 @@ ul.messages {
 	}
 }
 
+.foldable-sidebar {
+	.block-title:first-child {
+		&:before {
+			@include sprite-bw(foldable_closed_transparent);
+		}
+	}
+	&.open {
+		.block-title {
+			&:before {
+				@include sprite-bw(foldable_open_transparent);
+			}
+		}
+	}
+}
+
 @media #{$small-down} {
 	#main_content .module.polls.compact {
 		label, .progress, .module-links.bottom {
@@ -586,7 +601,6 @@ ul.messages {
 			&:before {
 				content: "";
 				vertical-align: middle;
-				@include sprite-bw(foldable_closed_transparent);
 				display: inline-block;
 				margin-right: $base-margin-reduced;;
 			}
@@ -600,7 +614,6 @@ ul.messages {
 					display: block;
 				}
 				&:before {
-					@include sprite-bw(foldable_open_transparent);
 					display: inline-block;
 				}
 			}
