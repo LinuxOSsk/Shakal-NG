@@ -4,6 +4,8 @@
 {% block extraheaders %}
 	{{ super() }}
 	{% if revision %}<meta name="robots" content="noindex, nofollow" />{% endif %}
+{% endblock %}
+{% block socialheaders %}
 	<meta name="description" content="{{ page.text|striptags|truncatechars("160") }}" />
 	{% with
 		name=page.title,

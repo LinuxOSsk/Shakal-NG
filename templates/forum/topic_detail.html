@@ -13,6 +13,8 @@
 {% block extraheaders %}
 	{{ super() }}
 	<meta name="description" content="{{ topic.text|striptags|html_entity_decode|truncatechars("160") }}" />
+{% endblock %}
+{% block socialheaders %}
 	{% with
 		name=topic.title,
 		description=topic.text|striptags|html_entity_decode|truncatechars("300"),

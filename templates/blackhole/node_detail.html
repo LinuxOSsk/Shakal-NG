@@ -11,6 +11,8 @@
 {% block extraheaders %}
 	{{ super() }}
 	<meta name="description" content="{{ node.annotation|striptags }}" />
+{% endblock %}
+{% block socialheaders %}
 	{% with
 		name=node.title,
 		created=node.created,

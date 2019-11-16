@@ -12,6 +12,8 @@
 {% block extraheaders %}
 	{{ super() }}
 	<meta name="description" content="{{ article.annotation|striptags }}" />
+{% endblock %}
+{% block socialheaders %}
 	{% with
 		name=article.title,
 		description=article.annotation|striptags,

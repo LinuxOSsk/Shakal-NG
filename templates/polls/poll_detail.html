@@ -8,6 +8,8 @@
 {% block extraheaders %}
 	{{ super() }}
 	<meta name="description" content="{{ poll.question|striptags }}" />
+{% endblock %}
+{% block socialheaders %}
 	{% with
 		name=poll.question|striptags,
 		created=poll.created,

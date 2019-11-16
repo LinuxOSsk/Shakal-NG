@@ -11,6 +11,9 @@
 
 {% block extraheaders %}
 	{{ super() }}
+	<meta name="description" content="{{ object.perex|striptags }}" />
+{% endblock %}
+{% block socialheaders %}
 	{% with
 		name=object.title,
 		description=object.perex|striptags,

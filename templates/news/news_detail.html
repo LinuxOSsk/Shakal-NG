@@ -9,6 +9,8 @@
 {% block extraheaders %}
 	{{ super() }}
 	<meta name="description" content="{{ object.short_text|striptags }}" />
+{% endblock %}
+{% block socialheaders %}
 	{% with
 		name=object.title,
 		description=object.short_text|striptags,

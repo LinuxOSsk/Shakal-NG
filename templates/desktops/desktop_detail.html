@@ -6,6 +6,8 @@
 {% block extraheaders %}
 	{{ super() }}
 	<meta name="description" content="{{ desktop.text|striptags|html_entity_decode|truncatechars("160") }}" />
+{% endblock %}
+{% block socialheaders %}
 	{% with
 		name=desktop.title,
 		description=desktop.text|striptags|html_entity_decode|truncatechars("300"),

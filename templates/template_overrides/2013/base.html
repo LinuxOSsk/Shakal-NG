@@ -76,6 +76,14 @@ html, body {
 -->
 	{% if form %}{{ form.media.css }}{% endif %}
 	{% block extrastyle %}{% endblock %}{% block extraheaders %}{% endblock %}
+	{% block socialheaders %}
+		{% with
+			name="LinuxOS.sk",
+			description="Najväčší slovenský komunitný portál venujúci sa open-source, Linuxu a Unixom. nájdete tu diskusné fórum, pravidelné novinky a zaujímavé články."
+		%}
+			{% include "partials/social_media.html" %}
+		{% endwith %}
+	{% endblock %}
 </head>
 <body>
 	{{ hijack_notification() }}
