@@ -45,12 +45,26 @@ class BaseRenderer(object):
 		node_type = node.pop('type')
 		return getattr(self, f'render_{node_type}')(size, **node)
 
-	def render_row(self, size, children=None):
+	def render_column(self, size, children=None, padding_top=0, padding_right=0, padding_bottom=0, padding_left=0, spacing=0):
+		return self._render_on_axis(0, size, children, padding_top, padding_right, padding_bottom, padding_left, spacing)
+
+	def render_row(self, size, children=None, padding_top=0, padding_right=0, padding_bottom=0, padding_left=0, spacing=0):
+		return self._render_on_axis(1, size, children, padding_top, padding_right, padding_bottom, padding_left, spacing)
+
+	def _render_on_axis(self, axis, size, children=None, padding_top=0, padding_right=0, padding_bottom=0, padding_left=0, spacing=0):
 		if size[0] <= 0 or size[1] <= 0:
 			return
-		initial_axis_size = size[1]
 		image = Image.new('RGBA', size)
 		children = [] if children is None else children
+		total_spacing = max((len(children) - 1) * spacing, 0)
+		size = (size[0] - padding_left - padding_right, size[1] - padding_top - padding_bottom)
+		if axis == 0:
+			size = (size[0] - total_spacing, size[1])
+		else:
+			size = (size[0], size[1] - total_spacing)
+		if size[0] <= 0 or size[1] <= 0:
+			return
+		initial_axis_size = size[axis]
 		image_buffers = []
 		for child in children:
 			child = child.copy()
@@ -59,21 +73,28 @@ class BaseRenderer(object):
 				child_image = self.render_node(size, child)
 				axis_size = 0
 				if child_image is not None:
-					axis_size = child_image.size[1]
+					axis_size = child_image.size[axis]
 					image_buffers.append({'image': child_image, 'size': axis_size})
-					#image.alpha_composite(child_image, dest=(0, y))
-					#y += axis_size
-				size = (size[0], size[1] - axis_size)
+				if axis == 0:
+					size = (size[0] - axis_size, size[1])
+				else:
+					size = (size[0], size[1] - axis_size)
 			else:
 				image_buffers.append({'stretch': stretch, 'child': child})
 
-		self._caclculate_buffer_positions(image_buffers, initial_axis_size)
+		self._calculate_buffer_positions(image_buffers, initial_axis_size, spacing)
 
 		for buf in image_buffers:
 			if 'child' in buf:
-				buf['image'] = self.render_node((size[0], buf['size']), buf['child'])
-			if 'image' in buf:
-				image.alpha_composite(buf['image'], dest=(0, buf['position']))
+				if axis == 0:
+					buf['image'] = self.render_node((buf['size'], size[1]), buf['child'])
+				else:
+					buf['image'] = self.render_node((size[0], buf['size']), buf['child'])
+			if buf.get('image'):
+				if axis == 0:
+					image.alpha_composite(buf['image'], dest=(buf['position'] + padding_left, padding_top))
+				else:
+					image.alpha_composite(buf['image'], dest=(padding_left, buf['position'] + padding_top))
 
 		return image
 
@@ -103,7 +124,7 @@ class BaseRenderer(object):
 	def render(self):
 		raise NotImplementedError()
 
-	def _caclculate_buffer_positions(self, buffers, size):
+	def _calculate_buffer_positions(self, buffers, size, spacing):
 		fixed_size = 0
 		stretch_count = 0
 		for buf in buffers:
@@ -123,7 +144,7 @@ class BaseRenderer(object):
 		start_position = 0
 		for buf in buffers:
 			buf['position'] = start_position
-			start_position += buf['size']
+			start_position += buf['size'] + spacing
 
 
 class TextRenderer(BaseRenderer):
@@ -136,6 +157,11 @@ class TextRenderer(BaseRenderer):
 		bg = self.get_background_image()
 		layout = {
 			'type': 'row',
+			'padding_left': 20,
+			'padding_top': 20,
+			'padding_right': 20,
+			'padding_bottom': 20,
+			'spacing': 20,
 			'children': [
 				{
 					'type': 'canvas',
@@ -157,10 +183,27 @@ class TextRenderer(BaseRenderer):
 					'type': 'text',
 					'text': 'World',
 					'stretch': 1,
+					'font_size': 48,
 				},
 				{
 					'type': 'canvas',
 					'height': 20,
+				},
+				{
+					'type': 'canvas',
+					'height': 20,
+				},
+				{
+					'type': 'canvas',
+					'height': 20,
+				},
+				{
+					'type': 'text',
+					'text': "oooooo",
+					'font': 'OpenSans/OpenSans-ExtraBold.ttf',
+					'font_size': 48,
+					'color': '#ffffff',
+					'max_lines': 2,
 				},
 			]
 		}
