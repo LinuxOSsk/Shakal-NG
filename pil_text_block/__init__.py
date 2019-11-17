@@ -93,7 +93,6 @@ class Block(object):
 				current_x += size[0]
 		if overflow:
 			ellipsis_size = font.getsize(self._ellipsis)
-			current_x = 0
 			# remove tokens until free space for ellipsis exist
 			while line_buffer:
 				last = line_buffer[-1]
