@@ -182,20 +182,34 @@ class BaseRenderer(object):
 class TextRenderer(BaseRenderer):
 	def __init__(self, image_type, content_type, content_object, content_field, title_field, category_field=None, image_field=None):
 		self.object = content_object
-		self.content = getattr(content_object, content_field)
-		self.title = getattr(content_object, title_field)
+		self.content = ''
+		if content_field is not None:
+			self.content = self.getattr(content_object, content_field)
+		self.title = self.getattr(content_object, title_field)
 		self.category = None
 		if category_field is not None:
-			self.category = force_text(getattr(content_object, category_field))
+			self.category = force_text(self.getattr(content_object, category_field))
 		self.image = None
 		if image_field is not None:
-			self.image = force_text(getattr(content_object, image_field))
-		self.created = getattr(content_object, 'created', None)
+			self.image = force_text(self.getattr(content_object, image_field))
+		self.created = self.getattr(content_object, 'created', None)
 		self.content = html_entity_decode(striptags(self.content))
 		super().__init__(image_type, content_type, content_object)
 
-	def render(self):
-		bg = self.get_background_image()
+	def getattr(self, content_object, attr, default=None):
+		if not hasattr(content_object, attr) and '__' in attr:
+			prefix, suffix = attr.split('__', 1)
+			if default is None:
+				content_object = getattr(content_object, prefix)
+			else:
+				content_object = getattr(content_object, prefix, default)
+			return self.getattr(content_object, suffix)
+		if default is None:
+			return getattr(content_object, attr)
+		else:
+			return getattr(content_object, attr, default)
+
+	def get_layout(self):
 		info_items = []
 		info_layout = {
 			'type': 'column',
@@ -257,7 +271,7 @@ class TextRenderer(BaseRenderer):
 				'draw_function': self.draw_image
 			})
 
-		layout = {
+		return {
 			'type': 'row',
 			'padding_left': 30,
 			'padding_top': 20,
@@ -280,15 +294,46 @@ class TextRenderer(BaseRenderer):
 				},
 			]
 		}
+
+	def render(self):
+		layout = self.get_layout()
+		bg = self.get_background_image()
 		self.render_layout(bg, layout)
 		response = HttpResponse(content_type='image/png')
 		bg.convert('RGB').save(response, format='PNG')
 		return response
 
 
+class PollRenderer(TextRenderer):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+
+	def get_layout(self):
+		layout = super().get_layout()
+		layout['children'].pop()
+		for choice in self.object.choice_set.all():
+			layout['children'].append({
+				'type': 'text',
+				'text': force_text(choice),
+				'font_size': 52,
+				'font': 'OpenSansCondensed/OpenSansCondensed-Light.ttf',
+				'color': '#ffffff',
+			})
+
+		return layout
+
+
 RENDERERS = {
+	('opengraph', 'accounts', 'user'): (TextRenderer, {'title_field': 'username', 'content_field': 'info', 'image_field': 'avatar'}),
 	('opengraph', 'article', 'article'): (TextRenderer, {'title_field': 'title', 'content_field': 'perex', 'category_field': 'category'}),
 	('opengraph', 'news', 'news'): (TextRenderer, {'title_field': 'title', 'content_field': 'short_text', 'category_field': 'category'}),
+	('opengraph', 'blog', 'blog'): (TextRenderer, {'title_field': 'title', 'content_field': 'description', 'category_field': 'author'}),
+	('opengraph', 'blog', 'post'): (TextRenderer, {'title_field': 'title', 'content_field': 'perex', 'category_field': 'blog__author'}),
+	('opengraph', 'desktops', 'desktop'): (TextRenderer, {'title_field': 'title', 'content_field': 'text', 'image_field': 'image', 'category_field': 'author'}),
+	('opengraph', 'forum', 'topic'): (TextRenderer, {'title_field': 'title', 'content_field': 'text', 'category_field': 'section'}),
+	('opengraph', 'polls', 'poll'): (PollRenderer, {'title_field': 'question', 'content_field': None}),
+	('opengraph', 'tweets', 'tweet'): (TextRenderer, {'title_field': 'title', 'content_field': 'text'}),
+	('opengraph', 'wiki', 'page'): (TextRenderer, {'title_field': 'title', 'content_field': 'text', 'category_field': 'parent'}),
 }
 
 

@@ -8,6 +8,7 @@
 {% block socialheaders %}
 	<meta name="description" content="{{ page.text|striptags|truncatechars("160") }}" />
 	{% with
+		object=page,
 		name=page.title,
 		description=page.text|striptags|truncatechars("300"),
 		created=page.created,

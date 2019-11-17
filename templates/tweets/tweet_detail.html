@@ -16,7 +16,8 @@
 		description=object.text|striptags,
 		created=object.created,
 		updated=object.updated,
-		author=object.author
+		author=object.author,
+		is_article=1
 	%}
 		{% include "partials/social_media.html" %}
 	{% endwith %}

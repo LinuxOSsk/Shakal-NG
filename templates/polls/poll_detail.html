@@ -11,9 +11,11 @@
 {% endblock %}
 {% block socialheaders %}
 	{% with
+		object=poll,
 		name=poll.question|striptags,
 		created=poll.created,
-		updated=poll.updated
+		updated=poll.updated,
+		is_article=1
 	%}
 		{% include "partials/social_media.html" %}
 	{% endwith %}

@@ -10,6 +10,22 @@
 	{{ super() }}
 {% endblock %}
 
+{% block socialheaders %}
+	{% if blog %}
+		{% with
+			object=blog,
+			name=blog.title,
+			description=blog.description|striptags,
+			created=blog.created,
+			updated=blog.updated,
+			author=blog.author,
+			is_article=1
+		%}
+			{% include "partials/social_media.html" %}
+		{% endwith %}
+	{% endif %}
+{% endblock %}
+
 {% block content %}
 {% if blog %}
 	{% with list=1 %}

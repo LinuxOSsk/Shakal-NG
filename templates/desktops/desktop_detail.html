@@ -14,7 +14,8 @@
 		image=thumbnail(desktop.image, size=(2048, 2048), format="jpg", quality=85),
 		created=desktop.created,
 		updated=desktop.updated,
-		author=desktop.author
+		author=desktop.author,
+		is_article=1
 	%}
 		{% include "partials/social_media.html" %}
 	{% endwith %}

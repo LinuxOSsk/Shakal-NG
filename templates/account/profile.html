@@ -6,6 +6,16 @@
 {{ super() }}
 {% endblock %}
 
+{% block socialheaders %}
+	{% with
+		object=user_profile,
+		name=user_profile.get_full_name(),
+		is_profile=1
+	%}
+		{% include "partials/social_media.html" %}
+	{% endwith %}
+{% endblock %}
+
 {% block content %}
 
 <h1>{{ user_profile }} - Profil</h1>

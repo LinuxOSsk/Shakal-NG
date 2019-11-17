@@ -20,7 +20,8 @@
 		description=topic.text|striptags|html_entity_decode|truncatechars("300"),
 		created=topic.created,
 		updated=topic.updated,
-		author=topic.authors_name
+		author=topic.authors_name,
+		is_article=1
 	%}
 		{% include "partials/social_media.html" %}
 	{% endwith %}
