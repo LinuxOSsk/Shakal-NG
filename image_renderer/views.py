@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
 
-from PIL import Image, ImageFont, ImageDraw
+from PIL import Image, ImageFont
 from django.contrib.contenttypes.models import ContentType
 from django.http.response import HttpResponseNotFound, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import View
+
 from pil_text_block import Block
 
 
@@ -111,14 +112,14 @@ class BaseRenderer(object):
 		result = block.render()
 		return result.image
 
-	def render_canvas(self, size, width=None, height=None): # pylint: disable=unused-argument
+	def render_canvas(self, size, width=None, height=None, draw_function=None, **kwargs):
 		width = size[0] if width is None else width
 		height = size[1] if height is None else height
 		if width <= 0 or height <= 0:
 			return
 		image = Image.new('RGBA', (width, height))
-		draw = ImageDraw.Draw(image)
-		draw.rectangle(((0, 0), (width, height)), fill='#ffffff80')
+		if draw_function is not None:
+			draw_function(image, **kwargs)
 		return image
 
 	def render(self):
@@ -157,27 +158,19 @@ class TextRenderer(BaseRenderer):
 		bg = self.get_background_image()
 		layout = {
 			'type': 'row',
-			'padding_left': 20,
+			'padding_left': 30,
 			'padding_top': 20,
-			'padding_right': 20,
+			'padding_right': 30,
 			'padding_bottom': 20,
 			'spacing': 20,
 			'children': [
 				{
-					'type': 'canvas',
-					'height': 20,
-				},
-				{
 					'type': 'text',
 					'text': self.title,
-					'font': 'OpenSans/OpenSans-ExtraBold.ttf',
+					'font': 'OpenSansCondensed/OpenSansCondensed-Bold.ttf',
 					'font_size': 48,
 					'color': '#ffffff',
 					'max_lines': 2,
-				},
-				{
-					'type': 'canvas',
-					'height': 20,
 				},
 				{
 					'type': 'text',
@@ -186,21 +179,9 @@ class TextRenderer(BaseRenderer):
 					'font_size': 48,
 				},
 				{
-					'type': 'canvas',
-					'height': 20,
-				},
-				{
-					'type': 'canvas',
-					'height': 20,
-				},
-				{
-					'type': 'canvas',
-					'height': 20,
-				},
-				{
 					'type': 'text',
 					'text': "oooooo",
-					'font': 'OpenSans/OpenSans-ExtraBold.ttf',
+					'font': 'OpenSansCondensed/OpenSansCondensed-Light.ttf',
 					'font_size': 48,
 					'color': '#ffffff',
 					'max_lines': 2,
