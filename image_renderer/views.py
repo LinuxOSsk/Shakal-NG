@@ -6,6 +6,9 @@ from django.contrib.contenttypes.models import ContentType
 from django.http.response import HttpResponseNotFound, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import View
+from django.utils import timezone
+from django.template.defaultfilters import date as date_filter
+from django.utils.encoding import force_text
 
 from pil_text_block import Block
 
@@ -46,13 +49,18 @@ class BaseRenderer(object):
 		node_type = node.pop('type')
 		return getattr(self, f'render_{node_type}')(size, **node)
 
-	def render_column(self, size, children=None, padding_top=0, padding_right=0, padding_bottom=0, padding_left=0, spacing=0):
-		return self._render_on_axis(0, size, children, padding_top, padding_right, padding_bottom, padding_left, spacing)
+	def render_column(self, size, children=None, padding_top=0, padding_right=0, padding_bottom=0, padding_left=0, spacing=0, height=None):
+		return self._render_on_axis(0, size, children, padding_top, padding_right, padding_bottom, padding_left, spacing, height)
 
-	def render_row(self, size, children=None, padding_top=0, padding_right=0, padding_bottom=0, padding_left=0, spacing=0):
-		return self._render_on_axis(1, size, children, padding_top, padding_right, padding_bottom, padding_left, spacing)
+	def render_row(self, size, children=None, padding_top=0, padding_right=0, padding_bottom=0, padding_left=0, spacing=0, width=None):
+		return self._render_on_axis(1, size, children, padding_top, padding_right, padding_bottom, padding_left, spacing, width)
 
-	def _render_on_axis(self, axis, size, children=None, padding_top=0, padding_right=0, padding_bottom=0, padding_left=0, spacing=0):
+	def _render_on_axis(self, axis, size, children=None, padding_top=0, padding_right=0, padding_bottom=0, padding_left=0, spacing=0, secondary_axis_size=None):
+		if secondary_axis_size is not None:
+			if axis == 0:
+				size = (size[0], secondary_axis_size)
+			else:
+				size = (secondary_axis_size, size[1])
 		if size[0] <= 0 or size[1] <= 0:
 			return
 		image = Image.new('RGBA', size)
@@ -149,20 +157,53 @@ class BaseRenderer(object):
 
 
 class TextRenderer(BaseRenderer):
-	def __init__(self, image_type, content_type, content_object, content_field, title_field):
+	def __init__(self, image_type, content_type, content_object, content_field, title_field, category_field=None):
 		self.content = getattr(content_object, content_field)
 		self.title = getattr(content_object, title_field)
+		self.category = None
+		if category_field is not None:
+			self.category = force_text(getattr(content_object, category_field))
+		self.created = getattr(content_object, 'created', None)
 		super().__init__(image_type, content_type, content_object)
 
 	def render(self):
 		bg = self.get_background_image()
+		info_items = []
+		info_layout = {
+			'type': 'column',
+			'children': info_items,
+		}
+		if self.created is not None:
+			info_items.append({
+				'type': 'text',
+				'text': date_filter(timezone.localtime(self.created), 'SHORT_DATE_FORMAT'),
+				'font': 'OpenSans/OpenSans-Regular.ttf',
+				'font_size': 30,
+				'color': '#ffffffa0',
+			})
+			info_items.append({
+				'type': 'text',
+				'text': '    ',
+				'font': 'OpenSans/OpenSans-Regular.ttf',
+				'font_size': 30,
+				'color': '#ffffffa0',
+			})
+		if self.category:
+			info_items.append({
+				'type': 'text',
+				'text': self.category,
+				'font': 'OpenSans/OpenSans-Regular.ttf',
+				'font_size': 30,
+				'color': '#ffffff',
+				'stretch': 1
+			})
 		layout = {
 			'type': 'row',
 			'padding_left': 30,
 			'padding_top': 20,
 			'padding_right': 30,
 			'padding_bottom': 20,
-			'spacing': 20,
+			'spacing': 0,
 			'children': [
 				{
 					'type': 'text',
@@ -172,6 +213,7 @@ class TextRenderer(BaseRenderer):
 					'color': '#ffffff',
 					'max_lines': 2,
 				},
+				info_layout,
 				{
 					'type': 'text',
 					'text': 'World',
@@ -195,7 +237,7 @@ class TextRenderer(BaseRenderer):
 
 
 RENDERERS = {
-	('opengraph', 'news', 'news'): (TextRenderer, {'title_field': 'title', 'content_field': 'short_text'}),
+	('opengraph', 'news', 'news'): (TextRenderer, {'title_field': 'title', 'content_field': 'short_text', 'category_field': 'category'}),
 }
 
 

@@ -22,7 +22,10 @@ class WordTokenizer(object):
 
 	def get_tokens(self):
 		words = self._text.split()
-		yield Token(words[0])
+		if not words:
+			yield Token(self._text)
+		else:
+			yield Token(words[0])
 		for word in words[1:]:
 			yield Token(' ', is_whitespace=True)
 			yield Token(word)
