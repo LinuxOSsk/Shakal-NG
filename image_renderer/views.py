@@ -93,6 +93,9 @@ class BaseRenderer(object):
 
 		self._calculate_buffer_positions(image_buffers, initial_axis_size, spacing)
 
+		output_width = 0
+		output_height = 0
+
 		for buf in image_buffers:
 			if 'child' in buf:
 				if axis == 0:
@@ -101,11 +104,14 @@ class BaseRenderer(object):
 					buf['image'] = self.render_node((size[0], buf['size']), buf['child'])
 			if buf.get('image'):
 				if axis == 0:
-					image.alpha_composite(buf['image'], dest=(buf['position'] + padding_left, padding_top))
+					dest = (buf['position'] + padding_left, padding_top)
 				else:
-					image.alpha_composite(buf['image'], dest=(padding_left, buf['position'] + padding_top))
+					dest = (padding_left, buf['position'] + padding_top)
+				output_width = max(dest[0] + buf['image'].size[0], output_width)
+				output_height = max(dest[1] + buf['image'].size[1], output_height)
+				image.alpha_composite(buf['image'], dest=dest)
 
-		return image
+		return image.crop((0, 0, output_width, output_height))
 
 	def render_text(self, size, text, width=None, height=None, font=None, font_size=None, color=None, max_lines=None):
 		width = size[0] if width is None else width
