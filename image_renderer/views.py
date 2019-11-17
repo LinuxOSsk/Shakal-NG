@@ -9,6 +9,7 @@ from django.template.defaultfilters import date as date_filter, striptags
 from django.utils import timezone
 from django.utils.encoding import force_text
 from django.views.generic import View
+from easy_thumbnails.files import get_thumbnailer
 
 from pil_text_block import Block
 from search.templatetags.html_entity_decode import html_entity_decode
@@ -168,14 +169,27 @@ class BaseRenderer(object):
 			buf['position'] = start_position
 			start_position += buf['size'] + spacing
 
+	def draw_image(self, image):
+		thumbnailer = get_thumbnailer(self.image)
+		thumbnail = thumbnailer.generate_thumbnail({
+			'size': (128, 128),
+			'upscale': True,
+		})
+		im = thumbnail.image.convert('RGBA')
+		image.alpha_composite(im, dest=((128 - im.size[0]) // 2, (128 - im.size[1]) // 2 + 10))
+
 
 class TextRenderer(BaseRenderer):
-	def __init__(self, image_type, content_type, content_object, content_field, title_field, category_field=None):
+	def __init__(self, image_type, content_type, content_object, content_field, title_field, category_field=None, image_field=None):
+		self.object = content_object
 		self.content = getattr(content_object, content_field)
 		self.title = getattr(content_object, title_field)
 		self.category = None
 		if category_field is not None:
 			self.category = force_text(getattr(content_object, category_field))
+		self.image = None
+		if image_field is not None:
+			self.image = force_text(getattr(content_object, image_field))
 		self.created = getattr(content_object, 'created', None)
 		self.content = html_entity_decode(striptags(self.content))
 		super().__init__(image_type, content_type, content_object)
@@ -211,6 +225,38 @@ class TextRenderer(BaseRenderer):
 				'color': '#ffffff',
 				'stretch': 1
 			})
+
+		header_layout = [
+			{
+				'type': 'row',
+				'stretch': 1,
+				'children': [
+					{
+						'type': 'text',
+						'text': self.title,
+						'font': 'OpenSansCondensed/OpenSansCondensed-Bold.ttf',
+						'font_size': 56,
+						'color': '#ffffff',
+						'max_lines': 1,
+					},
+					info_layout,
+					{
+						'type': 'rule',
+						'color': '#ffffffa0',
+						'padding_top': 16,
+						'padding_bottom': 6,
+					},
+				],
+			},
+		]
+		if self.image:
+			header_layout.append({
+				'type': 'canvas',
+				'width': 128,
+				'height': 138,
+				'draw_function': self.draw_image
+			})
+
 		layout = {
 			'type': 'row',
 			'padding_left': 30,
@@ -220,19 +266,9 @@ class TextRenderer(BaseRenderer):
 			'spacing': 0,
 			'children': [
 				{
-					'type': 'text',
-					'text': self.title,
-					'font': 'OpenSansCondensed/OpenSansCondensed-Bold.ttf',
-					'font_size': 56,
-					'color': '#ffffff',
-					'max_lines': 1,
-				},
-				info_layout,
-				{
-					'type': 'rule',
-					'color': '#ffffffa0',
-					'padding_top': 16,
-					'padding_bottom': 6,
+					'type': 'column',
+					'children': header_layout,
+					'spacing': 20,
 				},
 				{
 					'type': 'text',
@@ -251,6 +287,7 @@ class TextRenderer(BaseRenderer):
 
 
 RENDERERS = {
+	('opengraph', 'article', 'article'): (TextRenderer, {'title_field': 'title', 'content_field': 'perex', 'category_field': 'category'}),
 	('opengraph', 'news', 'news'): (TextRenderer, {'title_field': 'title', 'content_field': 'short_text', 'category_field': 'category'}),
 }
 
