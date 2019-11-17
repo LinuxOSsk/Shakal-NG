@@ -48,19 +48,33 @@ class BaseRenderer(object):
 	def render_row(self, size, children=None):
 		if size[0] <= 0 or size[1] <= 0:
 			return
+		initial_axis_size = size[1]
 		image = Image.new('RGBA', size)
 		children = [] if children is None else children
-		y = 0
-		image_height = 0
+		image_buffers = []
 		for child in children:
-			child_image = self.render_node(size, child)
-			image_height = 0
-			if child_image is not None:
-				image.alpha_composite(child_image, dest=(0, y))
-				image_height= child_image.size[1]
-				y += image_height
-			print(image_height)
-			size = (size[0], size[1] - image_height)
+			child = child.copy()
+			stretch = child.pop('stretch', None)
+			if stretch is None:
+				child_image = self.render_node(size, child)
+				axis_size = 0
+				if child_image is not None:
+					axis_size = child_image.size[1]
+					image_buffers.append({'image': child_image, 'size': axis_size})
+					#image.alpha_composite(child_image, dest=(0, y))
+					#y += axis_size
+				size = (size[0], size[1] - axis_size)
+			else:
+				image_buffers.append({'stretch': stretch, 'child': child})
+
+		self._caclculate_buffer_positions(image_buffers, initial_axis_size)
+
+		for buf in image_buffers:
+			if 'child' in buf:
+				buf['image'] = self.render_node((size[0], buf['size']), buf['child'])
+			if 'image' in buf:
+				image.alpha_composite(buf['image'], dest=(0, buf['position']))
+
 		return image
 
 	def render_text(self, size, text, width=None, height=None, font=None, font_size=None, color=None, max_lines=None):
@@ -88,6 +102,28 @@ class BaseRenderer(object):
 
 	def render(self):
 		raise NotImplementedError()
+
+	def _caclculate_buffer_positions(self, buffers, size):
+		fixed_size = 0
+		stretch_count = 0
+		for buf in buffers:
+			fixed_size += buf.get('size', 0)
+			stretch_count += buf.get('stretch', 0)
+
+		free_size = max(size - fixed_size, 0)
+		start_position = 0
+		for buf in buffers:
+			child = buf.get('child')
+			stretch = buf.get('stretch', 0)
+			if child is not None:
+				size = (free_size * (stretch + start_position)) // stretch_count - (free_size * start_position) // stretch_count
+				start_position += stretch
+				buf['size'] = size
+
+		start_position = 0
+		for buf in buffers:
+			buf['position'] = start_position
+			start_position += buf['size']
 
 
 class TextRenderer(BaseRenderer):
@@ -119,7 +155,8 @@ class TextRenderer(BaseRenderer):
 				},
 				{
 					'type': 'text',
-					'text': 'World'
+					'text': 'World',
+					'stretch': 1,
 				},
 				{
 					'type': 'canvas',
