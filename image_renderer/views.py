@@ -5,12 +5,13 @@ from PIL import Image, ImageFont, ImageDraw
 from django.contrib.contenttypes.models import ContentType
 from django.http.response import HttpResponseNotFound, HttpResponse
 from django.shortcuts import get_object_or_404
-from django.views.generic import View
+from django.template.defaultfilters import date as date_filter, striptags
 from django.utils import timezone
-from django.template.defaultfilters import date as date_filter
 from django.utils.encoding import force_text
+from django.views.generic import View
 
 from pil_text_block import Block
+from search.templatetags.html_entity_decode import html_entity_decode
 
 
 STATIC_DIR = os.path.join(os.path.dirname(__file__), '..', 'static')
@@ -176,6 +177,7 @@ class TextRenderer(BaseRenderer):
 		if category_field is not None:
 			self.category = force_text(getattr(content_object, category_field))
 		self.created = getattr(content_object, 'created', None)
+		self.content = html_entity_decode(striptags(self.content))
 		super().__init__(image_type, content_type, content_object)
 
 	def render(self):
@@ -221,22 +223,22 @@ class TextRenderer(BaseRenderer):
 					'type': 'text',
 					'text': self.title,
 					'font': 'OpenSansCondensed/OpenSansCondensed-Bold.ttf',
-					'font_size': 48,
+					'font_size': 56,
 					'color': '#ffffff',
-					'max_lines': 2,
+					'max_lines': 1,
 				},
 				info_layout,
 				{
 					'type': 'rule',
 					'color': '#ffffffa0',
 					'padding_top': 16,
-					'padding_bottom': 10,
+					'padding_bottom': 6,
 				},
 				{
 					'type': 'text',
 					'text': self.content,
 					'stretch': 1,
-					'font_size': 40,
+					'font_size': 52,
 					'font': 'OpenSansCondensed/OpenSansCondensed-Light.ttf',
 					'color': '#ffffff',
 				},

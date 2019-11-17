@@ -21,7 +21,15 @@
 {% if is_article %}<meta property="og:type" content="article" />{% endif %}
 {% if is_website %}<meta property="og:type" content="website" />{% endif %}
 <meta property="og:url" content="{{ get_base_uri() }}{{ request.path }}" />
-{% if image %}<meta property="og:image" content="{{ get_base_uri() }}{{ image }}" />{% else %}<meta property="og:image" content="{{ get_base_uri() }}{{ static("images/share_placeholder.png") }}" />{% endif %}
+{% if image %}
+	<meta property="og:image" content="{{ get_base_uri() }}{{ image }}" />
+{% endif %}
+{% if object %}
+	<meta property="og:image" content="{{ get_base_uri() }}{{ share_image(object, "opengraph") }}" />
+{% endif %}
+{% if not image and not object %}
+	<meta property="og:image" content="{{ get_base_uri() }}{{ static("images/share_placeholder.png") }}" />
+{% endif %}
 {% if description %}<meta property="og:description" content="{{ description }}" />{% endif %}
 
 {% if created %}<meta property="article:published_time" content="{{ created|localtime|date("c") }}" />{% endif %}

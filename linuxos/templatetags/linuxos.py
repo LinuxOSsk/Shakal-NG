@@ -134,3 +134,9 @@ def flag_url(obj):
 	if (ctype.app_label, ctype.model) not in FLAG_CONTENT_TYPES:
 		return
 	return reverse('rating:flag', kwargs={'content_type': ctype.pk, 'object_id': obj.pk})
+
+
+@library.global_function
+def share_image(obj, image_type):
+	ctype = ContentType.objects.get_for_model(obj.__class__)
+	return reverse('image_renderer:render', kwargs={'image_type': image_type, 'content_type': ctype.pk, 'object_id': obj.pk})
