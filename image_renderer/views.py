@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 
-from PIL import Image, ImageFont
+from PIL import Image, ImageFont, ImageDraw
 from django.contrib.contenttypes.models import ContentType
 from django.http.response import HttpResponseNotFound, HttpResponse
 from django.shortcuts import get_object_or_404
@@ -136,6 +136,12 @@ class BaseRenderer(object):
 			draw_function(image, **kwargs)
 		return image
 
+	def render_rule(self, size, color, padding_top=0, padding_bottom=0):
+		image = Image.new('RGBA', (size[0], 1 + padding_top + padding_bottom))
+		draw = ImageDraw.Draw(image)
+		draw.rectangle(((0, padding_top), (size[0], padding_top)), fill=color)
+		return image
+
 	def render(self):
 		raise NotImplementedError()
 
@@ -221,18 +227,18 @@ class TextRenderer(BaseRenderer):
 				},
 				info_layout,
 				{
-					'type': 'text',
-					'text': 'World',
-					'stretch': 1,
-					'font_size': 48,
+					'type': 'rule',
+					'color': '#ffffffa0',
+					'padding_top': 16,
+					'padding_bottom': 10,
 				},
 				{
 					'type': 'text',
-					'text': "oooooo",
+					'text': self.content,
+					'stretch': 1,
+					'font_size': 40,
 					'font': 'OpenSansCondensed/OpenSansCondensed-Light.ttf',
-					'font_size': 48,
 					'color': '#ffffff',
-					'max_lines': 2,
 				},
 			]
 		}
