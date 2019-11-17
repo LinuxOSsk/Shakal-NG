@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 
-from PIL import Image, ImageFont
+from PIL import Image, ImageFont, ImageDraw
 from django.contrib.contenttypes.models import ContentType
 from django.http.response import HttpResponseNotFound, HttpResponse
 from django.shortcuts import get_object_or_404
@@ -35,35 +35,56 @@ class BaseRenderer(object):
 		return self._backgrund_image.convert('RGBA')
 
 	def render_layout(self, bg, layout):
-		return self.render_node(bg, (0, 0) + bg.size, layout)
+		rendered = self.render_node(bg.size, layout)
+		if rendered:
+			bg.alpha_composite(rendered)
+		return bg
 
-	def render_node(self, bg, window, node):
+	def render_node(self, size, node):
 		node = node.copy()
 		node_type = node.pop('type')
-		return getattr(self, f'render_{node_type}')(bg, window, **node)
+		return getattr(self, f'render_{node_type}')(size, **node)
 
-	def render_row(self, bg, window, children=None):
+	def render_row(self, size, children=None):
+		if size[0] <= 0 or size[1] <= 0:
+			return
+		image = Image.new('RGBA', size)
 		children = [] if children is None else children
+		y = 0
+		image_height = 0
 		for child in children:
-			child_window = self.render_node(bg, window, child)
-			window = (window[0], window[1] + child_window[3], window[2], window[3] - child_window[3])
-		return window
+			child_image = self.render_node(size, child)
+			image_height = 0
+			if child_image is not None:
+				image.alpha_composite(child_image, dest=(0, y))
+				image_height= child_image.size[1]
+				y += image_height
+			print(image_height)
+			size = (size[0], size[1] - image_height)
+		return image
 
-	def render_text(self, bg, window, text, width=None, height=None):
-		width = window[2] if width is None else width
-		height = window[3] if height is None else height
-		font = ImageFont.truetype(os.path.join(STATIC_DIR, 'fonts', 'OpenSans', 'OpenSans-ExtraBold.ttf'), size=75)
-		block = Block(text, (width, height), color='#ffffff', font=font, ellipsis='…')
+	def render_text(self, size, text, width=None, height=None, font=None, font_size=None, color=None, max_lines=None):
+		width = size[0] if width is None else width
+		height = size[1] if height is None else height
+		if width <= 0 or height <= 0:
+			return
+		font = 'OpenSans/OpenSans-Regular.ttf' if font is None else font
+		font_size = 32 if font_size is None else font_size
+		color = '#000000' if color is None else color
+		font = ImageFont.truetype(os.path.join(STATIC_DIR, 'fonts', font.replace('/', os.sep)), size=font_size)
+		block = Block(text, (width, height), color=color, font=font, ellipsis='…', max_lines=max_lines)
 		result = block.render()
-		bg.alpha_composite(result.image, dest=(window[0], window[1]))
-		window = (window[0], window[1], result.size[0], result.size[1])
-		return window
+		return result.image
 
-	def render_canvas(self, bg, window, width=None, height=None): # pylint: disable=unused-argument
-		width = window[2] if width is None else width
-		height = window[3] if height is None else height
-		window = (window[0], window[1], width, height)
-		return window
+	def render_canvas(self, size, width=None, height=None): # pylint: disable=unused-argument
+		width = size[0] if width is None else width
+		height = size[1] if height is None else height
+		if width <= 0 or height <= 0:
+			return
+		image = Image.new('RGBA', (width, height))
+		draw = ImageDraw.Draw(image)
+		draw.rectangle(((0, 0), (width, height)), fill='#ffffff80')
+		return image
 
 	def render(self):
 		raise NotImplementedError()
@@ -86,8 +107,11 @@ class TextRenderer(BaseRenderer):
 				},
 				{
 					'type': 'text',
-					'height': 103,
 					'text': self.title,
+					'font': 'OpenSans/OpenSans-ExtraBold.ttf',
+					'font_size': 48,
+					'color': '#ffffff',
+					'max_lines': 2,
 				},
 				{
 					'type': 'canvas',

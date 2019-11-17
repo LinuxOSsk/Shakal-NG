@@ -129,8 +129,11 @@ class Block(object):
 				fill=fragment.color,
 				font=fragment.font
 			)
-			final_w = min(self._size[0], fragment.position[0] + fragment.size[0])
-			final_h = min(self._size[1], fragment.position[1] + fragment.size[1])
+			final_w = max(final_w, fragment.position[0] + fragment.size[0])
+			final_h = max(final_h, fragment.position[1] + fragment.size[1])
+		final_w = min(self._size[0], final_w)
+		final_h = min(self._size[1], final_h)
+		self._image = self._image.crop((0, 0, final_w, final_h))
 		result = RenderResult(self._image, (final_w, final_h))
 		self._image = None
 		self._draw = None
