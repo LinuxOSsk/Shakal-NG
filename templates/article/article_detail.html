@@ -16,6 +16,7 @@
 {% block socialheaders %}
 	{% with
 		name=article.title,
+		gallery=attached_images(article, min_size=(400, 400)),
 		description=article.annotation|striptags,
 		image=article.image and article.image.url,
 		created=article.created,

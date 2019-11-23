@@ -16,6 +16,7 @@
 {% block socialheaders %}
 	{% with
 		name=object.title,
+		gallery=attached_images(object, min_size=(400, 400)),
 		description=object.perex|striptags,
 		created=object.created,
 		updated=object.updated,
