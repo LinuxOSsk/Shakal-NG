@@ -220,14 +220,14 @@ class TextRenderer(BaseRenderer):
 				'type': 'text',
 				'text': date_filter(timezone.localtime(self.created), 'SHORT_DATE_FORMAT'),
 				'font': 'OpenSans/OpenSans-Regular.ttf',
-				'font_size': 30,
+				'font_size': 26,
 				'color': '#ffffffa0',
 			})
 			info_items.append({
 				'type': 'text',
 				'text': '    ',
 				'font': 'OpenSans/OpenSans-Regular.ttf',
-				'font_size': 30,
+				'font_size': 26,
 				'color': '#ffffffa0',
 			})
 		if self.category:
@@ -235,7 +235,7 @@ class TextRenderer(BaseRenderer):
 				'type': 'text',
 				'text': self.category,
 				'font': 'OpenSans/OpenSans-Regular.ttf',
-				'font_size': 30,
+				'font_size': 26,
 				'color': '#ffffff',
 				'stretch': 1
 			})
@@ -249,7 +249,7 @@ class TextRenderer(BaseRenderer):
 						'type': 'text',
 						'text': self.title,
 						'font': 'OpenSansCondensed/OpenSansCondensed-Bold.ttf',
-						'font_size': 56,
+						'font_size': 48,
 						'color': '#ffffff',
 						'max_lines': 1,
 					},
@@ -288,7 +288,7 @@ class TextRenderer(BaseRenderer):
 					'type': 'text',
 					'text': self.content,
 					'stretch': 1,
-					'font_size': 52,
+					'font_size': 46,
 					'font': 'OpenSansCondensed/OpenSansCondensed-Light.ttf',
 					'color': '#ffffff',
 				},
