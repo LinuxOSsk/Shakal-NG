@@ -35,7 +35,7 @@ Súbor Makefile v podaresári shakal sa dá použiť aj na spúšťanie webu a
 jeho aktualizáciu z gitu.
 
     # spustenie
-    make run
+    make runserver
 
     # aktualizacia
     make update
