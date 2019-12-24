@@ -1100,12 +1100,18 @@ dl.profile {
 		height: 36px;
 		@include sprite-generated(breadcrumb_panel_bg, $setSize: false);
 		background-repeat: repeat-x;
+		overflow: hidden;
 	}
 	li {
 		height: 31px; line-height: 31px; margin-top: 5px; padding-right: 5px;
 		list-style: none;
 		float: left;
 		@include sprite-generated(breadcrumb_std, $setSize: false, $right: true);
+		@media only screen and (max-width: 904px) {
+			white-space: nowrap;
+			overflow: hidden;
+			max-width: 33%;
+		}
 		.crumb {
 			display: block;
 			position: relative;
@@ -1114,6 +1120,10 @@ dl.profile {
 			font-weight: bold; font-size: 0.875em;
 			text-shadow: 0px -1px 0px #cedfeb, 0px 1px 0px #fcfdfe;
 			color: $link-color;
+			@media only screen and (max-width: 904px) {
+				text-overflow: ellipsis;
+				overflow: hidden;
+			}
 			a {
 				text-decoration: none;
 				display: block;
