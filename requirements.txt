@@ -31,7 +31,7 @@ django-mptt==0.10.0
 django-reversion==3.0.4
 django-static-sitemaps==4.6.0
 django-suit==0.2.28
-django==2.2.7
+django==2.2.10
 easy-thumbnails==2.6
 feedparser==5.2.1
 future==0.18.2
@@ -57,4 +57,4 @@ urllib3==1.25.7           # via requests
 webencodings==0.5.1       # via bleach, html5lib
 
 # The following packages are considered to be unsafe in a requirements file:
-# setuptools==41.6.0        # via django-static-sitemaps
+# setuptools
