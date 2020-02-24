@@ -11,7 +11,7 @@
 -e git+https://github.com/mireq/django-geoposition-field.git@0c523e0c26ea7422db47cd2d12ec9ba7306547e1#egg=django_geoposition_field
 -e git+https://github.com/mireq/django-sample-data-generator.git@8f2121c21b78d1c16a98e55486771ac5589d36ee#egg=django_sample_data_generator
 -e git+https://github.com/mireq/django-simple-paginator.git@e69829b1f66aa070139b61cfdb388df5da4094f1#egg=django_simple_paginator
-bleach==3.1.0
+bleach==3.1.1
 certifi==2019.9.11        # via requests
 chardet==3.0.4            # via requests
 click==7.0                # via pip-tools
@@ -57,4 +57,4 @@ urllib3==1.25.7           # via requests
 webencodings==0.5.1       # via bleach, html5lib
 
 # The following packages are considered to be unsafe in a requirements file:
-# setuptools==41.6.0        # via django-static-sitemaps
+# setuptools
