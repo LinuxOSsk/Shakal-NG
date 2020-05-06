@@ -6,7 +6,7 @@ import re
 from django import forms
 from django.contrib.auth.forms import UserChangeForm as OrigUserChangeForm, UserCreationForm as OrigUserCreationForm
 
-from common_utils.admin_widgets import DateTimeInput, EnclosedInput
+from common_utils.admin_widgets import EnclosedInput
 
 
 def get_username_field():
@@ -34,7 +34,5 @@ class UserChangeForm(OrigUserChangeForm):
 
 	class Meta(OrigUserChangeForm.Meta):
 		widgets = {
-			'last_login': DateTimeInput,
-			'date_joined': DateTimeInput,
 			'email': EnclosedInput(append='icon-envelope'),
 		}

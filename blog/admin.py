@@ -2,13 +2,11 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from django.db import models
 from django.template.loader import render_to_string
 
 from .models import Blog, Post
 from attachment.admin import AttachmentInline, AttachmentAdminMixin
 from comments.admin import CommentInline
-from common_utils.admin_widgets import DateTimeInput
 
 
 class BlogAdmin(admin.ModelAdmin):
@@ -27,9 +25,6 @@ class PostAdmin(AttachmentAdminMixin, admin.ModelAdmin):
 	prepopulated_fields = {'slug': ('title',)}
 	inlines = [AttachmentInline, CommentInline]
 	date_hierarchy = 'pub_time'
-	formfield_overrides = {
-		models.DateTimeField: {'widget': DateTimeInput}
-	}
 
 	def get_status(self, obj):
 		if obj.published():

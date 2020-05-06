@@ -22,7 +22,7 @@ raven
 -e git+https://github.com/mireq/django-ajax-utils.git@5cc158068c909cf008c64c80ee277181ea2bea43#egg=django_ajax_utils
 -e git+https://github.com/mireq/django-assets-manager.git@8cf7019f5843d7aea227b17fcf07440e67212bad#egg=django_assets_manager
 -e git+https://github.com/mireq/django-autoslugfield.git@a6914377e50e3b6a491f981ac49b65c128c725d0#egg=django_autoslugfield
--e git+https://github.com/mireq/django-email-log-backend.git@39a8714bbc6b13a801a595f7897377e6e65aacc8#egg=django_email_log_backend
+-e git+https://github.com/mireq/django-email-log-backend.git@0c2edef74f8935e1b0f0bbdee13644351da877bc#egg=django_email_log_backend
 -e git+https://github.com/mireq/django-geoposition-field.git@eaa17cc96f7a28199adbd14ccce052bf77c80d16#egg=django_geoposition_field
 -e git+https://github.com/mireq/django-sample-data-generator.git@fa930da0770bacf9143bda5682044ad0bb0479be#egg=django_sample_data_generator
 -e git+https://github.com/mireq/django-simple-paginator.git@3650ec60e2ef8332d9267900853355a4a8f6d303#egg=django_simple_paginator

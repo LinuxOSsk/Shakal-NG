@@ -26,7 +26,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
 	'template_dynamicloader',
-	'suit',
+	'web.suit.SuitConfig',
 	'common_utils',
 	# core
 	'django.contrib.admin',
@@ -307,126 +307,6 @@ HAYSTACK_CONNECTIONS = {
 	},
 }
 
-SUIT_CONFIG = {
-	'ADMIN_NAME': 'Shakal CMS',
-	'HEADER_DATE_FORMAT': 'l, d F Y',
-	'HEADER_TIME_FORMAT': 'H:i',
-	'SHOW_REQUIRED_ASTERISK': True,
-	'CONFIRM_UNSAVED_CHANGES': True,
-	'SEARCH_URL': '/administracia/accounts/user/',
-	'MENU_OPEN_FIRST_CHILD': True,
-	'MENU_ICONS': {
-		'sites': 'icon-leaf',
-		'auth': 'icon-lock',
-	},
-	'MENU_EXCLUDE': ('auth_remember',),
-	'LIST_PER_PAGE': 50,
-	'MENU': (
-		{
-			'label': 'Ankety',
-			'icon': 'icon-tasks',
-			'permissions': 'polls.change_poll',
-			'models': (
-				'polls.poll',
-			)
-		},
-		{
-			'label': 'Blogy',
-			'icon': 'icon-pencil',
-			'permissions': 'blog.change_post',
-			'models': (
-				'blog.post',
-				'blog.blog',
-			)
-		},
-		{
-			'label': 'Články',
-			'icon': 'icon-font',
-			'permissions': 'article.change_article',
-			'models': (
-				'article.article',
-				'article.category',
-				'article.series',
-			)
-		},
-		{
-			'label': 'Desktopy',
-			'icon': 'icon-picture',
-			'permissions': 'desktops.change_desktop',
-			'models': (
-				'desktops.desktop',
-			)
-		},
-		{
-			'label': 'E-maily',
-			'icon': 'icon-envelope',
-			'permissions': 'django_email_log.change_email',
-			'models': (
-				'django_email_log.email',
-			)
-		},
-		{
-			'label': 'Fórum',
-			'icon': 'icon-list',
-			'permissions': 'forum.change_topic',
-			'models': (
-				'forum.topic',
-				'forum.section',
-			)
-		},
-		{
-			'label': 'Komentre',
-			'icon': 'icon-comment',
-			'permissions': 'comments.change_rootheader',
-			'models': (
-				'comments.rootheader',
-				'comments.comment',
-			)
-		},
-		{
-			'label': 'Používatelia',
-			'icon': 'icon-lock',
-			'permissions': 'accounts.change_user',
-			'models': (
-				'accounts.user',
-				'auth.group',
-			)
-		},
-		{
-			'label': 'Správy',
-			'icon': 'icon-globe',
-			'permissions': 'news.change_news',
-			'models': (
-				'news.news',
-				'news.category',
-			)
-		},
-		{
-			'label': 'Poznámky',
-			'icon': 'icon-file',
-			'permissions': 'notes.note',
-			'models': (
-				'notes.note',
-			)
-		},
-		{
-			'label': 'Tweety',
-			'icon': 'icon-volume-up',
-			'permissions': 'tweets.tweet',
-			'models': (
-				'tweets.tweet',
-			)
-		},
-		{
-			'label': 'Wiki',
-			'icon': 'icon-folder-open',
-			'permissions': 'wiki.change_page',
-			'models': (
-				'wiki.page',
-			)
-		},
-	),
-}
 
 GRAVATAR_DEFAULT_SIZE = 200
 GRAVATAR_URL_PREFIX = "//sk.gravatar.com/"

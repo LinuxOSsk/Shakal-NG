@@ -1,6 +1,6 @@
 {% extends "admin/base.html" %}
 
-{% load admin_static assets_manager i18n staticfiles %}
+{% load assets_manager i18n static %}
 
 {% block extrastyle %}
 	{{ block.super }}
@@ -11,7 +11,9 @@
 {% block title %}{{ title }} | Shakal CMS{% endblock %}
 
 {% block branding %}
-Shakal CMS
+	<h1 id="site-name">
+		<a href="{% url 'admin:index' %}">Shakal CMS<span class="header-label">Admin</span></a>
+	</h1>
 {% endblock %}
 
-{% block nav-global %}{% endblock %}
+{# block nav-global #}{# endblock #}
