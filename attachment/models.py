@@ -7,7 +7,6 @@ from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKe
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import signals
-from django.utils import six
 from django.utils.translation import ugettext_lazy as _
 from easy_thumbnails.fields import ThumbnailerField
 
@@ -208,7 +207,7 @@ class UploadSession(models.Model):
 			return
 		for field in content_object.content_fields:
 			old_val = getattr(content_object, field, None)
-			if isinstance(old_val, six.string_types):
+			if isinstance(old_val, str):
 				new_val = replace_file_urls(old_val, moves)
 				if new_val != old_val:
 					changed = True

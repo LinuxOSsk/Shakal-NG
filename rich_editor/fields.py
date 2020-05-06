@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 from django.db.models import signals, TextField
-from django.utils import six
 
 from . import get_parser
 from .forms import RichOriginalField
@@ -40,7 +39,7 @@ class RichTextOriginalField(TextField):
 		return super(RichTextOriginalField, self).formfield(**defaults)
 
 	def to_python(self, value):
-		if not isinstance(value, six.string_types):
+		if not isinstance(value, str):
 			return value
 		if ':' in value:
 			return TextVal(value)

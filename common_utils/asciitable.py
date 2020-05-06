@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.utils import six
 from django.utils.encoding import force_text
 from django.utils.termcolors import colorize
 
@@ -114,7 +113,7 @@ class DictTablePrinter(AbstractTablePrinter):
 		return list(self.data.items())
 
 
-class colored_unicode(six.text_type):
+class colored_unicode(str):
 	def __init__(self, value, **kwargs):
 		super(colored_unicode, self).__init__(value)
 		self.colorize_opts = kwargs

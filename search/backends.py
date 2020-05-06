@@ -2,8 +2,9 @@
 # pylint: disable=abstract-method,too-many-locals,protected-access,no-member,unused-argument
 from __future__ import unicode_literals
 
+from functools import reduce
+
 from django.db.models import Q
-from django.utils import six
 from haystack import connections
 from haystack.backends import BaseEngine
 from haystack.backends.simple_backend import SimpleSearchBackend as CoreSimpleSearchBackend, SimpleSearchQuery
@@ -41,7 +42,7 @@ class SimpleSearchBackend(CoreSimpleSearchBackend):
 
 							queries.append(Q(**{'%s__icontains' % field.name: term}))
 
-						qs = model.objects.filter(six.moves.reduce(lambda x, y: x | y, queries)) if queries else qs.none()
+						qs = model.objects.filter(reduce(lambda x, y: x | y, queries)) if queries else qs.none()
 
 				hits += len(qs)
 

@@ -3,7 +3,6 @@ django
 django-allauth
 django-braces
 django-compressor
-django-haystack
 django-hijack
 django-hijack-admin
 django-jinja
@@ -11,7 +10,6 @@ django-libsass
 django-mptt
 django-reversion
 django-static-sitemaps
-django-suit
 easy-thumbnails
 feedparser
 future
@@ -21,10 +19,12 @@ pip-tools
 pygments
 pytz
 raven
--e git+https://github.com/mireq/django-ajax-utils.git@9997142bd6ea05d80c4bac457817a62ef0935f3f#egg=django_ajax_utils
--e git+https://github.com/mireq/django-assets-manager.git@d8677dc8fcf2f6be950792c14f9982478f2063e0#egg=django_assets_manager
--e git+https://github.com/mireq/django-autoslugfield.git@806506f1e6b6e963eed435977b471e467d0e2ff4#egg=django_autoslugfield
--e git+https://github.com/mireq/django-email-log-backend.git@e893144a05bbbf4e0f9527bbdccac35b12a2ea77#egg=django_email_log_backend
--e git+https://github.com/mireq/django-geoposition-field.git@0c523e0c26ea7422db47cd2d12ec9ba7306547e1#egg=django_geoposition_field
--e git+https://github.com/mireq/django-sample-data-generator.git@8f2121c21b78d1c16a98e55486771ac5589d36ee#egg=django_sample_data_generator
--e git+https://github.com/mireq/django-simple-paginator.git@e69829b1f66aa070139b61cfdb388df5da4094f1#egg=django_simple_paginator
+-e git+https://github.com/mireq/django-ajax-utils.git@5cc158068c909cf008c64c80ee277181ea2bea43#egg=django_ajax_utils
+-e git+https://github.com/mireq/django-assets-manager.git@8cf7019f5843d7aea227b17fcf07440e67212bad#egg=django_assets_manager
+-e git+https://github.com/mireq/django-autoslugfield.git@a6914377e50e3b6a491f981ac49b65c128c725d0#egg=django_autoslugfield
+-e git+https://github.com/mireq/django-email-log-backend.git@39a8714bbc6b13a801a595f7897377e6e65aacc8#egg=django_email_log_backend
+-e git+https://github.com/mireq/django-geoposition-field.git@eaa17cc96f7a28199adbd14ccce052bf77c80d16#egg=django_geoposition_field
+-e git+https://github.com/mireq/django-sample-data-generator.git@fa930da0770bacf9143bda5682044ad0bb0479be#egg=django_sample_data_generator
+-e git+https://github.com/mireq/django-simple-paginator.git@3650ec60e2ef8332d9267900853355a4a8f6d303#egg=django_simple_paginator
+-e git+https://github.com/darklow/django-suit.git@0d854c9b5e81adf9b9ea2ca9ee0a2856dcef5e15#egg=django-suit
+-e git+https://github.com/django-haystack/django-haystack.git@ea3f8c961934e8871b89881d7fab09e038191899#egg=django-haystack

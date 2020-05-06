@@ -4,14 +4,13 @@ from json import dumps
 from django.conf import settings
 from django.forms import Textarea
 from django.template.loader import render_to_string
-from django.utils import six
 from django.utils.safestring import mark_safe
 
 from .parser import ALL_TAGS
 from .syntax import LEXERS
 
 
-class TextVal(six.text_type):
+class TextVal(str):
 	@property
 	def field_format(self):
 		return self.split(':', 1)[0] if ':' in self else ''

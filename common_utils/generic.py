@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from functools import reduce
+
 from django.db.models import Q, Manager
 from django.shortcuts import get_object_or_404
-from django.utils import six
 from django.utils.functional import cached_property
 from django.views.generic import CreateView, UpdateView, DetailView, ListView as OriginalListView
 
@@ -76,7 +77,7 @@ class DetailUserProtectedView(DetailView):
 			q.append(Q(**{self.author_field: self.request.user}))
 		qs = super(DetailUserProtectedView, self).get_queryset()
 		if q:
-			return qs.filter(six.moves.reduce(lambda a, b: a | b, q)) # pylint: disable=no-member
+			return qs.filter(reduce(lambda a, b: a | b, q)) # pylint: disable=no-member
 		else:
 			return qs
 
