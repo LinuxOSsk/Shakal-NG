@@ -179,6 +179,9 @@ class BaseRenderer(object):
 		image.alpha_composite(im, dest=((128 - im.size[0]) // 2, (128 - im.size[1]) // 2 + 10))
 
 
+NOT_SET = object()
+
+
 class TextRenderer(BaseRenderer):
 	def __init__(self, image_type, content_type, content_object, content_field, title_field, category_field=None, image_field=None):
 		self.object = content_object
@@ -196,18 +199,19 @@ class TextRenderer(BaseRenderer):
 		self.content = html_entity_decode(striptags(self.content))
 		super().__init__(image_type, content_type, content_object)
 
-	def getattr(self, content_object, attr, default=None):
+	def getattr(self, content_object, attr, default=NOT_SET):
+		default_is_set = default is not NOT_SET
 		if not hasattr(content_object, attr) and '__' in attr:
 			prefix, suffix = attr.split('__', 1)
-			if default is None:
-				content_object = getattr(content_object, prefix)
-			else:
+			if default_is_set:
 				content_object = getattr(content_object, prefix, default)
+			else:
+				content_object = getattr(content_object, prefix)
 			return self.getattr(content_object, suffix)
-		if default is None:
-			return getattr(content_object, attr)
-		else:
+		if default_is_set:
 			return getattr(content_object, attr, default)
+		else:
+			return getattr(content_object, attr)
 
 	def get_layout(self):
 		info_items = []
