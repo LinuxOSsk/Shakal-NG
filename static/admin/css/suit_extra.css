@@ -154,3 +154,7 @@ td.field-thumbnail img {
 .label-danger {
 	background: #b94a48;
 }
+
+.field-tree_actions {
+	white-space: nowrap;
+}
