@@ -169,3 +169,7 @@ td.field-thumbnail img {
 	padding: 0.2em 0.4em;
 	font-size: 90%;
 }
+
+.custom-select, fieldset select:not([multiple="multiple"]) {
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e");
+}
