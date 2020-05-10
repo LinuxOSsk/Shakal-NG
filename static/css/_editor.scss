@@ -377,6 +377,7 @@ a.richedit_button {
 	vertical-align: auto;
 	line-height: 1;
 	margin: 0;
+	box-sizing: content-box;
 	&:hover {
 		border-radius: 0;
 	}
