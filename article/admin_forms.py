@@ -9,7 +9,7 @@ class ArticleForm(forms.ModelForm):
 	class Meta:
 		model = Article
 		widgets = {
-			'authors_name': EnclosedInput(append='icon-user'),
+			'authors_name': EnclosedInput(append='fa-user'),
 			'original_perex': RichEditorWidget(formats=()),
 			'original_annotation': RichEditorWidget(formats=()),
 			'original_content': RichEditorWidget(formats=()),

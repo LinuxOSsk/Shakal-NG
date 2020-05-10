@@ -13,7 +13,7 @@ except ImportError:
 		def __init__(self, prepend=None, append=None, *args, **kwargs):
 			self.prepend = prepend
 			self.append = append
-			super(EnclosedInput, self).__init__(*args, **kwargs) #pylint: disable=bad-super-call
+			super().__init__(*args, **kwargs) #pylint: disable=bad-super-call
 
 
 class RichEditorWidget(RichOriginalEditor):

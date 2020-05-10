@@ -25,7 +25,7 @@ class UserCreationForm(OrigUserCreationForm):
 
 	class Meta(OrigUserCreationForm.Meta):
 		widgets = {
-			'email': EnclosedInput(append='icon-envelope'),
+			'email': EnclosedInput(append='fa-envelope'),
 		}
 
 
@@ -34,5 +34,5 @@ class UserChangeForm(OrigUserChangeForm):
 
 	class Meta(OrigUserChangeForm.Meta):
 		widgets = {
-			'email': EnclosedInput(append='icon-envelope'),
+			'email': EnclosedInput(append='fa-envelope'),
 		}
