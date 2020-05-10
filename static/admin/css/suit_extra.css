@@ -1,3 +1,7 @@
+body {
+	font-family: sans-serif;
+}
+
 .collapsed .inline-related, .collapsed .add-row {
 	display: none;
 }
@@ -111,8 +115,8 @@ td.field-thumbnail img {
 .label {
 	display: inline-block;
 	padding: 3px 6px;
-	font-size: 0.8em;
-	font-weight: bold;
+	font-size: 0.85em;
+	font-weight: normal;
 	text-decoration: none;
 	line-height: 1.1em;
 	color: white;
@@ -124,7 +128,7 @@ td.field-thumbnail img {
 }
 
 .label-success {
-	background: #5cb85c;
+	background: #468847;
 }
 
 .label-primary {
@@ -136,9 +140,9 @@ td.field-thumbnail img {
 }
 
 .label-warning {
-	background: #f0ad4e;
+	background: #f89406;
 }
 
 .label-danger {
-	background: #d9534f;
+	background: #b94a48;
 }
