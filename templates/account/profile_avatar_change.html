@@ -19,7 +19,7 @@
 {% include "account/partials/profile_tabs.html" %}
 {% include "account/partials/profile_edit_tabs.html" %}
 
-<form action="{{ secure_url("accounts:my_profile_avatar_edit") }}" method="post" id="edit-user-avatar-form" enctype="multipart/form-data">{% csrf_token %}
+<form action="{{ url("accounts:my_profile_avatar_edit") }}" method="post" id="edit-user-avatar-form" enctype="multipart/form-data">{% csrf_token %}
 	<fieldset class="module">
 		{% include "includes/form_loop.html" %}
 		<div class="submit-row">

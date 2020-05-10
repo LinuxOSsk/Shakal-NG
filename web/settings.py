@@ -97,6 +97,7 @@ MIDDLEWARE = [
 	'web.middlewares.ThreadLocalMiddleware',
 	'template_dynamicloader.middleware.TemplateSwitchMiddleware',
 	'feeds.middleware.FeedsMiddleware',
+	'linuxos.middleware.HttpsRedirectMiddleware',
 ]
 
 ROOT_URLCONF = 'web.urls'
