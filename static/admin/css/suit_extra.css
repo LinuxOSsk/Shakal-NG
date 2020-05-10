@@ -82,9 +82,30 @@ td.field-thumbnail img {
 	display: inline;
 }
 
+.statistics-module {
+	background: white;
+	padding: 6px;
+	display: none;
+}
+
+.statistics-module.show {
+	display: block;
+}
+
+.statistics-module select {
+	margin-bottom: 6px;
+}
+
 .stats-chart {
 	height: 200px;
-	width: 600px;
+}
+
+.stats.module .dashboard-module-content {
+	overflow: scroll;
+}
+
+.stats.module .nav-tabs-suit {
+	margin-bottom: 0;
 }
 
 .label {

@@ -24,6 +24,16 @@ function loadTabContent(tab) {
 		return;
 	}
 
+	var statisticsModules = Array.prototype.slice.call(tab.parentNode.parentNode.parentNode.querySelectorAll('.statistics-module'));
+	statisticsModules.forEach(function(module) {
+		if (module.getAttribute('id') === 'module_' + module_id) {
+			module.classList.add('show');
+		}
+		else {
+			module.classList.remove('show');
+		}
+	});
+
 	var loadGraphFunction = function(tabNode, url) {
 		return function() {
 			return new Dygraph(tabNode, url + "&format=csv");
@@ -48,16 +58,17 @@ function processStats(data) {
 		var info = group[1];
 		var choices = info.choices;
 		var tab = document.createElement('li');
-		tab.className = 'group-tabs-link';
+		tab.className = 'nav-item';
 		var tabLink = document.createElement('a');
+		tabLink.className = 'nav-link';
 		tabLink.setAttribute('href', '#module_' + id);
 		tabLink.appendChild(document.createTextNode(info.name));
 		tab.appendChild(tabLink);
 		tabs.appendChild(tab);
 
-		var submodule = document.createElement('div');
+		var submodule = document.createElement('fieldset');
 		submodule.setAttribute('id', 'module_' + id);
-		submodule.className = 'dashboard-module suit-tab suit-tab-module_' + id + ' well';
+		submodule.className = 'dashboard-module statistics-module suit-tab suit-tab-module_' + id + ' well';
 		groupTabs.appendChild(submodule);
 
 		var sel = document.createElement('select');
