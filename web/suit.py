@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from suit.apps import DjangoSuitConfig
+from suit.apps import DjangoSuitConfig, SUIT_FORM_SIZE_X_LARGE, SUIT_FORM_SIZE_XXX_LARGE, SUIT_FORM_SIZE_FULL
 from suit.menu import ParentItem, ChildItem
 
 
@@ -112,3 +112,10 @@ class SuitConfig(DjangoSuitConfig):
 			],
 		),
 	]
+	form_size = {
+		'default': SUIT_FORM_SIZE_X_LARGE,
+		'widgets': {
+			'RelatedFieldWidgetWrapper': SUIT_FORM_SIZE_XXX_LARGE,
+			'RichEditorWidget': SUIT_FORM_SIZE_FULL,
+		}
+	}
