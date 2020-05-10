@@ -112,10 +112,6 @@ td.field-thumbnail img {
 	height: 200px;
 }
 
-.stats.module .dashboard-module-content {
-	overflow: scroll;
-}
-
 .stats.module .nav-tabs-suit {
 	margin-bottom: 0;
 }
