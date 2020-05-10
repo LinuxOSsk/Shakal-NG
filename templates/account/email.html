@@ -17,7 +17,7 @@
 
 		<h2>Nasledujcúe e-mailové adresy sú asociované s vašim účtom</h2>
 
-		<form action="{{ url('account_email') }}" class="email_list" method="post">{% csrf_token %}
+		<form action="{{ secure_url('account_email') }}" class="email_list" method="post">{% csrf_token %}
 			<fieldset class="module">
 
 				{% for emailaddress in user.emailaddress_set.all() %}
@@ -54,7 +54,7 @@
 
 	<h2>Pridať e-mailovú adresu</h2>
 
-	<form method="post" action="{{ url('account_email') }}" class="add_email">{% csrf_token %}
+	<form method="post" action="{{ secure_url('account_email') }}" class="add_email">{% csrf_token %}
 		<fieldset class="module">
 			{% include "includes/form_loop.html" %}
 			<div class="submit-row">

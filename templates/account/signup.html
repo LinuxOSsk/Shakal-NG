@@ -17,7 +17,7 @@
 
 <p>Už ste registrovaní? V tom prípade pokračujte <a href="{{ login_url }}">prihlásením</a>.</p>
 
-<form class="signup" id="signup_form" method="post" action="{{ url('account_signup') }}">{% csrf_token %}
+<form class="signup" id="signup_form" method="post" action="{{ secure_url('account_signup') }}">{% csrf_token %}
 	<fieldset class="module">
 		{% include "includes/form_loop.html" %}
 		{% if redirect_field_value %}

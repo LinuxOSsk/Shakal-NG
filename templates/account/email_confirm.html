@@ -15,7 +15,7 @@
 
 <p>Potvrďte prosím, že e-mail {{ confirmation.email_address.email }} patrí používateľovi {{ confirmation.email_address.user }}.</p>
 
-<form method="post" action="{{ url('account_confirm_email', confirmation.key) }}">
+<form method="post" action="{{ secure_url('account_confirm_email', confirmation.key) }}">
 {% csrf_token %}
 	<button type="submit" class="btn primary"><span class="wrap"><span class="text">Potvrdiť</span></span></button>
 </form>

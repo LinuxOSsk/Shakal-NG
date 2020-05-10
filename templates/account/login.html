@@ -40,7 +40,7 @@
 <p class="message error">{{ error_message }}</p>
 {% endif %}
 
-<form action="{{ url("account_login") }}" method="post" id="login-form">{% csrf_token %}
+<form action="{{ secure_url("account_login") }}" method="post" id="login-form">{% csrf_token %}
 	<fieldset class="login">
 		<h2 class="block-title">Prihlásiť na {{ site.name }}</h2>
 		{% include "includes/form_loop.html" %}

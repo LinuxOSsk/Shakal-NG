@@ -140,3 +140,14 @@ def flag_url(obj):
 def share_image(obj, image_type):
 	ctype = ContentType.objects.get_for_model(obj.__class__)
 	return reverse('image_renderer:render', kwargs={'image_type': image_type, 'content_type': ctype.pk, 'object_id': obj.pk})
+
+
+@library.global_function
+@contextfunction
+def secure_url(context, name, *args, **kwargs):
+	request = context['request']
+	current_app = request.resolver_match.namespace
+	url = reverse(name, args=args, kwargs=kwargs, current_app=current_app)
+	if settings.DEBUG:
+		return url
+	return 'https://' + request.get_host() + url
