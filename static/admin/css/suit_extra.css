@@ -1,5 +1,13 @@
+html {
+	font-size: 80%;
+}
+
 body {
 	font-family: sans-serif;
+}
+
+.btn-lg, .btn-group-lg > .btn, .submit-row .deletelink-box .btn-group-lg > .deletelink, #content-main > .object-tools > li.btn-group-lg > a:not([class*="btn-"]), #changelist #toolbar #changelist-search .btn-group-lg > input[type="submit"], #changelist #changelist-form .actions .btn-group-lg > button, #changelist #changelist-form .paginator .btn-group-lg > input[type="submit"], body.delete-confirmation .content-wrap input[type="button"], body.delete-confirmation .content-wrap input[type="submit"], body.delete-confirmation .content-wrap button, .submit-row input[type="submit"]:not([class*="btn-"]), .submit-row input[type="button"]:not([class*="btn-"]), .submit-row button:not([class*="btn-"]), body.login .submit-row input[type="submit"] {
+	font-size: 1rem;
 }
 
 .collapsed .inline-related, .collapsed .add-row {
