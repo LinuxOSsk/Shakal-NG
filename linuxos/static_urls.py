@@ -24,6 +24,8 @@ sites = (
 	('officescreens', 'kancelaria/screenshoty'),
 	('mmscreens', 'multimedia/screenshoty'),
 	('vedascreens', 'veda/screenshoty'),
+
+        ('ochrana_osobnych_udajov', 'ochrana-osobnych-udajov'),
 )
 
 sites_urls = [url('^' + u[1] + '/$', TemplateView.as_view(template_name='static/' + u[1] + '.html'), name="page_" + u[1]) for u in sites]
