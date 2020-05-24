@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block head_title %}Ochrana osobných údajov{% endblock %}
+{% block breadcrumbs %}{{ breadcrumb("Ochrana osobných údajov") }}{{ super() }}{% endblock %}
+{% block extraheaders %}
+<meta name="description" lang="sk" content="Ako narábame s osobnými údajmi návštevníkov portálu." />
+{% endblock %}
+
+{% block content %}
+<h1>Ochrana osobných údajov</h1>
+
+<h2>Súbory cookies</h2>
+<p>Súbory cookies na našej stránke slúžia na umožnenie prevádzky a správneho fungovania stránky. Niektoré z týchto súborov slúžia na umožnenie prihlásenia užívateľov, iné na ukladanie nastavení.</p>
+
+<h2>Identifikácia IP adries</h2>
+<p>IP adresu, z ktorej pristupujete na portál ukladáme pri akciách užívateľa v databázi redakčného systému a v logoch serveru. Údaje z logov serveru sú odstraňované automaticky, v pravidelných intervaloch.</p>
+
+<h2>Spracovávané údaje</h2>
+<p>Na portáli môžme spracovávať nasledovné údaje:</p>
+<ul>
+	<li>Registračná emailová adresa</li>
+	<li>IP adresa</li>
+	<li>Krstné meno (nepovinné)</li>
+	<li>Priezvisko (nepovinné)</li>
+	<li>Dátum registrácie</li>
+	<li>Dátum posledného prihlásenia</li>
+	<li>Jabber adresa (nepovinné)</li>
+	<li>Webová adresa (nepovinné)</li>
+	<li>Poloha (nepovinné)</li>
+	<li>Linuxová distribúcia (nepovinné)</li>
+	<li>Ďalšie informácie (nepovinné)</li>
+</ul>
+<p>Údaje označené ako nepovinné si môže užívateľ kedykoľvek upravovať v správe svojho profilu. Údaje nie sú zaznamenávané inde, ako v databázi redakčného systému a tým pádom má na ich správu užívateľ úplný vplyv.</p>
+<p>Tieto údaje sú spracovávané za účelom personalizácie systému a meraní návštevnosti portálu. Osoba, ktorá osobné údaje poskytla portálu so spracovávaním osobných údajov súhlasí.</p>
+
+<h2>Zdieľanie s tretími stranami</h2>
+<p>Za účelom merania a vyhodnocovania návštevnosti portálu je používaný nástroj tretej strany Google Analytics podľa nastavenia prehliadača návštevníka. Podľa týchto štatistík volíme nasledovné úpravy stránok a plnenie obsahom. V prípade, že so zdieľaním údajov vašich údajov do Google Analytics nesúhlasite, zakážte spúšťanie JavaScriptov tejto spoločnosti vo vašom prehliadači, alebo použite na to určený plugin do prehliadača.</p>
+<p>Údaje užívateľov nie sú zo strany servera poskytované žiadnej tretej strane.</p>
+
+<h2>Ankety</h2>
+<p>Ankety konané v rámci portálu, konkrétne v rámci časti Anketa, sú anonymné a nezbierame ani neukladáme žiadne preferencie užívateľov v rámci tohto hlasovania.</p>
+
+{% endblock %}
