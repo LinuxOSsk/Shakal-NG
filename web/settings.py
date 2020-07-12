@@ -70,6 +70,7 @@ INSTALLED_APPS = [
 	'desktops',
 	'feeds',
 	'forum',
+	'fulltext',
 	'hitcount',
 	'linuxos',
 	'news',
