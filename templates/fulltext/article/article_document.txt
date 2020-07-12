@@ -1,0 +1,2 @@
+{% autoescape off %}{{ object.perex|striptags|html_entity_decode }}
+{{ object.content|striptags|html_entity_decode }}{% endautoescape %}

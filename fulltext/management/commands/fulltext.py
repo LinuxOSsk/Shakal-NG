@@ -2,6 +2,7 @@
 from django.core.management.base import BaseCommand
 
 from fulltext import registry as fulltext_registry
+from django.contrib.contenttypes.models import ContentType
 
 
 class Command(BaseCommand):
@@ -32,8 +33,11 @@ class Command(BaseCommand):
 
 	def update_index(self, index):
 		bulk_items = []
+		content_type = ContentType.objects.get_for_model(index.get_model())
 		for obj in self.__prog(index.get_index_queryset(), desc=index.get_model().__name__):
 			instance = index.get_index(obj)
+			instance.content_type = content_type
+			instance.object_id = obj.pk
 			print(f'created: {instance.created}')
 			print(f'updated: {instance.updated}')
 			print(f'author: {instance.author}')

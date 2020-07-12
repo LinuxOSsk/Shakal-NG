@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.db.models.fields import NOT_PROVIDED
+from django.template.loader import render_to_string
 
 
 class SearchField(object):
+	name = None
+
 	def get_model_field(self):
 		return None
 
@@ -33,11 +36,29 @@ class TemplateField(ModelField):
 	def __init__(self, model_field=None):
 		self.__model_field = model_field
 
+	def get_template_name(self, obj):
+		meta = obj.__class__._meta
+		return f'fulltext/{meta.app_label}/{meta.model_name}_{self.name}.txt';
+
 	def get_value(self, obj):
-		return ''
+		ctx = {}
+		if self.__model_field:
+			ctx['document_field'] = self.__model_field
+		ctx['object'] = obj
+		return render_to_string(self.get_template_name(obj), ctx)
 
 
-class SearchIndex(object):
+class SearchIndexMeta(type):
+	def __new__(cls, name, bases, dct):
+		cls_instance = super().__new__(cls, name, bases, dct)
+		for name, field in dct.items():
+			if not isinstance(field, SearchField):
+				continue
+			field.name = name
+		return cls_instance
+
+
+class SearchIndex(object, metaclass=SearchIndexMeta):
 	register = None
 	model = None
 

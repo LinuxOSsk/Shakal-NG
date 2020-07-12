@@ -13,7 +13,7 @@ class ArticleIndex(indexes.SearchIndex):
 	author = indexes.ModelField(model_field='author')
 	authors_name = indexes.ModelField(model_field='authors_name')
 	title = indexes.ModelField(model_field='title')
-	document = indexes.TemplateField(model_field='original_content')
+	document = indexes.TemplateField(model_field='filtered_content')
 
 	def get_index_queryset(self, using=None):
 		return (self.get_model().objects.using(using)
