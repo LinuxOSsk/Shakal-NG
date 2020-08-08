@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-from django.db.models import Q
+from django.contrib.postgres.search import SearchQuery, SearchRank
+from django.db import models
+from django.db.models import Q, F, Value as V
 
 from .models import SearchIndex
 
@@ -24,6 +26,8 @@ def bulk_update(items):
 
 
 def search_simple(term, search_document=True, search_comments=True):
+	if search_document is None and search_comments is None:
+		return SearchIndex.objects.none()
 	q = Q()
 	term = term.split()
 	if search_document:
@@ -36,4 +40,26 @@ def search_simple(term, search_document=True, search_comments=True):
 		for t in term:
 			comments_q &= Q(comments__icontains=t)
 		q |= comments_q
-	return SearchIndex.objects.filter(q)
+	return (SearchIndex.objects
+		.filter(q)
+		.annotate(rank=V(1.0, output_field=models.FloatField()))
+		.only('content_type', 'object_id', 'language_code', 'created', 'updated', 'author', 'authors_name', 'title')
+	)
+
+
+def search_postgres(term, search_document=True, search_comments=True):
+	if search_document is None and search_comments is None:
+		return SearchIndex.objects.none()
+	term = SearchQuery(term, config=F('language_code'))
+	field = 'combined_search_vector'
+	if not search_document:
+		field = 'comments_search_vector'
+	if not search_comments:
+		field = 'document_search_vector'
+
+	rank = SearchRank(F(field), term)
+	return (SearchIndex.objects
+		.annotate(rank=rank)
+		.filter(rank__gt=0)
+		.only('content_type', 'object_id', 'language_code', 'created', 'updated', 'author', 'authors_name', 'title')
+		.order_by('-rank'))

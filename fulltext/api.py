@@ -3,7 +3,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import connections
 
 from .models import SearchIndex
-from .utils import bulk_update, search_simple
+from .utils import bulk_update, search_simple, search_postgres
 
 
 BATCH_SIZE = 1000
@@ -34,6 +34,6 @@ def search(term, search_document=True, search_comments=True):
 	index = SearchIndex.objects.all()
 	connection = connections[index.db]
 	if connection.vendor == 'postgresql':
-		return search_simple(term, search_document=search_document, search_comments=search_comments)
+		return search_postgres(term, search_document=search_document, search_comments=search_comments)
 	else:
 		return search_simple(term, search_document=search_document, search_comments=search_comments)

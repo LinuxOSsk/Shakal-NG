@@ -1,4 +1,5 @@
 CREATE EXTENSION unaccent;
 CREATE TEXT SEARCH DICTIONARY sk_ispell (TEMPLATE = ispell, DictFile = sk, AffFile = sk);
 CREATE TEXT SEARCH CONFIGURATION sk (COPY = simple);
-ALTER TEXT SEARCH CONFIGURATION sk ALTER MAPPING FOR asciiword, asciihword, hword_asciipart, word, hword, hword_part WITH sk_ispell, unaccent;
+--ALTER TEXT SEARCH CONFIGURATION sk ALTER MAPPING FOR asciiword, asciihword, hword_asciipart, word, hword, hword_part WITH sk_ispell, unaccent;
+ALTER TEXT SEARCH CONFIGURATION sk ALTER MAPPING FOR hword, hword_part, word WITH unaccent;
