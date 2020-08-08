@@ -1,0 +1,1 @@
+{% autoescape off %}{{ object.filtered_long_text|striptags|html_entity_decode }}{% endautoescape %}

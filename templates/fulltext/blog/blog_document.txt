@@ -1,0 +1,2 @@
+{% autoescape off %}{{ object.filtered_description|striptags|html_entity_decode }}
+{{ object.filtered_sidebar|striptags|html_entity_decode }}{% endautoescape %}

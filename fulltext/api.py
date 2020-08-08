@@ -4,7 +4,7 @@ from django.db import connections
 from django.db.models import Exists, OuterRef
 
 from .models import SearchIndex
-from .utils import bulk_update, search_simple, search_postgres
+from .utils import bulk_update, search_simple, search_postgres, iterate_qs
 
 
 BATCH_SIZE = 1000
@@ -24,7 +24,7 @@ def update_search_index(index, progress=None):
 		.filter(content_type=content_type, obj_exists=False)
 		.delete())
 
-	for obj in progress(queryset, desc=index.get_model().__name__):
+	for obj in progress(iterate_qs(queryset, BATCH_SIZE), desc=index.get_model().__name__, total=queryset.values('pk').count()):
 		instance = index.get_index(obj)
 		instance.content_type = content_type
 		instance.object_id = obj.pk

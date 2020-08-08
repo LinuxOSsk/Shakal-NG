@@ -29,9 +29,16 @@ class ModelField(SearchField):
 		return self._model_field
 
 	def get_value(self, obj):
-		value = getattr(obj, self._model_field, None)
+		field_split = self._model_field.split('__')
+		for subfield in field_split[:-1]:
+			obj = getattr(obj, subfield)
+			if obj is None:
+				return None
+		field_split = field_split[-1]
+
+		value = getattr(obj, field_split, None)
 		if value is None:
-			field = obj.__class__._meta.get_field(self._model_field)
+			field = obj.__class__._meta.get_field(field_split)
 			if not field.null:
 				if field.default == NOT_PROVIDED:
 					value = ''

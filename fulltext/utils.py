@@ -63,3 +63,18 @@ def search_postgres(term, search_document=True, search_comments=True):
 		.filter(rank__gt=0)
 		.only('content_type', 'object_id', 'language_code', 'created', 'updated', 'author', 'authors_name', 'title')
 		.order_by('-rank'))
+
+
+def iterate_qs(qs, batch_size):
+	last_pk = None
+	while True:
+		limited = qs.order_by('pk')
+		if last_pk is not None:
+			limited = limited.filter(pk__gt=last_pk)
+		empty = True
+		for item in limited[:batch_size]:
+			last_pk = item.pk
+			empty = False
+			yield item
+		if empty:
+			break
