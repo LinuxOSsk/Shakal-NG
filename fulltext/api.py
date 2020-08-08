@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.contenttypes.models import ContentType
 from django.db import connections
+from django.db.models import Exists, OuterRef
 
 from .models import SearchIndex
 from .utils import bulk_update, search_simple, search_postgres
@@ -17,6 +18,11 @@ def update_search_index(index, progress=None):
 	content_type = ContentType.objects.get_for_model(index.get_model())
 
 	queryset = index.get_index_queryset()
+
+	(SearchIndex.objects
+		.annotate(obj_exists=Exists(queryset.values('pk').filter(pk=OuterRef('object_id'))))
+		.filter(content_type=content_type, obj_exists=False)
+		.delete())
 
 	for obj in progress(queryset, desc=index.get_model().__name__):
 		instance = index.get_index(obj)
