@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
+from django.db.models import Prefetch
 from django.db.models.fields import NOT_PROVIDED
 from django.template.loader import render_to_string
+from django.contrib.auth import get_user_model
+
+from comments.models import Comment
+
+
+User = get_user_model()
 
 
 class SearchField(object):
@@ -15,15 +22,15 @@ class SearchField(object):
 
 class ModelField(SearchField):
 	def __init__(self, model_field):
-		self.__model_field = model_field
+		self._model_field = model_field
 
 	def get_model_field(self):
-		return self.__model_field
+		return self._model_field
 
 	def get_value(self, obj):
-		value = getattr(obj, self.__model_field, None)
+		value = getattr(obj, self._model_field, None)
 		if value is None:
-			field = obj.__class__._meta.get_field(self.__model_field)
+			field = obj.__class__._meta.get_field(self._model_field)
 			if not field.null:
 				if field.default == NOT_PROVIDED:
 					value = ''
@@ -34,18 +41,32 @@ class ModelField(SearchField):
 
 class TemplateField(ModelField):
 	def __init__(self, model_field=None):
-		self.__model_field = model_field
+		super().__init__(model_field)
 
 	def get_template_name(self, obj):
 		meta = obj.__class__._meta
 		return f'fulltext/{meta.app_label}/{meta.model_name}_{self.name}.txt';
 
-	def get_value(self, obj):
+	def get_context_data(self, obj):
 		ctx = {}
-		if self.__model_field:
-			ctx['document_field'] = self.__model_field
+		if self._model_field:
+			ctx['document_field'] = self._model_field
 		ctx['object'] = obj
-		return render_to_string(self.get_template_name(obj), ctx)
+		return ctx
+
+	def get_value(self, obj):
+		return render_to_string(self.get_template_name(obj), self.get_context_data(obj))
+
+
+class CommentsField(TemplateField):
+	def __init__(self):
+		super().__init__()
+
+	def get_context_data(self, obj):
+		return {'comments': obj.comments.all()}
+
+	def get_template_name(self, obj):
+		return f'fulltext/comments/comments.txt';
 
 
 class SearchIndexMeta(type):
@@ -75,3 +96,24 @@ class SearchIndex(object, metaclass=SearchIndexMeta):
 				continue
 			setattr(instance, instance_key, field.get_value(obj))
 		return instance
+
+
+class CommentsPrefetch(Prefetch):
+	def __init__(self, lookup=None, queryset=None, **kwargs):
+		lookup = lookup or 'comments'
+		if queryset is None:
+			queryset = (Comment.objects.only(
+				'pk', 'object_id', 'content_type_id', 'parent_id',
+				'subject', 'filtered_comment', 'is_public', 'is_removed'
+			))
+		super().__init__(lookup, queryset=queryset, **kwargs)
+
+
+class AuthorPrefetch(Prefetch):
+	def __init__(self, lookup=None, queryset=None, **kwargs):
+		lookup = lookup or 'author'
+		if queryset is None:
+			queryset = (User.objects.only(
+				'pk', 'avatar', 'first_name', 'last_name', 'username',
+			))
+		super().__init__(lookup, queryset=queryset, **kwargs)

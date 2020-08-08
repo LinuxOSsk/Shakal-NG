@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.core.management.base import BaseCommand
 
+from ...utils import update_search_index
 from fulltext import registry as fulltext_registry
-from django.contrib.contenttypes.models import ContentType
 
 
 class Command(BaseCommand):
@@ -29,21 +29,4 @@ class Command(BaseCommand):
 
 	def update(self, **options): # pylint: disable=unused-argument
 		for index in fulltext_registry:
-			self.update_index(index())
-
-	def update_index(self, index):
-		bulk_items = []
-		content_type = ContentType.objects.get_for_model(index.get_model())
-		for obj in self.__prog(index.get_index_queryset(), desc=index.get_model().__name__):
-			instance = index.get_index(obj)
-			instance.content_type = content_type
-			instance.object_id = obj.pk
-			print(f'created: {instance.created}')
-			print(f'updated: {instance.updated}')
-			print(f'author: {instance.author}')
-			print(f'authors_name: {instance.authors_name}')
-			print(f'title: {instance.title}')
-			print(f'document:\n{instance.document}')
-			print(f'comments:\n{instance.comments}\n')
-			bulk_items.append(instance)
-		print(bulk_items)
+			update_search_index(index(), progress=self.__prog)

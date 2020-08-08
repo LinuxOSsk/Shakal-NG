@@ -1,0 +1,8 @@
+{%- autoescape off -%}
+{%- for comment in comments -%}
+{%- if comment.is_public and not comment.is_removed and comment.parent_id -%}
+{{ comment.subject }}
+{{ comment.filtered_comment|striptags|html_entity_decode }}{% if not loop.last %}
+{%- endif %}{%- endif -%}
+{%- endfor -%}
+{%- endautoescape -%}

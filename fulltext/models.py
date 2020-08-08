@@ -29,6 +29,7 @@ class SearchIndex(AbstractSearchIndex):
 	updated = models.DateTimeField(blank=True, null=True)
 	author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
 	authors_name = models.CharField(max_length=255)
+	language_code = models.CharField(max_length=10)
 
 	# document
 	title = models.TextField()

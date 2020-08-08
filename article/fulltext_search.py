@@ -14,9 +14,11 @@ class ArticleIndex(indexes.SearchIndex):
 	authors_name = indexes.ModelField(model_field='authors_name')
 	title = indexes.ModelField(model_field='title')
 	document = indexes.TemplateField(model_field='filtered_content')
+	comments = indexes.CommentsField()
 
 	def get_index_queryset(self, using=None):
 		return (self.get_model().objects.using(using)
+			.prefetch_related(indexes.CommentsPrefetch(), indexes.AuthorPrefetch())
 			.filter(pub_time__lte=timezone.now(), published=True))
 
 
