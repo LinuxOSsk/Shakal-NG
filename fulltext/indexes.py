@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.db.models import Prefetch
 from django.db.models.fields import NOT_PROVIDED
 from django.template.loader import render_to_string
-from django.contrib.auth import get_user_model
 
 from comments.models import Comment
 
@@ -89,8 +90,12 @@ class SearchIndex(object, metaclass=SearchIndexMeta):
 	def get_index_queryset(self, using=None):
 		return self.get_model()._default_manager.using(using)
 
+	def get_language_code(self, obj): # pylint: disable=unused-argument
+		return settings.LANGUAGE_CODE
+
 	def get_index(self, obj):
 		instance = self.register.index_class()
+		instance.language_code = self.get_language_code(obj)
 		for instance_key, field in self.__class__.__dict__.items():
 			if not isinstance(field, SearchField):
 				continue

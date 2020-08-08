@@ -16,6 +16,9 @@ class ArticleIndex(indexes.SearchIndex):
 	document = indexes.TemplateField(model_field='filtered_content')
 	comments = indexes.CommentsField()
 
+	def get_language_code(self, obj): # pylint: disable=unused-argument
+		return 'sk'
+
 	def get_index_queryset(self, using=None):
 		return (self.get_model().objects.using(using)
 			.prefetch_related(indexes.CommentsPrefetch(), indexes.AuthorPrefetch())
