@@ -2,7 +2,7 @@
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.postgres.indexes import GistIndex
+from django.contrib.postgres.indexes import GinIndex
 from django.contrib.postgres.search import SearchVectorField
 from django.db import models
 
@@ -10,6 +10,9 @@ from .managers import SearchIndexManager
 
 
 class AbstractSearchIndex(models.Model):
+	HIGHLIGHT_START = '\x1bs'
+	HIGHLIGHT_STOP = '\x1be'
+
 	content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
 	object_id = models.PositiveIntegerField()
 	content_object = GenericForeignKey('content_type', 'object_id')
@@ -46,7 +49,7 @@ class SearchIndex(AbstractSearchIndex):
 
 	class Meta:
 		indexes = [
-			GistIndex(fields=['document_search_vector']),
-			GistIndex(fields=['comments_search_vector']),
-			GistIndex(fields=['combined_search_vector']),
+			GinIndex(fields=['document_search_vector']),
+			GinIndex(fields=['comments_search_vector']),
+			GinIndex(fields=['combined_search_vector']),
 		]

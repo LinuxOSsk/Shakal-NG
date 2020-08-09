@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-from django.contrib.postgres.search import SearchQuery, SearchRank
+import unicodedata
+
+from django.conf import settings
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchHeadline
 from django.db import models
 from django.db.models import Q, F, Value as V
 
@@ -47,20 +50,40 @@ def search_simple(term, search_document=True, search_comments=True):
 	)
 
 
+def unaccent(text):
+	nfkd_form = unicodedata.normalize('NFKD', text)
+	return nfkd_form.encode('ASCII', 'ignore').decode()
+
+
 def search_postgres(term, search_document=True, search_comments=True):
 	if search_document is None and search_comments is None:
 		return SearchIndex.objects.none()
-	term = SearchQuery(term, config=F('language_code'))
+	term = unaccent(term)
+	query = SearchQuery(term, config=settings.LANGUAGE_CODE)
 	field = 'combined_search_vector'
 	if not search_document:
 		field = 'comments_search_vector'
 	if not search_comments:
 		field = 'document_search_vector'
 
-	rank = SearchRank(F(field), term)
+	rank = SearchRank(F(field), query)
+	highlights = {}
+	for f in ['title', 'document', 'comments']:
+		if f == 'document' and not search_document:
+			continue
+		if f == 'comments' and not search_comments:
+			continue
+		highlights['highlighted_' + f] = SearchHeadline(
+			f,
+			query,
+			config=F('language_code'),
+			start_sel=SearchIndex.HIGHLIGHT_START,
+			stop_sel=SearchIndex.HIGHLIGHT_STOP,
+			highlight_all=True
+		)
 	return (SearchIndex.objects
-		.annotate(rank=rank)
-		.filter(rank__gt=0)
+		.filter(**{field: query})
+		.annotate(rank=rank, **highlights)
 		.only('content_type', 'object_id', 'language_code', 'created', 'updated', 'author', 'authors_name', 'title')
 		.order_by('-rank'))
 

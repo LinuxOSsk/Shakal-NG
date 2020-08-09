@@ -3,8 +3,16 @@ import sys
 
 from django.core.management.base import BaseCommand
 
-from ...api import update_search_index, search
+from ...api import update_search_index, search, highlight
 from fulltext import registry as fulltext_registry
+
+
+class Colors:
+	HIGHLIGHT = '\033[7;49;93m'
+	YELLOW = '\033[1;33m'
+	GRAY = '\033[0;49;90m'
+	ENDC = '\033[0m'
+	BOLD = '\033[1m'
 
 
 class Command(BaseCommand):
@@ -39,4 +47,9 @@ class Command(BaseCommand):
 	def search(self, **options):
 		term = options['term']
 		results = search(term)
-		sys.stdout.write("Results count: %d\n" % results.count())
+		sys.stdout.write(f"Results count: {Colors.YELLOW}{results.count()}{Colors.ENDC}\n\n")
+		for result in results[:10]:
+			title = highlight(result.highlighted_title, Colors.YELLOW, Colors.ENDC + Colors.BOLD)
+			document = highlight(result.highlighted_document + result.highlighted_comments, Colors.YELLOW, Colors.ENDC, 150)
+			sys.stdout.write(f"{Colors.BOLD}{title}{Colors.GRAY} {result.rank}{Colors.ENDC}\n")
+			sys.stdout.write(f'{document}{Colors.ENDC}\n\n')

@@ -2,6 +2,8 @@
 from django.contrib.postgres.search import SearchVector
 from django.db import models, connections
 
+from .functions import Unaccent
+
 
 class SearchIndexQuerySet(models.QuerySet):
 	def update_search_index(self):
@@ -11,9 +13,9 @@ class SearchIndexQuerySet(models.QuerySet):
 			for config in configs:
 				SV = type('SV', (SearchVector,), {'config': config})
 				self.update(
-					document_search_vector=SV('title', weight='A') + SV('document', weight='D'),
-					comments_search_vector=SV('comments', weight='A'),
-					combined_search_vector=SV('title', weight='A') + SV('document', weight='C') + SV('comments', weight='D'),
+					document_search_vector=SV(Unaccent('title'), weight='A') + SV(Unaccent('document'), weight='D'),
+					comments_search_vector=SV(Unaccent('comments'), weight='A'),
+					combined_search_vector=SV(Unaccent('title'), weight='A') + SV(Unaccent('document'), weight='C') + SV(Unaccent('comments'), weight='D'),
 				)
 
 
