@@ -3,6 +3,6 @@
 {%- if comment.is_public and not comment.is_removed and comment.parent_id -%}
 {{ comment.subject }}
 {{ comment.filtered_comment|striptags|html_entity_decode }}{% if not loop.last %}
-{%- endif %}{%- endif -%}
+{% endif %}{%- endif -%}
 {%- endfor -%}
 {%- endautoescape -%}
