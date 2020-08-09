@@ -12,7 +12,7 @@ class Colors:
 	YELLOW = '\033[1;33m'
 	GRAY = '\033[0;49;90m'
 	ENDC = '\033[0m'
-	BOLD = '\033[1m'
+	BOLD = '\033[1;97m'
 
 
 class Command(BaseCommand):
@@ -47,7 +47,7 @@ class Command(BaseCommand):
 	def search(self, **options):
 		term = options['term']
 		results = search(term)
-		sys.stdout.write(f"Results count: {Colors.YELLOW}{results.count()}{Colors.ENDC}\n\n")
+		sys.stdout.write(f"\nResults count: {Colors.YELLOW}{results.count()}{Colors.ENDC}\n\n")
 		for result in results[:10]:
 			title = highlight(result.highlighted_title, Colors.YELLOW, Colors.ENDC + Colors.BOLD)
 			document = highlight(result.highlighted_document + result.highlighted_comments, Colors.YELLOW, Colors.ENDC, 150)

@@ -58,9 +58,11 @@ def highlight(text, start, end, length=None, ellipsis=None):
 	if length is not None:
 		highlight = HIGHLIGHT_REGEX.search(text)
 		if highlight is None:
-			text = text[:length + 1]
-			if text[-1:] != ' ':
-				text = ' '.join(text.split()[:-1])
+			space = text.find(' ', length)
+			if space == -1:
+				text = text[:length]
+			else:
+				text = text[:space]
 		else:
 			span = highlight.span()
 			span = [span[0], span[1]]
