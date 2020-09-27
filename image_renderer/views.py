@@ -12,7 +12,7 @@ from django.views.generic import View
 from easy_thumbnails.files import get_thumbnailer
 
 from .pil_text_block import Block
-from search.templatetags.html_entity_decode import html_entity_decode
+from fulltext.templatetags.html_entity_decode import html_entity_decode
 
 
 STATIC_DIR = os.path.join(os.path.dirname(__file__), '..', 'static')

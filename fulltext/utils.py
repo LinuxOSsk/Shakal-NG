@@ -28,7 +28,7 @@ def bulk_update(items):
 	SearchIndex.objects.filter(content_type_id=items[0].content_type_id, object_id__in=pks).update_search_index()
 
 
-def search_simple(term, search_document=True, search_comments=True):
+def search_simple(term, search_document=True, search_comments=True, content_types=None):
 	if search_document is None and search_comments is None:
 		return SearchIndex.objects.none()
 	q = Q()
@@ -43,6 +43,8 @@ def search_simple(term, search_document=True, search_comments=True):
 		for t in term:
 			comments_q &= Q(comments__icontains=t)
 		q |= comments_q
+	if content_types is not None:
+		q = q & Q(content_type__in=content_types)
 	return (SearchIndex.objects
 		.filter(q)
 		.annotate(rank=V(1.0, output_field=models.FloatField()))
@@ -55,7 +57,7 @@ def unaccent(text):
 	return nfkd_form.encode('ASCII', 'ignore').decode()
 
 
-def search_postgres(term, search_document=True, search_comments=True):
+def search_postgres(term, search_document=True, search_comments=True, content_types=None):
 	if search_document is None and search_comments is None:
 		return SearchIndex.objects.none()
 	term = unaccent(term)
@@ -81,8 +83,11 @@ def search_postgres(term, search_document=True, search_comments=True):
 			stop_sel=SearchIndex.HIGHLIGHT_STOP,
 			highlight_all=True
 		)
+	fields = {field: query}
+	if content_types is not None:
+		fields['content_type__in'] = content_types
 	return (SearchIndex.objects
-		.filter(**{field: query})
+		.filter(**fields)
 		.annotate(rank=rank, **highlights)
 		.only('content_type', 'object_id', 'language_code', 'created', 'updated', 'author', 'authors_name', 'title')
 		.order_by('-rank'))

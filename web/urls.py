@@ -12,7 +12,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import RedirectView
 from django_simple_paginator.converter import PageConverter
 
-import search.views
 import template_dynamicloader.views
 import web.views
 
@@ -37,10 +36,10 @@ urlpatterns = [
 	url(_(r'^tweets/'), include('tweets.urls')),
 	url(_(r'^notifications/'), include('notifications.urls')),
 	url(_(r'^polls/'), include('polls.urls')),
+	url(_(r'^search/'), include('fulltext.urls')),
 	url(_(r'^wiki/'), include('wiki.urls')),
 	url(_(r'^template-change/$'), template_dynamicloader.views.change, name='template-change'),
 	url(_(r'^templates/$'), template_dynamicloader.views.TemplateListView.as_view(), name='template-list'),
-	url(_(r'^search/'), search.views.SearchView(), name='haystack_search'),
 	url(r'^v/(?P<content_type_id>\d+)/(?P<object_id>.+)/$', contenttype_views.shortcut, name='view-object'),
 	url(_(r'^admin/'), admin.site.urls),
 	url(_(r'^admin_dashboard/'), include('admin_dashboard.urls')),

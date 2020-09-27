@@ -52,7 +52,6 @@ INSTALLED_APPS = [
 	'compressor',
 	'django_jinja',
 	'mptt',
-	'haystack',
 	'hijack',
 	'hijack_admin',
 	'reversion',
@@ -78,7 +77,6 @@ INSTALLED_APPS = [
 	'notifications',
 	'polls',
 	'rating',
-	'search',
 	'tweets',
 	'wiki',
 ]

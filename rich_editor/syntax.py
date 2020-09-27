@@ -5,7 +5,7 @@ import re
 
 from django.template.defaultfilters import striptags
 
-from search.templatetags.html_entity_decode import html_entity_decode_char, xml_entity_decode_char
+from fulltext.templatetags.html_entity_decode import html_entity_decode_char, xml_entity_decode_char
 
 
 LEXERS = (

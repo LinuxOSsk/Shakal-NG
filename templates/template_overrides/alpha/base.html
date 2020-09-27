@@ -62,7 +62,7 @@
 					<div class="touchhover-emul feeds">
 						{{ render_all_feeds(template="feeds/home_feeds.html") }}
 					</div>
-					<a href="{{ url('haystack_search') }}" class="search-link" title="Hľadať">Hľadať</a>
+					<a href="{{ url('fulltext:search', page=1) }}" class="search-link" title="Hľadať">Hľadať</a>
 				</div>
 				<div id="user_panel" class="touchhover-emul{% if user.is_authenticated %} authenticated{% endif %}">
 					<a id="main_menu_back" href="{{ current_link_remove('_visible_menu') }}" class="toggle-menu-action">Skryť menu</a>
@@ -74,7 +74,7 @@
 				</ul>
 
 				<div id="search_panel" class="search">
-					<form method="get" action="{{ url('haystack_search') }}" class="search btn">
+					<form method="get" action="{{ url('fulltext:search', page=1) }}" class="search btn">
 						<div class="search-input">
 							<input type="text" name="q"/>
 							<button class="btn-search" title="Hľadať">Hľadať</button>

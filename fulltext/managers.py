@@ -7,15 +7,15 @@ from .functions import Unaccent
 
 class SearchIndexQuerySet(models.QuerySet):
 	def update_search_index(self):
+		SV = SearchVector
 		connection = connections[self.db]
 		if connection.vendor == 'postgresql':
 			configs = self.order_by('language_code').values_list('language_code', flat=True).distinct()
 			for config in configs:
-				SV = type('SV', (SearchVector,), {'config': config})
 				self.update(
-					document_search_vector=SV(Unaccent('title'), weight='A') + SV(Unaccent('document'), weight='D'),
-					comments_search_vector=SV(Unaccent('comments'), weight='A'),
-					combined_search_vector=SV(Unaccent('title'), weight='A') + SV(Unaccent('document'), weight='C') + SV(Unaccent('comments'), weight='D'),
+					document_search_vector=SV(Unaccent('title'), weight='A', config=config) + SV(Unaccent('document'), weight='D', config=config),
+					comments_search_vector=SV(Unaccent('comments'), weight='A', config=config),
+					combined_search_vector=SV(Unaccent('title'), weight='A', config=config) + SV(Unaccent('document'), weight='C', config=config) + SV(Unaccent('comments'), weight='D', config=config),
 				)
 
 

@@ -43,6 +43,8 @@ def update_search_index(index, progress=None):
 
 
 def search(term, search_document=True, search_comments=True):
+	if search_document is None and search_comments is None:
+		return SearchIndex.objects.none()
 	index = SearchIndex.objects.all()
 	connection = connections[index.db]
 	if connection.vendor == 'postgresql':

@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import re
 from builtins import chr as chr_
 from html.entities import entitydefs

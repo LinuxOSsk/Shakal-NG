@@ -162,7 +162,7 @@ html, body {
 						{{ render_all_feeds(template="feeds/home_feeds.html") }}
 					</div>
 					<div id="search-panel">
-						<form method="get" action="{{ url('haystack_search') }}" class="search btn">
+						<form method="get" action="{{ url('fulltext:search', page=1) }}" class="search btn">
 							<div class="search-input">
 								<input type="text" name="q" onfocus="this.parentNode.parentNode.parentNode.className='active'" onblur="this.parentNode.parentNode.parentNode.className=''" /><button class="btn-search" title="Hľadať">Hľadať</button>
 							</div>
