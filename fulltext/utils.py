@@ -2,9 +2,13 @@
 import unicodedata
 
 from django.conf import settings
-from django.contrib.postgres.search import SearchQuery, SearchRank, SearchHeadline
+from django.contrib.postgres.search import SearchQuery, SearchRank
 from django.db import models
 from django.db.models import Q, F, Value as V
+try:
+	from django.contrib.postgres.search import SearchHeadline
+except ImportError:
+	from web.compat import SearchHeadline
 
 from .models import SearchIndex
 

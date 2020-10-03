@@ -27,7 +27,6 @@ raven
 -e git+https://github.com/mireq/django-sample-data-generator.git@fa930da0770bacf9143bda5682044ad0bb0479be#egg=django_sample_data_generator
 -e git+https://github.com/mireq/django-simple-paginator.git@3650ec60e2ef8332d9267900853355a4a8f6d303#egg=django_simple_paginator
 -e git+https://github.com/darklow/django-suit.git@0d854c9b5e81adf9b9ea2ca9ee0a2856dcef5e15#egg=django-suit
--e git+https://github.com/django-haystack/django-haystack.git@ea3f8c961934e8871b89881d7fab09e038191899#egg=django-haystack
 Werkzeug
 django-debug-toolbar
 django-debugtools
