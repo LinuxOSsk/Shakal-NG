@@ -9,7 +9,7 @@
 -e git+https://github.com/mireq/django-assets-manager.git@8cf7019f5843d7aea227b17fcf07440e67212bad#egg=django_assets_manager  # via -r requirements.in
 -e git+https://github.com/mireq/django-autoslugfield.git@a6914377e50e3b6a491f981ac49b65c128c725d0#egg=django_autoslugfield  # via -r requirements.in
 -e git+https://github.com/mireq/django-email-log-backend.git@c675b59bfb1a723880d797c99011d6b36a41975e#egg=django_email_log_backend  # via -r requirements.in
--e git+https://github.com/mireq/django-geoposition-field.git@eaa17cc96f7a28199adbd14ccce052bf77c80d16#egg=django_geoposition_field  # via -r requirements.in
+-e git+https://github.com/mireq/django-geoposition-field.git@8ca58081839ad11ee642c8b504218dfe7825e9e5#egg=django_geoposition_field  # via -r requirements.in
 -e git+https://github.com/mireq/django-sample-data-generator.git@fa930da0770bacf9143bda5682044ad0bb0479be#egg=django_sample_data_generator  # via -r requirements.in
 -e git+https://github.com/mireq/django-simple-paginator.git@3650ec60e2ef8332d9267900853355a4a8f6d303#egg=django_simple_paginator  # via -r requirements.in
 asgiref==3.2.10           # via django
