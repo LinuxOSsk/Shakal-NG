@@ -6,12 +6,30 @@
 		0 4px 8px rgba(0,0,0,0.05);
 }
 
+@mixin large-shadow() {
+	box-shadow:
+		0 0px 1px rgba(0,0,0,0.1),
+		0 1px 2px rgba(0,0,0,0.1),
+		0 2px 4px rgba(0,0,0,0.1),
+		0 4px 8px rgba(0,0,0,0.1),
+		0 8px 16px rgba(0,0,0,0.1),
+		0 16px 32px rgba(0,0,0,0.1);
+}
+
 %shadow-box {
 	background: $body-color;
 	@include component-shadow();
 	@media #{$large-down} {
 		box-shadow: none;
 	}
+}
+
+%component-shadow {
+	@include component-shadow();
+}
+
+%large-shadow {
+	@include large-shadow();
 }
 
 %content-padding {
@@ -171,4 +189,8 @@
 		display: table;
 		clear: both;
 	}
+}
+
+%clearfix {
+	@include clearfix();
 }

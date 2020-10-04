@@ -466,3 +466,15 @@
 .comment_info:hover .headerlink {
 	display: inline;
 }
+
+.modal-overlay .comment-container {
+	.links {
+		display: none;
+	}
+	.discussion.header {
+		margin-left: 0;
+		&:after {
+			display: none;
+		}
+	}
+}

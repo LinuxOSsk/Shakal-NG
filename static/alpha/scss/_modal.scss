@@ -1,0 +1,106 @@
+$modal-z-index: 1010;
+$modal-overlay-background: rgba(0, 0, 0, .5);
+$transition-duration: 0.25s;
+
+body.modal-open {
+	overflow: hidden;
+}
+
+.modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow: hidden;
+	z-index: -1;
+	background-color: transparent;
+	pointer-events: none;
+	transition: background-color $transition-duration ease, z-index 0s $transition-duration ease;
+
+	.modal-window {
+		background: white;
+		opacity: 0;
+		transition: opacity $transition-duration ease, transform $transition-duration ease;
+		transform: translateY(100px);
+		margin: 20px auto;
+		position: relative;
+		max-width: 800px;
+		@extend %large-shadow;
+		@extend %clearfix;
+	}
+
+	.modal-header {
+		.modal-close {
+			border: none;
+			width: 50px;
+			height: 50px;
+			position: absolute;
+			top: -20px;
+			right: -20px;
+			z-index: 1;
+			background: transparent;
+			cursor: pointer;
+			&:before {
+				content: '';
+				display: block;
+				position: absolute;
+				top: 10px;
+				left: 10px;
+				width: 30px;
+				height: 30px;
+				background-color: $body-color;
+				border-radius: 15px;
+				@extend %component-shadow;
+			}
+			&:after {
+				content: '×';
+				display: block;
+				position: absolute;
+				text-align: center;
+				top: 10px;
+				left: 10px;
+				width: 30px;
+				height: 30px;
+				line-height: 30px;
+				font-size: 16px;
+				color: $text-color;
+				opacity: 0.75;
+			}
+		}
+	}
+
+	.modal-content {
+		@extend %content-padding;
+	}
+
+	&.full .modal-content {
+		padding: 0;
+	}
+
+	&.open, main & {
+		z-index: $modal-z-index;
+		opacity: 1;
+		pointer-events: auto;
+		background-color: $modal-overlay-background;
+		transition: background-color $transition-duration ease, z-index 0s 0s ease;
+		overflow-y: auto;
+		.modal-window {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	@media #{$large-down} {
+		.modal-window {
+			margin: 0;
+			max-width: none;
+		}
+		.modal-header {
+			.modal-close {
+				top: $base-spacing-content - 15px;
+				right: $base-spacing-content - 15px;
+			}
+		}
+	}
+}
