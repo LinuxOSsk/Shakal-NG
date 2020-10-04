@@ -19,4 +19,7 @@
 		<a href="{{ url('wiki:home') }}">Wiki</a>
 		{% if count_new and count_new.wiki_page %}<span class="badge important">{{ count_new.wiki_page }}</span>{% endif %}
 	</li>
+	<li{% if section=='tweets' %} class="active"{% endif %}>
+		<a href="{{ url('tweets:list', page=1) }}">Tweety</a>
+	</li>
 {% endwith %}
