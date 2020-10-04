@@ -107,6 +107,14 @@
 			}
 		}
 	}
+	.parent-link {
+		position: absolute;
+		margin-top: 5px;
+		@include sprite-bw(parent, $dark: true);
+		& + .subject {
+			padding-left: sprite-width(parent_dark) + 5px;
+		}
+	}
 	.user_rating {
 		float: right;
 		width: 20px;

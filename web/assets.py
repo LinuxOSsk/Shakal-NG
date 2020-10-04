@@ -55,6 +55,8 @@ SPRITES = (
 			{ 'name': 'unlock_light', 'src': 'alpha/images/png/unlock_transparent_light.png' },
 			{ 'name': 'pencil_dark', 'src': 'alpha/images/png/pencil_transparent_dark.png' },
 			{ 'name': 'pencil_light', 'src': 'alpha/images/png/pencil_transparent_light.png' },
+			{ 'name': 'parent_dark', 'src': 'alpha/images/png/parent_transparent_dark.png' },
+			{ 'name': 'parent_light', 'src': 'alpha/images/png/parent_transparent_light.png' },
 			{ 'name': 'reply_dark', 'src': 'alpha/images/png/reply_transparent_dark.png' },
 			{ 'name': 'reply_light', 'src': 'alpha/images/png/reply_transparent_light.png' },
 			{ 'name': 'rss_dark', 'src': 'alpha/images/png/rss_dark.png' },
@@ -148,6 +150,9 @@ ASSETS = {
 		'js': 'static://django_ajax_utils/js/utils_ajax.js',
 		'depends': ['utils'],
 	},
+	"utils2": {
+		"js": "static://js/utils.js",
+	},
 	"menu": {
 		"js": "static://js/menu.js",
 		'depends': ['utils_ajax'],
@@ -159,5 +164,9 @@ ASSETS = {
 	"toggle": {
 		"js": "static://js/toggle.js",
 		'depends': ['utils_ajax'],
+	},
+	"comments": {
+		"js": "static://js/comments.js",
+		'depends': ['utils2'],
 	},
 }

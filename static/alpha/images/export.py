@@ -26,7 +26,7 @@ def convert_svg_file(basename):
 	for size, suffix in SIZES:
 		output_filename = 'tmp/%s%s.png' % (basename, suffix)
 		if not os.path.exists(output_filename):
-			cmd_args = ['inkscape', 'scalable/%s.svg' % basename, '-e', output_filename, '-d', str(DPI * size)]
+			cmd_args = ['inkscape', 'scalable/%s.svg' % basename, '--export-filename=' + output_filename, '-d', str(DPI * size)]
 			subprocess.call(cmd_args)
 			exported = True
 	if exported:
@@ -121,6 +121,7 @@ def main():
 	make_transparent_light_dark('lock')
 	make_transparent_light_dark('pencil')
 	make_transparent_light_dark('reply')
+	make_transparent_light_dark('parent')
 	make_transparent_light_dark('search')
 	make_transparent_light_dark('star')
 	make_transparent_light_dark('tick')
