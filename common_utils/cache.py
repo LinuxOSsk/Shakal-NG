@@ -2,16 +2,20 @@
 from __future__ import unicode_literals
 
 import collections
+import collections.abc
 import hashlib
 import pickle
+
 from django.core.cache import caches
 from django.db.models.signals import post_delete, post_save
 
 from common_utils import get_meta
+
+
 default_cache = caches['default']
 
 
-class LRUCache(collections.MutableMapping):
+class LRUCache(collections.abc.MutableMapping):
 	def __init__(self, maxsize):
 		self.__maxsize = maxsize
 		self.__cache = collections.OrderedDict()
@@ -178,7 +182,7 @@ post_delete.connect(delete_model_cache)
 
 class ObjectCache(object):
 	def __init__(self, cache_name, size=1000):
-		super(ObjectCache, self).__init__()
+		super().__init__()
 		self.cache_name = cache_name
 		self.size = size
 		self.__cacheobj = None

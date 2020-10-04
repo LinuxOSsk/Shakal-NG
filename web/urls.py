@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
@@ -8,7 +6,7 @@ from django.contrib import admin
 from django.contrib.contenttypes import views as contenttype_views
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.urls import register_converter
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import RedirectView
 from django_simple_paginator.converter import PageConverter
 
