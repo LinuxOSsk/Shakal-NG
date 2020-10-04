@@ -65,7 +65,7 @@ def search_postgres(term, search_document=True, search_comments=True, content_ty
 	if search_document is None and search_comments is None:
 		return SearchIndex.objects.none()
 	term = unaccent(term)
-	query = SearchQuery(term, config=settings.LANGUAGE_CODE)
+	query = SearchQuery(term, config=settings.LANGUAGE_CODE, search_type='websearch')
 	field = 'combined_search_vector'
 	if not search_document:
 		field = 'comments_search_vector'

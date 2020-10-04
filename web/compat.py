@@ -77,3 +77,12 @@ class SearchHeadline(Func):
 			options=options_sql,
 		)
 		return sql, params + options_params
+
+
+if not 'websearch' in SearchQuery.SEARCH_TYPES:
+	SearchQuery.SEARCH_TYPES = {
+		'plain': 'plainto_tsquery',
+		'phrase': 'phraseto_tsquery',
+		'raw': 'to_tsquery',
+		'websearch': 'websearch_to_tsquery',
+	}
