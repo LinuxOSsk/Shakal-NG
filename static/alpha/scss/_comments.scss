@@ -110,6 +110,7 @@
 	.parent-link {
 		position: absolute;
 		margin-top: 5px;
+		z-index: 1;
 		@include sprite-bw(parent, $dark: true);
 		& + .subject {
 			padding-left: sprite-width(parent_dark) + 5px;
@@ -467,7 +468,7 @@
 	display: inline;
 }
 
-.modal-overlay .comment-container {
+.modal-overlay .comment-container, .comment-tooltip {
 	.links {
 		display: none;
 	}
@@ -475,6 +476,33 @@
 		margin-left: 0;
 		&:after {
 			display: none;
+		}
+	}
+}
+
+.comment-tooltip.tooltip {
+	position: relative;
+	position: absolute;
+	height: 10px;
+	left: 0;
+	right: 0;
+	z-index: 2;
+	.tooltip-bubble {
+		margin-left: $base-margin * 2;
+		margin-right: $base-margin * 2;
+		margin-top: 40px;
+		max-width: 800px;
+	}
+}
+
+.comment-tooltip.tooltip {
+	transition: z-index 0s 0s ease, transform $transition-duration ease-in, opacity $transition-duration ease;
+	transform: translateY(0px);
+	opacity: 1;
+	.parent-link {
+		display: none;
+		& + .subject {
+			padding-left: 0;
 		}
 	}
 }

@@ -92,7 +92,6 @@ function encodeURLParameters(parameters) {
 	return urlComponents.join('&');
 }
 
-var binderListeners = {};
 var eventClasses = {
 	click: MouseEvent
 };
@@ -110,26 +109,6 @@ function bindEvent(element, name, fn) {
 
 function unbindEvent(element, name, fn) {
 	element.removeEventListener(name, fn, false);
-}
-
-function eventProcessor(eventType) {
-	return function(e) {
-		var target = e.target;
-		var eventListeners = binderListeners[eventType];
-		binderListeners[eventType].forEach(function(listener) {
-			var selector = listener[0];
-			var fn = listener[1];
-			if (target.matches(selector)) {
-				fn(e, target);
-			}
-			else {
-				var closest = target.closest(selector);
-				if (closest !== null) {
-					fn(e, closest);
-				}
-			}
-		});
-	};
 }
 
 function onLoad(callback) {
@@ -172,18 +151,89 @@ function unbindOnUnLoad(callback) {
 	unbindEvent(document.body, 'contentunloaded', callback);
 }
 
-function listen(selector, event, fn) {
+function getAttachToElement(attachTo) {
+	if (attachTo === undefined) {
+		attachTo = document.body;
+	}
+	if (attachTo.binderListeners === undefined) {
+		attachTo.binderListeners = {};
+	}
+	return attachTo;
+}
+
+function eventProcessor(eventType, binderListeners) {
+	return function(e) {
+		var target = e.target;
+		var eventListeners = binderListeners[eventType];
+		binderListeners[eventType].forEach(function(listener) {
+			var selector = listener[0];
+			var fn = listener[1];
+			if (target.matches(selector)) {
+				fn(e, target);
+			}
+			else {
+				var closest = target.closest(selector);
+				if (closest !== null) {
+					fn(e, closest);
+				}
+			}
+		});
+	};
+}
+
+function listen(selector, event, fn, attachTo) {
+	attachTo = getAttachToElement(attachTo);
+	var binderListeners = attachTo.binderListeners;
 	if (binderListeners[event] === undefined) {
 		binderListeners[event] = [];
-		bindEvent(body, event, eventProcessor(event));
+		bindEvent(attachTo, event, eventProcessor(event, binderListeners));
 	}
 	binderListeners[event].push([selector, fn]);
 }
 
-function unlisten(selector, event, fn) {
+function unlisten(selector, event, fn, attachTo) {
+	attachTo = getAttachToElement(attachTo);
+	var binderListeners = attachTo.binderListeners;
 	binderListeners[event] = binderListeners[event].filter(function(listener) {
 		return !(listener[0] === selector && listener[1] === fn);
 	});
+}
+
+var liveListeners = [];
+var liveRegistered = false;
+
+function registerLiveListener(element, listener) {
+	var attachElements = qa(listener.attachTo, element, true);
+	attachElements.forEach(function(element) {
+		listen(listener.selector, listener.event, listener.fn, element);
+	});
+}
+
+function unregisterLiveListener(element, listener) {
+	var attachElements = qa(listener.attachTo, element, true);
+	attachElements.forEach(function(element) {
+		unlisten(listener.selector, listener.event, listener.fn, element);
+	});
+}
+
+function live(selector, event, fn, attachTo) {
+	if (!liveRegistered) {
+		onLoad(function(e) {
+			liveListeners.forEach(function(listener) {
+				registerLiveListener(e.memo, listener);
+			});
+		});
+
+		onUnload(function(e) {
+			liveListeners.forEach(function(listener) {
+				unregisterLiveListener(e.memo, listener);
+			});
+		});
+		liveRegistered = true;
+	}
+	var listener = {selector: selector, event: event, fn: fn, attachTo: attachTo};
+	liveListeners.push(listener);
+	registerLiveListener(document.body, listener);
 }
 
 
@@ -399,6 +449,7 @@ window._utils2 = {
 	unbindOnLoad: unbindOnLoad,
 	listen: listen,
 	unlisten: unlisten,
+	live: live,
 	debounce: debounce,
 	q: q,
 	qa: qa,

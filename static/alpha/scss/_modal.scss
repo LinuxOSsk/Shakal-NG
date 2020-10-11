@@ -1,6 +1,5 @@
 $modal-z-index: 1010;
 $modal-overlay-background: rgba(0, 0, 0, .5);
-$transition-duration: 0.25s;
 
 body.modal-open {
 	overflow: hidden;
@@ -16,12 +15,13 @@ body.modal-open {
 	z-index: -1;
 	background-color: transparent;
 	pointer-events: none;
-	transition: background-color $transition-duration ease, z-index 0s $transition-duration ease;
+	transition: background-color $transition-duration ease, z-index 0s $transition-duration ease, transform $transition-duration ease-in;
+	transform: translateY(0px);
 
 	.modal-window {
 		background: white;
 		opacity: 0;
-		transition: opacity $transition-duration ease, transform $transition-duration ease;
+		transition: opacity $transition-duration ease, transform $transition-duration ease-out;
 		transform: translateY(100px);
 		margin: 20px auto;
 		position: relative;

@@ -56,8 +56,10 @@ function modalOpen(content, options) {
 	modalContainer.appendChild(modal);
 	_.triggerLoad(modal);
 	setTimeout(function() {
-		modal.classList.add('open');
-		document.body.classList.add('modal-open');
+		if (!modal.classList.contains('close')) {
+			modal.classList.add('open');
+			document.body.classList.add('modal-open');
+		}
 	}, 10);
 	return modal;
 }
@@ -72,6 +74,7 @@ function modalClose(modalElement) {
 		return;
 	}
 	modal.classList.remove('open');
+	modal.classList.add('close');
 	_.triggerUnload(modal);
 
 	if (getTopLevelModal() === null) {

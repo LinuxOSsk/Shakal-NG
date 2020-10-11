@@ -1,0 +1,14 @@
+.tooltip {
+	position: relative;
+	.tooltip-bubble {
+		background-color: white;
+		@extend %large-shadow;
+	}
+
+	&.closed {
+		z-index: -1;
+		transition: z-index 0s $transition-duration ease, transform $transition-duration ease-in, opacity $transition-duration ease;
+		transform: translateY(100px);
+		opacity: 0;
+	}
+}
