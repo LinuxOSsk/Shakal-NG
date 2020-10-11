@@ -189,6 +189,12 @@ $small-header-height: sprite-height(logo_mini) + ($base-margin-reduced * 2);
 		height: $small-header-height;
 	}
 
+	#main_menu_toggle_input:checked ~ header #menu_panel {
+		transform: none;
+		transition: transform 200ms ease, visibility 0ms ease 0ms;
+		visibility: visible;
+	}
+
 	#menu_panel {
 		position: fixed;
 		left: 0;
@@ -198,16 +204,10 @@ $small-header-height: sprite-height(logo_mini) + ($base-margin-reduced * 2);
 		transform: translateX(-103%);
 		z-index: 10;
 		overflow-y: auto;
-		will-change: transform;
 		visibility: hidden;
 		transition: transform 200ms ease, visibility 0ms ease 200ms;
 		#user_panel {
 			width: 100%;
-		}
-		body.visible-menu & {
-			transform: none;
-			transition: transform 200ms ease, visibility 0ms ease 0ms;
-			visibility: visible;
 		}
 	}
 

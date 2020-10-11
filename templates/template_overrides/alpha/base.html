@@ -38,7 +38,7 @@
 		{% endwith %}
 	{% endblock %}
 </head>
-<body class="{% block bodyclass %}{% endblock %}{% if request.GET._visible_menu %} visible-menu{% endif %}">
+<body class="{% block bodyclass %}{% endblock %}">
 	{{ hijack_notification() }}
 	{% include 'includes/analytics.html' %}
 
@@ -48,13 +48,14 @@
 		</div>
 	{% endblock %}
 
-	<a id="menu_shadow" href="{{ current_link_remove('_visible_menu') }}" class="toggle-menu-action"></a>
+	<input id="main_menu_toggle_input" type="checkbox"{% if request.GET._visible_menu %} checked="checked"{% endif %}>
+	<label id="menu_shadow" for="main_menu_toggle_input" class="toggle-menu-action"></label>
 
 	<header>
 		<div id="header">
 			<div id="logo"><a href="{{ url("home") }}">LinuxOS.sk</a></div>
 
-			<a id="main_menu_toggle" href="{{ current_link_add(_visible_menu=1) }}" class="toggle-menu-action">Menu</a>
+			<label id="main_menu_toggle" for="main_menu_toggle_input" href="{{ current_link_add(_visible_menu=1) }}" class="toggle-menu-action">Menu</label>
 
 			<div id="menu_panel">
 				<div class="actions">
@@ -65,7 +66,7 @@
 					<a href="{{ url('fulltext:search', page=1) }}" class="search-link" title="Hľadať">Hľadať</a>
 				</div>
 				<div id="user_panel" class="touchhover-emul{% if user.is_authenticated %} authenticated{% endif %}">
-					<a id="main_menu_back" href="{{ current_link_remove('_visible_menu') }}" class="toggle-menu-action">Skryť menu</a>
+					<label id="main_menu_back" for="main_menu_toggle_input" class="toggle-menu-action">Skryť menu</label>
 					{% include "partials/user_panel.html" %}
 				</div>
 
@@ -141,7 +142,7 @@
 					</ul>
 				</div>
 				{% if tweets is defined %}
-					<div id="module_block_portal" class="module tweets">
+					<div id="module_block_tweets" class="module tweets">
 						<h2 class="block-title">Tweety</h2>
 						{% include "partials/tweets.html" %}
 					</div>
@@ -172,9 +173,6 @@
 	Hosting sponzorovaný <a href="https://vpsfree.cz/">vpsFree.cz</a> o.s.
 	</div>
 
-	<!--[if lt IE 7]>
-	<script src="{{ static("js/fixiepng.js") }}"></script>
-	<![endif]-->
 	<script type="text/javascript">
 	//<![CDATA[
 	window._urls = window._urls || {};

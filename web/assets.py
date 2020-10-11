@@ -157,6 +157,10 @@ ASSETS = {
 		"js": "static://js/menu.js",
 		'depends': ['utils_ajax'],
 	},
+	"menu2": {
+		"js": "static://js/menu2.js",
+		'depends': ['utils2'],
+	},
 	"messages": {
 		"js": "static://js/messages.js",
 		'depends': ['utils_ajax'],

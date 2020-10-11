@@ -199,6 +199,16 @@
 	}
 }
 
+#main_menu_toggle_input {
+	z-index: -1;
+	position: absolute;
+	visibility: hidden
+}
+
+#menu_shadow, #main_menu_back, #main_menu_toggle {
+	cursor: pointer;
+}
+
 @media #{$large-down} {
 	#header {
 		.search-link {
@@ -215,14 +225,15 @@
 }
 
 @media #{$medium-down} {
+	#main_menu_toggle_input:checked ~ header #menu_panel {
+		transform: none;
+		transition: transform 200ms ease, visibility 0ms ease 0ms;
+		visibility: visible;
+	}
+
 	#menu_panel {
 		background: $body-color;
 		box-shadow: 0px 0px 12px -1px rgba(0, 0, 0, 0.5);
-		body.visible-menu & {
-			transform: none;
-			transition: transform 200ms ease, visibility 0ms ease 0ms;
-			visibility: visible;
-		}
 		#user_panel {
 			background: $primary-color;
 			margin-right: 0;
@@ -300,11 +311,9 @@
 		}
 	}
 
-	#menu_shadow {
-		body.visible-menu & {
-			display: block;
-			background: rgba(0, 0, 0, .5);
-		}
+	#main_menu_toggle_input:checked ~ #menu_shadow {
+		display: block;
+		background: rgba(0, 0, 0, .5);
 	}
 
 	#main_menu_toggle {
