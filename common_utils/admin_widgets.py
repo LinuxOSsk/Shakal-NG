@@ -19,7 +19,7 @@ except ImportError:
 class RichEditorWidget(RichOriginalEditor):
 	class Media:
 		js = [
-			'js/richeditor/editor.js',
+			'js/richeditor/editor2.js',
 		]
 		css = {
 			'screen': ['css/editor.light.css'],

@@ -23,7 +23,7 @@ class TextVal(str):
 class RichEditorMixin(Textarea):
 	class Media:
 		js = [
-			'js/richeditor/editor.js',
+			'js/richeditor/editor2.js',
 		]
 		css = {
 			'screen': [

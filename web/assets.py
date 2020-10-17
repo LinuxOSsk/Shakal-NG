@@ -150,6 +150,10 @@ ASSETS = {
 		'js': 'static://django_ajax_utils/js/utils_ajax.js',
 		'depends': ['utils'],
 	},
+	'utils_ajax2': {
+		'js': 'static://js/utils_ajax.js',
+		'depends': ['utils2'],
+	},
 	"utils2": {
 		"js": "static://js/utils.js",
 	},
@@ -179,10 +183,10 @@ ASSETS = {
 	},
 	"modal": {
 		"js": "static://js/modal.js",
-		'depends': ['utils2', 'utils_ajax'],
+		'depends': ['utils2', 'utils_ajax2'],
 	},
-	"comments": {
-		"js": "static://js/comments.js",
+	"comments2": {
+		"js": "static://js/comments2.js",
 		'depends': ['modal', 'utils2'],
 	},
 }
