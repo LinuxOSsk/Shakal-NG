@@ -173,6 +173,10 @@ ASSETS = {
 		"js": "static://js/toggle.js",
 		'depends': ['utils_ajax'],
 	},
+	"toggle2": {
+		"js": "static://js/toggle2.js",
+		'depends': ['utils2'],
+	},
 	"modal": {
 		"js": "static://js/modal.js",
 		'depends': ['utils2', 'utils_ajax'],
