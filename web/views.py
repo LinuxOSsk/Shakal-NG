@@ -4,7 +4,9 @@ from __future__ import unicode_literals
 import sys
 
 from django.http import HttpResponseServerError, HttpResponseNotFound
+from django.http.response import Http404
 from django.template.loader import get_template
+from django.urls.exceptions import Resolver404
 from django.views.generic import TemplateView
 
 from article.models import Article, Category
@@ -29,10 +31,14 @@ def error_500(request, template_name='500.html'):
 
 def error_404(request, exception, template_name='404.html'):
 	template = get_template(template_name)
-	return HttpResponseNotFound(template.render({
+	ctx = {
 		'date_now': now(r"Y-m-d\TH:m:sO"),
 		'request': request,
-	}))
+	}
+	print(type(exception))
+	if isinstance(exception, Http404) and not isinstance(exception, Resolver404):
+		ctx['detail'] = exception
+	return HttpResponseNotFound(template.render(ctx))
 
 
 class Home(TemplateView):

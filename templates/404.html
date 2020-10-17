@@ -1,9 +1,9 @@
 {% extends "error.html" %}
-{% block head_title %}Požadovaný súbor nebol nájdený{% endblock %}
+{% block head_title %}{% if detail %}{{ detail }}{% else %}Požadovaný súbor nebol nájdený{% endif %}{% endblock %}
 {% block pagetitle %}Požadovaný súbor nebol nájdený{% endblock %}
 {% block errorcode %}404{% endblock %}
 {% block details %}
-	<p>Zdá sa, že stránka, na ktorú ste boli odkázaní neexistuje. Ak máte pocit, že táto stránka, by mala existovať môžte nám tento problém spolu s podrobnosťami nahlásiť.</p>
+	<p>{% if detail %}{{ detail }}{% else %}Zdá sa, že stránka, na ktorú ste boli odkázaní neexistuje. Ak máte pocit, že táto stránka, by mala existovať môžte nám tento problém spolu s podrobnosťami nahlásiť.{% endif %}</p>
 	<h2>Podrobnosti</h2>
 	<ul>
 		<li>Čas: {{ date_now }}</li>
