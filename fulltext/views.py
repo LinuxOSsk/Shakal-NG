@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.contrib.contenttypes.models import ContentType
 from django.utils.functional import cached_property
 from django.views.generic import ListView
 
@@ -24,6 +25,9 @@ class SearchView(ListView):
 				.select_related('content_type')
 				.prefetch_related('content_object')
 				.order_by(data['ordering'] or '-rank'))
+			if data['models']:
+				ctypes = [ContentType.objects.get_by_natural_key(*model.split('.')) for model in data['models']]
+				results = results.filter(content_type__in=ctypes)
 			return results
 		else:
 			return SearchIndex.objects.none()
