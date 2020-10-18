@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
+from django.conf import settings
 from easy_thumbnails.files import ThumbnailerFieldFile
 
 
 def thumbnail(obj, **kwargs):
 	thumbnailer = ThumbnailerFieldFile(obj.instance, obj.field, obj.name)
-	return thumbnailer.get_thumbnail(kwargs)
+	try:
+		return thumbnailer.get_thumbnail(kwargs)
+	except Exception:
+		if getattr(settings, 'THUMBNAIL_DEBUG', False):
+			raise

@@ -17,10 +17,12 @@ class AttachmentManagementMixin(object):
 				'filesize': attachment.size,
 			}
 			if hasattr(attachment, 'attachmentimage'):
-				attachment_data['width'] = attachment.attachmentimage.width
-				attachment_data['height'] = attachment.attachmentimage.height
-				attachment_data['thumbnails'] = {
-					'standard': thumbnail(attachment.attachment, size=(256, 256)).url
-				}
+				thumb = thumbnail(attachment.attachment, size=(256, 256))
+				if thumb:
+					attachment_data['width'] = attachment.attachmentimage.width
+					attachment_data['height'] = attachment.attachmentimage.height
+					attachment_data['thumbnails'] = {
+						'standard': thumb.url
+					}
 			attachments.append(attachment_data)
 		return attachments

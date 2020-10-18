@@ -3,6 +3,33 @@
 "use strict";
 
 
+function checkFeatures(features) {
+	for (var i = 0; i < features.length; ++i) {
+		switch (features[i]) {
+			case "ajax":
+				return window.XMLHttpRequest !== undefined;
+			case "history_push":
+				if (window.history && window.history.pushState) {
+					return true;
+				}
+				else {
+					return false;
+				}
+				break;
+			case "touch":
+				return "ontouchstart" in window;
+			case "drop":
+				return "ondrop" in window;
+			case "file":
+				return "File" in window && "FileReader" in window;
+			default:
+				return false;
+		}
+	}
+	return true;
+}
+
+
 var body = document.body;
 var ap = Array.prototype;
 
@@ -431,6 +458,7 @@ function loaderCss() {
 
 
 window._utils2 = {
+	checkFeatures: checkFeatures,
 	getCookie: getCookie,
 	setCookie: setCookie,
 	has: has,

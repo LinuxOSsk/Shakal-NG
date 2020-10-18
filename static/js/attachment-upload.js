@@ -1,6 +1,8 @@
 (function(_) {
 "use strict";
 
+var E = _.el;
+
 var filesizeformat = function(bytes) {
 	var KB = 1 << 10;
 	var MB = 1 << 20;
@@ -29,11 +31,11 @@ var filesizeformat = function(bytes) {
 	}
 };
 
-window._utils.filesizeformat = filesizeformat;
+_.filesizeformat = filesizeformat;
 
 var createUploader = function(element) {
-	var uploadAjax = _.cls(element, 'attachment-upload-ajax')[0];
-	if (uploadAjax === undefined) {
+	var uploadAjax = _.q('.attachment-upload-ajax', element);
+	if (uploadAjax === null) {
 		return;
 	}
 	var form = element;
@@ -44,11 +46,11 @@ var createUploader = function(element) {
 		return;
 	}
 	var uploadSession = _.id('id_upload_session').value;
-	var attachmentTemplate = _.cls(uploadAjax, 'attachment-template')[0];
-	var uploadContainer = _.cls(element, 'attachment-upload-container')[0];
-	var uploadInput = _.cls(element, 'attachment-upload')[0];
+	var attachmentTemplate = _.q('.attachment-template', uploadAjax);
+	var uploadContainer = _.q('.attachment-upload-container', element);
+	var uploadInput = _.q('.attachment-upload', element);
 	var attachedFiles = [];
-	if (attachmentTemplate === undefined || uploadContainer === undefined || uploadInput === undefined) {
+	if (attachmentTemplate === null || uploadContainer === null || uploadInput === null) {
 		return;
 	}
 	var attachmentTemplateSibling = attachmentTemplate.nextSibling;
@@ -72,7 +74,7 @@ var createUploader = function(element) {
 		}
 	});
 
-	_.addClass(element, 'ajax');
+	element.classList.add('ajax');
 	uploadInput.style.visibility = 'hidden';
 	uploadInput.style.display = 'block';
 	uploadInput.style.width = '1px';
@@ -138,7 +140,7 @@ var createUploader = function(element) {
 		if (!found) {
 			uploading = false;
 			if (submitButton === undefined) {
-				submitButton = form.querySelector('[type="submit"]');
+				submitButton = _.q('[type="submit"]', form);
 			}
 			submited = true;
 			submitButton.click();
@@ -167,7 +169,7 @@ var createUploader = function(element) {
 
 	var onUploadChanged = function() {
 		_.unbindEvent(uploadInput, 'change');
-		_.forEach(uploadInput.files, function(fileObject) {
+		Array.prototype.forEach.call(uploadInput.files, function(fileObject) {
 			enqueueFile(fileObject);
 		});
 		var newInput = uploadInput.cloneNode(true);
@@ -184,13 +186,13 @@ var createUploader = function(element) {
 	_.bindEvent(uploadContainer, 'dragover', function(e) {
 		e.stopPropagation();
 		e.preventDefault();
-		_.addClass(uploadContainer, 'dragover');
+		uploadContainer.classList.add('dragover');
 	});
 
 	_.bindEvent(uploadContainer, 'dragleave', function(e) {
 		e.stopPropagation();
 		e.preventDefault();
-		_.removeClass(uploadContainer, 'dragover');
+		uploadContainer.classList.remove('dragover');
 	});
 
 	_.bindEvent(uploadContainer, 'drop', function(e) {
@@ -201,10 +203,10 @@ var createUploader = function(element) {
 			return;
 		}
 		var files = dt.files;
-		_.forEach(files, function(fileObject) {
+		files.forEach(function(fileObject) {
 			enqueueFile(fileObject);
 		});
-		_.removeClass(uploadContainer, 'dragover');
+		uploadContainer.classList.remove('dragover');
 	});
 
 	_.bindEvent(uploadInput, 'change', onUploadChanged);
@@ -213,12 +215,12 @@ var createUploader = function(element) {
 		var element = attachmentTemplate.cloneNode(true);
 		var img;
 
-		_.removeClass(element, 'attachment-template');
+		element.classList.remove('attachment-template');
 
-		var thumbnailTemplate = _.cls(element, 'template-thumbnail')[0];
-		if (thumbnailTemplate !== undefined) {
+		var thumbnailTemplate = _.q('.template-thumbnail', element);
+		if (thumbnailTemplate !== null) {
 			var style = thumbnailTemplate.getAttribute('data-style');
-			img = _.elem('IMG');
+			img = E('img');
 			if (style !== undefined) {
 				img.setAttribute('style', style);
 			}
@@ -233,42 +235,42 @@ var createUploader = function(element) {
 			img.style.display = 'none';
 		}
 
-		var urlTemplate = _.cls(element, 'template-url')[0];
-		if (urlTemplate !== undefined) {
+		var urlTemplate = _.q('.template-url', element);
+		if (urlTemplate !== null) {
 			if (data.url === undefined) {
 				urlTemplate.appendChild(document.createTextNode(data.name));
 			}
 			else {
-				urlTemplate.appendChild(_.elem('A', {'href': data.url}, data.name));
+				urlTemplate.appendChild(E('a', {'href': data.url}, data.name));
 			}
 		}
 
-		var urlnameTemplate = _.cls(element, 'template-urlname')[0];
-		if (urlnameTemplate !== undefined) {
+		var urlnameTemplate = _.q('.template-urlname', element);
+		if (urlnameTemplate !== null) {
 			urlnameTemplate.appendChild(document.createTextNode(data.url || data.name));
 		}
 
-		var filesizeTemplate = _.cls(element, 'template-filesize')[0];
-		if (filesizeTemplate !== undefined) {
+		var filesizeTemplate = _.q('.template-filesize', element);
+		if (filesizeTemplate !== null) {
 			filesizeTemplate.appendChild(document.createTextNode(filesizeformat(data.filesize)));
 		}
 
-		var progressTemplate = _.cls(element, 'template-progress')[0];
+		var progressTemplate = _.q('.template-progress', element);
 		var progressValue, progressContainer;
 		if (data.persistent) {
 			if (progressTemplate !== undefined) {
-				progressContainer = _.elem('DIV', {'class': 'progress-container'});
-				progressValue = _.elem('DIV', {'class': 'progress-value'});
+				progressContainer = E('div.progress-container',
+					progressValue=E('div.progress-value')
+				);
 				progressValue.style.width = '0%';
-				progressContainer.appendChild(progressValue);
 				progressTemplate.appendChild(progressContainer);
 			}
 		}
 
-		var deleteTemplate = _.cls(element, 'template-delete')[0];
+		var deleteTemplate = _.q('.template-delete', element);
 		if (deleteTemplate !== undefined) {
 			deleteTemplate.onclick = function() {
-				_.forEach(attachedFiles, function(preview, index) {
+				attachedFiles.forEach(function(preview, index) {
 					if (preview.element !== element) {
 						return;
 					}
@@ -323,19 +325,19 @@ var createUploader = function(element) {
 			_.id('id_upload_session').value = uploadSession;
 		}
 		var toDelete = [];
-		_.forEach(attachedFiles, function(preview) {
+		attachedFiles.forEach(function(preview) {
 			if (!preview.data.persistent) {
 				toDelete.push(preview);
 			}
 		});
-		attachedFiles = _.filter(attachedFiles, function(preview) {
+		attachedFiles = attachedFiles.filter(function(preview) {
 			return preview.data.persistent;
 		});
-		_.forEach(toDelete, function(preview) {
+		toDelete.forEach(function(preview) {
 			preview.element.parentNode.removeChild(preview.element);
 		});
 
-		_.forEach(data.list, function(preview) {
+		data.list.forEach(function(preview) {
 			createPreview(preview);
 		});
 	};
@@ -360,11 +362,11 @@ var register = function(root) {
 		return;
 	}
 
-	_.forEach(_.cls(root, 'attachment-upload'), function(uploadElement) {
+	_.qa('.attachment-upload', root).forEach(function(uploadElement) {
 		createUploader(uploadElement);
 	});
 };
 
 _.onLoad(function(e) { register(e.memo); });
 
-}(_utils));
+}(_utils2));
