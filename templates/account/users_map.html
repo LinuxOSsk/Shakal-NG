@@ -92,7 +92,7 @@ var users = [
 ];
 
 var features = new Array(users.length);
-_.forEach(users, function(user, i) {
+users.forEach(function(user, i) {
 	var geoposition = user.geoposition.split(',');
 	var lng = parseFloat(geoposition[1]);
 	var lat = parseFloat(geoposition[0]);
@@ -197,7 +197,7 @@ map.on('click', function(evt) {
 		var coord = geometry.getCoordinates();
 		content.innerHTML = '';
 
-		_.forEach(feature.get('features'), function(feature) {
+		feature.get('features').forEach(function(feature) {
 			var user = document.createElement('DIV');
 			var usernameLink = document.createElement('A');
 			usernameLink.setAttribute('href', feature.get('url'));
@@ -224,7 +224,7 @@ map.on('pointermove', function(e) {
 });
 
 
-}(_utils));
+}(_utils2));
 
 //]]>
 </script>
