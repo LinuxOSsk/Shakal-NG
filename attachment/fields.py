@@ -6,7 +6,7 @@ from django.forms import FileField, ImageField
 from django.forms.widgets import ClearableFileInput
 from django.template.defaultfilters import filesizeformat
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 
 def get_file_list(files, name):

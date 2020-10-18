@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.urls import reverse_lazy
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 
 from .models import Tweet
 
@@ -17,7 +17,7 @@ class TweetFeed(Feed):
 	description_template = 'feeds/description/tweet.html'
 
 	def item_author_name(self, item):
-		return force_text(item.author)
+		return force_str(item.author)
 
 	def item_author_link(self, item):
 		return item.author.get_absolute_url()

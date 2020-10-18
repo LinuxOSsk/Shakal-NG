@@ -6,7 +6,7 @@ from urllib.parse import urlparse, urlunparse
 from django.http import QueryDict
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import resolve_url
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 
 
 def build_query(query):
@@ -16,7 +16,7 @@ def build_query(query):
 	else:
 		items = query
 	for key, value in items:
-		q.appendlist(key, force_text(value))
+		q.appendlist(key, force_str(value))
 	return q.urlencode()
 
 

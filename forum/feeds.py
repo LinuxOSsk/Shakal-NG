@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.urls import reverse_lazy
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 
 from forum.models import Topic, Section
 
@@ -32,7 +32,7 @@ class TopicFeed(Feed):
 		return item.created
 
 	def item_categories(self, item):
-		return [force_text(item.section)]
+		return [force_str(item.section)]
 
 	def items(self):
 		return Topic.topics.all().select_related('author', 'section').order_by('-pk')[:settings.FEED_SIZE]

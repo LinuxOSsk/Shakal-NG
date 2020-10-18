@@ -7,7 +7,7 @@ from django.http.response import HttpResponseNotFound, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import date as date_filter, striptags
 from django.utils import timezone
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.views.generic import View
 from easy_thumbnails.files import get_thumbnailer
 
@@ -191,10 +191,10 @@ class TextRenderer(BaseRenderer):
 		self.title = self.getattr(content_object, title_field)
 		self.category = None
 		if category_field is not None:
-			self.category = force_text(self.getattr(content_object, category_field))
+			self.category = force_str(self.getattr(content_object, category_field))
 		self.image = None
 		if image_field is not None:
-			self.image = force_text(self.getattr(content_object, image_field))
+			self.image = force_str(self.getattr(content_object, image_field))
 		self.created = self.getattr(content_object, 'created', None)
 		self.content = html_entity_decode(striptags(self.content))
 		super().__init__(image_type, content_type, content_object)
@@ -318,7 +318,7 @@ class PollRenderer(TextRenderer):
 		for choice in self.object.choice_set.all():
 			layout['children'].append({
 				'type': 'text',
-				'text': force_text(choice),
+				'text': force_str(choice),
 				'font_size': 52,
 				'font': 'OpenSansCondensed/OpenSansCondensed-Light.ttf',
 				'color': '#ffffff',

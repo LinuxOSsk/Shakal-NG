@@ -4,7 +4,7 @@ from builtins import chr as chr_
 from html.entities import entitydefs
 
 from django import template
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django_jinja import library
 
 
@@ -17,7 +17,7 @@ dec_pattern = re.compile(r'&\#(\d+?);')
 def html_entity_decode_char(m, defs=None):
 	defs = defs or entitydefs
 	try:
-		return force_text(defs[m.group(1)], errors='replace')
+		return force_str(defs[m.group(1)], errors='replace')
 	except KeyError:
 		return m.group(0)
 

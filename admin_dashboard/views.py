@@ -9,8 +9,8 @@ from braces.views import StaffuserRequiredMixin
 from django.db.models import Count
 from django.http.response import HttpResponse
 from django.urls import reverse
-from django.utils.encoding import force_text
-from django.utils.translation import ugettext as _
+from django.utils.encoding import force_str
+from django.utils.translation import gettext as _
 from django.views.generic import View
 
 from article.models import Article
@@ -72,7 +72,7 @@ class Stats(StaffuserRequiredMixin, View):
 		if fmt == 'csv':
 			f = StringIO()
 			for row in data:
-				f.write(','.join([force_text(s) for s in row]) + '\n')
+				f.write(','.join([force_str(s) for s in row]) + '\n')
 			return HttpResponse(f.getvalue())
 		else: # json
 			return HttpResponse(dumps(data))

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.termcolors import colorize
 
 
@@ -40,7 +40,7 @@ class AbstractTablePrinter(object):
 				row_lengths[i] = max(len(col), row_lengths[i])
 		for row in data:
 			for i, col in enumerate(row):
-				row_lengths[i] = max(len(force_text(col)), row_lengths[i])
+				row_lengths[i] = max(len(force_str(col)), row_lengths[i])
 		return row_lengths
 
 	def fill(self, row_lengths, padchar, left, mid, right): #pylint: disable=too-many-arguments
@@ -56,7 +56,7 @@ class AbstractTablePrinter(object):
 		return adjusted
 
 	def printrow(self, row, row_lengths, left, mid, right): #pylint: disable=too-many-arguments
-		txt = [' ' + self.render_col(force_text(c), row_lengths[i]) + ' ' for i, c in enumerate(row)]
+		txt = [' ' + self.render_col(force_str(c), row_lengths[i]) + ' ' for i, c in enumerate(row)]
 		return ''.join([left, mid.join(txt), right])
 
 	def render(self):
