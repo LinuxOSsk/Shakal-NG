@@ -13,7 +13,6 @@ function onTouchHoverEmulClicked(e, element) {
 	if (e.which !== 1) { return; }
 	element.classList.toggle('touchhover');
 	var target = e.target;
-	e.preventDefault();
 	while (target) {
 		if (target === element || target.classList.contains('notouch')) {
 			e.preventDefault();
