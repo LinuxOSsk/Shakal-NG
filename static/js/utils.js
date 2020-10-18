@@ -168,7 +168,7 @@ function eventProcessor(eventType, binderListeners) {
 		binderListeners[eventType].forEach(function(listener) {
 			var selector = listener[0];
 			var fn = listener[1];
-			if (target.matches(selector)) {
+			if (selector === null || target.matches(selector)) {
 				fn(e, target);
 			}
 			else {
