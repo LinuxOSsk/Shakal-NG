@@ -11,7 +11,7 @@ Inštalácia
 
 Debian 8
 
-    sudo apt-get --yes install libjpeg-dev build-essential python3-dev libfreetype6-dev git
+    sudo apt-get --yes install libjpeg-dev build-essential python3-dev python3-venv libfreetype6-dev git
 
 Arch linux:
 
