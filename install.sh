@@ -40,7 +40,7 @@ all: localinstall
 	@touch .stamp_downloaded
 
 .stamp_virtualenv: .stamp_downloaded
-	${PYTHON} -m venv venv -p ${PYTHON}
+	${PYTHON} -m venv venv
 	@touch .stamp_virtualenv
 
 .stamp_requirements: .stamp_virtualenv
