@@ -19,7 +19,7 @@ Arch linux:
 
 ### Inštalácia virtuálneho prostredia
 
-    wget https://raw.github.com/LinuxOSsk/Shakal-NG/master/install.sh&&chmod +x install.sh&&. ./install.sh
+    curl -L https://raw.githubusercontent.com/LinuxOSsk/Shakal-NG/master/install.sh > install.sh&&chmod +x install.sh&&. ./install.sh
 
 Skript vytvára v podadresári shakal súbor Makefile, ktorý následne
 stiahne a nainštaluje zvyšné závislosti pod bežným používateľom (nie je
