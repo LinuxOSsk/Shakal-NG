@@ -40,18 +40,10 @@ all: localinstall
 	@touch .stamp_downloaded
 
 .stamp_virtualenv: .stamp_downloaded
-	wget https://raw.github.com/pypa/virtualenv/master/virtualenv.py -O virtualenv.py
-	${PYTHON} virtualenv.py venv --no-setuptools --no-pip --no-wheel -p ${PYTHON}
-	rm virtualenv.py*
+	${PYTHON} -m virtualenv venv -p ${PYTHON}
 	@touch .stamp_virtualenv
 
-.stamp_setuptools: .stamp_virtualenv
-	wget https://bootstrap.pypa.io/get-pip.py -O get-pip.py
-	${VENV_PYTHON} get-pip.py
-	rm get-pip.py*
-	@touch .stamp_setuptools
-
-.stamp_requirements: .stamp_setuptools
+.stamp_requirements: .stamp_virtualenv
 	venv/bin/pip install -r shakal/requirements.dev.txt
 	@touch .stamp_requirements
 
@@ -121,7 +113,6 @@ banner:
 fakeinstall:
 	@if [ ! -f .stamp_downloaded ]; then touch .stamp_downloaded; fi
 	@if [ ! -f .stamp_virtualenv ]; then touch .stamp_virtualenv; fi
-	@if [ ! -f .stamp_setuptools ]; then touch .stamp_setuptools; fi
 	@if [ ! -f .stamp_requirements ]; then touch .stamp_requirements; fi
 EOF
 
