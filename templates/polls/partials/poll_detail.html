@@ -1,27 +1,27 @@
 {{ add_discussion_attributes(polls) }}
 {% for poll in polls %}
-<h3><a href="{{ poll.get_absolute_url() }}">{{ poll }}</a></h3>
+	<h3><a href="{{ poll.get_absolute_url() }}">{{ poll }}</a></h3>
 
-<div class="poll">
-<form action="{{ url('polls:post', pk=poll.pk) }}" method="post" id="polls-form">
-{% with next_link=1, input=1 %}
-{% include "polls/partials/poll_detail_embedded.html" %}
-{% endwith %}
-<div class="submit-row">
-	<input type="hidden" name="next" value="{{ request.path }}" />
-	{% if request.user.is_authenticated %}
-	<div class="negative">
-		<div class="btn"><span class="wrap"><a class="text" href="{{ url("polls:create") }}">Navrhnúť</a></span></div>
+	<div class="poll">
+		<form action="{{ url('polls:post', pk=poll.pk) }}" method="post" id="polls-form">
+			{% with next_link=1, input=1 %}
+			{% include "polls/partials/poll_detail_embedded.html" %}
+			{% endwith %}
+			<div class="submit-row">
+				<input type="hidden" name="next" value="{{ request.path }}" />
+				{% if request.user.is_authenticated %}
+				<div class="negative">
+					<div class="btn"><span class="wrap"><a class="text" href="{{ url("polls:create") }}">Navrhnúť</a></span></div>
+				</div>
+				{% endif %}
+				{% if poll %}
+				<div class="positive">
+					<button class="btn" type="submit"><span class="wrap"><span class="text">Hlasovať</span></span></button>
+				</div>
+				{% endif %}
+			</div>
+		</form>
 	</div>
-	{% endif %}
-	{% if poll %}
-	<div class="positive">
-		<button class="btn" type="submit"><span class="wrap"><span class="text">Hlasovať</span></span></button>
-	</div>
-	{% endif %}
-</div>
-
-</form>
 {% else %}
 	{% if request.user.is_authenticated %}
 		<div class="submit-row">
@@ -31,4 +31,3 @@
 		</div>
 	{% endif %}
 {% endfor %}
-</div>
