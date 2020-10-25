@@ -14,7 +14,6 @@ sites = (
 	('veda', 'veda'),
 	('odkazy', 'odkazy'),
 
-	('reklama', 'reklama'),
 	('portal_podporte_nas', 'portal-podporte-nas'),
 	('portal_vyvoj', 'portal-vyvoj'),
 	('export', 'export'),
