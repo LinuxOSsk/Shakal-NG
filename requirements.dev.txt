@@ -21,7 +21,7 @@ certifi==2020.6.20        # via requests
 cffi==1.14.3              # via cryptography
 chardet==3.0.4            # via requests
 click==7.1.2              # via pip-tools
-cryptography==3.1.1       # via pyjwt
+cryptography==3.2.1       # via pyjwt
 decorator==4.4.2          # via ipython
 defusedxml==0.6.0         # via python3-openid
 django-allauth==0.43.0    # via -r requirements.dev.in
@@ -42,13 +42,13 @@ django-reversion==3.0.8   # via -r requirements.dev.in
 django-static-sitemaps==4.6.0  # via -r requirements.dev.in
 django==3.0.10            # via -r requirements.dev.in, django-allauth, django-appconf, django-braces, django-debug-toolbar, django-jinja, django-mptt, django-reversion, django-static-sitemaps, easy-thumbnails
 easy-thumbnails==2.7      # via -r requirements.dev.in
-feedparser==6.0.1         # via -r requirements.dev.in
+feedparser==6.0.2         # via -r requirements.dev.in
 future==0.18.2            # via -r requirements.dev.in
 html5lib==1.1             # via -r requirements.dev.in
 idna==2.10                # via requests
 importlib-metadata==2.0.0  # via ptpython
 ipython-genutils==0.2.0   # via traitlets
-ipython==7.18.1           # via -r requirements.dev.in
+ipython==7.19.0           # via -r requirements.dev.in
 isort==5.6.4              # via pylint
 jedi==0.17.2              # via ipython, ptpython
 jinja2==2.11.2            # via django-jinja
@@ -62,13 +62,13 @@ parso==0.7.1              # via jedi
 pathtools==0.1.2          # via watchdog
 pexpect==4.8.0            # via ipython
 pickleshare==0.7.5        # via ipython
-pillow==8.0.0             # via -r requirements.dev.in, easy-thumbnails
+pillow==8.0.1             # via -r requirements.dev.in, easy-thumbnails
 pip-tools==5.3.1          # via -r requirements.dev.in
 prompt-toolkit==3.0.8     # via ipython, ptpython
 ptpython==3.0.7           # via -r requirements.dev.in
 ptyprocess==0.6.0         # via pexpect
 pycparser==2.20           # via cffi
-pygments==2.7.1           # via -r requirements.dev.in, ipython, ptpython
+pygments==2.7.2           # via -r requirements.dev.in, ipython, ptpython
 pyinotify==0.9.6          # via -r requirements.dev.in
 pyjwt[crypto]==1.7.1      # via django-allauth
 pylint-django==2.3.0      # via -r requirements.dev.in
@@ -86,16 +86,16 @@ rjsmin==1.1.0             # via django-compressor
 sgmllib3k==1.0.0          # via feedparser
 six==1.15.0               # via astroid, bleach, cryptography, django-braces, django-compat, django-compressor, django-static-sitemaps, html5lib, libsass, packaging, pip-tools
 sqlparse==0.4.1           # via django, django-debug-toolbar
-toml==0.10.1              # via pylint
+toml==0.10.2              # via pylint
 traitlets==5.0.5          # via ipython
 typed-ast==1.4.1          # via astroid
-urllib3==1.25.10          # via requests
+urllib3==1.25.11          # via requests
 watchdog==0.10.3          # via -r requirements.dev.in
 wcwidth==0.2.5            # via prompt-toolkit
 webencodings==0.5.1       # via bleach, html5lib
 werkzeug==1.0.1           # via -r requirements.dev.in
 wrapt==1.12.1             # via astroid
-zipp==3.3.1               # via importlib-metadata
+zipp==3.4.0               # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
