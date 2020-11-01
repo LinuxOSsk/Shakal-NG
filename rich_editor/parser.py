@@ -95,12 +95,12 @@ ALLOWED_ATTRIBUTES = {
 	'a': ['href', 'title', 'nofollow'],
 	'abbr': ['title'],
 	'acronym': ['title'],
-	'img': ['src', 'alt'],
+	'img': ['src', 'alt', 'style'],
 	'th': ['colspan', 'rowspan'],
 	'td': ['colspan', 'rowspan'],
 	'pre': ['class'],
 }
-
+ALLOWED_STYLES = ['width', 'height']
 
 class HtmlParser:
 	auto_paragraphs = True
@@ -112,7 +112,7 @@ class HtmlParser:
 			supported_tags = DEFAULT_TAG_LIST
 		else:
 			supported_tags = supported_tags
-		self.cleaner = Cleaner(tags=supported_tags, attributes=ALLOWED_ATTRIBUTES)
+		self.cleaner = Cleaner(tags=supported_tags, attributes=ALLOWED_ATTRIBUTES, styles=ALLOWED_STYLES)
 
 	def parse(self, text):
 		filters = [AddRequiredAttributesFilter, ClassFilter, alphabeticalattributes.Filter]
