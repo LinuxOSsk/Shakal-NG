@@ -115,6 +115,12 @@ class News(TimestampModelMixin, models.Model):
 		verbose_name="schválená",
 		default=False
 	)
+	event_date = models.DateField(
+		verbose_name="dátum udalosti",
+		help_text="Pri vyplnení sa správička zobrazí v kalendári udalostí.",
+		blank=True,
+		null=True
+	)
 
 	comments_header = GenericRelation('comments.RootHeader')
 	comments = GenericRelation('comments.Comment')

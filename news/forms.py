@@ -17,6 +17,7 @@ EDITABLE_FIELDS = (
 	'source_url',
 	'original_short_text',
 	'original_long_text',
+	'event_date',
 )
 
 

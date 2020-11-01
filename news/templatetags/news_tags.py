@@ -16,4 +16,11 @@ def news_frontpage(context):
 		'news': News.objects.all().select_related('category')[:10],
 		'user': context['user']
 	}
-	return mark_safe(render_to_string('news/partials/list.html', ctx))
+	return render_to_string('news/partials/list.html', ctx)
+
+
+@library.global_function
+@contextfunction
+def news_calendar(context):
+	ctx = {}
+	return render_to_string('news/partials/calendar.html', ctx)
