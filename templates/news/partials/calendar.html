@@ -1,2 +1,42 @@
 <div class="module-row">
+	{% for month in calendars %}
+		<table class="calendar-widget">
+			<caption>{{ month.month|date("F")|capfirst }}</caption>
+			<thead>
+				<tr>
+					<th>Po</th>
+					<th>Ut</th>
+					<th>St</th>
+					<th>Št</th>
+					<th>Pi</th>
+					<th>So</th>
+					<th>Ne</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for week in month.weeks %}
+					<tr>
+						{% for day in week %}
+							<td class="{% if day.extra %}extra{% endif %} {% if day.events %} active tooltip{% endif %}">
+								{{ day.day|date("d") }}
+								{% if day.events %}
+									<div class="tooltip-bubble">
+										<div class="tooltip-content">
+											<ul class="events">
+												{% for event in day.events %}
+													<li>
+														<a href="{{ event.get_absolute_url() }}">{{ event }}</a>
+													</li>
+												{% endfor %}
+											</ul>
+										</div>
+									</div>
+								{% endif %}
+							</td>
+						{% endfor %}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endfor %}
 </div>
