@@ -12,6 +12,7 @@ UPDATE_LAST_VIEW_TIME = {
 	'blog:post-list': 'blog.post',
 	'forum:overview': 'forum.topic',
 	'news:list': 'news.news',
+	'tweets:list': 'tweets.tweet',
 	'wiki:home': 'wiki.page',
 }
 
@@ -20,6 +21,7 @@ UPDATE_VISITED_ITEMS = {
 	'blog:post-detail': 'blog.post',
 	'forum:topic-detail': 'forum.topic',
 	'news:detail': 'news.news',
+	'tweets:detail': 'tweets.tweet',
 	'wiki:page': 'wiki.page',
 }
 

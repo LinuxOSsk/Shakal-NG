@@ -19,6 +19,7 @@ MODELS = [
 	'blog.post',
 	'forum.topic',
 	'news.news',
+	'tweets.tweet',
 	'wiki.page',
 ]
 

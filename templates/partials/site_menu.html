@@ -21,5 +21,6 @@
 	</li>
 	<li{% if section=='tweets' %} class="active"{% endif %}>
 		<a href="{{ url('tweets:list', page=1) }}">Tweety</a>
+		{% if count_new and count_new.tweets_tweet %}<span class="badge important">{{ count_new.tweets_tweet }}</span>{% endif %}
 	</li>
 {% endwith %}
