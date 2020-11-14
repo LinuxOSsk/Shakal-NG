@@ -12,6 +12,7 @@ $menu-active-color: #c0c0c0;
 
 $module-margin: 16px;
 $line-height: 20px;
+$transition-duration: 0.1s;
 
 @mixin panel($border: #000000, $background: #c0c0c0, $shadow: true) {
 	border: 1px solid $border;
@@ -30,4 +31,6 @@ $line-height: 20px;
 @import "layout";
 @import "base";
 @import "components";
+@import "tooltip";
+@import "calendar";
 @import "scrollbar";

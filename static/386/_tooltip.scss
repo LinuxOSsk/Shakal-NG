@@ -1,0 +1,22 @@
+.tooltip {
+	position: relative;
+	.tooltip-bubble {
+		@include panel();
+	}
+
+	&.closed, &.onhover .tooltip-bubble {
+		z-index: -1;
+		transition: z-index 0s $transition-duration ease, transform $transition-duration ease-in, opacity $transition-duration ease;
+		opacity: 0;
+	}
+
+	&.onhover .tooltip-bubble {
+		position: absolute;
+	}
+
+	&.onhover:hover .tooltip-bubble, &.onhover .tooltip-bubble:hover {
+		z-index: 2;
+		transition: z-index 0s 0s ease, transform $transition-duration ease-in, opacity $transition-duration ease;
+		opacity: 1;
+	}
+}
