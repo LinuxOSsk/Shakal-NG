@@ -3,6 +3,11 @@
 	<span class="time">{{ item.created|humandatetime }}</span> |
 	<span class="user">{{ user_link(item.author, item.authors_name) }}</span>
 </div>
+{% if item.event_date %}
+	<div class="info">
+		Dátum udalosti: <span class="time">{{ item.event_date|date("SHORT_DATE_FORMAT") }}</span>
+	</div>
+{% endif %}
 {{ item.short_text|safe }}
 <div class="info bottom">
 	<span class="comments">

@@ -56,6 +56,11 @@
 	<span class="user">{{ user_link(news.author, news.authors_name) }}</span> |
 	<span class="category"><a href="{{ news.category.get_absolute_url() }}">{{ news.category }}</a></span>
 </div>
+{% if news.event_date %}
+	<div class="info">
+		Dátum udalosti: <span class="time">{{ news.event_date|date("SHORT_DATE_FORMAT") }}</span>
+	</div>
+{% endif %}
 
 <p>
 {{ news.long_text|safe }}
