@@ -83,3 +83,11 @@ class NoteCreate(PermissionRequiredMixin, NoteCreateBase):
 
 	def get_content_object(self):
 		return get_object_or_404(News, slug=self.kwargs['slug'])
+
+
+class EventListView(NewsListView):
+	template_name = 'news/event_list.html'
+	queryset = (News.objects.all()
+		.select_related('category')
+		.filter(event_date__isnull=False)
+		.order_by('-event_date', '-pk'))

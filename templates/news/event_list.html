@@ -1,0 +1,25 @@
+{% extends "news/news_list.html" %}
+
+{% block head_title %}Udalosti{% endblock %}
+
+{% block breadcrumbs_detail %}
+	{{ breadcrumb("Udalosti", url="news:event-list", page=1) }}
+{% endblock %}
+
+{% block category_list %}
+{% endblock %}
+
+{% block list_content %}
+	{{ add_discussion_attributes(news_list) }}
+	{% with long=1 %}
+		{% for item in news_list %}
+			{% if loop.changed(item.event_date) %}
+				<div class="module-row">
+					<h2>{{ item.event_date|date("SHORT_DATE_FORMAT") }}</h2>
+				</div>
+			{% endif %}
+			<div class="module-row">{% include "news/partials/list_item.html" %}</div>
+		{% endfor %}
+	{% endwith %}
+	{{ pagination() }}
+{% endblock %}

@@ -6,7 +6,9 @@
 	{% if category %}
 		{{ breadcrumb(category) }}
 	{% endif %}
-	{{ breadcrumb("Správy", url="news:list", page=1) }}
+	{% block breadcrumbs_detail %}
+		{{ breadcrumb("Správy", url="news:list", page=1) }}
+	{% endblock %}
 	{{ super() }}
 {% endblock %}
 
@@ -18,23 +20,27 @@
 
 {% block content %}
 <h1>{% if category %}Správy - {{ category }}{% else %}Správy{% endif %}</h1>
-{% if category %}
-<p class="description">{{ category.description }}</p>
-{% else %}
-<p class="description">Portál LinuxOS.sk prináša rôzne správy so sveta open source. Na tejto stránke nájdete zoznam správ zo všetkých kategórií.</p>
-<ul>
-	{% for category in category_list %}
-	<li><a href="{{ category.get_absolute_url() }}">{{ category }}</a></li>
-	{% endfor %}
-</ul>
-{% endif %}
-<div class="module">
-	{{ add_discussion_attributes(news_list) }}
-	{% with long=1 %}
-		{% for item in news_list %}
-			<div class="module-row">{% include "news/partials/list_item.html" %}</div>
+{% block category_list %}
+	{% if category %}
+	<p class="description">{{ category.description }}</p>
+	{% else %}
+	<p class="description">Portál LinuxOS.sk prináša rôzne správy so sveta open source. Na tejto stránke nájdete zoznam správ zo všetkých kategórií.</p>
+	<ul>
+		{% for category in category_list %}
+			<li><a href="{{ category.get_absolute_url() }}">{{ category }}</a></li>
 		{% endfor %}
-	{% endwith %}
-	{{ pagination() }}
+	</ul>
+	{% endif %}
+{% endblock %}
+<div class="module">
+	{% block list_content %}
+		{{ add_discussion_attributes(news_list) }}
+		{% with long=1 %}
+			{% for item in news_list %}
+				<div class="module-row">{% include "news/partials/list_item.html" %}</div>
+			{% endfor %}
+		{% endwith %}
+		{{ pagination() }}
+	{% endblock %}
 </div>
 {% endblock %}

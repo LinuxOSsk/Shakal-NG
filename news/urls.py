@@ -16,4 +16,6 @@ urlpatterns = [
 	path('<page:page>', views.NewsListView.as_view(), name='list'),
 	path('kategoria/<slug:category>/<page:page>', views.NewsListView.as_view(), name='list-category'),
 	path('feeds/latest/', feeds.NewsFeed(), name='feed-latest'),
+	path('udalosti/<page:page>', views.EventListView.as_view(), name='event-list'),
+	path('udalosti/kategoria/<slug:category>/<page:page>', views.EventListView.as_view(), name='event-list-category'),
 ]
