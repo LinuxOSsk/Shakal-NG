@@ -4,24 +4,24 @@
 			<caption>{{ month.month|date("F")|capfirst }}</caption>
 			<thead>
 				<tr>
-					<th>Po</th>
-					<th>Ut</th>
-					<th>St</th>
-					<th>Št</th>
-					<th>Pi</th>
-					<th>So</th>
-					<th>Ne</th>
+					<th><span class="day">Po</span></th>
+					<th><span class="day">Ut</span></th>
+					<th><span class="day">St</span></th>
+					<th><span class="day">Št</span></th>
+					<th><span class="day">Pi</span></th>
+					<th><span class="day">So</span></th>
+					<th><span class="day">Ne</span></th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for week in month.weeks %}
 					<tr>
 						{% for day in week %}
-							<td class="{% if day.extra %}extra{% endif %} {% if day.events %} active tooltip{% endif %}">
-								{{ day.day|date("d") }}
+							<td class="{% if day.extra %}extra{% endif %} {% if day.events %} active tooltip onhover{% endif %}">
+								<span class="day">{{ day.day|date("d") }}</span>
 								{% if day.events %}
 									<div class="tooltip-bubble">
-										<div class="tooltip-content">
+										<div class="tooltip-content tooltip-spacing">
 											<ul class="events">
 												{% for event in day.events %}
 													<li>

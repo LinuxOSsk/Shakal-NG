@@ -5,10 +5,25 @@
 		@extend %large-shadow;
 	}
 
-	&.closed {
+	&.closed, &.onhover .tooltip-bubble {
 		z-index: -1;
 		transition: z-index 0s $transition-duration ease, transform $transition-duration ease-in, opacity $transition-duration ease;
 		transform: translateY(100px);
 		opacity: 0;
+	}
+
+	&.onhover .tooltip-bubble {
+		position: absolute;
+	}
+
+	&.onhover:hover .tooltip-bubble {
+		z-index: 2;
+		transition: z-index 0s 0s ease, transform $transition-duration ease-in, opacity $transition-duration ease;
+		transform: translateY(0px);
+		opacity: 1;
+	}
+
+	.tooltip-spacing {
+		padding: $base-margin / 2;
 	}
 }

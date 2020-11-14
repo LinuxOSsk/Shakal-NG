@@ -1,0 +1,35 @@
+.calendar-widget {
+	tr {
+		background-color: transparent;
+	}
+	th {
+		font-weight: bold;
+	}
+	td, th {
+		text-align: center;
+		width: 14.2857%;
+	}
+	.extra {
+		opacity: 0.25;
+	}
+	.active .day {
+		background-color: $primary-color;
+		color: $primary-color-complement;
+		font-weight: bold;
+		padding-left: 3px;
+		padding-right: 3px;
+		border-radius: 3px;
+	}
+	.tooltip-content {
+		width: 200px;
+		text-align: left;
+	}
+	.events {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+		a {
+			display: block;
+		}
+	}
+}
