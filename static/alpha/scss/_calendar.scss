@@ -1,9 +1,18 @@
 .calendar-widget {
+	caption {
+		background-color: $primary-color;
+		color: $primary-color-complement;
+		font-weight: bold;
+		font-size: 120%;
+		padding: 4px;
+	}
 	tr {
 		background-color: transparent;
 	}
 	th {
 		font-weight: bold;
+		background-color: $info-background;
+		color: $info-text-color;
 	}
 	td, th {
 		text-align: center;
