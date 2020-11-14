@@ -2,6 +2,8 @@
 @import "utility";
 @import "../css/code_light";
 
+$transition-duration: 0.1s;
+
 $code-color: #d14;
 
 $generic-background: white;
@@ -34,6 +36,7 @@ $big-btn-height: 38px;
 
 $module-padding: 5px;
 $module-margin: 1.5em;
+$base-margin: $module-margin;
 $module-header-background: white;
 $module-row-border: 1px solid #eee;
 $module-links-color: #aaa;
@@ -2014,4 +2017,79 @@ td.status, td.comments, td.date {
 
 .parent-link {
 	display: none;
+}
+
+.tooltip {
+	position: relative;
+	.tooltip-bubble {
+		background-color: white;
+		border: $light-border;
+	}
+
+	&.closed, &.onhover .tooltip-bubble {
+		z-index: -1;
+		transition: z-index 0s $transition-duration ease, transform $transition-duration ease-in, opacity $transition-duration ease;
+		transform: translateY(100px);
+		opacity: 0;
+	}
+
+	&.onhover .tooltip-bubble {
+		position: absolute;
+	}
+
+	&.onhover:hover .tooltip-bubble {
+		z-index: 2;
+		transition: z-index 0s 0s ease, transform $transition-duration ease-in, opacity $transition-duration ease;
+		transform: translateY(0px);
+		opacity: 1;
+	}
+
+	.tooltip-spacing {
+		padding: $base-margin / 2;
+	}
+}
+
+.calendar-widget {
+	caption {
+		background-color: $header-bg;
+		color: white;
+		font-weight: bold;
+		font-size: 120%;
+		padding: 4px;
+	}
+	tr {
+		background-color: transparent;
+	}
+	th {
+		font-weight: bold;
+		background-color: mix($header-bg, $generic-background);
+		color: $generic-foreground;
+	}
+	td, th {
+		text-align: center;
+		width: 14.2857%;
+	}
+	.extra {
+		opacity: 0.25;
+	}
+	.active .day {
+		background-color: $header-bg;
+		color: white;
+		font-weight: bold;
+		padding-left: 3px;
+		padding-right: 3px;
+		border-radius: 3px;
+	}
+	.tooltip-content {
+		width: 200px;
+		text-align: left;
+	}
+	.events {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+		a {
+			display: block;
+		}
+	}
 }

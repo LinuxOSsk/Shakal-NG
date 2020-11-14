@@ -200,6 +200,10 @@ html, body {
 										<div class="module-links bottom">
 											<a href="{{ url('news:list', page=1) }}" class="next">Ďalšie</a>
 										</div>
+										{{ news_calendar() }}
+										<div class="module-links bottom">
+											<a href="{{ url('news:event-list', page=1) }}" class="next">Všetky udalosti</a>
+										</div>
 										<div class="submit-row">
 											<div class="positive">
 												<div class="btn"><span class="wrap"><a class="text" href="{{ url("news:create") }}">Pridať správu</a></span></div>
