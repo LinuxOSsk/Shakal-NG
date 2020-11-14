@@ -19,7 +19,7 @@
 {% endblock %}
 
 {% block content %}
-<h1>{% if category %}Správy - {{ category }}{% else %}Správy{% endif %}</h1>
+<h1>{% block page_title %}{% if category %}Správy - {{ category }}{% else %}Správy{% endif %}{% endblock %}</h1>
 {% block category_list %}
 	{% if category %}
 	<p class="description">{{ category.description }}</p>
