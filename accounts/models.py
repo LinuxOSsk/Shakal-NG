@@ -6,7 +6,6 @@ from django.apps import apps
 from django.conf import settings
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import AbstractUser, UserManager
-from django.core import validators
 from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.validators import MinValueValidator, MaxValueValidator, MaxLengthValidator
@@ -17,18 +16,15 @@ from django_geoposition_field.fields import GeopositionField
 
 from . import accounts_settings
 from .utils import get_count_new
+from .validators import UsernameValidator
 from autoimagefield.fields import AutoImageField
 from common_utils import get_default_manager
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
-class UsernameValidator(validators.RegexValidator):
-	regex = r'^([\w]+[ ]?)*[\w]$'
-	message = "Toto pole môže obsahovať maximálne jednu medzeru v strede."
-
-
 class User(AbstractUser):
 	objects = UserManager()
+	username_validator = UsernameValidator()
 
 	jabber = models.CharField(
 		verbose_name="jabber",
@@ -85,10 +81,6 @@ class User(AbstractUser):
 		verbose_name="poloha",
 		blank=True
 	)
-
-	def __init__(self, *args, **kwargs):
-		super().__init__(*args, **kwargs)
-		self._meta.get_field('username').validators = [UsernameValidator]
 
 	def clean_fields(self, exclude=None):
 		if self.email:
