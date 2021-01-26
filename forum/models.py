@@ -105,7 +105,7 @@ class Topic(TimestampModelMixin, models.Model):
 	)
 	authors_name = models.CharField(
 		verbose_name="meno autora",
-		max_length=50,
+		max_length=150,
 		blank=False
 	)
 	author = models.ForeignKey(

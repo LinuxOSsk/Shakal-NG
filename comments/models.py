@@ -78,7 +78,7 @@ class Comment(MPTTModel, TimestampModelMixin):
 	)
 	user_name = models.CharField(
 		verbose_name="používateľské meno",
-		max_length=50,
+		max_length=150,
 		blank=True
 	)
 	original_comment = RichTextOriginalField(
