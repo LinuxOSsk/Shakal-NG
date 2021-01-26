@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
-import re
-
 from django import forms
 from django.contrib.auth.forms import UserChangeForm as OrigUserChangeForm, UserCreationForm as OrigUserCreationForm
 
@@ -10,13 +6,11 @@ from common_utils.admin_widgets import EnclosedInput
 
 
 def get_username_field():
-	return forms.RegexField(
+	return forms.CharField(
 		label='Používateľské meno',
-		max_length=30,
-		min_length=3,
-		regex=re.compile(r'^([\w]+[ ]?)*[\w]$', re.UNICODE),
-		help_text='Povinné. Dĺžka 3 - 30 znakov.',
-		error_messages={'invalid': 'Toto pole môže obsahovať maximálne jednu medzeru v strede.'}
+		max_length=150,
+		min_length=1,
+		help_text='Povinné. Dĺžka 3 - 150 znakov.',
 	)
 
 
