@@ -24,7 +24,7 @@ class FlagView(LoginRequiredMixin, FormView):
 	template_name = 'rating/flag_form.html'
 
 	@cached_property
-	def content_type(self):
+	def object_content_type(self):
 		ctypes_query = Q()
 		for app_name, model_name in FLAG_CONTENT_TYPES:
 			ctypes_query |= Q(app_label=app_name, model=model_name)
@@ -33,7 +33,7 @@ class FlagView(LoginRequiredMixin, FormView):
 
 	@cached_property
 	def flagged_object(self):
-		return get_object_or_404(self.content_type.model_class(), pk=self.kwargs['object_id'])
+		return get_object_or_404(self.object_content_type.model_class(), pk=self.kwargs['object_id'])
 
 	@cached_property
 	def object(self):
