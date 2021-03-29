@@ -34,7 +34,7 @@ django-extensions
 django-extensions
 ipython
 ptpython
-pylint-django
 pyinotify
+pylint-django
 watchdog
 pyyaml>=4.2b1
