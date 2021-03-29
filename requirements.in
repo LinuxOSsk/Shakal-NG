@@ -1,5 +1,5 @@
 bleach
-django<3.1
+django<3.2
 django-allauth
 django-braces
 django-compressor
