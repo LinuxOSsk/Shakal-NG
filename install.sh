@@ -45,6 +45,7 @@ all: localinstall
 
 .stamp_requirements: .stamp_virtualenv
 	${PIP} install -r shakal/requirements/py3.7-requirements.txt
+	${PIP} install -r shakal/requirements.live.txt
 	${PIP} install django-extensions ipython pylint-django watchdog werkzeug
 	@touch .stamp_requirements
 
@@ -71,6 +72,7 @@ update: .stamp_settings
 
 update2: .stamp_settings
 	${PIP} install -r shakal/requirements/py3.7-requirements.txt
+	${PIP} install -r shakal/requirements.live.txt
 	${PIP} install django-extensions ipython pylint-django watchdog werkzeug
 	${DJANGO_MANAGE} compilesprites
 	${DJANGO_MANAGE} migrate
