@@ -12,6 +12,7 @@ from .models import Comment
 from .utils import update_comments_header
 from accounts.models import User
 from common_utils import get_default_manager, generator_fields as extra_generator_fields
+from common_utils.models import sql_sequence_reset
 
 
 class CommentGenerator(generator.ModelGenerator):
@@ -41,7 +42,9 @@ class CommentGenerator(generator.ModelGenerator):
 
 	def generate(self, command):
 		self.command = command
-		return super(CommentGenerator, self).generate(command)
+		ret = super(CommentGenerator, self).generate(command)
+		sql_sequence_reset([Comment])
+		return ret
 
 	def generate_tree(self, parent_id, lft, level):
 		if level > 8:

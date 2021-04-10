@@ -1,16 +1,16 @@
 #!/bin/bash
 mkdir -p static/CACHE/models
-django-admin.py graph_models -a -g -X AttachmentImageRaw,TimestampModelMixin,MPTTModel,PermissionsMixin,AbstractBaseUser,AbstractUser -o static/CACHE/models/models.png
-django-admin.py graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel accounts -o static/CACHE/models/accounts.png
-django-admin.py graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel article -o static/CACHE/models/article.png
-django-admin.py graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel attachment -o static/CACHE/models/attachment.png
-django-admin.py graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel blackhole -o static/CACHE/models/blackhole.png
-django-admin.py graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel blog -o static/CACHE/models/blog.png
-django-admin.py graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel comments -o static/CACHE/models/comments.png
-django-admin.py graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel desktops -o static/CACHE/models/desktops.png
-django-admin.py graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel forum -o static/CACHE/models/forum.png
-django-admin.py graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel news -o static/CACHE/models/news.png
-django-admin.py graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel notes -o static/CACHE/models/notes.png
-django-admin.py graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel notifications -o static/CACHE/models/notifications.png
-django-admin.py graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel polls -o static/CACHE/models/polls.png
-django-admin.py graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel wiki -o static/CACHE/models/wiki.png
+djanog-admin graph_models -a -g -X AttachmentImageRaw,TimestampModelMixin,MPTTModel,PermissionsMixin,AbstractBaseUser,AbstractUser -o static/CACHE/models/models.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel accounts -o static/CACHE/models/accounts.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel article -o static/CACHE/models/article.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel attachment -o static/CACHE/models/attachment.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel blackhole -o static/CACHE/models/blackhole.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel blog -o static/CACHE/models/blog.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel comments -o static/CACHE/models/comments.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel desktops -o static/CACHE/models/desktops.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel forum -o static/CACHE/models/forum.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel news -o static/CACHE/models/news.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel notes -o static/CACHE/models/notes.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel notifications -o static/CACHE/models/notifications.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel polls -o static/CACHE/models/polls.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel wiki -o static/CACHE/models/wiki.png

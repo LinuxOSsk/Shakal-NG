@@ -58,10 +58,7 @@ def unaccent(text):
 
 
 def search_postgres(term, search_document=True, search_comments=True, content_types=None):
-	try:
-		from django.contrib.postgres.search import SearchHeadline
-	except ImportError:
-		from web.compat import SearchHeadline
+	from django.contrib.postgres.search import SearchHeadline
 
 	if search_document is None and search_comments is None:
 		return SearchIndex.objects.none()

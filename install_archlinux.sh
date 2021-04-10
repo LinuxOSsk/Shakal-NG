@@ -1,6 +1,6 @@
 #!/bin/sh
 
-PYTHON=python2.7
+PYTHON=python3
 
 #install dependencies as root
 echo "Root password for dependencies installation."
@@ -40,7 +40,7 @@ mv -f shakal/shakal-src/.gitignore shakal
 rmdir shakal/shakal-src
 virtualenv venv
 . venv/bin/activate
-pip install -r shakal/requirements.txt
+pip install -r shakal/requirements/py3.7-requirements.txt
 cd shakal
 mkdir venv
 cd venv

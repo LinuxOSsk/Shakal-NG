@@ -369,3 +369,5 @@ THUMBNAIL_PROCESSORS = (
 	'easy_thumbnails.processors.filters',
 	'easy_thumbnails.processors.background',
 )
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

@@ -44,7 +44,8 @@ all: localinstall
 	@touch .stamp_virtualenv
 
 .stamp_requirements: .stamp_virtualenv
-	venv/bin/pip install -r shakal/requirements.dev.txt
+	${PIP} install -r shakal/requirements/py3.7-requirements.txt
+	${PIP} install django-extensions ipython pylint-django watchdog werkzeug
 	@touch .stamp_requirements
 
 .stamp_settings: .stamp_requirements
@@ -69,7 +70,8 @@ update: .stamp_settings
 	make update2
 
 update2: .stamp_settings
-	${PIP} install -r shakal/requirements.dev.txt
+	${PIP} install -r shakal/requirements/py3.7-requirements.txt
+	${PIP} install django-extensions ipython pylint-django watchdog werkzeug
 	${DJANGO_MANAGE} compilesprites
 	${DJANGO_MANAGE} migrate
 	${DJANGO_MANAGE} compilemessages
@@ -80,7 +82,7 @@ update2: .stamp_settings
 	${DJANGO_MANAGE} compilemessages
 	${DJANGO_MANAGE} loaddata forum/data/categories.json
 	${DJANGO_MANAGE} loaddata news/data/categories.json
-	-${DJANGO_MANAGE} create_sample_data --verbosity 2
+	${DJANGO_MANAGE} create_sample_data --verbosity 2
 	${DJANGO_MANAGE} loaddata wiki/data/pages.json
 	${DJANGO_MANAGE} fulltext update
 	@touch .stamp_sampledata

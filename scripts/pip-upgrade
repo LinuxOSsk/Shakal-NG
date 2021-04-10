@@ -1,0 +1,81 @@
+#!/bin/bash
+set -e
+
+DIRNAME="`pwd`/`dirname ${BASH_SOURCE:-$0}`"
+DIRNAME=`cd "${DIRNAME}/..";pwd`
+cd $DIRNAME
+
+SKIP_COMPILE=
+
+while [[ $# -gt 0 ]]
+do
+key="$1"
+case $key in
+	--skip-compile)
+	SKIP_COMPILE=YES
+	shift # past argument
+	;;
+*)
+	echo "Wrong argument $key"
+	shift
+	exit -1
+	;;
+esac
+done
+
+
+VIRTUALENV_DIR=${VIRTUALENV_DIR:-~/.virtualenvs}
+PYTHON_INSTALL_DIR=${PYTHON_INSTALL_DIR:-/usr/bin}
+
+EXTRA_SYNC_REQUIREMENTS=""
+EXTRA_COMPILE_OPTS="-v"
+
+if [[ -f "requirements.live.txt" ]]
+then
+	EXTRA_SYNC_REQUIREMENTS="$EXTRA_SYNC_REQUIREMENTS requirements.live.txt"
+fi
+
+if [[ -z $PYTHON_ENVIRONMENTS ]]
+then
+	echo "PTYTHON_ENVIRONMENTS variable not set"
+	echo "example: PTYTHON_ENVIRONMENTS=\"3.7 3.8 3.9\""
+	exit -1
+fi
+
+read -a PYTHON_ENVIRONMENTS <<< $PYTHON_ENVIRONMENTS
+mkdir -p ~/.virtualenvs
+mkdir -p requirements
+
+current_python=`python -c "import sys; v=sys.version_info; print(f'{v.major}.{v.minor}')"`
+virtualenv_dir="$VIRTUALENV_DIR/py$current_python"
+
+if [ -z $SKIP_COMPILE ]
+then
+	for env_name in ${PYTHON_ENVIRONMENTS[@]}
+	do
+		virtualenv_dir="$VIRTUALENV_DIR/py$env_name"
+		[ ! -d $virtualenv_dir ] && $PYTHON_INSTALL_DIR/python$env_name -m venv $virtualenv_dir && $virtualenv_dir/bin/pip install --upgrade pip
+		$virtualenv_dir/bin/pip install --upgrade pip-tools
+		$virtualenv_dir/bin/pip-compile $EXTRA_COMPILE_OPTS --upgrade requirements.in --output-file requirements/py$env_name-requirements.txt &
+	done
+	wait
+fi
+
+
+rm -f requirements.txt
+
+if [ -z $SKIP_COMPILE ]
+then
+	if [[ -f "requirements.dev.in" ]]
+	then
+		ln -s requirements/py$current_python-requirements.txt requirements.txt
+		$virtualenv_dir/bin/pip-compile $EXTRA_COMPILE_OPTS --upgrade requirements.dev.in
+	fi
+fi
+
+if [[ -f "requirements.dev.txt" ]]
+then
+	EXTRA_SYNC_REQUIREMENTS="$EXTRA_SYNC_REQUIREMENTS requirements.dev.txt"
+fi
+
+pip-sync requirements/py$current_python-requirements.txt $EXTRA_SYNC_REQUIREMENTS

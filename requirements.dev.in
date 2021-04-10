@@ -1,40 +1,6 @@
-bleach
-django<3.1
-django-allauth
-django-braces
-django-compressor
-django-hijack
-django-hijack-admin
-django-jinja
-django-libsass
-django-mptt
-django-reversion
-django-static-sitemaps
-easy-thumbnails
-feedparser
-future
-html5lib
-pillow
-pip-tools
-pygments
-pytz
-raven
--e git+https://github.com/mireq/django-ajax-utils.git@5cc158068c909cf008c64c80ee277181ea2bea43#egg=django_ajax_utils
--e git+https://github.com/mireq/django-assets-manager.git@8cf7019f5843d7aea227b17fcf07440e67212bad#egg=django_assets_manager
--e git+https://github.com/mireq/django-autoslugfield.git@a6914377e50e3b6a491f981ac49b65c128c725d0#egg=django_autoslugfield
--e git+https://github.com/mireq/django-email-log-backend.git@c675b59bfb1a723880d797c99011d6b36a41975e#egg=django_email_log_backend
--e git+https://github.com/mireq/django-geoposition-field.git@d4757705d52f0d935b43e32d74f4912674f99968#egg=django_geoposition_field
--e git+https://github.com/mireq/django-sample-data-generator.git@fa930da0770bacf9143bda5682044ad0bb0479be#egg=django_sample_data_generator
--e git+https://github.com/mireq/django-simple-paginator.git@3650ec60e2ef8332d9267900853355a4a8f6d303#egg=django_simple_paginator
--e git+https://github.com/darklow/django-suit.git@0d854c9b5e81adf9b9ea2ca9ee0a2856dcef5e15#egg=django-suit
-Werkzeug
-django-debug-toolbar
-django-debugtools
-django-extensions
+-c requirements.txt
 django-extensions
 ipython
-ptpython
-pyinotify
 pylint-django
 watchdog
-pyyaml>=4.2b1
+werkzeug

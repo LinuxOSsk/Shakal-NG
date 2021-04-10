@@ -1,5 +1,0 @@
-python-memcached
-redis
-ipython
-ptpython
--e git+git://github.com/mireq/xapian-haystack.git#egg=xapian_haystack

@@ -55,11 +55,11 @@ Docker
 Spustenie vyvojoveho prostredia je mozne aj pomocou docker-compose
 
 
-	git clone https://github.com/LinuxOSsk/Shakal-NG.git
-	cd Shakal-NG
-	git submodule init
-	git submodule update
-	sudo docker-compose up
+    git clone https://github.com/LinuxOSsk/Shakal-NG.git
+    cd Shakal-NG
+    git submodule init
+    git submodule update
+    sudo docker-compose up
 
 
 TODO
@@ -71,5 +71,3 @@ TODO
 -   nahlásenie chyby článku
 -   ponuky práce
 -   bazár
-
-

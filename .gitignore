@@ -36,3 +36,4 @@
 /.bash_history
 /.stamp_*
 /Makefile
+/requirements.dev.txt

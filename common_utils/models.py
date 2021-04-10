@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from django.db import models
+from django.core.management.color import no_style
+from django.db import models, connection
 from django.utils import timezone
 
 
@@ -21,3 +22,13 @@ class TimestampModelMixin(models.Model):
 
 	class Meta:
 		abstract = True
+
+
+def sql_sequence_reset(model_classes):
+	statements = connection.ops.sequence_reset_sql(no_style(), model_classes)
+	for statement in statements:
+		with connection.cursor() as c:
+			try:
+				c.execute(statement)
+			finally:
+				c.close()
