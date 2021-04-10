@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from django.contrib.postgres.search import SearchVector
 from django.db import models, connections
 
 from .functions import Unaccent
@@ -7,9 +6,11 @@ from .functions import Unaccent
 
 class SearchIndexQuerySet(models.QuerySet):
 	def update_search_index(self):
-		SV = SearchVector
 		connection = connections[self.db]
 		if connection.vendor == 'postgresql':
+			from django.contrib.postgres.search import SearchVector
+
+			SV = SearchVector
 			configs = self.order_by('language_code').values_list('language_code', flat=True).distinct()
 			for config in configs:
 				self.update(

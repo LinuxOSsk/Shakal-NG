@@ -3,10 +3,15 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.postgres.indexes import GinIndex
-from django.contrib.postgres.search import SearchVectorField
 from django.db import models
 
 from .managers import SearchIndexManager
+
+
+try:
+	from django.contrib.postgres.search import SearchVectorField
+except ImportError:
+	SearchVectorField = models.TextField
 
 
 class AbstractSearchIndex(models.Model):

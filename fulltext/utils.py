@@ -2,7 +2,6 @@
 import unicodedata
 
 from django.conf import settings
-from django.contrib.postgres.search import SearchQuery, SearchRank
 from django.db import models
 from django.db.models import Q, F, Value as V
 
@@ -58,7 +57,7 @@ def unaccent(text):
 
 
 def search_postgres(term, search_document=True, search_comments=True, content_types=None):
-	from django.contrib.postgres.search import SearchHeadline
+	from django.contrib.postgres.search import SearchQuery, SearchRank, SearchHeadline
 
 	if search_document is None and search_comments is None:
 		return SearchIndex.objects.none()
