@@ -34,7 +34,7 @@ def delete_cookie(response):
 
 def remember_user(response, user):
 	token_string = create_token_string(user, None)
-	set_cookie(response, COOKIE_NAME, token_string, COOKIE_AGE)
+	set_cookie(response, COOKIE_NAME, token_string, COOKIE_AGE, httponly=True)
 	return response
 
 
