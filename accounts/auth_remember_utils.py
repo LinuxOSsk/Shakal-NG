@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import uuid
+import secrets
 
 from django.contrib import auth as django_auth
-from django.contrib.auth.hashers import make_password
 
 from .accounts_settings import COOKIE_AGE, COOKIE_NAME
 from common_utils.cookies import set_cookie
@@ -12,15 +11,14 @@ from common_utils.cookies import set_cookie
 
 def create_token_string(user, token=None):
 	from .models import RememberToken
-	token_value = uuid.uuid4().hex
-	token_hash = make_password(token_value)
+	token_hash = secrets.token_urlsafe(64)
 	token = RememberToken(
 		token_hash=token_hash,
 		user=user
 	)
 
 	token.save()
-	return '%d:%s' % (user.id, token_value)
+	return '%d:%s' % (user.id, token_hash)
 
 
 def preset_cookie(request, token_string):

@@ -4,7 +4,6 @@ from datetime import timedelta
 
 from django.apps import apps
 from django.conf import settings
-from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
@@ -185,15 +184,12 @@ class UserRating(models.Model):
 class RememberTokenManager(models.Manager):
 	def get_by_string(self, token):
 		try:
-			user_id, token_hash = token.split(':')
+			user_id, token_hash = token.split(':', 1)
 		except ValueError:
 			return None
 
 		max_age = timezone.now() - timedelta(seconds=accounts_settings.COOKIE_AGE)
-		for db_token in self.all().filter(created__gte=max_age, user=user_id):
-			if check_password(token_hash, db_token.token_hash):
-				return db_token
-		return None
+		return self.filter(created__gte=max_age, user=user_id, token_hash=token_hash).first()
 
 	def clean_remember_tokens(self):
 		max_age = timezone.now() - timedelta(seconds=accounts_settings.COOKIE_AGE)
