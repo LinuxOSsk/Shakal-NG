@@ -28,11 +28,11 @@ django-braces==1.14.0
     # via -r requirements.in
 django-compat==1.0.15
     # via django-hijack-admin
-django-compressor==2.4
+django-compressor==2.4.1
     # via
     #   -r requirements.in
     #   django-libsass
-django-email-log-backend==0.3.1
+django-email-log-backend==0.3.2
     # via -r requirements.in
 django-hijack-admin==2.1.10
     # via -r requirements.in
@@ -90,7 +90,7 @@ pillow==8.2.0
     # via
     #   -r requirements.in
     #   easy-thumbnails
-pip-tools==6.0.1
+pip-tools==6.1.0
     # via -r requirements.in
 pycparser==2.20
     # via cffi
