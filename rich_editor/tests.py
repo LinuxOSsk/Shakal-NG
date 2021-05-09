@@ -90,3 +90,14 @@ class ParserTest(TestCase):
 		code = """<pre class="wrong">wrong</pre>"""
 		self.parser.parse(code)
 		self.assertEqual(self.parser.get_output(), """<pre>wrong</pre>""")
+
+	def test_id(self):
+		code = """<p id="test"><a href="#test">link</a>test</p>"""
+		self.parser.parse(code)
+		self.assertEqual(self.parser.get_output(), """<p><a href="#test">link</a>test</p>""")
+		self.parser.allow_id = True
+		self.parser.parse(code)
+		self.assertEqual(self.parser.get_output(), code)
+		self.parser.allow_id = 'safe'
+		self.parser.parse(code)
+		self.assertEqual(self.parser.get_output(), """<p id="content_test"><a href="#content_test">link</a>test</p>""")

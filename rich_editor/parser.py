@@ -8,15 +8,23 @@ from html5lib.filters import base
 from html5lib.filters import alphabeticalattributes
 
 
+ID = (None, 'id')
+HREF = (None, 'href')
+SRC = (None, 'src')
+ALT = (None, 'alt')
+REL = (None, 'rel')
+CLASS = (None, 'class')
+
+
 class AddRequiredAttributesFilter(base.Filter):
 	def __iter__(self):
 		for token in base.Filter.__iter__(self):
 			if token['type'] == 'StartTag':
 				if token['name'] == 'a':
-					token['data'].setdefault((None, 'href'), '#')
+					token['data'].setdefault(HREF, '#')
 				if token['name'] == 'img':
-					token['data'].setdefault((None, 'src'), '#')
-					token['data'].setdefault((None, 'alt'), '')
+					token['data'].setdefault(SRC, '#')
+					token['data'].setdefault(ALT, '')
 			yield token
 
 
@@ -25,7 +33,7 @@ class AddNofollowFilter(base.Filter):
 		for token in base.Filter.__iter__(self):
 			if token['type'] == 'StartTag':
 				if token['name'] == 'a':
-					token['data'][(None, 'rel')] = 'nofollow'
+					token['data'][REL] = 'nofollow'
 			yield token
 
 
@@ -35,11 +43,32 @@ class ClassFilter(base.Filter):
 	def __iter__(self):
 		for token in base.Filter.__iter__(self):
 			if token['type'] == 'StartTag':
-				if token['name'] == 'pre' and (None, 'class') in token['data']:
-					if not self.CODE_RX.match(token['data'][(None, 'class')]):
-						token['data'].pop((None, 'class'), None)
+				if token['name'] == 'pre' and CLASS in token['data']:
+					if not self.CODE_RX.match(token['data'][CLASS]):
+						token['data'].pop(CLASS, None)
 				else:
-					token['data'].pop((None, 'class'), None)
+					token['data'].pop(CLASS, None)
+			yield token
+
+
+class RemoveIdFilter(base.Filter):
+	def __iter__(self):
+		for token in base.Filter.__iter__(self):
+			if token['type'] == 'StartTag':
+				token['data'].pop(ID, None)
+			yield token
+
+
+class SafeIdFilter(base.Filter):
+	def __iter__(self):
+		for token in base.Filter.__iter__(self):
+			if token['type'] == 'StartTag':
+				id_val = token['data'].get(ID)
+				if id_val is not None:
+					token['data'][ID] = 'content_' + id_val
+				href_val = token['data'].get(HREF)
+				if href_val is not None and href_val[:1] == '#':
+					token['data'][HREF] = '#content_' + href_val[1:]
 			yield token
 
 
@@ -99,12 +128,14 @@ ALLOWED_ATTRIBUTES = {
 	'th': ['colspan', 'rowspan'],
 	'td': ['colspan', 'rowspan'],
 	'pre': ['class'],
+	'*': ['id'],
 }
 ALLOWED_STYLES = ['width', 'height']
 
 class HtmlParser:
 	auto_paragraphs = True
 	add_nofollow = True
+	allow_id = False
 	cleaner = None
 
 	def __init__(self, supported_tags=None):
@@ -120,6 +151,12 @@ class HtmlParser:
 			filters.append(AutoParagraphFilter)
 		if self.add_nofollow:
 			filters.append(AddNofollowFilter)
+		if self.allow_id is True:
+			pass # id not filtered
+		elif self.allow_id == 'safe':
+			filters.append(SafeIdFilter)
+		else:
+			filters.append(RemoveIdFilter)
 		self.cleaner.filters = filters
 		output = self.cleaner.clean(text)
 		self.output = output

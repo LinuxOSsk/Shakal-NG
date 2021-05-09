@@ -21,6 +21,7 @@ def get_parser(parser, fmt='html'):
 		elif parser == 'blog' or parser == 'full':
 			parser_instance = HtmlParser(supported_tags=FULL_TAGS_LIST)
 			parser_instance.auto_paragraphs = False
+			parser_instance.allow_id = 'safe'
 			return parser_instance
 		elif parser == 'news_short':
 			parser_instance = HtmlParser(supported_tags=DEFAULT_TAG_LIST)
