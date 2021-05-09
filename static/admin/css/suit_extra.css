@@ -53,7 +53,7 @@ td.field-thumbnail img {
 	display: block;
 }
 
-.attachment-template {
+.tabular .form-row.attachment-template {
 	display: none;
 }
 
