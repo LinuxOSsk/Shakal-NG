@@ -52,7 +52,7 @@ django-reversion==3.0.9
     # via -r requirements.in
 django-static-sitemaps==4.6.0
     # via -r requirements.in
-django==3.2
+django==3.2.1
     # via
     #   -r requirements.in
     #   django-allauth
