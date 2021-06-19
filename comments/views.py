@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import http
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.conf import settings
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.contrib.contenttypes.models import ContentType
 from django.http.response import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404
@@ -34,7 +35,7 @@ def get_module_url(content_object):
 		return False
 
 
-class Reply(FormView):
+class Reply(UserPassesTestMixin, FormView):
 	form_class = CommentForm
 	parent = None
 
@@ -97,6 +98,9 @@ class Reply(FormView):
 		if self.request.POST.get('time'):
 			next_url = link_add_query(next_url, time=self.request.POST['time'])
 		return http.HttpResponseRedirect(next_url + '#link_' + str(comment.pk))
+
+	def test_func(self):
+		return settings.ANONYMOUS_COMMENTS or self.request.user.is_authenticated
 
 
 class Admin(PermissionRequiredMixin, DetailView):
