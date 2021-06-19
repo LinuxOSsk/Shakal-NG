@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-from braces.views import LoginRequiredMixin
 from django.contrib import messages
-from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 from django.http.response import HttpResponseBadRequest, HttpResponseRedirect

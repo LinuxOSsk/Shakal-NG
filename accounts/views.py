@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 
 from datetime import datetime, time
 
-from braces.views import LoginRequiredMixin
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import models
 from django.shortcuts import get_object_or_404
 from django.urls import reverse

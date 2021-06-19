@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from common_utils.url_utils import link_add_query
-from braces.views import PermissionRequiredMixin, LoginRequiredMixin
 from django import http
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.contenttypes.models import ContentType
 from django.http.response import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404
@@ -20,6 +19,7 @@ from .utils import get_requested_time, update_comments_header
 from comments.models import RootHeader, UserDiscussionAttribute
 from comments.templatetags.comments_tags import add_discussion_attributes
 from common_utils import get_meta
+from common_utils.url_utils import link_add_query
 
 
 def get_module_name(content_object):

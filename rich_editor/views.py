@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from braces.views import CsrfExemptMixin
-from django.views.generic import View
 from django.http.response import HttpResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import View
 
 from rich_editor import get_parser
 from rich_editor.syntax import highlight_pre_blocks
 
 
-class Preview(CsrfExemptMixin, View):
+class Preview(View):
 	def post(self, request, **kwargs):
 		fmt = request.POST.get('format', 'html')
 		parser = request.POST.get('parser', '')
@@ -18,3 +19,7 @@ class Preview(CsrfExemptMixin, View):
 		parser_instance.parse(text)
 		parsed = parser_instance.get_output()
 		return HttpResponse(highlight_pre_blocks(parsed))
+
+	@method_decorator(csrf_exempt)
+	def dispatch(self, *args, **kwargs):
+		return super().dispatch(*args, **kwargs)

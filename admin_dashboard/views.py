@@ -5,7 +5,7 @@ import datetime
 from io import StringIO
 from json import dumps
 
-from braces.views import StaffuserRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Count
 from django.http.response import HttpResponse
 from django.urls import reverse
@@ -19,7 +19,7 @@ from common_utils.time_series import time_series as get_time_series, set_gaps_ze
 from news.models import News
 
 
-class Stats(StaffuserRequiredMixin, View):
+class Stats(UserPassesTestMixin, View):
 	def generate_choices(self, content_type):
 		data_link = reverse('admin_dashboard:stats')
 		return [
@@ -145,3 +145,7 @@ class Stats(StaffuserRequiredMixin, View):
 			for obj in data:
 				del obj[1]['qs']
 		return self.format_data(data, request.GET.get('format', 'json'))
+
+	def test_func(self):
+		user = self.request.user
+		return user.is_authenticated and user.is_staff

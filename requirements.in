@@ -1,6 +1,5 @@
 bleach
 django-allauth
-django-braces
 django-compressor
 django-email-log-backend
 django-hijack
@@ -15,7 +14,7 @@ easy-thumbnails
 feedparser
 future
 html5lib
-jinja<3
+jinja2<3
 pillow
 pip-tools
 pygments

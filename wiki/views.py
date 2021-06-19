@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from braces.views import UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView
@@ -102,7 +102,7 @@ class WikiDetailView(WikiBaseView):
 class PageEditMixin(UserPassesTestMixin):
 	context_object_name = 'page'
 
-	def test_func(self, user):
+	def test_func(self):
 		request = self.request
 		if not request.user.is_authenticated:
 			return False
