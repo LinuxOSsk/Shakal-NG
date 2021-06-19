@@ -165,6 +165,9 @@ class Comment(MPTTModel, TimestampModelMixin):
 		index_together = (('object_id', 'content_type',),)
 		verbose_name = "komentár"
 		verbose_name_plural = "komentáre"
+		index_together = [
+			['tree_id', 'lft']
+		]
 
 
 class RootHeader(models.Model):

@@ -62,6 +62,9 @@ class Page(mptt.models.MPTTModel, TimestampModelMixin):
 	class Meta:
 		verbose_name = "Wiki stránka"
 		verbose_name_plural = "Wiki stránky"
+		index_together = [
+			['tree_id', 'lft']
+		]
 
 	def get_absolute_url(self):
 		if self.page_type == 'h' and not self.parent:

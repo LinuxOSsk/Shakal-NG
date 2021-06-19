@@ -28,6 +28,13 @@ class Term(MPTTModel, models.Model):
 	def __str__(self):
 		return self.name
 
+	class Meta:
+		verbose_name = "blackhole kategória"
+		verbose_name_plural = "blackhole kategórie"
+		index_together = [
+			['tree_id', 'lft']
+		]
+
 
 class Node(TimestampModelMixin, models.Model):
 	node_type = models.CharField(max_length=32)
