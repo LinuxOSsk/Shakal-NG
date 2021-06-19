@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
-from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.contenttypes import views as contenttype_views
-from django.contrib.staticfiles.storage import staticfiles_storage
-from django.urls import register_converter
+from django.urls import include, path, register_converter
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import RedirectView
 from django_simple_paginator.converter import PageConverter
@@ -18,34 +16,34 @@ register_converter(PageConverter, 'page')
 
 
 urlpatterns = [
-	url(r'^$', web.views.Home.as_view(), name='home'),
-	url(r'^', include('linuxos.urls')),
-	url(_(r'^login/'), include('allauth.urls')),
-	url(_(r'^accounts/'), include('accounts.urls')),
-	url(_(r'^article/'), include('article.urls')),
-	url(_(r'^blog/'), include('blog.urls')),
-	url(r'^blackhole/', include('blackhole.urls')),
-	url(_(r'^comments/'), include('comments.urls')),
-	url(r'^desktopy/', include('desktops.urls')),
-	url(_(r'^forum/'), include('forum.urls')),
-	#url(_(r'^maintenance/'), include('maintenance.urls')),
-	url(_(r'^news/'), include('news.urls')),
-	url(_(r'^rating/'), include('rating.urls')),
-	url(_(r'^tweets/'), include('tweets.urls')),
-	url(_(r'^notifications/'), include('notifications.urls')),
-	url(_(r'^polls/'), include('polls.urls')),
-	url(_(r'^search/'), include('fulltext.urls')),
-	url(_(r'^wiki/'), include('wiki.urls')),
-	url(_(r'^template-change/$'), template_dynamicloader.views.change, name='template-change'),
-	url(_(r'^templates/$'), template_dynamicloader.views.TemplateListView.as_view(), name='template-list'),
-	url(r'^v/(?P<content_type_id>\d+)/(?P<object_id>.+)/$', contenttype_views.shortcut, name='view-object'),
-	url(_(r'^admin/'), admin.site.urls),
-	url(_(r'^admin_dashboard/'), include('admin_dashboard.urls')),
-	url(r'^api/editor/', include('rich_editor.urls')),
-	url(r'^hijack/', include('hijack.urls')),
-	url(r'^django-email-log/', include('django_email_log.urls')),
-	url(r'^image/', include('image_renderer.urls')),
-	url(r'^favicon.ico$', RedirectView.as_view(url=staticfiles_storage.url('images/favicon/favicon.ico'), permanent=True)),
+	path('', web.views.Home.as_view(), name='home'),
+	path('', include('linuxos.urls')),
+	path(_('login/'), include('allauth.urls')),
+	path(_('accounts/'), include('accounts.urls')),
+	path(_('article/'), include('article.urls')),
+	path(_('blog/'), include('blog.urls')),
+	path('blackhole/', include('blackhole.urls')),
+	path(_('comments/'), include('comments.urls')),
+	path('desktopy/', include('desktops.urls')),
+	path(_('forum/'), include('forum.urls')),
+	#path(_('^maintenance/'), include('maintenance.urls')),
+	path(_('news/'), include('news.urls')),
+	path(_('rating/'), include('rating.urls')),
+	path(_('tweets/'), include('tweets.urls')),
+	path(_('notifications/'), include('notifications.urls')),
+	path(_('polls/'), include('polls.urls')),
+	path(_('search/'), include('fulltext.urls')),
+	path(_('wiki/'), include('wiki.urls')),
+	path(_('template-change/'), template_dynamicloader.views.change, name='template-change'),
+	path(_('templates/'), template_dynamicloader.views.TemplateListView.as_view(), name='template-list'),
+	path('v/<int:content_type_id>/<str:object_id>/', contenttype_views.shortcut, name='view-object'),
+	path(_('admin/'), admin.site.urls),
+	path(_('admin_dashboard/'), include('admin_dashboard.urls')),
+	path('api/editor/', include('rich_editor.urls')),
+	path('hijack/', include('hijack.urls')),
+	path('django-email-log/', include('django_email_log.urls')),
+	path('image/', include('image_renderer.urls')),
+	path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'images/favicon/favicon.ico', permanent=True)),
 ]
 
 if settings.DEBUG:
@@ -58,7 +56,7 @@ if settings.DEBUG:
 	try:
 		import debug_toolbar
 		urlpatterns += [
-			url(r'^__debug__/', include(debug_toolbar.urls)),
+			path('__debug__/', include(debug_toolbar.urls)),
 		]
 	except ImportError:
 		pass
