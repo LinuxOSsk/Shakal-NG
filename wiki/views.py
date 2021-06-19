@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Q
 from django.shortcuts import get_object_or_404

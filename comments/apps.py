@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.apps import AppConfig
 from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save, post_delete

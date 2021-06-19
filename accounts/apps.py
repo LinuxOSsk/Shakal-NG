@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.apps import AppConfig
 from django.contrib.auth.signals import user_logged_out
 from django.core.exceptions import ObjectDoesNotExist

@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.urls import reverse_lazy

@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from rich_editor.parser import HtmlParser, RawParser, TextParser, ONELINE_TAGS_LIST, DEFAULT_TAG_LIST, FULL_TAGS_LIST
 
 

@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.template.response import TemplateResponse
 
 from .auth_remember_utils import authenticate_user, delete_cookie

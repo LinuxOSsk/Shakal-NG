@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import secrets
 
 from django.contrib import auth as django_auth

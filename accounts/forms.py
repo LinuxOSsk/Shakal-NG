@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from allauth.account import app_settings
 from allauth.account.forms import LoginForm as CoreLoginForm, AddEmailForm as CoreAddEmailForm, SignupForm as CoreSignupForm, PasswordField
 from allauth.account.utils import perform_login

@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.db.models import Count, Max
 
 from .models import Article, Category, Series

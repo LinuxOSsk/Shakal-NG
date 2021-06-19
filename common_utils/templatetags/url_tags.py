@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.utils.encoding import force_str
 from django_jinja import library
 from jinja2 import contextfunction

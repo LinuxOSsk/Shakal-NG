@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from .models import User
 from django_sample_generator import generator, fields
 from django.utils import timezone

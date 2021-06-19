@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from collections import namedtuple
 from datetime import datetime, date, time, timedelta
 from functools import partial

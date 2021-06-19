@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import subprocess
 import sys
 from collections import namedtuple

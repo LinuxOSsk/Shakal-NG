@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
 
 from common_utils.admin_widgets import RichEditorWidget

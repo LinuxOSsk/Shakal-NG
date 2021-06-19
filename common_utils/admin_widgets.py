@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 # pylint: disable=unused-import
-from __future__ import unicode_literals
-
 from rich_editor.widgets import RichOriginalEditor
 
 

@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import jinja2.exceptions
 
 from .loader_filesystem import DynamicLoaderMixin

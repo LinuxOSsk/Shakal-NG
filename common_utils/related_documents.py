@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
-
 def related_documents(instance, queryset, ordering, select_range=0):
 	reverse_ordering = [field[1:] if field[0] == '-' else '-' + field for field in ordering]
 	order_asc = queryset.order_by(*ordering)

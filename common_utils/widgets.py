@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.forms.widgets import RadioSelect
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe

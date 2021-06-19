@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.db.models import Count
 from django.http.response import HttpResponseRedirect
 from django.views.generic import DetailView

@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.conf import settings
 from django_autoslugfield.utils import unique_slugify
 from django_sample_generator import fields, generator

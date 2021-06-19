@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django_sample_generator import functions
 from django_sample_generator.fields import FunctionFieldGenerator
 

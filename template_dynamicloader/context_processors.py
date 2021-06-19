@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from template_dynamicloader.utils import get_template_settings
 
 
