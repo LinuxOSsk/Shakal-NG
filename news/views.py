@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
@@ -33,7 +34,7 @@ class NewsDetailView(DetailUserProtectedView):
 		return HttpResponseRedirect(news.get_absolute_url())
 
 
-class NewsCreateView(PreviewCreateView):
+class NewsCreateView(UserPassesTestMixin, PreviewCreateView):
 	model = News
 	form_class = NewsForm
 
@@ -63,6 +64,9 @@ class NewsCreateView(PreviewCreateView):
 			return super(NewsCreateView, self).get_success_url()
 		else:
 			return reverse('home')
+
+	def test_func(self):
+		return settings.ANONYMOUS_NEWS or self.request.user.is_authenticated
 
 
 class NewsUpdateView(LoginRequiredMixin, PreviewUpdateView):

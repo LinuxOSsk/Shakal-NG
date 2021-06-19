@@ -106,9 +106,11 @@
 	<div id="sidebar_1">
 		{% block left %}
 			<div class="module news">
-				<ul class="object-tools">
-					<li class="btn"><span class="wrap"><a href="{{ url("news:create") }}" class="text">Pridať správu</a></span></li>
-				</ul>
+				{% if request.user.is_authenticated or ANONYMOUS_NEWS %}
+					<ul class="object-tools">
+						<li class="btn"><span class="wrap"><a href="{{ url("news:create") }}" class="text">Pridať správu</a></span></li>
+					</ul>
+				{% endif %}
 				<h2 class="block-title">
 					Správy
 				</h2>
@@ -120,11 +122,13 @@
 				<div class="module-links bottom">
 					<a href="{{ url('news:event-list', page=1) }}" class="next">Všetky udalosti</a>
 				</div>
-				<div class="submit-row">
-					<div class="positive">
-						<div class="btn"><span class="wrap"><a class="text" href="{{ url("news:create") }}">Pridať správu</a></span></div>
+				{% if request.user.is_authenticated or ANONYMOUS_NEWS %}
+					<div class="submit-row">
+						<div class="positive">
+							<div class="btn"><span class="wrap"><a class="text" href="{{ url("news:create") }}">Pridať správu</a></span></div>
+						</div>
 					</div>
-				</div>
+				{% endif %}
 			</div>
 		{% endblock %}
 	</div>
