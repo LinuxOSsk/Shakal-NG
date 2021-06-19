@@ -8,7 +8,7 @@
 			<a href="#link_{{ root.next_new }}" class="comment-link first">Prvý neprečítaný komentár</a>
 		{% endif %}
 		<div class="btn-group">
-			{% if not root.is_locked %}
+			{% if not root.is_locked and (request.user.is_authenticated or ANONYMOUS_COMMENTS) %}
 				<div class="btn reply"><span class="wrap"><a href="{{ url("comments:reply", root.pk) }}?time={{ request_timestamp() }}" class="text" rel="nofollow">Pridať komentár</a></span></div>
 				{% if request.user.is_authenticated %}
 					<div class="btn forget">
