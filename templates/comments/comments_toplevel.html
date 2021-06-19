@@ -56,7 +56,7 @@
 	</div>
 	{% if comments|length > 1 %}
 		{% include "comments/comments_tree.html" %}
-		{% if not root.is_locked %}
+		{% if not root.is_locked and (request.user.is_authenticated or ANONYMOUS_COMMENTS) %}
 			<div class="links bottom">
 				<div class="btn reply"><span class="wrap"><a href="{{ url("comments:reply", root.pk) }}?time={{ request_timestamp() }}" class="text" rel="nofollow">Pridať komentár</a></span></div>
 			</div>

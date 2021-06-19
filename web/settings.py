@@ -131,6 +131,7 @@ TEMPLATES = [
 				'django.template.context_processors.i18n',
 				'breadcrumbs.context_processors.breadcrumbs',
 				'template_dynamicloader.context_processors.style',
+				'linuxos.context_processors.settings',
 			],
 			"autoescape": True,
 			"auto_reload": True,
@@ -371,3 +372,5 @@ THUMBNAIL_PROCESSORS = (
 )
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+ANONYMOUS_COMMENTS = False

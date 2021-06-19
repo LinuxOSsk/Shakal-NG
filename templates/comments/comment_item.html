@@ -32,7 +32,7 @@
 </div>
 {% if comment.pk and not readonly and not single %}
 	<div class="links">
-		{% if not is_locked %}
+		{% if not is_locked and (request.user.is_authenticated or ANONYMOUS_COMMENTS) %}
 			<div class="btn reply">
 				<span class="wrap">
 					<a href="{{ url("comments:reply", comment.pk) }}?time={{ request_timestamp() }}" class="text" rel="nofollow" title="Odpovedať">Odpovedať</a>
