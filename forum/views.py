@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from django.conf import settings
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import Count
 from django.http.response import HttpResponseRedirect
 from django.views.generic import DetailView
@@ -38,7 +40,7 @@ class TopicDetailView(DetailView):
 		return super(TopicDetailView, self).get(request, *args, **kwargs)
 
 
-class TopicCreateView(PreviewCreateView):
+class TopicCreateView(UserPassesTestMixin, PreviewCreateView):
 	model = Topic
 	form_class = TopicForm
 
@@ -47,3 +49,6 @@ class TopicCreateView(PreviewCreateView):
 		if self.object:
 			form.move_attachments(self.object)
 		return response
+
+	def test_func(self):
+		return settings.ANONYMOUS_TOPIC or self.request.user.is_authenticated

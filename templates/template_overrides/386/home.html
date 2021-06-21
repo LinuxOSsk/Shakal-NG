@@ -45,7 +45,9 @@
 		{% endwith %}
 	</div>
 	<div class="module-links bottom">
-		<a href="{{ url("forum:create") }}">Pridať novú tému</a> |
+		{% if request.user.is_authenticated or ANONYMOUS_TOPIC %}
+			<a href="{{ url("forum:create") }}">Pridať novú tému</a> |
+		{% endif %}
 		<a href="{{ url("forum:overview", page=1) }}" class="next">Prezerať celé fórum</a>
 	</div>
 </div>

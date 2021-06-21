@@ -24,9 +24,11 @@
 
 {% block content %}
 
-<ul class="object-tools">
-	<li class="btn"><span class="wrap"><a href="{{ url("forum:create") }}" class="text">Pridať novú tému</a></span></li>
-</ul>
+{% if request.user.is_authenticated or ANONYMOUS_TOPIC %}
+	<ul class="object-tools">
+		<li class="btn"><span class="wrap"><a href="{{ url("forum:create") }}" class="text">Pridať novú tému</a></span></li>
+	</ul>
+{% endif %}
 <h1>{% if category %}{{ category }}{% else %}Diskusné fórum{% endif %}</h1>
 
 {% if category %}
