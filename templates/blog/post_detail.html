@@ -43,7 +43,7 @@
 
 {% include "blog/partials/content.html" %}
 
-{% if object.blog.author == user or attachments %}
+{% if object.blog.author == user or attachments_files or attachments_images %}
 	<h2>Prílohy</h2>
 
 	{% if object.blog.author == user %}
