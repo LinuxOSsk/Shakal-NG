@@ -28,16 +28,14 @@
 
 {% block content %}
 {% if request.user.is_authenticated %}
-	<form action="{{ request.path }}" method="post">{% csrf_token %}
-		<ul class="object-tools btn-group">
-			{% if user.is_staff and perms.tweets.change_tweet %}
-				<li class="btn"><span class="wrap"><a href="{{ url("admin:tweets_tweet_change", tweet.pk) }}" class="text">Admin</a></span></li>
-			{% endif %}
-			{% if tweet.author == user %}
-				<li class="btn"><span class="wrap"><a href="{{ url("tweets:update", tweet.slug) }}" class="text">Upraviť</a></span></li>
-			{% endif %}
-		</ul>
-	</form>
+	<ul class="object-tools btn-group">
+		{% if user.is_staff and perms.tweets.change_tweet %}
+			<li class="btn"><span class="wrap"><a href="{{ url("admin:tweets_tweet_change", tweet.pk) }}" class="text">Admin</a></span></li>
+		{% endif %}
+		{% if tweet.author == user %}
+			<li class="btn"><span class="wrap"><a href="{{ url("tweets:update", tweet.slug) }}" class="text">Upraviť</a></span></li>
+		{% endif %}
+	</ul>
 {% endif %}
 
 <h1>{{ tweet }}</h1>
