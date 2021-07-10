@@ -30,23 +30,25 @@
 
 {% block content %}
 
-{% if topic.delete_perm or topic.resolved_perm %}
-<ul class="object-tools btn-group">
-	{% if topic.delete_perm %}
-		<li class="btn delete">
-			<span class="wrap">
-				<a href="{{ topic.get_absolute_url() }}?removed={{ topic.is_removed|yesno(",1") }}" class="text">{% if topic.is_removed %}Obnoviť{% else %}Vymazať{% endif %}</a>
-			</span>
-		</li>
-	{% endif %}
-	{% if topic.resolved_perm %}
-		<li class="btn resolved">
-			<span class="wrap">
-				<a href="{{ topic.get_absolute_url() }}?resolved={{ topic.is_resolved|yesno(",1") }}" class="text" rel="nofollow">{% if topic.is_resolved %}Nastaviť nevyriešené{% else %}Nastaviť vyriešené{% endif %}</a>
-			</span>
-		</li>
-	{% endif %}
-</ul>
+{% if topic.delete_perm or topic.resolved_perm or (request.user.is_authenticated and rquest.user.is_staff) %}
+	<form action="{{ request.path }}" method="post">{% csrf_token %}
+		<ul class="object-tools btn-group">
+			{% if topic.delete_perm %}
+				<li class="btn delete">
+					<button type="submit" name="removed" value="{{ topic.is_removed|yesno(",1") }}" class="wrap">
+						<span class="text">{% if topic.is_removed %}Obnoviť{% else %}Vymazať{% endif %}</span>
+					</button>
+				</li>
+			{% endif %}
+			{% if topic.resolved_perm %}
+				<li class="btn resolved">
+					<button type="submit" name="resolved" value="{{ topic.is_resolved|yesno(",1") }}" class="wrap">
+						<span class="text">{% if topic.is_resolved %}Nastaviť nevyriešené{% else %}Nastaviť vyriešené{% endif %}</span>
+					</button>
+				</li>
+			{% endif %}
+		</ul>
+	</form>
 {% endif %}
 
 <h1>{{ topic }}</h1>

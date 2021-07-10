@@ -26,15 +26,15 @@ class TopicDetailView(DetailView):
 		topic.delete_perm = self.request.user.has_perm('forum.delete_topic')
 		return topic
 
-	def get(self, request, *args, **kwargs):
-		if 'resolved' in request.GET or 'removed' in request.GET:
+	def post(self, request, *args, **kwargs):
+		if 'resolved' in request.POST or 'removed' in request.POST:
 			topic = self.get_object()
-			if 'resolved' in request.GET and topic.resolved_perm:
-				topic.is_resolved = bool(request.GET['resolved'])
+			if 'resolved' in request.POST and topic.resolved_perm:
+				topic.is_resolved = bool(request.POST['resolved'])
 				topic.save()
 				return HttpResponseRedirect(topic.get_absolute_url())
-			if 'removed' in request.GET and topic.delete_perm:
-				topic.is_removed = bool(request.GET['removed'])
+			if 'removed' in request.POST and topic.delete_perm:
+				topic.is_removed = bool(request.POST['removed'])
 				topic.save()
 				return HttpResponseRedirect(topic.get_absolute_url())
 		return super(TopicDetailView, self).get(request, *args, **kwargs)
