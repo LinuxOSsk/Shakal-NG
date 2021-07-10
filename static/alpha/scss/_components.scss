@@ -173,6 +173,7 @@ body.home .content-module {
 
 .module-row {
 	@extend %content-padding;
+	@extend %clearfix;
 	border-bottom: 1px solid $light-border-color;
 	&:last-child {
 		border-bottom: none;
