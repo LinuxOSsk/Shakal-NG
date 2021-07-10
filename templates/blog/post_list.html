@@ -28,6 +28,14 @@
 
 {% block content %}
 {% if blog %}
+	{% if page_obj.number == 1 %}
+		<ul class="object-tools btn-group">
+			{% if user.is_staff and perms.blog.change_blog %}
+				<li class="btn"><span class="wrap"><a href="{{ url("admin:blog_blog_change", blog.pk) }}" class="text">Admin</a></span></li>
+			{% endif %}
+		</ul>
+	{% endif %}
+
 	{% with list=1 %}
 		{% include "blog/partials/informations.html" %}
 	{% endwith %}

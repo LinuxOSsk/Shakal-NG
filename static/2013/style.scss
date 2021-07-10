@@ -1645,6 +1645,7 @@ td.status, td.comments, td.date {
 .module.subpages, .module.sidebar {
 	width: 30%;
 	float: right;
+	clear: right;
 	margin-left: $module-margin;
 
 	ul {
