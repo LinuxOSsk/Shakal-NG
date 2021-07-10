@@ -665,11 +665,13 @@ var SimpleEditorHtml = function(element, options) {
 		}
 	}
 
+	/*
 	if (hasTag('sup') || hasTag('sub')) {
 		tb = addToolbar();
 		if (hasTag('sup')) addButton(tb, {cls: 'icon-superscript', tag: 'sup', title: 'Horný index', onclick: triggerFunction});
 		if (hasTag('sup')) addButton(tb, {cls: 'icon-subscript', tag: 'sub', title: 'Dolný index', onclick: triggerFunction});
 	}
+	*/
 
 	tb = addToolbar();
 	if (hasTag('p')) addButton(tb, {cls: 'icon-bidiltr', tag: 'p', title: 'Odstavec', onclick: triggerFunction});
