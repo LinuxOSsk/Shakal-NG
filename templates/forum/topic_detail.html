@@ -33,6 +33,9 @@
 {% if topic.delete_perm or topic.resolved_perm or (request.user.is_authenticated and rquest.user.is_staff) %}
 	<form action="{{ request.path }}" method="post">{% csrf_token %}
 		<ul class="object-tools btn-group">
+			{% if user.is_staff and perms.forum.change_topic %}
+				<li class="btn"><span class="wrap"><a href="{{ url("admin:forum_topic_change", topic.pk) }}" class="text">Admin</a></span></li>
+			{% endif %}
 			{% if topic.delete_perm %}
 				<li class="btn delete">
 					<button type="submit" name="removed" value="{{ topic.is_removed|yesno(",1") }}" class="wrap">
