@@ -27,12 +27,14 @@
 	{% endwith %}
 {% endblock %}
 
+{% block right %}
+	{% with blog=object.blog, post=object %}
+		{% include "blog/partials/informations.html" %}
+	{% endwith %}
+	{{ super() }}
+{% endblock %}
+
 {% block content %}
-
-{% with blog=object.blog, post=object %}
-	{% include "blog/partials/informations.html" %}
-{% endwith %}
-
 <ul class="object-tools btn-group">
 	{% if user.is_staff and perms.blog.change_post %}
 		<li class="btn"><span class="wrap"><a href="{{ url("admin:blog_post_change", post.pk) }}" class="text">Admin</a></span></li>

@@ -26,6 +26,14 @@
 	{% endif %}
 {% endblock %}
 
+{% block right %}
+	{% with list=1 %}
+		{% include "blog/partials/informations.html" %}
+	{% endwith %}
+
+	{{ super() }}
+{% endblock %}
+
 {% block content %}
 {% if blog %}
 	{% if page_obj.number == 1 %}
@@ -35,10 +43,6 @@
 			{% endif %}
 		</ul>
 	{% endif %}
-
-	{% with list=1 %}
-		{% include "blog/partials/informations.html" %}
-	{% endwith %}
 {% endif %}
 
 {% if blog %}
