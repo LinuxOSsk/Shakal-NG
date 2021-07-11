@@ -117,7 +117,6 @@ class Article(TimestampModelMixin, models.Model):
 	image = AutoImageField(
 		verbose_name="obrázok",
 		upload_to='article/thumbnails',
-		resize_source=dict(size=(2048, 2048)),
 		blank=True
 	)
 

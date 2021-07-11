@@ -7,6 +7,7 @@ from django.db.models.query import QuerySet
 from django.urls import reverse
 from django.utils import timezone
 from django_autoslugfield.fields import AutoSlugField
+from autoimagefield.fields import AutoImageField
 
 from common_utils.models import TimestampModelMixin
 from hitcount.models import HitCountField
@@ -45,6 +46,11 @@ class Blog(TimestampModelMixin, models.Model):
 		blank=True
 	)
 	filtered_sidebar = RichTextFilteredField(
+	)
+	image = AutoImageField(
+		verbose_name="obrázok",
+		upload_to='blog/info/images',
+		blank=True
 	)
 
 	content_fields = ('original_descriptoin', 'original_sidebar',)
@@ -136,6 +142,11 @@ class Post(TimestampModelMixin, models.Model):
 	linux = models.BooleanField(
 		"linuxový blog",
 		default=False
+	)
+	image = AutoImageField(
+		verbose_name="obrázok",
+		upload_to='blog/title/images',
+		blank=True
 	)
 
 	polls = GenericRelation('polls.Poll')
