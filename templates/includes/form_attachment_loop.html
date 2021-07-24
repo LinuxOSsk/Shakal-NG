@@ -24,7 +24,7 @@
 						</td>
 						<td>
 							<a href="{{ attachment.instance.attachment.url }}">{{ attachment.instance.basename }}</a>
-							({{ attachment.instance.attachment.size|filesizeformat }})
+							{% if attachment.instance.attachment.storage.exists(attachment.instance.attachment.name) %}({{ attachment.instance.attachment.size|filesizeformat }}){% endif %}
 						</td>
 						{% if form.has_visibility %}
 							<td class="attachment_visibility">
