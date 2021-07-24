@@ -27,9 +27,11 @@
 {% endblock %}
 
 {% block right %}
-	{% with list=1 %}
-		{% include "blog/partials/informations.html" %}
-	{% endwith %}
+	{% if blog %}
+		{% with list=1 %}
+			{% include "blog/partials/informations.html" %}
+		{% endwith %}
+	{% endif %}
 
 	{{ super() }}
 {% endblock %}
