@@ -1,0 +1,1 @@
+{% include "django/forms/widgets/input.html" %}<label{% if widget.attrs.id %} for="{{ widget.attrs.id }}"{% endif %}{% if not widget.value.instance %} class="empty"{% endif %}> {% if widget.value.instance %}<figure><img src="{{ thumbnail(widget.value.instance.attachment, size=(100, 100)) }}" alt="{{ widget.label }}" /></figure>{% else %}{{ widget.label }}{% endif %}</label>

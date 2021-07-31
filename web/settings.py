@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import django
 import os
 import re
+
 
 from .assets import ASSETS, SPRITES
 
@@ -102,7 +104,7 @@ ROOT_URLCONF = 'web.urls'
 TEMPLATES = [
 	{
 		"BACKEND": "template_dynamicloader.backend.Jinja2",
-		'DIRS': [os.path.join(BASE_DIR, 'templates'),],
+		'DIRS': [os.path.join(BASE_DIR, 'templates')],
 		"OPTIONS": {
 			"match_extension": None,
 			"match_regex": re.compile(r"^(?!(admin/|debug_toolbar/|suit/|profiler/|search/indexes/|reversion/|sitemap.xml|static_sitemaps/|hijack/|django_extensions/)).*"),
@@ -215,6 +217,8 @@ USE_TZ = True
 
 SHORT_DATE_FORMAT = 'd. m. Y'
 SHORT_DATETIME_FORMAT = 'd. m. Y H:i'
+
+FORM_RENDERER = 'linuxos.form_renderers.Jinja2'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 

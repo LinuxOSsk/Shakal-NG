@@ -25,6 +25,7 @@ class PostForm(forms.ModelForm):
 			del self.fields['pub_now']
 		else:
 			self.fields['pub_time'].required = False
+		self.fields['presentation_image'].filter_uploads(self.instance)
 
 	def clean_pub_time(self):
 		if 'pub_now' in self.data and self.data['pub_now']:
@@ -37,7 +38,7 @@ class PostForm(forms.ModelForm):
 
 	class Meta:
 		model = Post
-		fields = ('title', 'original_perex', 'original_content', 'pub_time',)
+		fields = ('title', 'original_perex', 'original_content', 'pub_time', 'presentation_image')
 
 
 AttachmentFormSetHiddable = modelformset_factory(Attachment, can_delete=True, extra=0, fields=('is_visible',))

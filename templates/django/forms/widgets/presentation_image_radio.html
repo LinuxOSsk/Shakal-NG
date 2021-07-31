@@ -1,0 +1,11 @@
+{% set id = widget.attrs.id %}
+<div{% if id %} id="{{ id }}"{% endif %} class="{% if widget.attrs.class %}{{ widget.attrs.class }}{% else %}presentation-image-select{% endif %}">
+	{%- for group, options, index in widget.optgroups -%}
+	{% if group %}<h4>{{ group }}</h4>{% endif %}
+	<ul{% if id %} id="{{ id }}_group_{{ index }}"{% endif %}>
+		{% for widget in options %}
+			<li>{% include widget.template_name %}</li>
+		{% endfor %}
+	</ul>
+	{% endfor %}
+</div>
