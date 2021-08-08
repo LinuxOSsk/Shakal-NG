@@ -24,6 +24,19 @@
 {{ add_discussion_attributes_heterogenous(articles, top_articles, posts, top_posts, forum_new, forum_no_comments, forum_most_comments, posts, new_items, desktops, tweets) }}
 {{ add_hitcount(articles, top_articles, desktops) }}
 
+<div class="module article">
+	<h2 class="block-title">Články a blogy</h2>
+
+	{% for item in new_items|shuffle %}
+		{% set is_first=loop.first %}
+		{% if item._meta.model_name == 'post' %}
+			{% include "blog/banner_item.html" %}
+		{% else %}
+			{% include "article/banner_item.html" %}
+		{% endif %}
+	{% endfor %}
+</div>
+
 <div class="module article tabular">
 	<h2 class="block-title">Články a blogy</h2>
 	<div class="module-row tabular">
@@ -49,11 +62,6 @@
 	{% endif %}
 	<div class="module-row tabular">
 		{% with caption="Najdiskutovanejšie témy", topic_list=forum_most_comments %}
-			{% include "forum/block_topics_table.html" %}
-		{% endwith %}
-	</div>
-	<div class="module-row tabular">
-		{% with caption="Najnovšie blogy", topic_list=posts %}
 			{% include "forum/block_topics_table.html" %}
 		{% endwith %}
 	</div>

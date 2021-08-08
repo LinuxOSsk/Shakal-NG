@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import random
 from datetime import datetime, timedelta
 
 from django import template
@@ -8,13 +9,11 @@ from django.template.defaultfilters import urlencode
 from django.template.defaulttags import date
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils import timezone
+from django.utils import timezone, formats
 from django.utils.encoding import force_str
 from django.utils.html import escape, format_html
 from django.utils.safestring import mark_safe
 from django_jinja import library
-from hijack.templatetags.hijack_tags import hijack_notification as core_hijack_notification
-from jinja2 import contextfunction
 
 from common_utils import get_meta
 from rating.settings import FLAG_CONTENT_TYPES
@@ -121,12 +120,6 @@ def urlquote(string):
 
 
 @library.global_function
-@contextfunction
-def hijack_notification(context):
-	return core_hijack_notification(context)
-
-
-@library.global_function
 def flag_url(obj):
 	ctype = ContentType.objects.get_for_model(obj.__class__)
 	if (ctype.app_label, ctype.model) not in FLAG_CONTENT_TYPES:
@@ -138,3 +131,15 @@ def flag_url(obj):
 def share_image(obj, image_type):
 	ctype = ContentType.objects.get_for_model(obj.__class__)
 	return reverse('image_renderer:render', kwargs={'image_type': image_type, 'content_type': ctype.pk, 'object_id': obj.pk})
+
+
+@library.filter
+def number_format(value):
+	return formats.number_format(value)
+
+
+@library.filter
+def shuffle(items):
+	items = list(items)
+	random.shuffle(items)
+	return items

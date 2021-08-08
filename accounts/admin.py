@@ -3,18 +3,18 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
-from hijack_admin.admin import HijackUserAdminMixin
 
 from accounts.admin_forms import UserCreationForm, UserChangeForm
 from accounts.models import User
 from admin_actions.views import AdminActionsMixin
+from hijack.contrib.admin import HijackUserAdminMixin
 
 
 class UserAdmin(HijackUserAdminMixin, AdminActionsMixin, AuthUserAdmin):
 	add_form = UserCreationForm
 	form = UserChangeForm
 	ordering = ('-id', )
-	list_display = ['username', 'email', 'get_full_name', 'get_status', 'hijack_field']
+	list_display = ['username', 'email', 'get_full_name', 'get_status']
 	fieldsets = (
 		(None, {'fields': ('username', 'password')}),
 		('Osobné údaje', {'fields': ('first_name', 'last_name',)}),
@@ -57,9 +57,8 @@ class UserAdmin(HijackUserAdminMixin, AdminActionsMixin, AuthUserAdmin):
 	def set_active(self, request, **kwargs):
 		request.POST['is_active'] = '1'
 
-	def hijack_field(self, obj):
-		return super(UserAdmin, self).hijack_field(obj)
-	hijack_field.short_description = "Prihlásiť sa"
-	hijack_field.allow_tags = True
+	def get_hijack_user(self, obj):
+		return obj
+
 
 admin.site.register(User, UserAdmin)

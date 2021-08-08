@@ -14,6 +14,22 @@
 			</ul>
 		{% endif %}
 		<hr />
+		{% if blog.author == user or categories %}
+			<h4>Kategórie</h4>
+			{% if categories %}
+				<ul>
+					{% for category in categories %}
+						<li><a href="{{ url("blog:post-list-blog-category", blog.slug, category.slug, 1) }}">{{ category }} <span class="info items-count">{{ category.post_count|number_format }}</span></a></li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+			<div class="info bottom">
+				{% if blog.author == user %}
+					<a href="{{ url("blog:post-category-management-list", blog.slug) }}">Spravovať</a>
+				{% endif %}
+			</div>
+			<hr />
+		{% endif %}
 		{{ blog.sidebar|safe }}
 		{% if list and request.user.is_authenticated %}
 			{% set flag_url_link=flag_url(blog) %}

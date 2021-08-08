@@ -39,7 +39,6 @@ INSTALLED_APPS = [
 	'django.contrib.staticfiles',
 	# vendor
 	'blackhole',
-	'compat',
 	'django_assets_manager',
 	'django_ajax_utils',
 	'django_autoslugfield',
@@ -53,7 +52,6 @@ INSTALLED_APPS = [
 	'django_jinja',
 	'mptt',
 	'hijack',
-	'hijack_admin',
 	'reversion',
 	'static_sitemaps',
 	'easy_thumbnails',
@@ -91,6 +89,7 @@ MIDDLEWARE = [
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
 	'django.middleware.locale.LocaleMiddleware',
 	# custom
+	'hijack.middleware.HijackUserMiddleware',
 	'accounts.middleware.LastViewedMiddleware',
 	'accounts.middleware.AuthRememberMiddleware',
 	'web.middlewares.ThreadLocalMiddleware',

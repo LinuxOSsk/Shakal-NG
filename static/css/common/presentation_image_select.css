@@ -1,7 +1,6 @@
 @charset "UTF-8";
 .presentation-image-select {
-  display: block;
-  overflow: hidden; }
+  display: block; }
   .presentation-image-select h4 {
     font-weight: bold;
     font-size: 105%;

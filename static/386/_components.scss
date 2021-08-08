@@ -536,6 +536,16 @@ div.richedit_container {
 	.subject {
 		color: #ffffff;
 	}
+	&.items-count {
+		&:before {
+			content: ' (';
+			display: inline;
+		}
+		&:after {
+			content: ') ';
+			display: inline;
+		}
+	}
 }
 
 .desktop.item {
@@ -815,4 +825,15 @@ ul.messages {
 
 .parent-link {
 	display: none;
+}
+
+td.actions {
+	width: 1%;
+	white-space: nowrap;
+	text-align: right;
+}
+
+.text-color-alert {
+	background: #ff0000;
+	color: #ffffff;
 }

@@ -1,0 +1,7 @@
+<div class="module-row">
+	{% if item.image %}
+		<div class="article-image">
+			<img src="{{ thumbnail(item.image, size=(960, 540), crop=True) }}" alt="{{ item.title }}" />
+		</div>
+	{% endif %}
+</div>

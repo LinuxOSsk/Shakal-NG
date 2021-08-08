@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block head_title %}{{ blog }} - úprava kategórií{% endblock %}
+
+{% block breadcrumbs %}
+	{{ breadcrumb("Správa kategórií") }}
+	{{ breadcrumb(blog, url=blog.get_absolute_url()) }}
+	{{ breadcrumb("Blog", url='blog:post-list', page=1) }}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+	<ul class="object-tools">
+		<li class="btn"><span class="wrap"><a href="{{ url("blog:post-category-management-create", blog.slug) }}" class="text">Pridať novú kategóriu</a></span></li>
+	</ul>
+
+	<h1>Úprava kategórií</h1>
+
+	<p>V tejto sekcii môžte spravovať kategórie blogu „{{ blog }}“.</p>
+
+	<div class="module">
+		<div class="tabular">
+			<table>
+				<thead>
+					<th colspan="2">Kategória</th>
+				</thead>
+				<tbody>
+					{% for category in object_list %}
+						<tr>
+							<td><a href="{{ url("blog:post-category-management-update", blog.slug, category.pk) }}">{{ category }}</a></td>
+							<td class="actions"><small><a href="{{ url("blog:post-category-management-delete", blog.slug, category.pk) }}" class="text-color-alert">Zmazať</a></small></td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock %}

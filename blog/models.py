@@ -59,7 +59,7 @@ class Blog(TimestampModelMixin, models.Model):
 	notification_events = GenericRelation('notifications.Event')
 
 	def get_absolute_url(self):
-		return reverse('blog:post-list-category', kwargs={'category': self.slug, 'page': 1})
+		return reverse('blog:post-list-blog', kwargs={'blog': self.slug, 'page': 1})
 
 	def __str__(self):
 		return self.title

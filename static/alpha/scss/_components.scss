@@ -254,6 +254,17 @@ body.home .content-module {
 		color: $text-color;
 		font-weight: bold;
 	}
+	&.items-count {
+		font-size: 80%;
+		&:before {
+			content: ' (';
+			display: inline;
+		}
+		&:after {
+			content: ') ';
+			display: inline;
+		}
+	}
 }
 
 .subject {
@@ -335,6 +346,12 @@ body.home .content-module {
 			text-align: right;
 		}
 	}
+}
+
+td.actions {
+	width: 1%;
+	white-space: nowrap;
+	text-align: right;
 }
 
 td.date {
@@ -650,4 +667,8 @@ figure {
 		font-size: 80%;
 		color: $info-color;
 	}
+}
+
+.text-color-alert {
+	color: $text-color-alert;
 }

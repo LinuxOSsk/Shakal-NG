@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.db.models import Q, F
 from django.forms.models import modelformset_factory
 from django.utils.timezone import now
 
-from .models import Blog, Post
+from .models import Blog, Post, PostCategory
 from attachment.fields import AttachmentFieldMultiple
 from attachment.forms import AttachmentFormMixin
 from attachment.models import Attachment
@@ -19,6 +20,7 @@ class PostForm(forms.ModelForm):
 	pub_now = forms.BooleanField(label='Publikovať teraz', required=False)
 
 	def __init__(self, *args, **kwargs):
+		self.request = kwargs.pop('request')
 		super(PostForm, self).__init__(*args, **kwargs)
 		if self.instance and self.instance.published():
 			del self.fields['pub_time']
@@ -26,6 +28,10 @@ class PostForm(forms.ModelForm):
 		else:
 			self.fields['pub_time'].required = False
 		self.fields['presentation_image'].filter_uploads(self.instance)
+		q = Q(blog__isnull=True)
+		if hasattr(self.request.user, 'blog'):
+			q |= Q(blog_id=self.request.user.blog.id)
+		self.fields['category'].queryset = self.fields['category'].queryset.filter(q).order_by(F('blog_id').asc(nulls_last=True), 'pk')
 
 	def clean_pub_time(self):
 		if 'pub_now' in self.data and self.data['pub_now']:
@@ -38,7 +44,7 @@ class PostForm(forms.ModelForm):
 
 	class Meta:
 		model = Post
-		fields = ('title', 'original_perex', 'original_content', 'pub_time', 'presentation_image')
+		fields = ('title', 'original_perex', 'original_content', 'pub_time', 'category', 'presentation_image')
 
 
 AttachmentFormSetHiddable = modelformset_factory(Attachment, can_delete=True, extra=0, fields=('is_visible',))
@@ -48,3 +54,9 @@ class BlogAttachmentForm(AttachmentFormMixin, forms.Form):
 	has_visibility = True
 	formset = AttachmentFormSetHiddable
 	attachment = AttachmentFieldMultiple(label='Príloha', required=False)
+
+
+class PostCategoryForm(forms.ModelForm):
+	class Meta:
+		model = PostCategory
+		fields = ('title',)

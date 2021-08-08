@@ -65,7 +65,7 @@ class Home(TemplateView):
 		except IndexError:
 			top_posts = Post.objects.all().none()
 		posts = Post.objects.all()
-		return list(posts[:4]), list(top_posts)
+		return list(posts[:8]), list(top_posts)
 
 	@cached_method(tag='forum.topic')
 	def get_topics(self):
@@ -84,14 +84,7 @@ class Home(TemplateView):
 		posts, top_posts = self.get_posts()
 		forum_new, forum_no_comments, forum_most_comments = self.get_topics()
 
-		new_items = []
-		for article in articles[:2]:
-			new_items.append(article)
-		for i, post in enumerate(posts):
-			new_items.append(post)
-			if i == 1:
-				break
-		new_items.sort(key=lambda x: x.pub_time, reverse=True)
+		new_items = list(articles[:2]) + list(posts[:8])
 
 		ctx.update({
 			'top_articles': top_articles,

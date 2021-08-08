@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block extraheaders %}
+<meta name="robots" content="noindex, nofollow" />
+{{ super() }}
+{% endblock %}
+
+{% block head_title %}Odstrániť „{{ object }}“{% endblock %}
+
+{% block breadcrumbs %}
+	{% block breadcrumb_object_title %}{{ breadcrumb("Odstrániť " + object|string) }}{% endblock %}
+	{% block breadcrumb_object_link %}{% if object.get_absolute_url %}{{ breadcrumb(object, url=object.get_absolute_url()) }}{% endif %}{% endblock %}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+	<h1>{% block page_title %}Odstrániť „{{ object }}“{% endblock %}</h1>
+	<p>Chcete skutočne odstrániť „{{ object }}“? Túto akciu nebude možné vrátiť späť.</p>
+	<form action="{{ request.path }}" method="post">{% csrf_token %}
+		<div class="submit-row">
+			<div class="negative">
+				{% block back_link_tag %}<a class="btn secondary" type="submit" href="{% block back_link %}{% if object.get_absolute_url %}{{ object.get_absolute_url() }}{% else %}" style="display: none{% endif %}{% endblock %}"><span class="wrap"><span class="text">Späť</span></span></a>{% endblock %}
+			</div>
+			<div class="positive">
+				<button class="btn danger" type="submit"><span class="wrap"><span class="text">Zmazať</span></span></button>
+			</div>
+		</div>
+	</form>
+{% endblock %}

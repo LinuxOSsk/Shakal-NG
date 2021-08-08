@@ -416,6 +416,17 @@ th.title a, td.title a {
 		color: $generic-foreground;
 		font-weight: bold;
 	}
+	&.items-count {
+		font-size: 80%;
+		&:before {
+			content: ' (';
+			display: inline;
+		}
+		&:after {
+			content: ') ';
+			display: inline;
+		}
+	}
 }
 
 .object-tools {
@@ -1642,6 +1653,12 @@ td.status, td.comments, td.date {
 	font-weight: bold;
 }
 
+td.actions {
+	width: 1%;
+	white-space: nowrap;
+	text-align: right;
+}
+
 /* === Wiki === */
 .module.subpages, .module.sidebar {
 	width: 30%;
@@ -2094,4 +2111,8 @@ td.status, td.comments, td.date {
 			display: block;
 		}
 	}
+}
+
+.text-color-alert {
+	color: #d53;
 }
