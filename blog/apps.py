@@ -10,6 +10,7 @@ DEFAULT_CATEGORIES = [
 	'Hardware',
 	'Software',
 	'Aplikácie',
+	'Konfigurácia',
 	'Vlastný projekt',
 	'Programovanie',
 	'Komunita',

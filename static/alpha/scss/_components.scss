@@ -672,3 +672,44 @@ figure {
 .text-color-alert {
 	color: $text-color-alert;
 }
+
+.module.banner {
+	.module-row {
+		@include clearfix;
+	}
+
+	.article-image {
+		margin-right: $base-margin;
+		float: left;
+		width: 40%;
+		max-width: 480px;
+		.label {
+			position: absolute;
+			margin: $base-margin auto auto $base-margin;
+		}
+	}
+	.article-detail {
+		overflow: hidden;
+	}
+	.perex {
+		max-height: 7*1.4em;
+		overflow: hidden;
+		p {
+			margin: 0;
+		}
+	}
+
+	.first {
+		.article-image {
+			float: none;
+			margin-left: auto;
+			margin-right: auto;
+			max-width: 1920px;
+			text-align: center;
+			width: auto;
+		}
+		.perex {
+			max-height: auto;
+		}
+	}
+}

@@ -59,4 +59,4 @@ class BlogAttachmentForm(AttachmentFormMixin, forms.Form):
 class PostCategoryForm(forms.ModelForm):
 	class Meta:
 		model = PostCategory
-		fields = ('title',)
+		fields = ('title', 'image')

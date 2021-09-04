@@ -87,6 +87,14 @@ class PostCategory(models.Model):
 		null=True,
 		on_delete=models.CASCADE
 	)
+	image = AutoImageField(
+		verbose_name="obrázok",
+		upload_to='blog/info/images',
+		blank=True
+	)
+
+	def get_absolute_url(self):
+		return reverse('blog:post-list-blog-category', kwargs={'blog': self.blog.slug, 'category': self.slug, 'page': 1})
 
 	def __str__(self):
 		return self.title

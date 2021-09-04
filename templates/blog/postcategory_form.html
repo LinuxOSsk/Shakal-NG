@@ -17,7 +17,7 @@
 {% block content %}
 <h1>{% if object and object.pk %}Upraviť kategóriu{% else %}Vytvoriť kategóriu{% endif %}</h1>
 
-<form action="{{ request.path }}" method="post" id="blog-form">{% csrf_token %}
+<form action="{{ request.path }}" method="post" id="blog-form" enctype="multipart/form-data">{% csrf_token %}
 	<fieldset class="module">
 		{% include "includes/form_loop.html" %}
 		<div class="submit-row">

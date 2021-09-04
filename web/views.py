@@ -52,6 +52,7 @@ class Home(TemplateView):
 		except IndexError:
 			top_articles = Article.objects.all().none()
 		articles = (Article.objects.all()
+			.select_related('presentation_image')
 			.defer(*DEFER))
 
 		articles = list(articles.select_related('author', 'category')[:5])
@@ -84,7 +85,7 @@ class Home(TemplateView):
 		posts, top_posts = self.get_posts()
 		forum_new, forum_no_comments, forum_most_comments = self.get_topics()
 
-		new_items = list(articles[:2]) + list(posts[:8])
+		new_items = list(articles[:2]) + list(posts[:5])
 
 		ctx.update({
 			'top_articles': top_articles,

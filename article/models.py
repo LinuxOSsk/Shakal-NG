@@ -26,6 +26,11 @@ class Category(models.Model):
 	description = models.TextField(
 		verbose_name="popis"
 	)
+	image = AutoImageField(
+		verbose_name="obrázok",
+		upload_to='article/categories',
+		blank=True
+	)
 
 	def get_absolute_url(self):
 		return reverse('article:list-category', kwargs={'category': self.slug, 'page': 1})
