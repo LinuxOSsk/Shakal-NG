@@ -89,7 +89,7 @@ packaging==20.9
     # via bleach
 pep517==0.10.0
     # via pip-tools
-pillow==8.2.0
+pillow==8.3.2
     # via
     #   -r requirements.in
     #   easy-thumbnails
