@@ -131,7 +131,7 @@ six==1.16.0
     #   django-static-sitemaps
     #   html5lib
     #   libsass
-sqlparse==0.4.1
+sqlparse==0.4.2
     # via django
 toml==0.10.2
     # via pep517
