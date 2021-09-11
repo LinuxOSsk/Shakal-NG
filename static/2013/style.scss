@@ -15,7 +15,7 @@ $hdr-mid: #5d6370;
 $hdr-low: #000000;
 
 $link-color: #1d5886;
-$link-color-hover: $link-color - #0e2940;
+$link-color-hover: darken($link-color, 10%);
 
 $header-bg: #4d9dd9;
 
