@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
 from .form_fields import PresentationImageFormField

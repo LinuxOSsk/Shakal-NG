@@ -27,7 +27,7 @@
 <div class="module article banner">
 	<h2 class="block-title">Články a blogy</h2>
 
-	{% for item in new_items|shuffle %}
+	{% for item in new_items|shuffle_with_time_priority(5) %}
 		{% set is_first=loop.first %}
 		{% if item._meta.model_name == 'post' %}
 			{% include "blog/banner_item.html" %}

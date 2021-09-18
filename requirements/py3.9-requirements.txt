@@ -6,28 +6,27 @@
 #
 asgiref==3.4.1
     # via django
-bleach==4.0.0
+bleach==4.1.0
     # via -r requirements.in
 certifi==2021.5.30
     # via requests
 cffi==1.14.6
     # via cryptography
-charset-normalizer==2.0.4
+charset-normalizer==2.0.6
     # via requests
 click==8.0.1
     # via pip-tools
-cryptography==3.4.7
+cryptography==3.4.8
     # via pyjwt
 defusedxml==0.7.1
     # via python3-openid
-django==3.2.6
+django==3.2.7
     # via
     #   -r requirements.in
     #   django-allauth
     #   django-appconf
     #   django-hijack
     #   django-jinja
-    #   django-mptt
     #   django-reversion
     #   django-static-sitemaps
     #   easy-thumbnails
@@ -41,7 +40,7 @@ django-compressor==2.4.1
     #   django-libsass
 django-email-log-backend==0.3.3
     # via -r requirements.in
-django-hijack==3.0.0
+django-hijack==3.0.2
     # via -r requirements.in
 django-jinja==2.7.1
     # via -r requirements.in
@@ -49,7 +48,7 @@ django-js-asset==1.2.2
     # via django-mptt
 django-libsass==0.9
     # via -r requirements.in
-django-mptt==0.12.0
+django-mptt==0.13.3
     # via -r requirements.in
 django-reversion==4.0.0
     # via -r requirements.in
@@ -79,7 +78,7 @@ packaging==21.0
     # via bleach
 pep517==0.11.0
     # via pip-tools
-pillow==8.3.1
+pillow==8.3.2
     # via
     #   -r requirements.in
     #   easy-thumbnails
@@ -87,7 +86,7 @@ pip-tools==6.2.0
     # via -r requirements.in
 pycparser==2.20
     # via cffi
-pygments==2.9.0
+pygments==2.10.0
     # via -r requirements.in
 pyjwt[crypto]==2.1.0
     # via django-allauth
@@ -120,7 +119,7 @@ six==1.16.0
     #   django-static-sitemaps
     #   html5lib
     #   libsass
-sqlparse==0.4.1
+sqlparse==0.4.2
     # via django
 tomli==1.2.1
     # via pep517
@@ -130,7 +129,7 @@ webencodings==0.5.1
     # via
     #   bleach
     #   html5lib
-wheel==0.36.2
+wheel==0.37.0
     # via pip-tools
 
 # The following packages are considered to be unsafe in a requirements file:

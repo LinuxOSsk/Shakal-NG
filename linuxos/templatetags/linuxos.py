@@ -16,6 +16,7 @@ from django.utils.safestring import mark_safe
 from django_jinja import library
 
 from common_utils import get_meta
+from common_utils.random import weighted_sample
 from rating.settings import FLAG_CONTENT_TYPES
 
 
@@ -143,3 +144,12 @@ def shuffle(items):
 	items = list(items)
 	random.shuffle(items)
 	return items
+
+
+@library.filter
+def shuffle_with_time_priority(items, max_count=None):
+	if max_count is None:
+		max_count = len(items)
+	now = timezone.now()
+	weights = [7 * 86400 / (min(max((now - item.created).total_seconds(), 0), 86400 * 90) + 86400 * 3) for item in items]
+	return weighted_sample(items, weights, max_count)
