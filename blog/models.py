@@ -89,7 +89,7 @@ class PostCategory(models.Model):
 	)
 	image = AutoImageField(
 		verbose_name="obrázok",
-		upload_to='blog/info/images',
+		upload_to='blog/category/images',
 		blank=True
 	)
 

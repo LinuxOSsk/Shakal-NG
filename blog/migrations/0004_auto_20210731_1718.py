@@ -49,6 +49,6 @@ class Migration(migrations.Migration):
 		migrations.AddField(
 			model_name='postcategory',
 			name='image',
-			field=autoimagefield.fields.AutoImageField(blank=True, upload_to='blog/info/images'),
+			field=autoimagefield.fields.AutoImageField(blank=True, upload_to='blog/category/images'),
 		),
 	]

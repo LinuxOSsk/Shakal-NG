@@ -678,15 +678,17 @@ figure {
 		@include clearfix;
 	}
 
+	.label {
+		float: left;
+		margin: $base-margin $base-margin 0 0;
+	}
+
 	.article-image {
 		margin-right: $base-margin;
 		float: left;
 		width: 40%;
 		max-width: 480px;
-		.label {
-			position: absolute;
-			margin: $base-margin auto auto $base-margin;
-		}
+		display: block;
 	}
 	.article-detail {
 		overflow: hidden;
@@ -700,6 +702,10 @@ figure {
 	}
 
 	.first {
+		a:hover {
+			text-decoration: none;
+		}
+		/*
 		.article-image {
 			float: none;
 			margin-left: auto;
@@ -708,8 +714,70 @@ figure {
 			text-align: center;
 			width: auto;
 		}
+		*/
+		.article-image {
+			float: none;
+			margin: (-$base-spacing-content) (-$base-spacing-content) 0 (-$base-spacing-content);
+			position: relative;
+			max-width: none;
+			width: auto;
+			overflow: hidden;
+			min-height: 240px;
+			display: flex;
+			flex-direction: column;
+			justify-content: end;
+
+			img {
+				position: absolute;
+				width: 100%;
+				min-height: 100%;
+				max-height: 100%;
+				object-fit: cover;
+			}
+		}
+		.article-detail {
+			position: relative;
+			background: rgba(0, 0, 0, 0.5);
+			padding: $base-spacing-content;
+			color: white;
+			margin-top: 120px;
+			background: linear-gradient(0deg, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .1) 100%);
+			position: relative;
+			overflow: visible;
+			&:before {
+				content: '';
+				display: block;
+				position: absolute;
+				height: 60px;
+				width: 100%;
+				top: -60px;
+				left: 0;
+				z-index: 1;
+				background: transparent;
+				background: linear-gradient(0deg, rgba(0, 0, 0, .1) 0%, rgba(0, 0, 0, 0) 100%);
+			}
+			h1, h2, h3, h4, h5, h6, a {
+				color: inherit;
+			}
+			h3 {
+				display: block;
+				border-bottom: 1px solid white;
+				padding: $base-spacing-content 0;
+				margin: $base-spacing-content 0;
+			}
+			.info {
+				color: rgba(255, 255, 255, .8);
+			}
+			.label {
+				float: none;
+				display: inline-block;
+				vertical-align: middle;
+				margin-top: 0;
+				margin-bottom: 0;
+			}
+		}
 		.perex {
-			max-height: auto;
+			max-height: none;
 		}
 	}
 }
