@@ -3,6 +3,7 @@ from django import forms
 from django.db import models
 from django.db.models import Q
 from django.forms.models import ModelChoiceIterator
+from django.contrib.contenttypes.models import ContentType
 
 
 class GroupModelChoiceIterator(ModelChoiceIterator):
@@ -56,6 +57,7 @@ class PresentationImageFormField(forms.ModelChoiceField):
 		kwargs.setdefault('widget', PresentationImageWidget)
 		kwargs.setdefault('empty_label', "Automaticky")
 		kwargs.setdefault('initial', None)
+		self.model = kwargs.pop('model')
 		super().__init__(*args, **kwargs)
 
 	def filter_uploads(self, instance):
@@ -67,3 +69,8 @@ class PresentationImageFormField(forms.ModelChoiceField):
 		if object_id:
 			q = q | Q(object_id=object_id)
 		self.queryset = self.queryset.filter(q)
+
+	def get_limit_choices_to(self):
+		if not isinstance(self.model, ContentType):
+			self.model = ContentType.objects.get_for_model(self.model)
+		return {'content_type': self.model}

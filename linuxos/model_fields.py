@@ -26,10 +26,10 @@ class PresentationImageField(models.ForeignKey):
 		return name, path, args, kwargs
 
 	def formfield(self, *, using=None, **kwargs):
-		content_type = ContentType.objects.get_for_model(self.model)
 		return super().formfield(**{
 			'form_class': PresentationImageFormField,
-			'queryset': self.remote_field.model._default_manager.using(using).select_related('attachment_ptr').filter(content_type=content_type).order_by('object_id', 'pk'),
+			'queryset': self.remote_field.model._default_manager.using(using).select_related('attachment_ptr').order_by('object_id', 'pk'),
+			'model': self.model,
 			'to_field_name': self.remote_field.field_name,
 			**kwargs,
 			'blank': self.blank,
