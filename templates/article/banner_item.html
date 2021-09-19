@@ -9,3 +9,5 @@
 {% endif %}
 
 {% extends "article/base_banner_item.html" %}
+
+{% block category %}<span><a href="{{ item.category.get_absolute_url() }}">{{ item.category }}</a></span> | {% endblock %}

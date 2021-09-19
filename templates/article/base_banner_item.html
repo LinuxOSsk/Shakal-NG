@@ -30,12 +30,7 @@
 			{% endif %}
 			<div class="info top">
 				<span class="first">{{ item.pub_time|localtime|date("d.m.Y H:i") }}</span> |
-				{% if item.category %}
-					<span><a href="{{ item.category.get_absolute_url() }}">{{ item.category }}</a></span> |
-				{% endif %}
-				{% if item.blog %}
-					<span><a href="{{ item.blog.get_absolute_url() }}">{{ item.blog }}</a></span> |
-				{% endif %}
+				{% block category %}{% endblock %}
 				<span>
 					{% if item.author %}
 						{{ user_link(item.author, item.authors_name) }}
