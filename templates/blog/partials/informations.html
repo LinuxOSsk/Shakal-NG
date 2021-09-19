@@ -18,18 +18,30 @@
 			</ul>
 		{% endif %}
 		<hr />
-		{% if blog.author == user or categories %}
+		{% if categories %}
 			<h4>Kategórie</h4>
-			{% if categories %}
-				<ul>
-					{% for category in categories %}
-						<li><a href="{{ url("blog:post-list-blog-category", blog.slug, category.slug, 1) }}">{{ category }} <span class="info items-count">{{ category.post_count|number_format }}</span></a></li>
-					{% endfor %}
-				</ul>
-			{% endif %}
+			<ul>
+				{% for category in categories %}
+					<li><a href="{{ url("blog:post-list-blog-category", blog.slug, category.slug, 1) }}">{{ category }} <span class="info items-count">{{ category.post_count|number_format }}</span></a></li>
+				{% endfor %}
+			</ul>
 			<div class="info bottom">
 				{% if blog.author == user %}
 					<a href="{{ url("blog:post-category-management-list", blog.slug) }}">Spravovať</a>
+				{% endif %}
+			</div>
+			<hr />
+		{% endif %}
+		{% if series_list %}
+			<h4>Seriály</h4>
+			<ul>
+				{% for item in series_list %}
+					<li><a href="{{ url("blog:post-list-blog-series", blog.slug, item.slug, 1) }}">{{ item }} <span class="info items-count">{{ item.post_count|number_format }}</span></a></li>
+				{% endfor %}
+			</ul>
+			<div class="info bottom">
+				{% if blog.author == user %}
+					<a href="{{ url("blog:post-series-management-list", blog.slug) }}">Spravovať</a>
 				{% endif %}
 			</div>
 			<hr />

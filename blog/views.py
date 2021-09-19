@@ -74,12 +74,19 @@ class PostListView(ListView):
 		kwargs['blog'] = self.blog_object
 		if self.blog_object:
 			kwargs['categories'] = self.get_categories()
+			kwargs['series_list'] = self.get_series()
 		return kwargs
 
 	def get_categories(self):
 		return (PostCategory.objects
 			.filter(post__blog=self.blog_object)
 			.order_by('pk')
+			.annotate(post_count=Count('post')))
+
+	def get_series(self):
+		return (PostSeries.objects
+			.filter(post__blog=self.blog_object)
+			.order_by('-updated', 'pk')
 			.annotate(post_count=Count('post')))
 
 
