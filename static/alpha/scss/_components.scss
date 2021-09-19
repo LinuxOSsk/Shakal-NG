@@ -194,6 +194,9 @@ body.home .content-module {
 			}
 		}
 	}
+	& + table {
+		margin-top: -1px;
+	}
 }
 
 .module-links {
