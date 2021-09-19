@@ -61,11 +61,12 @@ class Home(TemplateView):
 
 	@cached_method(tag='blog.post')
 	def get_posts(self):
+		posts = Post.objects.select_related('blog', 'blog__author', 'category', 'series')
 		try:
-			top_posts = Post.objects.all().filter(linux=True)[:1]
+			top_posts = posts.filter(linux=True)[:1]
 		except IndexError:
-			top_posts = Post.objects.all().none()
-		posts = Post.objects.all()
+			top_posts = posts.none()
+		posts = posts.all()
 		return list(posts[:8]), list(top_posts)
 
 	@cached_method(tag='forum.topic')
