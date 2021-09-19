@@ -43,6 +43,15 @@ class PostForm(forms.ModelForm):
 			raise forms.ValidationError("Čas publikácie nesmie byť v minulosti")
 		return self.cleaned_data['pub_time']
 
+	def save(self, commit=True):
+		obj = super().save(commit=False)
+		if commit:
+			obj.save()
+		if obj.series:
+			obj.series.updated = obj.updated
+			obj.series.save(update_fields=['updated'])
+		return obj
+
 	class Meta:
 		model = Post
 		fields = ('title', 'original_perex', 'original_content', 'pub_time', 'category', 'series', 'presentation_image')
