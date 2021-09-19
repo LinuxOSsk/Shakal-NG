@@ -48,7 +48,7 @@
 			<div class="info bottom">
 				<span class="stat first">Prečítané: {{ firstof(item.display_count, '0')|number_format }}x</span> |
 				<span class="comments">
-					<span class="badge {{ item.new_comments|yesno("new,watch,default") }}">{{ item.comment_count }}</span>
+					<a class="badge {{ item.new_comments|yesno("new,watch,default") }}" href="{{ item.get_absolute_url() }}#comments">{{ item.comment_count }}</a>
 					{% if item.comment_count %}
 					<span class="date">{{ item.last_comment|humandatetime("No comments", separator=" ") }}</span>
 					{% endif %}
