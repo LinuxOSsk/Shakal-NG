@@ -105,6 +105,15 @@ body.home .content-module {
 	}
 }
 
+.block-settings {
+	float: right;
+	margin: $base-spacing-content;
+	line-height: 1.4 * $h2-font-size;
+	@media #{$medium-down} {
+		line-height: 1.4 * ($h2-font-size - $h2-font-reduction);
+	}
+}
+
 .block-title {
 	@extend %content-padding;
 	font-family: $body-font-family;

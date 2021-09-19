@@ -25,24 +25,37 @@
 {{ add_hitcount(articles, top_articles, desktops) }}
 
 <div class="module article banner">
+	<div class="block-settings">
+		{% set switch_list=style_options.home_articles and style_options.home_articles == 'table' %}
+		<form action="{{ url("template-change") }}" method="post" style="display: inline">
+			{{ change_template_settings_form(home_articles=none if switch_list else 'table') }}
+			<button type="submit" name="change_style" value="1" class="link">Zobraziť ako {% if switch_list %}zoznam{% else %}tabuľku{% endif %}</button>
+		</form>
+	</div>
 	<h2 class="block-title">Články a blogy</h2>
 
-	{% set random_new_items=new_items|shuffle_with_time_priority %}
-	{% for item in random_new_items|shuffle_with_time_priority %}
-		{% set is_first=loop.first %}
-		{% if loop.index < 4 %}
-			{% if item._meta.model_name == 'post' %}
-				{% include "blog/banner_item.html" %}
-			{% else %}
-				{% include "article/banner_item.html" %}
+	{% if style_options.home_articles and style_options.home_articles == 'table' %}
+		{% with topic_list=new_items %}
+			{% include "partials/object_list_table.html" %}
+		{% endwith %}
+	{% else %}
+		{% set random_new_items=new_items|shuffle_with_time_priority %}
+		{% for item in random_new_items|shuffle_with_time_priority %}
+			{% set is_first=loop.first %}
+			{% if loop.index < 4 %}
+				{% if item._meta.model_name == 'post' %}
+					{% include "blog/banner_item.html" %}
+				{% else %}
+					{% include "article/banner_item.html" %}
+				{% endif %}
 			{% endif %}
-		{% endif %}
-		{% if loop.index == 4 %}
-			{% with topic_list=random_new_items[3:] %}
-				{% include "partials/object_list_table.html" %}
-			{% endwith %}
-		{% endif %}
-	{% endfor %}
+			{% if loop.index == 4 %}
+				{% with topic_list=random_new_items[3:] %}
+					{% include "partials/object_list_table.html" %}
+				{% endwith %}
+			{% endif %}
+		{% endfor %}
+	{% endif %}
 </div>
 
 <div class="module tabular">
