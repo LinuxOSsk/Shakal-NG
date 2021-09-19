@@ -27,12 +27,20 @@
 <div class="module article banner">
 	<h2 class="block-title">Články a blogy</h2>
 
-	{% for item in new_items|shuffle_with_time_priority(5) %}
+	{% set random_new_items=new_items|shuffle_with_time_priority %}
+	{% for item in random_new_items|shuffle_with_time_priority %}
 		{% set is_first=loop.first %}
-		{% if item._meta.model_name == 'post' %}
-			{% include "blog/banner_item.html" %}
-		{% else %}
-			{% include "article/banner_item.html" %}
+		{% if loop.index < 4 %}
+			{% if item._meta.model_name == 'post' %}
+				{% include "blog/banner_item.html" %}
+			{% else %}
+				{% include "article/banner_item.html" %}
+			{% endif %}
+		{% endif %}
+		{% if loop.index == 4 %}
+			{% with topic_list=random_new_items[4:] %}
+				{% include "partials/object_list_table.html" %}
+			{% endwith %}
 		{% endif %}
 	{% endfor %}
 </div>

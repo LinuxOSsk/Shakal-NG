@@ -676,11 +676,10 @@ figure {
 .module.banner {
 	.module-row {
 		@include clearfix;
-	}
-
-	.label {
-		float: left;
-		margin: $base-margin $base-margin 0 0;
+		.label {
+			float: left;
+			margin: $base-margin $base-margin 0 0;
+		}
 	}
 
 	.article-image {
