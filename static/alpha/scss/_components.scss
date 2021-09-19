@@ -697,6 +697,9 @@ figure {
 		width: 40%;
 		max-width: 480px;
 		display: block;
+		@media #{$medium-down} {
+			display: none;
+		}
 	}
 	.article-detail {
 		overflow: hidden;
