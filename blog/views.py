@@ -50,17 +50,27 @@ class PostListView(ListView):
 			query = Q(slug=self.kwargs['category']) & Q(blog__isnull=True)
 		return get_object_or_404(PostCategory, query)
 
+	@cached_property
+	def series_object(self):
+		blog = self.blog_object
+		if not 'series' in self.kwargs or not blog:
+			return None
+		return get_object_or_404(PostSeries, blog=blog, slug=self.kwargs['series'])
+
 	def filter_by_category(self, queryset):
 		q = Q()
 		if self.blog_object:
 			q &= Q(blog=self.blog_object)
 		if self.category_object:
 			q &= Q(category=self.category_object)
+		if self.series_object:
+			q &= Q(series=self.series_object)
 		return queryset.filter(q)
 
 	def get_context_data(self, **kwargs):
 		kwargs = super().get_context_data(**kwargs)
 		kwargs['category'] = self.category_object
+		kwargs['series'] = self.series_object
 		kwargs['blog'] = self.blog_object
 		if self.blog_object:
 			kwargs['categories'] = self.get_categories()

@@ -24,6 +24,7 @@ urlpatterns = [
 	path('<slug:blog>/update/<slug:slug>/', views.PostUpdateView.as_view(), name='post-update'),
 	path('<slug:blog>/update/<slug:slug>/attachments/', views.PostAttachmentsUpdateView.as_view(), name='post-attachments-update'),
 	path('<slug:blog>/list/<slug:category>/<page:page>', views.PostListView.as_view(), name='post-list-blog-category'),
+	path('<slug:blog>/series/<slug:series>/<page:page>', views.PostListView.as_view(), name='post-list-blog-series'),
 	path('feeds/latest/', feeds.PostFeed(), name='post-feed-latest'),
 	path('feeds/linux/', feeds.PostFeed(linux=True), name='post-feed-linux'),
 	path('<slug:blog_slug>/feed/', feeds.PostFeed(), name='post-feed-blog'),
