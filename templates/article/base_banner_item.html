@@ -1,0 +1,60 @@
+<div class="module-row{% if is_first %} first{% endif %}">
+
+	{% if not is_first %}
+		<span class="label {% if item.__class__._meta.app_label == "article" %}success{% else %}info{% endif %}">{{ item.__class__._meta.verbose_name|capfirst }}</span>
+		<h3><a href="{{ item.get_absolute_url() }}">{{ item.title }}</a></h3>
+	{% endif %}
+
+	{% if image %}
+		{% if is_first %}
+			{% set article_thumbnail=thumbnail(image, size=(1920, 1080), crop=true, upscale=true) %}
+		{% else %}
+			{% set article_thumbnail=thumbnail(image, size=(480, 270), crop=true, upscale=true) %}
+		{% endif %}
+	{% else %}
+		{% if placeholder_image %}
+			{% set article_thumbnail=static(placeholder_image) %}
+		{% else %}
+			{% set article_thumbnail=static("images/article_placeholder.png") %}
+		{% endif %}
+	{% endif %}
+
+	<div class="article-image">
+		<a  href="{{ item.get_absolute_url() }}"><img src="{{ article_thumbnail }}" alt="{{ item.title }}" /></a>
+	{% if not is_first %}
+	</div>
+	{% endif %}
+		<div class="article-detail">
+			{% if is_first %}
+				<h3><span class="label {% if item.__class__._meta.app_label == "article" %}success{% else %}info{% endif %}">{{ item.__class__._meta.verbose_name|capfirst }}</span><a href="{{ item.get_absolute_url() }}">{{ item.title }}</a></h3>
+			{% endif %}
+			<div class="info top">
+				<span class="first">{{ item.pub_time|localtime|date("d.m.Y H:i") }}</span> |
+				{% if item.category %}
+					<span><a href="{{ item.category.get_absolute_url() }}">{{ item.category }}</a></span> |
+				{% endif %}
+				{% if item.blog %}
+					<span><a href="{{ item.blog.get_absolute_url() }}">{{ item.blog }}</a></span> |
+				{% endif %}
+				<span>
+					{% if item.author %}
+						{{ user_link(item.author, item.authors_name) }}
+					{% else %}
+						{{ item.authors_name }}
+					{% endif %}
+				</span>
+			</div>
+			<div class="perex">{{ item.perex|safe }}</div>
+			<div class="info bottom">
+				<span class="stat first">Prečítané: {{ firstof(item.display_count, '0')|number_format }}x</span> |
+				<span class="comments">
+					<span class="badge {{ item.new_comments|yesno("new,watch,default") }}">{{ item.comment_count }}</span>
+					{% if item.comment_count %}
+					<span class="date">{{ item.last_comment|humandatetime("No comments", separator=" ") }}</span>
+					{% endif %}
+				</span>
+			</div>
+		</div>
+	{% if is_first %}</div>{% endif %}
+</div>
+
