@@ -85,13 +85,17 @@ class Home(TemplateView):
 		posts, top_posts = self.get_posts()
 		forum_new, forum_no_comments, forum_most_comments = self.get_topics()
 
-		new_items = list(articles[:2]) + list(posts[:8])
+		new_articles = list(articles[:2])
+		new_posts = list(posts[:8])
+		new_items = new_articles + new_posts
 
 		ctx.update({
 			'top_articles': top_articles,
 			'articles': articles,
 			'top_posts': top_posts,
 			'posts': posts,
+			'new_articles': new_articles,
+			'new_posts': new_posts,
 			'forum_new': forum_new,
 			'forum_no_comments': forum_no_comments,
 			'forum_most_comments': forum_most_comments,
