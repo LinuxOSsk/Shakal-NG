@@ -25,7 +25,7 @@
 {{ add_hitcount(articles, top_articles, desktops) }}
 
 <div class="module article banner">
-	<div class="block-settings">
+	<div class="object-tools">
 		{% set switch_list=style_options.home_articles and style_options.home_articles == 'table' %}
 		<form action="{{ url("template-change") }}" method="post" style="display: inline">
 			{{ change_template_settings_form(home_articles=none if switch_list else 'table') }}
