@@ -157,6 +157,11 @@ def shuffle_with_time_priority(items, max_count=None):
 	return weighted_sample(items, weights, max_count)
 
 
+@library.filter
+def sort_newest_first(items):
+	return sorted(items, key=lambda item: item.updated, reverse=True)
+
+
 @library.global_function
 @contextfunction
 def change_template_settings_form(context, **settings):
