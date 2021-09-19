@@ -4,7 +4,7 @@ from django.db.models import Q, F
 from django.forms.models import modelformset_factory
 from django.utils.timezone import now
 
-from .models import Blog, Post, PostCategory
+from .models import Blog, Post, PostCategory, PostSeries
 from attachment.fields import AttachmentFieldMultiple
 from attachment.forms import AttachmentFormMixin
 from attachment.models import Attachment
@@ -32,6 +32,7 @@ class PostForm(forms.ModelForm):
 		if hasattr(self.request.user, 'blog'):
 			q |= Q(blog_id=self.request.user.blog.id)
 		self.fields['category'].queryset = self.fields['category'].queryset.filter(q).order_by(F('blog_id').asc(nulls_last=True), 'pk')
+		self.fields['series'].queryset = self.fields['series'].queryset.filter(q).order_by('-updated', 'pk')
 
 	def clean_pub_time(self):
 		if 'pub_now' in self.data and self.data['pub_now']:
@@ -44,7 +45,7 @@ class PostForm(forms.ModelForm):
 
 	class Meta:
 		model = Post
-		fields = ('title', 'original_perex', 'original_content', 'pub_time', 'category', 'presentation_image')
+		fields = ('title', 'original_perex', 'original_content', 'pub_time', 'category', 'series', 'presentation_image')
 
 
 AttachmentFormSetHiddable = modelformset_factory(Attachment, can_delete=True, extra=0, fields=('is_visible',))
@@ -59,4 +60,10 @@ class BlogAttachmentForm(AttachmentFormMixin, forms.Form):
 class PostCategoryForm(forms.ModelForm):
 	class Meta:
 		model = PostCategory
+		fields = ('title', 'image')
+
+
+class PostSeriesForm(forms.ModelForm):
+	class Meta:
+		model = PostSeries
 		fields = ('title', 'image')

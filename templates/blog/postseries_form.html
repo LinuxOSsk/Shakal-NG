@@ -1,0 +1,31 @@
+{% extends "blog/blog_base.html" %}
+
+{% block extraheaders %}
+<meta name="robots" content="noindex, nofollow" />
+{{ super() }}
+{% endblock %}
+
+{% block head_title %}{{ blog }} - úprava seriálov{% endblock %}
+
+{% block breadcrumbs %}
+	{% if object and object.pk %}{{ breadcrumb("Upraviť seriál") }}{% else %}{{ breadcrumb("Vytvoriť seriál") }}{% endif %}
+	{{ breadcrumb(blog, url=blog.get_absolute_url()) }}
+	{{ breadcrumb("Blog", url='blog:post-list', page=1) }}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+<h1>{% if object and object.pk %}Upraviť seriál{% else %}Vytvoriť seriál{% endif %}</h1>
+
+<form action="{{ request.path }}" method="post" id="blog-form" enctype="multipart/form-data">{% csrf_token %}
+	<fieldset class="module">
+		{% include "includes/form_loop.html" %}
+		<div class="submit-row">
+			<div class="positive">
+				<button class="btn primary" type="submit" title="Uložiť" name="{% if object and object.pk %}update{% else %}create{% endif %}" value="1"><span class="wrap"><span class="text">Uložiť</span></span></button>
+			</div>
+		</div>
+	</fieldset>
+</form>
+{% endblock %}
+

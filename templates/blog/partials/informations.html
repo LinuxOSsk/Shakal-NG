@@ -9,6 +9,10 @@
 					<li><a href="{{ url("blog:post-update", blog.slug, post.slug) }}">Upraviť zápis</a></li>
 					<li><a href="{{ url("blog:post-attachments-update", blog.slug, post.slug) }}">Spravovať prílohy</a></li>
 				{% endif %}
+				{% if blog.slug %}
+					<li><a href="{{ url("blog:post-category-management-list", blog.slug) }}">Spravovať kategórie</a></li>
+					<li><a href="{{ url("blog:post-series-management-list", blog.slug) }}">Spravovať seriály</a></li>
+				{% endif %}
 				<li><a href="{{ url("blog:post-create") }}">Pridať zápis</a></li>
 				<li><a href="{{ url("blog:blog-update") }}">Upraviť informácie</a></li>
 			</ul>

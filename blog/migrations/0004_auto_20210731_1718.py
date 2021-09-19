@@ -33,10 +33,31 @@ class Migration(migrations.Migration):
 				'verbose_name_plural': 'kategórie blogu',
 			},
 		),
+		migrations.CreateModel(
+			name='PostSeries',
+			fields=[
+				('id', models.AutoField(auto_created=True, primary_key=True, serialize=False)),
+				('title', models.CharField(max_length=100)),
+				('slug', django_autoslugfield.fields.AutoSlugField(in_respect_to=('blog',), title_field='title', unique=True)),
+				('image', autoimagefield.fields.AutoImageField(blank=True, upload_to='blog/series/images')),
+				('blog', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='blog.blog')),
+				('updated', models.DateTimeField(editable=False)),
+			],
+			options={
+				'verbose_name': 'seriál',
+				'verbose_name_plural': 'seriály',
+				'unique_together': {('blog', 'slug')},
+			},
+		),
 		migrations.AddField(
 			model_name='post',
 			name='category',
 			field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='blog.postcategory'),
+		),
+		migrations.AddField(
+			model_name='post',
+			name='series',
+			field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='blog.postseries'),
 		),
 		migrations.AddConstraint(
 			model_name='postcategory',

@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.template.loader import render_to_string
 from django.db.models import Q, Prefetch, F
 
-from .models import Blog, Post, PostCategory
+from .models import Blog, Post, PostCategory, PostSeries
 from attachment.admin import AttachmentInline, AttachmentAdminMixin
 from comments.admin import CommentInline
 
@@ -20,7 +20,7 @@ class PostAdmin(AttachmentAdminMixin, admin.ModelAdmin):
 	list_display = ('title', 'author', 'get_status')
 	search_fields = ('title', 'slug',)
 	ordering = ('-id',)
-	raw_id_fields = ('blog',)
+	raw_id_fields = ('blog', 'category', 'series')
 	prepopulated_fields = {'slug': ('title',)}
 	inlines = [AttachmentInline, CommentInline]
 	date_hierarchy = 'pub_time'
@@ -65,6 +65,17 @@ class PostCategoryAdmin(admin.ModelAdmin):
 		return super().get_queryset(request).prefetch_related(Prefetch('blog', Blog.objects.only('title')))
 
 
+class PostSeriesAdmin(admin.ModelAdmin):
+	list_display = ('title', 'blog',)
+	search_fields = ('title', 'slug',)
+	ordering = ('-id',)
+	raw_id_fields = ('blog',)
+
+	def get_queryset(self, request):
+		return super().get_queryset(request).prefetch_related(Prefetch('blog', Blog.objects.only('title')))
+
+
 admin.site.register(Blog, BlogAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(PostCategory, PostCategoryAdmin)
+admin.site.register(PostSeries, PostSeriesAdmin)

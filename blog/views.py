@@ -9,8 +9,8 @@ from django.views.generic import RedirectView, CreateView, UpdateView, DeleteVie
 from django.views.generic.edit import FormView
 
 from .feeds import PostFeed
-from .forms import PostCategoryForm
-from .models import PostCategory
+from .forms import PostCategoryForm, PostSeriesForm
+from .models import PostCategory, PostSeries
 from blog.forms import BlogForm, PostForm, BlogAttachmentForm
 from blog.models import Blog, Post
 from common_utils.generic import ListView, PreviewCreateView, PreviewUpdateView, DetailUserProtectedView, RequestFormViewMixin
@@ -208,3 +208,39 @@ class PostCategoryDeleteView(BlogManagementMixin, DeleteView):
 
 	def get_success_url(self):
 		return reverse('blog:post-category-management-list', args=(self.blog.slug,))
+
+
+class PostSeriesManagementList(BlogManagementMixin, ListView):
+	def get_queryset(self):
+		return PostSeries.objects.filter(blog=self.blog).order_by('-updated', 'pk')
+
+
+class PostSeriesCreateView(BlogManagementMixin, CreateView):
+	form_class = PostSeriesForm
+	template_name = 'blog/postseries_form.html'
+
+	def form_valid(self, form):
+		form.instance.blog = self.blog
+		return super().form_valid(form)
+
+	def get_success_url(self):
+		return reverse('blog:post-series-management-list', args=(self.blog.slug,))
+
+
+class PostSeriesUpdateView(BlogManagementMixin, UpdateView):
+	form_class = PostSeriesForm
+	template_name = 'blog/postseries_form.html'
+
+	def get_queryset(self):
+		return PostSeries.objects.filter(blog=self.blog)
+
+	def get_success_url(self):
+		return reverse('blog:post-series-management-list', args=(self.blog.slug,))
+
+
+class PostSeriesDeleteView(BlogManagementMixin, DeleteView):
+	def get_queryset(self):
+		return PostSeries.objects.filter(blog=self.blog).order_by('pk')
+
+	def get_success_url(self):
+		return reverse('blog:post-series-management-list', args=(self.blog.slug,))

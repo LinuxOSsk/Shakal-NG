@@ -108,6 +108,52 @@ class PostCategory(models.Model):
 		]
 
 
+class PostSeries(models.Model):
+	title = models.CharField(
+		verbose_name="názov seriálu",
+		max_length=100
+	)
+	slug = AutoSlugField(
+		verbose_name="skratka URL",
+		title_field='title',
+		unique=True,
+		in_respect_to=('blog',)
+	)
+	blog = models.ForeignKey(
+		Blog,
+		verbose_name='blog',
+		on_delete=models.CASCADE
+	)
+	image = AutoImageField(
+		verbose_name="obrázok",
+		upload_to='blog/series/images',
+		blank=True
+	)
+	updated = models.DateTimeField(
+		"upravené",
+		editable=False
+	)
+
+	def get_absolute_url(self):
+		return reverse('blog:post-list-blog-series', kwargs={'blog': self.blog.slug, 'series': self.slug, 'page': 1})
+
+	def refresh_updated(self):
+		print("ok")
+
+	def save(self, *args, **kwargs):
+		if not self.updated:
+			self.updated = timezone.now()
+		return super().save(*args, **kwargs)
+
+	def __str__(self):
+		return self.title
+
+	class Meta:
+		verbose_name = "seriál"
+		verbose_name_plural = "seriály"
+		unique_together = (('blog', 'slug'),)
+
+
 class PostQuerySet(QuerySet):
 	def published(self):
 		return self.filter(pub_time__lt=timezone.now())
@@ -161,6 +207,13 @@ class Post(TimestampModelMixin, models.Model):
 	category = models.ForeignKey(
 		PostCategory,
 		verbose_name="kategória",
+		blank=True,
+		null=True,
+		on_delete=models.SET_NULL,
+	)
+	series = models.ForeignKey(
+		PostSeries,
+		verbose_name="seriál",
 		blank=True,
 		null=True,
 		on_delete=models.SET_NULL,
