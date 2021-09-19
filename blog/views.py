@@ -43,7 +43,12 @@ class PostListView(ListView):
 	def category_object(self):
 		if not 'category' in self.kwargs or not self.blog_object:
 			return None
-		return get_object_or_404(PostCategory, slug=self.kwargs['category'])
+		blog = self.blog_object
+		if blog:
+			query = Q(slug=self.kwargs['category']) & Q(Q(blog=blog) | Q(blog__isnull=True))
+		else:
+			query = Q(slug=self.kwargs['category']) & Q(blog__isnull=True)
+		return get_object_or_404(PostCategory, query)
 
 	def filter_by_category(self, queryset):
 		q = Q()

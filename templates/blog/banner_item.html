@@ -17,6 +17,6 @@
 {% block category %}
 	<span><a href="{{ item.blog.get_absolute_url() }}">{{ item.blog }}</a></span> |
 	{% if item.category %}
-		<span><a href="{{ url("blog:post-list-blog-category", blog=item.blog.slug, category=item.slug, page=1) }}">{{ item.category }}</a></span> |
+		<span><a href="{{ url("blog:post-list-blog-category", blog=item.blog.slug, category=item.category.slug, page=1) }}">{{ item.category }}</a></span> |
 	{% endif %}
 {% endblock %}
