@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 import random
 from datetime import datetime, timedelta
 
@@ -11,9 +12,10 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone, formats
 from django.utils.encoding import force_str
-from django.utils.html import escape, format_html
+from django.utils.html import format_html, escape
 from django.utils.safestring import mark_safe
 from django_jinja import library
+from jinja2 import contextfunction
 
 from common_utils import get_meta
 from common_utils.random import weighted_sample
@@ -153,3 +155,24 @@ def shuffle_with_time_priority(items, max_count=None):
 	now = timezone.now()
 	weights = [7 * 86400 / (min(max((now - item.created).total_seconds(), 0), 86400 * 90) + 86400 * 3) for item in items]
 	return weighted_sample(items, weights, max_count)
+
+
+@library.global_function
+@contextfunction
+def change_template_settings_form(context, **settings):
+	request = context['request']
+	current_style = context['current_style']
+	style_options = (context['style_options'] or {}).copy()
+	style_css = context['style_css']
+	for key, value in settings.items():
+		if value is None:
+			style_options.pop(key, None)
+		else:
+			style_options[key] = value
+	return format_html(
+		''.join(f'<input name="{name}" type="hidden" value="{{}}" />' for name in ['template', 'css', 'settings', 'next']),
+		current_style,
+		style_css,
+		json.dumps(style_options),
+		request.get_full_path()
+	)

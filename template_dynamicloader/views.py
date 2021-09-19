@@ -4,6 +4,7 @@ from copy import deepcopy
 
 from django.http import HttpResponseRedirect, QueryDict
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
 
@@ -11,6 +12,7 @@ from .forms import ChangeTemplateHiddenForm
 from .utils import switch_template
 
 
+@csrf_exempt
 @require_POST
 def change(request):
 	form = ChangeTemplateHiddenForm(request.POST)
