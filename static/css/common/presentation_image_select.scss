@@ -1,0 +1,75 @@
+.presentation-image-select {
+	display: block;
+
+	h4 {
+		font-weight: bold;
+		font-size: 105%;
+		text-transform: uppercase;
+		opacity: .75;
+		clear: both;
+		border-bottom: 1px solid rgba(128, 128, 128, .25);
+		padding: .25em 0;
+		margin: .5em 0 .25em 0;
+	}
+
+	figure {
+		width: 100px;
+		height: 100px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 0;
+		margin: 0;
+	}
+
+	img {
+		display: block;
+		padding: 0;
+		margin: 0;
+	}
+
+	label {
+		float: left;
+		cursor: pointer;
+		position: relative;
+
+		&.empty {
+			float: none;
+		}
+	}
+
+	&:not(.old-browser) {
+		ul {
+			padding: 0;
+			margin: 0 -0.25em;
+			clear: both;
+			overflow: auto;
+		}
+
+		label {
+			display: block;
+			border: 1px solid transparent;
+			padding: .5em;
+			margin: .25em;
+		}
+
+		input {
+			position: absolute;
+			z-index: -1;
+			opacity: 0.0001;
+
+			&:checked + label {
+				border-color: rgba(128, 128, 128, .25);
+				&:after {
+					content: '✓';
+					display: block;
+					position: absolute;
+					top: .25em;
+					right: .25em;
+					font-size: 120%;
+					opacity: .75;
+				}
+			}
+		}
+	}
+}

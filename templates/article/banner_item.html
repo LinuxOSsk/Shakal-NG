@@ -1,0 +1,13 @@
+{% if item.presentation_image %}
+	{% set image=item.presentation_image.attachment %}
+{% elif item.image %}
+	{% set image=item.image %}
+{% elif item.category.image %}
+	{% set image=item.category.image %}
+{% else %}
+	{% set image=none %}
+{% endif %}
+
+{% extends "article/base_banner_item.html" %}
+
+{% block category %}<span><a href="{{ item.category.get_absolute_url() }}">{{ item.category }}</a></span> | {% endblock %}

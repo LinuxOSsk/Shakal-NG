@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import json
+import random
 from datetime import datetime, timedelta
 
 from django import template
@@ -8,15 +10,15 @@ from django.template.defaultfilters import urlencode
 from django.template.defaulttags import date
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils import timezone
+from django.utils import timezone, formats
 from django.utils.encoding import force_str
-from django.utils.html import escape, format_html
+from django.utils.html import format_html, escape
 from django.utils.safestring import mark_safe
 from django_jinja import library
-from hijack.templatetags.hijack_tags import hijack_notification as core_hijack_notification
 from jinja2 import contextfunction
 
 from common_utils import get_meta
+from common_utils.random import weighted_sample
 from rating.settings import FLAG_CONTENT_TYPES
 
 
@@ -121,12 +123,6 @@ def urlquote(string):
 
 
 @library.global_function
-@contextfunction
-def hijack_notification(context):
-	return core_hijack_notification(context)
-
-
-@library.global_function
 def flag_url(obj):
 	ctype = ContentType.objects.get_for_model(obj.__class__)
 	if (ctype.app_label, ctype.model) not in FLAG_CONTENT_TYPES:
@@ -138,3 +134,50 @@ def flag_url(obj):
 def share_image(obj, image_type):
 	ctype = ContentType.objects.get_for_model(obj.__class__)
 	return reverse('image_renderer:render', kwargs={'image_type': image_type, 'content_type': ctype.pk, 'object_id': obj.pk})
+
+
+@library.filter
+def number_format(value):
+	return formats.number_format(value)
+
+
+@library.filter
+def shuffle(items):
+	items = list(items)
+	random.shuffle(items)
+	return items
+
+
+@library.filter
+def shuffle_with_time_priority(items, max_count=None):
+	if max_count is None:
+		max_count = len(items)
+	now = timezone.now()
+	weights = [7 * 86400 / (min(max((now - item.created).total_seconds(), 0), 86400 * 90) + 86400 * 3) for item in items]
+	return weighted_sample(items, weights, max_count)
+
+
+@library.filter
+def sort_newest_first(items):
+	return sorted(items, key=lambda item: item.updated, reverse=True)
+
+
+@library.global_function
+@contextfunction
+def change_template_settings_form(context, **settings):
+	request = context['request']
+	current_style = context['current_style']
+	style_options = (context['style_options'] or {}).copy()
+	style_css = context['style_css']
+	for key, value in settings.items():
+		if value is None:
+			style_options.pop(key, None)
+		else:
+			style_options[key] = value
+	return format_html(
+		''.join(f'<input name="{name}" type="hidden" value="{{}}" />' for name in ['template', 'css', 'settings', 'next']),
+		current_style,
+		style_css,
+		json.dumps(style_options),
+		request.get_full_path()
+	)

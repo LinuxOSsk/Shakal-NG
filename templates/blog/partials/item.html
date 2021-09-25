@@ -6,6 +6,9 @@
 		{% if not blog %}
 			<span class="blog"><a href="{{ post.blog.get_absolute_url() }}">{{ post.blog }}</a></span> |
 		{% endif %}
+		{% if post.category %}
+			<span class="category"><a href="{{ url("blog:post-list-blog-category", post.blog.slug, post.category.slug, 1) }}">{{ post.category }}</a></span> |
+		{% endif %}
 		<span class="user"><a href="{{ post.author.get_absolute_url() }}">{{ post.author }}</a></span>
 	</div>
 	{{ post.perex|safe }}

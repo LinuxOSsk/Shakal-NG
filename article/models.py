@@ -10,6 +10,7 @@ from autoimagefield.fields import AutoImageField
 from common_utils.models import TimestampModelMixin
 from common_utils.related_documents import related_documents
 from hitcount.models import HitCountField
+from linuxos.model_fields import PresentationImageField
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
@@ -24,6 +25,11 @@ class Category(models.Model):
 	)
 	description = models.TextField(
 		verbose_name="popis"
+	)
+	image = AutoImageField(
+		verbose_name="obrázok",
+		upload_to='article/categories',
+		blank=True
 	)
 
 	def get_absolute_url(self):
@@ -120,6 +126,7 @@ class Article(TimestampModelMixin, models.Model):
 		blank=True
 	)
 
+	presentation_image = PresentationImageField(verbose_name="prezentačný obrázok")
 	polls = GenericRelation('polls.Poll')
 	comments_header = GenericRelation('comments.RootHeader')
 	comments = GenericRelation('comments.Comment')

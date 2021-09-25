@@ -30,6 +30,7 @@ class ArticleAdmin(AttachmentAdminMixin, AdminActionsMixin, admin.ModelAdmin):
 		(None, {'fields': ('title', 'slug', 'category', 'author', 'authors_name', 'pub_time', 'published', 'top', 'image',)}),
 		('Obsah', {'fields': ('original_perex', 'original_annotation',)}),
 		('Text článku', {'fields': ('original_content',), 'classes': ('full-width',)}),
+		(None, {'fields': ('presentation_image',), 'classes': ('full-width',)}),
 	)
 
 	def get_queryset(self, request):

@@ -80,7 +80,7 @@ SPRITES = (
 		'output': '2013/images/backgrounds.png',
 		'scss_output': '2013/_sprites.scss',
 		'extra_sizes': (),
-		'width': 1200,
+		'width': 800,
 		'height': 1200,
 		'images': (
 			{ 'name': 'btn_std', 'src': '2013/images/btn_std.png' },

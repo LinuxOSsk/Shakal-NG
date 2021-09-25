@@ -9,11 +9,43 @@
 					<li><a href="{{ url("blog:post-update", blog.slug, post.slug) }}">Upraviť zápis</a></li>
 					<li><a href="{{ url("blog:post-attachments-update", blog.slug, post.slug) }}">Spravovať prílohy</a></li>
 				{% endif %}
+				{% if blog.slug %}
+					<li><a href="{{ url("blog:post-category-management-list", blog.slug) }}">Spravovať kategórie</a></li>
+					<li><a href="{{ url("blog:post-series-management-list", blog.slug) }}">Spravovať seriály</a></li>
+				{% endif %}
 				<li><a href="{{ url("blog:post-create") }}">Pridať zápis</a></li>
 				<li><a href="{{ url("blog:blog-update") }}">Upraviť informácie</a></li>
 			</ul>
 		{% endif %}
 		<hr />
+		{% if categories %}
+			<h4>Kategórie</h4>
+			<ul>
+				{% for category in categories %}
+					<li><a href="{{ url("blog:post-list-blog-category", blog.slug, category.slug, 1) }}">{{ category }} <span class="info items-count">{{ category.post_count|number_format }}</span></a></li>
+				{% endfor %}
+			</ul>
+			<div class="info bottom">
+				{% if blog.author == user %}
+					<a href="{{ url("blog:post-category-management-list", blog.slug) }}">Spravovať</a>
+				{% endif %}
+			</div>
+			<hr />
+		{% endif %}
+		{% if series_list %}
+			<h4>Seriály</h4>
+			<ul>
+				{% for item in series_list %}
+					<li><a href="{{ url("blog:post-list-blog-series", blog.slug, item.slug, 1) }}">{{ item }} <span class="info items-count">{{ item.post_count|number_format }}</span></a></li>
+				{% endfor %}
+			</ul>
+			<div class="info bottom">
+				{% if blog.author == user %}
+					<a href="{{ url("blog:post-series-management-list", blog.slug) }}">Spravovať</a>
+				{% endif %}
+			</div>
+			<hr />
+		{% endif %}
 		{{ blog.sidebar|safe }}
 		{% if list and request.user.is_authenticated %}
 			{% set flag_url_link=flag_url(blog) %}

@@ -22,15 +22,40 @@
 
 {% block content %}
 {{ add_discussion_attributes_heterogenous(articles, top_articles, posts, top_posts, forum_new, forum_no_comments, forum_most_comments, posts, new_items, desktops, tweets) }}
-{{ add_hitcount(articles, top_articles, desktops) }}
+{{ add_hitcount(articles, top_articles, desktops, new_articles, new_posts) }}
 
-<div class="module article tabular">
+<div class="module article {% if style_options.home_articles and style_options.home_articles == 'table' %}tabular{% else %}banner{% endif %}">
+	<div class="object-tools">
+		{% set switch_list=style_options.home_articles and style_options.home_articles == 'table' %}
+		<form action="{{ url("template-change") }}" method="post" style="display: inline">
+			{{ change_template_settings_form(home_articles=none if switch_list else 'table') }}
+			<button type="submit" name="change_style" value="1" class="link">Zobraziť ako {% if switch_list %}zoznam{% else %}tabuľku{% endif %}</button>
+		</form>
+	</div>
 	<h2 class="block-title">Články a blogy</h2>
-	<div class="module-row tabular">
-		{% with caption="Najnovšie články a blogy", topic_list=new_items %}
+
+	{% if style_options.home_articles and style_options.home_articles == 'table' %}
+		{% with topic_list=new_items|sort_newest_first, caption="Najnovšie články a blogy" %}
 			{% include "partials/object_list_table.html" %}
 		{% endwith %}
-	</div>
+	{% else %}
+		{% set random_new_items=new_items|shuffle_with_time_priority %}
+		{% for item in random_new_items|shuffle_with_time_priority %}
+			{% set is_first=loop.first %}
+			{% if loop.index < 4 %}
+				{% if item._meta.model_name == 'post' %}
+					{% include "blog/banner_item.html" %}
+				{% else %}
+					{% include "article/banner_item.html" %}
+				{% endif %}
+			{% endif %}
+			{% if loop.index == 4 %}
+				{% with topic_list=random_new_items[3:] %}
+					{% include "partials/object_list_table.html" %}
+				{% endwith %}
+			{% endif %}
+		{% endfor %}
+	{% endif %}
 </div>
 
 <div class="module tabular">
@@ -52,57 +77,11 @@
 			{% include "forum/block_topics_table.html" %}
 		{% endwith %}
 	</div>
-	<div class="module-row tabular">
-		{% with caption="Najnovšie blogy", topic_list=posts %}
-			{% include "forum/block_topics_table.html" %}
-		{% endwith %}
-	</div>
 	<div class="module-links bottom">
 		{% if request.user.is_authenticated or ANONYMOUS_TOPIC %}
 			<a href="{{ url("forum:create") }}">Pridať novú tému</a> |
 		{% endif %}
 		<a href="{{ url("forum:overview", page=1) }}" class="next">Prezerať celé fórum</a>
-	</div>
-</div>
-
-<div class="module article">
-	<h2 class="block-title">Články</h2>
-	{% for top_article in top_articles %}
-		{% with article=top_article, show_thumbnail=1, extra_classes="article top" %}
-			{% include "article/block_list_item.html" %}
-		{% endwith %}
-	{% endfor %}
-	{% for top_post in top_posts %}
-		{% with content_indicator=1, post=top_post %}
-			{% include "blog/partials/item.html" %}
-		{% endwith %}
-	{% endfor %}
-	{% for article in articles %}
-		{% if article not in top_articles %}
-			{% with show_thumbnail=0 %}
-				{% include "article/block_list_item.html" %}
-			{% endwith %}
-		{% endif %}
-	{% endfor %}
-	<div class="module-links bottom">
-		{% for category in article_categories %}
-			<a href="{{ category.get_absolute_url() }}">{{ category }}</a>
-			|
-		{% endfor %}
-		<a href="{{ url("article:series", page=1) }}">Seriály</a> |
-		<a href="{{ url("article:list", page=1) }}" class="next">Ďalšie</a>
-	</div>
-</div>
-
-<div class="module blog">
-	<h2 class="block-title">Blogy</h2>
-	{% for post in posts %}
-		{% if article not in top_articles %}
-			{% include "blog/partials/item.html" %}
-		{% endif %}
-	{% endfor %}
-	<div class="module-links bottom">
-		<a href="{{ url("blog:post-list", page=1) }}" class="next">Ďalšie</a>
 	</div>
 </div>
 

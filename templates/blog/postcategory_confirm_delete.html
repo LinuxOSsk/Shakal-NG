@@ -1,0 +1,7 @@
+{% extends "generic/confirm_delete.html" %}
+
+{% block breadcrumb_object_link %}
+	{{ breadcrumb(object.blog, url=object.blog.get_absolute_url()) }}
+{% endblock %}
+
+{% block back_link %}{{ object.blog.get_absolute_url() }}{% endblock %}

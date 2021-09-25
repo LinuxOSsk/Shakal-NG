@@ -134,3 +134,10 @@ class ListView(OriginalListView):
 		if self.category_object is not None:
 			context[self.category_context] = self.category_object
 		return context
+
+
+class RequestFormViewMixin(object):
+	def get_form_kwargs(self):
+		kwargs = super().get_form_kwargs()
+		kwargs['request'] = self.request
+		return kwargs

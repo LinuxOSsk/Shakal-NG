@@ -52,6 +52,7 @@ class Home(TemplateView):
 		except IndexError:
 			top_articles = Article.objects.all().none()
 		articles = (Article.objects.all()
+			.select_related('presentation_image')
 			.defer(*DEFER))
 
 		articles = list(articles.select_related('author', 'category')[:5])
@@ -60,12 +61,13 @@ class Home(TemplateView):
 
 	@cached_method(tag='blog.post')
 	def get_posts(self):
+		posts = Post.objects.select_related('blog', 'blog__author', 'category', 'series')
 		try:
-			top_posts = Post.objects.all().filter(linux=True)[:1]
+			top_posts = posts.filter(linux=True)[:1]
 		except IndexError:
-			top_posts = Post.objects.all().none()
-		posts = Post.objects.all()
-		return list(posts[:4]), list(top_posts)
+			top_posts = posts.none()
+		posts = posts.all()
+		return list(posts[:8]), list(top_posts)
 
 	@cached_method(tag='forum.topic')
 	def get_topics(self):
@@ -84,20 +86,17 @@ class Home(TemplateView):
 		posts, top_posts = self.get_posts()
 		forum_new, forum_no_comments, forum_most_comments = self.get_topics()
 
-		new_items = []
-		for article in articles[:2]:
-			new_items.append(article)
-		for i, post in enumerate(posts):
-			new_items.append(post)
-			if i == 1:
-				break
-		new_items.sort(key=lambda x: x.pub_time, reverse=True)
+		new_articles = list(articles[:2])
+		new_posts = list(posts[:8])
+		new_items = new_articles + new_posts
 
 		ctx.update({
 			'top_articles': top_articles,
 			'articles': articles,
 			'top_posts': top_posts,
 			'posts': posts,
+			'new_articles': new_articles,
+			'new_posts': new_posts,
 			'forum_new': forum_new,
 			'forum_no_comments': forum_no_comments,
 			'forum_most_comments': forum_most_comments,

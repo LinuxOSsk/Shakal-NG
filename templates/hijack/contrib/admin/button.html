@@ -1,0 +1,11 @@
+{% load i18n hijack %}
+
+{% if request.user|can_hijack:another_user %}
+	<button type="button" class="btn btn-mini" data-hijack-user="{{ another_user.pk }}" data-hijack-next="{{ next }}" data-hijack-url="{% url 'hijack:acquire' %}">
+		{% if is_user_admin %}
+			{% trans 'hijack'|upper %}
+		{% else %}
+			{% blocktrans %}Hijack {{ username }}{% endblocktrans %}
+		{% endif %}
+	</button>
+{% endif %}

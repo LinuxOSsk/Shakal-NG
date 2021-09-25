@@ -3,7 +3,6 @@ django-allauth
 django-compressor
 django-email-log-backend
 django-hijack
-django-hijack-admin
 django-jinja<2.8
 django-libsass
 django-mptt

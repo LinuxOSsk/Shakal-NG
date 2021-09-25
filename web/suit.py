@@ -23,6 +23,8 @@ class SuitConfig(DjangoSuitConfig):
 			children=[
 				ChildItem(model='blog.post'),
 				ChildItem(model='blog.blog'),
+				ChildItem(model='blog.postcategory'),
+				ChildItem(model='blog.postseries'),
 			],
 		),
 		ParentItem(

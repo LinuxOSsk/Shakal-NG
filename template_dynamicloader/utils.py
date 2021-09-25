@@ -30,7 +30,7 @@ def switch_template(response, template, css, settings, **kwargs):
 				'css': css,
 				'settings': settings,
 			})
-			set_cookie(response, 'user_template', cookie_val)
+			set_cookie(response, 'user_template', cookie_val, cookie_age=3600 * 24 * 365 * 10)
 		else:
 			return
 	except KeyError:

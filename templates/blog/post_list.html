@@ -3,8 +3,14 @@
 {% block head_title %}Blogy{% endblock %}
 
 {% block breadcrumbs %}
+	{% if series %}
+		{{ breadcrumb(series) }}
+	{% endif %}
+	{% if category %}
+		{{ breadcrumb(category) }}
+	{% endif %}
 	{% if blog %}
-		{{ breadcrumb(blog, url='blog:post-list', page=1) }}
+		{{ breadcrumb(blog, url='blog:post-list-blog', blog=blog.slug, page=1) }}
 	{% endif %}
 	{{ breadcrumb("Blog", url='blog:post-list', page=1) }}
 	{{ super() }}
@@ -48,9 +54,9 @@
 {% endif %}
 
 {% if blog %}
-	<h1>{{ blog }}</h1>
+	<h1>{% if series %}{{ series }}{% elif category %}{{ category }}{% else %}{{ blog }}{% endif %}</h1>
 
-	{% if page_obj.number == 1 and blog.description %}
+	{% if page_obj.number == 1 and blog.description and not category and not series %}
 		<div class="annotation">{{ blog.description|safe }}</div>
 	{% endif %}
 {% else %}

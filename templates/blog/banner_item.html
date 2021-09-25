@@ -1,0 +1,22 @@
+{% set placeholder_image="images/blog_placeholder.png" %}
+
+{% if item.presentation_image %}
+	{% set image=item.presentation_image.attachment %}
+{% elif item.series and item.series.image %}
+	{% set image=item.series.image %}
+{% elif item.category and item.category.image %}
+	{% set image=item.category.image %}
+{% elif item.blog and item.blog.image %}
+	{% set image=item.blog.image %}
+{% else %}
+	{% set image=none %}
+{% endif %}
+
+{% extends "article/base_banner_item.html" %}
+
+{% block category %}
+	<span><a href="{{ item.blog.get_absolute_url() }}">{{ item.blog }}</a></span> |
+	{% if item.category %}
+		<span><a href="{{ url("blog:post-list-blog-category", blog=item.blog.slug, category=item.category.slug, page=1) }}">{{ item.category }}</a></span> |
+	{% endif %}
+{% endblock %}

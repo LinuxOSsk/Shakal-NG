@@ -15,7 +15,7 @@ $hdr-mid: #5d6370;
 $hdr-low: #000000;
 
 $link-color: #1d5886;
-$link-color-hover: $link-color - #0e2940;
+$link-color-hover: darken($link-color, 10%);
 
 $header-bg: #4d9dd9;
 
@@ -415,6 +415,17 @@ th.title a, td.title a {
 	.subject {
 		color: $generic-foreground;
 		font-weight: bold;
+	}
+	&.items-count {
+		font-size: 80%;
+		&:before {
+			content: ' (';
+			display: inline;
+		}
+		&:after {
+			content: ') ';
+			display: inline;
+		}
 	}
 }
 
@@ -1642,6 +1653,12 @@ td.status, td.comments, td.date {
 	font-weight: bold;
 }
 
+td.actions {
+	width: 1%;
+	white-space: nowrap;
+	text-align: right;
+}
+
 /* === Wiki === */
 .module.subpages, .module.sidebar {
 	width: 30%;
@@ -2094,4 +2111,8 @@ td.status, td.comments, td.date {
 			display: block;
 		}
 	}
+}
+
+.text-color-alert {
+	color: #d53;
 }

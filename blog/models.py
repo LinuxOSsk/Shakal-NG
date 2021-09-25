@@ -6,11 +6,14 @@ from django.db.models import Q, Case, When
 from django.db.models.query import QuerySet
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.functional import cached_property
 from django_autoslugfield.fields import AutoSlugField
-from autoimagefield.fields import AutoImageField
 
+from autoimagefield.fields import AutoImageField
 from common_utils.models import TimestampModelMixin
+from common_utils.related_documents import related_documents
 from hitcount.models import HitCountField
+from linuxos.model_fields import PresentationImageField
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
@@ -58,7 +61,7 @@ class Blog(TimestampModelMixin, models.Model):
 	notification_events = GenericRelation('notifications.Event')
 
 	def get_absolute_url(self):
-		return reverse('blog:post-list-category', kwargs={'category': self.slug, 'page': 1})
+		return reverse('blog:post-list-blog', kwargs={'blog': self.slug, 'page': 1})
 
 	def __str__(self):
 		return self.title
@@ -66,6 +69,91 @@ class Blog(TimestampModelMixin, models.Model):
 	class Meta:
 		verbose_name = "blog"
 		verbose_name_plural = "blogy"
+
+
+class PostCategory(models.Model):
+	title = models.CharField(
+		verbose_name="názov kategórie",
+		max_length=100
+	)
+	slug = AutoSlugField(
+		verbose_name="skratka URL",
+		title_field='title',
+		unique=True,
+		in_respect_to=('blog',)
+	)
+	blog = models.ForeignKey(
+		Blog,
+		verbose_name='blog',
+		blank=True,
+		null=True,
+		on_delete=models.CASCADE
+	)
+	image = AutoImageField(
+		verbose_name="obrázok",
+		upload_to='blog/category/images',
+		blank=True
+	)
+
+	def get_absolute_url(self):
+		return reverse('blog:post-list-blog-category', kwargs={'blog': self.blog.slug, 'category': self.slug, 'page': 1})
+
+	def __str__(self):
+		return self.title
+
+	class Meta:
+		verbose_name = "kategória blogu"
+		verbose_name_plural = "kategórie blogu"
+		constraints = [
+			models.UniqueConstraint(fields=['slug'], condition=Q(blog__isnull=True), name='unique_blog_post_category_global_slug'),
+			models.UniqueConstraint(fields=['blog', 'slug'], condition=Q(blog__isnull=False), name='unique_blog_post_category_slug'),
+		]
+
+
+class PostSeries(models.Model):
+	title = models.CharField(
+		verbose_name="názov seriálu",
+		max_length=100
+	)
+	slug = AutoSlugField(
+		verbose_name="skratka URL",
+		title_field='title',
+		unique=True,
+		in_respect_to=('blog',)
+	)
+	blog = models.ForeignKey(
+		Blog,
+		verbose_name='blog',
+		on_delete=models.CASCADE
+	)
+	image = AutoImageField(
+		verbose_name="obrázok",
+		upload_to='blog/series/images',
+		blank=True
+	)
+	updated = models.DateTimeField(
+		"upravené",
+		editable=False
+	)
+
+	def get_absolute_url(self):
+		return reverse('blog:post-list-blog-series', kwargs={'blog': self.blog.slug, 'series': self.slug, 'page': 1})
+
+	def refresh_updated(self):
+		print("ok")
+
+	def save(self, *args, **kwargs):
+		if not self.updated:
+			self.updated = timezone.now()
+		return super().save(*args, **kwargs)
+
+	def __str__(self):
+		return self.title
+
+	class Meta:
+		verbose_name = "seriál"
+		verbose_name_plural = "seriály"
+		unique_together = (('blog', 'slug'),)
 
 
 class PostQuerySet(QuerySet):
@@ -118,6 +206,20 @@ class Post(TimestampModelMixin, models.Model):
 		title_field='title',
 		in_respect_to=('blog',)
 	)
+	category = models.ForeignKey(
+		PostCategory,
+		verbose_name="kategória",
+		blank=True,
+		null=True,
+		on_delete=models.SET_NULL,
+	)
+	series = models.ForeignKey(
+		PostSeries,
+		verbose_name="seriál",
+		blank=True,
+		null=True,
+		on_delete=models.SET_NULL,
+	)
 	original_perex = RichTextOriginalField(
 		verbose_name="perex",
 		filtered_field='filtered_perex',
@@ -149,6 +251,7 @@ class Post(TimestampModelMixin, models.Model):
 		blank=True
 	)
 
+	presentation_image = PresentationImageField(verbose_name="prezentačný obrázok")
 	polls = GenericRelation('polls.Poll')
 	comments_header = GenericRelation('comments.RootHeader')
 	comments = GenericRelation('comments.Comment')
@@ -168,6 +271,20 @@ class Post(TimestampModelMixin, models.Model):
 		return self.pub_time < timezone.now()
 	published.short_description = "je publikovaný"
 	published.boolean = True
+
+	@cached_property
+	def related_documents(self):
+		if not self.series:
+			return None
+		articles = Post.objects.filter(series=self.series, blog=self.blog)
+		related = related_documents(
+			instance=self,
+			queryset=articles.only('pk', 'blog', 'blog__author', 'series__id', 'title', 'slug'),
+			ordering=['created'],
+			select_range=5
+		)
+		related['up'] = self.series
+		return related
 
 	@property
 	def author(self):

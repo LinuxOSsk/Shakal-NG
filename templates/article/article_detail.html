@@ -83,42 +83,8 @@
 {% endfor %}
 
 {% if article.series_object %}
-	{% with related_documents=article.related_documents %}
-		<div class="related_documents module">
-			<div class="module-row">
-				<h3>{{ article.series_object }}</h3>
-			</div>
-			<div class="module-row">
-				<ul class="directnav">
-					<li class="first{% if not related_documents.first or article.pk == related_documents.first.pk %} disabled{% endif %}">
-						<a href="{% if related_documents.first %}{{ related_documents.first.get_absolute_url() }}{% else %}#{% endif %}">Prvý</a>
-					</li>
-					<li class="prev{% if not related_documents.prev %} disabled{% endif %}">
-						<a href="{% if related_documents.prev %}{{ related_documents.prev.get_absolute_url() }}{% else %}#{% endif %}">Predchádzajúci</a>
-					</li>
-					<li class="next{% if not related_documents.next %} disabled{% endif %}">
-						<a href="{% if related_documents.next %}{{ related_documents.next.get_absolute_url() }}{% else %}#{% endif %}">Ďalší</a>
-					</li>
-					<li class="last{% if not related_documents.last or article.pk == related_documents.last.pk %} disabled{% endif %}">
-						<a href="{% if related_documents.last %}{{ related_documents.last.get_absolute_url() }}{% else %}#{% endif %}">Posledný</a>
-					</li>
-				</ul>
-			</div>
-
-			<div class="module-row">
-				<ul class="relatednav">
-					{% for related_article in related_documents.range %}
-						<li{% if related_article.pk == article.pk %} class="current"{% endif %}>
-							<a href="{{ related_article.get_absolute_url() }}">{{ related_article }}</a>
-						</li>
-					{% endfor %}
-				</ul>
-			</div>
-
-			<div class="module-links">
-				<a href="{{ article.series_object.get_absolute_url() }}">Všetky diely seriálu</a>
-			</div>
-		</div>
+	{% with object=article, series=article.series_object %}
+		{% include "partials/related_documents.html" %}
 	{% endwith %}
 {% endif %}
 

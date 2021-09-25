@@ -36,7 +36,7 @@ class Desktop(TimestampModelMixin, models.Model):
 	image = AutoImageField(
 		verbose_name='desktop',
 		upload_to='desktops',
-		resize_source=dict(size=(4096, 4096))
+		resize_source=dict(size=(8192, 8192))
 	)
 
 	original_text = RichTextOriginalField(

@@ -2,7 +2,6 @@
 	Chcete skutočne aplikovať štýl?
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<form action="{{ url("template-change") }}" method="post" style="display: inline">
-		{% csrf_token %}
 		{{ form }}
 		<input type="submit" name="change_style" value="Áno" />
 		<input type="submit" name="not_change_style" value="Nie" />

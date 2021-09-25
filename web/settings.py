@@ -3,6 +3,7 @@
 import os
 import re
 
+
 from .assets import ASSETS, SPRITES
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -37,7 +38,6 @@ INSTALLED_APPS = [
 	'django.contrib.staticfiles',
 	# vendor
 	'blackhole',
-	'compat',
 	'django_assets_manager',
 	'django_ajax_utils',
 	'django_autoslugfield',
@@ -51,7 +51,6 @@ INSTALLED_APPS = [
 	'django_jinja',
 	'mptt',
 	'hijack',
-	'hijack_admin',
 	'reversion',
 	'static_sitemaps',
 	'easy_thumbnails',
@@ -89,6 +88,7 @@ MIDDLEWARE = [
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
 	'django.middleware.locale.LocaleMiddleware',
 	# custom
+	'hijack.middleware.HijackUserMiddleware',
 	'accounts.middleware.LastViewedMiddleware',
 	'accounts.middleware.AuthRememberMiddleware',
 	'web.middlewares.ThreadLocalMiddleware',
@@ -102,7 +102,7 @@ ROOT_URLCONF = 'web.urls'
 TEMPLATES = [
 	{
 		"BACKEND": "template_dynamicloader.backend.Jinja2",
-		'DIRS': [os.path.join(BASE_DIR, 'templates'),],
+		'DIRS': [os.path.join(BASE_DIR, 'templates')],
 		"OPTIONS": {
 			"match_extension": None,
 			"match_regex": re.compile(r"^(?!(admin/|debug_toolbar/|suit/|profiler/|search/indexes/|reversion/|sitemap.xml|static_sitemaps/|hijack/|django_extensions/)).*"),
@@ -215,6 +215,8 @@ USE_TZ = True
 
 SHORT_DATE_FORMAT = 'd. m. Y'
 SHORT_DATETIME_FORMAT = 'd. m. Y H:i'
+
+FORM_RENDERER = 'linuxos.form_renderers.Jinja2'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
