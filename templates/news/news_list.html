@@ -34,11 +34,8 @@
 {% endblock %}
 <div class="module">
 	{% block list_content %}
-		{{ add_discussion_attributes(news_list) }}
-		{% with long=1 %}
-			{% for item in news_list %}
-				<div class="module-row">{% include "news/partials/list_item.html" %}</div>
-			{% endfor %}
+		{% with news=news_list, long=1 %}
+			{% include "news/partials/list.html" %}
 		{% endwith %}
 		{{ pagination() }}
 	{% endblock %}
