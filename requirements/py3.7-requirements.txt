@@ -32,7 +32,7 @@ django==3.2.7
     #   easy-thumbnails
 django-allauth==0.45.0
     # via -r requirements.in
-django-appconf==1.0.4
+django-appconf==1.0.5
     # via django-compressor
 django-compressor==2.4.1
     # via
@@ -40,7 +40,7 @@ django-compressor==2.4.1
     #   django-libsass
 django-email-log-backend==0.3.3
     # via -r requirements.in
-django-hijack==3.0.2
+django-hijack==3.0.3
     # via -r requirements.in
 django-jinja==2.7.1
     # via -r requirements.in
@@ -86,7 +86,7 @@ pillow==8.3.2
     # via
     #   -r requirements.in
     #   easy-thumbnails
-pip-tools==6.2.0
+pip-tools==6.3.0
     # via -r requirements.in
 pycparser==2.20
     # via cffi
@@ -131,7 +131,7 @@ typing-extensions==3.10.0.2
     # via
     #   asgiref
     #   importlib-metadata
-urllib3==1.26.6
+urllib3==1.26.7
     # via requests
 webencodings==0.5.1
     # via
