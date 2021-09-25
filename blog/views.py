@@ -22,6 +22,8 @@ class PostListView(ListView):
 
 	def get_queryset(self):
 		queryset = self.filter_by_category(Post.all_objects.all()).prefetch_related('category', 'blog')
+		if self.series_object:
+			queryset = queryset.order_by('created')
 		if self.request.user.is_authenticated:
 			return queryset.for_auth_user(self.request.user)
 		else:
@@ -87,7 +89,7 @@ class PostListView(ListView):
 		return (PostSeries.objects
 			.filter(post__blog=self.blog_object)
 			.order_by('-updated', 'pk')
-			.annotate(post_count=Count('post')))
+			.annotate(post_count=Count('post')))[:20]
 
 
 class BlogUpdateView(LoginRequiredMixin, PreviewUpdateView):

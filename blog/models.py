@@ -6,10 +6,12 @@ from django.db.models import Q, Case, When
 from django.db.models.query import QuerySet
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.functional import cached_property
 from django_autoslugfield.fields import AutoSlugField
 
 from autoimagefield.fields import AutoImageField
 from common_utils.models import TimestampModelMixin
+from common_utils.related_documents import related_documents
 from hitcount.models import HitCountField
 from linuxos.model_fields import PresentationImageField
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
@@ -269,6 +271,20 @@ class Post(TimestampModelMixin, models.Model):
 		return self.pub_time < timezone.now()
 	published.short_description = "je publikovaný"
 	published.boolean = True
+
+	@cached_property
+	def related_documents(self):
+		if not self.series:
+			return None
+		articles = Post.objects.filter(series=self.series, blog=self.blog)
+		related = related_documents(
+			instance=self,
+			queryset=articles.only('pk', 'blog', 'blog__author', 'series__id', 'title', 'slug'),
+			ordering=['created'],
+			select_range=5
+		)
+		related['up'] = self.series
+		return related
 
 	@property
 	def author(self):

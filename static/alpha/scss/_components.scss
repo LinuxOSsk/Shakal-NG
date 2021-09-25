@@ -29,6 +29,51 @@
 		padding-left: 0;
 		padding-right: 0;
 	}
+
+	.related_documents {
+		.disabled a {
+			color: $info-color;
+			opacity: .75;
+		}
+		.current a {
+			color: $text-color;
+			font-weight: bold;
+		}
+
+		.directnav {
+			clear: both;
+			overflow: hidden;
+			margin: $base-spacing-content;
+
+			li {
+				display: inline;
+			}
+
+			a {
+				display: block;
+				float: left;
+				width: 25%;
+				text-align: center;
+				text-decoration: none;
+			}
+
+			.first a:before {
+				content: "« ";
+			}
+
+			.last a:after {
+				content: " »";
+			}
+
+			.prev a:before {
+				content: "‹ ";
+			}
+
+			.next a:after {
+				content: " ›";
+			}
+		}
+	}
 }
 
 body.home .content-module {

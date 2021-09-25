@@ -96,6 +96,12 @@
 	{% endif %}
 {% endif %}
 
+{% if post.series %}
+	{% with object=post, series=post.series %}
+		{% include "partials/related_documents.html" %}
+	{% endwith %}
+{% endif %}
+
 {% with is_article=1, name=object.title %}
 	{% include "partials/share.html" %}
 {% endwith %}
