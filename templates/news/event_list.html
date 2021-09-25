@@ -12,14 +12,8 @@
 {% block page_title %}Udalosti{% endblock %}
 
 {% block list_content %}
-	{{ add_discussion_attributes(news_list) }}
-	{% with long=1 %}
-		{% for item in news_list %}
-			{% if loop.changed(item.event_date) %}
-				<h2 class="block-title">{{ item.event_date|date("SHORT_DATE_FORMAT") }}</h2>
-			{% endif %}
-			<div class="module-row">{% include "news/partials/list_item.html" %}</div>
-		{% endfor %}
+	{% with news=news_list, long=1, dates=1 %}
+		{% include "news/partials/list.html" %}
 	{% endwith %}
 	{{ pagination() }}
 {% endblock %}
