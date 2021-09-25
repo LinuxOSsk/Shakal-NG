@@ -15,6 +15,9 @@
 			</div>
 		{% endif %}
 		{{ item.short_text|safe }}
+		{% with news=item %}
+			{% include "news/partials/source.html" %}
+		{% endwith %}
 		<div class="info bottom">
 			<span class="comments">
 				{{ get_comments_for_item(item) }}
