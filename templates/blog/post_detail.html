@@ -59,13 +59,13 @@
 {% include "blog/partials/content.html" %}
 
 {% if object.blog.author == user or attachments_files or attachments_images %}
-	<h2>Prílohy</h2>
-
 	{% if object.blog.author == user %}
 		<ul class="object-tools">
 			<li class="btn"><span class="wrap"><a class="text" href="{{ url("blog:post-attachments-update", object.blog.slug, object.slug) }}">Spravovať</a></span></li>
 		</ul>
 	{% endif %}
+
+	<h2>Prílohy</h2>
 
 	{% if attachments_files %}
 		<ul>
