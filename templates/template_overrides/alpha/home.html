@@ -40,7 +40,7 @@
 		{% endwith %}
 	{% else %}
 		{% set random_new_items=new_items|shuffle_with_time_priority %}
-		{% for item in random_new_items|shuffle_with_time_priority %}
+		{% for item in random_new_items %}
 			{% set is_first=loop.first %}
 			{% if loop.index < 4 %}
 				{% if item._meta.model_name == 'post' %}
