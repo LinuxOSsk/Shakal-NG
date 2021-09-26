@@ -363,6 +363,7 @@ COMPRESS_REBUILD_TIMEOUT = 1
 
 THUMBNAIL_PRESERVE_EXTENSIONS = True
 THUMBNAIL_NAMER = 'autoimagefield.namers.default'
+THUMBNAIL_BASEDIR = 'thumbs'
 THUMBNAIL_PROCESSORS = (
 	'easy_thumbnails.processors.colorspace',
 	'easy_thumbnails.processors.autocrop',
