@@ -86,7 +86,7 @@ class AttachmentFormMixin(forms.BaseForm):
 					if match:
 						if match[0].is_visible != is_visible:
 							match[0].is_visible = is_visible
-							match[0].save()
+							match[0].save(update_fields=['is_visible'])
 				rownum += 1
 
 	def process_attachment_upload(self):

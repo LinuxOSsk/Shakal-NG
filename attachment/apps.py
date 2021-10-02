@@ -11,11 +11,17 @@ class AttachmentConfig(AppConfig):
 		instance.delete_file()
 
 	def delete_attachmentimage(self, sender, instance, *args, **kwargs): #pylint: disable=unused-argument
+		update_fields = kwargs.get('update_fields')
+		if update_fields is not None and 'attachment' not in update_fields:
+			return
 		AttachmentImage = self.get_model('AttachmentImage')
 		for obj in list(AttachmentImage.objects.all().filter(attachment_ptr=instance.pk)):
 			obj.delete(keep_parents=True)
 
 	def create_attachmentimage(self, sender, instance, *args, **kwargs): #pylint: disable=unused-argument
+		update_fields = kwargs.get('update_fields')
+		if update_fields is not None and 'attachment' not in update_fields:
+			return
 		try:
 			AttachmentImage = self.get_model('AttachmentImage')
 			Attachment = self.get_model('Attachment')
