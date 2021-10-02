@@ -11,9 +11,9 @@ class AttachmentConfig(AppConfig):
 		instance.delete_file()
 
 	def delete_attachmentimage(self, sender, instance, *args, **kwargs): #pylint: disable=unused-argument
-		AttachmentImageRaw = self.get_model('AttachmentImageRaw')
-		for obj in list(AttachmentImageRaw.objects.all().filter(attachment_ptr=instance.pk)):
-			obj.delete()
+		AttachmentImage = self.get_model('AttachmentImage')
+		for obj in list(AttachmentImage.objects.all().filter(attachment_ptr=instance.pk)):
+			obj.delete(keep_parents=True)
 
 	def create_attachmentimage(self, sender, instance, *args, **kwargs): #pylint: disable=unused-argument
 		try:
