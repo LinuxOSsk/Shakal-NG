@@ -9,7 +9,7 @@
 		{% if is_first %}
 			{% set article_thumbnail=thumbnail(image, size=(1920, 1080), crop=true, upscale=true) %}
 		{% else %}
-			{% set article_thumbnail=thumbnail(image, size=(480, 270), crop=true, upscale=true) %}
+			{% set article_thumbnail=thumbnail(image, size=(240, 135), crop=true, upscale=true) %}
 		{% endif %}
 	{% else %}
 		{% if placeholder_image %}

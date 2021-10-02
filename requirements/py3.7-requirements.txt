@@ -40,7 +40,7 @@ django-compressor==2.4.1
     #   django-libsass
 django-email-log-backend==0.3.3
     # via -r requirements.in
-django-hijack==3.0.3
+django-hijack==3.0.4
     # via -r requirements.in
 django-jinja==2.7.1
     # via -r requirements.in
@@ -48,7 +48,7 @@ django-js-asset==1.2.2
     # via django-mptt
 django-libsass==0.9
     # via -r requirements.in
-django-mptt==0.13.3
+django-mptt==0.13.4
     # via -r requirements.in
 django-reversion==4.0.0
     # via -r requirements.in
@@ -98,7 +98,7 @@ pyparsing==2.4.7
     # via packaging
 python3-openid==3.2.0
     # via django-allauth
-pytz==2021.1
+pytz==2021.3
     # via
     #   -r requirements.in
     #   django
@@ -139,7 +139,7 @@ webencodings==0.5.1
     #   html5lib
 wheel==0.37.0
     # via pip-tools
-zipp==3.5.0
+zipp==3.6.0
     # via
     #   importlib-metadata
     #   pep517
