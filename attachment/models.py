@@ -109,7 +109,7 @@ class Attachment(models.Model):
 
 	def save(self, *args, **kwargs):
 		if self.pk:
-			original = self.__class__.objects.get(pk=self.pk)
+			original = Attachment.objects.get(pk=self.pk)
 			if self.attachment and original.attachment:
 				if self.attachment == original.attachment:
 					setattr(self, 'same_file', True)
@@ -137,25 +137,6 @@ class AttachmentImage(Attachment):
 	height = models.IntegerField(
 		verbose_name=_("image height")
 	)
-
-
-class AttachmentImageRaw(models.Model):
-	attachment_ptr = models.PositiveIntegerField(
-		verbose_name=_("attachment"),
-		db_column='attachment_ptr_id',
-		primary_key=True
-	)
-	width = models.IntegerField(
-		verbose_name=_("image width")
-	)
-	height = models.IntegerField(
-		verbose_name=_("image height")
-	)
-
-	class Meta:
-		app_label = get_meta(AttachmentImage).app_label
-		db_table = get_meta(AttachmentImage).db_table
-		managed = False
 
 
 def generate_uuid():

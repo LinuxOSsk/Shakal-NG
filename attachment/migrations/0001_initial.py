@@ -11,18 +11,6 @@ class Migration(migrations.Migration):
 
 	operations = [
 		migrations.CreateModel(
-			name='AttachmentImageRaw',
-			fields=[
-				('attachment_ptr', models.PositiveIntegerField(serialize=False, primary_key=True, db_column='attachment_ptr_id')),
-				('width', models.IntegerField()),
-				('height', models.IntegerField()),
-			],
-			options={
-				'db_table': 'attachment_attachmentimage',
-				'managed': False,
-			},
-		),
-		migrations.CreateModel(
 			name='Attachment',
 			fields=[
 				('id', models.AutoField(serialize=False, auto_created=True, primary_key=True)),

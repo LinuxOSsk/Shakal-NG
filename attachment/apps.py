@@ -17,7 +17,8 @@ class AttachmentConfig(AppConfig):
 
 	def create_attachmentimage(self, sender, instance, *args, **kwargs): #pylint: disable=unused-argument
 		try:
-			AttachmentImageRaw = self.get_model('AttachmentImageRaw')
+			AttachmentImage = self.get_model('AttachmentImage')
+			Attachment = self.get_model('Attachment')
 			from PIL import Image
 			img = Image.open(instance.attachment.storage.path(instance.attachment.name))
 			width, height = img.size
@@ -25,7 +26,11 @@ class AttachmentConfig(AppConfig):
 				return
 			if (width * height) > (1024 * 1024 * 32):
 				return
-			AttachmentImageRaw.objects.get_or_create(attachment_ptr=instance.pk, width=width, height=height)
+
+			data = {field.attname: getattr(instance, field.attname, None) for field in Attachment._meta.concrete_fields if field.attname != 'id'}
+			data.update({'width': width, 'height': height})
+
+			AttachmentImage.objects.update_or_create(attachment_ptr_id=instance.pk, defaults=data)
 		except Exception: #pylint: disable=broad-except
 			pass
 
