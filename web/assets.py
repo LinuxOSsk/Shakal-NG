@@ -4,7 +4,7 @@ SPRITES = (
 		'name': 'sprites',
 		'output': 'alpha/images/sprites.png',
 		'scss_output': 'alpha/scss/_sprites.scss',
-		'extra_sizes': ((2, '@2x'),),
+		'extra_sizes': ((2, '_2x'),),
 		'width': 400,
 		'height': 400,
 		'images': (
