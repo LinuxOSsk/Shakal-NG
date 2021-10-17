@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import random
+from collections import OrderedDict
 from datetime import datetime, timedelta
 
 from django import template
@@ -17,6 +18,7 @@ from django.utils.safestring import mark_safe
 from django_jinja import library
 from jinja2 import contextfunction
 
+from attachment.models import AttachmentImage
 from common_utils import get_meta
 from common_utils.random import weighted_sample
 from rating.settings import FLAG_CONTENT_TYPES
@@ -181,3 +183,53 @@ def change_template_settings_form(context, **settings):
 		json.dumps(style_options),
 		request.get_full_path()
 	)
+
+
+@library.global_function
+@contextfunction
+def get_share_images(context):
+	images = OrderedDict()
+	presentation_image = context.get('presentation_image')
+	image = context.get('image')
+	gallery = context.get('gallery')
+	obj = context.get('object')
+
+	def register_image(image):
+		if isinstance(image, AttachmentImage):
+			images[image.attachment.url] = {
+				'url': get_base_uri() + image.attachment.url,
+				'width': image.width,
+				'height': image.height,
+			}
+		elif isinstance(image, dict):
+			url = image['url']
+			image['url'] = get_base_uri() + url
+			images[url] = image
+
+		else:
+			images.setdefault(image, {'url': get_base_uri() + image})
+
+	if presentation_image:
+		register_image(presentation_image)
+	if image:
+		register_image(image)
+	if gallery:
+		register_image(gallery[0])
+	if obj:
+		url = share_image(obj, 'opengraph')
+		register_image({
+			'url': url,
+			'width': 1200,
+			'height': 630,
+		})
+	if gallery:
+		for image in gallery[1:]:
+			register_image(image)
+	if not images:
+		url = settings.STATIC_URL + 'images/share_placeholder.png'
+		register_image({
+			'url': url,
+			'width': 2048,
+			'height': 1024,
+		})
+	return list(images.values())

@@ -18,6 +18,7 @@
 		name=object.title,
 		gallery=attached_images(object, min_size=(400, 400)),
 		description=object.perex|striptags,
+		presentation_image=object.presentation_image,
 		created=object.created,
 		updated=object.updated,
 		category=object.blog.name,
