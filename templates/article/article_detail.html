@@ -20,6 +20,8 @@
 		description=article.annotation|striptags,
 		image=article.image and article.image.url,
 		presentation_image=article.presentation_image,
+		fallback_image=article.series.image.url if article.series and article.series.image else none,
+		fallback_image2=article.category.image.url if article.category and article.category.image else none,
 		created=article.created,
 		updated=article.updated,
 		category=article.category.name,

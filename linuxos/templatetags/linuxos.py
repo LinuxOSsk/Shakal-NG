@@ -190,6 +190,8 @@ def change_template_settings_form(context, **settings):
 def get_share_images(context):
 	images = OrderedDict()
 	presentation_image = context.get('presentation_image')
+	fallback_image = context.get('fallback_image')
+	fallback_image2 = context.get('fallback_image2')
 	image = context.get('image')
 	gallery = context.get('gallery')
 	obj = context.get('object')
@@ -213,6 +215,10 @@ def get_share_images(context):
 		register_image(presentation_image)
 	if image:
 		register_image(image)
+	if fallback_image:
+		register_image(fallback_image)
+	if fallback_image2:
+		register_image(fallback_image2)
 	if gallery:
 		register_image(gallery[0])
 	if obj:

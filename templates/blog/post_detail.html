@@ -19,6 +19,8 @@
 		gallery=attached_images(object, min_size=(400, 400)),
 		description=object.perex|striptags,
 		presentation_image=object.presentation_image,
+		fallback_image=object.series.image.url if object.series and object.series.image else none,
+		fallback_image2=object.category.image.url if object.category and object.category.image else none,
 		created=object.created,
 		updated=object.updated,
 		category=object.blog.name,
