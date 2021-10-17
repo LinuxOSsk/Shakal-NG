@@ -8,19 +8,19 @@ asgiref==3.4.1
     # via django
 bleach==4.1.0
     # via -r requirements.in
-certifi==2021.5.30
+certifi==2021.10.8
     # via requests
-cffi==1.14.6
+cffi==1.15.0
     # via cryptography
-charset-normalizer==2.0.6
+charset-normalizer==2.0.7
     # via requests
-click==8.0.1
+click==8.0.3
     # via pip-tools
-cryptography==3.4.8
+cryptography==35.0.0
     # via pyjwt
 defusedxml==0.7.1
     # via python3-openid
-django==3.2.7
+django==3.2.8
     # via
     #   -r requirements.in
     #   django-allauth
@@ -62,7 +62,7 @@ future==0.18.2
     # via -r requirements.in
 html5lib==1.1
     # via -r requirements.in
-idna==3.2
+idna==3.3
     # via requests
 jinja2==2.11.3
     # via
@@ -78,17 +78,17 @@ packaging==21.0
     # via bleach
 pep517==0.11.0
     # via pip-tools
-pillow==8.3.2
+pillow==8.4.0
     # via
     #   -r requirements.in
     #   easy-thumbnails
-pip-tools==6.3.0
+pip-tools==6.4.0
     # via -r requirements.in
 pycparser==2.20
     # via cffi
 pygments==2.10.0
     # via -r requirements.in
-pyjwt[crypto]==2.1.0
+pyjwt[crypto]==2.3.0
     # via django-allauth
 pyparsing==2.4.7
     # via packaging
