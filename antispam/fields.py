@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.forms.fields import CharField
 from django.forms.widgets import TextInput
 from django.utils.safestring import mark_safe
+from fulltext.utils import unaccent
 
 
 class AntispamInput(TextInput):
@@ -25,6 +26,7 @@ class AntispamField(CharField):
 		if getattr(settings, 'CAPTCHA_DISABLE', False):
 			return ''
 		value = super().clean(value)
-		if value != self.widget.attrs.get("answer", ""):
+		answer = self.widget.attrs.get("answer", "")
+		if unaccent(value).lower() != unaccent(answer).lower():
 			raise ValidationError("Nesprávna odpoveď.")
 		return value
