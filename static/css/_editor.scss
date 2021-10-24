@@ -416,23 +416,6 @@ a.richedit_button_disabled:active {
 	background-image: linear-gradient(to bottom, $richedit-buttondis-backkground-u, $richedit-buttondis-backkground-d);
 }
 
-.richedit_button_icon {
-	cursor: inherit;
-	background-repeat: no-repeat;
-	margin-top: 1px;
-	width: 16px;
-	height: 16px;
-	float: left;
-	display: inline-block;
-
-	background-repeat: no-repeat;
-	background-image: url($richedit-icons);
-	background-size: 16px 2040px;
-	@media #{$hdpi} {
-		background-image: static($richedit-icons-2x);
-	}
-}
-
 $icons: (
 	about, bold, italic, strike, subscript,
 	superscript, underline, bidiltr, bidirtl, blockquote,
@@ -450,8 +433,25 @@ $icons: (
 	pastefromword, pastefromword, preview, preview, print,
 	removeformat, save, selectall, showblocks, showblocks,
 	source, source, specialchar, scayt, table,
-	redo, redo, undo, undo, spellchecker
+	redo, redo, undo, undo, spellchecker, code
 );
+
+.richedit_button_icon {
+	cursor: inherit;
+	background-repeat: no-repeat;
+	margin-top: 1px;
+	width: 16px;
+	height: 16px;
+	float: left;
+	display: inline-block;
+
+	background-repeat: no-repeat;
+	background-image: url($richedit-icons);
+	background-size: 16px ((24px)*length($icons));
+	@media #{$hdpi} {
+		background-image: static($richedit-icons-2x);
+	}
+}
 
 @for $i from 1 through length($icons) {
 	$icon: nth($icons, $i);
