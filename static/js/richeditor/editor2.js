@@ -348,12 +348,14 @@ var SimpleEditorHtml = function(element, options) {
 		var inputs = [];
 		var lexersCode = '';
 		var checked = true;
-		if (hasTag('p')) {
+		if (hasTag('p') && btn.options.tag !== 'pre') {
 			inputs.push('<label><input name="richedit_insert_text_type" type="radio"' + (checked ? 'checked="checked"' : '') + ' value="p" /> Odstavec</label>&nbsp;&nbsp;&nbsp;&nbsp;');
 			checked = false;
 		}
 		if (hasTag('pre')) {
-			inputs.push('<label><input name="richedit_insert_text_type" type="radio"' + (checked ? 'checked="checked"' : '') + ' value="pre" /> Kód</label>&nbsp;&nbsp;&nbsp;&nbsp;');
+			if (btn.options.tag !== 'pre') {
+				inputs.push('<label><input name="richedit_insert_text_type" type="radio"' + (checked ? 'checked="checked"' : '') + ' value="pre" /> Kód</label>&nbsp;&nbsp;&nbsp;&nbsp;');
+			}
 			checked = false;
 			var optionElements = [];
 			optionElements.push('<option value="">Vyberte zvýrazňovanie</option>');
@@ -390,7 +392,7 @@ var SimpleEditorHtml = function(element, options) {
 		var tag;
 
 		var selectTag = function() {
-			tag = undefined;
+			tag = btn.options.tag;
 			inputElements.forEach(function(input) {
 				if (input.checked) {
 					tag = input.value;
@@ -412,6 +414,7 @@ var SimpleEditorHtml = function(element, options) {
 
 		selectTag();
 	};
+
 
 	var addLink = function(btn) {
 		var options = {
@@ -675,8 +678,9 @@ var SimpleEditorHtml = function(element, options) {
 
 	tb = addToolbar();
 	if (hasTag('p')) addButton(tb, {cls: 'icon-bidiltr', tag: 'p', title: 'Odstavec', onclick: triggerFunction});
-	if (hasTag('pre')) addButton(tb, {cls: 'icon-blockquote', tag: 'blockquote', title: 'Citácia', onclick: triggerFunction});
-	addButton(tb, {cls: 'icon-pastetext', title: 'Vložiť text, alebo zdrojový kód', onclick: addText});
+	if (hasTag('blockquote')) addButton(tb, {cls: 'icon-blockquote', tag: 'blockquote', title: 'Citácia', onclick: triggerFunction});
+	if (hasTag('pre')) addButton(tb, {cls: 'icon-code', tag: 'pre', title: 'Kód', onclick: addText});
+	if (hasTag('p') || hasTag('pre')) addButton(tb, {cls: 'icon-pastetext', title: 'Vložiť text, alebo zdrojový kód', onclick: addText});
 
 	if (hasTag('ul') || hasTag('ol')) {
 		tb = addToolbar();
