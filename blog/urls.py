@@ -8,7 +8,7 @@ app_name = 'blog'
 
 urlpatterns = [
 	path('admin/my/', views.MyBlogView.as_view(), name='my'),
-	path('admin/update/', views.BlogUpdateView.as_view(), name='blog-update'),
+	path('<slug:blog>/admin/update/', views.BlogUpdateView.as_view(), name='blog-update'),
 	path('<page:page>', views.PostListView.as_view(), name='post-list'),
 	path('<slug:blog>/create-post/', views.PostCreateView.as_view(), name='post-create'),
 	path('<slug:blog>/list/<page:page>', views.PostListView.as_view(), name='post-list-blog'),

@@ -14,7 +14,7 @@
 					<li><a href="{{ url("blog:post-series-management-list", blog.slug) }}">Spravovať seriály</a></li>
 				{% endif %}
 				<li><a href="{{ url("blog:post-create", blog.slug) }}">Pridať zápis</a></li>
-				<li><a href="{{ url("blog:blog-update") }}">Upraviť informácie</a></li>
+				<li><a href="{{ url("blog:blog-update", blog.slug) }}">Upraviť informácie</a></li>
 			</ul>
 		{% endif %}
 		<hr />

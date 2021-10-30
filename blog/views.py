@@ -5,6 +5,7 @@ from django.http.response import Http404
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
+from django.utils.crypto import get_random_string
 from django.utils.functional import cached_property
 from django.views.generic import RedirectView, CreateView, UpdateView, DeleteView
 from django.views.generic.edit import FormView
@@ -101,11 +102,19 @@ class BlogUpdateView(LoginRequiredMixin, PreviewUpdateView):
 	context_object_name = 'blog'
 
 	def get_object(self, queryset=None):
-		return Blog.objects.all().filter(author=self.request.user).first()
+		obj = Blog.objects.all().filter(author=self.request.user).first()
+		slug = 'new' if obj is None else obj.slug
+		if slug != self.kwargs['blog']:
+			raise Http404()
+		return obj
 
 	def form_valid(self, form):
 		form.instance.author = self.request.user
-		return super(BlogUpdateView, self).form_valid(form)
+		response = super(BlogUpdateView, self).form_valid(form)
+		if form.instance.slug == 'new':
+			form.instance.slug = 'new-' + get_random_string(length=5, allowed_chars='abcdefghijklmnopqrstuvwxyz0123456789')
+			form.instance.save()
+		return response
 
 
 class PostDetailView(DetailUserProtectedView):
@@ -189,6 +198,10 @@ class PostCreateView(LoginRequiredMixin, RequestFormViewMixin, PreviewCreateView
 	def form_valid(self, form):
 		if not self.blog.pk:
 			self.blog.save()
+			if self.blog.slug == 'new':
+				self.blog.slug = 'new-' + get_random_string(length=5, allowed_chars='abcdefghijklmnopqrstuvwxyz0123456789')
+				self.blog.save()
+
 		form.instance.blog = self.request.user.blog
 		return super().form_valid(form)
 
