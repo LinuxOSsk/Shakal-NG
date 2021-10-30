@@ -50,6 +50,12 @@ def decode_switch_template(data):
 	return UserTemplateSettings(*data)
 
 
+def get_object_template_settings(request):
+	if not request:
+		return None
+	print(request.resolver_match)
+
+
 def get_template_settings(request):
 	if hasattr(request, '_template_settings'):
 		return getattr(request, '_template_settings')
@@ -61,6 +67,10 @@ def get_template_settings(request):
 
 	if request is None:
 		return UserTemplateSettings(*default)
+
+	object_template_settings = get_object_template_settings(request)
+	if object_template_settings is not None:
+		return object_template_settings
 
 	if request.method == 'GET' and 'switch_template' in request.GET:
 		template_skin, css, template_settings = decode_switch_template(request.GET['switch_template'])
