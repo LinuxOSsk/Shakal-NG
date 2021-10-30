@@ -13,7 +13,7 @@
 					<li><a href="{{ url("blog:post-category-management-list", blog.slug) }}">Spravovať kategórie</a></li>
 					<li><a href="{{ url("blog:post-series-management-list", blog.slug) }}">Spravovať seriály</a></li>
 				{% endif %}
-				<li><a href="{{ url("blog:post-create") }}">Pridať zápis</a></li>
+				<li><a href="{{ url("blog:post-create", blog.slug) }}">Pridať zápis</a></li>
 				<li><a href="{{ url("blog:blog-update") }}">Upraviť informácie</a></li>
 			</ul>
 		{% endif %}

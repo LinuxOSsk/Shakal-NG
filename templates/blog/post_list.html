@@ -54,18 +54,18 @@
 {% endif %}
 
 {% if blog %}
+	{% if request.user.is_authenticated and blog.author == request.user %}
+		<ul class="object-tools">
+			<li class="btn"><span class="wrap"><a class="text" href="{{ url('blog:post-create', blog.slug) }}">Vytvoriť príspevok</a></span></li>
+		</ul>
+	{% endif %}
+
 	<h1>{% if series %}{{ series }}{% elif category %}{{ category }}{% else %}{{ blog }}{% endif %}</h1>
 
 	{% if page_obj.number == 1 and blog.description and not category and not series %}
 		<div class="annotation">{{ blog.description|safe }}</div>
 	{% endif %}
 {% else %}
-	{% if request.user.is_authenticated %}
-		<ul class="object-tools">
-			<li class="btn"><span class="wrap"><a class="text" href="{{ url('blog:post-create') }}">Vytvoriť príspevok</a></span></li>
-		</ul>
-	{% endif %}
-
 	<h1>Blogy</h1>
 {% endif %}
 

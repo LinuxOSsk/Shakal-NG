@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q, Count
+from django.http.response import Http404
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
@@ -161,23 +162,35 @@ class PostAttachmentsUpdateView(LoginRequiredMixin, FormView):
 class PostCreateView(LoginRequiredMixin, RequestFormViewMixin, PreviewCreateView):
 	form_class = PostForm
 	model = Post
+	blog = None
 
 	def get_initial(self):
 		return {
 			'pub_time': timezone.now(),
 		}
 
-	def form_valid(self, form):
+	def get_context_data(self, **kwargs):
+		ctx = super().get_context_data(**kwargs)
+		ctx['blog'] = self.blog
+		return ctx
+
+	def dispatch(self, request, *args, **kwargs):
 		if hasattr(self.request.user, 'blog'):
-			form.instance.blog = self.request.user.blog
+			self.blog = self.request.user.blog
 		else:
-			if 'create' in self.request.POST:
-				blog = Blog()
-				blog.author = self.request.user
-				blog.title = self.request.user.get_full_name()
-				blog.save()
-				form.instance.blog = blog
-		return super(PostCreateView, self).form_valid(form)
+			self.blog = Blog()
+			self.blog.author = self.request.user
+			self.blog.title = self.request.user.get_full_name()
+		slug = self.blog.slug or 'new'
+		if slug != self.kwargs['blog']:
+			raise Http404()
+		return super().dispatch(request, *args, **kwargs)
+
+	def form_valid(self, form):
+		if not self.blog.pk:
+			self.blog.save()
+		form.instance.blog = self.request.user.blog
+		return super().form_valid(form)
 
 
 class MyBlogView(LoginRequiredMixin, RedirectView):

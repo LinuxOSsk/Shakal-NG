@@ -31,7 +31,7 @@
 	</div>
 {% endif %}
 
-<form action="{% if object %}{{ url('blog:post-update', object.blog.slug, object.slug) }}{% else %}{{ url("blog:post-create") }}{% endif %}" method="post" id="blog-form">{% csrf_token %}
+<form action="{% if object %}{{ url('blog:post-update', object.blog.slug, object.slug) }}{% else %}{{ url("blog:post-create", blog.slug|default("new", true)) }}{% endif %}" method="post" id="blog-form">{% csrf_token %}
 	<fieldset class="module">
 		{% include "includes/form_loop.html" %}
 		<div class="submit-row">

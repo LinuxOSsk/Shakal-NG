@@ -7,10 +7,10 @@ from . import feeds, views
 app_name = 'blog'
 
 urlpatterns = [
+	path('admin/my/', views.MyBlogView.as_view(), name='my'),
 	path('admin/update/', views.BlogUpdateView.as_view(), name='blog-update'),
 	path('<page:page>', views.PostListView.as_view(), name='post-list'),
-	path('admin/create-post/', views.PostCreateView.as_view(), name='post-create'),
-	path('admin/my/', views.MyBlogView.as_view(), name='my'),
+	path('<slug:blog>/create-post/', views.PostCreateView.as_view(), name='post-create'),
 	path('<slug:blog>/list/<page:page>', views.PostListView.as_view(), name='post-list-blog'),
 	path('<slug:blog>/categories/manage/', views.PostCategoryManagementList.as_view(), name='post-category-management-list'),
 	path('<slug:blog>/categories/create/', views.PostCategoryCreateView.as_view(), name='post-category-management-create'),
