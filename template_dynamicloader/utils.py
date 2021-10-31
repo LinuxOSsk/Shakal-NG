@@ -4,6 +4,7 @@ from collections import namedtuple
 
 from django.conf import settings as django_settings
 
+from blog.models import Blog
 from common_utils.cookies import set_cookie
 
 
@@ -19,7 +20,6 @@ def get_default_template(request):
 		return ('alpha', None, {'colorscheme': 'mlp'})
 	else:
 		return (django_settings.DYNAMIC_TEMPLATES[0], None, {})
-
 
 
 def switch_template(response, template, css, settings, **kwargs):
@@ -53,7 +53,19 @@ def decode_switch_template(data):
 def get_object_template_settings(request):
 	if not request:
 		return None
-	print(request.resolver_match)
+	resolver_match = getattr(request, 'resolver_match', None)
+	if not resolver_match:
+		return
+	if resolver_match.app_name == 'blog' and 'blog' in resolver_match.kwargs and resolver_match.view_name != 'blog:blog-update':
+		blog = Blog.objects.filter(slug=resolver_match.kwargs['blog']).values('template_skin', 'template_settings', 'template_css').first()
+		if not blog:
+			return
+		if not blog['template_skin']:
+			return
+		template_skin = dict(django_settings.BLOG_TEMPLATES).get(blog['template_skin'])
+		if template_skin is None:
+			return
+		return UserTemplateSettings(blog['template_skin'], blog['template_css'], (blog['template_settings'] or {}).get(blog['template_skin']) or {})
 
 
 def get_template_settings(request):
