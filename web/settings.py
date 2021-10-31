@@ -160,6 +160,9 @@ TEMPLATES = [
 ]
 
 DYNAMIC_TEMPLATES = ('alpha', '2013', '386')
+BLOG_TEMPLATES = (
+	('blog/simple', {'label': 'Jednoduchý', 'form': 'blog.template_settings.SimpleForm'}),
+)
 
 AUTH_PASSWORD_VALIDATORS = [
 	{ 'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator', },

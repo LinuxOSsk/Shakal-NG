@@ -55,6 +55,29 @@ class Blog(TimestampModelMixin, models.Model):
 		upload_to='blog/info/images',
 		blank=True
 	)
+	template_skin = models.CharField(
+		verbose_name="šablóna",
+		max_length=100,
+		blank=True,
+		choices=[('', "Nemeniť")] + [(skin, conf['label']) for skin, conf in settings.BLOG_TEMPLATES]
+	)
+	template_settings = models.JSONField(
+		verbose_name="nastavenia šablóny",
+		blank=True,
+		default=dict,
+		editable=False
+	)
+	template_css = models.TextField(
+		verbose_name="extra štýl",
+		blank=True,
+		default='',
+		max_length=1000000
+	)
+	anonymous_comments = models.BooleanField(
+		verbose_name="povoliť anonymné komentáre",
+		blank=True,
+		null=True
+	)
 
 	content_fields = ('original_descriptoin', 'original_sidebar',)
 	rating_statistics = GenericRelation('rating.Statistics')
