@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="sk" xml:lang="sk">
+<head>
+	<title>{% block head_title %}LinuxOS.sk{% endblock %}</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="/favicon.ico" />
+	<link rel="canonical" href="{{ get_base_uri() }}{{ request.path }}" />
+	<meta property="og:site_name" content="LinuxOS.sk" />
+	{{ render_all_feeds(template="feeds/header_feeds.html") }}
+	{% include "includes/common_headers.html" %}
+	{% include "partials/microformats_header.html" %}
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	{% if form %}{{ form.media.css }}{% endif %}
+	{% block extrastyle %}{% endblock %}{% block extraheaders %}{% endblock %}
+	{% block socialheaders %}
+		{% with
+			name="LinuxOS.sk",
+			description="Najväčší slovenský komunitný portál venujúci sa open-source, Linuxu a Unixom. nájdete tu diskusné fórum, pravidelné novinky a zaujímavé články."
+		%}
+			{% include "partials/social_media.html" %}
+		{% endwith %}
+	{% endblock %}
+</head>
+<body class="{% block bodyclass %}{% endblock %}">
+	{% include 'includes/analytics.html' %}
+
+	{% block messages %}
+		<div id="global_messages">
+			{{ render_messages(messages) }}
+		</div>
+	{% endblock %}
+
+	<header>
+		<div id="header">
+			<div id="logo"><a href="{{ url("home") }}">LinuxOS.sk</a></div>
+		</div>
+	</header>
+
+	<div id="main_content">
+		<div class="content-module">
+			{% block breadcrumbs %}
+				{{ breadcrumb('Domov', class='home', url='home') }}
+				{{ render_breadcrumbs(breadcrumbs) }}
+			{% endblock %}
+
+			{% block content %}
+			{% endblock %}
+		</div>
+
+		<div class="discussion-block">
+			{% block discussion %}
+			{% endblock %}
+		</div>
+	</div>
+
+	{% block right %}
+	{% endblock %}
+
+	<div class="page-footer">
+		<a href="https://linuxos.sk/" style="font-weight: bold;">LinuxOS.sk</a> © 2004-{{ now("Y") }} | <a href="/team/" style="font-weight: bold;">LinuxOS.sk - Team</a> | <b>ISSN 1337-7639</b> | <a href="{{ url("page_ochrana-osobnych-udajov") }}">Osobné údaje</a><br />
+	Hosting sponzorovaný <a href="https://vpsfree.cz/">vpsFree.cz</a> o.s.
+	</div>
+
+	<script type="text/javascript">
+	//<![CDATA[
+	window._urls = window._urls || {};
+	window._urls.static_base = '{{ static("") }}';
+	//]]>
+	</script>
+	{% include "template_overrides/alpha/js.compress.html" %}
+	{% compress js %}{% if form and not form.no_compress %}{{ form.media.js }}{% endif %}{% endcompress %}
+	{% if form and form.no_compress %}
+		{{ form.media.js }}
+	{% endif %}
+	{% block extrajs %}
+	{% endblock %}
+</body>
+</html>
