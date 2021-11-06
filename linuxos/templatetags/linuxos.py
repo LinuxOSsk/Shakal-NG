@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from django import template
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
+from django.db.models.fields.files import FieldFile
 from django.template.defaultfilters import urlencode
 from django.template.defaulttags import date
 from django.template.loader import render_to_string
@@ -207,7 +208,8 @@ def get_share_images(context):
 			url = image['url']
 			image['url'] = get_base_uri() + url
 			images[url] = image
-
+		elif isinstance(image, FieldFile):
+			images.setdefault(image.url, {'url': get_base_uri() + image.url})
 		else:
 			images.setdefault(image, {'url': get_base_uri() + image})
 
