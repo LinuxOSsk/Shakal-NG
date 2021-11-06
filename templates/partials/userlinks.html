@@ -1,0 +1,38 @@
+{% if user.is_authenticated %}
+	<li>
+		<a href="{{ user.get_absolute_url() }}" rel="nofollow">{{ _("Profile") }}</a>
+	</li>
+	<li>
+		<a href="{{ url('notifications:list') }}" rel="nofollow">{{ _("Notifications") }}{% if unread_notifications %}&nbsp;<span class="badge badge-important">{{ unread_notifications|length }}</span>{% endif %}</a>
+	</li>
+	{% if user.is_staff %}
+		<li>
+			<a href="{{ url('admin:index') }}" rel="nofollow">{{ _('Site administration') }}</a>
+		</li>
+	{% endif %}
+	<li>
+		<a href="{{ url('account_logout') }}" rel="nofollow">{{ _('Log out') }}</a>
+	</li>
+	{% if user.blog and user.blog.pk %}
+		<li>
+			<a rel="nofollow" href="{{ user.blog.get_absolute_url() }}">{{ _('Blog') }}</a>
+		</li>
+	{% else %}
+		<li>
+			<a rel="nofollow" href="{{ url('blog:blog-update', 'new') }}">{{ _('Setup blog') }}</a>
+		</li>
+	{% endif %}
+	<li>
+		<a href="{{ url('account_change_password') }}" rel="nofollow">{{ _("Change password") }}</a>
+	</li>
+{% else %}
+	<li>
+		<a href="{{ url('account_login') }}?next={{ url('home') }}" rel="nofollow">{{ _("Log in") }}</a>
+	</li>
+	<li>
+		<a href="{{ url('account_signup') }}" rel="nofollow">{{ _('Sign up') }}</a>
+	</li>
+	<li>
+		<a href="{{ url('account_reset_password') }}" rel="nofollow">{{ _("Password reset") }}</a>
+	</li>
+{% endif %}
