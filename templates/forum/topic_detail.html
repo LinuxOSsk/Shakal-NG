@@ -27,9 +27,7 @@
 	{% endwith %}
 {% endblock %}
 
-
-{% block content %}
-
+{% block object_tools %}
 {% if topic.delete_perm or topic.resolved_perm or (request.user.is_authenticated and request.user.is_staff) %}
 	<form action="{{ request.path }}" method="post">{% csrf_token %}
 		<ul class="object-tools btn-group">
@@ -53,7 +51,9 @@
 		</ul>
 	</form>
 {% endif %}
+{% endblock %}
 
+{% block content %}
 <h1>{{ topic }}</h1>
 <div class="forum-topic">
 	{% with comment_type="topic", comment=topic, user=topic.author, user_name=topic.authors_name %}

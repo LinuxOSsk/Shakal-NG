@@ -7,14 +7,16 @@
 
 {% block head_title %}{{ object_type_verbose_name|title }} nahlásený{% endblock %}
 
-{% block content %}
+{% block object_tools %}
 	<form action="{{ request.path }}" method="post">
 		{% csrf_token %}
 		<ul class="object-tools">
 			<li class="btn"><button class="wrap" type="submit" name="manage" value="1"><span href="#" class="text">Spravovať</span></button></li>
 		</ul>
 	</form>
+{% endblock %}
 
+{% block content %}
 	<h1>{{ object_type_verbose_name|title }} {% if object.statistics.flag_count %}nahlásený{% else %}nenahlásený{% endif %}</h1>
 	{% if object.statistics.flag_count %}
 		<p>{{ object_type_verbose_name|title }} s názvom „{{ object.statistics.content_object }}“ bol nahlásený.</p>

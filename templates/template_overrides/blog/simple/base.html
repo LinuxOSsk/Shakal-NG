@@ -61,10 +61,14 @@
 
 	<div id="main_content">
 		<div class="content-module">
-			{% block breadcrumbs %}
-				{{ breadcrumb('Domov', class='home', url='home') }}
-				{{ render_breadcrumbs(breadcrumbs) }}
-			{% endblock %}
+			<div class="navigation-line">
+				{% block object_tools %}
+				{% endblock %}
+				{% block breadcrumbs %}
+					{{ breadcrumb('Domov', class='home', url='home') }}
+					{{ render_breadcrumbs(breadcrumbs) }}
+				{% endblock %}
+			</div>
 
 			{% block content %}
 			{% endblock %}

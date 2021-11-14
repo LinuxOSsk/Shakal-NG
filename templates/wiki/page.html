@@ -32,15 +32,16 @@
 	{{ super() }}
 {% endblock %}
 
-{% block content %}
-
+{% block object_tools %}
 {% if request.user.is_authenticated and not revision %}
 <ul class="object-tools btn-group">
 	<li class="btn"><span class="wrap"><a class="text" href="{{ url("wiki:create", page.slug) }}">Pridať podstránku</a></span></li>
 	<li class="btn"><span class="wrap"><a class="text" href="{{ url("wiki:edit", page.slug) }}">Editovať</a></span></li>
 </ul>
 {% endif %}
+{% endblock %}
 
+{% block content %}
 {% if revision %}
 	<h1>{{ object_version.object }}</h1>
 	{{ object_version.object.text|safe }}

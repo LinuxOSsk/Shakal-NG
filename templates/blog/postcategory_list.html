@@ -9,11 +9,13 @@
 	{{ super() }}
 {% endblock %}
 
-{% block content %}
+{% block object_tools %}
 	<ul class="object-tools">
 		<li class="btn"><span class="wrap"><a href="{{ url("blog:post-category-management-create", blog.slug) }}" class="text">Pridať novú kategóriu</a></span></li>
 	</ul>
+{% endblock %}
 
+{% block content %}
 	<h1>Úprava kategórií</h1>
 
 	<p>V tejto sekcii môžte spravovať kategórie blogu „{{ blog }}“.</p>

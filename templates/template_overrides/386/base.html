@@ -124,6 +124,7 @@
 						{{ render_messages(messages) }}
 						{% endblock %}
 						<div id="site_content">
+							{% block object_tools %}{% endblock %}
 							{% block content %}{% endblock %}
 							{% block discussion %}{% endblock %}
 						</div>

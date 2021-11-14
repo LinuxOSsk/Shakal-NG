@@ -16,13 +16,15 @@
 	{% endwith %}
 {% endblock %}
 
-{% block content %}
+{% block object_tools %}
 <ul class="object-tools btn-group">
 	{% if user.is_staff and perms.accounts.change_user %}
 		<li class="btn"><span class="wrap"><a href="{{ url("admin:accounts_user_change", user_profile.pk) }}" class="text">Admin</a></span></li>
 	{% endif %}
 </ul>
+{% endblock %}
 
+{% block content %}
 <h1>{{ user_profile }} - Profil</h1>
 
 {% include "account/partials/profile_tabs.html" %}

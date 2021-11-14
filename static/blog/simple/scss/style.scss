@@ -6,8 +6,10 @@ $mobile-menu-width: 16em;
 $animation-duration: .3s;
 $light-border-color: mix($text-color, $background-color, 10%);
 $global-width: 60em;
-$title-font-family: sans-serif;
-$title-font-wight: bold;
+$ui-font-family: sans-serif;
+$ui-font-wight: bold;
+$header-font-family: sans-serif;
+$header-font-wight: bold;
 
 
 %component-shadow {
@@ -36,6 +38,15 @@ $title-font-wight: bold;
 	@media (min-width: 767px) { @content; }
 }
 
+$header-sizes: (
+	"h1": 40px 32px,
+	"h2": 27px 24px,
+	"h3": 22px 20px,
+	"h4": 19px 18px,
+	"h5": 16px 16px,
+	"h6": 15px 15px
+);
+
 @import '../../../css/common/svg';
 
 
@@ -49,6 +60,13 @@ $title-font-wight: bold;
 	}
 }
 
+%clearfix {
+	&:before, &:after {
+		content: "";
+		clear: both;
+		display: table;
+	}
+}
 
 *, *:before, *:after {
 	box-sizing: inherit;
@@ -67,6 +85,30 @@ body, html {
 	padding: 0;
 	color: $text-color;
 	background: $background-color;
+	line-height: 1.4;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: $header-font-family;
+	font-weight: $header-font-wight;
+	line-height: 1.4em;
+}
+
+@each $header, $sizes in $header-sizes {
+	#{$header} {
+		font-size: nth($sizes, 2);
+	}
+}
+
+@include medium-up {
+	h1, h2, h3, h4, h5, h6 {
+		line-height: 1.625em;
+	}
+	@each $header, $sizes in $header-sizes {
+		#{$header} {
+			font-size: nth($sizes, 1);
+		}
+	}
 }
 
 #header, #main_content {
@@ -243,7 +285,7 @@ body, html {
 }
 
 header {
-	font-family: $title-font-family;
+	font-family: $ui-font-family;
 
 	.title-container {
 		max-width: $global-width;
@@ -261,7 +303,7 @@ header {
 	}
 	.title-name {
 		font-size: 36px;
-		font-weight: $title-font-wight;
+		font-weight: $ui-font-wight;
 	}
 }
 
@@ -273,6 +315,7 @@ header {
 		display: inline;
 		padding: 0;
 		margin: 0;
+		font-size: 80%;
 		&:after {
 			content: '';
 			display: inline-block;
@@ -287,8 +330,44 @@ header {
 	}
 	a {
 		display: inline;
-		font-size: 80%;
 		@extend %header-link;
+	}
+}
+
+.object-tools {
+	float: right;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.btn {
+	display: inline-block;
+	border: 0;
+	padding: .5em .75em;
+	margin: 0 0 0 ($spacing/2);
+	background: $text-color;
+	color: $background-color;
+	text-decoration: none;
+	font-size: 80%;
+	font-weight: bold;
+	a {
+		color: $background-color;
+		text-decoration: none;
+		&:hover, &:active {
+			color: $background-color;
+		}
+	}
+	& + .btn {
+		margin-left: 1px;
+	}
+}
+
+.navigation-line {
+	@extend %clearfix;
+
+	.object-tools {
+		margin-top: -0.5em;
 	}
 }
 

@@ -7,13 +7,15 @@
 	{{ super() }}
 {% endblock %}
 
-{% block content %}
+{% block object_tools %}
 {% if user.is_authenticated %}
 <ul class="object-tools btn-group">
 	<li class="btn"><span class="wrap"><a href="{{ url("tweets:create") }}" class="text">Napísať tweet</a></span></li>
 </ul>
 {% endif %}
+{% endblock %}
 
+{% block content %}
 <h1>Tweety</h1>
 
 {% if page_obj.number == 1 %}

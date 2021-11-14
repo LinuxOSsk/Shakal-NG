@@ -9,11 +9,13 @@
 	{{ super() }}
 {% endblock %}
 
-{% block content %}
+{% block object_tools %}
 	<ul class="object-tools">
 		<li class="btn"><span class="wrap"><a href="{{ url("blog:post-series-management-create", blog.slug) }}" class="text">Pridať nový seriál</a></span></li>
 	</ul>
+{% endblock %}
 
+{% block content %}
 	<h1>Úprava seriálov</h1>
 
 	<p>V tejto sekcii môžte spravovať seriály k blogu „{{ blog }}“.</p>

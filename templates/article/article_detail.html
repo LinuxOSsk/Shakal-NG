@@ -32,12 +32,15 @@
 	{% endwith %}
 {% endblock %}
 
-{% block content %}
+{% block object_tools %}
 {% if user.is_staff and perms.article.can_change %}
 <ul class="object-tools">
 	<li class="btn"><span class="wrap"><a href="{{ url('admin:article_article_change', article.pk) }}" class="text">Editovať článok</a></span></li>
 </ul>
 {% endif %}
+{% endblock %}
+
+{% block content %}
 <h1>{{ article.title }}</h1>
 
 {% if article.image %}

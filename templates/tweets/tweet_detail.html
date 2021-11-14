@@ -26,7 +26,7 @@
 {% block head_title %}{{ tweet }}{% endblock %}
 {% block html_extra %}{% include "partials/htmlscope_article.html" %}{% endblock %}
 
-{% block content %}
+{% block object_tools %}
 {% if request.user.is_authenticated %}
 	<ul class="object-tools btn-group">
 		{% if user.is_staff and perms.tweets.change_tweet %}
@@ -37,7 +37,9 @@
 		{% endif %}
 	</ul>
 {% endif %}
+{% endblock %}
 
+{% block content %}
 <h1>{{ tweet }}</h1>
 
 <div class="info">

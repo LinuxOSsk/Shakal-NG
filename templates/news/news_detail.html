@@ -28,7 +28,7 @@
 {% block head_title %}{{ news }}{% endblock %}
 {% block html_extra %}{% include "partials/htmlscope_article.html" %}{% endblock %}
 
-{% block content %}
+{% block object_tools %}
 {% if request.user.is_authenticated %}
 	<form action="{{ request.path }}" method="post">{% csrf_token %}
 		<ul class="object-tools btn-group">
@@ -48,7 +48,9 @@
 		</ul>
 	</form>
 {% endif %}
+{% endblock %}
 
+{% block content %}
 <h1>{{ news }}</h1>
 
 <div class="info">

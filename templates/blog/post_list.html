@@ -42,7 +42,7 @@
 	{{ super() }}
 {% endblock %}
 
-{% block content %}
+{% block object_tools %}
 {% if blog %}
 	{% if page_obj.number == 1 %}
 		<ul class="object-tools btn-group">
@@ -59,7 +59,11 @@
 			<li class="btn"><span class="wrap"><a class="text" href="{{ url('blog:post-create', blog.slug) }}">Vytvoriť príspevok</a></span></li>
 		</ul>
 	{% endif %}
+{% endif %}
+{% endblock %}
 
+{% block content %}
+{% if blog %}
 	<h1>{% if series %}{{ series }}{% elif category %}{{ category }}{% else %}{{ blog }}{% endif %}</h1>
 
 	{% if page_obj.number == 1 and blog.description and not category and not series %}

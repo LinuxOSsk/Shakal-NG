@@ -2,13 +2,15 @@
 {% block head_title %}Mapa používateľov{% endblock %}
 {% block breadcrumbs %}{{ breadcrumb("Mapa používateľov") }}{{ super() }}{% endblock %}
 
-{% block content %}
+{% block object_tools %}
 {% if request.user.is_authenticated %}
 	<ul class="object-tools btn-group">
 		<li class="btn"><span class="wrap"><a href="{{ url("accounts:my_profile_position_edit") }}" class="text">Pridať moju polohu na mapu</a></span></li>
 	</ul>
 {% endif %}
+{% endblock %}
 
+{% block content %}
 <h1>Mapa používateľov</h1>
 
 <div class="module">

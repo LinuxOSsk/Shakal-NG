@@ -6,8 +6,7 @@
 	{{ super() }}
 {% endblock %}
 
-{% block content %}
-
+{% block object_tools %}
 {% if user.is_authenticated %}
 <ul class="object-tools btn-group">
 	<li class="btn"><span class="wrap"><a class="text" href="{{ url("wiki:create", page.slug) }}">Pridať stránku</a></span></li>
@@ -16,7 +15,9 @@
 {% endif %}
 </ul>
 {% endif %}
+{% endblock %}
 
+{% block content %}
 <h1>{{ page }}</h1>
 {{ page.text|safe }}
 
