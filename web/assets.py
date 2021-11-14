@@ -187,4 +187,8 @@ ASSETS = {
 		"js": "static://js/comments2.js",
 		'depends': ['modal', 'utils2'],
 	},
+	"blog": {
+		"js": "static://blog/js/app.js",
+		'depends': ['utils2', 'utils_ajax2'],
+	}
 }

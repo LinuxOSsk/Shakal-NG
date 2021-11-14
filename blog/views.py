@@ -130,6 +130,7 @@ class PostDetailView(DetailUserProtectedView):
 		attachments = [a for a in ctx['attachments'] if a.is_visible]
 		ctx['attachments_files'] = [a for a in attachments if not hasattr(a, 'attachmentimage')]
 		ctx['attachments_images'] = [a for a in attachments if hasattr(a, 'attachmentimage')]
+		ctx['blog'] = ctx['object'].blog
 		return ctx
 
 

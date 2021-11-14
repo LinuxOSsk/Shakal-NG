@@ -125,7 +125,7 @@ var eventClasses = {
 
 function triggerEvent(element, name, memo, bubbles) {
 	var cls = eventClasses[name] || Event;
-	var event = new cls(name, {bubbles: bubbles === false ? false : true});
+	var event = new cls(name, {bubbles: bubbles === false ? false : true, cancelable: true});
 	event.memo = memo || { };
 	element.dispatchEvent(event);
 }
@@ -182,64 +182,92 @@ function getAttachToElement(attachTo) {
 	if (attachTo === undefined) {
 		attachTo = document.body;
 	}
-	if (attachTo.binderListeners === undefined) {
-		attachTo.binderListeners = {};
-	}
 	return attachTo;
 }
 
-function eventProcessor(eventType, binderListeners) {
-	return function(e) {
+function getElementEventsBound(element) {
+	if (element._eventsBound === undefined) {
+		element._eventsBound = {};
+	}
+	return element._eventsBound;
+}
+
+function makeEventDispatcher(fn, selector, attachTo) {
+	var wrapped = function(e) {
 		var target = e.target;
-		var eventListeners = binderListeners[eventType];
-		binderListeners[eventType].forEach(function(listener) {
-			var selector = listener[0];
-			var fn = listener[1];
-			if (selector === null || target.matches(selector)) {
-				fn(e, target);
+		if (target.matches(selector)) {
+			fn(e, target);
+		}
+		else {
+			var closest = target.closest(selector);
+			if (closest !== null && (attachTo === closest || attachTo.contains(closest))) {
+				fn(e, closest);
 			}
-			else {
-				var closest = target.closest(selector);
-				if (closest !== null) {
-					fn(e, closest);
-				}
-			}
-		});
+		}
 	};
+	wrapped.wrappedJSObject = fn;
+	return wrapped;
 }
 
 function listen(selector, event, fn, attachTo) {
 	attachTo = getAttachToElement(attachTo);
-	var binderListeners = attachTo.binderListeners;
-	if (binderListeners[event] === undefined) {
-		binderListeners[event] = [];
-		bindEvent(attachTo, event, eventProcessor(event, binderListeners));
+	if (selector === null) {
+		bindEvent(attachTo, event, fn);
 	}
-	binderListeners[event].push([selector, fn]);
+	else {
+		var bound = getElementEventsBound(attachTo);
+		var wrapped = makeEventDispatcher(fn, selector, attachTo);
+		bound[fn] = wrapped;
+		bindEvent(attachTo, event, wrapped);
+	}
 }
 
 function unlisten(selector, event, fn, attachTo) {
 	attachTo = getAttachToElement(attachTo);
-	var binderListeners = attachTo.binderListeners;
-	binderListeners[event] = binderListeners[event].filter(function(listener) {
-		return !(listener[0] === selector && listener[1] === fn);
-	});
+	if (selector === null) {
+		unbindEvent(attachTo, event, fn);
+	}
+	else {
+		var bound = getElementEventsBound(attachTo);
+		var wrapped = bound[fn];
+		delete bound[fn];
+		unbindEvent(attachTo, event, wrapped);
+	}
 }
 
 var liveListeners = [];
 var liveRegistered = false;
 
+function getAttachToListeners(element, listener) {
+	if (listener.attachTo === undefined) {
+		return qa(listener.selector, element, true);
+	}
+	else {
+		if (typeof listener.attachTo === 'string' || listener.attachTo instanceof String) {
+			return qa(listener.attachTo, element, true);
+		}
+		else if (Array.isArray(listener.attachTo)) {
+			return listener.attachTo;
+		}
+		else {
+			return [listener.attachTo];
+		}
+	}
+}
+
 function registerLiveListener(element, listener) {
-	var attachElements = qa(listener.attachTo, element, true);
+	var attachElements = getAttachToListeners(element, listener);
+	var selector = (listener.attachTo === undefined) ? null : listener.selector;
 	attachElements.forEach(function(element) {
-		listen(listener.selector, listener.event, listener.fn, element);
+		listen(selector, listener.event, listener.fn, element);
 	});
 }
 
 function unregisterLiveListener(element, listener) {
-	var attachElements = qa(listener.attachTo, element, true);
+	var attachElements = getAttachToListeners(element, listener);
+	var selector = (listener.attachTo === undefined) ? null : listener.selector;
 	attachElements.forEach(function(element) {
-		unlisten(listener.selector, listener.event, listener.fn, element);
+		unlisten(selector, listener.event, listener.fn, element);
 	});
 }
 
@@ -261,6 +289,42 @@ function live(selector, event, fn, attachTo) {
 	var listener = {selector: selector, event: event, fn: fn, attachTo: attachTo};
 	liveListeners.push(listener);
 	registerLiveListener(document.body, listener);
+}
+
+var autoInitializers = [];
+var autoInitializersRegistered = false;
+
+function autoInitializersTrigger(element, loaded, initializer) {
+	if (!autoInitializersRegistered) {
+		return;
+	}
+	function processInitializer(initializer) {
+		qa(initializer.selector, element, true).forEach(function(matchElement) {
+			var fn = loaded ? initializer.load : initializer.unload;
+			if (fn !== undefined) {
+				fn(matchElement);
+			}
+		});
+	}
+	if (initializer === undefined) {
+		autoInitializers.forEach(function(initializer) {
+			processInitializer(initializer);
+		});
+	}
+	else {
+		processInitializer(initializer);
+	}
+}
+
+function autoInitialize(selector, loadListener, unloadListener) {
+	var initializer = {selector: selector, load: loadListener, unload: unloadListener};
+	autoInitializers.push(initializer);
+	if (autoInitializersRegistered === false) {
+		onLoad(function(e) { autoInitializersTrigger(e.memo || document.body, true); });
+		onUnload(function(e) { autoInitializersTrigger(e.memo || document.body, false); });
+		autoInitializersRegistered = true;
+	}
+	autoInitializersTrigger(document.body, true, initializer);
 }
 
 
@@ -290,18 +354,25 @@ function q(selector, element) {
 	return element.querySelector(selector);
 }
 
-
-function qa(selector, element, include_self) {
+function queryElements(sel, element, include_self, type) {
 	if (element === undefined) {
 		element = document;
 	}
-	var elements = ap.slice.call(element.querySelectorAll(selector));
+	var elements = ap.slice.call(type === 'cls' ? element.getElementsByClassName(sel) : element.querySelectorAll(sel));
 	if (include_self) {
-		if (element.matches(selector)) {
+		if (type === 'cls' ? element.classList.contains(sel) : element.matches(sel)) {
 			elements.unshift(element);
 		}
 	}
 	return elements;
+}
+
+function qa(selector, element, include_self) {
+	return queryElements(selector, element, include_self, 'q');
+}
+
+function cla(cls, element, include_self) {
+	return queryElements(cls, element, include_self, 'cls');
 }
 
 
@@ -478,9 +549,11 @@ window._utils2 = {
 	listen: listen,
 	unlisten: unlisten,
 	live: live,
+	autoInitialize: autoInitialize,
 	debounce: debounce,
 	q: q,
 	qa: qa,
+	cls: cla,
 	id: id,
 	el: el,
 	loaderJs: new loaderJs(),

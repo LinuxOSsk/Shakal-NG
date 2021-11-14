@@ -1,4 +1,4 @@
--e git+https://github.com/mireq/django-ajax-utils.git@aa971a156b093180639250cef208d5613249ec18#egg=django_ajax_utils
+-e git+https://github.com/mireq/django-ajax-utils.git@8a4fcd16c4e58d42c4ea393d29af38dbc7a38aeb#egg=django_ajax_utils
 -e git+https://github.com/mireq/django-assets-manager.git@4b50ec9a34cb3ee4222c41d4c1e9c34454b130ac#egg=django_assets_manager
 -e git+https://github.com/mireq/django-autoslugfield.git@a6914377e50e3b6a491f981ac49b65c128c725d0#egg=django_autoslugfield
 -e git+https://github.com/mireq/django-geoposition-field.git@fb8f360036661ac075ceecf4f6b2aecf3510ec32#egg=django_geoposition_field

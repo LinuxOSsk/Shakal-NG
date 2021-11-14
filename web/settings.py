@@ -3,8 +3,11 @@
 import os
 import re
 
+from django.templatetags.static import static
 
 from .assets import ASSETS, SPRITES
+from .scss import scss_load_svg, scss_info_svg
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -365,6 +368,11 @@ COMPRESS_CSS_HASHING_METHOD = 'content'
 
 #LIBSASS_SOURCE_COMMENTS = False
 #LIBSASS_OUTPUT_STYLE = 'compressed'
+LIBSASS_CUSTOM_FUNCTIONS = {
+	'static': static,
+	'load_svg': scss_load_svg,
+	'info_svg': scss_info_svg,
+}
 
 THUMBNAIL_PRESERVE_EXTENSIONS = True
 THUMBNAIL_NAMER = 'autoimagefield.namers.default'

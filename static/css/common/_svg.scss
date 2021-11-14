@@ -1,0 +1,80 @@
+@function svg-width($filename, $hint_height: none) {
+	$info: info_svg($filename);
+	$width: map-get($info, 'w');
+	$height: map-get($info, 'h');
+
+	@if ($hint_height == none) {
+		@return $width;
+	}
+	@else {
+		@return $width * ($hint_height / $height);
+	}
+}
+
+@function svg-height($filename, $hint_width: none) {
+	$info: info_svg($filename);
+	$width: map-get($info, 'w');
+	$height: map-get($info, 'h');
+
+	@if ($hint_width == none) {
+		@return $height;
+	}
+	@else {
+		@return $height * ($hint_width / $width);
+	}
+}
+
+@mixin svg-geometry($filename, $width: none, $height: none, $background-size: none, $center-offset: none none) {
+	$info: info_svg($filename);
+	$final_width: map-get($info, 'w');
+	$final_height: map-get($info, 'h');
+
+	@if ($width == none and $height != none) or ($width != none and $height == none) {
+		$ratio: $final_width / $final_height;
+		@if ($width == none) {
+			$width: $height * $ratio;
+		}
+		@else {
+			$height: $width / $ratio;
+		}
+	}
+	@if ($width != none and $height != none) {
+		$final_width: $width;
+		$final_height: $height;
+	}
+
+	@if $background-size == none {
+		background-size: $final_width $final_height;
+	}
+	@else {
+		@if $background-size != false {
+			background-size: $background-size;
+		}
+	}
+
+	@if nth($center-offset, 1) != none {
+		margin-left: -($final_width / 2) + nth($center-offset, 1);
+	}
+	@if nth($center-offset, 2) != none {
+		margin-top: -($final_height / 2) + nth($center-offset, 2);
+	}
+
+	width: $final_width;
+	height: $final_height;
+}
+
+@mixin svg(
+	$filename,
+	$style: '',
+	$background-repeat: no-repeat,
+	$background-size: none,
+	$width: none,
+	$height: none,
+	$center-offset: none none
+) {
+	background-image: url(load_svg($filename, $style));
+	@if $background-repeat {
+		background-repeat: $background-repeat;
+	}
+	@include svg-geometry($filename, $width, $height, $background-size, $center-offset);
+}
