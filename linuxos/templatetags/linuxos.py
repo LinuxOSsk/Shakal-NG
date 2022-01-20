@@ -188,6 +188,7 @@ def change_template_settings_form(context, **settings):
 @library.global_function
 @contextfunction
 def get_share_images(context):
+	request = context['request']
 	images = OrderedDict()
 	presentation_image = context.get('presentation_image')
 	fallback_image = context.get('fallback_image')
@@ -211,6 +212,8 @@ def get_share_images(context):
 		else:
 			images.setdefault(image, {'url': get_base_uri() + image})
 
+	if 'share_image' in request.GET:
+		images.setdefault(request.GET['share_image'], {'url': request.GET['share_image']})
 	if presentation_image:
 		register_image(presentation_image)
 	if image:
