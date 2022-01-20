@@ -22,7 +22,7 @@
 {% if is_article %}<meta property="og:type" content="article" />{% endif %}
 {% if is_website %}<meta property="og:type" content="website" />{% endif %}
 {% if is_profile %}<meta property="og:type" content="profile" />{% endif %}
-<meta property="og:url" content="{{ get_base_uri() }}{{ request.path }}" />
+<meta property="og:url" content="{{ get_base_uri() }}{{ get_share_canonical_url() }}" />
 
 {% for image in images -%}
 	<meta property="og:image" content="{{ image.url }}" />

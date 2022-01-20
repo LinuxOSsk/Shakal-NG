@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from django import template
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
+from django.http import QueryDict
 from django.template.defaultfilters import urlencode
 from django.template.defaulttags import date
 from django.template.loader import render_to_string
@@ -242,3 +243,17 @@ def get_share_images(context):
 			'height': 1024,
 		})
 	return list(images.values())
+
+
+@library.global_function
+@contextfunction
+def get_share_canonical_url(context):
+	request = context['request']
+	q = QueryDict('', mutable=True)
+	if 'share_image' in request.GET:
+		q['share_image'] = request.GET['share_image']
+	if q:
+		q = '?' + q.urlencode()
+	else:
+		q = ''
+	return request.path + q
