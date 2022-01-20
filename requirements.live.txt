@@ -1,7 +1,7 @@
--e git+https://github.com/mireq/django-ajax-utils.git@8a4fcd16c4e58d42c4ea393d29af38dbc7a38aeb#egg=django_ajax_utils
+-e git+https://github.com/mireq/django-ajax-utils.git@dd2214a3fac3b81436f953c51dbd80bd449d3936#egg=django_ajax_utils
 -e git+https://github.com/mireq/django-assets-manager.git@4b50ec9a34cb3ee4222c41d4c1e9c34454b130ac#egg=django_assets_manager
 -e git+https://github.com/mireq/django-autoslugfield.git@a6914377e50e3b6a491f981ac49b65c128c725d0#egg=django_autoslugfield
--e git+https://github.com/mireq/django-geoposition-field.git@fb8f360036661ac075ceecf4f6b2aecf3510ec32#egg=django_geoposition_field
+-e git+https://github.com/mireq/django-geoposition-field.git@db513f1c8803cd98b2fa0cf3b44a4323e3ce2074#egg=django_geoposition_field
 -e git+https://github.com/mireq/django-sample-data-generator.git@801e0d48a5049ac740e0687fad2498f39d77d742#egg=django_sample_data_generator
 -e git+https://github.com/mireq/django-simple-paginator.git@3650ec60e2ef8332d9267900853355a4a8f6d303#egg=django_simple_paginator
 -e git+https://github.com/mireq/django-suit.git@django32#egg=django-suit
