@@ -23,7 +23,7 @@ cssselect2==0.4.1
     # via svglib
 defusedxml==0.7.1
     # via python3-openid
-django==3.2.11
+django==3.2.13
     # via
     #   -r requirements.in
     #   django-allauth
