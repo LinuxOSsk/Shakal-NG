@@ -56,7 +56,7 @@ def get_object_template_settings(request):
 	resolver_match = getattr(request, 'resolver_match', None)
 	if not resolver_match:
 		return
-	if resolver_match.app_name == 'blog' and 'blog' in resolver_match.kwargs and resolver_match.view_name != 'blog:blog-update':
+	if resolver_match.app_name == 'blog' and 'blog' in resolver_match.kwargs and resolver_match.view_name not in {'blog:blog-update', 'blog:post-update'}:
 		blog = Blog.objects.filter(slug=resolver_match.kwargs['blog']).values('template_skin', 'template_settings', 'template_css').first()
 		if not blog:
 			return
