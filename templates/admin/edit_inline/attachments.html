@@ -1,8 +1,8 @@
-{% load i18n admin_modify static suit_tags admin_urls %}
+{% load i18n admin_modify static admin_urls %}
 
 <input type="hidden" name="upload_session" id="id_upload_session" value="{{ request.POST.upload_session }}" />
 
-<div class="attachment-upload inline-group {{ inline_admin_formset.opts.suit_classes }}">
+<div class="attachment-upload inline-group">
 <div class="attachment-upload-fallback" id="{{ inline_admin_formset.formset.prefix }}-group">
 <div class="tabular inline-related {% if forloop.last %}last-related{% endif %}">
 

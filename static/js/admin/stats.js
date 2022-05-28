@@ -48,9 +48,9 @@ function processStats(data) {
 	groupTabs.className = 'group group-tabs stats';
 	statsContent.appendChild(groupTabs);
 	var tabs = document.createElement('ul');
-	tabs.setAttribute('id', 'suit_form_tabs');
-	tabs.className = 'nav nav-tabs nav-tabs-suit';
-	tabs.setAttribute('data-tab-prefix', 'suit-tab');
+	tabs.setAttribute('id', 'extra_form_tabs');
+	tabs.className = 'nav nav-tabs nav-tabs-extra';
+	tabs.setAttribute('data-tab-prefix', 'extra-tab');
 	groupTabs.appendChild(tabs);
 
 	data.forEach(function(group) {
@@ -68,7 +68,7 @@ function processStats(data) {
 
 		var submodule = document.createElement('fieldset');
 		submodule.setAttribute('id', 'module_' + id);
-		submodule.className = 'dashboard-module statistics-module suit-tab suit-tab-module_' + id + ' well';
+		submodule.className = 'dashboard-module statistics-module extra-tab extra-tab-module_' + id + ' well';
 		groupTabs.appendChild(submodule);
 
 		var sel = document.createElement('select');

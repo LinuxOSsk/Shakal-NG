@@ -5,6 +5,9 @@ from django.forms import renderers
 from django.utils.functional import cached_property
 
 
+FORM_TEMPLATE_ROOT = Path(renderers.__file__).parent
+
+
 class Jinja2(renderers.Jinja2):
 	@cached_property
 	def django_renderer(self):
@@ -19,7 +22,7 @@ class Jinja2(renderers.Jinja2):
 	def engine(self):
 		backend = self.backend({
 			'APP_DIRS': True,
-			'DIRS': [renderers.ROOT / self.backend.app_dirname, Path(__file__).parent.parent / 'templates'],
+			'DIRS': [FORM_TEMPLATE_ROOT / self.backend.app_dirname, Path(__file__).parent.parent / 'templates'],
 			'NAME': 'djangoforms',
 			'OPTIONS': {
 				"environment": "template_dynamicloader.environment.Environment",

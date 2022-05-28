@@ -8,8 +8,6 @@ from django.db.models import DateField, DateTimeField
 from django.db.models.functions import Trunc
 from django.utils import timezone
 
-from common_utils import get_meta
-
 
 DATETIME_SERIES = set(['minute', 'hour'])
 DATE_SERIES = set(['day', 'week', 'month', 'year'])
@@ -19,6 +17,7 @@ TICKS = {
 	'minute': lambda ts: ts + timedelta(seconds=60),
 	'hour': lambda ts: ts + timedelta(seconds=3600),
 	'day': lambda ts: ts + timedelta(1),
+	'week': lambda ts: ts + timedelta(7),
 	'month': lambda ts: date(ts.year if ts.month < 12 else ts.year + 1, ts.month % 12 + 1, 1),
 	'year': lambda ts: date(ts.year + 1, 1, 1),
 }
@@ -66,11 +65,8 @@ def fill_time_series_gap(records, empty_record, interval, date_from, date_to):
 def time_series(qs, date_field, aggregate, interval, date_from=None, date_to=None): # pylint: disable=too-many-arguments
 	current_timezone = timezone.get_current_timezone()
 	is_date = interval in DATE_SERIES
-	is_week = interval == 'week'
-	if is_week:
-		interval = 'day'
 
-	if isinstance(get_meta(qs.model).get_field(date_field), models.DateTimeField):
+	if isinstance(qs.model._meta.get_field(date_field), models.DateTimeField):
 		db_interval = Trunc(date_field, interval, output_field=DateTimeField(), tzinfo=current_timezone)
 	else:
 		db_interval = Trunc(date_field, interval, output_field=DateField())
@@ -82,9 +78,9 @@ def time_series(qs, date_field, aggregate, interval, date_from=None, date_to=Non
 
 	if is_date:
 		if date_from and not isinstance(date_from, datetime):
-			date_from = current_timezone.localize(datetime.combine(date_from, time.min))
+			date_from = datetime.combine(date_from, time.min, current_timezone)
 		if date_to and not isinstance(date_to, datetime):
-			date_to = current_timezone.localize(datetime.combine(date_to, time.max))
+			date_to = datetime.combine(date_to, time.max, current_timezone)
 
 	if date_from is not None:
 		qs = qs.filter(**{date_field + '__gte': date_from})
@@ -111,10 +107,7 @@ def time_series(qs, date_field, aggregate, interval, date_from=None, date_to=Non
 
 	empty_record = partial(SeriesRecord, **{k: None for k in aggregate.keys()})
 
-	records = fill_time_series_gap(records, empty_record, interval, date_from, date_to)
-	if is_week:
-		records = sum_weeks(set_gaps_zero(records))
-	return records
+	return fill_time_series_gap(records, empty_record, interval, date_from, date_to)
 
 
 # example:

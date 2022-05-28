@@ -10,25 +10,6 @@ body {
 	font-size: 1rem;
 }
 
-.collapsed .inline-related, .collapsed .add-row {
-	display: none;
-}
-
-.form-horizontal fieldset.inline-group > h2 {
-	margin: -30px 0 0 0;
-}
-
-.formatwrapper label {
-	display: inline-block;
-	padding: 4px 8px;
-	margin-right: 1px;
-}
-
-.formatwrapper input {
-	display: inline-block;
-	vertical-align: middle;
-}
-
 th.field-thumbnail {
 	width: 64px;
 }
@@ -72,6 +53,8 @@ td.field-thumbnail img {
 
 .attachment-upload-container h2 {
 	margin: 50px 0 10px 0;
+	background: transparent;
+	color: var(--body-fg);;
 }
 
 .progress-container {
@@ -110,10 +93,6 @@ td.field-thumbnail img {
 
 .stats-chart {
 	height: 200px;
-}
-
-.stats.module .nav-tabs-suit {
-	margin-bottom: 0;
 }
 
 .label {
@@ -166,6 +145,21 @@ td.field-thumbnail img {
 	font-size: 90%;
 }
 
-.custom-select, fieldset select:not([multiple="multiple"]) {
-	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e");
+.stats .nav-tabs {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	border-bottom: 2px solid var(--primary);
+}
+
+.stats .nav-tabs li {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: inline-block;
+}
+
+.stats .nav-tabs li a {
+	display: block;
+	padding: .25em .75em;
 }
