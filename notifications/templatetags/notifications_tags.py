@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import template
 from django_jinja import library
-from jinja2 import contextfunction
+from jinja2 import pass_context
 
 from notifications.models import Inbox
 
@@ -10,7 +10,7 @@ register = template.Library()
 
 
 @library.global_function
-@contextfunction
+@pass_context
 def get_unread_notifications(context):
 	user = context['request'].user
 	if user.is_authenticated:

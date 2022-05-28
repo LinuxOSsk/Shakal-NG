@@ -2,6 +2,7 @@
 import re
 
 from bleach.sanitizer import Cleaner
+from bleach.css_sanitizer import CSSSanitizer
 from django.template.defaultfilters import linebreaks_filter
 from django.utils.html import escape
 from html5lib.filters import base
@@ -143,7 +144,7 @@ class HtmlParser:
 			supported_tags = DEFAULT_TAG_LIST
 		else:
 			supported_tags = supported_tags
-		self.cleaner = Cleaner(tags=supported_tags, attributes=ALLOWED_ATTRIBUTES, styles=ALLOWED_STYLES)
+		self.cleaner = Cleaner(tags=supported_tags, attributes=ALLOWED_ATTRIBUTES, css_sanitizer=CSSSanitizer(allowed_css_properties=ALLOWED_STYLES))
 
 	def parse(self, text):
 		filters = [AddRequiredAttributesFilter, ClassFilter, alphabeticalattributes.Filter]

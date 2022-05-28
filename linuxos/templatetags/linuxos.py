@@ -17,7 +17,7 @@ from django.utils.encoding import force_str
 from django.utils.html import format_html, escape
 from django.utils.safestring import mark_safe
 from django_jinja import library
-from jinja2 import contextfunction
+from jinja2 import pass_context
 
 from attachment.models import AttachmentImage
 from common_utils import get_meta
@@ -166,7 +166,7 @@ def sort_newest_first(items):
 
 
 @library.global_function
-@contextfunction
+@pass_context
 def change_template_settings_form(context, **settings):
 	request = context['request']
 	current_style = context['current_style']
@@ -187,7 +187,7 @@ def change_template_settings_form(context, **settings):
 
 
 @library.global_function
-@contextfunction
+@pass_context
 def get_share_images(context):
 	request = context['request']
 	images = OrderedDict()
@@ -246,7 +246,7 @@ def get_share_images(context):
 
 
 @library.global_function
-@contextfunction
+@pass_context
 def get_share_canonical_url(context):
 	request = context['request']
 	q = QueryDict('', mutable=True)

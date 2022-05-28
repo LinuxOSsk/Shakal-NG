@@ -14,7 +14,7 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django_jinja import library
-from jinja2 import contextfunction
+from jinja2 import pass_context
 from mptt.templatetags import mptt_tags
 
 from ..models import RootHeader, UserDiscussionAttribute
@@ -243,7 +243,7 @@ def copy_attributes(obj, attributes):
 		setattr(obj, name, value)
 
 
-@contextfunction
+@pass_context
 @library.global_function
 def add_discussion_attributes(context, *models):
 	discussion_lookups, content_types = get_lookups(models)
@@ -296,7 +296,7 @@ def add_discussion_attributes(context, *models):
 	return ''
 
 
-@contextfunction
+@pass_context
 @library.global_function
 def add_discussion_attributes_heterogenous(context, *models):
 	objects_sorted = {}
@@ -314,14 +314,14 @@ def get_comments_for_item(item, display_last=False):
 
 
 @library.global_function
-@contextfunction
+@pass_context
 def get_comments_list(context, target):
 	loader = DiscussionLoader()
 	return loader.load(context, target)
 
 
 @library.global_function
-@contextfunction
+@pass_context
 def render_comments_toplevel(context, target):
 	context = dict(context)
 	model_class = target.__class__
@@ -357,7 +357,7 @@ def admin_comments_url(instance):
 
 
 @library.global_function
-@contextfunction
+@pass_context
 def request_timestamp(context):
 	return get_requested_time(context['request'], as_timestamp=True)
 

@@ -2,13 +2,13 @@
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django_jinja import library
-from jinja2 import contextfunction
+from jinja2 import pass_context
 
 from polls.models import Poll
 
 
 @library.global_function
-@contextfunction
+@pass_context
 def polls_frontpage(context):
 	ctx = context.get_all()
 	ctx.update({

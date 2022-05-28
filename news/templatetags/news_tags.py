@@ -6,13 +6,13 @@ from datetime import timedelta
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django_jinja import library
-from jinja2 import contextfunction
+from jinja2 import pass_context
 
 from news.models import News
 
 
 @library.global_function
-@contextfunction
+@pass_context
 def news_frontpage(context):
 	ctx = {
 		'news': News.objects.all().select_related('category')[:10],
@@ -22,7 +22,7 @@ def news_frontpage(context):
 
 
 @library.global_function
-@contextfunction
+@pass_context
 def news_calendar(context):
 	ctx = {
 		'user': context['user'],

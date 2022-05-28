@@ -7,7 +7,7 @@ from django.http.response import HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.utils.translation import ungettext
+from django.utils.translation import ngettext
 from django.views.generic import ListView, FormView
 
 from .forms import FlagForm
@@ -66,7 +66,7 @@ class FlagView(LoginRequiredMixin, FormView):
 		model_name = model_name[:1].lower() + model_name[1:]
 		statistics = Statistics.objects.get_statistics(self.flagged_object)
 		if statistics.flag_count:
-			flagged_message = ungettext(
+			flagged_message = ngettext(
 				'%(num)s user flagged this %(content_type)s',
 				'%(num)s users flagged this %(content_type)s',
 				statistics.flag_count

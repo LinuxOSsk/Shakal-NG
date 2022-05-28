@@ -25,7 +25,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
 	'template_dynamicloader',
-	'web.suit.SuitConfig',
 	'common_utils',
 	# core
 	'django.contrib.admin',
@@ -105,14 +104,12 @@ TEMPLATES = [
 		'DIRS': [os.path.join(BASE_DIR, 'templates')],
 		"OPTIONS": {
 			"match_extension": None,
-			"match_regex": re.compile(r"^(?!(admin/|debug_toolbar/|suit/|profiler/|search/indexes/|reversion/|sitemap.xml|static_sitemaps/|hijack/|django_extensions/)).*"),
+			"match_regex": re.compile(r"^(?!(admin/|debug_toolbar/|profiler/|search/indexes/|reversion/|sitemap.xml|static_sitemaps/|hijack/|django_extensions/)).*"),
 			"newstyle_gettext": True,
 			"extensions": [
 				"jinja2.ext.do",
 				"jinja2.ext.loopcontrols",
-				"jinja2.ext.with_",
 				"jinja2.ext.i18n",
-				"jinja2.ext.autoescape",
 				"django_jinja.builtins.extensions.CsrfExtension",
 				"django_jinja.builtins.extensions.CacheExtension",
 				"django_jinja.builtins.extensions.TimezoneExtension",

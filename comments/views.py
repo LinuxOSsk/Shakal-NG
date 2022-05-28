@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import capfirst
 from django.template.response import TemplateResponse
 from django.urls import reverse
-from django.utils.translation import ungettext
+from django.utils.translation import ngettext
 from django.views.generic import DetailView, View
 from django.views.generic.edit import FormView
 
@@ -227,7 +227,7 @@ class CommentCountImage(View):
 
 
 		comment_count = self.get_comment_count()
-		text = ungettext('%(num)s comment', '%(num)s comments', comment_count) % {'num': comment_count}
+		text = ngettext('%(num)s comment', '%(num)s comments', comment_count) % {'num': comment_count}
 		draw.text((0, 0), text, fill=(0, 0, 255))
 		del draw
 

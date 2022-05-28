@@ -2,10 +2,10 @@
 from django.shortcuts import resolve_url
 from django.template.loader import render_to_string
 from django_jinja import library
-from jinja2 import contextfunction
+from jinja2 import pass_context
 
 
-@contextfunction
+@pass_context
 @library.global_function
 def breadcrumb(context, contents, *args, **kwargs):
 	class_name = kwargs.pop('class', False)

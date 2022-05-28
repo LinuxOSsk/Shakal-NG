@@ -1,6 +1,6 @@
 -c requirements.txt
 django-extensions
-ipython<8
+ipython
 pylint-django
 watchdog
 werkzeug
