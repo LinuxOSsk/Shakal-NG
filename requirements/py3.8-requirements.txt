@@ -24,7 +24,7 @@ cssselect2==0.6.0
     # via svglib
 defusedxml==0.7.1
     # via python3-openid
-django==4.0.4
+django==4.0.5
     # via
     #   -r requirements.in
     #   django-allauth
@@ -73,7 +73,7 @@ jinja2==3.1.2
     #   django-jinja
 libsass==0.21.0
     # via django-libsass
-lxml==4.8.0
+lxml==4.9.0
     # via svglib
 markupsafe==2.1.1
     # via jinja2
