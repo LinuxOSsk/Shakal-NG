@@ -25,7 +25,7 @@ urlpatterns = [
 	path('spravy_historia/<int:page>/index.html', redirect_views.news_list_redirect),
 	path('forum_zoznam/index.html', redirect_views.topic_list_redirect),
 	path('sprava_pridaj_odpoved/<int:pk>/index.html', redirect_views.news_comment_redirect),
-	path('sprava_pridaj_odpoved/\d+/parent/<int:parent>/index.html', redirect_views.comments_redirect),
+	path('sprava_pridaj_odpoved/<int:pk>/parent/<int:parent>/index.html', redirect_views.comments_redirect),
 	path('index.html', redirect_views.home_redirect),
 	path('index.php', redirect_views.old_php_redirect),
 	path('forum_rss/index.html', redirect_views.forum_rss_redirect),

@@ -45,7 +45,7 @@ def news_list_redirect(request, **kwargs):
 def topic_list_redirect(request):
 	return HttpResponsePermanentRedirect(reverse('forum:overview', kwargs={'page': 1}))
 
-def comments_redirect(request, parent):
+def comments_redirect(request, pk, parent): # pylint: disable=unused-argument
 	return HttpResponsePermanentRedirect(reverse('comments:reply', kwargs={'parent': parent}))
 
 def news_comment_redirect(request, pk):
