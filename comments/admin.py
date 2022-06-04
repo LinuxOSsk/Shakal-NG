@@ -2,7 +2,8 @@
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.utils.html import format_html, escape, mark_safe
-from mptt.admin import DraggableMPTTAdmin
+from mptt.admin import DraggableMPTTAdmin, MPTTModelAdmin
+from web.middlewares.threadlocal import get_current_request
 
 from .models import Comment, RootHeader
 from attachment.admin import AttachmentInline, AttachmentAdminMixin
@@ -19,7 +20,6 @@ class CommentAdmin(AttachmentAdminMixin, DraggableMPTTAdmin):
 			{'fields': ('ip_address', 'is_public', 'is_removed', 'is_locked')}
 		),
 	)
-	list_display = ('tree_actions', 'get_subject', 'name', 'ip_address', 'created', 'is_public', 'is_removed', 'is_locked')
 	list_display_links = ('get_subject',)
 	list_filter = ('created', 'is_public', 'is_removed',)
 	raw_id_fields = ('user',)
@@ -31,6 +31,15 @@ class CommentAdmin(AttachmentAdminMixin, DraggableMPTTAdmin):
 	get_subject.short_description = 'Predmet'
 	get_subject.admin_order_field = 'subject'
 
+	def get_content_object(self, request):
+		if 'content_type_id__exact' in request.GET and 'object_id__exact' in request.GET:
+			try:
+				content_type_id = int(request.GET['content_type_id__exact'])
+				object_id = int(request.GET['object_id__exact'])
+				return {'content_type_id': content_type_id, 'object_id': object_id}
+			except ValueError:
+				pass
+
 	def get_actions(self, request):
 		actions = super().get_actions(request)
 		if not request.user.is_superuser:
@@ -39,16 +48,10 @@ class CommentAdmin(AttachmentAdminMixin, DraggableMPTTAdmin):
 
 	def get_queryset(self, request):
 		qs = super().get_queryset(request).exclude(level=0)
-		if 'content_type_id__exact' in request.GET and 'object_id__exact' in request.GET:
-			try:
-				content_type_id = int(request.GET['content_type_id__exact'])
-				object_id = int(request.GET['object_id__exact'])
-				return qs.filter(content_type_id=content_type_id, object_id=object_id)
-			except ValueError:
-				return qs.none()
-		if request.resolver_match.view_name in ('admin:comments_comment_change', 'admin:comments_comment_delete', 'admin:comments_comment_history', 'admin:comments_comment_add'):
-			return qs
-		return qs.none()
+		obj = self.get_content_object(request)
+		if obj:
+			qs = qs.filter(**obj)
+		return qs
 
 	def get_model_perms(self, request):
 		perms = super().get_model_perms(request)
@@ -57,6 +60,39 @@ class CommentAdmin(AttachmentAdminMixin, DraggableMPTTAdmin):
 			perms['add'] = False
 			perms['change'] = False
 		return perms
+
+	def get_list_display(self, request):
+		fields = ('name', 'ip_address', 'created', 'is_public', 'is_removed', 'is_locked')
+		if self.get_content_object(request):
+			fields = ('tree_actions', 'get_subject') + fields
+		else:
+			fields = ('subject',) + fields
+		return fields
+
+	def get_list_display_links(self, request, list_display):
+		if self.get_content_object(request):
+			return super().get_list_display_links(request, list_display)
+		else:
+			return self.get_list_display(request)[:1]
+
+	def changelist_view(self, request, *args, **kwargs):
+		if self.get_content_object(request):
+			return super().changelist_view(request, *args, **kwargs)
+		else:
+			return super(MPTTModelAdmin, self).changelist_view(request, *args, **kwargs)
+
+	def get_ordering(self, request):
+		if self.get_content_object(request):
+			return super().get_ordering(request)
+		else:
+			return super(MPTTModelAdmin, self).get_ordering(request) or ('-pk',)
+
+	@property
+	def list_per_page(self):
+		request = get_current_request()
+		if request and self.get_content_object(request):
+			return DraggableMPTTAdmin.list_per_page
+		return admin.ModelAdmin.list_per_page
 
 
 class RootHeaderAdmin(admin.ModelAdmin):
