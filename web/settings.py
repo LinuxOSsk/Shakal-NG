@@ -207,7 +207,6 @@ LANGUAGES = (('sk', 'Slovak'),)
 TIME_ZONE = 'Europe/Bratislava'
 
 USE_I18N = True
-USE_L10N = True
 USE_TZ = True
 
 SHORT_DATE_FORMAT = 'd. m. Y'
