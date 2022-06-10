@@ -174,8 +174,8 @@ class UserStatsMixin(object):
 			return None
 
 		current_timezone = timezone.get_current_timezone()
-		time_from = current_timezone.localize(datetime.combine(day, time.min))
-		time_to = current_timezone.localize(datetime.combine(day, time.max))
+		time_from = datetime.combine(day, time.min).replace(tzinfo=current_timezone)
+		time_to = datetime.combine(day, time.max).replace(tzinfo=current_timezone)
 		return (time_from, time_to)
 
 	def get(self, request, **kwargs):
