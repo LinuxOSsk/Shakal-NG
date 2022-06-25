@@ -8,7 +8,7 @@ asgiref==3.5.2
     # via django
 bleach==5.0.0
     # via -r requirements.in
-certifi==2022.5.18.1
+certifi==2022.6.15
     # via requests
 cffi==1.15.0
     # via cryptography
@@ -33,7 +33,7 @@ django==4.0.5
     #   django-reversion
     #   django-static-sitemaps
     #   easy-thumbnails
-django-allauth==0.50.0
+django-allauth==0.51.0
     # via -r requirements.in
 django-appconf==1.0.5
     # via django-compressor
@@ -53,7 +53,7 @@ django-libsass==0.9
     # via -r requirements.in
 django-mptt==0.13.4
     # via -r requirements.in
-django-reversion==5.0.0
+django-reversion==5.0.1
     # via -r requirements.in
 django-static-sitemaps==4.7.0
     # via -r requirements.in
@@ -98,11 +98,11 @@ pytz==2022.1
     # via -r requirements.in
 rcssmin==1.1.0
     # via django-compressor
-reportlab==3.6.9
+reportlab==3.6.10
     # via
     #   easy-thumbnails
     #   svglib
-requests==2.27.1
+requests==2.28.0
     # via
     #   django-allauth
     #   requests-oauthlib
