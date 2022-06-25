@@ -2,11 +2,12 @@
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import re
+from pathlib import Path
 
 
 from .assets import ASSETS, SPRITES
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 ASSETS_MANAGER_SPRITES = SPRITES
 ASSETS_MANAGER_FILES = ASSETS
@@ -101,7 +102,7 @@ ROOT_URLCONF = 'web.urls'
 TEMPLATES = [
 	{
 		"BACKEND": "template_dynamicloader.backend.Jinja2",
-		'DIRS': [os.path.join(BASE_DIR, 'templates')],
+		'DIRS': [BASE_DIR / 'templates'],
 		"OPTIONS": {
 			"match_extension": None,
 			"match_regex": re.compile(r"^(?!(admin/|debug_toolbar/|profiler/|search/indexes/|reversion/|sitemap.xml|static_sitemaps/|hijack/|django_extensions/)).*"),
@@ -140,7 +141,7 @@ TEMPLATES = [
 	},
 	{
 		'BACKEND': 'django.template.backends.django.DjangoTemplates',
-		'DIRS': [os.path.join(BASE_DIR, 'templates'),],
+		'DIRS': [BASE_DIR / 'templates'],
 		'OPTIONS': {
 			'loaders': [
 				'django.template.loaders.filesystem.Loader',
@@ -190,7 +191,7 @@ BASE_URI = 'https://linuxos.sk'
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.sqlite3',
-		'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+		'NAME': BASE_DIR / 'db.sqlite3',
 	}
 }
 
@@ -200,7 +201,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'sk'
 
-LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale'),)
+LOCALE_PATHS = (BASE_DIR / 'locale',)
 
 LANGUAGES = (('sk', 'Slovak'),)
 
@@ -221,7 +222,7 @@ FEED_SIZE = 20
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+STATICFILES_DIRS = (BASE_DIR / 'static',)
 STATIC_URL = '/static/'
 STATICSITEMAPS_URL = 'https://linuxos.sk/static/'
 STATICSITEMAPS_MOCK_SITE = True
@@ -232,13 +233,14 @@ STATICFILES_FINDERS = (
 	'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 	'compressor.finders.CompressorFinder',
 )
+STATIC_ROOT = BASE_DIR.parent / 'static_assets' / 'static'
 
 STATICSITEMAPS_ROOT_SITEMAP = 'web.sitemaps.sitemaps'
 
-MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'media'))
+MEDIA_ROOT = BASE_DIR.parent / 'static_assets' / 'media'
 MEDIA_URL = '/media/'
 
-MEDIA_CACHE_DIR = os.path.join(MEDIA_ROOT, 'cache')
+MEDIA_CACHE_DIR = MEDIA_ROOT / 'cache'
 MEDIA_CACHE_URL = MEDIA_URL + 'cache/'
 
 # allauth
@@ -345,7 +347,7 @@ def COMPRESS_JINJA2_GET_ENVIRONMENT():
 	from django.template import engines
 	return engines.all()[0].env
 
-COMPRESS_ROOT = os.path.join(BASE_DIR, 'static')
+COMPRESS_ROOT = BASE_DIR / 'static'
 COMPRESS_PRECOMPILERS = (
 	('text/x-scss', 'django_libsass.SassCompiler'),
 )

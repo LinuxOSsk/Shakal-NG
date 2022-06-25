@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 import hashlib
-import os
+from pathlib import Path
 
 from PIL import Image, ImageFilter
+from common_utils import get_meta
 from django.apps import apps
 from django.conf import settings
 from django.core.cache import caches
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
-
-from common_utils import get_meta
 
 
 MODELS = [
@@ -117,10 +116,10 @@ def get_count_new(user):
 def generated_avatar(data):
 	hash_str = hashlib.md5(data.encode('utf-8')).hexdigest()
 
-	avatar_dirname = os.path.join('CACHE', 'avatars', hash_str[-2:])
+	avatar_dirname = Path(f'CACHE/avatars/{hash_str[-2:]}')
 	avatar_filename = hash_str[:8] + '.png'
-	if os.path.exists(os.path.join(settings.STATICFILES_DIRS[0], avatar_dirname, avatar_filename)):
-		return os.path.join(avatar_dirname, avatar_filename)
+	if (Path(settings.STATICFILES_DIRS[0]) / avatar_dirname / avatar_filename).exists():
+		return (avatar_dirname / avatar_filename).as_posix()
 
 	data_hash = int(hash_str, 16)
 	sex = 'male' if bool(data_hash % 4) else 'female'
@@ -130,7 +129,7 @@ def generated_avatar(data):
 	img = None
 	for name, count in avatar_recipe:
 		imgnum = (data_hash % count) + 1
-		filename = os.path.join(os.path.dirname(__file__), '8biticon', sex, name + str(imgnum) + '.png')
+		filename = Path(__file__).parent / '8biticon' / sex / f'{name}{imgnum}.png'
 		data_hash = data_hash // count
 		if img is None:
 			img = Image.open(filename).convert('RGB')
@@ -142,12 +141,12 @@ def generated_avatar(data):
 			img.paste(past, (4, 7, 44, 47), past)
 
 
-	try:
-		os.makedirs(os.path.join(settings.STATICFILES_DIRS[0], avatar_dirname))
-	except OSError:
-		pass
-	img.save(os.path.join(settings.STATICFILES_DIRS[0], avatar_dirname, avatar_filename))
+	static_dir = Path(settings.STATICFILES_DIRS[0])
+	(static_dir / avatar_dirname).mkdir(parents=True, exist_ok=True)
+	img.save(static_dir / avatar_dirname / avatar_filename)
+
 	if hasattr(settings, 'STATIC_ROOT'):
-		(settings.STATIC_ROOT / avatar_dirname).mkdir(parents=True, exist_ok=True)
-		img.save(settings.STATIC_ROOT / avatar_dirname / avatar_filename)
-	return os.path.join(avatar_dirname, avatar_filename)
+		static_root = Path(settings.STATIC_ROOT)
+		(static_root / avatar_dirname).mkdir(parents=True, exist_ok=True)
+		img.save(static_root / avatar_dirname / avatar_filename)
+	return (avatar_dirname / avatar_filename).as_posix()
