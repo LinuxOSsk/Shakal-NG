@@ -1941,10 +1941,6 @@ td.actions {
 	li.twitter a:before {
 		@include sprite-generated(twitter);
 	}
-
-	li.vybralisme a:before {
-		@include sprite-generated(vybralisme);
-	}
 }
 
 #aside .social {

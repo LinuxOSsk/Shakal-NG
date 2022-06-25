@@ -32,9 +32,5 @@
 	li.twitter a:before {
 		@include sprite-geometry(twitter);
 	}
-
-	li.vybralisme a:before {
-		@include sprite-geometry(vybralisme);
-	}
 }
 
