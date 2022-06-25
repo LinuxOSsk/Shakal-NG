@@ -134,12 +134,11 @@ def generated_avatar(data):
 		if img is None:
 			img = Image.open(filename).convert('RGB')
 			img = img.filter(ImageFilter.GaussianBlur(25))
-			img = img.resize((48, 48), Image.NEAREST)
+			img = img.resize((48, 48), Image.Resampling.NEAREST)
 		else:
 			past = Image.open(filename).convert('RGBA')
-			past = past.resize((40, 40), Image.NEAREST)
+			past = past.resize((40, 40), Image.Resampling.NEAREST)
 			img.paste(past, (4, 7, 44, 47), past)
-
 
 	static_dir = Path(settings.STATICFILES_DIRS[0])
 	(static_dir / avatar_dirname).mkdir(parents=True, exist_ok=True)
