@@ -148,9 +148,6 @@ def generated_avatar(data):
 		pass
 	img.save(os.path.join(settings.STATICFILES_DIRS[0], avatar_dirname, avatar_filename))
 	if hasattr(settings, 'STATIC_ROOT'):
-		try:
-			os.makedirs(os.path.join(settings.STATIC_ROOT, avatar_dirname))
-		except OSError:
-			pass
-		img.save(os.path.join(settings.STATIC_ROOT, avatar_dirname, avatar_filename))
+		(settings.STATIC_ROOT / avatar_dirname).mkdir(parents=True, exist_ok=True)
+		img.save(settings.STATIC_ROOT / avatar_dirname / avatar_filename)
 	return os.path.join(avatar_dirname, avatar_filename)
