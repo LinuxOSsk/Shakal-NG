@@ -233,7 +233,7 @@ class Post(TimestampModelMixin, models.Model):
 		filtered_field='filtered_content',
 		property_name='content',
 		parsers={'html': 'blog'},
-		max_length=100000
+		max_length=1000000
 	)
 	filtered_content = RichTextFilteredField(
 	)

@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
 				('signature', models.CharField(max_length=255, blank=True)),
 				('display_mail', models.BooleanField(default=False)),
 				('distribution', models.CharField(max_length=50, blank=True)),
-				('original_info', rich_editor.fields.RichTextOriginalField(blank=True, property_name='info', filtered_field='filtered_info', validators=[django.core.validators.MaxLengthValidator(100000)])),
+				('original_info', rich_editor.fields.RichTextOriginalField(blank=True, property_name='info', filtered_field='filtered_info', validators=[django.core.validators.MaxLengthValidator(1000000)])),
 				('filtered_info', rich_editor.fields.RichTextFilteredField(editable=False, blank=True)),
 				('year', models.SmallIntegerField(blank=True, null=True, validators=[django.core.validators.MinValueValidator(1900), django.core.validators.MaxValueValidator(2015)])),
 				('avatar', autoimagefield.fields.AutoImageField(upload_to='accounts/avatars', blank=True)),
