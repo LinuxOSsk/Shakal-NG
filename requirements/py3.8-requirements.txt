@@ -73,7 +73,7 @@ jinja2==3.1.2
     #   django-jinja
 libsass==0.21.0
     # via django-libsass
-lxml==4.9.0
+lxml==4.9.1
     # via svglib
 markupsafe==2.1.1
     # via jinja2
