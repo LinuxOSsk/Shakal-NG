@@ -6,23 +6,23 @@
 #
 asgiref==3.5.2
     # via django
-bleach==5.0.0
+bleach==5.0.1
     # via -r requirements.in
+build==0.8.0
+    # via pip-tools
 certifi==2022.6.15
     # via requests
-cffi==1.15.0
+cffi==1.15.1
     # via cryptography
-charset-normalizer==2.0.12
+charset-normalizer==2.1.1
     # via requests
 click==8.1.3
     # via pip-tools
-cryptography==37.0.2
+cryptography==37.0.4
     # via pyjwt
-cssselect2==0.6.0
-    # via svglib
 defusedxml==0.7.1
     # via python3-openid
-django==4.0.5
+django==4.0.7
     # via
     #   -r requirements.in
     #   django-allauth
@@ -37,7 +37,7 @@ django-allauth==0.51.0
     # via -r requirements.in
 django-appconf==1.0.5
     # via django-compressor
-django-compressor==4.0
+django-compressor==4.1
     # via
     #   -r requirements.in
     #   django-libsass
@@ -53,11 +53,11 @@ django-libsass==0.9
     # via -r requirements.in
 django-mptt==0.13.4
     # via -r requirements.in
-django-reversion==5.0.1
+django-reversion==5.0.2
     # via -r requirements.in
 django-static-sitemaps==4.7.0
     # via -r requirements.in
-easy-thumbnails==2.8.1
+easy-thumbnails==2.8.3
     # via -r requirements.in
 feedparser==6.0.10
     # via -r requirements.in
@@ -71,38 +71,35 @@ jinja2==3.1.2
     #   django-jinja
 libsass==0.21.0
     # via django-libsass
-lxml==4.9.0
-    # via svglib
 markupsafe==2.1.1
     # via jinja2
 oauthlib==3.2.0
     # via requests-oauthlib
-pep517==0.12.0
-    # via pip-tools
-pillow==9.1.1
+packaging==21.3
+    # via build
+pep517==0.13.0
+    # via build
+pillow==9.2.0
     # via
     #   -r requirements.in
     #   easy-thumbnails
-    #   reportlab
-pip-tools==6.6.2
+pip-tools==6.8.0
     # via -r requirements.in
 pycparser==2.21
     # via cffi
-pygments==2.12.0
+pygments==2.13.0
     # via -r requirements.in
 pyjwt[crypto]==2.4.0
     # via django-allauth
+pyparsing==3.0.9
+    # via packaging
 python3-openid==3.2.0
     # via django-allauth
-pytz==2022.1
+pytz==2022.2.1
     # via -r requirements.in
 rcssmin==1.1.0
     # via django-compressor
-reportlab==3.6.10
-    # via
-    #   easy-thumbnails
-    #   svglib
-requests==2.28.0
+requests==2.28.1
     # via
     #   django-allauth
     #   requests-oauthlib
@@ -120,22 +117,16 @@ six==1.16.0
     #   libsass
 sqlparse==0.4.2
     # via django
-svglib==1.3.0
-    # via easy-thumbnails
-tinycss2==1.1.1
-    # via
-    #   cssselect2
-    #   svglib
 tomli==2.0.1
-    # via pep517
-urllib3==1.26.9
+    # via
+    #   build
+    #   pep517
+urllib3==1.26.12
     # via requests
 webencodings==0.5.1
     # via
     #   bleach
-    #   cssselect2
     #   html5lib
-    #   tinycss2
 wheel==0.37.1
     # via pip-tools
 

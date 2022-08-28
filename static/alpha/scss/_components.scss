@@ -731,15 +731,7 @@ figure {
 	color: $text-color-alert;
 }
 
-.module.banner {
-	.module-row {
-		@include clearfix;
-		.label {
-			float: left;
-			margin: $base-margin $base-margin 0 0;
-		}
-	}
-
+.module {
 	.article-image {
 		margin-right: $base-margin;
 		float: left;
@@ -750,6 +742,17 @@ figure {
 			display: none;
 		}
 	}
+}
+
+.module.banner {
+	.module-row {
+		@include clearfix;
+		.label {
+			float: left;
+			margin: $base-margin $base-margin 0 0;
+		}
+	}
+
 	.article-detail {
 		overflow: hidden;
 	}

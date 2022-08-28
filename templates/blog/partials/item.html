@@ -1,3 +1,21 @@
+{% if post.presentation_image %}
+	{% set image=post.presentation_image.attachment %}
+{% elif post.series and post.series.image %}
+	{% set image=post.series.image %}
+{% elif post.category and post.category.image %}
+	{% set image=post.category.image %}
+{% elif post.blog and post.blog.image %}
+	{% set image=post.blog.image %}
+{% else %}
+	{% set image=none %}
+{% endif %}
+
+{% if image %}
+	{% set post_thumbnail=thumbnail(image, size=(240, 135), crop=true, upscale=true) %}
+{% else %}
+	{% set post_thumbnail=none %}
+{% endif %}
+
 <div class="module-row">
 	<h3><a href="{{ post.get_absolute_url() }}">{{ post }}</a>{% if content_indicator %} <span class="label info">Blog</span>{% endif %}</h3>
 	<div class="info">
@@ -11,5 +29,10 @@
 		{% endif %}
 		<span class="user"><a href="{{ post.author.get_absolute_url() }}">{{ post.author }}</a></span>
 	</div>
+	{% if post_thumbnail %}
+		<div class="article-image">
+			<a href="{{ post.get_absolute_url() }}"><img src="{{ post_thumbnail }}" alt="{{ post.title }}" /></a>
+		</div>
+	{% endif %}
 	{{ post.perex|safe }}
 </div>
