@@ -16,6 +16,10 @@ class PostFeed(Feed):
 		self.blog_slug = blog_slug
 		super(PostFeed, self).__init__(*args, **kwargs)
 
+	def __call__(self, request, *args, **kwargs):
+		self.blog_slug = kwargs.get('blog_slug')
+		return super().__call__(request, *args, **kwargs)
+
 	def title(self):
 		if self.blog_slug is None:
 			return "Blogy"
