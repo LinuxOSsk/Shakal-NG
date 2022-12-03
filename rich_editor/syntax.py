@@ -81,6 +81,7 @@ def html_entity_decode(string):
 
 def html_split_text_and_tags(code):
 	try:
+		code = code.strip()
 		# Tax found in code
 		additional_tags = []
 		fp = BytesIO(f'<pre>{code}</pre>'.encode('utf-8'))
