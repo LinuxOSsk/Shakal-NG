@@ -46,7 +46,7 @@ class AttachmentModelTest(TestCase):
 			self.assertEqual(attachment.basename, "test.txt")
 			self.assertEqual(attachment.name, "test.txt")
 			self.assertEqual(attachment.url.index(settings.MEDIA_URL), 0)
-			self.assertEqual(attachment.filename.index(settings.MEDIA_ROOT), 0)
+			self.assertEqual(attachment.filename.index(str(settings.MEDIA_ROOT)), 0)
 		finally:
 			attachment.delete()
 
