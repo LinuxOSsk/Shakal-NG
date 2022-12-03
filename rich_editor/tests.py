@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
 from rich_editor.parser import HtmlParser
+from rich_editor.syntax import highlight_pre_blocks
 from rich_editor import get_parser
 
 
@@ -101,3 +102,13 @@ class ParserTest(TestCase):
 		self.parser.allow_id = 'safe'
 		self.parser.parse(code)
 		self.assertEqual(self.parser.get_output(), """<p id="content_test"><a href="#content_test">link</a>test</p>""")
+
+	def test_simple_highlight(self):
+		code = """<pre class="code-python"># comment &amp; <strong>ta<!-- x -->g</strong>s</pre>"""
+		self.assertEqual(highlight_pre_blocks(code), '<pre class="code-python"><span class="c1"># comment &amp; <strong>tag</strong>s</span></pre>')
+
+	def test_cross_highlight(self):
+		code = """<pre class="code-python">def <strong>fn(</strong>):</pre>"""
+		self.assertEqual(highlight_pre_blocks(code), '<pre class="code-python"><span class="k">def</span> <strong><span class="nf">fn</span><span class="p">(</span></strong><span class="p">):</span></pre>')
+		code = """<pre class="code-python">de<strong>f f</strong>n():</pre>"""
+		self.assertEqual(highlight_pre_blocks(code), '<pre class="code-python"><span class="k">de<strong>f</strong></span><strong> <span class="nf">f</span></strong><span class="nf">n</span><span class="p">():</span></pre>')

@@ -13,6 +13,7 @@ easy-thumbnails
 feedparser
 html5lib
 jinja2
+lxml
 pillow
 pip-tools
 pygments
