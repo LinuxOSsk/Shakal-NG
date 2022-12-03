@@ -15,7 +15,7 @@ class NewsFeed(Feed):
 	description_template = 'feeds/description/news.html'
 
 	def categories(self):
-		return Category.objects.values_list('name', flat = True)
+		return Category.objects.values_list('name', flat=True)
 
 	def item_author_name(self, item):
 		return item.authors_name

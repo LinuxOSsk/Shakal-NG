@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.contrib.syndication.views import Feed
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 
 from .models import Blog, Post
@@ -14,17 +15,17 @@ class PostFeed(Feed):
 	def __init__(self, linux=None, blog_slug=None, *args, **kwargs):
 		self.linux_feeds = linux
 		self.blog_slug = blog_slug
+		self.blog_title = "Blogy"
 		super(PostFeed, self).__init__(*args, **kwargs)
 
 	def __call__(self, request, *args, **kwargs):
 		self.blog_slug = kwargs.get('blog_slug')
+		if self.blog_slug is not None:
+			self.blog_title = get_object_or_404(Blog, slug=self.blog_slug).title
 		return super().__call__(request, *args, **kwargs)
 
 	def title(self):
-		if self.blog_slug is None:
-			return "Blogy"
-		else:
-			return Blog.objects.get(slug=self.blog_slug).title
+		return self.blog_title
 
 	def feed_url(self):
 		if self.blog_slug is None:
