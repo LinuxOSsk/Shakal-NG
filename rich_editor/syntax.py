@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
-import re
-
-import operator
 import logging
-import lxml
-import lxml.html
-from lxml import etree
-from io import StringIO, BytesIO
-from django.template.defaultfilters import striptags
+import operator
+import re
 from collections import namedtuple
+from io import StringIO, BytesIO
+
+from django.template.defaultfilters import striptags
+from lxml import etree
 
 from fulltext.templatetags.html_entity_decode import html_entity_decode_char, xml_entity_decode_char
 
