@@ -104,7 +104,7 @@ class ParserTest(TestCase):
 		self.assertEqual(self.parser.get_output(), """<p id="content_test"><a href="#content_test">link</a>test</p>""")
 
 	def test_simple_highlight(self):
-		code = """<pre class="code-python"># comment &amp; <strong>ta<!-- x -->g</strong>s</pre>"""
+		code = """<pre class="code-python">\r# comment &amp; <strong>ta<!-- x -->g</strong>s\n  \n</pre>"""
 		self.assertEqual(highlight_pre_blocks(code), '<pre class="code-python"><span class="c1"># comment &amp; <strong>tag</strong>s</span></pre>')
 
 	def test_cross_highlight(self):

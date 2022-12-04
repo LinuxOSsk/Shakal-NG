@@ -81,7 +81,12 @@ def html_entity_decode(string):
 
 def html_split_text_and_tags(code):
 	try:
-		code = code.strip()
+		code = code.splitlines()
+		while code and not code[0].strip():
+			code.pop(0)
+		while code and not code[-1].strip():
+			code.pop()
+		code = '\n'.join(code)
 		# Tax found in code
 		additional_tags = []
 		fp = BytesIO(f'<pre>{code}</pre>'.encode('utf-8'))
@@ -152,6 +157,7 @@ class HtmlMarkupMerge(object):
 			fp = BytesIO(f'<pre>{code}</pre>'.encode('utf-8'))
 			ignore_tags = {'html', 'body'}
 			context = etree.iterparse(fp, events=('start', 'end'), html=True, remove_comments=True, remove_pis=True)
+
 			for action, elem in context:
 
 				if elem.tag in ignore_tags: # Don't include html / body
