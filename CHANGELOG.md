@@ -1,3 +1,18 @@
+## 1.3.3 (2022-12-04)
+
+### Feat
+
+- Added emphasis highlighting
+
+### Fix
+
+- Fixed code stripping
+- Strip code before processing
+
+### Refactor
+
+- Removed old imports
+
 ## 1.3.2 (2022-12-03)
 
 ### Feat
