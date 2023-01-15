@@ -71,7 +71,7 @@ LEXERS = (
 ENTITY_PATTERN = re.compile(r'&(\w+?);')
 DECIMAL_ENTITY_PATTERN = re.compile(r'&\#(\d+?);')
 
-AdditionalTag = namedtuple('AdditionalTag', ['action', 'pos', 'elem'])
+AdditionalTag = namedtuple('AdditionalTag', ['action', 'pos', 'elem', 'text'])
 
 
 def html_entity_decode(string):
@@ -81,12 +81,14 @@ def html_entity_decode(string):
 
 def html_split_text_and_tags(code):
 	try:
+		# Strip new lines
 		code = code.splitlines()
 		while code and not code[0].strip():
 			code.pop(0)
 		while code and not code[-1].strip():
 			code.pop()
 		code = '\n'.join(code)
+
 		# Tax found in code
 		additional_tags = []
 		fp = BytesIO(f'<pre>{code}</pre>'.encode('utf-8'))
@@ -101,12 +103,12 @@ def html_split_text_and_tags(code):
 
 			if action == 'start':
 				if elem.tag not in ignore_tags:
-					additional_tags.append(AdditionalTag(action, text.tell(), elem))
+					additional_tags.append(AdditionalTag(action, text.tell(), elem, elem.text))
 				text.write(elem.text or '')
 
 			if action == 'end':
 				if elem.tag not in ignore_tags:
-					additional_tags.append(AdditionalTag(action, text.tell(), elem))
+					additional_tags.append(AdditionalTag(action, text.tell(), elem, elem.text))
 				text.write(elem.tail or '')
 				elem.clear()
 
@@ -214,10 +216,13 @@ class HtmlMarkupMerge(object):
 				self.xf.write(begin)
 				self.text_pos += len(begin)
 				self.next_additional_tag_index += 1
-				if next_tag.action == 'start':
-					self.push_tag(next_tag.elem)
-				elif next_tag.action == 'end':
-					self.pop_tag(next_tag.elem)
+				if next_tag.action == 'start' and next_tag.text is None:
+					self.xf.write(next_tag.elem)
+				else:
+					if next_tag.action == 'start':
+						self.push_tag(next_tag.elem)
+					elif next_tag.action == 'end':
+						self.pop_tag(next_tag.elem)
 
 
 def format_code(code, lang):
