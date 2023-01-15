@@ -101,6 +101,13 @@ def html_split_text_and_tags(code):
 		context = etree.iterparse(fp, events=('start', 'end'), html=True, remove_comments=True, remove_pis=True)
 		for action, elem in context:
 
+			if elem.tag.lower() == 'br':
+				if action == 'end':
+					text.write('\n')
+					text.write(elem.tail or '')
+					elem.clear()
+				continue
+
 			if action == 'start':
 				if elem.tag not in ignore_tags:
 					additional_tags.append(AdditionalTag(action, text.tell(), elem, elem.text))

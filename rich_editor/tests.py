@@ -112,3 +112,7 @@ class ParserTest(TestCase):
 		self.assertEqual(highlight_pre_blocks(code), '<pre class="code-python"><span class="k">def</span> <strong><span class="nf">fn</span><span class="p">(</span></strong><span class="p">):</span></pre>')
 		code = """<pre class="code-python">de<strong>f f</strong>n():</pre>"""
 		self.assertEqual(highlight_pre_blocks(code), '<pre class="code-python"><span class="k">de<strong>f</strong></span><strong> <span class="nf">f</span></strong><span class="nf">n</span><span class="p">():</span></pre>')
+
+	def test_highlight_br(self):
+		code = """<pre class="code-python">def <strong>foo(self</strong>):<br>    <strong>pa</strong>ss</pre>"""
+		self.assertEqual(highlight_pre_blocks(code), '<pre class="code-python"><span class="k">def</span> <strong><span class="nf">foo</span><span class="p">(</span><span class="bp">self</span></strong><span class="bp"></span><span class="p">):</span>\n    <strong><span class="k">pa</span></strong><span class="k">ss</span></pre>')
