@@ -1,21 +1,27 @@
 bleach
 django-allauth
 django-compressor
+django-easy-autoslug
+django-easy-geoposition-field
 django-email-log-backend
 django-hijack
 django-jinja
 django-libsass
 django-mptt
 django-reversion
+django-sample-data-generator
 django-static-sitemaps
+django-universal-paginator
 django>=4.0,<4.1
 easy-thumbnails
 feedparser
 html5lib
 jinja2
 lxml
+mireq-django-ajax-utils
 pillow
 pip-tools
 pygments
 pytz
 tinycss2
+-e git+https://github.com/mireq/django-assets-manager.git@45dccd20f691b3a467c4f059dfc242b8a722fb6d#egg=django_assets_manager

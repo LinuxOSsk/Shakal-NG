@@ -4,16 +4,30 @@ set -e
 DIRNAME="`pwd`/`dirname ${BASH_SOURCE:-$0}`"
 DIRNAME=`cd "${DIRNAME}/..";pwd`
 cd $DIRNAME
+export PYTHONPATH=$DIRNAME
 
-SKIP_COMPILE=
+INSTALL=
+COMPILE=
 
 while [[ $# -gt 0 ]]
 do
 key="$1"
 case $key in
-	--skip-compile)
-	SKIP_COMPILE=YES
-	shift # past argument
+	--compile)
+	COMPILE=YES
+	shift
+	;;
+	--install)
+	INSTALL=YES
+	shift
+	;;
+	--)
+	shift
+	COMPILE_ARGS=$@
+	while [[ $# -gt 0 ]]
+	do
+		shift
+	done
 	;;
 *)
 	echo "Wrong argument $key"
@@ -24,58 +38,39 @@ esac
 done
 
 
-VIRTUALENV_DIR=${VIRTUALENV_DIR:-~/.virtualenvs}
-PYTHON_INSTALL_DIR=${PYTHON_INSTALL_DIR:-/usr/bin}
-
-EXTRA_SYNC_REQUIREMENTS=""
-EXTRA_COMPILE_OPTS="-v"
-
-if [[ -f "requirements.live.txt" ]]
+if [ -z $INSTALL ] && [ -z $COMPILE ]
 then
-	EXTRA_SYNC_REQUIREMENTS="$EXTRA_SYNC_REQUIREMENTS requirements.live.txt"
+	INSTALL=YES
+	COMPILE=YES
 fi
+
+EXTRA_COMPILE_OPTS="-v --no-emit-index-url --annotation-style line"
 
 if [[ -z $PYTHON_ENVIRONMENTS ]]
 then
-	echo "PTYTHON_ENVIRONMENTS variable not set"
-	echo "example: PTYTHON_ENVIRONMENTS=\"3.7 3.8 3.9\""
+	echo "PYTHON_ENVIRONMENTS variable not set"
+	echo "example: PYTHON_ENVIRONMENTS=\"3.9 3.10 3.11\""
 	exit -1
 fi
 
 read -a PYTHON_ENVIRONMENTS <<< $PYTHON_ENVIRONMENTS
-mkdir -p ~/.virtualenvs
-mkdir -p requirements
 
-current_python=`python -c "import sys; v=sys.version_info; print(f'{v.major}.{v.minor}')"`
-virtualenv_dir="$VIRTUALENV_DIR/py$current_python"
+PYTHON_ENVIRONMENTS=$(printf ",%s" "${PYTHON_ENVIRONMENTS[@]}")
+PYTHON_ENVIRONMENTS=${PYTHON_ENVIRONMENTS:1}
 
-if [ -z $SKIP_COMPILE ]
+if [ ! -z $COMPILE ]
 then
-	for env_name in ${PYTHON_ENVIRONMENTS[@]}
-	do
-		virtualenv_dir="$VIRTUALENV_DIR/py$env_name"
-		[ ! -d $virtualenv_dir ] && $PYTHON_INSTALL_DIR/python$env_name -m venv $virtualenv_dir && $virtualenv_dir/bin/pip install --upgrade pip
-		$virtualenv_dir/bin/pip install --upgrade pip-tools
-		$virtualenv_dir/bin/pip-compile $EXTRA_COMPILE_OPTS --upgrade requirements.in --output-file requirements/py$env_name-requirements.txt &
-	done
-	wait
+	pip_compile_universal $PYTHON_ENVIRONMENTS requirements.in $EXTRA_COMPILE_OPTS $COMPILE_ARGS
 fi
 
-
-rm -f requirements.txt
-
-if [ -z $SKIP_COMPILE ]
+if [ ! -z $INSTALL ]
 then
-	if [[ -f "requirements.dev.in" ]]
+	EXTRA_INSTALL_REQUIREMENTS=""
+
+	if [ -f "requirements.dev.txt" ]
 	then
-		ln -s requirements/py$current_python-requirements.txt requirements.txt
-		$virtualenv_dir/bin/pip-compile $EXTRA_COMPILE_OPTS --upgrade requirements.dev.in
+		EXTRA_INSTALL_REQUIREMENTS="-r requirements.dev.txt"
 	fi
-fi
 
-if [[ -f "requirements.dev.txt" ]]
-then
-	EXTRA_SYNC_REQUIREMENTS="$EXTRA_SYNC_REQUIREMENTS requirements.dev.txt"
+	pip install -r requirements.txt $EXTRA_INSTALL_REQUIREMENTS
 fi
-
-pip-sync requirements/py$current_python-requirements.txt $EXTRA_SYNC_REQUIREMENTS
