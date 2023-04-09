@@ -9,7 +9,7 @@ charset-normalizer==3.1.0  # via requests
 click==8.1.3              # via pip-tools
 cryptography==40.0.1      # via pyjwt
 defusedxml==0.7.1         # via python3-openid
-django==4.0.10            # via -r requirements.in, django-allauth, django-appconf, django-easy-autoslug, django-easy-geoposition-field, django-hijack, django-jinja, django-js-asset, django-reversion, django-sample-data-generator, django-static-sitemaps, django-universal-paginator, easy-thumbnails, mireq-django-ajax-utils
+django==4.2               # via -r requirements.in, django-allauth, django-appconf, django-easy-autoslug, django-easy-geoposition-field, django-hijack, django-jinja, django-js-asset, django-reversion, django-sample-data-generator, django-static-sitemaps, django-universal-paginator, easy-thumbnails, mireq-django-ajax-utils
 django-allauth==0.54.0    # via -r requirements.in
 django-appconf==1.0.5     # via django-compressor
 django-compressor==4.3.1  # via -r requirements.in, django-libsass
