@@ -4,3 +4,8 @@ CREATE TEXT SEARCH CONFIGURATION sk (COPY = simple);
 CREATE TEXT SEARCH DICTIONARY slovak_unaccent_ispell (TEMPLATE = ispell, DictFile = sk_unaccent, AffFile = sk_unaccent, Stopwords = sk_unaccent);
 ALTER TEXT SEARCH CONFIGURATION sk ALTER MAPPING FOR asciiword, asciihword, hword_asciipart WITH slovak_unaccent_ispell, simple;
 ALTER TEXT SEARCH CONFIGURATION sk ALTER MAPPING FOR hword, hword_part, word WITH slovak_unaccent_ispell, unaccent, simple;
+
+
+-- or RUM index
+CREATE EXTENSION rum;
+CREATE INDEX rumidx ON fulltext_searchindex USING rum (combined_search_vector rum_tsvector_ops);
