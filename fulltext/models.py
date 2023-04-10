@@ -2,9 +2,9 @@
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.postgres.indexes import GinIndex
 from django.db import models
 
+from .db_indexes import RumIndex
 from .managers import SearchIndexManager
 
 
@@ -54,7 +54,7 @@ class SearchIndex(AbstractSearchIndex):
 
 	class Meta:
 		indexes = [
-			GinIndex(fields=['document_search_vector']),
-			GinIndex(fields=['comments_search_vector']),
-			GinIndex(fields=['combined_search_vector']),
+			RumIndex(name='document_search_vector_idx', fields=['document_search_vector'], opclasses=['rum_tsvector_ops']),
+			RumIndex(name='comments_search_vector_idx', fields=['comments_search_vector'], opclasses=['rum_tsvector_ops']),
+			RumIndex(name='combined_search_vector_idx', fields=['combined_search_vector'], opclasses=['rum_tsvector_ops']),
 		]
