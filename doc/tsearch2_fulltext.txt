@@ -9,3 +9,4 @@ ALTER TEXT SEARCH CONFIGURATION sk ALTER MAPPING FOR hword, hword_part, word WIT
 -- or RUM index
 CREATE EXTENSION rum;
 CREATE INDEX rumidx ON fulltext_searchindex USING rum (combined_search_vector rum_tsvector_ops);
+-- TODO: partial sorted query cannot be sorted using second criteria
