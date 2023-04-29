@@ -1,5 +1,5 @@
 html {
-	font-size: 80%;
+	font-size: 90%;
 }
 
 body {
@@ -16,6 +16,14 @@ th.field-thumbnail {
 
 td.field-thumbnail img {
 	width: 64px;
+}
+
+body td, body th {
+	padding: 4px;
+}
+
+body .form-row {
+	padding: 6px;
 }
 
 .attachment-upload .attachment-upload-fallback {
