@@ -7,7 +7,60 @@ from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
 from .parser import ALL_TAGS
-from .syntax import LEXERS
+
+
+LEXERS = (
+	('ada', 'ADA'),
+	('apacheconf', 'ApacheConf'),
+	('awk', 'Awk'),
+	('bash', 'Bash'),
+	('csharp', 'C#'),
+	('cpp', 'C++'),
+	('c', 'C'),
+	('cmake', 'CMake'),
+	('css', 'CSS'),
+	('clojure', 'Clojure'),
+	('clojurescript', 'ClojureScript'),
+	('coffee', 'CoffeeScript'),
+	('cl', 'Common Listp'),
+	('d', 'D'),
+	('dart', 'Dart'),
+	('diff', 'Diff'),
+	('django', 'Django/Jinja'),
+	('eiffel', 'Eiffel'),
+	('erlang', 'Erlang'),
+	('fortran', 'Fortran'),
+	('glsl', 'GLSL'),
+	('go', 'Go'),
+	('groovy', 'Groovy'),
+	('html', 'HTML'),
+	('haskell', 'Haskell'),
+	('json', 'JSON'),
+	('java', 'Java'),
+	('js', 'JavaScript'),
+	('lua', 'Lua'),
+	('mak', 'Makefile'),
+	('mysql', 'MySQL'),
+	('ocaml', 'OCaml'),
+	('pas', 'Pascal'),
+	('php', 'PHP'),
+	('plsql', 'PL/pgSQL'),
+	('perl', 'Perl'),
+	('python', 'Python'),
+	('qml', 'QML'),
+	('ruby', 'Ruby'),
+	('rust', 'Rust'),
+	('scala', 'Scala'),
+	('scheme', 'Scheme'),
+	('smalltalk', 'Smalltalk'),
+	('tcl', 'Tcl'),
+	('tex', 'TeX'),
+	('ts', 'TypeScript'),
+	('xml', 'XML'),
+	('xquery', 'XQuery'),
+	('xslt', 'XSLT'),
+	('vhdl', 'vhdl'),
+)
 
 
 class TextVal(str):

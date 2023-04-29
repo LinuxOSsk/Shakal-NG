@@ -5,67 +5,18 @@ import re
 from collections import namedtuple
 from io import StringIO, BytesIO
 
+import lxml.html
 from django.template.defaultfilters import striptags
 from lxml import etree
 
+from common_utils.lxml_utils import replace_element, unwrap_tag
 from fulltext.templatetags.html_entity_decode import html_entity_decode_char, xml_entity_decode_char
 
 
 logger = logging.getLogger(__name__)
 
 
-LEXERS = (
-	('ada', 'ADA'),
-	('apacheconf', 'ApacheConf'),
-	('awk', 'Awk'),
-	('bash', 'Bash'),
-	('csharp', 'C#'),
-	('cpp', 'C++'),
-	('c', 'C'),
-	('cmake', 'CMake'),
-	('css', 'CSS'),
-	('clojure', 'Clojure'),
-	('clojurescript', 'ClojureScript'),
-	('coffee', 'CoffeeScript'),
-	('cl', 'Common Listp'),
-	('d', 'D'),
-	('dart', 'Dart'),
-	('diff', 'Diff'),
-	('django', 'Django/Jinja'),
-	('eiffel', 'Eiffel'),
-	('erlang', 'Erlang'),
-	('fortran', 'Fortran'),
-	('glsl', 'GLSL'),
-	('go', 'Go'),
-	('groovy', 'Groovy'),
-	('html', 'HTML'),
-	('haskell', 'Haskell'),
-	('json', 'JSON'),
-	('java', 'Java'),
-	('js', 'JavaScript'),
-	('lua', 'Lua'),
-	('mak', 'Makefile'),
-	('mysql', 'MySQL'),
-	('ocaml', 'OCaml'),
-	('pas', 'Pascal'),
-	('php', 'PHP'),
-	('plsql', 'PL/pgSQL'),
-	('perl', 'Perl'),
-	('python', 'Python'),
-	('qml', 'QML'),
-	('ruby', 'Ruby'),
-	('rust', 'Rust'),
-	('scala', 'Scala'),
-	('scheme', 'Scheme'),
-	('smalltalk', 'Smalltalk'),
-	('tcl', 'Tcl'),
-	('tex', 'TeX'),
-	('ts', 'TypeScript'),
-	('xml', 'XML'),
-	('xquery', 'XQuery'),
-	('xslt', 'XSLT'),
-	('vhdl', 'vhdl'),
-)
+LEXERS = {}
 
 
 ENTITY_PATTERN = re.compile(r'&(\w+?);')
@@ -236,7 +187,12 @@ def format_code(code, lang):
 	import pygments
 	from pygments import lexers, formatters, util
 
-	if not lang in dict(LEXERS):
+	if not LEXERS:
+		for lex in pygments.lexers.get_all_lexers():
+			for shortcut in lex[1]:
+				LEXERS[shortcut] = lex[0]
+
+	if not lang in LEXERS:
 		return None
 
 	if len(code) > 200000:
@@ -259,15 +215,46 @@ def format_code(code, lang):
 	return HtmlMarkupMerge().join(highlighted_code, additional_tags)
 
 
-def highlight_block(match):
-	lang = match.group(2)
-	pre_block_code = match.group(3)
-	code = format_code(pre_block_code, lang)
-	if code is None:
-		return ''.join((match.group(1), pre_block_code, match.group(4)))
-	else:
-		return match.group(1) + code + match.group(4)
+def highlight_code(element, lang):
+	content = etree.tostring(element, encoding='utf-8', method='html').decode('utf-8')
+	content, tag_begin, tag_end = unwrap_tag(content)
+	try:
+		code = format_code(content, lang)
+		return f'{tag_begin}{code}{tag_end}'
+	except Exception:
+		logger.exception("Failed to highlight code")
+		return element
 
 
-def highlight_pre_blocks(html):
-	return re.sub(r'(<pre\s+class="code-([^"]+)">)(.*?)(</\s*pre>)', highlight_block, html, flags=re.DOTALL)
+def highlight_pre_blocks(content: str) -> str:
+	# dos to unix
+	content = re.sub(r'\r\n', '\n', content)
+
+	# wrap content to single element
+	fragments = lxml.html.fragments_fromstring(content)
+	tree = lxml.html.Element('div')
+	for fragment in fragments:
+		if isinstance(fragment, str):
+			tree.text = fragment
+		else:
+			tree.append(fragment)
+
+	tag_stack = []
+
+	for action, element in etree.iterwalk(tree, events=['start', 'end']):
+		if action == 'start':
+			tag_stack.append(element.tag)
+		if action == 'end':
+			tag_stack.pop()
+		if action == 'end':
+			if element.tag == 'pre':
+				classes = element.attrib.get('class', '').split()
+				language = None
+				for cls in classes:
+					if cls.startswith('code-'):
+						language = cls[5:]
+				if language is not None:
+					replace_element(element, lambda element, lang=language: highlight_code(element, lang))
+
+	code = etree.tostring(tree, encoding='utf-8', method='html').decode('utf-8')
+	return unwrap_tag(code)[0]
