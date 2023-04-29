@@ -377,3 +377,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 ANONYMOUS_COMMENTS = False
 ANONYMOUS_NEWS = True
 ANONYMOUS_TOPIC = False
+
+FULLTEXT_ACCESS_METHOD = 'gin' # gin or rum
