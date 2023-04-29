@@ -26,8 +26,8 @@ class TopicGenerator(generator.ModelGenerator):
 		fields = ('created', 'updated')
 		unique_checks = (('title',),)
 
-	def get_object(self):
-		obj = super(TopicGenerator, self).get_object()
+	def build_instance(self):
+		obj = super().build_instance()
 		obj.filtered_text = obj.original_text
 		obj.updated = obj.created
 		return obj
