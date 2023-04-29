@@ -6,7 +6,7 @@ from django.contrib.contenttypes import views as contenttype_views
 from django.urls import include, path, register_converter
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import RedirectView
-from django_simple_paginator.converter import PageConverter
+from django_universal_paginator.converter import PageConverter
 
 import template_dynamicloader.views
 import web.views

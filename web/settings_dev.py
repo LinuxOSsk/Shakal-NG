@@ -43,7 +43,7 @@ INSTALLED_APPS = [
 	'django_autoslugfield',
 	'django_geoposition_field',
 	'django_sample_generator',
-	'django_simple_paginator',
+	'django_universal_paginator',
 	'django_email_log',
 	'allauth',
 	'allauth.account',
