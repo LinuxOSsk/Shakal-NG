@@ -13,7 +13,7 @@ class CategoryGenerator(generator.ModelGenerator):
 	name = extra_generator_fields.NameFieldGenerator(uppercase_word=True)
 
 	def get_object(self):
-		obj = super(CategoryGenerator, self).get_object()
+		obj = super().get_object()
 		unique_slugify(obj, 'slug')
 		return obj
 
@@ -30,7 +30,7 @@ class ArticleGenerator(generator.ModelGenerator):
 	original_content = extra_generator_fields.LongHtmlFieldGenerator()
 
 	def get_object(self):
-		obj = super(ArticleGenerator, self).get_object()
+		obj = super().get_object()
 		obj.title = obj.title[:50]
 		obj.original_annotation = obj.original_perex
 		obj.filtered_annotation = obj.original_annotation
@@ -58,11 +58,11 @@ class HitCountGenerator(generator.ModelGenerator):
 		fields = ('hits',)
 
 	def __init__(self, *args, **kwargs):
-		super(HitCountGenerator, self).__init__(*args, **kwargs)
+		super().__init__(*args, **kwargs)
 		self.content_type = ContentType.objects.get_for_model(Article)
 
-	def get_object(self):
-		obj = super(HitCountGenerator, self).get_object()
+	def build_instance(self):
+		obj = super().build_instance()
 		obj.content_type = self.content_type
 		return obj
 
