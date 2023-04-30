@@ -24,4 +24,4 @@ pip-tools
 pygments
 pytz
 tinycss2
--e git+https://github.com/mireq/django-assets-manager.git@45dccd20f691b3a467c4f059dfc242b8a722fb6d#egg=django_assets_manager
+-e git+https://github.com/mireq/django-assets-manager.git@04aaf1805ed573973dcd968c683f60cffd779e5e#egg=django_assets_manager
