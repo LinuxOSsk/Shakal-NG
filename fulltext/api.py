@@ -16,6 +16,7 @@ BATCH_SIZE = 1000
 ELLIPSIS = '…'
 
 
+# TODO: allow update only newest objects
 def update_search_index(index, progress=None):
 	if progress is None:
 		progress = lambda iterable: iterable
