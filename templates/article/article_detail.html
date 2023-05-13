@@ -69,6 +69,7 @@
 <div class="module polls">
 <h3>{{ poll }}</h3>
 <form action="{{ url('polls:post', pk=poll.pk) }}" method="post" id="polls-form">
+	{% csrf_token %}
 	{{ render_messages(messages, poll.msg_id()) }}
 	{% with %}
 		{% set input=1 %}
