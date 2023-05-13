@@ -251,7 +251,7 @@ ACCOUNT_FORMS = {
 	'add_email': 'accounts.forms.AddEmailForm',
 	'signup': 'accounts.forms.SignupForm',
 }
-ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_LOGOUT_ON_GET = False
 ACCOUNT_ACTIVATION_DAYS = 7
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'optional'

@@ -18,7 +18,8 @@ function onTouchHoverEmulClicked(e, element) {
 			e.preventDefault();
 			return;
 		}
-		if (target.tagName.toLowerCase() === 'a') {
+		var tagName = target.tagName.toLowerCase();
+		if (tagName === 'a' || tagName === 'button') {
 			return;
 		}
 		target = target.parentNode;

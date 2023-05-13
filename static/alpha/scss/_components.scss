@@ -484,9 +484,15 @@ ul.messages {
 	li {
 		padding: 0;
 		margin: 0;
-		a {
+		a, button {
 			display: block;
 			padding: $base-margin-reduced $base-spacing-content;
+			border: 0;
+			width: 100%;
+			text-align: left;
+			background: transparent;
+			color: $link-color;
+			cursor: pointer;
 			&:hover, &:active {
 				background: $primary-color;
 				color: $primary-color-complement;

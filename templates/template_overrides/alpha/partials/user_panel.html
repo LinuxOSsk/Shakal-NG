@@ -22,7 +22,10 @@
 		</li>
 		{% endif %}
 		<li>
-			<a href="{{ url('account_logout') }}" rel="nofollow">{{ _('Log out') }}</a>
+			<form action="{{ url('account_logout') }}" method="post">
+				{% csrf_token %}
+				<button type="submit">{{ _('Log out') }}</button>
+			</form>
 		</li>
 		{% if user.blog and user.blog.pk %}
 			<li>
