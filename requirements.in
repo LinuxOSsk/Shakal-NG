@@ -1,5 +1,6 @@
 bleach
 django-allauth
+django-assets-manager
 django-compressor
 django-easy-autoslug
 django-easy-geoposition-field
@@ -24,4 +25,3 @@ pip-tools
 pygments
 pytz
 tinycss2
--e git+https://github.com/mireq/django-assets-manager.git@04aaf1805ed573973dcd968c683f60cffd779e5e#egg=django_assets_manager
