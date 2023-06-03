@@ -24,12 +24,13 @@ def update_search_index(index, progress=None):
 	bulk_items = []
 	content_type = ContentType.objects.get_for_model(index.get_model())
 
-	queryset = index.get_index_queryset()
-
+	# delete old entries
 	(SearchIndex.objects
-		.annotate(obj_exists=Exists(queryset.values('pk').filter(pk=OuterRef('object_id'))))
+		.annotate(obj_exists=Exists(index.get_index_queryset().values('pk').filter(pk=OuterRef('object_id'))))
 		.filter(content_type=content_type, obj_exists=False)
 		.delete())
+
+	queryset = index.get_changed_queryset()
 
 	for obj in progress(iterate_qs(queryset, BATCH_SIZE), desc=index.get_model().__name__, total=queryset.values('pk').count()):
 		instance = index.get_index(obj)

@@ -103,19 +103,29 @@ class SearchIndex(object, metaclass=SearchIndexMeta):
 		queryset = self.get_index_queryset(using)
 		updated_field = self.__class__.__dict__.get('updated')
 		if updated_field is not None:
-			content_type = ContentType.objects.get_for_model(self.get_model())
-			search_index_updated_query = Subquery(SearchIndexModel.objects
-				.filter(content_type=content_type, object_id=OuterRef('pk'))
-				.values('updated')[:1]
-			)
-			queryset = (queryset
-				.annotate(search_index_updated=search_index_updated_query)
-				.filter(
-					Q(**{f'{updated_field.get_model_field()}__isnull': True}) |
-					Q(search_index_updated__isnull=True) |
-					Q(**{f'{updated_field.get_model_field()}__gt': F('search_index_updated')})
+			model = self.get_model()
+			if hasattr(model, 'search_index'):
+				queryset = (queryset
+					.filter(
+						Q(**{f'{updated_field.get_model_field()}__isnull': True}) |
+						Q(search_index__updated__isnull=True) |
+						Q(**{f'{updated_field.get_model_field()}__gt': F('search_index__updated')})
+					)
 				)
-			)
+			else:
+				content_type = ContentType.objects.get_for_model(model)
+				search_index_updated_query = Subquery(SearchIndexModel.objects
+					.filter(content_type=content_type, object_id=OuterRef('pk'))
+					.values('updated')[:1]
+				)
+				queryset = (queryset
+					.annotate(search_index_updated=search_index_updated_query)
+					.filter(
+						Q(**{f'{updated_field.get_model_field()}__isnull': True}) |
+						Q(search_index_updated__isnull=True) |
+						Q(**{f'{updated_field.get_model_field()}__gt': F('search_index_updated')})
+					)
+				)
 		return queryset
 
 	def get_language_code(self, obj): # pylint: disable=unused-argument
