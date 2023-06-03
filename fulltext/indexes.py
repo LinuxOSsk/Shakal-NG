@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.db.models import Prefetch
+from django.contrib.contenttypes.models import ContentType
+from django.db.models import Prefetch, Subquery, OuterRef, F, Q
 from django.db.models.fields import NOT_PROVIDED
 from django.template.loader import render_to_string
+from .models import SearchIndex as SearchIndexModel
 
 from comments.models import Comment
 
@@ -96,6 +98,25 @@ class SearchIndex(object, metaclass=SearchIndexMeta):
 
 	def get_index_queryset(self, using=None):
 		return self.get_model()._default_manager.using(using)
+
+	def get_changed_queryset(self, using=None):
+		queryset = self.get_index_queryset(using)
+		updated_field = self.__class__.__dict__.get('updated')
+		if updated_field is not None:
+			content_type = ContentType.objects.get_for_model(self.get_model())
+			search_index_updated_query = Subquery(SearchIndexModel.objects
+				.filter(content_type=content_type, object_id=OuterRef('pk'))
+				.values('updated')[:1]
+			)
+			queryset = (queryset
+				.annotate(search_index_updated=search_index_updated_query)
+				.filter(
+					Q(**{f'{updated_field.get_model_field()}__isnull': True}) |
+					Q(search_index_updated__isnull=True) |
+					Q(**{f'{updated_field.get_model_field()}__gt': F('search_index_updated')})
+				)
+			)
+		return queryset
 
 	def get_language_code(self, obj): # pylint: disable=unused-argument
 		return settings.LANGUAGE_CODE
