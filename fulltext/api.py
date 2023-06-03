@@ -16,8 +16,7 @@ BATCH_SIZE = 1000
 ELLIPSIS = '…'
 
 
-# TODO: allow update only newest objects
-def update_search_index(index, progress=None):
+def update_search_index(index, progress=None, update_all=False):
 	if progress is None:
 		progress = lambda iterable: iterable
 
@@ -30,7 +29,7 @@ def update_search_index(index, progress=None):
 		.filter(content_type=content_type, obj_exists=False)
 		.delete())
 
-	queryset = index.get_changed_queryset()
+	queryset = index.get_index_queryset() if update_all else index.get_changed_queryset()
 
 	for obj in progress(iterate_qs(queryset, BATCH_SIZE), desc=index.get_model().__name__, total=queryset.values('pk').count()):
 		instance = index.get_index(obj)

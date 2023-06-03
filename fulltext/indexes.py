@@ -103,7 +103,6 @@ class SearchIndex(object, metaclass=SearchIndexMeta):
 		queryset = self.get_index_queryset(using)
 		updated_field = self.__class__.__dict__.get('updated')
 		if updated_field is not None:
-			model = self.get_model()
 			queryset = (queryset
 				.filter(
 					Q(**{f'{updated_field.get_model_field()}__isnull': True}) |
