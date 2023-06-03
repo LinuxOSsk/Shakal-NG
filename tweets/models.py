@@ -51,6 +51,7 @@ class Tweet(TimestampModelMixin, models.Model):
 
 	comments_header = GenericRelation('comments.RootHeader')
 	comments = GenericRelation('comments.Comment')
+	search_index = GenericRelation('fulltext.SearchIndex')
 
 	content_fields = ('original_text',)
 

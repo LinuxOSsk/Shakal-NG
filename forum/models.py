@@ -122,6 +122,7 @@ class Topic(TimestampModelMixin, models.Model):
 	notes = GenericRelation('notes.Note')
 	rating_statistics = GenericRelation('rating.Statistics')
 	notification_events = GenericRelation('notifications.Event')
+	search_index = GenericRelation('fulltext.SearchIndex')
 
 	is_removed = models.BooleanField("vymazané", default=False)
 	is_resolved = models.BooleanField("vyriešené", default=False)

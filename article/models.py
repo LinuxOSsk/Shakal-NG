@@ -131,6 +131,7 @@ class Article(TimestampModelMixin, models.Model):
 	comments_header = GenericRelation('comments.RootHeader')
 	comments = GenericRelation('comments.Comment')
 	attachments = GenericRelation('attachment.Attachment')
+	search_index = GenericRelation('fulltext.SearchIndex')
 	hit = HitCountField()
 
 	content_fields = ('original_perex', 'original_annotation', 'original_content',)

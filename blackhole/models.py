@@ -49,6 +49,7 @@ class Node(TimestampModelMixin, models.Model):
 
 	comments_header = GenericRelation('comments.RootHeader', related_query_name='blackhole_node')
 	comments = GenericRelation('comments.Comment', related_query_name='blackhole_node')
+	search_index = GenericRelation('fulltext.SearchIndex')
 
 	class Meta:
 		verbose_name = 'blackhole článok'

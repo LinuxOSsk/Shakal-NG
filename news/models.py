@@ -126,6 +126,7 @@ class News(TimestampModelMixin, models.Model):
 	comments = GenericRelation('comments.Comment')
 	attachments = GenericRelation('attachment.Attachment')
 	notes = GenericRelation('notes.Note')
+	search_index = GenericRelation('fulltext.SearchIndex')
 
 	content_fields = ('original_short_text', 'original_long_text',)
 

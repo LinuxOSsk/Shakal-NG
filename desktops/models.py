@@ -55,6 +55,7 @@ class Desktop(TimestampModelMixin, models.Model):
 
 	comments_header = GenericRelation('comments.RootHeader')
 	comments = GenericRelation('comments.Comment')
+	search_index = GenericRelation('fulltext.SearchIndex')
 	hit = HitCountField()
 
 	def get_absolute_url(self):

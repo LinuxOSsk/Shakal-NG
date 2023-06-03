@@ -59,6 +59,7 @@ class Blog(TimestampModelMixin, models.Model):
 	content_fields = ('original_descriptoin', 'original_sidebar',)
 	rating_statistics = GenericRelation('rating.Statistics')
 	notification_events = GenericRelation('notifications.Event')
+	search_index = GenericRelation('fulltext.SearchIndex')
 
 	def get_absolute_url(self):
 		return reverse('blog:post-list-blog', kwargs={'blog': self.slug, 'page': 1})
@@ -258,6 +259,7 @@ class Post(TimestampModelMixin, models.Model):
 	attachments = GenericRelation('attachment.Attachment')
 	rating_statistics = GenericRelation('rating.Statistics')
 	notification_events = GenericRelation('notifications.Event')
+	search_index = GenericRelation('fulltext.SearchIndex')
 	hit = HitCountField()
 
 	content_fields = ('original_perex', 'original_content',)
