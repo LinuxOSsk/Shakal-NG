@@ -107,3 +107,11 @@ def iterate_qs(qs, batch_size):
 			yield item
 		if empty:
 			break
+
+
+def schedule_update_fulltext(sender, instance, **kwargs):
+	pass
+
+
+def schedule_delete_fulltext(sender, instance, **kwargs):
+	pass
