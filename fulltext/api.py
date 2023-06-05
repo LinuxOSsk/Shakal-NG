@@ -3,7 +3,7 @@ import re
 
 from django.contrib.contenttypes.models import ContentType
 from django.db import connections
-from django.db.models import Exists, OuterRef
+from django.db.models import Exists, OuterRef, Q
 
 from .models import SearchIndex
 from .utils import bulk_update, search_simple, search_postgres, iterate_qs
@@ -16,7 +16,7 @@ BATCH_SIZE = 1000
 ELLIPSIS = '…'
 
 
-def update_search_index(index, progress=None, update_all=False):
+def update_search_index(index, progress=None, update_all=False, update_ids=None):
 	if progress is None:
 		progress = lambda iterable: iterable
 
@@ -24,12 +24,18 @@ def update_search_index(index, progress=None, update_all=False):
 	content_type = ContentType.objects.get_for_model(index.get_model())
 
 	# delete old entries
+	object_not_exist_filter = Q(content_type=content_type, obj_exists=False)
+	if update_ids is not None:
+		object_not_exist_filter &= Q(object_id__in=update_ids)
 	(SearchIndex.objects
 		.annotate(obj_exists=Exists(index.get_index_queryset().values('pk').filter(pk=OuterRef('object_id'))))
-		.filter(content_type=content_type, obj_exists=False)
+		.filter(object_not_exist_filter)
 		.delete())
 
-	queryset = index.get_index_queryset() if update_all else index.get_changed_queryset()
+	if update_ids is None:
+		queryset = index.get_index_queryset() if update_all else index.get_changed_queryset()
+	else:
+		queryset = index.get_index_queryset().filter(pk__in=update_ids)
 
 	for obj in progress(iterate_qs(queryset, BATCH_SIZE), desc=index.get_model().__name__, total=queryset.values('pk').count()):
 		instance = index.get_index(obj)
