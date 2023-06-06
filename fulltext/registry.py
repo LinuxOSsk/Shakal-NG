@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
+from collections import defaultdict
+
 from django.utils.functional import cached_property
 
 
 class FulltextRegister(object):
 	def __init__(self):
 		self.__registered = []
+		self.__by_model = defaultdict(list)
 
 	def __iter__(self):
 		return iter(self.__registered)
@@ -12,6 +15,7 @@ class FulltextRegister(object):
 	def register(self, fulltext):
 		fulltext.register = self
 		self.__registered.append(fulltext)
+		self.__by_model[fulltext.model].append(fulltext)
 
 	@cached_property
 	def index_class(self):
