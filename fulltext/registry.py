@@ -17,6 +17,9 @@ class FulltextRegister(object):
 		self.__registered.append(fulltext)
 		self.__by_model[fulltext.model].append(fulltext)
 
+	def get_for_model(self, cls):
+		return self.__by_model.get(cls, [])
+
 	@cached_property
 	def index_class(self):
 		from .models import SearchIndex
