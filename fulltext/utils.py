@@ -6,6 +6,7 @@ from django.db import models
 from django.db.models import Q, F, Value as V
 
 from .models import SearchIndex
+from .registry import register as fulltext_register
 
 
 def bulk_update(items):
@@ -109,9 +110,13 @@ def iterate_qs(qs, batch_size):
 			break
 
 
+def schedule_change_fulltext(sender, instance):
+	search_indexes = fulltext_register.get_for_model(sender)
+
+
 def schedule_update_fulltext(sender, instance, **kwargs):
-	pass
+	schedule_change_fulltext(sender, instance)
 
 
 def schedule_delete_fulltext(sender, instance, **kwargs):
-	pass
+	schedule_change_fulltext(sender, instance)
