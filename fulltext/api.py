@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import contextvars
 import re
 
 from django.contrib.contenttypes.models import ContentType
@@ -14,6 +15,9 @@ HIGHLIGHT_REGEX_START = re.compile(re.escape(SearchIndex.HIGHLIGHT_START), re.MU
 HIGHLIGHT_REGEX_STOP = re.compile(re.escape(SearchIndex.HIGHLIGHT_STOP), re.MULTILINE | re.DOTALL)
 BATCH_SIZE = 1000
 ELLIPSIS = '…'
+
+
+_fulltext_queue_context = contextvars.ContextVar('fulltext_queue_context')
 
 
 def update_search_index(index, progress=None, update_all=False, update_ids=None):
