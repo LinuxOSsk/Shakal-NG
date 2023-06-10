@@ -2,10 +2,12 @@
 import unicodedata
 
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import Q, F, Value as V
 
 from .models import SearchIndex
+from .queue import enqueue_fulltext_update
 from .registry import register as fulltext_register
 
 
@@ -112,6 +114,11 @@ def iterate_qs(qs, batch_size):
 
 def schedule_change_fulltext(sender, instance):
 	search_indexes = fulltext_register.get_for_model(sender)
+	if search_indexes:
+		pass
+
+	content_type = ContentType.objects.get_for_model(sender)
+	enqueue_fulltext_update([instance.pk], content_type)
 
 
 def schedule_update_fulltext(sender, instance, **kwargs):
