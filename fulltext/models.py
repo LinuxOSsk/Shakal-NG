@@ -48,6 +48,9 @@ class SearchIndex(AbstractSearchIndex):
 	comments_search_vector = SearchVectorField()
 	combined_search_vector = SearchVectorField()
 
+	def __str__(self):
+		return self.title
+
 	@staticmethod
 	def get_updated_field():
 		return 'updated'

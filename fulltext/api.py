@@ -18,7 +18,7 @@ ELLIPSIS = '…'
 
 def update_search_index(index, progress=None, update_all=False, update_ids=None):
 	if progress is None:
-		progress = lambda iterable: iterable
+		progress = lambda iterable, **kwargs: iterable
 
 	bulk_items = []
 	content_type = ContentType.objects.get_for_model(index.get_model())
