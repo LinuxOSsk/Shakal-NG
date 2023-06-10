@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
+import logging
 import unicodedata
 
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import Q, F, Value as V
-import logging
 
 from .models import SearchIndex
 from .queue import enqueue_fulltext_update, get_and_clear_fulltext_queue
 from .registry import register as fulltext_register
+from comments.models import Comment
 
 
 logger  = logging.getLogger(__name__)
@@ -118,11 +119,20 @@ def iterate_qs(qs, batch_size):
 
 def schedule_change_fulltext(sender, instance):
 	search_indexes = fulltext_register.get_for_model(sender)
-	if not search_indexes:
-		return
 
-	content_type = ContentType.objects.get_for_model(sender)
-	enqueue_fulltext_update([instance.pk], content_type)
+	if search_indexes:
+		content_type = ContentType.objects.get_for_model(sender)
+		enqueue_fulltext_update([instance.pk], content_type)
+
+	# enqueue comments
+	if sender is Comment:
+		try:
+			content_type = ContentType.objects.get_for_id(instance.content_type_id)
+			search_indexes = fulltext_register.get_for_model(content_type.model_class())
+			if search_indexes:
+				enqueue_fulltext_update([instance.object_id], content_type)
+		except ContentType.DoesNotExist:
+			pass
 
 
 def schedule_update_fulltext(sender, instance, **kwargs):
