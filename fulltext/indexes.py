@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.contenttypes.models import ContentType
-from django.db.models import Prefetch, Subquery, OuterRef, F, Q
+from django.db.models import Prefetch, F, Q
 from django.db.models.fields import NOT_PROVIDED
 from django.template.loader import render_to_string
-from .models import SearchIndex as SearchIndexModel
 
 from comments.models import Comment
 
