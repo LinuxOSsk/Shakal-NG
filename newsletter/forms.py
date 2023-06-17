@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-from django.forms import ModelForm
+from django.forms import Form
 
 from .models import NewsletterSubscription
 
 
-class NewsletterSubscriptionForm(ModelForm):
-	class Meta:
-		model = NewsletterSubscription
-		fields = ['email']
+class NewsletterSubscriptionForm(Form):
+	email = NewsletterSubscription._meta.get_field('email').formfield()

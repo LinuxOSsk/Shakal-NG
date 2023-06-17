@@ -5,5 +5,5 @@ from . import views
 
 
 urlpatterns = [
-	path('signup/', views.NewsletterSignupView.as_view(), name='signup'),
+	path('subscribe/', views.NewsletterSubscribeView.as_view(), name='subscribe'),
 ]
