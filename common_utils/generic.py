@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from functools import reduce
 
+from django.core.exceptions import ImproperlyConfigured
 from django.db.models import Q, Manager
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, resolve_url
 from django.utils.functional import cached_property
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.generic import CreateView, UpdateView, DetailView, ListView as OriginalListView
 
 
@@ -141,3 +143,32 @@ class RequestFormViewMixin(object):
 		kwargs = super().get_form_kwargs()
 		kwargs['request'] = self.request
 		return kwargs
+
+
+class NextRedirectMixin(object):
+	redirect_field_name = 'next'
+
+	def get_success_url(self):
+		return self.get_redirect_url() or self.get_default_redirect_url()
+
+	def get_redirect_url(self):
+		redirect_to = self.request.POST.get(
+			self.redirect_field_name, self.request.GET.get(self.redirect_field_name)
+		)
+		url_is_safe = url_has_allowed_host_and_scheme(
+			url=redirect_to,
+			allowed_hosts=[self.request.get_host()],
+			require_https=self.request.is_secure(),
+		)
+		return redirect_to if url_is_safe else ""
+
+	def get_default_redirect_url(self):
+		if self.next_page:
+			return resolve_url(self.next_page)
+		raise ImproperlyConfigured("No URL to redirect to. Provide a next_page.")
+
+	def get_context_data(self, **kwargs):
+		ctx = super().get_context_data(**kwargs)
+		ctx['redirect_field_name'] = self.redirect_field_name
+		ctx['redirect_field_value'] = self.request.POST.get(self.redirect_field_name, self.request.GET.get(self.redirect_field_name))
+		return ctx
