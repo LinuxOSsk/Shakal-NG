@@ -4,6 +4,7 @@ import sys
 from django.core.management.base import BaseCommand
 
 from ...api import update_search_index, search, highlight
+from common_utils.argparse import add_subparsers
 from fulltext import registry as fulltext_registry
 
 
@@ -29,7 +30,7 @@ class Command(BaseCommand):
 
 	def add_arguments(self, parser):
 		parser.add_argument('--progress', action='store_true')
-		subparsers = parser.add_subparsers(description="Subcommand", required=True)
+		subparsers = add_subparsers(self, parser, description="Subcommand", required=True)
 		subparsers.dest = 'subcommand'
 		subparser = subparsers.add_parser("update")
 		subparser.add_argument('--all', action='store_true', help="Update all objects")
