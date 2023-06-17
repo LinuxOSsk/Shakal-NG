@@ -28,6 +28,7 @@ urlpatterns = [
 	path(_('forum/'), include('forum.urls')),
 	#path(_('^maintenance/'), include('maintenance.urls')),
 	path(_('news/'), include('news.urls')),
+	path(_('newsletter/'), include('newsletter.urls')),
 	path(_('rating/'), include('rating.urls')),
 	path(_('tweets/'), include('tweets.urls')),
 	path(_('notifications/'), include('notifications.urls')),

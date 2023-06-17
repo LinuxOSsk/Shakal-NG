@@ -3,5 +3,5 @@ from django.apps import AppConfig as BaseAppConfig
 
 
 class AppConfig(BaseAppConfig):
-	name = "Newsletter"
-	verbose_name = 'newsletter'
+	name = 'newsletter'
+	verbose_name = "Newsletter"

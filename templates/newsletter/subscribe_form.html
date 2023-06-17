@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block head_title %}Registrovať odber noviniek{% endblock %}
+
+{% block breadcrumbs %}
+{{ breadcrumb("Registrovať odber noviniek") }}
+{{ super() }}
+{% endblock %}
+
+{% block extraheaders %}
+<meta name="robots" content="noindex, nofollow" />
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+<h1>Registrovať odber noviniek</h1>
+
+<form class="signup" id="signup_form" method="post" action="{{ url('account_signup') }}">{% csrf_token %}
+	<fieldset class="module">
+		{% include "includes/form_loop.html" %}
+		{% if redirect_field_value %}
+			<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+		{% endif %}
+
+		<div class="submit-row">
+			<div class="positive">
+				<button class="btn primary" type="submit" title="Vytvoriť účet"><span class="wrap"><span class="text">Registrovať</span></span></button>
+			</div>
+		</div>
+	</fieldset>
+</form>
+
+{% endblock %}

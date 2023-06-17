@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.forms import ModelForm
 
-from .models import Newsletter
+from .models import NewsletterSubscription
 
 
-class NewsletterForm(ModelForm):
+class NewsletterSubscriptionForm(ModelForm):
 	class Meta:
-		model = Newsletter
+		model = NewsletterSubscription
 		fields = ['email']

@@ -70,6 +70,7 @@ INSTALLED_APPS = [
 	'hitcount',
 	'linuxos',
 	'news',
+	'newsletter',
 	'notes',
 	'notifications',
 	'polls',
