@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib import messages
+from django.utils import timezone
 from django.views.generic import FormView
 
 from .forms import NewsletterSubscriptionForm
@@ -14,6 +15,9 @@ class NewsletterSubscribeView(NextRedirectMixin, FormView):
 
 	def form_valid(self, form):
 		email = form.cleaned_data['email']
-		NewsletterSubscription.objects.get_or_create(email=email)
+		NewsletterSubscription.objects.update_or_create(
+			email=email,
+			defaults={'updated': timezone.now()}
+		)
 		messages.success(self.request, f"E-mail „{email}“ bol zaregistrovaný pre odber noviniek")
 		return super().form_valid(form)
