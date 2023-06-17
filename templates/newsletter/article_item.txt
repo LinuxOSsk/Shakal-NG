@@ -1,0 +1,4 @@
+{% autoescape off %}{{ article }}
+{{ article.perex|striptags|html_entity_decode }}
+<{{ base_uri }}{{ article.get_absolute_url() }}>
+{% endautoescape %}

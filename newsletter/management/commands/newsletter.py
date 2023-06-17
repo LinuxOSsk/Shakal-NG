@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.core.management import BaseCommand
 
+from ...api import send_weekly
 from common_utils.argparse import add_subparsers
 
 
@@ -14,5 +15,5 @@ class Command(BaseCommand):
 		subcommand = options.pop('subcommand')
 		return getattr(self, subcommand)(**options)
 
-	def send_weekly(self, **options):
-		pass
+	def send_weekly(self, **options): # pylint: disable=unused-argument
+		send_weekly()
