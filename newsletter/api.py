@@ -4,6 +4,7 @@ from typing import Tuple
 
 from django.template.loader import select_template
 from django.utils import timezone
+from django.utils.formats import date_format
 from django.utils.safestring import mark_safe
 
 from article.models import Article
@@ -152,6 +153,8 @@ def send_weekly():
 			title.append(item)
 			title_length += len(item) + 2
 
+	current_date = date_format(timezone.localtime(timezone.now()), 'SHORT_DATE_FORMAT')
 	title = ', '.join(title)
 	if has_more_items:
 		title = f'LinuxOS.sk: {title} …'
+	title = f'{title} ({current_date})'
