@@ -15,6 +15,7 @@ from news.models import News
 from tweets.models import Tweet
 
 
+SENDING_HOUR = 8
 TimeRange = Tuple[datetime, datetime]
 
 
@@ -27,8 +28,8 @@ def get_week_date_range() -> TimeRange:
 	midnight = time(0)
 	tz = timezone.get_current_timezone()
 
-	week_start = timezone.make_aware(datetime.combine(week_start, midnight), tz)
-	week_end = timezone.make_aware(datetime.combine(week_end, midnight), tz)
+	week_start = timezone.make_aware(datetime.combine(week_start, midnight), tz) + timedelta(hours=SENDING_HOUR)
+	week_end = timezone.make_aware(datetime.combine(week_end, midnight), tz) + timedelta(hours=SENDING_HOUR)
 
 	return (week_start, week_end)
 
