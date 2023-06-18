@@ -174,17 +174,27 @@ def render_weekly(today: Optional[date] = None):
 		'title': title,
 		'txt_data': txt_data,
 		'html_data': html_data,
+		'html_content': html_content,
+		'txt_content': txt_content,
+		'newsletter_date': date_range[1],
 	}
 
 
 def send_weekly():
 	weekly_news = render_weekly()
-	msg = EmailMultiAlternatives(
-		subject=weekly_news['title'],
-		body=weekly_news['txt_data'],
-		from_email=settings.DEFAULT_FROM_EMAIL,
-		to=[settings.MASS_RECIPIENT_EMAIL],
-		bcc=list(NewsletterSubscription.objects.values_list('email', flat=True))
-	)
-	msg.attach_alternative(weekly_news['html_data'], 'text/html')
-	msg.send()
+
+	for recipient in NewsletterSubscription.objects.values_list('email', flat=True):
+		context = {'title': weekly_news['title'], 'content': weekly_news['txt_content'], 'newsletter_date': weekly_news['newsletter_date']}
+		txt_data = render_to_string('newsletter/email/message.txt', context)
+		context['content'] = weekly_news['html_content']
+		html_data = render_to_string('newsletter/email/message.html', context)
+		print(txt_data)
+	#msg = EmailMultiAlternatives(
+	#	subject=weekly_news['title'],
+	#	body=weekly_news['txt_data'],
+	#	from_email=settings.DEFAULT_FROM_EMAIL,
+	#	to=[settings.MASS_RECIPIENT_EMAIL],
+	#	bcc=list(NewsletterSubscription.objects.values_list('email', flat=True))
+	#)
+	#msg.attach_alternative(weekly_news['html_data'], 'text/html')
+	#msg.send()

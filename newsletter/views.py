@@ -5,13 +5,13 @@ from django.utils import timezone
 from django.views.generic import FormView, View
 
 from .api import render_weekly
-from .forms import NewsletterSubscriptionForm
+from .forms import NewsletterSubscribeForm, NewsletterUnsubscribeForm
 from .models import NewsletterSubscription
 from common_utils.generic import NextRedirectMixin
 
 
 class NewsletterSubscribeView(NextRedirectMixin, FormView):
-	form_class = NewsletterSubscriptionForm
+	form_class = NewsletterSubscribeForm
 	template_name = 'newsletter/subscribe_form.html'
 	next_page = 'home'
 
@@ -29,6 +29,26 @@ class NewsletterSubscribeView(NextRedirectMixin, FormView):
 			defaults={'updated': timezone.now()}
 		)
 		messages.success(self.request, f"E-mail „{email}“ bol zaregistrovaný pre odber noviniek")
+		return super().form_valid(form)
+
+
+class NewsletterUnsubscribeView(NextRedirectMixin, FormView):
+	form_class = NewsletterUnsubscribeForm
+	template_name = 'newsletter/unsubscribe_form.html'
+	next_page = 'home'
+
+	def get_form_kwargs(self):
+		kwargs = super().get_form_kwargs()
+		if self.request.method == 'GET':
+			kwargs['data'] = self.request.GET
+		else:
+			kwargs['data'] = self.request.POST
+		return kwargs
+
+	def form_valid(self, form):
+		email = form.cleaned_data['email']
+		NewsletterSubscription.objects.filter(email=email).delete()
+		messages.success(self.request, f"E-mail „{email}“ bol vyradený z odberu noviniek")
 		return super().form_valid(form)
 
 

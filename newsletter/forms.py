@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
-from django.forms import Form
+from django import forms
 
 from .models import NewsletterSubscription
 
 
-class NewsletterSubscriptionForm(Form):
+class NewsletterSubscribeForm(forms.Form):
 	email = NewsletterSubscription._meta.get_field('email').formfield()
+
+
+class NewsletterUnsubscribeForm(forms.Form):
+	email = forms.HiddenInput()
+	token = forms.HiddenInput()

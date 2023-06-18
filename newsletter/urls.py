@@ -7,6 +7,7 @@ from . import views
 
 urlpatterns = [
 	path('subscribe/', views.NewsletterSubscribeView.as_view(), name='subscribe'),
+	path('unsubscribe/', views.NewsletterUnsubscribeView.as_view(), name='unsubscribe'),
 ]
 
 
