@@ -15,6 +15,13 @@ class NewsletterSubscribeView(NextRedirectMixin, FormView):
 	template_name = 'newsletter/subscribe_form.html'
 	next_page = 'home'
 
+	def get_initial(self):
+		initial = super().get_initial()
+		email = self.request.GET.get('email')
+		if email is not None:
+			initial.setdefault('email', email)
+		return initial
+
 	def form_valid(self, form):
 		email = form.cleaned_data['email']
 		NewsletterSubscription.objects.update_or_create(
