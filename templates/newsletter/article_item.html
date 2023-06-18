@@ -1,3 +1,3 @@
-{% if article.presentation_image or article.image %}{% if article.presentation_image %}{% set image_url=thumbnail(article.presentation_image.attachment, size=(240, 135), crop=True) %}{% else %}{% set image_url=thumbnail(article.image, size=(240, 135), crop=True) %}{% endif %}<img class="item-list__image article-list__image" src="{{ base_uri }}{{ image_url }}" alt="">{% endif %}
-<h3><a href="{{ base_uri }}{{ article.get_absolute_url() }}">{{ article }}</a></h3>
+{% if article.presentation_image or article.image %}{% if article.presentation_image %}{% set image_url=thumbnail(article.presentation_image.attachment, size=(240, 135), crop=True).url %}{% else %}{% set image_url=thumbnail(article.image, size=(240, 135), crop=True).url %}{% endif %}<img class="item-list__image article-list__image" src="{{ image_url|to_absolute_uri }}" alt="">{% endif %}
+<h3><a href="{{ article.get_absolute_url()|to_absolute_uri }}">{{ article }}</a></h3>
 {{ article.perex|safe }}

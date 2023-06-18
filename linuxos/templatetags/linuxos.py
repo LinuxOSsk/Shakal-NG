@@ -257,3 +257,15 @@ def get_share_canonical_url(context):
 	else:
 		q = ''
 	return request.path + q
+
+
+@library.filter
+@pass_context
+def to_absolute_uri(context, value):
+	if not 'base_uri' in context:
+		return value
+
+	if value.startswith('http://') or value.startswith('https://') or value.startswith('//'):
+		return value
+
+	return f'{context["base_uri"]}{value}'
