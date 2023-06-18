@@ -1,0 +1,1 @@
+<a href="{{ tweet.get_absolute_url()|to_absolute_uri }}">{{ tweet }}{% if tweet.comment_count %}<span class="item-list-simple__comments tweet-list-simple__comments"> <em>{{ tweet.comment_count|number_format }}</em> <small>{{ tweet.last_comment|date("SHORT_DATETIME_FORMAT") }}</small></span>{% endif %}</a>
