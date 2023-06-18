@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width"/>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<title>{% block head_title %}{{ title }}{% endblock %}</title>
+
+		<style type="text/css">
+			body {
+				background: white;
+				color: black;
+				font-size: 16px;
+			}
+
+			p, h1, h2, h3, h4, h5, h6 {
+				font-family: "DejaVu Sans",Arial,sans-serif;
+			}
+
+			h1, h2, h3, h4, h5, h6 {
+				font-weight: 100;
+				margin: 0;
+				padding: 8px 0;
+			}
+
+			h1 {
+				font-size: 32px;
+			}
+
+			h2 {
+				font-size: 26px;
+			}
+
+			h3 {
+				font-size: 22px;
+			}
+
+			h1, h2, h3, a {
+				color: #6b8fc7;
+			}
+
+			p {
+				color: #444;
+				font-size: 16px;
+			}
+
+			p.footer {
+				color: #888;
+			}
+
+			hr {
+				display: block;
+				height: 1px;
+				background: #eeeefa;
+				border: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		{% block content %}
+		{{ content }}
+		{% endblock %}
+	</body>
+</html>

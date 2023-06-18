@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta, time, datetime
-from typing import Tuple
+from datetime import timedelta, time, datetime, date
+from typing import Tuple, Optional
 
-from django.template.loader import select_template
+from django.template.loader import select_template, render_to_string
 from django.utils import timezone
 from django.utils.formats import date_format
 from django.utils.safestring import mark_safe
@@ -20,10 +20,12 @@ SENDING_HOUR = 8
 TimeRange = Tuple[datetime, datetime]
 
 
-def get_week_date_range() -> TimeRange:
-	today = timezone.now().date()
-
-	week_start = today - timedelta(days=today.weekday() + 7)
+def get_week_date_range(today: Optional[date] = None) -> TimeRange:
+	if today is None:
+		today = timezone.now().date()
+		week_start = today - timedelta(days=today.weekday() + 7)
+	else:
+		week_start = today - timedelta(days=today.weekday())
 	week_end = week_start + timedelta(days=7)
 
 	midnight = time(0)
@@ -132,8 +134,8 @@ def collect_activity(time_range: TimeRange):
 	return activity_sections
 
 
-def send_weekly():
-	activity = collect_activity(get_week_date_range())
+def render_weekly(today: Optional[date] = None):
+	activity = collect_activity(get_week_date_range(today))
 	if not activity: # no updates, don't need to do anything
 		return
 
@@ -158,3 +160,18 @@ def send_weekly():
 	if has_more_items:
 		title = f'LinuxOS.sk: {title} …'
 	title = f'{title} ({current_date})'
+
+	context = {'title': title, 'content': txt_content}
+	txt_data = render_to_string('newsletter/email/message.txt', context)
+	context['content'] = html_content
+	html_data = render_to_string('newsletter/email/message.html', context)
+
+	return {
+		'title': title,
+		'txt_data': txt_data,
+		'html_data': html_data,
+	}
+
+
+def send_weekly():
+	pass
