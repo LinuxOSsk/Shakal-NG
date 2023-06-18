@@ -1,0 +1,9 @@
+<h2>{{ verbose_name }}</h2>
+
+<ul class="item-list-simple {{ name }}-list-simple">
+	{% for rendered_item in rendered_item_list %}
+		<li class="item-list-simple__record {{ name }}-list-simple__record">
+			{{ rendered_item }}
+		</li>
+	{% endfor %}
+</ul>

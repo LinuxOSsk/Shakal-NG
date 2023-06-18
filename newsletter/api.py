@@ -49,9 +49,16 @@ def collect_blog_posts(time_range: TimeRange):
 		.select_related('presentation_image'), time_range, 'pub_time')[:50]
 
 
+def collect_news(time_range: TimeRange):
+	return filter_range(News.objects
+		.order_by('created')
+		.only('pk', 'title', 'slug', 'event_date', 'author'), time_range, 'created')[:200]
+
+
 COLLECTORS = [
 	{'name': 'article', 'verbose_name': "Články", 'fn': collect_articles, 'comments': True},
 	{'name': 'blog_post', 'verbose_name': "Blogy", 'fn': collect_blog_posts, 'comments': True},
+	{'name': 'news', 'verbose_name': "Správy", 'fn': collect_news, 'comments': True},
 ]
 
 
