@@ -135,7 +135,8 @@ def collect_activity(time_range: TimeRange):
 
 
 def render_weekly(today: Optional[date] = None):
-	activity = collect_activity(get_week_date_range(today))
+	date_range = get_week_date_range(today)
+	activity = collect_activity(date_range)
 	if not activity: # no updates, don't need to do anything
 		return
 
@@ -161,7 +162,7 @@ def render_weekly(today: Optional[date] = None):
 		title = f'LinuxOS.sk: {title} …'
 	title = f'{title} ({current_date})'
 
-	context = {'title': title, 'content': txt_content}
+	context = {'title': title, 'content': txt_content, 'newsletter_date': date_range[1]}
 	txt_data = render_to_string('newsletter/email/message.txt', context)
 	context['content'] = html_content
 	html_data = render_to_string('newsletter/email/message.html', context)

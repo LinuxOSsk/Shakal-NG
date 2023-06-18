@@ -1,4 +1,6 @@
 {% if article.presentation_image or article.image %}{% if article.presentation_image %}{% set image_url=thumbnail(article.presentation_image.attachment, size=(240, 135), crop=True).url %}{% else %}{% set image_url=thumbnail(article.image, size=(240, 135), crop=True).url %}{% endif %}<img class="item-list__image article-list__image" src="{{ image_url|to_absolute_uri }}" alt="">{% endif %}
-<h3><a href="{{ article.get_absolute_url()|to_absolute_uri }}">{{ article }}</a></h3>
-{{ article.perex|safe }}
-{% if article.comment_count %}<div class="item-list__comments article-list__comments"><em>{{ article.comment_count|number_format }}</em> <small>{{ article.last_comment|date("SHORT_DATETIME_FORMAT") }}</small></div>{% endif %}
+<div class="item-list__content article-list_content">
+	<h3><a href="{{ article.get_absolute_url()|to_absolute_uri }}">{{ article }}</a></h3>
+	{{ article.perex|safe }}
+	{% if article.comment_count %}<div class="item-list__comments article-list__comments"><em>{{ article.comment_count|number_format }}</em> <small>{{ article.last_comment|date("SHORT_DATETIME_FORMAT") }}</small></div>{% endif %}
+</div>

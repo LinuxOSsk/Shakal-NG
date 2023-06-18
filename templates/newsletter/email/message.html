@@ -6,59 +6,126 @@
 		<title>{% block head_title %}{{ title }}{% endblock %}</title>
 
 		<style type="text/css">
+			html, body {
+				padding: 0;
+				margin: 0;
+			}
+
 			body {
-				background: white;
+				background: #eee;
 				color: black;
-				font-size: 16px;
+				font-size: 14px;
+			}
+
+			* {
+				line-height: 1.4;
+				padding: 0;
+				margin: 0;
+			}
+
+			*,
+			*::before,
+			*::after {
+				box-sizing: inherit;
 			}
 
 			p, h1, h2, h3, h4, h5, h6 {
 				font-family: "DejaVu Sans",Arial,sans-serif;
 			}
 
-			h1, h2, h3, h4, h5, h6 {
-				font-weight: 100;
-				margin: 0;
-				padding: 8px 0;
+			h1, h2, h3 {
+				font-weight: bold;
 			}
 
 			h1 {
+				color: #fff;
+				background: #6b8fc7;
+				padding: 16px;
+				text-align: center;
+				border-bottom: 1px solid #eeeefa;
 				font-size: 32px;
+				margin: 0 -16px 16px -16px;
 			}
 
 			h2 {
-				font-size: 26px;
+				font-size: 18px;
+				color: #6b8fc7;
+				margin: 8px -16px 4px -16px;
+				padding: 16px;
 			}
 
 			h3 {
-				font-size: 22px;
-			}
-
-			h1, h2, h3, a {
+				font-size: 16px;
 				color: #6b8fc7;
 			}
 
-			p {
-				color: #444;
-				font-size: 16px;
+			a {
+				text-decoration: none;
+				color: #6b8fc7;
 			}
 
-			p.footer {
+			.content {
+				margin-left: auto;
+				margin-right: auto;
+				padding: 0 16px 16px 16px;
+				max-width: 800px;
+				background: #fff;
+				border-left: 1px solid #bbb;
+				border-right: 1px solid #bbb;
+				border-bottom: 1px solid #bbb;
+			}
+
+			.item-list__record {
+				overflow: hidden;
+				clear: both;
+			}
+
+			.item-list__image {
+				width: 120px;
+				height: 67.5px;
+				float: left;
+				margin-right: 8px;
+			}
+
+			.item-list__comments, .item-list-simple__comments {
+				font-size: 12px;
 				color: #888;
 			}
 
-			hr {
-				display: block;
-				height: 1px;
-				background: #eeeefa;
-				border: none;
+			.item-list-simple__comments {
+				padding-left: 16px;
 			}
+
+			.item-list__comments:before, .item-list-simple__comments:before {
+				display: inline;
+				vertical-align: middle;
+				font-size: 16px;
+				content: '🗨';
+				margin-right: 4px;
+			}
+
+			.item-list__comments em, .item-list-simple__comments em {
+				font-style: normal;
+				font-weight: bold;
+				display: inline-block;
+				margin-right: 8px;
+			}
+
+			ul {
+				padding: 0;
+				margin: 8px 0 8px 32px;
+			}
+
 		</style>
 	</head>
 
 	<body>
-		{% block content %}
-		{{ content }}
-		{% endblock %}
+		<div class="content">
+			<h1>Odber noviniek - {{ newsletter_date|date("SHORT_DATE_FORMAT") }}</h1>
+
+			{% block content %}
+			{{ content }}
+			{% endblock %}
+		</div>
 	</body>
 </html>
