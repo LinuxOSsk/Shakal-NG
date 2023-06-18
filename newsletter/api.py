@@ -27,8 +27,16 @@ def get_week_date_range() -> TimeRange:
 	return (week_start, week_end)
 
 
+def filter_range(queryset, time_range: TimeRange, time_field: str = 'created'):
+	time_start, time_end = time_range
+	return queryset.filter(**{f'{time_field}__gte': time_start, f'{time_field}__lt': time_end})
+
+
 def collect_articles(time_range: TimeRange):
-	return Article.objects.order_by('pub_time').select_related('category').only('category', 'title', 'slug', 'original_perex', 'filtered_perex')
+	return filter_range(Article.objects
+		.order_by('pub_time')
+		.defer('original_content', 'filtered_content')
+		.select_related('category'), time_range, 'pub_time')[:10]
 
 
 COLLECTORS = [
