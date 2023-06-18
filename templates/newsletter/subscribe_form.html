@@ -15,6 +15,8 @@
 {% block content %}
 <h1>Registrovať odber noviniek</h1>
 
+<p>Po zaregistrovaní budete do vašej e-mailovej schránky dostávať súhrn noviniek na portáli LinuxOS.sk. Odoberanie noviniek môžete kedykoľvek deaktivovať.</p>
+
 <form method="post" action="{{ request.path }}">{% csrf_token %}
 	<fieldset class="module">
 		{% include "includes/form_loop.html" %}
