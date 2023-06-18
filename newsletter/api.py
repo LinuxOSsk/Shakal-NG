@@ -2,11 +2,14 @@
 from datetime import timedelta, time, datetime, date
 from typing import Tuple, Optional
 
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import select_template, render_to_string
 from django.utils import timezone
 from django.utils.formats import date_format
 from django.utils.safestring import mark_safe
 
+from .models import NewsletterSubscription
 from article.models import Article
 from blog.models import Post
 from comments.templatetags.comments_tags import add_discussion_attributes
@@ -175,4 +178,13 @@ def render_weekly(today: Optional[date] = None):
 
 
 def send_weekly():
-	pass
+	weekly_news = render_weekly()
+	msg = EmailMultiAlternatives(
+		subject=weekly_news['title'],
+		body=weekly_news['txt_data'],
+		from_email=settings.DEFAULT_FROM_EMAIL,
+		to=[settings.MASS_RECIPIENT_EMAIL],
+		bcc=list(NewsletterSubscription.objects.values_list('email', flat=True))
+	)
+	msg.attach_alternative(weekly_news['html_data'], 'text/html')
+	msg.send()

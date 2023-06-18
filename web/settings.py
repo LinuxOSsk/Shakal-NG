@@ -20,6 +20,7 @@ ADMINS = (('Miroslav Bendik', 'mireq@linuxos.sk'),)
 MANAGERS = ADMINS
 
 DEFAULT_FROM_EMAIL = 'LinuxOS.sk <web@linuxos.sk>'
+MASS_RECIPIENT_EMAIL = 'LinuxOS.sk subscribers <subscribers@linuxos.sk>'
 
 ALLOWED_HOSTS = []
 
