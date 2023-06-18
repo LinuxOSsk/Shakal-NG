@@ -4,6 +4,7 @@ from typing import Tuple
 
 from django.template.loader import select_template
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 
 from article.models import Article
 from blog.models import Post
@@ -123,6 +124,7 @@ def collect_activity(time_range: TimeRange):
 		activity_sections.append({
 			'html': html_rendered_content,
 			'txt': txt_rendered_content,
+			'items': items,
 		})
 
 	return activity_sections
@@ -134,6 +136,21 @@ def send_weekly():
 		return
 
 	txt_content = ''.join(record['txt'] for record in activity)
-	html_content = '\n'.join(record['html'] for record in activity)
+	html_content = mark_safe('\n'.join(record['html'] for record in activity))
 
-	print(html_content)
+	# create title from individual item titles
+	title = []
+	title_length = 0
+	has_more_items = False
+	for section in activity:
+		for item in section['items']:
+			if title_length > 100:
+				has_more_items = True
+				break
+			item = str(item)
+			title.append(item)
+			title_length += len(item) + 2
+
+	title = ', '.join(title)
+	if has_more_items:
+		title = f'LinuxOS.sk: {title} …'
