@@ -1,4 +1,4 @@
 {% autoescape off %}{{ verbose_name }}
--------
+{{ "=" * verbose_name|length }}
 {% for rendered_item in rendered_item_list %}{{ rendered_item }}
 {% endfor %}{% endautoescape %}

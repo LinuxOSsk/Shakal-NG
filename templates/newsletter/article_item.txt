@@ -1,4 +1,6 @@
-{% autoescape off %}{{ article }}
+{% autoescape off %}
+{{ article.title }}
+{{ "-" * article.title|length }}
 {{ article.perex|striptags|html_entity_decode }}
 <{{ article.get_absolute_url()|to_absolute_uri }}>
 {% endautoescape %}
