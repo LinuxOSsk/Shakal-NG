@@ -1,0 +1,1 @@
+<a href="{{ topic.get_absolute_url()|to_absolute_uri }}">{{ topic }}{% if topic.comment_count %}<span class="item-list-simple__comments topic-list-simple__comments"> <em>{{ topic.comment_count|number_format }}</em> <small>{{ topic.last_comment|date("SHORT_DATETIME_FORMAT") }}</small></span>{% endif %}</a>
