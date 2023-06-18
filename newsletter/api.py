@@ -6,6 +6,7 @@ from django.template.loader import select_template
 from django.utils import timezone
 
 from article.models import Article
+from blog.models import Post
 from linuxos.templatetags.linuxos import get_base_uri
 
 
@@ -36,11 +37,19 @@ def collect_articles(time_range: TimeRange):
 	return filter_range(Article.objects
 		.order_by('pub_time')
 		.defer('original_content', 'filtered_content')
-		.select_related('category'), time_range, 'pub_time')[:10]
+		.select_related('presentation_image'), time_range, 'pub_time')[:50]
+
+
+def collect_blog_posts(time_range: TimeRange):
+	return filter_range(Post.objects
+		.order_by('pub_time')
+		.defer('original_content', 'filtered_content')
+		.select_related('presentation_image'), time_range, 'pub_time')[:50]
 
 
 COLLECTORS = [
-	{'name': 'article', 'verbose_name': "Články", 'fn': collect_articles}
+	{'name': 'article', 'verbose_name': "Články", 'fn': collect_articles},
+	{'name': 'blog_post', 'verbose_name': "Blogy", 'fn': collect_blog_posts},
 ]
 
 
