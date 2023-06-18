@@ -7,7 +7,9 @@ from django.utils import timezone
 
 from article.models import Article
 from blog.models import Post
+from comments.templatetags.comments_tags import add_discussion_attributes
 from linuxos.templatetags.linuxos import get_base_uri
+from news.models import News
 
 
 TimeRange = Tuple[datetime, datetime]
@@ -48,8 +50,8 @@ def collect_blog_posts(time_range: TimeRange):
 
 
 COLLECTORS = [
-	{'name': 'article', 'verbose_name': "Články", 'fn': collect_articles},
-	{'name': 'blog_post', 'verbose_name': "Blogy", 'fn': collect_blog_posts},
+	{'name': 'article', 'verbose_name': "Články", 'fn': collect_articles, 'comments': True},
+	{'name': 'blog_post', 'verbose_name': "Blogy", 'fn': collect_blog_posts, 'comments': True},
 ]
 
 
@@ -64,6 +66,9 @@ def collect_activity(time_range: TimeRange):
 		items = collector_fn(time_range)
 		if not items:
 			continue
+
+		if context.get('comments'):
+			add_discussion_attributes({}, items)
 
 		base_name = context['name']
 
