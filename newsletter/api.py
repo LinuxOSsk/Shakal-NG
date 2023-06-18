@@ -15,7 +15,7 @@ TimeRange = Tuple[datetime, datetime]
 def get_week_date_range() -> TimeRange:
 	today = timezone.now().date()
 
-	week_start = today - timedelta(days=today.weekday())
+	week_start = today - timedelta(days=today.weekday() + 7)
 	week_end = week_start + timedelta(days=7)
 
 	midnight = time(0)
