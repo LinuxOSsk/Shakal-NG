@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
+# -o- coding: utf-8 -*-
 from datetime import timedelta, time, datetime, date
 from typing import Tuple, Optional
 
-from django.conf import settings
-from django.core.mail import EmailMultiAlternatives
+from django.core import signing
 from django.template.loader import select_template, render_to_string
 from django.utils import timezone
 from django.utils.formats import date_format
@@ -19,6 +18,7 @@ from news.models import News
 from tweets.models import Tweet
 
 
+SALT = 'newsletter_subscription'
 SENDING_HOUR = 8
 TimeRange = Tuple[datetime, datetime]
 
@@ -178,6 +178,17 @@ def render_weekly(today: Optional[date] = None):
 		'txt_content': txt_content,
 		'newsletter_date': date_range[1],
 	}
+
+
+def unsign_email(email: str) -> Optional[str]:
+	try:
+		return signing.Signer(salt=SALT).unsign(email)
+	except signing.BadSignature:
+		pass
+
+
+def sign_email(email: str) -> str:
+	return signing.Signer(salt=SALT).sign(email)
 
 
 def send_weekly():
