@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block head_title %}Zrušiť odber noviniek{% endblock %}
+
+{% block breadcrumbs %}
+{{ breadcrumb("Zrušiť odber noviniek") }}
+{{ super() }}
+{% endblock %}
+
+{% block extraheaders %}
+<meta name="robots" content="noindex, nofollow" />
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+<h1>Zrušiť odber novniek</h1>
+
+<form method="post" action="{{ request.path }}">{% csrf_token %}
+	<fieldset class="module">
+		{% include "includes/form_loop.html" %}
+		{% if redirect_field_value %}
+			<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+		{% endif %}
+
+		<div class="submit-row">
+			<div class="positive">
+				<button class="btn primary" type="submit" title="Vytvoriť účet"><span class="wrap"><span class="text">Zmeniť</span></span></button>
+			</div>
+		</div>
+	</fieldset>
+</form>
+
+{% endblock %}
