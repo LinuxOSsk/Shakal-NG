@@ -15,7 +15,7 @@ django-assets-manager==1.0.0  # via -r requirements.in
 django-compressor==4.3.1  # via -r requirements.in, django-libsass
 django-easy-autoslug==1.0.4  # via -r requirements.in
 django-easy-geoposition-field==1.0.2  # via -r requirements.in
-django-email-log-backend==0.3.3  # via -r requirements.in
+django-email-log-backend==0.3.4  # via -r requirements.in
 django-hijack==3.3.0      # via -r requirements.in
 django-jinja==2.10.2      # via -r requirements.in
 django-js-asset==2.0.0    # via django-mptt
