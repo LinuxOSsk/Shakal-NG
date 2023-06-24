@@ -117,6 +117,17 @@
 				display: inline-block;
 				margin-right: 8px;
 			}
+
+			.footer a {
+				text-decoration: underline;
+			}
+
+			.footer {
+				font-size: 14px;
+				margin: 16px 0;
+				padding: 16px 0;
+				border-top: 1px solid #ccc;
+			}
 		</style>
 	</head>
 
@@ -127,6 +138,10 @@
 			{% block content %}
 			{{ content }}
 			{% endblock %}
+
+			<div class="footer">
+				<a class="footr__link footer__link--unsubscribe" href="{{ unsubscribe_link }}">Odhlásiť sa z odberu</a>
+			</div>
 		</div>
 	</body>
 </html>
