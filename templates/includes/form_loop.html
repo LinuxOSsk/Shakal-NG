@@ -8,6 +8,7 @@
 
 <div>
 	{% for hidden in form.hidden_fields() %}
+		{{ hidden.errors }}
 		{{ hidden }}
 	{% endfor %}
 	{% for field in form.visible_fields() %}
