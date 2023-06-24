@@ -22,11 +22,13 @@
 			<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
 		{% endif %}
 
-		<div class="submit-row">
-			<div class="positive">
-				<button class="btn primary" type="submit" title="Vytvoriť účet"><span class="wrap"><span class="text">Zmeniť</span></span></button>
+		{% if form.is_valid() %}
+			<div class="submit-row">
+				<div class="positive">
+					<button class="btn primary" type="submit" title="Vytvoriť účet"><span class="wrap"><span class="text">Odhlásiť</span></span></button>
+				</div>
 			</div>
-		</div>
+		{% endif %}
 	</fieldset>
 </form>
 

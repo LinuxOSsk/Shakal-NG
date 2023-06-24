@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from django.core.validators import ValidationError
 
-from .api import unsign_email
 from .models import NewsletterSubscription
 
 
@@ -11,15 +9,13 @@ class NewsletterSubscribeForm(forms.Form):
 
 
 class NewsletterUnsubscribeForm(forms.Form):
-	email = forms.HiddenInput()
+	email = forms.EmailField(
+		label=NewsletterSubscription._meta.get_field('email').verbose_name.capitalize(),
+		error_messages={'required': "Neplatný odkaz"}
+	)
 
-	def clean(self):
-		cleaned_data = super().clean()
-		email = unsign_email(cleaned_data.get('email', ''))
-		if email is None:
-			raise ValidationError("Neplatný odkaz")
-		cleaned_data['email'] = email
-		return cleaned_data
-
-
-# TODO: unsubscribe without link using e-mail form
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.fields['email'].widget.attrs['disabled'] = 'disabled'
+		if not self.data.get('email'):
+			self.fields['email'].widget = forms.HiddenInput()

@@ -1,4 +1,5 @@
 # -o- coding: utf-8 -*-
+import base64
 import logging
 from datetime import timedelta, time, datetime, date
 from itertools import chain
@@ -8,6 +9,7 @@ from django.conf import settings
 from django.core import signing
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import select_template, render_to_string
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import date_format
 from django.utils.safestring import mark_safe
@@ -187,12 +189,14 @@ def render_weekly(today: Optional[date] = None):
 
 def unsign_email(email: str) -> Optional[str]:
 	try:
-		return signing.Signer(salt=SALT).unsign(email)
+		email = signing.Signer(salt=SALT).unsign(email)
+		return base64.urlsafe_b64decode(email.encode('utf-8')).decode('utf-8')
 	except signing.BadSignature:
 		pass
 
 
 def sign_email(email: str) -> str:
+	email = base64.urlsafe_b64encode(email.encode('utf-8')).decode('utf-8')
 	return signing.Signer(salt=SALT).sign(email)
 
 
@@ -208,7 +212,14 @@ def send_weekly():
 
 	for recipient in chain(recipients, [dummy_recipient]):
 		try:
-			context = {'title': weekly_news['title'], 'content': weekly_news['txt_content'], 'newsletter_date': weekly_news['newsletter_date']}
+			email_token = sign_email(recipient)
+			unsubscribe_link = get_base_uri() + reverse('newsletter:unsubscribe', kwargs={'token': email_token})
+			context = {
+				'title': weekly_news['title'],
+				'content': weekly_news['txt_content'],
+				'newsletter_date': weekly_news['newsletter_date'],
+				'unsubscribe_link': unsubscribe_link,
+			}
 			txt_data = render_to_string('newsletter/email/message.txt', context)
 			context['content'] = weekly_news['html_content']
 			html_data = render_to_string('newsletter/email/message.html', context)
@@ -218,6 +229,7 @@ def send_weekly():
 				body=txt_data,
 				from_email=settings.DEFAULT_FROM_EMAIL,
 				to=[recipient],
+				headers={'List-Unsubscribe': unsubscribe_link},
 			)
 			msg.attach_alternative(html_data, 'text/html')
 			if recipient != dummy_recipient:

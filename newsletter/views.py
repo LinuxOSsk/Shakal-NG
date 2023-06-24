@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.contrib import messages
 from django.http.response import HttpResponse, Http404
+from django.http import QueryDict
 from django.utils import timezone
 from django.views.generic import FormView, View
+from typing import Optional
 
-from .api import render_weekly
+from .api import render_weekly, unsign_email
 from .forms import NewsletterSubscribeForm, NewsletterUnsubscribeForm
 from .models import NewsletterSubscription
 from common_utils.generic import NextRedirectMixin
@@ -37,17 +39,26 @@ class NewsletterUnsubscribeView(NextRedirectMixin, FormView):
 	template_name = 'newsletter/unsubscribe_form.html'
 	next_page = 'home'
 
+	def decode_email(self) -> Optional[str]:
+		"""
+		Returns e-mail if can be decoded from link or None if it's bad link
+		"""
+		return unsign_email(self.kwargs['token'])
+
 	def get_form_kwargs(self):
 		kwargs = super().get_form_kwargs()
-		if self.request.method == 'GET':
-			kwargs['data'] = self.request.GET
-		else:
-			kwargs['data'] = self.request.POST
+		q = QueryDict('', mutable=True)
+		q.update({'email': self.decode_email()})
+		kwargs['data'] = q
 		return kwargs
 
+	def dispatch(self, request, *args, **kwargs):
+		self.email = self.decode_email()
+		return super().dispatch(request, *args, **kwargs)
+
 	def form_valid(self, form):
-		email = form.cleaned_data['email']
-		NewsletterSubscription.objects.filter(email=email).delete()
+		email = self.decode_email()
+		NewsletterSubscription.objects.filter(email=self.email).delete()
 		messages.success(self.request, f"E-mail „{email}“ bol vyradený z odberu noviniek")
 		return super().form_valid(form)
 
