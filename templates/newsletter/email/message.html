@@ -15,6 +15,7 @@
 				background: #eee;
 				color: black;
 				font-size: 14px;
+				font-family: "DejaVu Sans",Arial,sans-serif;
 			}
 
 			* {
@@ -29,33 +30,25 @@
 				box-sizing: inherit;
 			}
 
-			p, h1, h2, h3, h4, h5, h6 {
-				font-family: "DejaVu Sans",Arial,sans-serif;
-			}
-
-			h1, h2, h3 {
-				font-weight: bold;
-			}
-
 			h1 {
-				color: #fff;
-				background: #6b8fc7;
-				padding: 16px;
-				text-align: center;
-				border-bottom: 1px solid #eeeefa;
+				font-weight: normal;
 				font-size: 32px;
-				margin: 0 -16px 16px -16px;
+				margin-bottom: 16px;
+				color: #555;
 			}
 
 			h2 {
-				font-size: 18px;
-				color: #6b8fc7;
-				margin: 8px -16px 4px -16px;
-				padding: 16px;
+				background: #6b8fc7;
+				color: #fff;
+				font-weight: normal;
+				font-size: 16px;
+				margin: -16px -16px 16px -16px;
+				padding: 8px 16px;
 			}
 
 			h3 {
 				font-size: 16px;
+				font-weight: bold;
 				color: #6b8fc7;
 			}
 
@@ -64,15 +57,29 @@
 				color: #6b8fc7;
 			}
 
+			ul {
+				padding: 0;
+				margin: 0 0 0 16px;
+			}
+
 			.content {
 				margin-left: auto;
 				margin-right: auto;
-				padding: 0 16px 16px 16px;
 				max-width: 800px;
+				padding: 16px;
+			}
+
+			.item-list, .item-list-simple {
 				background: #fff;
-				border-left: 1px solid #bbb;
-				border-right: 1px solid #bbb;
-				border-bottom: 1px solid #bbb;
+				padding: 16px;
+				margin: 16px 0 32px 0;
+				box-shadow:
+					0 0px 0px 1px rgba(0,0,0,0.02),
+					0 1px 2px rgba(0,0,0,0.04),
+					0 2px 4px rgba(0,0,0,0.04),
+					0 4px 8px rgba(0,0,0,0.04),
+					0 8px 16px rgba(0,0,0,0.04),
+					0 16px 32px rgba(0,0,0,0.04);
 			}
 
 			.item-list__record {
@@ -110,12 +117,6 @@
 				display: inline-block;
 				margin-right: 8px;
 			}
-
-			ul {
-				padding: 0;
-				margin: 8px 0 8px 32px;
-			}
-
 		</style>
 	</head>
 
