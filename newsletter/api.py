@@ -229,7 +229,7 @@ def send_weekly():
 				body=txt_data,
 				from_email=settings.DEFAULT_FROM_EMAIL,
 				to=[recipient],
-				headers={'List-Unsubscribe': unsubscribe_link},
+				headers={'List-Unsubscribe': f'<{unsubscribe_link}>'},
 			)
 			msg.attach_alternative(html_data, 'text/html')
 			if recipient != dummy_recipient:
