@@ -193,6 +193,8 @@ def sign_email(email: str) -> str:
 
 def send_weekly():
 	weekly_news = render_weekly()
+	if not weekly_news:
+		return
 
 	for recipient in NewsletterSubscription.objects.values_list('email', flat=True):
 		context = {'title': weekly_news['title'], 'content': weekly_news['txt_content'], 'newsletter_date': weekly_news['newsletter_date']}
