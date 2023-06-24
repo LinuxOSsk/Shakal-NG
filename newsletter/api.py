@@ -1,8 +1,12 @@
 # -o- coding: utf-8 -*-
+import logging
 from datetime import timedelta, time, datetime, date
+from itertools import chain
 from typing import Tuple, Optional
 
+from django.conf import settings
 from django.core import signing
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import select_template, render_to_string
 from django.utils import timezone
 from django.utils.formats import date_format
@@ -18,6 +22,7 @@ from news.models import News
 from tweets.models import Tweet
 
 
+logger = logging.getLogger(__name__)
 SALT = 'newsletter_subscription'
 SENDING_HOUR = 8
 TimeRange = Tuple[datetime, datetime]
@@ -196,18 +201,27 @@ def send_weekly():
 	if not weekly_news:
 		return
 
-	for recipient in NewsletterSubscription.objects.values_list('email', flat=True):
-		context = {'title': weekly_news['title'], 'content': weekly_news['txt_content'], 'newsletter_date': weekly_news['newsletter_date']}
-		txt_data = render_to_string('newsletter/email/message.txt', context)
-		context['content'] = weekly_news['html_content']
-		html_data = render_to_string('newsletter/email/message.html', context)
-		print(txt_data)
-	#msg = EmailMultiAlternatives(
-	#	subject=weekly_news['title'],
-	#	body=weekly_news['txt_data'],
-	#	from_email=settings.DEFAULT_FROM_EMAIL,
-	#	to=[settings.MASS_RECIPIENT_EMAIL],
-	#	bcc=list(NewsletterSubscription.objects.values_list('email', flat=True))
-	#)
-	#msg.attach_alternative(weekly_news['html_data'], 'text/html')
-	#msg.send()
+	dummy_recipient = 'subscribers@linuxos.sk'
+	recipients = (NewsletterSubscription.objects
+		.exclude(email=dummy_recipient)
+		.values_list('email', flat=True))
+
+	for recipient in chain(recipients, [dummy_recipient]):
+		try:
+			context = {'title': weekly_news['title'], 'content': weekly_news['txt_content'], 'newsletter_date': weekly_news['newsletter_date']}
+			txt_data = render_to_string('newsletter/email/message.txt', context)
+			context['content'] = weekly_news['html_content']
+			html_data = render_to_string('newsletter/email/message.html', context)
+
+			msg = EmailMultiAlternatives(
+				subject=context['title'],
+				body=txt_data,
+				from_email=settings.DEFAULT_FROM_EMAIL,
+				to=[recipient],
+			)
+			msg.attach_alternative(html_data, 'text/html')
+			if recipient != dummy_recipient:
+				msg.model_instance = None
+			msg.send()
+		except Exception:
+			logger.exception("Failed to send newsletter e-mail")
