@@ -1,3 +1,4 @@
+<li><a href="{{ url("newsletter:subscribe") }}{% if request.user.is_authenticated %}?email={{ request.user.email|urlquote }}{% endif %}">Odber noviniek</a></li>
 <li><a href="{{ url("blackhole:story_list", page=1) }}">Archív blackhole.sk</a></li>
 <li><a href="{{ url("accounts:users_map") }}">Linuxáci na mape</a></li>
 <li><a href="/portal-podporte-nas/">Podporte nás</a></li>
