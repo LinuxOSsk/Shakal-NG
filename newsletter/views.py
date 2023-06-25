@@ -7,7 +7,7 @@ from django.http.response import HttpResponse, Http404
 from django.utils import timezone
 from django.views.generic import FormView, View
 
-from .api import render_weekly, unsign_email
+from .api import render_weekly, unsign_email, send_weekly
 from .forms import NewsletterSubscribeForm, NewsletterUnsubscribeForm
 from .models import NewsletterSubscription
 from common_utils.generic import NextRedirectMixin
@@ -32,6 +32,7 @@ class NewsletterSubscribeView(NextRedirectMixin, FormView):
 			defaults={'updated': timezone.now()}
 		)
 		messages.success(self.request, f"E-mail „{email}“ bol zaregistrovaný pre odber noviniek")
+		send_weekly([email])
 		return super().form_valid(form)
 
 

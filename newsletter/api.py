@@ -3,7 +3,7 @@ import base64
 import logging
 from datetime import timedelta, time, datetime, date
 from itertools import chain
-from typing import Tuple, Optional
+from typing import Tuple, Optional, List
 
 from django.conf import settings
 from django.core import signing
@@ -200,17 +200,19 @@ def sign_email(email: str) -> str:
 	return signing.Signer(salt=SALT).sign(email)
 
 
-def send_weekly():
+def send_weekly(recipients: Optional[List[str]] = None):
 	weekly_news = render_weekly()
 	if not weekly_news:
 		return
 
 	dummy_recipient = 'subscribers@linuxos.sk'
-	recipients = (NewsletterSubscription.objects
-		.exclude(email=dummy_recipient)
-		.values_list('email', flat=True))
+	if recipients is None:
+		recipients = (NewsletterSubscription.objects
+			.exclude(email=dummy_recipient)
+			.values_list('email', flat=True))
+		chain(recipients, [dummy_recipient])
 
-	for recipient in chain(recipients, [dummy_recipient]):
+	for recipient in recipients:
 		try:
 			email_token = sign_email(recipient)
 			unsubscribe_link = get_base_uri() + reverse('newsletter:unsubscribe', kwargs={'token': email_token})
