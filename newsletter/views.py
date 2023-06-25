@@ -27,12 +27,13 @@ class NewsletterSubscribeView(NextRedirectMixin, FormView):
 
 	def form_valid(self, form):
 		email = form.cleaned_data['email']
-		NewsletterSubscription.objects.update_or_create(
+		__, created = NewsletterSubscription.objects.update_or_create(
 			email=email,
 			defaults={'updated': timezone.now()}
 		)
 		messages.success(self.request, f"E-mail „{email}“ bol zaregistrovaný pre odber noviniek")
-		send_weekly([email])
+		if created:
+			send_weekly([email])
 		return super().form_valid(form)
 
 
