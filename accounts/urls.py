@@ -23,5 +23,6 @@ urlpatterns = [
 	path('ja/upravit/', views.MyProfileEdit.as_view(), name='my_profile_edit'),
 	path('ja/avatar/', views.MyProfileAvatarEdit.as_view(), name='my_profile_avatar_edit'),
 	path('ja/pozicia/', views.MyProfilePositionEdit.as_view(), name='my_profile_position_edit'),
+	path('ja/newsletter/', views.MyProfileNewsletterEdit.as_view(), name='my_profile_newsletter_edit'),
 	path('mapa-uzivatelov/', views.UsersMap.as_view(), name='users_map'),
 ]

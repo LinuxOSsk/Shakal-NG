@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
+from typing import Optional
+
 from django.contrib import messages
-from django.http.response import HttpResponse, Http404
 from django.http import QueryDict
+from django.http.response import HttpResponse, Http404
 from django.utils import timezone
 from django.views.generic import FormView, View
-from typing import Optional
 
 from .api import render_weekly, unsign_email
 from .forms import NewsletterSubscribeForm, NewsletterUnsubscribeForm

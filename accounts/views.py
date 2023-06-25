@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime, time
 
+from comments.models import UserDiscussionAttribute
+from common_utils.content_types import resolve_content_objects
+from common_utils.generic import ListView
+from desktops.models import FavoriteDesktop
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import models
@@ -10,14 +14,12 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.views.generic import RedirectView, DetailView, UpdateView, TemplateView
+from newsletter.api import sign_email
+from newsletter.models import NewsletterSubscription
 
 from .forms import ProfileEditForm, AvatarUpdateForm, PositionUpdateForm
 from .models import User
 from .stats import register
-from comments.models import UserDiscussionAttribute
-from common_utils.content_types import resolve_content_objects
-from common_utils.generic import ListView
-from desktops.models import FavoriteDesktop
 
 
 User = get_user_model()
@@ -94,6 +96,17 @@ class MyProfilePositionEdit(LoginRequiredMixin, MyProfileMixin, UpdateView):
 
 	def get_success_url(self):
 		return reverse('accounts:my_profile')
+
+
+class MyProfileNewsletterEdit(LoginRequiredMixin, MyProfileMixin, TemplateView):
+	template_name = 'account/profile_newsletter_change.html'
+
+	def get_context_data(self, **kwargs):
+		has_subscription = NewsletterSubscription.objects.filter(email=self.request.user.email).exists()
+		unsubscribe_link = None
+		if has_subscription:
+			unsubscribe_link = reverse('newsletter:unsubscribe', kwargs={'token': sign_email(self.request.user.email)})
+		return super().get_context_data(has_subscription=has_subscription, unsubscribe_link=unsubscribe_link, **kwargs)
 
 
 class MyWatched(LoginRequiredMixin, ListView):

@@ -1,0 +1,42 @@
+{% extends "account/base.html" %}
+
+{% block head_title %}Ober noviniek{% endblock %}
+
+{% block breadcrumbs %}
+	{{ breadcrumb("Odber noviniek") }}
+	{{ breadcrumb(firstof(user.get_full_name(), user.username), url="accounts:profile", pk=user.pk) }}
+	{{ super() }}
+{% endblock %}
+
+{% block extraheaders %}
+<meta name="robots" content="noindex, nofollow" />
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+<h1>Odber noviniek</h1>
+
+{% include "account/partials/profile_tabs.html" %}
+{% include "account/partials/profile_edit_tabs.html" %}
+
+<div class="clearfix"></div>
+
+<form action="{% if has_subscription %}{{ unsubscribe_link }}{% else %}{{ url("newsletter:subscribe") }}{% endif %}" method="post" id="edit-user-subscription-form">{% csrf_token %}
+	<input type="hidden" name="email" value="{{ request.user.email }}" />
+	<input type="hidden" name="next" value="{{ request.path }}" />
+
+	<div class="form-row">
+		{% if not has_subscription %}
+			<p>Po zaregistrovaní budete do vašej e-mailovej schránky dostávať súhrn noviniek na portáli LinuxOS.sk. Odoberanie noviniek môžete kedykoľvek deaktivovať.</p>
+		{% else %}
+			<p>Váš e-mail „{{ request.user.email }}“ má zaregistrovaný  odber noviniek.</p>
+		{% endif %}
+	</div>
+
+	<div class="submit-row">
+		<div class="positive">
+			<button class="btn primary" type="submit" title="{% if has_subscription %}Odhlásiť odber{% else %}Registrovať odbeer{% endif %}"><span class="wrap"><span class="text">{% if has_subscription %}Odhlásiť odber{% else %}Registrovať odbeer{% endif %}</span></span></button>
+		</div>
+	</div>
+</form>
+{% endblock %}
