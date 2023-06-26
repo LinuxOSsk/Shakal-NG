@@ -174,7 +174,7 @@ def render_weekly(today: Optional[date] = None):
 		title = f'LinuxOS.sk: {title} …'
 	title = f'{title} ({current_date})'
 
-	web_link = reverse('newsletter:weekly_newsletter', kwargs={'format': 'html', 'date': today.strftime('%Y-%m-%d')})
+	web_link = get_base_uri() + reverse('newsletter:weekly_newsletter', kwargs={'format': 'html', 'date': today.strftime('%Y-%m-%d')})
 	context = {'title': title, 'content': txt_content, 'newsletter_date': date_range[1]}
 	txt_data = render_to_string('newsletter/email/message.txt', context)
 	context['content'] = html_content
@@ -224,6 +224,7 @@ def send_weekly(recipients: Optional[List[str]] = None):
 				'title': weekly_news['title'],
 				'content': weekly_news['txt_content'],
 				'newsletter_date': weekly_news['newsletter_date'],
+				'web_link': weekly_news['web_link'],
 				'unsubscribe_link': unsubscribe_link,
 			}
 			txt_data = render_to_string('newsletter/email/message.txt', context)
