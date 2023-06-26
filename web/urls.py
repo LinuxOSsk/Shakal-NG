@@ -22,6 +22,8 @@ class DateConverter:
 		return datetime.strptime(value, self.format).date()
 
 	def to_url(self, value):
+		if isinstance(value, str):
+			return value
 		return value.strftime(self.format)
 
 

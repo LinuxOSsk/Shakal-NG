@@ -146,6 +146,8 @@ def collect_activity(time_range: TimeRange):
 
 def render_weekly(today: Optional[date] = None):
 	date_range = get_week_date_range(today)
+	today = (date_range[1] - timedelta(hours=SENDING_HOUR) - timedelta(seconds=1)).date()
+
 	activity = collect_activity(date_range)
 	if not activity: # no updates, don't need to do anything
 		return
@@ -172,6 +174,7 @@ def render_weekly(today: Optional[date] = None):
 		title = f'LinuxOS.sk: {title} …'
 	title = f'{title} ({current_date})'
 
+	web_link = reverse('newsletter:weekly_newsletter', kwargs={'format': 'html', 'date': today.strftime('%Y-%m-%d')})
 	context = {'title': title, 'content': txt_content, 'newsletter_date': date_range[1]}
 	txt_data = render_to_string('newsletter/email/message.txt', context)
 	context['content'] = html_content
@@ -183,6 +186,7 @@ def render_weekly(today: Optional[date] = None):
 		'html_data': html_data,
 		'html_content': html_content,
 		'txt_content': txt_content,
+		'web_link': web_link,
 		'newsletter_date': date_range[1],
 	}
 
@@ -237,8 +241,6 @@ def send_weekly(recipients: Optional[List[str]] = None):
 				},
 			)
 			msg.attach_alternative(html_data, 'text/html')
-			if recipient != dummy_recipient:
-				msg.model_instance = None
 			msg.send()
 		except Exception:
 			logger.exception("Failed to send newsletter e-mail")
