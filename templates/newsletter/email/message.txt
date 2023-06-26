@@ -1,3 +1,3 @@
-{% autoescape off %}{{ content }}
+{% autoescape off %}{{ content }}{% if unsubscribe_link %}
 
-Odhlásiť sa z odberu: <{{ unsubscribe_link }}>{% endautoescape %}
+Odhlásiť sa z odberu: <{{ unsubscribe_link }}>{% endif %}{% endautoescape %}

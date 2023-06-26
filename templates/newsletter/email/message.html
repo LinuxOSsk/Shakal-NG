@@ -145,9 +145,11 @@
 			{{ content }}
 			{% endblock %}
 
-			<div class="footer">
-				<a class="footr__link footer__link--unsubscribe" href="{{ unsubscribe_link }}">Odhlásiť sa z odberu</a>
-			</div>
+			{% if unsubscribe_link %}
+				<div class="footer">
+					<a class="footr__link footer__link--unsubscribe" href="{{ unsubscribe_link }}">Odhlásiť sa z odberu</a>
+				</div>
+			{% endif %}
 		</div>
 	</body>
 </html>
