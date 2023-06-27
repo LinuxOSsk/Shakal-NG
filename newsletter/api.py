@@ -18,6 +18,7 @@ from .models import NewsletterSubscription
 from article.models import Article
 from blog.models import Post
 from comments.templatetags.comments_tags import add_discussion_attributes
+from desktops.models import Desktop
 from forum.models import Topic
 from linuxos.templatetags.linuxos import get_base_uri
 from news.models import News
@@ -81,12 +82,18 @@ def collect_tweets(time_range: TimeRange):
 		.order_by('created'), time_range, 'created')[:200]
 
 
+def collect_desktops(time_range: Desktop):
+	return filter_range(Desktop.objects
+		.order_by('created'), time_range, 'created')[:200]
+
+
 COLLECTORS = [
 	{'name': 'article', 'verbose_name': "Články", 'fn': collect_articles, 'comments': True},
 	{'name': 'blog_post', 'verbose_name': "Blogy", 'fn': collect_blog_posts, 'comments': True},
 	{'name': 'news', 'verbose_name': "Správy", 'fn': collect_news, 'comments': True},
 	{'name': 'topic', 'verbose_name': "Fórum", 'fn': collect_topics, 'comments': True},
 	{'name': 'tweet', 'verbose_name': "Tweety", 'fn': collect_tweets, 'comments': True},
+	{'name': 'desktop', 'verbose_name': "Desktop", 'fn': collect_desktops, 'comments': True},
 ]
 
 

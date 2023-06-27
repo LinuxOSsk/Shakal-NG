@@ -1,0 +1,6 @@
+{% autoescape off %}
+{{ desktop.title }}
+{{ "-" * desktop.title|length }}
+{{ desktop.perex|striptags|html_entity_decode }}
+<{{ desktop.get_absolute_url()|to_absolute_uri }}>
+{% endautoescape %}

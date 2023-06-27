@@ -1,0 +1,6 @@
+<img class="item-list__image desktop-list__image" src="{{ thumbnail(desktop.image, size=(240, 135), crop=True).url }}" alt="">
+<div class="item-list__content desktop-list__content">
+	<h3><a href="{{ desktop.get_absolute_url()|to_absolute_uri }}">{{ desktop }}</a></h3>
+	{{ desktop.text|safe }}
+	{% if desktop.comment_count %}<div class="item-list__comments desktop-list__comments"><em>{{ desktop.comment_count|number_format }}</em> <small>{{ desktop.last_comment|date("SHORT_DATETIME_FORMAT") }}</small></div>{% endif %}
+</div>
