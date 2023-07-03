@@ -1211,21 +1211,6 @@ ul.messages {
 	}
 }
 
-.under-construction {
-	border: 1px solid $generic-foreground;
-	color: $generic-background;
-	padding: $module-margin / 2;
-	background: url('images/warning_pattern.png') repeat;
-}
-
-.under-construction .warning {
-	display: block;
-	padding: $module-padding $module-padding $module-padding (48px + $module-padding * 2);
-	background: mix($generic-foreground, $generic-background, 90%) url('images/warning_construction.png') $module-padding center no-repeat;
-	font-weight: bold;
-	min-height: 48px;
-}
-
 /* === Články === */
 
 .perex {
