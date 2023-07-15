@@ -225,6 +225,8 @@ def send_weekly(recipients: Optional[List[str]] = None):
 			.values_list('email', flat=True))
 		chain(recipients, [dummy_recipient])
 
+	sent = 0
+
 	for recipient in recipients:
 		try:
 			email_token = sign_email(recipient)
@@ -250,8 +252,11 @@ def send_weekly(recipients: Optional[List[str]] = None):
 					'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
 				},
 			)
+			if sent > 0: # save only first
+				msg.model_instance = None
 			msg.attach_alternative(html_data, 'text/html')
 			msg.send()
+			sent += 1
 		except Exception:
 			logger.exception("Failed to send newsletter e-mail")
 
@@ -290,8 +295,7 @@ def send_mass_email(
 				msg.model_instance = None
 			status = msg.send()
 			status_text = 'OK' if status else 'ERR'
-			if status:
-				sent += 1
+			sent += 1
 			sys.stdout.write(f'{status_text} {recipient}\n')
 		except Exception:
 			logger.warning("E-mail not sent to %s", recipient, exc_info=True)
