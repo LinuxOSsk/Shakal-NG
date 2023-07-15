@@ -1,6 +1,7 @@
 # -o- coding: utf-8 -*-
 import base64
 import logging
+import sys
 from datetime import timedelta, time, datetime, date
 from itertools import chain
 from typing import Tuple, Optional, List
@@ -8,6 +9,7 @@ from typing import Tuple, Optional, List
 from django.conf import settings
 from django.core import signing
 from django.core.mail import EmailMultiAlternatives
+from django.template import engines
 from django.template.loader import select_template, render_to_string
 from django.urls import reverse
 from django.utils import timezone
@@ -252,3 +254,47 @@ def send_weekly(recipients: Optional[List[str]] = None):
 			msg.send()
 		except Exception:
 			logger.exception("Failed to send newsletter e-mail")
+
+
+def send_mass_email(
+	recipients: List[str],
+	subject_template: str,
+	txt_message_template: str,
+	html_message_template: str
+):
+	default_template_engine = engines.all()[0]
+
+	subject_template_instance = default_template_engine.from_string(subject_template)
+	txt_message_template_instance = default_template_engine.from_string(txt_message_template)
+	html_message_template_instance = default_template_engine.from_string(html_message_template)
+
+	sent = 0
+
+	ctx = {'base_uri': get_base_uri()}
+	for recipient in recipients:
+		ctx['email'] = recipient
+		subject = subject_template_instance.render(ctx)
+		txt_message = txt_message_template_instance.render(ctx)
+		html_message = html_message_template_instance.render(ctx)
+
+		status = 0
+		try:
+			msg = EmailMultiAlternatives(
+				subject=subject,
+				body=txt_message,
+				from_email=settings.DEFAULT_FROM_EMAIL,
+				to=[recipient],
+			)
+			msg.attach_alternative(html_message, 'text/html')
+			if sent > 0: # save only first
+				msg.model_instance = None
+			status = msg.send()
+			status_text = 'OK' if status else 'ERR'
+			if status:
+				sent += 1
+			sys.stdout.write(f'{status_text} {recipient}\n')
+		except Exception:
+			logger.warning("E-mail not sent to %s", recipient, exc_info=True)
+		else:
+			if not status:
+				logger.warning("E-mail not sent to %s", recipient)
