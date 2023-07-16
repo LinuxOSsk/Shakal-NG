@@ -70,6 +70,7 @@ class Command(BaseCommand):
 				.filter(**filters)
 				.annotate(x=V('x'))
 				.values('x')
+				.order_by('x')
 				.annotate(cnt=Count('x'))
 				.values('cnt')[:1]
 			), V(0))
@@ -99,7 +100,7 @@ class Command(BaseCommand):
 
 		total_weight = F('recent_comments') * 9 + F('old_comments') * 3 + F('extraold_comments')
 		for field, weight in weights.items():
-			total_weight = total_weight + F(f'recent_{field}') * 9 + F(f'old_{field}') * 3 + F(f'extraold_{field}')
+			total_weight = total_weight + (F(f'recent_{field}') * 9 + F(f'old_{field}') * 3 + F(f'extraold_{field}')) * weight
 
 		users = (users
 			.annotate(total_weight=total_weight)
