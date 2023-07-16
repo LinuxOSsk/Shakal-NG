@@ -16,7 +16,7 @@ from django.utils import timezone
 from django.utils.formats import date_format
 from django.utils.safestring import mark_safe
 
-from .models import NewsletterSubscription
+from .models import NewsletterSubscription, MassEmailExclude
 from article.models import Article
 from blog.models import Post
 from comments.templatetags.comments_tags import add_discussion_attributes
@@ -268,6 +268,9 @@ def send_mass_email(
 	html_message_template: str
 ):
 	default_template_engine = engines.all()[0]
+
+	excludes = set(MassEmailExclude.objects.values_list('email', flat=True))
+	recipients = [recipient for recipient in recipients if recipient not in excludes]
 
 	subject_template_instance = default_template_engine.from_string(subject_template)
 	txt_message_template_instance = default_template_engine.from_string(txt_message_template)
