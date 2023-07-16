@@ -57,8 +57,8 @@ class Command(BaseCommand):
 	def list_active_users(self, **options):
 		now = timezone.now()
 		recent_range = [now, now - timedelta(days=365)]
-		old_range = [now - timedelta(days=365), now - timedelta(days=365*5)]
-		extraold_range = [now - timedelta(days=365 * 5), now - timedelta(days=365*50)]
+		old_range = [now - timedelta(days=365), now - timedelta(days=365*3)]
+		extraold_range = [now - timedelta(days=365 * 3), now - timedelta(days=365*50)]
 
 		def annotate_count(qs, author_field, date_range):
 			filters = {
@@ -98,9 +98,9 @@ class Command(BaseCommand):
 			'articles': 200,
 		}
 
-		total_weight = F('recent_comments') * 9 + F('old_comments') * 3 + F('extraold_comments')
+		total_weight = F('recent_comments') * 50 + F('old_comments') * 10 + F('extraold_comments')
 		for field, weight in weights.items():
-			total_weight = total_weight + (F(f'recent_{field}') * 9 + F(f'old_{field}') * 3 + F(f'extraold_{field}')) * weight
+			total_weight = total_weight + (F(f'recent_{field}') * 50 + F(f'old_{field}') * 10 + F(f'extraold_{field}')) * weight
 
 		users = (users
 			.annotate(total_weight=total_weight)
