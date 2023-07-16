@@ -9,7 +9,7 @@ from django.db.models import Subquery, OuterRef, Count, Value as V, F
 from django.db.models.functions import Coalesce
 from django.utils import timezone
 
-from ...api import send_weekly, send_mass_email
+from ...api import send_weekly, send_mass_email, import_excludes
 from article.models import Article
 from comments.models import Comment
 from common_utils.argparse import add_subparsers
@@ -33,6 +33,8 @@ class Command(BaseCommand):
 		parser = subparsers.add_parser("list_active_users")
 		parser.add_argument('min_weight', type=int)
 		parser.add_argument('--show_weight', action='store_true')
+		parser = subparsers.add_parser("import_excludes")
+		parser.add_argument('excludes', type=argparse.FileType(mode='r'))
 
 	def handle(self, *args, **options):
 		subcommand = options.pop('subcommand')
@@ -105,3 +107,7 @@ class Command(BaseCommand):
 				sys.stdout.write(f'{weight} {email}\n')
 			else:
 				sys.stdout.write(f'{email}\n')
+
+	def import_excludes(self, **options):
+		excludes = [address.strip() for address in options['excludes'] if address.strip()]
+		import_excludes(excludes)

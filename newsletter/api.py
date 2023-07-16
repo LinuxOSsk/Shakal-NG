@@ -305,3 +305,8 @@ def send_mass_email(
 		else:
 			if not status:
 				logger.warning("E-mail not sent to %s", recipient)
+
+
+def import_excludes(excludes: List[str]):
+	exclude_instances = [MassEmailExclude(email=recipient) for recipient in excludes]
+	MassEmailExclude.objects.bulk_create(exclude_instances, ignore_conflicts=True)
