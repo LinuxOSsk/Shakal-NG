@@ -1,0 +1,12 @@
+{% autoescape off %}Dobrý deň,
+
+dovoľujeme si Vám predstaviť novú funkciu týždenného prehľadu noviniek na
+portáli LinuxOS.sk.
+
+Pokiaľ si želáte odoberať týždenný prehľad noviniek, registruje sa prosím na
+nasledujúcom odkaze:
+
+LinuxOS.sk - Odber noviniek <{{ base_uri }}{{ url("newsletter:subscribe") }}?email={{ email|urlquote }}>{% endautoescape %}
+
+-- 
+Váš Tím LinuxOS.sk
