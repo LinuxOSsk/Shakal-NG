@@ -58,6 +58,7 @@ class Command(BaseCommand):
 		now = timezone.now()
 		recent_range = [now, now - timedelta(days=365)]
 		old_range = [now - timedelta(days=365), now - timedelta(days=365*5)]
+		extraold_range = [now - timedelta(days=365 * 5), now - timedelta(days=365*50)]
 
 		def annotate_count(qs, author_field, date_range):
 			filters = {
@@ -77,12 +78,16 @@ class Command(BaseCommand):
 			.annotate(
 				recent_articles=annotate_count(Article.objects.all(), 'author_id', recent_range),
 				old_articles=annotate_count(Article.objects.all(), 'author_id', old_range),
+				extraold_articles=annotate_count(Article.objects.all(), 'author_id', extraold_range),
 				recent_news=annotate_count(News.objects.all(), 'author_id', recent_range),
 				old_news=annotate_count(News.objects.all(), 'author_id', old_range),
+				extraold_news=annotate_count(News.objects.all(), 'author_id', extraold_range),
 				recent_tweets=annotate_count(Tweet.objects.all(), 'author_id', recent_range),
 				old_tweets=annotate_count(Tweet.objects.all(), 'author_id', old_range),
+				extraold_tweets=annotate_count(Tweet.objects.all(), 'author_id', extraold_range),
 				recent_comments=annotate_count(Comment.objects.order_by('id'), 'user_id', recent_range),
 				old_comments=annotate_count(Comment.objects.order_by('id'), 'user_id', old_range),
+				extraold_comments=annotate_count(Comment.objects.order_by('id'), 'user_id', extraold_range),
 			)
 		)
 
@@ -92,9 +97,9 @@ class Command(BaseCommand):
 			'articles': 200,
 		}
 
-		total_weight = F('recent_comments') * 3 + F('old_comments')
+		total_weight = F('recent_comments') * 9 + F('old_comments') * 3 + F('extraold_comments')
 		for field, weight in weights.items():
-			total_weight = total_weight + F(f'recent_{field}') * 3 + F(f'old_{field}')
+			total_weight = total_weight + F(f'recent_{field}') * 9 + F(f'old_{field}') * 3 + F(f'extraold_{field}')
 
 		users = (users
 			.annotate(total_weight=total_weight)
