@@ -10,6 +10,7 @@ from attachment.models import UploadSession
 from comments.models import Comment
 from news.models import News
 from notifications.models import Event, Inbox
+from tweets.models import Tweet
 from wiki.models import Page as WikiPage
 
 
@@ -32,6 +33,7 @@ def update_user_ratings():
 	update_user_ratings_comments()
 	update_user_ratings_articles()
 	update_user_ratings_news()
+	update_user_ratings_tweets()
 	update_user_ratings_wiki()
 	update_user_ratings_sum()
 
@@ -65,6 +67,12 @@ def update_user_ratings_news():
 	ratings = (News.objects
 		.filter(author_id__isnull=False, approved=True))
 	_update_rating_data(ratings, 'news', 'author_id')
+
+
+def update_user_ratings_tweets():
+	ratings = (Tweet.objects
+		.filter(author_id__isnull=False, approved=True))
+	_update_rating_data(ratings, 'tweets', 'author_id')
 
 
 def update_user_ratings_wiki():

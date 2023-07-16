@@ -135,6 +135,7 @@ class UserRating(models.Model):
 		'articles': 200,
 		'helped': 20,
 		'news': 10,
+		'tweets': 5,
 		'wiki': 50,
 	}
 
@@ -158,6 +159,10 @@ class UserRating(models.Model):
 	)
 	news = models.IntegerField(
 		verbose_name="správ",
+		default=0
+	)
+	tweets = models.IntegerField(
+		verbose_name="tweetov",
 		default=0
 	)
 	wiki = models.IntegerField(
