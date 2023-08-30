@@ -71,7 +71,7 @@ def update_user_ratings_news():
 
 def update_user_ratings_tweets():
 	ratings = (Tweet.objects
-		.filter(author_id__isnull=False, approved=True))
+		.filter(author_id__isnull=False))
 	_update_rating_data(ratings, 'tweets', 'author_id')
 
 
