@@ -65,6 +65,7 @@ Spustenie vyvojoveho prostredia je mozne aj pomocou docker-compose
 TODO
 ====
 
+-   vymeniť django MPTT za https://github.com/feincms/django-tree-queries/
 -   integrovať <https://linuxjourney.com/>
 -   hodnotenie článku
 -   zaplatiť autorovi kávu
