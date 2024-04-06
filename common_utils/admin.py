@@ -6,3 +6,7 @@ from rich_editor.fields import RichTextOriginalField
 
 
 FORMFIELD_FOR_DBFIELD_DEFAULTS[RichTextOriginalField] = {'widget': RichEditorWidget}
+
+
+def render_tree_depth(obj):
+	return "    " * obj.tree_depth
