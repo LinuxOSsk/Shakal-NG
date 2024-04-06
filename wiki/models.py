@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
-import mptt
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django_autoslugfield.fields import AutoSlugField
+from tree_queries.models import TreeNode
 
 from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 
 
-class Page(mptt.models.MPTTModel, TimestampModelMixin):
+class Page(TreeNode, TimestampModelMixin):
 	TYPE_CHOICES = (
 		('h', 'Domovská stránka'),
 		('i', 'Interná stránka'),
@@ -31,14 +31,6 @@ class Page(mptt.models.MPTTModel, TimestampModelMixin):
 		verbose_name="skratka URL",
 		title_field='title',
 		unique=True
-	)
-	parent = models.ForeignKey(
-		'self',
-		verbose_name="nadradená stránka",
-		related_name='children',
-		blank=True,
-		null=True,
-		on_delete=models.PROTECT
 	)
 	original_text = RichTextOriginalField(
 		verbose_name="text",
@@ -62,9 +54,6 @@ class Page(mptt.models.MPTTModel, TimestampModelMixin):
 	class Meta:
 		verbose_name = "Wiki stránka"
 		verbose_name_plural = "Wiki stránky"
-		index_together = [
-			['tree_id', 'lft']
-		]
 
 	def get_absolute_url(self):
 		if self.page_type == 'h' and not self.parent:

@@ -43,7 +43,7 @@ class WikiBaseView(DetailView):
 			'revision': revision,
 			'object_version': revision._object_version if revision else None, #pylint: disable=protected-access
 			'history': history,
-			'tree': self.object.get_ancestors(),
+			'tree': self.object.ancestors(),
 		})
 		return ctx
 
@@ -52,9 +52,9 @@ class WikiHomeView(WikiBaseView):
 	template_name = "wiki/home.html"
 
 	def get_children(self):
-		children = self.object.get_children().filter(page_type='h')[:]
+		children = self.object.children.filter(page_type='h')[:]
 		for child in children:
-			child.pages = child.get_descendants().order_by('-updated')
+			child.pages = child.descendants().order_by('-updated')
 		return children
 
 	def get_object(self, **kwargs):
@@ -73,9 +73,9 @@ class WikiDetailView(WikiBaseView):
 
 	def get_children(self):
 		if self.object.page_type == 'h':
-			return self.object.get_descendants().order_by('-updated')
+			return self.object.children.order_by('-updated')
 		else:
-			return self.object.get_children()
+			return self.object.children.all()
 
 	def get_context_data(self, **kwargs):
 		ctx = super(WikiDetailView, self).get_context_data(**kwargs)
