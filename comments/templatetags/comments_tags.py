@@ -116,7 +116,7 @@ class DiscussionLoader:
 		#.select_related('user__rating')
 		.only('pk', 'created', 'updated', 'ip_address', 'parent_id', 'subject', 'filtered_comment', 'level', 'is_public', 'is_removed', 'is_locked', 'user_id', 'user_name', 'user', 'user__id', 'user__is_superuser', 'user__username', 'user__first_name', 'user__last_name', 'user__email', 'user__is_staff', 'user__is_active', 'user__signature', 'user__distribution', 'user__year', 'user__avatar', 'user__rating__rating')
 		#.prefetch_related('attachments')
-		.order_by('lft'))
+		.order_by('pk'))
 
 	def __init__(self):
 		self.target = None

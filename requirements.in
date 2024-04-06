@@ -8,10 +8,10 @@ django-email-log-backend
 django-hijack
 django-jinja
 django-libsass
-django-tree-queries
 django-reversion
 django-sample-data-generator
 django-static-sitemaps
+django-tree-queries
 django-universal-paginator
 django>=4.2,<4.3
 easy-thumbnails

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from common_utils.models import TimestampModelMixin
+from common_utils.url_utils import build_url
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
@@ -6,12 +8,9 @@ from django.db import models, transaction
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import force_str
-from mptt.models import MPTTModel, TreeForeignKey
-
-from common_utils.models import TimestampModelMixin
-from common_utils.url_utils import build_url
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 from rich_editor.widgets import TextVal
+from tree_queries.models import TreeNode
 
 
 COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 50000)
@@ -41,7 +40,7 @@ class CommentManager(models.Manager):
 				return (root_comment, created)
 
 
-class Comment(MPTTModel, TimestampModelMixin):
+class Comment(TreeNode, TimestampModelMixin):
 	objects = CommentManager()
 
 	content_type = models.ForeignKey(
@@ -54,15 +53,6 @@ class Comment(MPTTModel, TimestampModelMixin):
 		verbose_name="ID objektu"
 	)
 	content_object = GenericForeignKey('content_type', 'object_id')
-
-	parent = TreeForeignKey(
-		'self',
-		verbose_name="nadradený",
-		related_name='children',
-		null=True,
-		blank=True,
-		on_delete=models.CASCADE
-	)
 
 	subject = models.CharField(
 		verbose_name="predmet",
@@ -161,13 +151,10 @@ class Comment(MPTTModel, TimestampModelMixin):
 		return self.subject
 
 	class Meta:
-		ordering = ('tree_id', 'lft')
+		ordering = ('pk',)
 		index_together = (('object_id', 'content_type',),)
 		verbose_name = "komentár"
 		verbose_name_plural = "komentáre"
-		index_together = [
-			['tree_id', 'lft']
-		]
 
 
 class RootHeader(models.Model):
