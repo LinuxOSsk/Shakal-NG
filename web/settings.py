@@ -92,6 +92,7 @@ MIDDLEWARE = [
 	'hijack.middleware.HijackUserMiddleware',
 	'accounts.middleware.LastViewedMiddleware',
 	'accounts.middleware.AuthRememberMiddleware',
+	'allauth.account.middleware.AccountMiddleware',
 	'web.middlewares.ThreadLocalMiddleware',
 	'template_dynamicloader.middleware.TemplateSwitchMiddleware',
 	'feeds.middleware.FeedsMiddleware',

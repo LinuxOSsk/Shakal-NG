@@ -8,7 +8,7 @@ django-email-log-backend
 django-hijack
 django-jinja
 django-libsass
-django-mptt
+django-tree-queries
 django-reversion
 django-sample-data-generator
 django-static-sitemaps
