@@ -1,16 +1,16 @@
 #!/bin/bash
 mkdir -p static/CACHE/models
-djanog-admin graph_models -a -g -X AttachmentImageRaw,TimestampModelMixin,MPTTModel,PermissionsMixin,AbstractBaseUser,AbstractUser -o static/CACHE/models/models.png
-djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel accounts -o static/CACHE/models/accounts.png
-djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel article -o static/CACHE/models/article.png
-djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel attachment -o static/CACHE/models/attachment.png
-djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel blackhole -o static/CACHE/models/blackhole.png
-djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel blog -o static/CACHE/models/blog.png
-djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel comments -o static/CACHE/models/comments.png
-djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel desktops -o static/CACHE/models/desktops.png
-djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel forum -o static/CACHE/models/forum.png
-djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel news -o static/CACHE/models/news.png
-djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel notes -o static/CACHE/models/notes.png
-djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel notifications -o static/CACHE/models/notifications.png
-djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel polls -o static/CACHE/models/polls.png
-djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,MPTTModel wiki -o static/CACHE/models/wiki.png
+djanog-admin graph_models -a -g -X AttachmentImageRaw,TimestampModelMixin,TreeNode,PermissionsMixin,AbstractBaseUser,AbstractUser -o static/CACHE/models/models.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,TreeNode accounts -o static/CACHE/models/accounts.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,TreeNode article -o static/CACHE/models/article.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,TreeNode attachment -o static/CACHE/models/attachment.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,TreeNode blackhole -o static/CACHE/models/blackhole.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,TreeNode blog -o static/CACHE/models/blog.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,TreeNode comments -o static/CACHE/models/comments.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,TreeNode desktops -o static/CACHE/models/desktops.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,TreeNode forum -o static/CACHE/models/forum.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,TreeNode news -o static/CACHE/models/news.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,TreeNode notes -o static/CACHE/models/notes.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,TreeNode notifications -o static/CACHE/models/notifications.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,TreeNode polls -o static/CACHE/models/polls.png
+djanog-admin graph_models -X AttachmentImageRaw,TimestampModelMixin,TreeNode wiki -o static/CACHE/models/wiki.png
