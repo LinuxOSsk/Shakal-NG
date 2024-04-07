@@ -13,7 +13,7 @@ django-sample-data-generator
 django-static-sitemaps
 django-tree-queries
 django-universal-paginator
-django>=4.2,<4.3
+django>=5.0,<5.1
 easy-thumbnails
 feedparser
 html5lib
