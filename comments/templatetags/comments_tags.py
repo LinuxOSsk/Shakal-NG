@@ -114,9 +114,10 @@ class CommentRecord(object):
 class DiscussionLoader:
 	DISCUSSION_QUERY_SET = (Comment.objects
 		#.select_related('user__rating')
-		.only('pk', 'created', 'updated', 'ip_address', 'parent_id', 'subject', 'filtered_comment', 'level', 'is_public', 'is_removed', 'is_locked', 'user_id', 'user_name', 'user', 'user__id', 'user__is_superuser', 'user__username', 'user__first_name', 'user__last_name', 'user__email', 'user__is_staff', 'user__is_active', 'user__signature', 'user__distribution', 'user__year', 'user__avatar', 'user__rating__rating')
 		#.prefetch_related('attachments')
-		.order_by('pk'))
+		.only('pk', 'created', 'updated', 'ip_address', 'parent_id', 'subject', 'filtered_comment', 'is_public', 'is_removed', 'is_locked', 'user_id', 'user_name', 'user', 'user__id', 'user__is_superuser', 'user__username', 'user__first_name', 'user__last_name', 'user__email', 'user__is_staff', 'user__is_active', 'user__signature', 'user__distribution', 'user__year', 'user__avatar', 'user__rating__rating')
+		.order_by('pk')
+	)
 
 	def __init__(self):
 		self.target = None
@@ -143,10 +144,12 @@ class DiscussionLoader:
 		if not object_id:
 			return Comment.objects.none()
 
+		queryset = self.get_discussion_query_set(ctype, object_id)
 		queryset = self.DISCUSSION_QUERY_SET.filter(
 			content_type=ctype,
 			object_id=object_id,
 		)
+
 		try:
 			queryset[0]
 		except IndexError:
@@ -213,15 +216,16 @@ class DiscussionLoader:
 		class L(list):
 			def all(self):
 				return self
+		comments = Comment.objects.filter(content_type=self.target_ctype, object_id=self.target.pk)
 		attachments = (Attachment.objects
-			.filter(object_id__in=queryset.values('pk'), content_type=ContentType.objects.get_for_model(Comment))
+			.filter(object_id__in=comments.values('pk'), content_type=ContentType.objects.get_for_model(Comment))
 			.order_by('pk')
 			.values_list('object_id', 'attachment', 'size')
 		)
 		attachments_by_comment = defaultdict(L)
 		for attachment in attachments:
 			attachments_by_comment[attachment[0]].append(AttachmentRecord(*attachment[1:]))
-		queryset = queryset.values_list('pk', 'created', 'updated', 'ip_address', 'parent_id', 'level', 'is_public', 'is_removed', 'is_locked', 'subject', 'filtered_comment', 'user_name', 'user_id', 'user__avatar', 'user__email', 'user__username', 'user__first_name', 'user__last_name', 'user__signature', 'user__distribution', 'user__is_active', 'user__is_staff', 'user__is_superuser', 'user__rating__rating')
+		queryset = queryset.with_tree_fields().extra(select={'tree_depth': '__tree.tree_depth'}).values_list('pk', 'created', 'updated', 'ip_address', 'parent_id', 'tree_depth', 'is_public', 'is_removed', 'is_locked', 'subject', 'filtered_comment', 'user_name', 'user_id', 'user__avatar', 'user__email', 'user__username', 'user__first_name', 'user__last_name', 'user__signature', 'user__distribution', 'user__is_active', 'user__is_staff', 'user__is_superuser', 'user__rating__rating')
 		comments = L([CommentRecord(*row) for row in queryset])
 		for comment in comments:
 			comment.attachments = attachments_by_comment[comment.pk]

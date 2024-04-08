@@ -11,6 +11,7 @@ from django.utils.encoding import force_str
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 from rich_editor.widgets import TextVal
 from tree_queries.models import TreeNode
+from tree_queries.query import TreeQuerySet
 
 
 COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 50000)
@@ -41,7 +42,7 @@ class CommentManager(models.Manager):
 
 
 class Comment(TreeNode, TimestampModelMixin):
-	objects = CommentManager()
+	objects = CommentManager.from_queryset(TreeQuerySet)()
 
 	content_type = models.ForeignKey(
 		ContentType,
