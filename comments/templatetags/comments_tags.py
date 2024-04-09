@@ -61,7 +61,7 @@ class S(str):
 
 class CommentRecord(object):
 	__slots__ = [
-		'pk', 'created', 'updated', 'ip_address', 'parent_id', 'level', 'is_public', 'is_removed', 'is_locked', 'subject', 'comment', 'user_name', 'user_id', 'user_avatar', 'user_email', 'user_username', 'user_first_name', 'user_last_name', 'user_signature', 'user_distribution', 'user_is_active', 'user_is_staff', 'user_is_superuser', 'user_rating',
+		'pk', 'created', 'updated', 'ip_address', 'parent_id', 'tree_depth', 'is_public', 'is_removed', 'is_locked', 'subject', 'comment', 'user_name', 'user_id', 'user_avatar', 'user_email', 'user_username', 'user_first_name', 'user_last_name', 'user_signature', 'user_distribution', 'user_is_active', 'user_is_staff', 'user_is_superuser', 'user_rating',
 		# extra
 		'ip_address_avatar', 'next_new', 'prev_new', 'is_new', 'attachments', 'user'
 	]
@@ -144,7 +144,6 @@ class DiscussionLoader:
 		if not object_id:
 			return Comment.objects.none()
 
-		queryset = self.get_discussion_query_set(ctype, object_id)
 		queryset = self.DISCUSSION_QUERY_SET.filter(
 			content_type=ctype,
 			object_id=object_id,
@@ -225,7 +224,11 @@ class DiscussionLoader:
 		attachments_by_comment = defaultdict(L)
 		for attachment in attachments:
 			attachments_by_comment[attachment[0]].append(AttachmentRecord(*attachment[1:]))
-		queryset = queryset.with_tree_fields().extra(select={'tree_depth': '__tree.tree_depth'}).values_list('pk', 'created', 'updated', 'ip_address', 'parent_id', 'tree_depth', 'is_public', 'is_removed', 'is_locked', 'subject', 'filtered_comment', 'user_name', 'user_id', 'user__avatar', 'user__email', 'user__username', 'user__first_name', 'user__last_name', 'user__signature', 'user__distribution', 'user__is_active', 'user__is_staff', 'user__is_superuser', 'user__rating__rating')
+		queryset = (queryset
+			.with_tree_fields()
+			.extra(select={'tree_depth': '__tree.tree_depth'})
+			.values_list('pk', 'created', 'updated', 'ip_address', 'parent_id', 'tree_depth', 'is_public', 'is_removed', 'is_locked', 'subject', 'filtered_comment', 'user_name', 'user_id', 'user__avatar', 'user__email', 'user__username', 'user__first_name', 'user__last_name', 'user__signature', 'user__distribution', 'user__is_active', 'user__is_staff', 'user__is_superuser', 'user__rating__rating')
+		)
 		comments = L([CommentRecord(*row) for row in queryset])
 		for comment in comments:
 			comment.attachments = attachments_by_comment[comment.pk]
@@ -375,7 +378,7 @@ def comments_tree_info(items, start_level=-1):
 	for item in items:
 		prev_level = level
 		level = next_level
-		next_level = item.level
+		next_level = item.tree_depth
 		if current_item is not None:
 			info = {
 				'new_level': list(range(prev_level + 1, level + 1)),

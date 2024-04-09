@@ -135,8 +135,8 @@ class CommentInline(GenericTabularInline):
 
 	def get_subject(self, obj):
 		indent = ''
-		if obj.level:
-			indent = mark_safe('&nbsp;&nbsp;' * (obj.level-1))
+		if obj.tree_depth:
+			indent = mark_safe('&nbsp;&nbsp;' * (obj.tree_depth-1))
 		return format_html("{}{}", indent, obj.subject)
 	get_subject.short_description = "Predmet"
 
