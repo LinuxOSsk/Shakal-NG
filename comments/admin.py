@@ -9,11 +9,11 @@ from .models import Comment, RootHeader
 from attachment.admin import AttachmentInline, AttachmentAdminMixin
 
 
-class CommentAdmin(AttachmentAdminMixin, DraggableMPTTAdmin):
+class CommentAdmin(AttachmentAdminMixin, admin.ModelAdmin):
 	fieldsets = (
 		(
 			'Komentár',
-			{'fields': ('subject', 'user', 'user_name', 'original_comment')}
+			{'fields': ('get_subject', 'user', 'user_name', 'original_comment')}
 		),
 		(
 			'Metainformácie',
@@ -26,8 +26,11 @@ class CommentAdmin(AttachmentAdminMixin, DraggableMPTTAdmin):
 	search_fields = ('filtered_comment', 'user__username', 'user_name', 'ip_address')
 	inlines = [AttachmentInline]
 
+	def get_queryset(self, request):
+		return super().get_queryset(request).with_tree_fields()
+
 	def get_subject(self, obj):
-		return mark_safe(('<span style="display: inline-block; border-left: 1px solid #ddd; width: 16px; padding-top: 4px; padding-bottom: 8px; margin-top: -4px; margin-bottom: -8px;">&nbsp;</span>' * (obj._mpttfield('level')-1)) + escape(obj.subject))
+		return mark_safe(('<span style="display: inline-block; border-left: 1px solid #ddd; width: 16px; padding-top: 4px; padding-bottom: 8px; margin-top: -4px; margin-bottom: -8px;">&nbsp;</span>' * (obj._mpttfield('tree_depth')-1)) + escape(obj.subject))
 	get_subject.short_description = 'Predmet'
 	get_subject.admin_order_field = 'subject'
 
@@ -47,7 +50,7 @@ class CommentAdmin(AttachmentAdminMixin, DraggableMPTTAdmin):
 		return actions
 
 	def get_queryset(self, request):
-		qs = super().get_queryset(request).exclude(level=0)
+		qs = super().get_queryset(request).with_tree_fields().extra(select={'tree_depth': '__tree.tree_depth'}).exclude(tree_depth=0)
 		obj = self.get_content_object(request)
 		if obj:
 			qs = qs.filter(**obj)
