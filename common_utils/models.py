@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.core.management.color import no_style
 from django.db import models, connection
+from django.db.models import Expression
 from django.utils import timezone
 
 
@@ -32,3 +33,11 @@ def sql_sequence_reset(model_classes):
 				c.execute(statement)
 			finally:
 				c.close()
+
+
+class TreeDepth(Expression):
+	def __init__(self):
+		super().__init__(output_field=models.IntegerField())
+
+	def as_sql(self, compiler, connection): # pylint: disable=unused-argument
+		return "__tree.tree_depth", []
