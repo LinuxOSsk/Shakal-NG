@@ -127,7 +127,7 @@ six==1.16.0
     #   bleach
     #   django-static-sitemaps
     #   html5lib
-sqlparse==0.4.4
+sqlparse==0.5.0
     # via django
 tinycss2==1.2.1
     # via -r requirements.in
