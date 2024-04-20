@@ -9,4 +9,4 @@ FORMFIELD_FOR_DBFIELD_DEFAULTS[RichTextOriginalField] = {'widget': RichEditorWid
 
 
 def render_tree_depth(obj):
-	return "    " * obj.tree_depth
+	return "    " * (obj.tree_depth - 1)
