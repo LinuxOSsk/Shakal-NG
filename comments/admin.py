@@ -14,7 +14,7 @@ class CommentAdmin(AttachmentAdminMixin, admin.ModelAdmin):
 	fieldsets = (
 		(
 			'Komentár',
-			{'fields': ('get_subject', 'user', 'user_name', 'original_comment')}
+			{'fields': ('subject', 'user', 'user_name', 'original_comment')}
 		),
 		(
 			'Metainformácie',
@@ -68,7 +68,7 @@ class CommentAdmin(AttachmentAdminMixin, admin.ModelAdmin):
 	def get_list_display(self, request):
 		fields = ('name', 'ip_address', 'created', 'is_public', 'is_removed', 'is_locked')
 		if self.get_content_object(request):
-			fields = ('get_subject') + fields
+			fields = ('get_subject',) + fields
 		else:
 			fields = ('subject',) + fields
 		return fields
