@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
-from mptt.admin import MPTTModelAdmin
 
 from .models import VocabularyNodeType, Term, Node, NodeRevision
 
@@ -9,11 +8,11 @@ class VocabularyNodeTypeAdmin(admin.ModelAdmin):
 	list_display = ('name',)
 
 
-class TermAdmin(MPTTModelAdmin):
+class TermAdmin(admin.ModelAdmin):
 	list_display = ('name', 'vocabulary',)
 
 	def get_queryset(self, request):
-		return super(TermAdmin, self).get_queryset(request).select_related('vocabulary')
+		return super().get_queryset(request).select_related('vocabulary')
 
 
 class NodeRevisionInline(admin.StackedInline):
