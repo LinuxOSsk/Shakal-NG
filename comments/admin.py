@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
+from attachment.admin import AttachmentInline, AttachmentAdminMixin
+from common_utils.models import TreeDepth
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.utils.html import format_html, escape, mark_safe
-from mptt.admin import DraggableMPTTAdmin, MPTTModelAdmin
 from web.middlewares.threadlocal import get_current_request
 
 from .models import Comment, RootHeader
-from attachment.admin import AttachmentInline, AttachmentAdminMixin
 
 
 class CommentAdmin(AttachmentAdminMixin, admin.ModelAdmin):
@@ -50,7 +50,7 @@ class CommentAdmin(AttachmentAdminMixin, admin.ModelAdmin):
 		return actions
 
 	def get_queryset(self, request):
-		qs = super().get_queryset(request).with_tree_fields().extra(select={'tree_depth': '__tree.tree_depth'}).exclude(tree_depth=0)
+		qs = super().get_queryset(request).with_tree_fields().annotate(tree_depth=TreeDepth()).exclude(tree_depth=0)
 		obj = self.get_content_object(request)
 		if obj:
 			qs = qs.filter(**obj)
@@ -67,7 +67,7 @@ class CommentAdmin(AttachmentAdminMixin, admin.ModelAdmin):
 	def get_list_display(self, request):
 		fields = ('name', 'ip_address', 'created', 'is_public', 'is_removed', 'is_locked')
 		if self.get_content_object(request):
-			fields = ('tree_actions', 'get_subject') + fields
+			fields = ('get_subject') + fields
 		else:
 			fields = ('subject',) + fields
 		return fields
@@ -78,23 +78,11 @@ class CommentAdmin(AttachmentAdminMixin, admin.ModelAdmin):
 		else:
 			return self.get_list_display(request)[:1]
 
-	def changelist_view(self, request, *args, **kwargs):
-		if self.get_content_object(request):
-			return super().changelist_view(request, *args, **kwargs)
-		else:
-			return super(MPTTModelAdmin, self).changelist_view(request, *args, **kwargs)
-
-	def get_ordering(self, request):
-		if self.get_content_object(request):
-			return super().get_ordering(request)
-		else:
-			return super(MPTTModelAdmin, self).get_ordering(request) or ('-pk',)
-
 	@property
 	def list_per_page(self):
 		request = get_current_request()
 		if request and self.get_content_object(request):
-			return DraggableMPTTAdmin.list_per_page
+			return 10000
 		return admin.ModelAdmin.list_per_page
 
 
