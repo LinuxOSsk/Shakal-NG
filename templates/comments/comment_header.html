@@ -1,7 +1,7 @@
 {% extends "comments/comment_header_base.html" %}
 
 {% block parent_link %}
-	{% if comment.parent_id and comment.tree_depth is not none and comment.tree_depth > 1 %}
+	{% if comment.parent_id and comment.tree_depth is not none and comment.tree_depth and comment.tree_depth > 1 %}
 		<a class="parent-link" href="#link_{{ comment.parent_id }}"></a>
 	{% endif %}
 {% endblock %}
