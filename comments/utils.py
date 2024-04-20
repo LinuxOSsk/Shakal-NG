@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import time
-from datetime import datetime
-from django.utils import timezone
+from datetime import datetime, UTC
 
 from django.db import transaction
 from django.db.models import Count, Max
@@ -53,7 +52,7 @@ def get_requested_time(request, as_timestamp=False):
 			pass
 		else:
 			if not as_timestamp:
-				result_time = datetime.utcfromtimestamp(result_time).replace(tzinfo=timezone.utc)
+				result_time = datetime.utcfromtimestamp(result_time).replace(tzinfo=UTC)
 	if result_time is None:
 		result_time = int(time.mktime(request.request_time.timetuple()) if as_timestamp else request.request_time)
 	return result_time

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 from collections import namedtuple, defaultdict
-from datetime import datetime
+from datetime import datetime, UTC
 
 from django import template
 from django.conf import settings
@@ -10,7 +10,6 @@ from django.db import transaction
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django_jinja import library
@@ -190,7 +189,7 @@ class DiscussionLoader:
 		if 'time' in request.GET:
 			try:
 				time = int(request.GET['time'])
-				last_display_time = datetime.utcfromtimestamp(time).replace(tzinfo=timezone.utc)
+				last_display_time = datetime.utcfromtimestamp(time).replace(tzinfo=UTC)
 			except ValueError:
 				pass
 		return last_display_time

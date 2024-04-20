@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import csv
 from collections import namedtuple
-from datetime import timedelta
+from datetime import timedelta, UTC
 from io import BytesIO
 
 from django.core.files.storage import default_storage
@@ -23,7 +23,7 @@ from tweets.models import Tweet
 from wiki.models import Page as WikiPage
 
 
-START_DATE = timezone.datetime(2004, 1, 1, tzinfo=timezone.utc)
+START_DATE = timezone.datetime(2004, 1, 1, tzinfo=UTC)
 
 
 ContentModel = namedtuple('ContentModel', ['model', 'label', 'author', 'username', 'select_filter', 'reverse_name'])
