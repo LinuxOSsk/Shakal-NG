@@ -24,6 +24,7 @@ from comments.models import Comment
 from comments.utils import get_requested_time
 from common_utils import iterify, get_meta
 from common_utils.content_types import get_lookups
+from common_utils.models import TreeDepth
 
 
 register = template.Library()
@@ -226,7 +227,7 @@ class DiscussionLoader:
 			attachments_by_comment[attachment[0]].append(AttachmentRecord(*attachment[1:]))
 		queryset = (queryset
 			.with_tree_fields()
-			.extra(select={'tree_depth': '__tree.tree_depth'})
+			.annotate(tree_depth=TreeDepth())
 			.values_list('pk', 'created', 'updated', 'ip_address', 'parent_id', 'tree_depth', 'is_public', 'is_removed', 'is_locked', 'subject', 'filtered_comment', 'user_name', 'user_id', 'user__avatar', 'user__email', 'user__username', 'user__first_name', 'user__last_name', 'user__signature', 'user__distribution', 'user__is_active', 'user__is_staff', 'user__is_superuser', 'user__rating__rating')
 		)
 		comments = L([CommentRecord(*row) for row in queryset])
