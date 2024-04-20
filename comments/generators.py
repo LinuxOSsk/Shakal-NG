@@ -23,7 +23,6 @@ class CommentGenerator(generator.ModelGenerator):
 	)
 
 	next_id = 0
-	next_tree_id = 1
 	command = None
 
 	subject = extra_generator_fields.SentenceFieldGenerator(max_length=60)
@@ -44,25 +43,19 @@ class CommentGenerator(generator.ModelGenerator):
 		sql_sequence_reset([Comment])
 		return ret
 
-	def generate_tree(self, parent_id, lft, level):
+	def generate_tree(self, parent_id, level):
 		if level > 8:
 			return []
 		comments_flat = []
 		comments = [self.get_object() for comment in range(random.randrange(6))]
 		for comment in comments:
 			comment.id = self.next_id
-			comment.lft = lft
-			comment.rght = lft + 1
-			comment.level = level + 1
 			comment.parent_id = parent_id
-			lft += 2
 			self.next_id += 1
 			comments_flat.append(comment)
 			if random.randrange(3) == 0:
-				child_comments = self.generate_tree(parent_id=comment.id, lft=comment.rght, level=comment.level)
+				child_comments = self.generate_tree(parent_id=comment.id, level=level + 1)
 				comments_flat += child_comments
-				lft += len(child_comments) * 2
-				comment.rght += len(child_comments) * 2
 		if self.command is not None and self.command.verbosity > 1:
 			self.command.stdout.write('+', ending='')
 		return comments_flat
@@ -76,7 +69,6 @@ class CommentGenerator(generator.ModelGenerator):
 			for instance in get_default_manager(model_class).all():
 				root_comment = Comment(
 					parent=None,
-					level=0,
 					content_type=ctype,
 					object_id=instance.pk,
 					original_comment='html:',
@@ -86,19 +78,14 @@ class CommentGenerator(generator.ModelGenerator):
 					updated=instance.created,
 				)
 				root_comment.id = self.next_id
-				root_comment.tree_id = self.next_tree_id
 				self.next_id += 1
-				self.next_tree_id += 1
-				tree = self.generate_tree(parent_id=root_comment.id, lft=2, level=root_comment.level) # pylint: disable=no-member
-				root_comment.lft = 1
-				root_comment.rght = 2 + len(tree) * 2
+				tree = self.generate_tree(parent_id=root_comment.id, level=0) # pylint: disable=no-member
 				yield root_comment
 				for comment in tree:
 					comment.content_type = ctype
 					comment.object_id = instance.pk
 					comment.filtered_comment = comment.original_comment
 					comment.updated = comment.created
-					comment.tree_id = root_comment.tree_id
 					yield comment
 
 	def done(self):
