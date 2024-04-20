@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from attachment.admin import AttachmentInline, AttachmentAdminMixin
+from common_utils.admin import render_tree_depth
 from common_utils.models import TreeDepth
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline
@@ -122,13 +123,13 @@ class CommentInline(GenericTabularInline):
 	extra = 0
 
 	def get_queryset(self, request):
-		return super().get_queryset(request).order_by('lft')
+		return (super().get_queryset(request)
+			.order_siblings_by('pk')
+			.annotate(tree_depth=TreeDepth())
+		)
 
 	def get_subject(self, obj):
-		indent = ''
-		if obj.tree_depth:
-			indent = mark_safe('&nbsp;&nbsp;' * (obj.tree_depth-1))
-		return format_html("{}{}", indent, obj.subject)
+		return format_html("{}{}", render_tree_depth(obj), obj.subject)
 	get_subject.short_description = "Predmet"
 
 
