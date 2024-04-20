@@ -3,7 +3,8 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.urls import reverse
-from mptt.models import MPTTModel, TreeForeignKey
+from mptt.models import TreeForeignKey
+from tree_queries.models import TreeNode
 
 from common_utils.models import TimestampModelMixin
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
@@ -16,7 +17,7 @@ class VocabularyNodeType(models.Model):
 		return self.name
 
 
-class Term(MPTTModel, models.Model):
+class Term(TreeNode, models.Model):
 	parent = TreeForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.PROTECT)
 	vocabulary = models.ForeignKey(VocabularyNodeType, db_column='vid', on_delete=models.PROTECT)
 	name = models.CharField(max_length=255)
@@ -31,9 +32,6 @@ class Term(MPTTModel, models.Model):
 	class Meta:
 		verbose_name = "blackhole kategória"
 		verbose_name_plural = "blackhole kategórie"
-		index_together = [
-			['tree_id', 'lft']
-		]
 
 
 class Node(TimestampModelMixin, models.Model):
