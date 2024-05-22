@@ -111,7 +111,7 @@ pytz==2024.1
     # via -r requirements.in
 rcssmin==1.1.1
     # via django-compressor
-requests==2.31.0
+requests==2.32.0
     # via
     #   django-allauth
     #   requests-oauthlib
