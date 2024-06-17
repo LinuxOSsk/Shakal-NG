@@ -130,7 +130,7 @@ sqlparse==0.4.4
     # via django
 tinycss2==1.2.1
     # via -r requirements.in
-urllib3==2.2.1
+urllib3==2.2.2
     # via requests
 webencodings==0.5.1
     # via
