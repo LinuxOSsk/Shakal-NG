@@ -11,12 +11,12 @@
 	<div class="module templates">
 		{% for template in available_templates %}
 			<div class="module-row">
-				<h3><a href="{{ template.url }}">{{ template.verbose_name }}</a></h3>
+				<h3><a href="{{ template.url }}" rel="nofollow">{{ template.verbose_name }}</a></h3>
 				{% if template.variants %}
 					<p>Varianty:</p>
 					<ul>
 						{% for variant in template.variants %}
-							<li><a href="{{ variant.url }}">{{ variant.verbose_name }}</a></li>
+							<li><a href="{{ variant.url }}" rel="nofollow">{{ variant.verbose_name }}</a></li>
 						{% endfor %}
 					</ul>
 				{% endif %}
