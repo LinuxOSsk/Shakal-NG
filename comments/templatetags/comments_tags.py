@@ -224,14 +224,25 @@ class DiscussionLoader:
 		attachments_by_comment = defaultdict(L)
 		for attachment in attachments:
 			attachments_by_comment[attachment[0]].append(AttachmentRecord(*attachment[1:]))
-		queryset = (queryset
-			.with_tree_fields()
-			.annotate(tree_depth=TreeDepth())
-			.values_list('pk', 'created', 'updated', 'ip_address', 'parent_id', 'tree_depth', 'is_public', 'is_removed', 'is_locked', 'subject', 'filtered_comment', 'user_name', 'user_id', 'user__avatar', 'user__email', 'user__username', 'user__first_name', 'user__last_name', 'user__signature', 'user__distribution', 'user__is_active', 'user__is_staff', 'user__is_superuser', 'user__rating__rating')
+		raw_comments = (queryset
+			.values_list('pk', 'created', 'updated', 'ip_address', 'parent_id', 'is_public', 'is_removed', 'is_locked', 'subject', 'filtered_comment', 'user_name', 'user_id', 'user__avatar', 'user__email', 'user__username', 'user__first_name', 'user__last_name', 'user__signature', 'user__distribution', 'user__is_active', 'user__is_staff', 'user__is_superuser', 'user__rating__rating')
 		)
-		comments = L([CommentRecord(*row) for row in queryset])
-		for comment in comments:
-			comment.attachments = attachments_by_comment[comment.pk]
+		comments_by_parent = defaultdict(list)
+		for comment in raw_comments:
+			comments_by_parent[comment[4]].append(comment)
+
+		comments = L([])
+
+		def recurse_tree(parent_id, depth):
+			if not parent_id in comments_by_parent:
+				return
+			for raw_comment in comments_by_parent[parent_id]:
+				raw_comment = raw_comment[:5] + (depth,) + raw_comment[5:]
+				comments.append(CommentRecord(*raw_comment))
+				recurse_tree(raw_comment[0], depth + 1)
+
+		recurse_tree(None, 0)
+
 		return comments
 
 
