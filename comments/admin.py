@@ -54,7 +54,7 @@ class CommentAdmin(AttachmentAdminMixin, admin.ModelAdmin):
 		qs = super().get_queryset(request).with_tree_fields().annotate(tree_depth=TreeDepth()).exclude(tree_depth=0)
 		obj = self.get_content_object(request)
 		if obj:
-			qs = qs.filter(**obj)
+			qs = qs.filter(**obj).tree_filter(**obj)
 		return qs
 
 	def get_model_perms(self, request):
