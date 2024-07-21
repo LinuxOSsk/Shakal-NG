@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
+from django.contrib import admin
+from django.contrib.contenttypes.admin import GenericTabularInline
+from django.contrib.contenttypes.models import ContentType
+from django.utils.html import format_html, escape, mark_safe
+
+from .models import Comment, RootHeader
 from attachment.admin import AttachmentInline, AttachmentAdminMixin
 from common_utils.admin import render_tree_depth
 from common_utils.models import TreeDepth
-from django.contrib import admin
-from django.contrib.contenttypes.admin import GenericTabularInline
-from django.utils.html import format_html, escape, mark_safe
 from web.middlewares.threadlocal import get_current_request
-
-from .models import Comment, RootHeader
 
 
 class CommentAdmin(AttachmentAdminMixin, admin.ModelAdmin):
@@ -123,7 +124,14 @@ class CommentInline(GenericTabularInline):
 	extra = 0
 
 	def get_queryset(self, request):
+		if not request.resolver_match.kwargs.get('object_id'):
+			return super().get_queryset(request)
+
+		parent = self.parent_model
+		ctype = ContentType.objects.get_for_model(parent)
+
 		return (super().get_queryset(request)
+			.tree_filter(content_type=ctype, object_id=request.resolver_match.kwargs['object_id'])
 			.order_siblings_by('pk')
 			.annotate(tree_depth=TreeDepth())
 		)
