@@ -27,9 +27,6 @@ class CommentAdmin(AttachmentAdminMixin, admin.ModelAdmin):
 	search_fields = ('filtered_comment', 'user__username', 'user_name', 'ip_address')
 	inlines = [AttachmentInline]
 
-	def get_queryset(self, request):
-		return super().get_queryset(request).with_tree_fields()
-
 	def get_subject(self, obj):
 		return mark_safe(('<span style="display: inline-block; border-left: 1px solid #ddd; width: 16px; padding-top: 4px; padding-bottom: 8px; margin-top: -4px; margin-bottom: -8px;">&nbsp;</span>' * (obj._mpttfield('tree_depth')-1)) + escape(obj.subject))
 	get_subject.short_description = 'Predmet'
@@ -51,7 +48,7 @@ class CommentAdmin(AttachmentAdminMixin, admin.ModelAdmin):
 		return actions
 
 	def get_queryset(self, request):
-		qs = super().get_queryset(request).with_tree_fields().annotate(tree_depth=TreeDepth()).exclude(tree_depth=0)
+		qs = super().get_queryset(request).exclude(parent__isnull=True)
 		obj = self.get_content_object(request)
 		if obj:
 			qs = qs.filter(**obj)
