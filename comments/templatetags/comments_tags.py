@@ -144,18 +144,30 @@ class DiscussionLoader:
 		if not object_id:
 			return Comment.objects.none()
 
-		queryset = self.DISCUSSION_QUERY_SET.filter(
-			content_type=ctype,
-			object_id=object_id,
+		queryset = (self.DISCUSSION_QUERY_SET
+			.filter(
+				content_type=ctype,
+				object_id=object_id,
+			)
+			.tree_filter(
+				content_type=ctype,
+				object_id=object_id,
+			)
 		)
 
 		try:
 			queryset[0]
 		except IndexError:
 			Comment.objects.get_or_create_root_comment(ctype, object_id)
-			queryset = self.DISCUSSION_QUERY_SET.filter(
-				content_type=ctype,
-				object_id=object_id,
+			queryset = (self.DISCUSSION_QUERY_SET
+				.filter(
+					content_type=ctype,
+					object_id=object_id,
+				)
+				.tree_filter(
+					content_type=ctype,
+					object_id=object_id,
+				)
 			)
 
 		return queryset
