@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
-from common_utils.models import TimestampModelMixin
-from common_utils.url_utils import build_url
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models, transaction
+from django.db.models.query import QuerySet
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import force_str
+
+from common_utils.models import TimestampModelMixin
+from common_utils.url_utils import build_url
 from rich_editor.fields import RichTextOriginalField, RichTextFilteredField
 from rich_editor.widgets import TextVal
-from tree_queries.models import TreeNode
-from tree_queries.query import TreeQuerySet
 
 
 COMMENT_MAX_LENGTH = getattr(settings, 'COMMENT_MAX_LENGTH', 50000)
@@ -42,7 +42,7 @@ class CommentManager(models.Manager):
 
 
 class Comment(TimestampModelMixin, models.Model):
-	objects = CommentManager.from_queryset(TreeQuerySet)()
+	objects = CommentManager.from_queryset(QuerySet)()
 
 	parent = models.ForeignKey(
 		'self',
