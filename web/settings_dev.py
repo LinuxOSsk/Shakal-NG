@@ -49,7 +49,6 @@ INSTALLED_APPS = [
 	'allauth.account',
 	'compressor',
 	'django_jinja',
-	'mptt',
 	'haystack',
 	'hijack',
 	'hijack_admin',
