@@ -41,17 +41,9 @@ class CommentManager(models.Manager):
 				return (root_comment, created)
 
 
-class Comment(TimestampModelMixin, models.Model):
+class Comment(TreeNode, TimestampModelMixin):
 	objects = CommentManager.from_queryset(TreeQuerySet)()
 
-	parent = models.ForeignKey(
-		'self',
-		blank=True,
-		null=True,
-		on_delete=models.CASCADE,
-		verbose_name="rodič",
-		related_name='children',
-	)
 	content_type = models.ForeignKey(
 		ContentType,
 		verbose_name="typ obsahu",

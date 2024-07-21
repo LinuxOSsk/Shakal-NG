@@ -23,6 +23,7 @@ from comments.models import Comment
 from comments.utils import get_requested_time
 from common_utils import iterify, get_meta
 from common_utils.content_types import get_lookups
+from common_utils.models import TreeDepth
 
 
 register = template.Library()
