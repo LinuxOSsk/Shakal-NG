@@ -28,4 +28,4 @@ class CommentFeed(Feed):
 		return item.created
 
 	def items(self):
-		return Comment.objects.filter(level__gt=0).select_related('user').order_by('-id')[:settings.FEED_SIZE]
+		return Comment.objects.filter(parent__isnull=False).select_related('user').order_by('-id')[:settings.FEED_SIZE]
