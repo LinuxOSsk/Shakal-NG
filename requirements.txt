@@ -60,7 +60,7 @@ django-sample-data-generator==1.0.5
     # via -r requirements.in
 django-static-sitemaps==5.0.0
     # via -r requirements.in
-django-tree-queries==0.18.0
+django-tree-queries==0.19.0
     # via -r requirements.in
 django-universal-paginator==1.4.0
     # via -r requirements.in
