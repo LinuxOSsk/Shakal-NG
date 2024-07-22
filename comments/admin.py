@@ -52,10 +52,12 @@ class CommentAdmin(AttachmentAdminMixin, admin.ModelAdmin):
 		return actions
 
 	def get_queryset(self, request):
-		qs = super().get_queryset(request).with_tree_fields().annotate(tree_depth=TreeDepth()).exclude(tree_depth=0)
+		qs = super().get_queryset(request)
 		obj = self.get_content_object(request)
 		if obj:
-			qs = qs.filter(**obj).tree_filter(**obj)
+			qs = qs.with_tree_fields().annotate(tree_depth=TreeDepth()).exclude(tree_depth=0).filter(**obj).tree_filter(**obj)
+		else:
+			qs = qs.exclude(parent__isnull=True)
 		return qs
 
 	def get_model_perms(self, request):
