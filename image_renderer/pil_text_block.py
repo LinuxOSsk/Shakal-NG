@@ -62,7 +62,7 @@ class Block(object):
 		line_buffer = []
 		for token in self._tokenizer.get_tokens():
 			font = self._font
-			size = font.getsize(token.text)
+			size = font.getbbox(token.text)[2:]
 			if current_x == 0:
 				line_buffer.append(TextFragment(
 					token.text,
@@ -92,7 +92,7 @@ class Block(object):
 				))
 				current_x += size[0]
 		if overflow:
-			ellipsis_size = font.getsize(self._ellipsis)
+			ellipsis_size = font.getbbox(self._ellipsis)[2:]
 			# remove tokens until free space for ellipsis exist
 			while line_buffer:
 				last = line_buffer[-1]
