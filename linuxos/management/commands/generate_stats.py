@@ -15,6 +15,7 @@ from accounts.models import User
 from article.models import Article
 from blog.models import Post as BlogPost
 from comments.models import Comment
+from common_utils.models import TreeDepth
 from common_utils.time_series import time_series
 from desktops.models import Desktop
 from forum.models import Topic
@@ -179,6 +180,11 @@ class Command(BaseCommand):
 		field_map = {field: i for i, field in enumerate(header)}
 
 		queryset = content_model.model._default_manager.order_by('pk')
+		if content_model.model is Comment:
+			queryset = (queryset
+				.with_tree_fields()
+				.annotate(level=TreeDepth())
+			)
 		if content_model.select_filter:
 			queryset = queryset.filter(content_model.select_filter)
 
