@@ -51,7 +51,6 @@ INSTALLED_APPS = [
 	'django_jinja',
 	'hijack',
 	'reversion',
-	'static_sitemaps',
 	'easy_thumbnails',
 	'tests',
 	# apps
@@ -225,10 +224,6 @@ FEED_SIZE = 20
 
 STATICFILES_DIRS = (BASE_DIR / 'static',)
 STATIC_URL = '/static/'
-STATICSITEMAPS_URL = 'https://linuxos.sk/static/'
-STATICSITEMAPS_MOCK_SITE = True
-STATICSITEMAPS_MOCK_SITE_NAME = 'linuxos.sk'
-STATICSITEMAPS_MOCK_SITE_PROTOCOL = 'https'
 STATICFILES_FINDERS = (
 	'django.contrib.staticfiles.finders.FileSystemFinder',
 	'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -236,7 +231,6 @@ STATICFILES_FINDERS = (
 )
 STATIC_ROOT = BASE_DIR.parent / 'static_assets' / 'static'
 
-STATICSITEMAPS_ROOT_SITEMAP = 'web.sitemaps.sitemaps'
 
 MEDIA_ROOT = BASE_DIR.parent / 'static_assets' / 'media'
 MEDIA_URL = '/media/'
