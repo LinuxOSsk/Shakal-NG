@@ -10,7 +10,6 @@ django-jinja
 django-libsass
 django-reversion
 django-sample-data-generator
-django-static-sitemaps
 django-tree-queries
 django-universal-paginator
 django>=5.0,<5.1
