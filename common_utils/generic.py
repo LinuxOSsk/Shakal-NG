@@ -5,8 +5,9 @@ from django.core.exceptions import ImproperlyConfigured
 from django.db.models import Q, Manager
 from django.shortcuts import get_object_or_404, resolve_url
 from django.utils.functional import cached_property
-from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.generic import CreateView, UpdateView, DetailView, ListView as OriginalListView
+
+from .url_utils import check_redirect_url
 
 
 # dokumentácia  k viewom tu https://ccbv.co.uk/
@@ -155,12 +156,8 @@ class NextRedirectMixin(object):
 		redirect_to = self.request.POST.get(
 			self.redirect_field_name, self.request.GET.get(self.redirect_field_name)
 		)
-		url_is_safe = url_has_allowed_host_and_scheme(
-			url=redirect_to,
-			allowed_hosts=[self.request.get_host()],
-			require_https=self.request.is_secure(),
-		)
-		return redirect_to if url_is_safe else ""
+		check_redirect_url(redirect_to, self.request)
+		return redirect_to
 
 	def get_default_redirect_url(self):
 		if self.next_page:

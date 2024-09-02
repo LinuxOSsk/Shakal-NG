@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
+import logging
 from urllib.parse import urlparse, urlunparse
 
 from django.http import QueryDict
-from django.http.response import HttpResponseRedirect
+from django.http.response import HttpResponseRedirect, Http404
 from django.shortcuts import resolve_url
 from django.utils.encoding import force_str
+from django.utils.http import url_has_allowed_host_and_scheme
+
+
+logger = logging.getLogger(__name__)
 
 
 def build_query(query):
@@ -50,3 +55,14 @@ def link_add_query(url, **values):
 	for key, value in values.items():
 		q[key] = value
 	return '%s?%s' % (url, q.urlencode(''))
+
+
+def check_redirect_url(redirect_to, request):
+	url_is_safe = url_has_allowed_host_and_scheme(
+		url=redirect_to,
+		allowed_hosts=[request.get_host()],
+		require_https=request.is_secure(),
+	)
+	if not url_is_safe:
+		logger.warning("Unsafe redirect to: %s", redirect_to)
+		raise Http404("Unsafe redirect to: %s" % redirect_to)

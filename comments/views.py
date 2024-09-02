@@ -18,7 +18,7 @@ from .utils import get_requested_time, update_comments_header
 from comments.models import RootHeader, UserDiscussionAttribute
 from comments.templatetags.comments_tags import add_discussion_attributes
 from common_utils import get_meta
-from common_utils.url_utils import link_add_query
+from common_utils.url_utils import link_add_query, check_redirect_url
 
 
 def get_module_name(content_object):
@@ -95,6 +95,7 @@ class Reply(UserPassesTestMixin, FormView):
 		form.move_attachments(comment)
 
 		next_url = self.request.POST.get('next', '')
+		check_redirect_url(next_url, self.request)
 		if self.request.POST.get('time'):
 			next_url = link_add_query(next_url, time=self.request.POST['time'])
 		return http.HttpResponseRedirect(next_url + '#link_' + str(comment.pk))
@@ -148,8 +149,10 @@ class Watch(LoginRequiredMixin, DetailView):
 		else:
 			attributes.watch = 1
 		attributes.save()
-		if 'next' in request.POST:
-			return HttpResponseRedirect(request.POST['next'])
+		next_url = request.POST.get('next')
+		if next_url is not None:
+			check_redirect_url(next_url, request)
+			return HttpResponseRedirect(next_url)
 		else:
 			obj = header.content_object
 			return HttpResponseRedirect(obj.get_absolute_url())
@@ -161,8 +164,10 @@ class Forget(LoginRequiredMixin, DetailView):
 	def get(self, request, **kwargs):
 		header = self.get_object()
 		UserDiscussionAttribute.objects.filter(user=request.user, discussion=header).delete()
-		if 'next' in request.GET:
-			return HttpResponseRedirect(request.GET['next'])
+		next_url = request.GET.get('next')
+		if next_url is not None:
+			check_redirect_url(next_url, request)
+			return HttpResponseRedirect(next_url)
 		else:
 			return HttpResponseRedirect(reverse('home'))
 

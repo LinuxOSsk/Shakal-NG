@@ -11,6 +11,7 @@ from django.views.generic import FormView
 from .forms import PollForm, VoteForm
 from .models import Poll, Choice
 from common_utils.generic import ListView, DetailView, CreateView
+from common_utils.url_utils import check_redirect_url
 
 
 class PollPost(FormView):
@@ -28,7 +29,9 @@ class PollPost(FormView):
 		return self.request.POST.get('msg_id', 'polls') # identifikácia ankety ak ich je na webe viacej
 
 	def get_success_url(self):
-		return self.request.POST.get('next', '/')
+		next_url = self.request.POST.get('next', '/')
+		check_redirect_url(next_url, self.request)
+		return next_url
 
 	def get_form_kwargs(self):
 		kwargs = super(PollPost, self).get_form_kwargs()

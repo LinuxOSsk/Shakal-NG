@@ -10,13 +10,16 @@ from django.views.generic import TemplateView
 
 from .forms import ChangeTemplateHiddenForm
 from .utils import switch_template
+from common_utils.url_utils import check_redirect_url
 
 
 @csrf_exempt
 @require_POST
 def change(request):
 	form = ChangeTemplateHiddenForm(request.POST)
-	response = HttpResponseRedirect(request.POST.get('next', reverse('home')))
+	redirect_to = request.POST.get('next', reverse('home'))
+	check_redirect_url(redirect_to, request)
+	response = HttpResponseRedirect(redirect_to)
 	if form.is_valid() and 'change_style' in request.POST:
 		switch_template(response, **form.cleaned_data)
 	return response
