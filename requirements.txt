@@ -17,7 +17,7 @@ django-reversion==5.1.0   # via -r requirements.in
 django-sample-data-generator==1.0.5  # via -r requirements.in
 django-tree-queries==0.19.0  # via -r requirements.in
 django-universal-paginator==1.4.0  # via -r requirements.in
-easy-thumbnails==2.9      # via -r requirements.in
+easy-thumbnails==2.10     # via -r requirements.in
 feedparser==6.0.11        # via -r requirements.in
 html5lib==1.1             # via -r requirements.in
 jinja2==3.1.4             # via -r requirements.in, django-jinja
@@ -30,7 +30,7 @@ pillow==10.4.0            # via -r requirements.in, django-assets-manager, easy-
 pip-tools==7.4.1          # via -r requirements.in
 pygments==2.18.0          # via -r requirements.in
 pyproject-hooks==1.1.0    # via build, pip-tools
-pytz==2024.1              # via -r requirements.in
+pytz==2024.2              # via -r requirements.in
 rcssmin==1.1.2            # via django-compressor
 rjsmin==1.2.2             # via django-compressor
 sgmllib3k==1.0.0          # via feedparser
