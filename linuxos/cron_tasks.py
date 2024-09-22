@@ -89,7 +89,7 @@ def update_user_ratings_sum():
 
 def fix_duplicate_headers():
 	duplicate_content_types = (Comment.objects
-		.filter(level=0)
+		.filter(parent__isnull=True)
 		.values('content_type', 'object_id')
 		.order_by('content_type', 'object_id')
 		.annotate(cnt=Count('id'))
@@ -97,7 +97,7 @@ def fix_duplicate_headers():
 
 	for content in duplicate_content_types:
 		roots = (Comment.objects
-			.filter(object_id=content['object_id'], content_type=content['content_type'], level=0))
+			.filter(object_id=content['object_id'], content_type=content['content_type'], parent__isnull=True))
 		first_root = None
 
 		for root in roots:
