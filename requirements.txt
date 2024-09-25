@@ -3,7 +3,7 @@ bleach==6.1.0             # via -r requirements.in
 build==1.2.2              # via pip-tools
 click==8.1.7              # via pip-tools
 django==5.0.9             # via -r requirements.in, django-allauth, django-appconf, django-assets-manager, django-compressor, django-easy-autoslug, django-easy-geoposition-field, django-hijack, django-jinja, django-reversion, django-sample-data-generator, django-universal-paginator, easy-thumbnails, mireq-django-ajax-utils
-django-allauth==64.2.1    # via -r requirements.in
+django-allauth==65.0.1    # via -r requirements.in
 django-appconf==1.0.6     # via django-compressor
 django-assets-manager==1.0.0  # via -r requirements.in
 django-compressor==4.5.1  # via -r requirements.in, django-libsass
