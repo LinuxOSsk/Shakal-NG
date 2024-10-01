@@ -72,3 +72,4 @@ TODO
 -   nahlásenie chyby článku
 -   ponuky práce
 -   bazár
+-   https://activitypub.rocks/ ?
