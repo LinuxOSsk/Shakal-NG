@@ -1,6 +1,6 @@
 asgiref==3.8.1            # via django
 bleach==6.1.0             # via -r requirements.in
-build==1.2.2              # via pip-tools
+build==1.2.2.post1        # via pip-tools
 click==8.1.7              # via pip-tools
 django==5.0.9             # via -r requirements.in, django-allauth, django-appconf, django-assets-manager, django-compressor, django-easy-autoslug, django-easy-geoposition-field, django-hijack, django-jinja, django-reversion, django-sample-data-generator, django-universal-paginator, easy-thumbnails, mireq-django-ajax-utils
 django-allauth==65.0.2    # via -r requirements.in
@@ -23,7 +23,7 @@ html5lib==1.1             # via -r requirements.in
 jinja2==3.1.4             # via -r requirements.in, django-jinja
 libsass==0.23.0           # via django-libsass
 lxml==5.3.0               # via -r requirements.in
-markupsafe==2.1.5         # via jinja2
+markupsafe==3.0.1         # via jinja2
 mireq-django-ajax-utils==0.0.4  # via -r requirements.in
 packaging==24.1           # via build
 pillow==10.4.0            # via -r requirements.in, django-assets-manager, easy-thumbnails
