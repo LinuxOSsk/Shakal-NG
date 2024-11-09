@@ -1,16 +1,16 @@
 asgiref==3.8.1            # via django, django-allauth
-bleach==6.1.0             # via -r requirements.in
+bleach==6.2.0             # via -r requirements.in
 build==1.2.2.post1        # via pip-tools
 click==8.1.7              # via pip-tools
 django==5.0.9             # via -r requirements.in, django-allauth, django-appconf, django-assets-manager, django-compressor, django-easy-autoslug, django-easy-geoposition-field, django-hijack, django-jinja, django-reversion, django-sample-data-generator, django-universal-paginator, easy-thumbnails, mireq-django-ajax-utils
-django-allauth==65.1.0    # via -r requirements.in
+django-allauth==65.2.0    # via -r requirements.in
 django-appconf==1.0.6     # via django-compressor
 django-assets-manager==1.0.0  # via -r requirements.in
 django-compressor==4.5.1  # via -r requirements.in, django-libsass
 django-easy-autoslug==1.0.4  # via -r requirements.in
 django-easy-geoposition-field==1.0.2  # via -r requirements.in
 django-email-log-backend==0.3.5  # via -r requirements.in
-django-hijack==3.6.2      # via -r requirements.in
+django-hijack==3.7.0      # via -r requirements.in
 django-jinja==2.11.0      # via -r requirements.in
 django-libsass==0.9       # via -r requirements.in
 django-reversion==5.1.0   # via -r requirements.in
@@ -25,7 +25,7 @@ libsass==0.23.0           # via django-libsass
 lxml==5.3.0               # via -r requirements.in
 markupsafe==3.0.2         # via jinja2
 mireq-django-ajax-utils==0.0.5  # via -r requirements.in
-packaging==24.1           # via build
+packaging==24.2           # via build
 pillow==11.0.0            # via -r requirements.in, django-assets-manager, easy-thumbnails
 pip-tools==7.4.1          # via -r requirements.in
 pygments==2.18.0          # via -r requirements.in
@@ -34,11 +34,11 @@ pytz==2024.2              # via -r requirements.in
 rcssmin==1.1.2            # via django-compressor
 rjsmin==1.2.2             # via django-compressor
 sgmllib3k==1.0.0          # via feedparser
-six==1.16.0               # via bleach, html5lib
+six==1.16.0               # via html5lib
 sqlparse==0.5.1           # via django
 tinycss2==1.4.0           # via -r requirements.in
 webencodings==0.5.1       # via bleach, html5lib, tinycss2
-wheel==0.44.0             # via pip-tools
+wheel==0.45.0             # via pip-tools
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
