@@ -73,7 +73,7 @@ def get_template_settings(request):
 				template_skin = user_template.get('skin', None)
 				css = user_template.get('css', '')
 				template_settings = user_template.get('settings', {})
-			except ValueError:
+			except (ValueError, TypeError):
 				pass
 
 	if template_skin is None:
