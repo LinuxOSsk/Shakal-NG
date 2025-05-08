@@ -2,15 +2,15 @@ asgiref==3.8.1            # via django, django-allauth
 bleach==6.2.0             # via -r requirements.in
 build==1.2.2.post1        # via pip-tools
 click==8.1.8              # via pip-tools
-django==5.0.11            # via -r requirements.in, django-allauth, django-appconf, django-assets-manager, django-compressor, django-easy-autoslug, django-easy-geoposition-field, django-hijack, django-jinja, django-reversion, django-sample-data-generator, django-universal-paginator, easy-thumbnails, mireq-django-ajax-utils
-django-allauth==65.3.1    # via -r requirements.in
-django-appconf==1.0.6     # via django-compressor
+django==5.0.14            # via -r requirements.in, django-allauth, django-appconf, django-assets-manager, django-compressor, django-easy-autoslug, django-easy-geoposition-field, django-hijack, django-jinja, django-reversion, django-sample-data-generator, django-universal-paginator, easy-thumbnails, mireq-django-ajax-utils
+django-allauth==65.7.0    # via -r requirements.in
+django-appconf==1.1.0     # via django-compressor
 django-assets-manager==1.0.0  # via -r requirements.in
 django-compressor==4.5.1  # via -r requirements.in, django-libsass
 django-easy-autoslug==1.0.4  # via -r requirements.in
 django-easy-geoposition-field==1.0.2  # via -r requirements.in
-django-email-log-backend==0.3.5  # via -r requirements.in
-django-hijack==3.7.1      # via -r requirements.in
+django-email-log-backend==0.3.6  # via -r requirements.in
+django-hijack==3.7.2      # via -r requirements.in
 django-jinja==2.11.0      # via -r requirements.in
 django-libsass==0.9       # via -r requirements.in
 django-reversion==5.1.0   # via -r requirements.in
@@ -20,17 +20,17 @@ django-universal-paginator==1.4.0  # via -r requirements.in
 easy-thumbnails==2.10     # via -r requirements.in
 feedparser==6.0.11        # via -r requirements.in
 html5lib==1.1             # via -r requirements.in
-jinja2==3.1.5             # via -r requirements.in, django-jinja
+jinja2==3.1.6             # via -r requirements.in, django-jinja
 libsass==0.23.0           # via django-libsass
-lxml==5.3.0               # via -r requirements.in
+lxml==5.4.0               # via -r requirements.in
 markupsafe==3.0.2         # via jinja2
-mireq-django-ajax-utils==0.0.5  # via -r requirements.in
-packaging==24.2           # via build
-pillow==11.1.0            # via -r requirements.in, django-assets-manager, easy-thumbnails
+mireq-django-ajax-utils==0.0.6  # via -r requirements.in
+packaging==25.0           # via build
+pillow==11.2.1            # via -r requirements.in, django-assets-manager, easy-thumbnails
 pip-tools==7.4.1          # via -r requirements.in
 pygments==2.19.1          # via -r requirements.in
 pyproject-hooks==1.2.0    # via build, pip-tools
-pytz==2024.2              # via -r requirements.in
+pytz==2025.2              # via -r requirements.in
 rcssmin==1.1.2            # via django-compressor
 rjsmin==1.2.2             # via django-compressor
 sgmllib3k==1.0.0          # via feedparser
