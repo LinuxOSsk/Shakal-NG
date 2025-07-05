@@ -93,6 +93,7 @@ class CommentForm(SecurityFormMixin, AttachmentFormMixin, AuthorsNameFormMixin, 
 		initial.update(self.generate_security_data())
 		super(CommentForm, self).__init__(data=data, initial=initial, *args, **kwargs)
 		self.fields['parent'].required = True
+		self.fields['parent'].queryset = Comment.objects.all()
 
 	@cached_property
 	def parent_comment(self):
