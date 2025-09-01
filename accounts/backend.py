@@ -21,10 +21,7 @@ class AuthRememberBackend(object):
 
 
 class AuthenticationBackend(CoreAuthenticationBackend):
-	def _authenticate_by_username(self, **credentials):
-		username = credentials.get('username')
-		password = credentials.get('password')
-
+	def _authenticate_by_username(self, username: str, password: str):
 		User = get_user_model()
 
 		if username is None or password is None:
